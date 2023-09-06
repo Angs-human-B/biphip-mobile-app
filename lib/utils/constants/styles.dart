@@ -1,0 +1,105 @@
+import 'package:bip_hip/utils/constants/colors.dart';
+import 'package:bip_hip/utils/constants/const.dart';
+import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+
+dynamic screenWiseSize(size, difference) {
+  return height > kSmallDeviceSizeLimit ? size : size - difference;
+}
+
+TextStyle medium24TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w500, fontSize: screenWiseSize(h24, 2), color: color);
+}
+
+TextStyle medium12TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w500, fontSize: screenWiseSize(h12, 2), color: color);
+}
+
+TextStyle regular20TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w400, fontSize: screenWiseSize(h20, 2), color: color);
+}
+
+TextStyle regular18TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w400, fontSize: screenWiseSize(h18, 2), color: color);
+}
+
+TextStyle regular16TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w400, fontSize: screenWiseSize(h16, 2), color: color);
+}
+
+TextStyle regular14TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w400, fontSize: screenWiseSize(h14, 2), color: color);
+}
+
+TextStyle regular12TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w400, fontSize: screenWiseSize(h12, 2), color: color);
+}
+
+TextStyle regular10TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w400, fontSize: screenWiseSize(h10, 0), color: color);
+}
+
+TextStyle regular8TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w400, fontSize: screenWiseSize(h8, 0), color: color);
+}
+
+TextStyle semiBold20TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w600, fontSize: screenWiseSize(h20, 2), color: color);
+}
+
+TextStyle semiBold18TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w600, fontSize: screenWiseSize(h18, 2), color: color);
+}
+
+TextStyle semiBold16TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w600, fontSize: screenWiseSize(h16, 2), color: color);
+}
+
+TextStyle semiBold14TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w600, fontSize: screenWiseSize(h14, 2), color: color);
+}
+
+TextStyle semiBold12TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w600, fontSize: screenWiseSize(h12, 2), color: color);
+}
+
+TextStyle semiBold10TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w600, fontSize: screenWiseSize(h10, 0), color: color);
+}
+
+TextStyle semiBold8TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w600, fontSize: screenWiseSize(h8, 0), color: color);
+}
+
+//* info: remove extra padding from TextButton
+ButtonStyle? kTextButtonStyle = TextButton.styleFrom(
+  padding: EdgeInsets.zero,
+  minimumSize: Size.zero,
+  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+  splashFactory: InkSplash.splashFactory,
+);
+
+//* info:: box border
+BoxBorder? kMainBoxBorder = Border.all(color: cLineColor, width: 1);
+
+ButtonStyle? kElevatedButtonStyle = ButtonStyle(
+  alignment: Alignment.center,
+  elevation: MaterialStateProperty.all(0),
+  shape: MaterialStateProperty.all(
+    RoundedRectangleBorder(borderRadius: BorderRadius.circular(k20BorderRadius)),
+  ),
+  splashFactory: InkSplash.splashFactory,
+  backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+    if (states.contains(MaterialState.disabled)) {
+      return cLineColor;
+    }
+    return cPrimaryColor;
+  }),
+);
+
+//* info:: phone number input masking
+var phoneMaskFormatter = MaskTextInputFormatter(
+  mask: '###########',
+  filter: {"#": RegExp(r'[0-9]')},
+  type: MaskAutoCompletionType.lazy,
+);
