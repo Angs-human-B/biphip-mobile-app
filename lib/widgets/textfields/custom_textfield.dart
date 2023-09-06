@@ -43,7 +43,8 @@ class CustomModifiedTextField extends StatelessWidget {
     var inputStyle = regular16TextStyle(cBlackColor);
     var hintStyle = regular16TextStyle(cPlaceHolderColor);
     return Theme(
-      data: ThemeData(inputDecorationTheme: InputDecorationTheme(
+      data: ThemeData(
+          inputDecorationTheme: InputDecorationTheme(
         prefixIconColor: MaterialStateColor.resolveWith((Set<MaterialState> states) {
           if (states.contains(MaterialState.focused) || controller.text.isNotEmpty) {
             return cBlackColor;
@@ -81,13 +82,10 @@ class CustomModifiedTextField extends StatelessWidget {
               : null,
           suffixIconConstraints: const BoxConstraints(),
           suffixIcon: suffixIcon != null
-              ? Transform.scale(
-                  scale: .85,
-                  child: CustomIconButton(
-                    onPress: onSuffixPress,
-                    icon: suffixIcon,
-                    hasBorder: false,
-                  ),
+              ? CustomIconButton(
+                  onPress: onSuffixPress,
+                  icon: suffixIcon,
+                  hasBorder: false,
                 )
               : null,
           fillColor: cGreyBoxColor,
@@ -97,7 +95,7 @@ class CustomModifiedTextField extends StatelessWidget {
           labelStyle: hintStyle,
           hintStyle: hintStyle,
           counter: (counter == null) ? const SizedBox.shrink() : counter,
-          contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
+          contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k16Padding),
           floatingLabelBehavior: FloatingLabelBehavior.never,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(k4BorderRadius),

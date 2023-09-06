@@ -1,8 +1,10 @@
+import 'package:bip_hip/controllers/common/binder_controller.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  BinderController().dependencies();
   await dotenv.load(fileName: Environment.fileName);
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -39,7 +41,6 @@ class MyApp extends StatelessWidget {
         ],
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
         initialRoute: krSplashScreen,

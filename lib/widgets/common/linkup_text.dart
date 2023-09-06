@@ -28,7 +28,7 @@ class LinkupTextRow extends StatelessWidget {
             child: Text(
               '$prefix  ',
               textAlign: TextAlign.center,
-              style: prefixStyle ?? medium12TextStyle(cBlackColor).copyWith(fontSize: 16),
+              style: prefixStyle ?? regular16TextStyle(cBlackColor),
             ),
           ),
           InkWell(
@@ -36,7 +36,7 @@ class LinkupTextRow extends StatelessWidget {
             child: Text(
               suffix.toString(),
               textAlign: TextAlign.center,
-              style: suffixStyle ?? medium12TextStyle(cPrimaryColor).copyWith(fontSize: 16),
+              style: suffixStyle ?? regular16TextStyle(cPrimaryColor),
             ),
           ),
         ],

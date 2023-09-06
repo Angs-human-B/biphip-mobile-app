@@ -5,16 +5,19 @@ class LogoAndText extends StatelessWidget {
     Key? key,
     required this.size,
     required this.fontSize,
+    required this.mainAxisAlignment,
   }) : super(key: key);
 
   final double size;
   final double fontSize;
+  final MainAxisAlignment mainAxisAlignment;
 
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: mainAxisAlignment,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.asset(
           kiLogoImageUrl,

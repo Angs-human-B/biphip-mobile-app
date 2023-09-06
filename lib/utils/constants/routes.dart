@@ -1,5 +1,6 @@
 
 //* info:: auth screens
+import 'package:bip_hip/views/auth/login.dart';
 import 'package:bip_hip/views/splash_and_intro/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +20,7 @@ const String krChangeLanguage = '/change-language';
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
-  // GetPage(name: krLogin, page: () => LoginScreen(), transition: Transition.noTransition),
+  GetPage(name: krLogin, page: () => Login(), transition: Transition.noTransition),
   // GetPage(name: krForgotPassword, page: () => ForgotPasswordScreen(), transition: Transition.noTransition),
   // GetPage(name: krResetPass, page: () => ResetPasswordScreen(), transition: Transition.noTransition),
   // GetPage(name: krOTP, page: () => OTPVerifyScreen(), transition: Transition.noTransition),

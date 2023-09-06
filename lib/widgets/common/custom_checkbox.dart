@@ -23,11 +23,13 @@ class CustomCheckBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(k4BorderRadius),
         color: cWhiteColor,
       ),
-      child: Icon(
-        Icons.check,
-        color: cIconColor,
-        size: height > kSmallDeviceSizeLimit ? kIconSize14 : kIconSize12,
-      ),
+      child: !value
+          ? Icon(
+              Icons.check,
+              color: cIconColor,
+              size: height > kSmallDeviceSizeLimit ? kIconSize14 : kIconSize12,
+            )
+          : null,
     );
   }
 

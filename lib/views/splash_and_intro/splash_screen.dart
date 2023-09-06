@@ -11,11 +11,11 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: cWhiteColor,
       body: SizedBox(
         height: height,
-        child: const Center(
-          child: LogoAndText(
-            size: 80.0,
-            fontSize: h26,
-          ),
+        width: width,
+        child: const LogoAndText(
+          size: 80.0,
+          fontSize: h26,
+          mainAxisAlignment: MainAxisAlignment.center,
         ),
       ),
     );
