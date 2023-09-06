@@ -29,7 +29,7 @@ class CustomTextButton extends StatelessWidget {
               text.toString(),
               style: textStyle,
             ),
-            if (isIconExits != null) kW5sizedBox,
+            if (isIconExits != null) kW4sizedBox,
             if (isIconExits != null)
               Icon(
                 icon,

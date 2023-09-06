@@ -13,3 +13,4 @@ export 'package:flutter_dotenv/flutter_dotenv.dart';
 export 'package:bip_hip/utils/constants/routes.dart';
 export 'package:flutter/services.dart';
 export 'package:bip_hip/models/environment.dart';
+export 'package:bip_hip/widgets/common/custom_icon_button.dart';
