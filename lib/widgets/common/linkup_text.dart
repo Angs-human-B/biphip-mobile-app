@@ -1,6 +1,4 @@
-import 'package:bip_hip/utils/constants/colors.dart';
-import 'package:bip_hip/utils/constants/styles.dart';
-import 'package:flutter/material.dart';
+import 'package:bip_hip/utils/constants/imports.dart';
 
 class LinkupTextRow extends StatelessWidget {
   const LinkupTextRow({

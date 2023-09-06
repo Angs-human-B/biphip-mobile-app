@@ -1,6 +1,4 @@
-import 'package:bip_hip/utils/constants/colors.dart';
-import 'package:bip_hip/utils/constants/const.dart';
-import 'package:flutter/material.dart';
+import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 dynamic screenWiseSize(size, difference) {

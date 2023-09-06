@@ -1,12 +1,4 @@
-
-
-import 'package:bip_hip/utils/constants/colors.dart';
-import 'package:bip_hip/utils/constants/strings.dart';
-import 'package:bip_hip/utils/constants/styles.dart';
-import 'package:bip_hip/widgets/common/custom_checkbox.dart';
-import 'package:bip_hip/widgets/common/custom_text_button.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:bip_hip/utils/constants/imports.dart';
 
 class CheckBoxAndContainer extends StatelessWidget {
   const CheckBoxAndContainer({
