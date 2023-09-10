@@ -94,10 +94,12 @@ class AuthenticationController extends GetxController {
 
   final TextEditingController registerFirstNameTextEditingController = TextEditingController();
   final TextEditingController registerLastNameTextEditingController = TextEditingController();
+  final TextEditingController registerBirthDayTextEditingController = TextEditingController();
   final TextEditingController registerEmailTextEditingController = TextEditingController();
   final TextEditingController registerPhoneTextEditingController = TextEditingController();
   final TextEditingController registerPasswordTextEditingController = TextEditingController();
   final TextEditingController registerConfirmPasswordTextEditingController = TextEditingController();
+  final RxString birthDay = RxString('');
   final RxBool isRegisterPasswordToggleObscure = RxBool(true);
   final RxBool isRegisterConfirmPasswordToggleObscure = RxBool(true);
   final RxBool isReferredRegistration = RxBool(false);

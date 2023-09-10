@@ -101,7 +101,11 @@ class Register extends StatelessWidget {
                       kH24sizedBox,
                       CustomElevatedButton(
                         label: ksNext,
-                        onPressed: _authenticationController.checkValidName.value ? () {} : null,
+                        onPressed: _authenticationController.checkValidName.value
+                            ? () {
+                                Get.toNamed(krBirthday);
+                              }
+                            : null,
                         buttonWidth: width - 40,
                         textStyle: _authenticationController.checkValidName.value
                             ? semiBold16TextStyle(cBlackColor)
