@@ -16,8 +16,9 @@ BorderRadius k8CircularBorderRadius = BorderRadius.circular(8.0);
 BorderRadius k12CircularBorderRadius = BorderRadius.circular(12.0);
 BorderRadius k16CircularBorderRadius = BorderRadius.circular(16.0);
 BorderRadius k20CircularBorderRadius = BorderRadius.circular(20.0);
+BorderRadius k100CircularBorderRadius = BorderRadius.circular(100.0);
 
-const double kAppBarSize = 56.0;
+const double kAppBarSize = 44.0;
 
 const int kMinPasswordLength = 8;
 const int kOTPLength = 4;
@@ -51,6 +52,7 @@ const double kSmallDeviceSizeLimit = 750.0;
 const double kCommonElevation = 0.0;
 
 //* padding for different component
+const double kHorizontalPadding = 40.0;
 const double k0Padding = 0.0;
 const double k4Padding = 4.0;
 const double k8Padding = 8.0;

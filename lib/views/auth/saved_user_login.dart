@@ -61,7 +61,9 @@ class SavedUserLogin extends StatelessWidget {
               Positioned(
                 bottom: h32,
                 child: CustomTextButton(
-                  onPressed: null,
+                  onPressed: () {
+                    Get.toNamed(krRegister);
+                  },
                   text: "Register for new account",
                   textStyle: semiBold14TextStyle(cPrimaryColor),
                 ),

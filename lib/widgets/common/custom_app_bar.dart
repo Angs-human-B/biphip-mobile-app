@@ -17,36 +17,33 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: k20Padding),
-      child: AppBar(
-        automaticallyImplyLeading: false,
-        elevation: kCommonElevation,
-        backgroundColor: cTransparentColor,
-        leadingWidth: kCommonBackSpace + k20Padding,
-        centerTitle: true,
-        title: title == null
-            ? null
-            : (title is String)
-                ? Text(
-                    title.toString(),
-                    style: semiBold18TextStyle(cBlackColor),
-                  )
-                : title,
-        leading: hasBackButton
-            ? Padding(
-                padding: const EdgeInsets.only(left: k20Padding),
-                child: Center(
-                  child: CustomIconButton(
-                    onPress: onBack,
-                    iconColor: cIconColor,
-                    icon: BipHip.backArrow,
-                  ),
+    return AppBar(
+      automaticallyImplyLeading: false,
+      elevation: kCommonElevation,
+      backgroundColor: cTransparentColor,
+      leadingWidth: kCommonBackSpace + k20Padding,
+      centerTitle: true,
+      title: title == null
+          ? null
+          : (title is String)
+              ? Text(
+                  title.toString(),
+                  style: semiBold18TextStyle(cBlackColor),
+                )
+              : title,
+      leading: hasBackButton
+          ? Padding(
+              padding: const EdgeInsets.only(left: k20Padding),
+              child: Center(
+                child: CustomIconButton(
+                  onPress: onBack,
+                  iconColor: cIconColor,
+                  icon: BipHip.backArrow,
                 ),
-              )
-            : null,
-        actions: action,
-      ),
+              ),
+            )
+          : null,
+      actions: action,
     );
   }
 }
