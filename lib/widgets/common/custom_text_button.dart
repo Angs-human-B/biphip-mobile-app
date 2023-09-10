@@ -1,6 +1,4 @@
-import 'package:bip_hip/utils/constants/colors.dart';
-import 'package:bip_hip/utils/constants/const.dart';
-import 'package:flutter/material.dart';
+import 'package:bip_hip/utils/constants/imports.dart';
 
 class CustomTextButton extends StatelessWidget {
   const CustomTextButton({
@@ -31,9 +29,9 @@ class CustomTextButton extends StatelessWidget {
               text.toString(),
               style: textStyle,
             ),
-            if (isIconExits != null) kW5sizedBox,
+            if (isIconExits != null) kW4sizedBox,
             if (isIconExits != null)
-               Icon(
+              Icon(
                 icon,
                 size: 18,
                 color: cPrimaryColor,

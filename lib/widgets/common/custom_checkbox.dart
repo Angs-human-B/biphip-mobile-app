@@ -1,7 +1,4 @@
-import 'package:bip_hip/utils/constants/colors.dart';
-import 'package:bip_hip/utils/constants/const.dart';
-import 'package:bip_hip/utils/constants/styles.dart';
-import 'package:flutter/material.dart';
+import 'package:bip_hip/utils/constants/imports.dart';
 
 class CustomCheckBox extends StatelessWidget {
   final bool value;
@@ -21,21 +18,18 @@ class CustomCheckBox extends StatelessWidget {
     return Container(
       width: height > kSmallDeviceSizeLimit ? h18 : h14,
       height: height > kSmallDeviceSizeLimit ? h18 : h14,
-      decoration: !value
-          ? BoxDecoration(
-              border: kMainBoxBorder,
-              borderRadius: BorderRadius.circular(k5BorderRadius),
-              color: cWhiteColor,
-            )
-          : BoxDecoration(
-              borderRadius: BorderRadius.circular(k5BorderRadius),
-              color: cPrimaryColor,
-            ),
-      child: Icon(
-        Icons.check,
+      decoration: BoxDecoration(
+        border: kIconColorBoxBorder,
+        borderRadius: BorderRadius.circular(k4BorderRadius),
         color: cWhiteColor,
-        size: height > kSmallDeviceSizeLimit ? kIconSize14 : kIconSize12,
       ),
+      child: !value
+          ? Icon(
+              Icons.check,
+              color: cIconColor,
+              size: height > kSmallDeviceSizeLimit ? kIconSize14 : kIconSize12,
+            )
+          : null,
     );
   }
 
