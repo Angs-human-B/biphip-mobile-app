@@ -99,6 +99,7 @@ class AuthenticationController extends GetxController {
   final TextEditingController registerConfirmPasswordTextEditingController = TextEditingController();
   final RxBool isRegisterPasswordToggleObscure = RxBool(true);
   final RxBool isRegisterConfirmPasswordToggleObscure = RxBool(true);
+  final RxBool isReferredRegistration = RxBool(true);
 
   void resetRegisterScreen() {
     registerNameTextEditingController.clear();
