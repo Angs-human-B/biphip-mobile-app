@@ -23,7 +23,7 @@ class CustomCheckBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(k4BorderRadius),
         color: cWhiteColor,
       ),
-      child: !value
+      child: value
           ? Icon(
               Icons.check,
               color: cIconColor,

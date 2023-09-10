@@ -150,7 +150,9 @@ class Login extends StatelessWidget {
                     LinkupTextRow(
                       prefix: "Don't have an account?",
                       suffix: "Register Now",
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.offAllNamed(krRegister);
+                      },
                     ),
                     kH40sizedBox,
                   ],

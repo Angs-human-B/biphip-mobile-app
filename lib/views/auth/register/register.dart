@@ -26,6 +26,7 @@ class Register extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               title: ksRegisterNow.tr,
+              hasBackButton: false,
               onBack: () async {
                 Get.back();
               },

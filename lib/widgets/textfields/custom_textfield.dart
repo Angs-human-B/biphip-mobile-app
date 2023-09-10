@@ -86,6 +86,7 @@ class CustomModifiedTextField extends StatelessWidget {
                   onPress: onSuffixPress,
                   icon: suffixIcon,
                   hasBorder: false,
+                  size: screenWiseSize(kIconSize20, 4),
                 )
               : null,
           fillColor: cGreyBoxColor,
