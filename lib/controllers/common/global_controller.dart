@@ -70,5 +70,89 @@ class GlobalController extends GetxController {
     await SpController().onLogout();
   }
 
+  //* info:: common bottom-sheet
+  void commonBottomSheet({
+    required context,
+    required Widget content,
+    required onPressCloseButton,
+    required onPressRightButton,
+    required String rightText,
+    required TextStyle rightTextStyle,
+    required String title,
+    required bool isRightButtonShow,
+  }) {
+    showModalBottomSheet<void>(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            SizedBox(
+              width: width,
+              child: Column(
+                children: [
+                  kH4sizedBox,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: cLineColor,
+                      borderRadius: k4CircularBorderRadius,
+                    ),
+                    height: 5,
+                    width: width * .1,
+                  ),
+                  kH40sizedBox,
+                  const Divider(
+                    color: cLineColor,
+                    thickness: 1,
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
+                        child: content,
+                      ),
+                    ),
+                  ),
+                  kH4sizedBox,
+                ],
+              ),
+            ),
+            Positioned(
+              top: h16,
+              left: 5,
+              child: CustomIconButton(
+                onPress: onPressCloseButton,
+                icon: BipHip.circleCrossNew,
+                iconColor: cIconColor,
+                size: screenWiseSize(kIconSize24, 4),
+              ),
+            ),
+            Positioned(
+              top: h20,
+              child: Text(
+                title,
+                style: semiBold18TextStyle(cBlackColor),
+              ),
+            ),
+            if (isRightButtonShow)
+              Positioned(
+                top: h20,
+                right: 10,
+                child: CustomTextButton(
+                  onPressed: onPressRightButton,
+                  icon: BipHip.circleCross,
+                  text: rightText,
+                  textStyle: rightTextStyle,
+                ),
+              ),
+          ],
+        );
+      },
+    );
+  }
+
   //! end
 }
