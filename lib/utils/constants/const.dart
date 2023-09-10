@@ -28,6 +28,8 @@ const double kIconSize12 = 12.0;
 const double kIconSize16 = 16.0;
 const double kIconSize20 = 20.0;
 const double kIconSize24 = 24.0;
+const double kIconSize28 = 28.0;
+
 
 const double kIconSize14 = 14.0;
 const double kIconSize18 = 18.0;
@@ -90,6 +92,7 @@ const kH20sizedBox = SizedBox(height: k20Padding);
 const kH10sizedBox = SizedBox(height: k10Padding);
 const kH25sizedBox = SizedBox(height: k25Padding);
 const kH30sizedBox = SizedBox(height: k30Padding);
+const kH35sizedBox = SizedBox(height: k30Padding);
 const kH40sizedBox = SizedBox(height: k40Padding);
 const kH50sizedBox = SizedBox(height: k50Padding);
 const kH60sizedBox = SizedBox(height: k60Padding);
