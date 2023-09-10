@@ -76,7 +76,7 @@ class SelectBirthday extends StatelessWidget {
                             : null,
                         buttonWidth: width - 40,
                         textStyle: _authenticationController.birthDay.value != ''
-                            ? semiBold16TextStyle(cBlackColor)
+                            ? semiBold16TextStyle(cWhiteColor)
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
                     ],

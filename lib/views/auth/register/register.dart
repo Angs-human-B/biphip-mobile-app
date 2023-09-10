@@ -108,7 +108,7 @@ class Register extends StatelessWidget {
                             : null,
                         buttonWidth: width - 40,
                         textStyle: _authenticationController.checkValidName.value
-                            ? semiBold16TextStyle(cBlackColor)
+                            ? semiBold16TextStyle(cWhiteColor)
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
                       kH24sizedBox,

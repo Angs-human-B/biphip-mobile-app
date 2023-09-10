@@ -106,6 +106,7 @@ class AuthenticationController extends GetxController {
   final RxBool isReferredRegistration = RxBool(false);
   final RxBool checkValidName = RxBool(false);
   final RxBool checkValidEmail = RxBool(false);
+  final RxBool checkValidPassword = RxBool(false);
 
   void resetRegisterScreen() {
     registerFirstNameTextEditingController.clear();
@@ -134,6 +135,13 @@ class AuthenticationController extends GetxController {
       checkValidEmail.value = true;
     } else {
       checkValidEmail.value = false;
+    }
+  }
+  void checkPassword(){
+    if (registerPasswordTextEditingController.text.length >= kMinPasswordLength && registerPasswordTextEditingController.text == registerConfirmPasswordTextEditingController.text) {
+      checkValidPassword.value = true;
+    } else {
+      checkValidPassword.value = false;
     }
   }
   // void checkCanRegister() {

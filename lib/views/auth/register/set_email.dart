@@ -60,12 +60,12 @@ class SetEmail extends StatelessWidget {
                         label: ksNext,
                         onPressed: _authenticationController.checkValidEmail.value
                             ? () {
-                                // Get.toNamed(krBirthday);
+                                Get.toNamed(krSetPassword);
                               }
                             : null,
                         buttonWidth: width - 40,
                         textStyle: _authenticationController.checkValidEmail.value
-                            ? semiBold16TextStyle(cBlackColor)
+                            ? semiBold16TextStyle(cWhiteColor)
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
                     ],

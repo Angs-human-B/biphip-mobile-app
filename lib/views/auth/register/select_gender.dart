@@ -61,7 +61,7 @@ class SelectGender extends StatelessWidget {
                             : null,
                         buttonWidth: width - 40,
                         textStyle:
-                            _authenticationController.gender.value != '' ? semiBold16TextStyle(cBlackColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
+                            _authenticationController.gender.value != '' ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
                     ],
                   ),
