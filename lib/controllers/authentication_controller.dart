@@ -92,17 +92,20 @@ class AuthenticationController extends GetxController {
   |--------------------------------------------------------------------------
   */
 
-  final TextEditingController registerNameTextEditingController = TextEditingController();
+  final TextEditingController registerFirstNameTextEditingController = TextEditingController();
+  final TextEditingController registerLastNameTextEditingController = TextEditingController();
   final TextEditingController registerEmailTextEditingController = TextEditingController();
   final TextEditingController registerPhoneTextEditingController = TextEditingController();
   final TextEditingController registerPasswordTextEditingController = TextEditingController();
   final TextEditingController registerConfirmPasswordTextEditingController = TextEditingController();
   final RxBool isRegisterPasswordToggleObscure = RxBool(true);
   final RxBool isRegisterConfirmPasswordToggleObscure = RxBool(true);
-  final RxBool isReferredRegistration = RxBool(true);
+  final RxBool isReferredRegistration = RxBool(false);
+  final RxBool checkValidName = RxBool(false);
 
   void resetRegisterScreen() {
-    registerNameTextEditingController.clear();
+    registerFirstNameTextEditingController.clear();
+    registerLastNameTextEditingController.clear();
     registerEmailTextEditingController.clear();
     registerPhoneTextEditingController.clear();
     registerPasswordTextEditingController.clear();
@@ -114,15 +117,22 @@ class AuthenticationController extends GetxController {
 
   final RxBool canRegister = RxBool(false);
 
-  void checkCanRegister() {
-    if (registerEmailTextEditingController.text.isValidEmail &&
-        registerPasswordTextEditingController.text.length >= kMinPasswordLength &&
-        registerPasswordTextEditingController.text == registerConfirmPasswordTextEditingController.text) {
-      canRegister.value = true;
+  void checkName() {
+    if (registerFirstNameTextEditingController.text.trim() != '' && registerLastNameTextEditingController.text.trim() != '') {
+      checkValidName.value = true;
     } else {
-      canRegister.value = false;
+      checkValidName.value = false;
     }
   }
+  // void checkCanRegister() {
+  //   if (registerEmailTextEditingController.text.isValidEmail &&
+  //       registerPasswordTextEditingController.text.length >= kMinPasswordLength &&
+  //       registerPasswordTextEditingController.text == registerConfirmPasswordTextEditingController.text) {
+  //     canRegister.value = true;
+  //   } else {
+  //     canRegister.value = false;
+  //   }
+  // }
 
   // Future<void> userRegister() async {
   //   try {

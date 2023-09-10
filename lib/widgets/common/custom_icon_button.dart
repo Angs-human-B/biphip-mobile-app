@@ -31,7 +31,7 @@ class CustomIconButton extends StatelessWidget {
             ),
             Icon(
               icon,
-              size: size ?? screenWiseSize(kIconSize20, 4),
+              size: size ?? screenWiseSize(kIconSize28, 4),
               color: iconColor ?? cIconColor,
             ),
           ],

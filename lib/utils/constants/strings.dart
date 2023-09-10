@@ -5,3 +5,5 @@ const String ksLoading = 'Loading...';
 const String ksRememberMe = 'Remember me';
 const String ksForgotPassword = 'Forgot password?';
 const String ksRegisterNow = 'Register Now';
+const String ksNext = 'Next';
+
