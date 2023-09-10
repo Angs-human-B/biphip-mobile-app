@@ -2,19 +2,17 @@ import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
-import 'package:bip_hip/widgets/common/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
 
-class SelectBirthday extends StatelessWidget {
-  SelectBirthday({super.key});
+class SetEmail extends StatelessWidget {
+  SetEmail({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
 
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
-
     return Container(
       color: cWhiteColor,
       child: SafeArea(
@@ -43,39 +41,30 @@ class SelectBirthday extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'What\'s your birthday?',
-                        subTitle: 'You can change your birthday from your profile settings.',
+                        title: 'What\'s your email?',
+                        subTitle: 'We will send code to your mail to confirm your account.',
                       ),
                       kH50sizedBox,
-                      CustomSelectionButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return SizedBox(
-                                  height: height * 0.4,
-                                  child: CupertinoDatePicker(
-                                    mode: CupertinoDatePickerMode.date,
-                                    onDateTimeChanged: (value) {
-                                      _authenticationController.birthDay.value = value.toString();
-                                    },
-                                  ),
-                                );
-                              });
+                      CustomModifiedTextField(
+                        controller: _authenticationController.registerEmailTextEditingController,
+                        hint: "Email",
+                        onChanged: (text) {
+                          _authenticationController.checkEmail();
                         },
-                        text: _authenticationController.birthDay.value,
-                        hintText: "Select date of birth",
+                        onSubmit: (text) {},
+                        inputAction: TextInputAction.done,
+                        inputType: TextInputType.emailAddress,
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
                         label: ksNext,
-                        onPressed: _authenticationController.birthDay.value != ''
+                        onPressed: _authenticationController.checkValidEmail.value
                             ? () {
-                                Get.toNamed(krBirthday);
+                                // Get.toNamed(krBirthday);
                               }
                             : null,
                         buttonWidth: width - 40,
-                        textStyle: _authenticationController.birthDay.value != ''
+                        textStyle: _authenticationController.checkValidEmail.value
                             ? semiBold16TextStyle(cBlackColor)
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),

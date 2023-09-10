@@ -100,10 +100,12 @@ class AuthenticationController extends GetxController {
   final TextEditingController registerPasswordTextEditingController = TextEditingController();
   final TextEditingController registerConfirmPasswordTextEditingController = TextEditingController();
   final RxString birthDay = RxString('');
+  final RxString gender = RxString('');
   final RxBool isRegisterPasswordToggleObscure = RxBool(true);
   final RxBool isRegisterConfirmPasswordToggleObscure = RxBool(true);
   final RxBool isReferredRegistration = RxBool(false);
   final RxBool checkValidName = RxBool(false);
+  final RxBool checkValidEmail = RxBool(false);
 
   void resetRegisterScreen() {
     registerFirstNameTextEditingController.clear();
@@ -124,6 +126,14 @@ class AuthenticationController extends GetxController {
       checkValidName.value = true;
     } else {
       checkValidName.value = false;
+    }
+  }
+
+  void checkEmail() {
+    if (registerEmailTextEditingController.text.trim() != '' && registerEmailTextEditingController.text.isValidEmail) {
+      checkValidEmail.value = true;
+    } else {
+      checkValidEmail.value = false;
     }
   }
   // void checkCanRegister() {

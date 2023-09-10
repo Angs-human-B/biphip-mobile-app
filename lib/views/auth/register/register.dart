@@ -103,7 +103,7 @@ class Register extends StatelessWidget {
                         label: ksNext,
                         onPressed: _authenticationController.checkValidName.value
                             ? () {
-                                Get.toNamed(krBirthday);
+                                Get.toNamed(krSelectBirthday);
                               }
                             : null,
                         buttonWidth: width - 40,
