@@ -17,3 +17,4 @@ export 'package:bip_hip/widgets/common/custom_icon_button.dart';
 export 'package:bip_hip/controllers/common/sp_controller.dart';
 export 'package:bip_hip/controllers/common/global_controller.dart';
 export 'package:bip_hip/controllers/common/api_controller.dart';
+export 'package:bip_hip/utils/icons/bip_hip_icons.dart';
