@@ -41,8 +41,8 @@ class SetPassword extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'What\'s your email?',
-                        subTitle: 'We will send code to your mail to confirm your account.',
+                        title: 'Create Password',
+                        subTitle: 'Create a strong password to prevent unknown login of your personal account.',
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
