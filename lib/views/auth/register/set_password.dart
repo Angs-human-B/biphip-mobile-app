@@ -77,6 +77,7 @@ class SetPassword extends StatelessWidget {
                         inputAction: TextInputAction.done,
                         inputType: TextInputType.visiblePassword,
                       ),
+                      kH24sizedBox,
                       CustomElevatedButton(
                         label: ksNext,
                         onPressed: _authenticationController.checkValidPassword.value
