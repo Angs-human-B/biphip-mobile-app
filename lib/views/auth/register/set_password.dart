@@ -82,7 +82,7 @@ class SetPassword extends StatelessWidget {
                         label: ksNext,
                         onPressed: _authenticationController.checkValidPassword.value
                             ? () {
-                                // Get.toNamed(krBirthday);
+                                Get.toNamed(krOTP);
                               }
                             : null,
                         buttonWidth: width - 40,

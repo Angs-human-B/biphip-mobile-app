@@ -130,3 +130,5 @@ double width = 0.0;
 double keyboardValue = 0.0;
 
 var formatter = NumberFormat.decimalPattern('en_US');
+
+List profession = ['Farmer', 'UI/UX Designer', 'Programmer', ''];
