@@ -10,6 +10,8 @@ class AuthenticationController extends GetxController {
   final RxString profileLink = RxString('');
   final Rx<File?> profileFile = File('').obs;
   final RxBool isProfileImageChanged = RxBool(false);
+RxList users =RxList(userData);
+
 
   // final ApiController _apiController = ApiController();
   // final SpController _spController = SpController();

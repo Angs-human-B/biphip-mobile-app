@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:intl/intl.dart';
 
 const double kButtonHeight = 44.0;
@@ -107,6 +108,7 @@ const kHBottomSizedBox = SizedBox(height: k40Padding);
 
 const double h60 = 60.0;
 const double h50 = 50.0;
+const double h40 = 40.0;
 const double h36 = 36.0;
 const double h32 = 32.0;
 const double h28 = 28.0;
@@ -157,3 +159,5 @@ List interest = [
 ];
 
 List genders = ['Male', 'Female', 'Others'];
+
+List userData = [{'name': 'Johnson'},{'name':'Marie Latham'},{'name':'Monjurul Sharker Omi'}];
