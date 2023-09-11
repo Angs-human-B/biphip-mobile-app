@@ -5,11 +5,11 @@ import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 
-
 class SelectGender extends StatelessWidget {
   SelectGender({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +47,28 @@ class SelectGender extends StatelessWidget {
                       ),
                       kH50sizedBox,
                       CustomSelectionButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _globalController.commonBottomSheet(
+                              context: context,
+                              content: _GenderListContent(
+                                authenticationController: _authenticationController,
+                              ),
+                              onPressCloseButton: () {
+                                Get.back();
+                              },
+                              onPressRightButton: null,
+                              rightText: '',
+                              rightTextStyle: regular10TextStyle(cBlackColor),
+                              title: 'Select Gender',
+                              isRightButtonShow: false);
+                        },
                         text: _authenticationController.gender.value,
                         hintText: "Select gender",
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
                         label: ksNext,
-                        onPressed: _authenticationController.gender.value == ''
+                        onPressed: _authenticationController.gender.value != ''
                             ? () {
                                 Get.toNamed(krSetEmail);
                               }
@@ -71,6 +85,53 @@ class SelectGender extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _GenderListContent extends StatelessWidget {
+  const _GenderListContent({
+    Key? key,
+    required this.authenticationController,
+  }) : super(key: key);
+
+  final AuthenticationController authenticationController;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Obx(() => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              RadioListTile(
+                title: Text(genders[0]),
+                value: genders[0],
+                groupValue: authenticationController.gender.value,
+                controlAffinity: ListTileControlAffinity.trailing,
+                onChanged: (value) {
+                  authenticationController.gender.value = value;
+                },
+              ),
+              RadioListTile(
+                title: Text(genders[1]),
+                value: genders[1],
+                groupValue: authenticationController.gender.value,
+                controlAffinity: ListTileControlAffinity.trailing,
+                onChanged: (value) {
+                  authenticationController.gender.value = value;
+                },
+              ),
+              RadioListTile(
+                title: Text(genders[2]),
+                value: genders[2],
+                groupValue: authenticationController.gender.value,
+                controlAffinity: ListTileControlAffinity.trailing,
+                onChanged: (value) {
+                  authenticationController.gender.value = value;
+                },
+              ),
+            ],
+          )),
     );
   }
 }

@@ -26,12 +26,6 @@ class PictureUploadScreen extends StatelessWidget {
             child: CustomAppBar(
               hasBackButton: false,
               onBack: () {},
-              action: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: CustomTextButton(onPressed: () {}, text: ksSkip, textStyle: regular14TextStyle(cPrimaryColor)),
-                )
-              ],
             ),
           ),
           backgroundColor: cWhiteColor,

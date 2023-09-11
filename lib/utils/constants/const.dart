@@ -155,3 +155,5 @@ List interest = [
   'Kid',
   'Story telling',
 ];
+
+List genders = ['Male', 'Female', 'Others'];
