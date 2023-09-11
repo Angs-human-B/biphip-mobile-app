@@ -4,11 +4,10 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
-
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 
-class SelectProfessionScreen extends StatelessWidget {
-  SelectProfessionScreen({super.key});
+class SelectInterestScreen extends StatelessWidget {
+  SelectInterestScreen({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
 
@@ -29,12 +28,7 @@ class SelectProfessionScreen extends StatelessWidget {
               action: [
                 Padding(
                   padding: const EdgeInsets.only(right: 16.0),
-                  child: CustomTextButton(
-                      onPressed: () {
-                        Get.toNamed(krSelectInterest);
-                      },
-                      text: ksSkip,
-                      textStyle: regular14TextStyle(cPrimaryColor)),
+                  child: CustomTextButton(onPressed: () {}, text: ksSkip, textStyle: regular14TextStyle(cPrimaryColor)),
                 )
               ],
             ),
@@ -76,11 +70,14 @@ class SelectProfessionScreen extends StatelessWidget {
                     Spacer(),
                     CustomElevatedButton(
                       label: ksNext,
-                      onPressed: () {
-                        Get.toNamed(krSelectInterest);
-                      },
+                      onPressed: _authenticationController.canOTPVerifyNow.value
+                          ? () {
+                              // Get.toNamed(krBirthday);
+                            }
+                          : null,
                       buttonWidth: width - 40,
-                      textStyle: semiBold16TextStyle(cWhiteColor),
+                      textStyle:
+                          _authenticationController.canOTPVerifyNow.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                     ),
                     kHBottomSizedBox
                   ],

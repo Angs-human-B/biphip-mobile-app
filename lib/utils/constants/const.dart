@@ -31,7 +31,6 @@ const double kIconSize20 = 20.0;
 const double kIconSize24 = 24.0;
 const double kIconSize28 = 28.0;
 
-
 const double kIconSize14 = 14.0;
 const double kIconSize18 = 18.0;
 const double kIconSize22 = 22.0;
@@ -131,4 +130,17 @@ double keyboardValue = 0.0;
 
 var formatter = NumberFormat.decimalPattern('en_US');
 
-List profession = ['Farmer', 'UI/UX Designer', 'Programmer', ''];
+List profession = [
+  'Farmer',
+  'UI/UX Designer',
+  'Programmer',
+  'Product Designer',
+  'Cobbler',
+  'Tailor',
+  'Biker',
+  'Photographer',
+  'Artist',
+  'Singer',
+  'Content Writer',
+  'Others'
+];

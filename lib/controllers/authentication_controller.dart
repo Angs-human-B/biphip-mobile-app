@@ -1,6 +1,8 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class AuthenticationController extends GetxController {
+  final RxBool isProfessionSelected = RxBool(false);
+  final RxInt professionIndex = RxInt(-1);
   // final ApiController _apiController = ApiController();
   // final SpController _spController = SpController();
   // final GlobalController _globalController = Get.find<GlobalController>();
@@ -137,8 +139,10 @@ class AuthenticationController extends GetxController {
       checkValidEmail.value = false;
     }
   }
-  void checkPassword(){
-    if (registerPasswordTextEditingController.text.length >= kMinPasswordLength && registerPasswordTextEditingController.text == registerConfirmPasswordTextEditingController.text) {
+
+  void checkPassword() {
+    if (registerPasswordTextEditingController.text.length >= kMinPasswordLength &&
+        registerPasswordTextEditingController.text == registerConfirmPasswordTextEditingController.text) {
       checkValidPassword.value = true;
     } else {
       checkValidPassword.value = false;
