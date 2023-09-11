@@ -6,6 +6,7 @@ import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/linkup_text.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 import 'package:bip_hip/widgets/textfields/otp_textfield.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class OTPVerifyScreen extends StatelessWidget {
   OTPVerifyScreen({super.key});
@@ -28,6 +29,20 @@ class OTPVerifyScreen extends StatelessWidget {
               onBack: () async {
                 Get.back();
               },
+              action: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CircularPercentIndicator(
+                    // animateFromLastPercent: true,
+                    radius: 10.0,
+                    lineWidth: 2.0,
+                    animation: true,
+                    percent: 1,
+                    circularStrokeCap: CircularStrokeCap.round,
+                    progressColor: cPrimaryColor,
+                  ),
+                ),
+              ],
             ),
           ),
           backgroundColor: cWhiteColor,

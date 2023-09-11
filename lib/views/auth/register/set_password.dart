@@ -4,6 +4,7 @@ import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class SetPassword extends StatelessWidget {
   SetPassword({super.key});
@@ -26,6 +27,20 @@ class SetPassword extends StatelessWidget {
               onBack: () async {
                 Get.back();
               },
+              action: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CircularPercentIndicator(
+                    animateFromLastPercent: false,
+                    radius: 10.0,
+                    lineWidth: 2.0,
+                    animation: true,
+                    percent: .80,
+                    circularStrokeCap: CircularStrokeCap.round,
+                    progressColor: cPrimaryColor,
+                  ),
+                ),
+              ],
             ),
           ),
           backgroundColor: cWhiteColor,

@@ -4,6 +4,7 @@ import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class SelectGender extends StatelessWidget {
   SelectGender({super.key});
@@ -27,6 +28,20 @@ class SelectGender extends StatelessWidget {
               onBack: () async {
                 Get.back();
               },
+              action: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CircularPercentIndicator(
+                    animateFromLastPercent: false,
+                    radius: 10.0,
+                    lineWidth: 2.0,
+                    animation: true,
+                    percent: .48,
+                    circularStrokeCap: CircularStrokeCap.round,
+                    progressColor: cPrimaryColor,
+                  ),
+                ),
+              ],
             ),
           ),
           backgroundColor: cWhiteColor,
