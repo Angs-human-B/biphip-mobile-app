@@ -28,7 +28,12 @@ class SelectInterestScreen extends StatelessWidget {
               action: [
                 Padding(
                   padding: const EdgeInsets.only(right: 16.0),
-                  child: CustomTextButton(onPressed: () {}, text: ksSkip, textStyle: regular14TextStyle(cPrimaryColor)),
+                  child: CustomTextButton(
+                      onPressed: () {
+                        Get.toNamed(krUploadPicture);
+                      },
+                      text: ksSkip,
+                      textStyle: regular14TextStyle(cPrimaryColor)),
                 )
               ],
             ),
@@ -73,14 +78,11 @@ class SelectInterestScreen extends StatelessWidget {
                     const Spacer(),
                     CustomElevatedButton(
                       label: ksNext,
-                      onPressed: _authenticationController.canOTPVerifyNow.value
-                          ? () {
-                              // Get.toNamed(krBirthday);
-                            }
-                          : null,
+                      onPressed: () {
+                        Get.toNamed(krUploadPicture);
+                      },
                       buttonWidth: width - 40,
-                      textStyle:
-                          _authenticationController.canOTPVerifyNow.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
+                      textStyle: semiBold16TextStyle(cWhiteColor),
                     ),
                     kHBottomSizedBox
                   ],

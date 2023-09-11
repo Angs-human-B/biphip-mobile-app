@@ -120,6 +120,7 @@ const double h8 = 8.0;
 const double h26 = 26.0;
 const double h18 = 18.0;
 const double h10 = 10.0;
+const double h134 = 134.0;
 
 //* end:: font sizes
 

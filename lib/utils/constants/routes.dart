@@ -1,6 +1,7 @@
 //* info:: auth screens
 import 'package:bip_hip/views/auth/login.dart';
 import 'package:bip_hip/views/auth/register/otp_verification.dart';
+import 'package:bip_hip/views/auth/register/picture_upload_screen.dart';
 import 'package:bip_hip/views/auth/register/register.dart';
 import 'package:bip_hip/views/auth/register/select_interest.dart';
 import 'package:bip_hip/views/auth/register/select_profession.dart';
@@ -32,6 +33,7 @@ const String krSelectGender = '/gender';
 const String krSetEmail = '/set-email';
 const String krSelectProfession = '/select-profession';
 const String krSelectInterest = '/select-interest';
+const String krUploadPicture = '/upload-picture';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -45,6 +47,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krResetPass, page: () => SetPassword(), transition: Transition.noTransition),
   GetPage(name: krSelectProfession, page: () => SelectProfessionScreen(), transition: Transition.noTransition),
   GetPage(name: krSelectInterest, page: () => SelectInterestScreen(), transition: Transition.noTransition),
+  GetPage(name: krUploadPicture, page: () => PictureUploadScreen(), transition: Transition.noTransition),
   // GetPage(name: krForgotPassword, page: () => ForgotPasswordScreen(), transition: Transition.noTransition),
   // GetPage(name: krResetPass, page: () => ResetPasswordScreen(), transition: Transition.noTransition),
   GetPage(name: krOTP, page: () => OTPVerifyScreen(), transition: Transition.noTransition),

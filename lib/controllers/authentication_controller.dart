@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class AuthenticationController extends GetxController {
@@ -5,6 +7,10 @@ class AuthenticationController extends GetxController {
   final RxBool isInterestSelected = RxBool(false);
   final RxInt professionIndex = RxInt(-1);
   final RxList<int> interestIndex = RxList<int>([]);
+  final RxString profileLink = RxString('');
+  final Rx<File?> profileFile = File('').obs;
+  final RxBool isProfileImageChanged = RxBool(false);
+
   // final ApiController _apiController = ApiController();
   // final SpController _spController = SpController();
   // final GlobalController _globalController = Get.find<GlobalController>();
