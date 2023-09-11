@@ -208,7 +208,10 @@ class AuthenticationController extends GetxController {
   */
 
   final TextEditingController forgotPasswordEmailTextEditingController = TextEditingController();
+  final TextEditingController forgotPasswordOTPTextEditingController = TextEditingController();
   final RxBool canSendOTP = RxBool(false);
+  final RxBool canForgotPasswordOTPVerifyNow = RxBool(false);
+
 
   void resetForgotPasswordScreen() {
     forgotPasswordEmailTextEditingController.clear();
@@ -220,6 +223,14 @@ class AuthenticationController extends GetxController {
       canSendOTP.value = true;
     } else {
       canSendOTP.value = false;
+    }
+  }
+
+  void checkCanForgotPasswordOTPVerifyNow() {
+    if (forgotPasswordOTPTextEditingController.text.length == kOTPLength) {
+      canForgotPasswordOTPVerifyNow.value = true;
+    } else {
+      canForgotPasswordOTPVerifyNow.value = false;
     }
   }
 
