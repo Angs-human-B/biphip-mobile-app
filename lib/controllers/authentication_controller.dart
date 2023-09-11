@@ -2,7 +2,9 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class AuthenticationController extends GetxController {
   final RxBool isProfessionSelected = RxBool(false);
+  final RxBool isInterestSelected = RxBool(false);
   final RxInt professionIndex = RxInt(-1);
+  final RxList<int> interestIndex = RxList<int>([]);
   // final ApiController _apiController = ApiController();
   // final SpController _spController = SpController();
   // final GlobalController _globalController = Get.find<GlobalController>();

@@ -144,3 +144,13 @@ List profession = [
   'Content Writer',
   'Others'
 ];
+
+List interest = [
+  'Poetry',
+  'Photography',
+  'Singing',
+  'Writing',
+  'Painting',
+  'Kid',
+  'Story telling',
+];

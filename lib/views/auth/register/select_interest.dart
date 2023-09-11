@@ -45,7 +45,7 @@ class SelectInterestScreen extends StatelessWidget {
                     kH24sizedBox,
                     kH24sizedBox,
                     const TopTitleAndSubtitle(
-                      title: 'Let us know your profession!',
+                      title: 'Choose your interest',
                       subTitle:
                           'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.',
                     ),
@@ -55,19 +55,22 @@ class SelectInterestScreen extends StatelessWidget {
                       direction: Axis.horizontal,
                       spacing: 8.0,
                       children: [
-                        for (int i = 0; i < profession.length; i++)
+                        for (int i = 0; i < interest.length; i++)
                           CustomChoiceChips(
-                            label: profession[i],
-                            isSelected: (_authenticationController.professionIndex.value == i && _authenticationController.isProfessionSelected.value),
+                            label: interest[i],
+                            isSelected: (_authenticationController.interestIndex.contains(i) && _authenticationController.isInterestSelected.value),
                             onSelected: (value) {
-                              _authenticationController.professionIndex.value = i;
-
-                              _authenticationController.isProfessionSelected.value = value;
+                              if (!_authenticationController.interestIndex.contains(i)) {
+                                _authenticationController.isInterestSelected.value = value;
+                                _authenticationController.interestIndex.add(i);
+                              } else {
+                                _authenticationController.interestIndex.remove(i);
+                              }
                             },
                           )
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     CustomElevatedButton(
                       label: ksNext,
                       onPressed: _authenticationController.canOTPVerifyNow.value
