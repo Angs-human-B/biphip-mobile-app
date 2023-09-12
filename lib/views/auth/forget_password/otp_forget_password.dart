@@ -59,6 +59,7 @@ class ForgetPasswordOTP extends StatelessWidget {
                         onPressed: _authenticationController.canForgotPasswordOTPVerifyNow.value
                             ? () {
                                 Get.toNamed(krResetPass);
+                                _authenticationController.resetForgotPasswordScreen();
                               }
                             : null,
                         buttonWidth: width - 40,

@@ -8,7 +8,6 @@ import 'package:bip_hip/widgets/common/linkup_text.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 import 'package:bip_hip/widgets/textfields/otp_textfield.dart';
 
-
 class OTPVerifyScreen extends StatelessWidget {
   OTPVerifyScreen({super.key});
 
@@ -30,10 +29,12 @@ class OTPVerifyScreen extends StatelessWidget {
               onBack: () async {
                 Get.back();
               },
-              action:const [
+              action: const [
                 Padding(
-                  padding:  EdgeInsets.only(right: 8.0),
-                  child:CustomCircularProgressBar(percent: 1,),
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: CustomCircularProgressBar(
+                    percent: 1,
+                  ),
                 ),
               ],
             ),
@@ -67,6 +68,8 @@ class OTPVerifyScreen extends StatelessWidget {
                         onPressed: _authenticationController.canOTPVerifyNow.value
                             ? () {
                                 Get.toNamed(krSelectProfession);
+                                _authenticationController.resetRegisterScreen();
+                                _authenticationController.resetOTPScreen();
                               }
                             : null,
                         buttonWidth: width - 40,

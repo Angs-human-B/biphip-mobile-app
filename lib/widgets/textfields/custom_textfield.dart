@@ -72,6 +72,7 @@ class CustomModifiedTextField extends StatelessWidget {
         controller: controller,
         cursorColor: cBlackColor,
         decoration: InputDecoration(
+          
           isDense: true,
           filled: true,
           prefixIcon: prefixIcon != null

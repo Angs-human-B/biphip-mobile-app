@@ -10,8 +10,7 @@ class AuthenticationController extends GetxController {
   final RxString profileLink = RxString('');
   final Rx<File?> profileFile = File('').obs;
   final RxBool isProfileImageChanged = RxBool(false);
-RxList users =RxList(userData);
-
+  RxList users = RxList(userData);
 
   // final ApiController _apiController = ApiController();
   // final SpController _spController = SpController();
@@ -20,6 +19,11 @@ RxList users =RxList(userData);
   void onIntroDone() async {
     Get.offAllNamed(krLogin);
     // log(intro.toString());
+  }
+  void resetProfileImage(){
+    profileLink.value = '';
+    profileFile.value = File('');
+    isProfileImageChanged.value = false;
   }
 
   /*
@@ -121,7 +125,6 @@ RxList users =RxList(userData);
   final RxBool checkValidPassword = RxBool(false);
   final RxBool canRegister = RxBool(false);
 
-
   void resetRegisterScreen() {
     registerFirstNameTextEditingController.clear();
     registerLastNameTextEditingController.clear();
@@ -137,7 +140,6 @@ RxList users =RxList(userData);
     canRegister.value = false;
     birthDay.value = '';
     gender.value = '';
-
   }
 
   void checkName() {
@@ -220,7 +222,6 @@ RxList users =RxList(userData);
   final RxBool canSendOTP = RxBool(false);
   final RxBool canForgotPasswordOTPVerifyNow = RxBool(false);
 
-
   void resetForgotPasswordScreen() {
     forgotPasswordEmailTextEditingController.clear();
     forgotPasswordOTPTextEditingController.clear();
@@ -229,7 +230,7 @@ RxList users =RxList(userData);
   }
 
   void checkCanSendOTP() {
-    if (forgotPasswordEmailTextEditingController.text.isValidEmail) {
+    if (forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
       canSendOTP.value = true;
     } else {
       canSendOTP.value = false;
@@ -292,8 +293,8 @@ RxList users =RxList(userData);
   }
 
   void checkCanResetPassword() {
-    if (resetNewPasswordTextEditingController.text.length >= kMinPasswordLength &&
-        resetNewPasswordTextEditingController.text == resetConfirmPasswordTextEditingController.text) {
+    if (resetNewPasswordTextEditingController.text.trim().length >= kMinPasswordLength &&
+        resetNewPasswordTextEditingController.text.trim() == resetConfirmPasswordTextEditingController.text.trim()) {
       canResetPassword.value = true;
     } else {
       canResetPassword.value = false;

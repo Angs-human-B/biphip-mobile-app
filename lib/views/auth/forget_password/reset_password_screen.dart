@@ -83,6 +83,7 @@ class ResetPasswordScreen extends StatelessWidget {
                         onPressed: _authenticationController.canResetPassword.value
                             ? () {
                                 Get.toNamed(krLogin);
+                                _authenticationController.resetResetPasswordScreen();
                               }
                             : null,
                         buttonWidth: width - 40,

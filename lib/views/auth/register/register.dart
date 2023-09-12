@@ -90,7 +90,7 @@ class Register extends StatelessWidget {
                         controller: _authenticationController.registerFirstNameTextEditingController,
                         hint: "First Name",
                         onChanged: (text) {
-                          _authenticationController.checkCanLogin();
+                          _authenticationController.checkName();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,

@@ -62,56 +62,53 @@ class PictureUploadScreen extends StatelessWidget {
                     const Spacer(),
                     CustomElevatedButton(
                       label: _authenticationController.isProfileImageChanged.value ? 'Save photo' : 'Add Photo',
-                      onPressed: _authenticationController.canOTPVerifyNow.value
-                          ? () {
-                              showModalBottomSheet(
-                                backgroundColor: cWhiteColor,
-                                context: context,
-                                builder: (context) {
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      kH35sizedBox,
-                                      CustomElevatedButton(
-                                        label: 'Add photo',
-                                        prefixIcon: BipHip.camera,
-                                        labelIconColor: cIconColor,
-                                        onPressed: () async {
-                                          ll(_authenticationController.isProfileImageChanged.value);
-                                          await _globalController.selectImageSource(_authenticationController.isProfileImageChanged,
-                                              _authenticationController.profileLink, _authenticationController.profileFile, 'camera');
-                                        },
-                                        buttonHeight: h32,
-                                        buttonWidth: width - 40,
-                                        buttonColor: cWhiteColor,
-                                        borderColor: cLineColor,
-                                        textStyle: semiBold14TextStyle(cBlackColor),
-                                      ),
-                                      kH16sizedBox,
-                                      CustomElevatedButton(
-                                        label: 'Choose from gallery',
-                                        prefixIcon: BipHip.photo,
-                                        labelIconColor: cIconColor,
-                                        onPressed: () async {
-                                          await _globalController.selectImageSource(_authenticationController.isProfileImageChanged,
-                                              _authenticationController.profileLink, _authenticationController.profileFile, 'gallery');
-                                        },
-                                        buttonHeight: h32,
-                                        buttonWidth: width - 40,
-                                        buttonColor: cWhiteColor,
-                                        borderColor: cLineColor,
-                                        textStyle: semiBold14TextStyle(cBlackColor),
-                                      ),
-                                      kHBottomSizedBox
-                                    ],
-                                  );
-                                },
-                              );
-                            }
-                          : null,
+                      onPressed: () {
+                        showModalBottomSheet(
+                          backgroundColor: cWhiteColor,
+                          context: context,
+                          builder: (context) {
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                kH35sizedBox,
+                                CustomElevatedButton(
+                                  label: 'Add photo',
+                                  prefixIcon: BipHip.camera,
+                                  labelIconColor: cIconColor,
+                                  onPressed: () async {
+                                    ll(_authenticationController.isProfileImageChanged.value);
+                                    await _globalController.selectImageSource(_authenticationController.isProfileImageChanged,
+                                        _authenticationController.profileLink, _authenticationController.profileFile, 'camera');
+                                  },
+                                  buttonHeight: h32,
+                                  buttonWidth: width - 40,
+                                  buttonColor: cWhiteColor,
+                                  borderColor: cLineColor,
+                                  textStyle: semiBold14TextStyle(cBlackColor),
+                                ),
+                                kH16sizedBox,
+                                CustomElevatedButton(
+                                  label: 'Choose from gallery',
+                                  prefixIcon: BipHip.photo,
+                                  labelIconColor: cIconColor,
+                                  onPressed: () async {
+                                    await _globalController.selectImageSource(_authenticationController.isProfileImageChanged,
+                                        _authenticationController.profileLink, _authenticationController.profileFile, 'gallery');
+                                  },
+                                  buttonHeight: h32,
+                                  buttonWidth: width - 40,
+                                  buttonColor: cWhiteColor,
+                                  borderColor: cLineColor,
+                                  textStyle: semiBold14TextStyle(cBlackColor),
+                                ),
+                                kHBottomSizedBox
+                              ],
+                            );
+                          },
+                        );
+                      },
                       buttonWidth: width - 40,
-                      textStyle:
-                          _authenticationController.canOTPVerifyNow.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
+                      textStyle: semiBold16TextStyle(cWhiteColor),
                     ),
                     if (!_authenticationController.isProfileImageChanged.value) kH20sizedBox,
                     if (!_authenticationController.isProfileImageChanged.value)

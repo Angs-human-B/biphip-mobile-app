@@ -113,7 +113,7 @@ class GlobalController extends GetxController {
                     color: cLineColor,
                     thickness: 1,
                   ),
-                  Expanded(
+                  Flexible(
                     child: SingleChildScrollView(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
