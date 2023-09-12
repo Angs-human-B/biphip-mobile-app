@@ -1,6 +1,18 @@
+import 'dart:io';
+
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class AuthenticationController extends GetxController {
+  final RxBool isProfessionSelected = RxBool(false);
+  final RxBool isInterestSelected = RxBool(false);
+  final RxInt professionIndex = RxInt(-1);
+  final RxList<int> interestIndex = RxList<int>([]);
+  final RxString profileLink = RxString('');
+  final Rx<File?> profileFile = File('').obs;
+  final RxBool isProfileImageChanged = RxBool(false);
+RxList users =RxList(userData);
+
+
   // final ApiController _apiController = ApiController();
   // final SpController _spController = SpController();
   // final GlobalController _globalController = Get.find<GlobalController>();
@@ -92,16 +104,25 @@ class AuthenticationController extends GetxController {
   |--------------------------------------------------------------------------
   */
 
-  final TextEditingController registerNameTextEditingController = TextEditingController();
+  final TextEditingController registerFirstNameTextEditingController = TextEditingController();
+  final TextEditingController registerLastNameTextEditingController = TextEditingController();
+  final TextEditingController registerBirthDayTextEditingController = TextEditingController();
   final TextEditingController registerEmailTextEditingController = TextEditingController();
   final TextEditingController registerPhoneTextEditingController = TextEditingController();
   final TextEditingController registerPasswordTextEditingController = TextEditingController();
   final TextEditingController registerConfirmPasswordTextEditingController = TextEditingController();
+  final RxString birthDay = RxString('');
+  final RxString gender = RxString('');
   final RxBool isRegisterPasswordToggleObscure = RxBool(true);
   final RxBool isRegisterConfirmPasswordToggleObscure = RxBool(true);
+  final RxBool isReferredRegistration = RxBool(false);
+  final RxBool checkValidName = RxBool(false);
+  final RxBool checkValidEmail = RxBool(false);
+  final RxBool checkValidPassword = RxBool(false);
 
   void resetRegisterScreen() {
-    registerNameTextEditingController.clear();
+    registerFirstNameTextEditingController.clear();
+    registerLastNameTextEditingController.clear();
     registerEmailTextEditingController.clear();
     registerPhoneTextEditingController.clear();
     registerPasswordTextEditingController.clear();
@@ -113,15 +134,39 @@ class AuthenticationController extends GetxController {
 
   final RxBool canRegister = RxBool(false);
 
-  void checkCanRegister() {
-    if (registerEmailTextEditingController.text.isValidEmail &&
-        registerPasswordTextEditingController.text.length >= kMinPasswordLength &&
-        registerPasswordTextEditingController.text == registerConfirmPasswordTextEditingController.text) {
-      canRegister.value = true;
+  void checkName() {
+    if (registerFirstNameTextEditingController.text.trim() != '' && registerLastNameTextEditingController.text.trim() != '') {
+      checkValidName.value = true;
     } else {
-      canRegister.value = false;
+      checkValidName.value = false;
     }
   }
+
+  void checkEmail() {
+    if (registerEmailTextEditingController.text.trim() != '' && registerEmailTextEditingController.text.isValidEmail) {
+      checkValidEmail.value = true;
+    } else {
+      checkValidEmail.value = false;
+    }
+  }
+
+  void checkPassword() {
+    if (registerPasswordTextEditingController.text.length >= kMinPasswordLength &&
+        registerPasswordTextEditingController.text == registerConfirmPasswordTextEditingController.text) {
+      checkValidPassword.value = true;
+    } else {
+      checkValidPassword.value = false;
+    }
+  }
+  // void checkCanRegister() {
+  //   if (registerEmailTextEditingController.text.isValidEmail &&
+  //       registerPasswordTextEditingController.text.length >= kMinPasswordLength &&
+  //       registerPasswordTextEditingController.text == registerConfirmPasswordTextEditingController.text) {
+  //     canRegister.value = true;
+  //   } else {
+  //     canRegister.value = false;
+  //   }
+  // }
 
   // Future<void> userRegister() async {
   //   try {
@@ -165,7 +210,10 @@ class AuthenticationController extends GetxController {
   */
 
   final TextEditingController forgotPasswordEmailTextEditingController = TextEditingController();
+  final TextEditingController forgotPasswordOTPTextEditingController = TextEditingController();
   final RxBool canSendOTP = RxBool(false);
+  final RxBool canForgotPasswordOTPVerifyNow = RxBool(false);
+
 
   void resetForgotPasswordScreen() {
     forgotPasswordEmailTextEditingController.clear();
@@ -177,6 +225,14 @@ class AuthenticationController extends GetxController {
       canSendOTP.value = true;
     } else {
       canSendOTP.value = false;
+    }
+  }
+
+  void checkCanForgotPasswordOTPVerifyNow() {
+    if (forgotPasswordOTPTextEditingController.text.length == kOTPLength) {
+      canForgotPasswordOTPVerifyNow.value = true;
+    } else {
+      canForgotPasswordOTPVerifyNow.value = false;
     }
   }
 

@@ -88,7 +88,9 @@ class Login extends StatelessWidget {
                         onTapCheckBox: (v) {
                           _authenticationController.isLoginRememberCheck.value = !_authenticationController.isLoginRememberCheck.value;
                         },
-                        onPressForgetButton: () {},
+                        onPressForgetButton: () {
+                          Get.toNamed(krForgotPassword);
+                        },
                       ),
                     ),
                     kH16sizedBox,
@@ -150,7 +152,9 @@ class Login extends StatelessWidget {
                     LinkupTextRow(
                       prefix: "Don't have an account?",
                       suffix: "Register Now",
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(krRegister);
+                      },
                     ),
                     kH40sizedBox,
                   ],

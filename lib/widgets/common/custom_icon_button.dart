@@ -25,19 +25,13 @@ class CustomIconButton extends StatelessWidget {
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: [
-            Container(
+            const SizedBox(
               height: h36,
               width: h36,
-              decoration: hasBorder
-                  ? BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: kIconColorBoxBorder,
-                    )
-                  : null,
             ),
             Icon(
               icon,
-              size: size ?? screenWiseSize(kIconSize20, 4),
+              size: size ?? screenWiseSize(kIconSize28, 4),
               color: iconColor ?? cIconColor,
             ),
           ],

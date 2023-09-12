@@ -5,9 +5,9 @@ class CustomElevatedButton extends StatelessWidget {
   final GestureTapCallback? onPressed;
   final double? buttonWidth;
   final double? buttonHeight;
-  final Color? buttonColor, borderColor;
+  final Color? buttonColor, borderColor, labelIconColor;
   final bool isCircularHead;
-  final IconData? labelIcon;
+  final IconData? prefixIcon, suffixIcon;
   final TextStyle? textStyle;
 
   const CustomElevatedButton({
@@ -17,10 +17,11 @@ class CustomElevatedButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.buttonWidth,
-    this.labelIcon,
+    this.prefixIcon,
     this.buttonHeight,
     this.isCircularHead = false,
     this.textStyle,
+    this.labelIconColor, this.suffixIcon,
   }) : super(key: key);
 
   @override
@@ -53,16 +54,25 @@ class CustomElevatedButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                if (prefixIcon != null)
+                  Padding(
+                    padding: const EdgeInsets.only(right: k4Padding),
+                    child: Icon(
+                      prefixIcon!,
+                      color: labelIconColor ?? cWhiteColor,
+                      size: screenWiseSize(kIconSize18, 4),
+                    ),
+                  ),
                 Text(label.toString(), textAlign: TextAlign.center, style: textStyle),
-                if (labelIcon != null)
+                if (suffixIcon != null)
                   Padding(
                     padding: const EdgeInsets.only(left: k4Padding),
                     child: Icon(
-                      labelIcon!,
-                      color: cWhiteColor,
+                      suffixIcon!,
+                      color: labelIconColor ?? cWhiteColor,
                       size: screenWiseSize(kIconSize18, 4),
                     ),
-                  )
+                  ),
               ],
             ),
           ),
