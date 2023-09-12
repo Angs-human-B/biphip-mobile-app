@@ -26,6 +26,13 @@ class AuthenticationController extends GetxController {
     isProfileImageChanged.value = false;
   }
 
+  void resetChipSelection(){
+    professionIndex.value = -1;
+    interestIndex.clear();
+    isProfessionSelected.value = false;
+    isInterestSelected.value = false;
+  }
+
   /*
   |--------------------------------------------------------------------------
   | //! info:: set device id
@@ -347,6 +354,7 @@ class AuthenticationController extends GetxController {
   */
   final TextEditingController otpTextEditingController = TextEditingController();
   final RxBool isOTPResendClick = RxBool(false);
+  final RxBool isForgotPasswordOTPResendClick = RxBool(false);
   final RxBool canOTPVerifyNow = RxBool(false);
 
   void resetOTPScreen() {

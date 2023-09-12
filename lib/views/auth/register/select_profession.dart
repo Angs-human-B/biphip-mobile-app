@@ -76,9 +76,11 @@ class SelectProfessionScreen extends StatelessWidget {
                     Spacer(),
                     CustomElevatedButton(
                       label: ksNext,
-                      onPressed: () {
-                        Get.toNamed(krSelectInterest);
-                      },
+                      onPressed: _authenticationController.isProfessionSelected.value
+                          ? () {
+                              Get.toNamed(krSelectInterest);
+                            }
+                          : null,
                       buttonWidth: width - 40,
                       textStyle: semiBold16TextStyle(cWhiteColor),
                     ),

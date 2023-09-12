@@ -41,7 +41,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'Create New Password',
+                        title: 'Reset Password',
                         subTitle: 'Create a strong password to prevent unknown login of your personal account.',
                       ),
                       kH50sizedBox,
@@ -64,8 +64,8 @@ class ResetPasswordScreen extends StatelessWidget {
                           }
                         },
                         onSubmit: (text) {},
-                        obscureText: _authenticationController.isResetNewPasswordToggleObscure.value,
                         inputAction: TextInputAction.next,
+                        obscureText: _authenticationController.isResetNewPasswordToggleObscure.value,
                         inputType: TextInputType.visiblePassword,
                       ),
                       kH24sizedBox,

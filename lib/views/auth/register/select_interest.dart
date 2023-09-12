@@ -78,9 +78,12 @@ class SelectInterestScreen extends StatelessWidget {
                     const Spacer(),
                     CustomElevatedButton(
                       label: ksNext,
-                      onPressed: () {
-                        Get.toNamed(krUploadPicture);
-                      },
+                      onPressed: _authenticationController.interestIndex.isNotEmpty
+                          ? () {
+                              Get.toNamed(krUploadPicture);
+                              _authenticationController.resetChipSelection();
+                            }
+                          : null,
                       buttonWidth: width - 40,
                       textStyle: semiBold16TextStyle(cWhiteColor),
                     ),

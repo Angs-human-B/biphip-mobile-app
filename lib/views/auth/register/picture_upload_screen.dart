@@ -43,69 +43,91 @@ class PictureUploadScreen extends StatelessWidget {
                       title: 'Add a profile photo to let your friends and family find you',
                     ),
                     kH35sizedBox,
-                    ClipOval(
-                      child: Container(
-                        height: h134,
-                        width: h134,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: Image.file(
-                          _authenticationController.profileFile.value ?? File(''),
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => ClipOval(
-                            child: Image.asset('assets/images/profileDefault.png'),
+                    Stack(
+                      children: [
+                        ClipOval(
+                          child: Container(
+                            height: h134,
+                            width: h134,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image.file(
+                              _authenticationController.profileFile.value ?? File(''),
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => ClipOval(
+                                child: Image.asset('assets/images/profileDefault.png'),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        if (_authenticationController.isProfileImageChanged.value)
+                          Positioned(
+                              top: -10,
+                              right: -10,
+                              child: IconButton(
+                                icon: const Icon(
+                                  BipHip.circleCrossNew,
+                                  color: cRedColor,
+                                  size: kIconSize30,
+                                ),
+                                onPressed: () {
+                                  _authenticationController.resetProfileImage();
+                                },
+                              ))
+                      ],
                     ),
                     const Spacer(),
                     CustomElevatedButton(
                       label: _authenticationController.isProfileImageChanged.value ? 'Save photo' : 'Add Photo',
                       onPressed: () {
-                        showModalBottomSheet(
-                          backgroundColor: cWhiteColor,
-                          context: context,
-                          builder: (context) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                kH35sizedBox,
-                                CustomElevatedButton(
-                                  label: 'Add photo',
-                                  prefixIcon: BipHip.camera,
-                                  labelIconColor: cIconColor,
-                                  onPressed: () async {
-                                    ll(_authenticationController.isProfileImageChanged.value);
-                                    await _globalController.selectImageSource(_authenticationController.isProfileImageChanged,
-                                        _authenticationController.profileLink, _authenticationController.profileFile, 'camera');
-                                  },
-                                  buttonHeight: h32,
-                                  buttonWidth: width - 40,
-                                  buttonColor: cWhiteColor,
-                                  borderColor: cLineColor,
-                                  textStyle: semiBold14TextStyle(cBlackColor),
-                                ),
-                                kH16sizedBox,
-                                CustomElevatedButton(
-                                  label: 'Choose from gallery',
-                                  prefixIcon: BipHip.photo,
-                                  labelIconColor: cIconColor,
-                                  onPressed: () async {
-                                    await _globalController.selectImageSource(_authenticationController.isProfileImageChanged,
-                                        _authenticationController.profileLink, _authenticationController.profileFile, 'gallery');
-                                  },
-                                  buttonHeight: h32,
-                                  buttonWidth: width - 40,
-                                  buttonColor: cWhiteColor,
-                                  borderColor: cLineColor,
-                                  textStyle: semiBold14TextStyle(cBlackColor),
-                                ),
-                                kHBottomSizedBox
-                              ],
-                            );
-                          },
-                        );
+                        if (!_authenticationController.isProfileImageChanged.value) {
+                          showModalBottomSheet(
+                            backgroundColor: cWhiteColor,
+                            context: context,
+                            builder: (context) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  kH35sizedBox,
+                                  CustomElevatedButton(
+                                    label: 'Add photo',
+                                    prefixIcon: BipHip.camera,
+                                    labelIconColor: cIconColor,
+                                    onPressed: () async {
+                                      ll(_authenticationController.isProfileImageChanged.value);
+                                      await _globalController.selectImageSource(_authenticationController.isProfileImageChanged,
+                                          _authenticationController.profileLink, _authenticationController.profileFile, 'camera');
+                                    },
+                                    buttonHeight: h32,
+                                    buttonWidth: width - 40,
+                                    buttonColor: cWhiteColor,
+                                    borderColor: cLineColor,
+                                    textStyle: semiBold14TextStyle(cBlackColor),
+                                  ),
+                                  kH16sizedBox,
+                                  CustomElevatedButton(
+                                    label: 'Choose from gallery',
+                                    prefixIcon: BipHip.photo,
+                                    labelIconColor: cIconColor,
+                                    onPressed: () async {
+                                      await _globalController.selectImageSource(_authenticationController.isProfileImageChanged,
+                                          _authenticationController.profileLink, _authenticationController.profileFile, 'gallery');
+                                    },
+                                    buttonHeight: h32,
+                                    buttonWidth: width - 40,
+                                    buttonColor: cWhiteColor,
+                                    borderColor: cLineColor,
+                                    textStyle: semiBold14TextStyle(cBlackColor),
+                                  ),
+                                  kHBottomSizedBox
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          _authenticationController.resetProfileImage();
+                        }
                       },
                       buttonWidth: width - 40,
                       textStyle: semiBold16TextStyle(cWhiteColor),

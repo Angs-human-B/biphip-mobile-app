@@ -25,7 +25,7 @@ class OTPVerifyScreen extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksRegisterNow.tr,
+              title: ksRegistration.tr,
               onBack: () async {
                 Get.back();
               },
@@ -53,7 +53,7 @@ class OTPVerifyScreen extends StatelessWidget {
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
                         title: 'OTP Verification',
-                        subTitle: 'Enter the verification code we just sent to your number at +880195XXXXXXX34',
+                        subTitle: 'Enter the verification code we just sent to your email',
                       ),
                       kH50sizedBox,
                       OtpTextField(
@@ -84,6 +84,7 @@ class OTPVerifyScreen extends StatelessWidget {
                               suffix: ksResend.tr,
                               onPressed: () async {
                                 FocusScope.of(context).unfocus();
+                                _authenticationController.isOTPResendClick.value = false;
                               },
                             )
                           : CountDown(

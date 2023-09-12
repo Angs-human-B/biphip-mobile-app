@@ -26,7 +26,7 @@ class Register extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksRegisterNow.tr,
+              title: ksRegistration.tr,
               hasBackButton: false,
               onBack: () async {
                 Get.back();
