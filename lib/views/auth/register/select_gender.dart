@@ -69,7 +69,8 @@ class SelectGender extends StatelessWidget {
                               rightText: '',
                               rightTextStyle: regular10TextStyle(cBlackColor),
                               title: 'Select Gender',
-                              isRightButtonShow: false);
+                              isRightButtonShow: false,
+                              bottomSheetHeight: 260);
                         },
                         text: _authenticationController.gender.value,
                         hintText: "Select gender",
@@ -109,39 +110,39 @@ class _GenderListContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Column(
-      // mainAxisSize: MainAxisSize.min,
-      children: [
-        RadioListTile(
-          title: Text(genders[0]),
-          value: genders[0],
-          activeColor: cPrimaryColor,
-          groupValue: authenticationController.gender.value,
-          controlAffinity: ListTileControlAffinity.trailing,
-          onChanged: (value) {
-            authenticationController.gender.value = value;
-          },
-        ),
-        RadioListTile(
-          title: Text(genders[1]),
-          value: genders[1],
-          activeColor: cPrimaryColor,
-          groupValue: authenticationController.gender.value,
-          controlAffinity: ListTileControlAffinity.trailing,
-          onChanged: (value) {
-            authenticationController.gender.value = value;
-          },
-        ),
-        RadioListTile(
-          title: Text(genders[2]),
-          value: genders[2],
-          activeColor: cPrimaryColor,
-          groupValue: authenticationController.gender.value,
-          controlAffinity: ListTileControlAffinity.trailing,
-          onChanged: (value) {
-            authenticationController.gender.value = value;
-          },
-        ),
-      ],
-    ));
+          // mainAxisSize: MainAxisSize.min,
+          children: [
+            RadioListTile(
+              title: Text(genders[0]),
+              value: genders[0],
+              activeColor: cPrimaryColor,
+              groupValue: authenticationController.gender.value,
+              controlAffinity: ListTileControlAffinity.trailing,
+              onChanged: (value) {
+                authenticationController.gender.value = value;
+              },
+            ),
+            RadioListTile(
+              title: Text(genders[1]),
+              value: genders[1],
+              activeColor: cPrimaryColor,
+              groupValue: authenticationController.gender.value,
+              controlAffinity: ListTileControlAffinity.trailing,
+              onChanged: (value) {
+                authenticationController.gender.value = value;
+              },
+            ),
+            RadioListTile(
+              title: Text(genders[2]),
+              value: genders[2],
+              activeColor: cPrimaryColor,
+              groupValue: authenticationController.gender.value,
+              controlAffinity: ListTileControlAffinity.trailing,
+              onChanged: (value) {
+                authenticationController.gender.value = value;
+              },
+            ),
+          ],
+        ));
   }
 }
