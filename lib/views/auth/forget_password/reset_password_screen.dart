@@ -4,10 +4,9 @@ import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class SetPassword extends StatelessWidget {
-  SetPassword({super.key});
+class ResetPasswordScreen extends StatelessWidget {
+  ResetPasswordScreen({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
 
@@ -23,24 +22,10 @@ class SetPassword extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksRegisterNow.tr,
+              title: ksForgetPassword.tr,
               onBack: () async {
                 Get.back();
               },
-              action: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CircularPercentIndicator(
-                    animateFromLastPercent: false,
-                    radius: 10.0,
-                    lineWidth: 2.0,
-                    animation: true,
-                    percent: .80,
-                    circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: cPrimaryColor,
-                  ),
-                ),
-              ],
             ),
           ),
           backgroundColor: cWhiteColor,
@@ -56,52 +41,52 @@ class SetPassword extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'Create Password',
+                        title: 'Create New Password',
                         subTitle: 'Create a strong password to prevent unknown login of your personal account.',
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
-                        controller: _authenticationController.registerPasswordTextEditingController,
-                        hint: "Password",
-                        suffixIcon: _authenticationController.isRegisterPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
+                        controller: _authenticationController.resetNewPasswordTextEditingController,
+                        hint: "Type Password",
+                        suffixIcon: _authenticationController.isResetNewPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                         onSuffixPress: () {
-                          _authenticationController.isRegisterPasswordToggleObscure.value = !_authenticationController.isRegisterPasswordToggleObscure.value;
+                          _authenticationController.isResetNewPasswordToggleObscure.value = !_authenticationController.isResetNewPasswordToggleObscure.value;
                         },
                         onChanged: (text) {
-                          _authenticationController.checkPassword();
+                          _authenticationController.checkCanResetPassword();
                         },
                         onSubmit: (text) {},
-                        obscureText: _authenticationController.isRegisterPasswordToggleObscure.value,
+                        obscureText: _authenticationController.isResetNewPasswordToggleObscure.value,
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.visiblePassword,
                       ),
                       kH24sizedBox,
                       CustomModifiedTextField(
-                        controller: _authenticationController.registerConfirmPasswordTextEditingController,
+                        controller: _authenticationController.resetConfirmPasswordTextEditingController,
                         hint: "Confirm password",
-                        suffixIcon: _authenticationController.isRegisterConfirmPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
+                        suffixIcon: _authenticationController.isResetConfirmPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                         onSuffixPress: () {
-                          _authenticationController.isRegisterConfirmPasswordToggleObscure.value =
-                              !_authenticationController.isRegisterConfirmPasswordToggleObscure.value;
+                          _authenticationController.isResetConfirmPasswordToggleObscure.value =
+                              !_authenticationController.isResetConfirmPasswordToggleObscure.value;
                         },
                         onChanged: (text) {
-                          _authenticationController.checkPassword();
+                          _authenticationController.checkCanResetPassword();
                         },
                         onSubmit: (text) {},
-                        obscureText: _authenticationController.isRegisterConfirmPasswordToggleObscure.value,
+                        obscureText: _authenticationController.isResetConfirmPasswordToggleObscure.value,
                         inputAction: TextInputAction.done,
                         inputType: TextInputType.visiblePassword,
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
                         label: ksNext,
-                        onPressed: _authenticationController.checkValidPassword.value
+                        onPressed: _authenticationController.canResetPassword.value
                             ? () {
-                                Get.toNamed(krOTP);
+                                Get.toNamed(krLogin);
                               }
                             : null,
                         buttonWidth: width - 40,
-                        textStyle: _authenticationController.checkValidPassword.value
+                        textStyle: _authenticationController.canResetPassword.value
                             ? semiBold16TextStyle(cWhiteColor)
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),

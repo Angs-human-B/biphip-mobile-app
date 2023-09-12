@@ -4,10 +4,9 @@ import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class SetEmail extends StatelessWidget {
-  SetEmail({super.key});
+class ForgotPasswordScreen extends StatelessWidget {
+  ForgotPasswordScreen({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
 
@@ -23,24 +22,10 @@ class SetEmail extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksRegisterNow.tr,
+              title: ksForgetPassword.tr,
               onBack: () async {
                 Get.back();
               },
-              action: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CircularPercentIndicator(
-                    animateFromLastPercent: false,
-                    radius: 10.0,
-                    lineWidth: 2.0,
-                    animation: true,
-                    percent: .64,
-                    circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: cPrimaryColor,
-                  ),
-                ),
-              ],
             ),
           ),
           backgroundColor: cWhiteColor,
@@ -56,15 +41,15 @@ class SetEmail extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'What\'s your email?',
+                        title: 'Type your email or Phone Number',
                         subTitle: 'We will send code to your mail to confirm your account.',
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
-                        controller: _authenticationController.registerEmailTextEditingController,
+                        controller: _authenticationController.forgotPasswordEmailTextEditingController,
                         hint: "Email",
                         onChanged: (text) {
-                          _authenticationController.checkEmail();
+                          _authenticationController.checkCanSendOTP();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,
@@ -73,13 +58,13 @@ class SetEmail extends StatelessWidget {
                       kH24sizedBox,
                       CustomElevatedButton(
                         label: ksNext,
-                        onPressed: _authenticationController.checkValidEmail.value
+                        onPressed: _authenticationController.canSendOTP.value
                             ? () {
-                                Get.toNamed(krSetNewPass);
+                                Get.toNamed(krForgetPasswordOTP);
                               }
                             : null,
                         buttonWidth: width - 40,
-                        textStyle: _authenticationController.checkValidEmail.value
+                        textStyle: _authenticationController.canSendOTP.value
                             ? semiBold16TextStyle(cWhiteColor)
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),

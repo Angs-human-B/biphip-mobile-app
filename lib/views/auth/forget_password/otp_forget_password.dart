@@ -1,13 +1,14 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/count_down.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
+import 'package:bip_hip/widgets/common/linkup_text.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
-import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:bip_hip/widgets/textfields/otp_textfield.dart';
 
-class SetEmail extends StatelessWidget {
-  SetEmail({super.key});
+class ForgetPasswordOTP extends StatelessWidget {
+  ForgetPasswordOTP({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
 
@@ -23,24 +24,10 @@ class SetEmail extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksRegisterNow.tr,
+              title: ksForgetPassword.tr,
               onBack: () async {
                 Get.back();
               },
-              action: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CircularPercentIndicator(
-                    animateFromLastPercent: false,
-                    radius: 10.0,
-                    lineWidth: 2.0,
-                    animation: true,
-                    percent: .64,
-                    circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: cPrimaryColor,
-                  ),
-                ),
-              ],
             ),
           ),
           backgroundColor: cWhiteColor,
@@ -56,33 +43,44 @@ class SetEmail extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'What\'s your email?',
-                        subTitle: 'We will send code to your mail to confirm your account.',
+                        title: 'OTP Verification',
+                        subTitle: 'Enter the verification code we just sent to your number at +880195XXXXXXX34',
                       ),
                       kH50sizedBox,
-                      CustomModifiedTextField(
-                        controller: _authenticationController.registerEmailTextEditingController,
-                        hint: "Email",
-                        onChanged: (text) {
-                          _authenticationController.checkEmail();
+                      OtpTextField(
+                        controller: _authenticationController.forgotPasswordOTPTextEditingController,
+                        onChange: (value) {
+                          _authenticationController.checkCanForgotPasswordOTPVerifyNow();
                         },
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.done,
-                        inputType: TextInputType.emailAddress,
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
                         label: ksNext,
-                        onPressed: _authenticationController.checkValidEmail.value
+                        onPressed: _authenticationController.canForgotPasswordOTPVerifyNow.value
                             ? () {
-                                Get.toNamed(krSetNewPass);
+                                Get.toNamed(krResetPass);
                               }
                             : null,
                         buttonWidth: width - 40,
-                        textStyle: _authenticationController.checkValidEmail.value
+                        textStyle: _authenticationController.canForgotPasswordOTPVerifyNow.value
                             ? semiBold16TextStyle(cWhiteColor)
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
+                      kH25sizedBox,
+                      _authenticationController.isOTPResendClick.value
+                          ? LinkupTextRow(
+                              prefix: ksResendCode,
+                              suffix: ksResend.tr,
+                              onPressed: () async {
+                                FocusScope.of(context).unfocus();
+                              },
+                            )
+                          : CountDown(
+                              seconds: 120,
+                              onEnd: () {
+                                _authenticationController.isOTPResendClick.value = true;
+                              },
+                            ),
                     ],
                   ),
                 ),

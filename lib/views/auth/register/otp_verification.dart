@@ -1,21 +1,21 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/count_down.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
-import 'package:bip_hip/widgets/common/custom_selection_button.dart';
+import 'package:bip_hip/widgets/common/linkup_text.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bip_hip/widgets/textfields/otp_textfield.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class SelectBirthday extends StatelessWidget {
-  SelectBirthday({super.key});
+class OTPVerifyScreen extends StatelessWidget {
+  OTPVerifyScreen({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
 
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
-
     return Container(
       color: cWhiteColor,
       child: SafeArea(
@@ -33,11 +33,11 @@ class SelectBirthday extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: CircularPercentIndicator(
-                    animateFromLastPercent: false,
+                    // animateFromLastPercent: true,
                     radius: 10.0,
                     lineWidth: 2.0,
                     animation: true,
-                    percent: .32,
+                    percent: 1,
                     circularStrokeCap: CircularStrokeCap.round,
                     progressColor: cPrimaryColor,
                   ),
@@ -58,42 +58,44 @@ class SelectBirthday extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'What\'s your birthday?',
-                        subTitle: 'You can change your birthday from your profile settings.',
+                        title: 'OTP Verification',
+                        subTitle: 'Enter the verification code we just sent to your number at +880195XXXXXXX34',
                       ),
                       kH50sizedBox,
-                      CustomSelectionButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return SizedBox(
-                                  height: height * 0.4,
-                                  child: CupertinoDatePicker(
-                                    mode: CupertinoDatePickerMode.date,
-                                    onDateTimeChanged: (value) {
-                                      _authenticationController.birthDay.value = value.toString();
-                                    },
-                                  ),
-                                );
-                              });
+                      OtpTextField(
+                        controller: _authenticationController.otpTextEditingController,
+                        onChange: (value) {
+                          _authenticationController.checkCanOTPVerifyNow();
                         },
-                        text: _authenticationController.birthDay.value,
-                        hintText: "Select date of birth",
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
                         label: ksNext,
-                        onPressed: _authenticationController.birthDay.value != ''
+                        onPressed: _authenticationController.canOTPVerifyNow.value
                             ? () {
-                                Get.toNamed(krSelectGender);
+                                Get.toNamed(krSelectProfession);
                               }
                             : null,
                         buttonWidth: width - 40,
-                        textStyle: _authenticationController.birthDay.value != ''
+                        textStyle: _authenticationController.canOTPVerifyNow.value
                             ? semiBold16TextStyle(cWhiteColor)
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
+                      kH25sizedBox,
+                      _authenticationController.isOTPResendClick.value
+                          ? LinkupTextRow(
+                              prefix: ksResendCode,
+                              suffix: ksResend.tr,
+                              onPressed: () async {
+                                FocusScope.of(context).unfocus();
+                              },
+                            )
+                          : CountDown(
+                              seconds: 120,
+                              onEnd: () {
+                                _authenticationController.isOTPResendClick.value = true;
+                              },
+                            ),
                     ],
                   ),
                 ),

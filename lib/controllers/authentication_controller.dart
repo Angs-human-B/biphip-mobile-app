@@ -1,6 +1,18 @@
+import 'dart:io';
+
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class AuthenticationController extends GetxController {
+  final RxBool isProfessionSelected = RxBool(false);
+  final RxBool isInterestSelected = RxBool(false);
+  final RxInt professionIndex = RxInt(-1);
+  final RxList<int> interestIndex = RxList<int>([]);
+  final RxString profileLink = RxString('');
+  final Rx<File?> profileFile = File('').obs;
+  final RxBool isProfileImageChanged = RxBool(false);
+RxList users =RxList(userData);
+
+
   // final ApiController _apiController = ApiController();
   // final SpController _spController = SpController();
   // final GlobalController _globalController = Get.find<GlobalController>();
@@ -106,6 +118,7 @@ class AuthenticationController extends GetxController {
   final RxBool isReferredRegistration = RxBool(false);
   final RxBool checkValidName = RxBool(false);
   final RxBool checkValidEmail = RxBool(false);
+  final RxBool checkValidPassword = RxBool(false);
 
   void resetRegisterScreen() {
     registerFirstNameTextEditingController.clear();
@@ -134,6 +147,15 @@ class AuthenticationController extends GetxController {
       checkValidEmail.value = true;
     } else {
       checkValidEmail.value = false;
+    }
+  }
+
+  void checkPassword() {
+    if (registerPasswordTextEditingController.text.length >= kMinPasswordLength &&
+        registerPasswordTextEditingController.text == registerConfirmPasswordTextEditingController.text) {
+      checkValidPassword.value = true;
+    } else {
+      checkValidPassword.value = false;
     }
   }
   // void checkCanRegister() {
@@ -188,7 +210,10 @@ class AuthenticationController extends GetxController {
   */
 
   final TextEditingController forgotPasswordEmailTextEditingController = TextEditingController();
+  final TextEditingController forgotPasswordOTPTextEditingController = TextEditingController();
   final RxBool canSendOTP = RxBool(false);
+  final RxBool canForgotPasswordOTPVerifyNow = RxBool(false);
+
 
   void resetForgotPasswordScreen() {
     forgotPasswordEmailTextEditingController.clear();
@@ -200,6 +225,14 @@ class AuthenticationController extends GetxController {
       canSendOTP.value = true;
     } else {
       canSendOTP.value = false;
+    }
+  }
+
+  void checkCanForgotPasswordOTPVerifyNow() {
+    if (forgotPasswordOTPTextEditingController.text.length == kOTPLength) {
+      canForgotPasswordOTPVerifyNow.value = true;
+    } else {
+      canForgotPasswordOTPVerifyNow.value = false;
     }
   }
 

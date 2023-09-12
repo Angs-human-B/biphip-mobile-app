@@ -88,7 +88,9 @@ class Login extends StatelessWidget {
                         onTapCheckBox: (v) {
                           _authenticationController.isLoginRememberCheck.value = !_authenticationController.isLoginRememberCheck.value;
                         },
-                        onPressForgetButton: () {},
+                        onPressForgetButton: () {
+                          Get.toNamed(krForgotPassword);
+                        },
                       ),
                     ),
                     kH16sizedBox,

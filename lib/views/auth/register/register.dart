@@ -6,6 +6,7 @@ import 'package:bip_hip/widgets/common/custom_container.dart';
 import 'package:bip_hip/widgets/common/linkup_text.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class Register extends StatelessWidget {
   Register({super.key});
@@ -30,6 +31,20 @@ class Register extends StatelessWidget {
               onBack: () async {
                 Get.back();
               },
+              action: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CircularPercentIndicator(
+                    animateFromLastPercent: false,
+                    radius: 10.0,
+                    lineWidth: 2.0,
+                    animation: true,
+                    percent: .16,
+                    circularStrokeCap: CircularStrokeCap.round,
+                    progressColor: cPrimaryColor,
+                  ),
+                ),
+              ],
             ),
           ),
           backgroundColor: cWhiteColor,
@@ -109,7 +124,7 @@ class Register extends StatelessWidget {
                             : null,
                         buttonWidth: width - 40,
                         textStyle: _authenticationController.checkValidName.value
-                            ? semiBold16TextStyle(cBlackColor)
+                            ? semiBold16TextStyle(cWhiteColor)
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
                       kH24sizedBox,
