@@ -153,7 +153,7 @@ class Login extends StatelessWidget {
                       prefix: "Don't have an account?",
                       suffix: "Register Now",
                       onPressed: () {
-                        Get.toNamed(krRegister);
+                        Get.offAllNamed(krRegister);
                       },
                     ),
                     kH40sizedBox,

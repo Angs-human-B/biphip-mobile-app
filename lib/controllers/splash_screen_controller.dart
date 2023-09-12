@@ -13,7 +13,7 @@ class SplashScreenController extends GetxController {
     super.onInit();
   }
 
-  bool rememberStatus = true;
+  bool rememberStatus = false;
   Future<void> getRemember() async {
     bool? state = await _spController.getRememberMe();
     if (state == null || state == false) {
@@ -30,7 +30,7 @@ class SplashScreenController extends GetxController {
     return Timer(
       duration,
       () async {
-        if (!rememberStatus) {
+        if (rememberStatus) {
           Get.offAllNamed(krSavedUserLogin);
         } else {
           Get.find<AuthenticationController>().resetLoginScreen();
