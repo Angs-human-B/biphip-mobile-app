@@ -2,10 +2,11 @@ import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
+import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+
 
 class SelectBirthday extends StatelessWidget {
   SelectBirthday({super.key});
@@ -29,18 +30,10 @@ class SelectBirthday extends StatelessWidget {
               onBack: () async {
                 Get.back();
               },
-              action: [
+              action:const [
                 Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CircularPercentIndicator(
-                    animateFromLastPercent: false,
-                    radius: 10.0,
-                    lineWidth: 2.0,
-                    animation: true,
-                    percent: .32,
-                    circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: cPrimaryColor,
-                  ),
+                  padding:  EdgeInsets.only(right: 8.0),
+                  child:CustomCircularProgressBar(percent: 0.32,),
                 ),
               ],
             ),

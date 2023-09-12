@@ -119,20 +119,26 @@ RxList users =RxList(userData);
   final RxBool checkValidName = RxBool(false);
   final RxBool checkValidEmail = RxBool(false);
   final RxBool checkValidPassword = RxBool(false);
+  final RxBool canRegister = RxBool(false);
+
 
   void resetRegisterScreen() {
     registerFirstNameTextEditingController.clear();
     registerLastNameTextEditingController.clear();
     registerEmailTextEditingController.clear();
-    registerPhoneTextEditingController.clear();
+    // registerPhoneTextEditingController.clear();
     registerPasswordTextEditingController.clear();
     registerConfirmPasswordTextEditingController.clear();
     isRegisterPasswordToggleObscure.value = true;
     isRegisterConfirmPasswordToggleObscure.value = true;
+    checkValidName.value = false;
+    checkValidEmail.value = false;
+    checkValidPassword.value = false;
     canRegister.value = false;
-  }
+    birthDay.value = '';
+    gender.value = '';
 
-  final RxBool canRegister = RxBool(false);
+  }
 
   void checkName() {
     if (registerFirstNameTextEditingController.text.trim() != '' && registerLastNameTextEditingController.text.trim() != '') {
@@ -217,7 +223,9 @@ RxList users =RxList(userData);
 
   void resetForgotPasswordScreen() {
     forgotPasswordEmailTextEditingController.clear();
+    forgotPasswordOTPTextEditingController.clear();
     canSendOTP.value = false;
+    canForgotPasswordOTPVerifyNow.value = false;
   }
 
   void checkCanSendOTP() {
