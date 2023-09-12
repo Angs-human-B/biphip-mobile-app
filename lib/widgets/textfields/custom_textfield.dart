@@ -1,7 +1,7 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class CustomModifiedTextField extends StatelessWidget {
-  final String? label, hint;
+  final String? label, hint, errorText;
   final bool autoFocus, obscureText, readOnly;
   final TextEditingController controller;
   final TextInputType inputType;
@@ -36,6 +36,7 @@ class CustomModifiedTextField extends StatelessWidget {
     this.onSubmit,
     this.onChanged,
     Key? key,
+    this.errorText,
   }) : super(key: key);
 
   @override
@@ -72,7 +73,8 @@ class CustomModifiedTextField extends StatelessWidget {
         controller: controller,
         cursorColor: cBlackColor,
         decoration: InputDecoration(
-          
+          errorText: errorText,
+          errorStyle: regular12TextStyle(cRedColor),
           isDense: true,
           filled: true,
           prefixIcon: prefixIcon != null

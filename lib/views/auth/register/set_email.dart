@@ -6,7 +6,6 @@ import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
 
-
 class SetEmail extends StatelessWidget {
   SetEmail({super.key});
 
@@ -31,7 +30,9 @@ class SetEmail extends StatelessWidget {
               action: const [
                 Padding(
                   padding: EdgeInsets.only(right: 8.0),
-                  child: CustomCircularProgressBar(percent: 0.64,),
+                  child: CustomCircularProgressBar(
+                    percent: 0.64,
+                  ),
                 ),
               ],
             ),
@@ -55,9 +56,17 @@ class SetEmail extends StatelessWidget {
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerEmailTextEditingController,
+                        errorText: _authenticationController.registerEmailError.value,
                         hint: "Email",
                         onChanged: (text) {
                           _authenticationController.checkEmail();
+                          if (_authenticationController.registerEmailTextEditingController.text.trim() == '') {
+                            _authenticationController.registerEmailError.value = 'Email can\'t be empty';
+                          } else if (!_authenticationController.registerEmailTextEditingController.text.trim().isValidEmail) {
+                            _authenticationController.registerEmailError.value = 'Invalid email address';
+                          } else {
+                            _authenticationController.registerEmailError.value = '';
+                          }
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,

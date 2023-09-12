@@ -8,7 +8,6 @@ import 'package:bip_hip/widgets/common/linkup_text.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
 
-
 class Register extends StatelessWidget {
   Register({super.key});
 
@@ -32,10 +31,12 @@ class Register extends StatelessWidget {
               onBack: () async {
                 Get.back();
               },
-              action:const [
+              action: const [
                 Padding(
-                  padding:  EdgeInsets.only(right: 8.0),
-                  child: CustomCircularProgressBar(percent: .16,),
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: CustomCircularProgressBar(
+                    percent: .16,
+                  ),
                 ),
               ],
             ),
@@ -88,9 +89,15 @@ class Register extends StatelessWidget {
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerFirstNameTextEditingController,
+                        errorText: _authenticationController.firstNameError.value,
                         hint: "First Name",
                         onChanged: (text) {
                           _authenticationController.checkName();
+                          if (_authenticationController.registerFirstNameTextEditingController.text.trim() == '') {
+                            _authenticationController.firstNameError.value = "First name can't be empty";
+                          } else {
+                            _authenticationController.firstNameError.value = "";
+                          }
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
@@ -99,9 +106,15 @@ class Register extends StatelessWidget {
                       kH24sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerLastNameTextEditingController,
+                        errorText: _authenticationController.lastNameError.value,
                         hint: "Last Name",
                         onChanged: (text) {
                           _authenticationController.checkName();
+                          if (_authenticationController.registerLastNameTextEditingController.text.trim() == '') {
+                            _authenticationController.lastNameError.value = "Last name can't be empty";
+                          } else {
+                            _authenticationController.lastNameError.value = "";
+                          }
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,

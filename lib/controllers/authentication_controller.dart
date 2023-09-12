@@ -42,6 +42,8 @@ class AuthenticationController extends GetxController {
   final TextEditingController loginPasswordTextEditingController = TextEditingController();
   final RxBool isLoginPasswordToggleObscure = RxBool(true);
   final RxBool isLoginRememberCheck = RxBool(false);
+  final RxString loginEmailErrorText = RxString('');
+  final RxString loginPasswordErrorText = RxString('');
 
   void resetLoginScreen() {
     loginEmailTextEditingController.clear();
@@ -115,6 +117,11 @@ class AuthenticationController extends GetxController {
   final TextEditingController registerPhoneTextEditingController = TextEditingController();
   final TextEditingController registerPasswordTextEditingController = TextEditingController();
   final TextEditingController registerConfirmPasswordTextEditingController = TextEditingController();
+  final RxString firstNameError = RxString('');
+  final RxString lastNameError = RxString('');
+  final RxString registerEmailError = RxString('');
+  final RxString registerPasswordError = RxString('');
+  final RxString registerConfirmPasswordError = RxString('');
   final RxString birthDay = RxString('');
   final RxString gender = RxString('');
   final RxBool isRegisterPasswordToggleObscure = RxBool(true);
