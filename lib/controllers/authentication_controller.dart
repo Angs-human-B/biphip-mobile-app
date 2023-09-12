@@ -228,6 +228,9 @@ class AuthenticationController extends GetxController {
   final TextEditingController forgotPasswordOTPTextEditingController = TextEditingController();
   final RxBool canSendOTP = RxBool(false);
   final RxBool canForgotPasswordOTPVerifyNow = RxBool(false);
+  final RxString forgotPasswordEmailError = RxString('');
+  final RxString resetPasswordError = RxString('');
+  final RxString resetConfirmPasswordError = RxString('');
 
   void resetForgotPasswordScreen() {
     forgotPasswordEmailTextEditingController.clear();

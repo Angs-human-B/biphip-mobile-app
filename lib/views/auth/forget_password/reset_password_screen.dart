@@ -47,6 +47,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.resetNewPasswordTextEditingController,
+                        errorText: _authenticationController.resetPasswordError.value,
                         hint: "Type Password",
                         suffixIcon: _authenticationController.isResetNewPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                         onSuffixPress: () {
@@ -54,6 +55,13 @@ class ResetPasswordScreen extends StatelessWidget {
                         },
                         onChanged: (text) {
                           _authenticationController.checkCanResetPassword();
+                          if (_authenticationController.resetNewPasswordTextEditingController.text.trim() == '') {
+                            _authenticationController.resetPasswordError.value = 'Password can\'t be empty';
+                          } else if (_authenticationController.resetNewPasswordTextEditingController.text.length < kMinPasswordLength) {
+                            _authenticationController.resetPasswordError.value = 'Password can\'t be less then 8 characters';
+                          } else {
+                            _authenticationController.resetPasswordError.value = '';
+                          }
                         },
                         onSubmit: (text) {},
                         obscureText: _authenticationController.isResetNewPasswordToggleObscure.value,
@@ -63,6 +71,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       kH24sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.resetConfirmPasswordTextEditingController,
+                        errorText: _authenticationController.resetConfirmPasswordError.value,
                         hint: "Confirm password",
                         suffixIcon: _authenticationController.isResetConfirmPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                         onSuffixPress: () {
@@ -71,6 +80,14 @@ class ResetPasswordScreen extends StatelessWidget {
                         },
                         onChanged: (text) {
                           _authenticationController.checkCanResetPassword();
+                          if (_authenticationController.resetConfirmPasswordTextEditingController.text.trim() == '') {
+                            _authenticationController.resetConfirmPasswordError.value = 'Confirm password can\'t be empty';
+                          } else if (_authenticationController.resetConfirmPasswordTextEditingController.text !=
+                              _authenticationController.resetNewPasswordTextEditingController.text) {
+                            _authenticationController.resetConfirmPasswordError.value = 'Password doesn\'t match';
+                          } else {
+                            _authenticationController.resetConfirmPasswordError.value = '';
+                          }
                         },
                         onSubmit: (text) {},
                         obscureText: _authenticationController.isResetConfirmPasswordToggleObscure.value,
