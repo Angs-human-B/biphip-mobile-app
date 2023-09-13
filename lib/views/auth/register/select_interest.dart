@@ -19,6 +19,7 @@ class SelectInterestScreen extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
