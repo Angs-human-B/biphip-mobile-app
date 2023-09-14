@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/utils/icons/bip_hip_icons.dart';
 import 'package:bip_hip/widgets/common/checkbox_and_container.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/linkup_text.dart';

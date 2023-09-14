@@ -9,6 +9,7 @@ class ResetPasswordScreen extends StatelessWidget {
   ResetPasswordScreen({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final FocusNode _confirmPasswordFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +64,9 @@ class ResetPasswordScreen extends StatelessWidget {
                             _authenticationController.resetPasswordError.value = '';
                           }
                         },
-                        onSubmit: (text) {},
+                        onSubmit: (text) {
+                          FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
+                        },
                         inputAction: TextInputAction.next,
                         obscureText: _authenticationController.isResetNewPasswordToggleObscure.value,
                         inputType: TextInputType.visiblePassword,
@@ -71,6 +74,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       kH24sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.resetConfirmPasswordTextEditingController,
+                        focusNode: _confirmPasswordFocusNode,
                         errorText: _authenticationController.resetConfirmPasswordError.value,
                         hint: "Confirm password",
                         suffixIcon: _authenticationController.isResetConfirmPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,

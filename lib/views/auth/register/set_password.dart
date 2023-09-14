@@ -9,6 +9,7 @@ import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
 class SetPassword extends StatelessWidget {
   SetPassword({super.key});
 
+  final FocusNode _confirmPasswordFocusNode = FocusNode();
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
 
   @override
@@ -72,7 +73,9 @@ class SetPassword extends StatelessWidget {
                             _authenticationController.registerPasswordError.value = '';
                           }
                         },
-                        onSubmit: (text) {},
+                        onSubmit: (text) {
+                          FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
+                        },
                         obscureText: _authenticationController.isRegisterPasswordToggleObscure.value,
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.visiblePassword,
@@ -80,6 +83,7 @@ class SetPassword extends StatelessWidget {
                       kH24sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerConfirmPasswordTextEditingController,
+                        focusNode: _confirmPasswordFocusNode,
                         errorText: _authenticationController.registerConfirmPasswordError.value,
                         hint: "Confirm password",
                         suffixIcon: _authenticationController.isRegisterConfirmPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
