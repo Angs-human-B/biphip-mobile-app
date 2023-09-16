@@ -1,8 +1,12 @@
+import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
+import 'package:bip_hip/widgets/common/custom_button.dart';
 
 class Menu extends StatelessWidget {
-  const Menu({super.key});
+  Menu({super.key});
+
+  final ProfileController _profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,141 +36,210 @@ class Menu extends StatelessWidget {
             height: height,
             width: width,
             child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    kH20sizedBox,
-                    CustomMenuContainer(
-                      height: 64,
-                      leading: ClipOval(
-                        child: Container(
-                          height: h40,
-                          width: h40,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: Image.asset(
-                            'assets/images/profilePic.png',
-                            fit: BoxFit.cover,
+                child: Obx(
+                  () => Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      kH20sizedBox,
+                      CustomMenuContainer(
+                        height: 64,
+                        leading: ClipOval(
+                          child: Container(
+                            height: h40,
+                            width: h40,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image.asset(
+                              'assets/images/profilePic.png',
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
+                        text: 'Aminul Islam Rana',
+                        textStyle: semiBold18TextStyle(cBlackColor),
                       ),
-                      text: 'Aminul Islam Rana',
-                      textStyle: semiBold18TextStyle(cBlackColor),
-                    ),
-                    kH25sizedBox,
-                    Text(
-                      'All shortcuts',
-                      style: semiBold18TextStyle(cBlackColor),
-                    ),
-                    kH16sizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomMenuContainer(
-                          height: 64,
-                          width: (width / 2) - (kHorizontalPadding + 9),
-                          leading: const Icon(
-                            BipHip.friends,
-                            color: cPrimaryColor,
+                      kH25sizedBox,
+                      Text(
+                        'All shortcuts',
+                        style: semiBold18TextStyle(cBlackColor),
+                      ),
+                      kH16sizedBox,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomMenuContainer(
+                            height: 64,
+                            width: (width / 2) - (kHorizontalPadding + 9),
+                            leading: const Icon(
+                              BipHip.friends,
+                              color: cPrimaryColor,
+                            ),
+                            text: 'Friends',
+                            textStyle: semiBold16TextStyle(cBlackColor),
                           ),
-                          text: 'Friends',
-                          textStyle: semiBold16TextStyle(cBlackColor),
+                          CustomMenuContainer(
+                            height: 64,
+                            width: (width / 2) - (kHorizontalPadding + 9),
+                            leading: const Icon(
+                              BipHip.removeFamily,
+                              color: cPrimaryColor,
+                            ),
+                            text: 'Family',
+                            textStyle: semiBold16TextStyle(cBlackColor),
+                          )
+                        ],
+                      ),
+                      kH16sizedBox,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomMenuContainer(
+                            height: 64,
+                            width: (width / 2) - (kHorizontalPadding + 9),
+                            leading: const Icon(
+                              BipHip.imageFile,
+                              color: cPrimaryColor,
+                            ),
+                            text: 'Images',
+                            textStyle: semiBold16TextStyle(cBlackColor),
+                          ),
+                          CustomMenuContainer(
+                            height: 64,
+                            width: (width / 2) - (kHorizontalPadding + 9),
+                            leading: const Icon(
+                              BipHip.playNew,
+                              color: cPrimaryColor,
+                            ),
+                            text: 'Videos',
+                            textStyle: semiBold16TextStyle(cBlackColor),
+                          )
+                        ],
+                      ),
+                      kH16sizedBox,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomMenuContainer(
+                            height: 64,
+                            width: (width / 2) - (kHorizontalPadding + 9),
+                            leading: const Icon(
+                              BipHip.giftNew,
+                              color: cPrimaryColor,
+                            ),
+                            text: 'Stars',
+                            textStyle: semiBold16TextStyle(cBlackColor),
+                          ),
+                          CustomMenuContainer(
+                            height: 64,
+                            width: (width / 2) - (kHorizontalPadding + 9),
+                            leading: const Icon(
+                              BipHip.friends,
+                              color: cPrimaryColor,
+                            ),
+                            text: 'Badges',
+                            textStyle: semiBold16TextStyle(cBlackColor),
+                          )
+                        ],
+                      ),
+                      kH16sizedBox,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomMenuContainer(
+                            height: 64,
+                            width: (width / 2) - (kHorizontalPadding + 9),
+                            leading: const Icon(
+                              BipHip.selling,
+                              color: cPrimaryColor,
+                            ),
+                            text: 'Earnings',
+                            textStyle: semiBold16TextStyle(cBlackColor),
+                          ),
+                          CustomMenuContainer(
+                            height: 64,
+                            width: (width / 2) - (kHorizontalPadding + 9),
+                            leading: const Icon(
+                              BipHip.kids,
+                              color: cPrimaryColor,
+                            ),
+                            text: 'Kids',
+                            textStyle: semiBold16TextStyle(cBlackColor),
+                          )
+                        ],
+                      ),
+                      kH16sizedBox,
+                      CustomMenuContainer(
+                        height: 64,
+                        width: (width / 2) - (kHorizontalPadding + 9),
+                        leading: const Icon(
+                          BipHip.world,
+                          color: cPrimaryColor,
                         ),
-                        CustomMenuContainer(
-                          height: 64,
-                          width: (width / 2) - (kHorizontalPadding + 9),
-                          leading: const Icon(
-                            BipHip.removeFamily,
-                            color: cPrimaryColor,
-                          ),
-                          text: 'Family',
-                          textStyle: semiBold16TextStyle(cBlackColor),
-                        )
-                      ],
-                    ),
-                    kH16sizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomMenuContainer(
-                          height: 64,
-                          width: (width / 2) - (kHorizontalPadding + 9),
-                          leading: const Icon(
-                            BipHip.imageFile,
-                            color: cPrimaryColor,
-                          ),
-                          text: 'Images',
-                          textStyle: semiBold16TextStyle(cBlackColor),
+                        text: 'Shop',
+                        textStyle: semiBold16TextStyle(cBlackColor),
+                      ),
+                      kH20sizedBox,
+                      Container(
+                        width: width,
+                        height: 1,
+                        color: cLineColor,
+                      ),
+                      CustomExpandableMenuButton(
+                        height: h50,
+                        text: 'Help & support',
+                        onPressed: () {
+                          _profileController.isSupportButtonPressed.value = !_profileController.isSupportButtonPressed.value;
+                        },
+                      ),
+                      if (_profileController.isSupportButtonPressed.value || _profileController.isSettingButtonPressed.value)
+                        Container(
+                          width: width,
+                          height: 1,
+                          color: cLineColor,
                         ),
-                        CustomMenuContainer(
-                          height: 64,
-                          width: (width / 2) - (kHorizontalPadding + 9),
-                          leading: const Icon(
-                            BipHip.playNew,
-                            color: cPrimaryColor,
-                          ),
-                          text: 'Videos',
-                          textStyle: semiBold16TextStyle(cBlackColor),
-                        )
-                      ],
-                    ),
-                    kH16sizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomMenuContainer(
-                          height: 64,
-                          width: (width / 2) - (kHorizontalPadding + 9),
-                          leading: const Icon(
-                            BipHip.giftNew,
-                            color: cPrimaryColor,
-                          ),
-                          text: 'Stars',
-                          textStyle: semiBold16TextStyle(cBlackColor),
+                      if (_profileController.isSupportButtonPressed.value)
+                        ListOfButtons(
+                          list: _profileController.supportButtonContent,
                         ),
-                        CustomMenuContainer(
-                          height: 64,
-                          width: (width / 2) - (kHorizontalPadding + 9),
-                          leading: const Icon(
-                            BipHip.friends,
-                            color: cPrimaryColor,
-                          ),
-                          text: 'Family',
-                          textStyle: semiBold16TextStyle(cBlackColor),
-                        )
-                      ],
-                    ),
-                    kH16sizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomMenuContainer(
-                          height: 64,
-                          width: (width / 2) - (kHorizontalPadding + 9),
-                          leading: const Icon(
-                            BipHip.friends,
-                            color: cPrimaryColor,
-                          ),
-                          text: 'Friends',
-                          textStyle: semiBold16TextStyle(cBlackColor),
+                      if (_profileController.isSupportButtonPressed.value) kH10sizedBox,
+                      if (_profileController.isSupportButtonPressed.value || !_profileController.isSettingButtonPressed.value)
+                        Container(
+                          width: width,
+                          height: 1,
+                          color: cLineColor,
                         ),
-                        CustomMenuContainer(
-                          height: 64,
-                          width: (width / 2) - (kHorizontalPadding + 9),
-                          leading: const Icon(
-                            BipHip.removeFamily,
-                            color: cPrimaryColor,
-                          ),
-                          text: 'Family',
-                          textStyle: semiBold16TextStyle(cBlackColor),
-                        )
-                      ],
-                    )
-                  ],
+                      CustomExpandableMenuButton(
+                          onPressed: () {
+                            _profileController.isSettingButtonPressed.value = !_profileController.isSettingButtonPressed.value;
+                          },
+                          height: h50,
+                          text: 'Settings & privacy'),
+                      Container(
+                        width: width,
+                        height: 1,
+                        color: cLineColor,
+                      ),
+                      if (_profileController.isSettingButtonPressed.value)
+                        ListOfButtons(
+                          list: _profileController.settingsButtonContent,
+                        ),
+                      kH20sizedBox,
+                      CustomElevatedButton(
+                        label: 'Logout',
+                        onPressed: () {},
+                        buttonHeight: 42,
+                        buttonWidth: width - 40,
+                        buttonColor: cWhiteColor,
+                        textStyle: semiBold14TextStyle(cPrimaryColor),
+                      ),
+                      kHBottomSizedBox
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -210,6 +283,71 @@ class CustomMenuContainer extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CustomExpandableMenuButton extends StatelessWidget {
+  const CustomExpandableMenuButton({super.key, required this.text, this.height, this.onPressed});
+
+  final String text;
+  final VoidCallback? onPressed;
+  final double? height;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      style: kTextButtonStyle,
+      onPressed: onPressed,
+      child: Container(
+        height: height,
+        width: width,
+        color: cGreyBoxColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: k10Padding),
+          child: Row(
+            children: [
+              const Icon(
+                BipHip.info,
+                color: cIconColor,
+              ),
+              kW8sizedBox,
+              Text(
+                text,
+                style: semiBold16TextStyle(cBlackColor),
+              ),
+              const Spacer(),
+              const Icon(
+                BipHip.downArrow,
+                color: cIconColor,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ListOfButtons extends StatelessWidget {
+  const ListOfButtons({super.key, required this.list});
+
+  final List list;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: list.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        var item = list[index];
+        return Padding(
+          padding: const EdgeInsets.only(top: k10Padding),
+          child: CustomMenuContainer(
+              height: 48, onPressed: item['onPressed'], leading: const Icon(BipHip.openedEye), text: item['text'], textStyle: semiBold14TextStyle(cBlackColor)),
+        );
+      },
     );
   }
 }
