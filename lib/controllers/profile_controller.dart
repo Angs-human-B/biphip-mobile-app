@@ -4,6 +4,54 @@ class ProfileController extends GetxController{
   RxBool isSupportButtonPressed = RxBool(false);
   RxBool isSettingButtonPressed = RxBool(false);
 
+  List shortcutButtonContent = [
+    {
+      'text':'Friend',
+      'icon': BipHip.friends,
+      'onPressed':(){ll('Friend');}
+    },
+    {
+      'text':'Family',
+      'icon': BipHip.removeFamily,
+      'onPressed':(){ll('Family');}
+    },
+    {
+      'text':'Images',
+      'icon': BipHip.imageFile,
+      'onPressed':(){ll('Image');}
+    },
+    {
+      'text':'Videos',
+      'icon': BipHip.playNew,
+      'onPressed':(){ll('Videos');}
+    },
+    {
+      'text':'Stars',
+      'icon': BipHip.giftNew,
+      'onPressed':(){ll('Stars');}
+    },
+    {
+      'text':'Badges',
+      'icon': BipHip.friends,
+      'onPressed':(){ll('Badges');}
+    },
+    {
+      'text':'Earnings',
+      'icon': BipHip.selling,
+      'onPressed':(){ll('Earnings');}
+    },
+    {
+      'text':'Kids',
+      'icon': BipHip.kids,
+      'onPressed':(){ll('Kids');}
+    },
+    {
+      'text':'Shop',
+      'icon': BipHip.world,
+      'onPressed':(){ll('Shop');}
+    },
+  ];
+
   List supportButtonContent = [
     {
       'text':'Help Center',

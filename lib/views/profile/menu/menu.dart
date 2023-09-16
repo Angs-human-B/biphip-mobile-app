@@ -69,121 +69,29 @@ class Menu extends StatelessWidget {
                         style: semiBold18TextStyle(cBlackColor),
                       ),
                       kH16sizedBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Wrap(
+                        alignment: WrapAlignment.start,
+                        direction: Axis.horizontal,
+                        spacing: 17.0,
                         children: [
-                          CustomMenuContainer(
-                            height: 64,
-                            width: (width / 2) - (kHorizontalPadding + 9),
-                            leading: const Icon(
-                              BipHip.friends,
-                              color: cPrimaryColor,
+                          for (int i = 0; i < _profileController.shortcutButtonContent.length; i++)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: k16Padding),
+                              child: CustomMenuContainer(
+                                height: 64,
+                                width: (width / 2) - (kHorizontalPadding + 9),
+                                leading: Icon(
+                                  _profileController.shortcutButtonContent[i]['icon'],
+                                  color: cPrimaryColor,
+                                ),
+                                text: _profileController.shortcutButtonContent[i]['text'],
+                                textStyle: semiBold16TextStyle(cBlackColor),
+                                onPressed: _profileController.shortcutButtonContent[i]['onPressed'],
+                              ),
                             ),
-                            text: 'Friends',
-                            textStyle: semiBold16TextStyle(cBlackColor),
-                          ),
-                          CustomMenuContainer(
-                            height: 64,
-                            width: (width / 2) - (kHorizontalPadding + 9),
-                            leading: const Icon(
-                              BipHip.removeFamily,
-                              color: cPrimaryColor,
-                            ),
-                            text: 'Family',
-                            textStyle: semiBold16TextStyle(cBlackColor),
-                          )
                         ],
                       ),
-                      kH16sizedBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomMenuContainer(
-                            height: 64,
-                            width: (width / 2) - (kHorizontalPadding + 9),
-                            leading: const Icon(
-                              BipHip.imageFile,
-                              color: cPrimaryColor,
-                            ),
-                            text: 'Images',
-                            textStyle: semiBold16TextStyle(cBlackColor),
-                          ),
-                          CustomMenuContainer(
-                            height: 64,
-                            width: (width / 2) - (kHorizontalPadding + 9),
-                            leading: const Icon(
-                              BipHip.playNew,
-                              color: cPrimaryColor,
-                            ),
-                            text: 'Videos',
-                            textStyle: semiBold16TextStyle(cBlackColor),
-                          )
-                        ],
-                      ),
-                      kH16sizedBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomMenuContainer(
-                            height: 64,
-                            width: (width / 2) - (kHorizontalPadding + 9),
-                            leading: const Icon(
-                              BipHip.giftNew,
-                              color: cPrimaryColor,
-                            ),
-                            text: 'Stars',
-                            textStyle: semiBold16TextStyle(cBlackColor),
-                          ),
-                          CustomMenuContainer(
-                            height: 64,
-                            width: (width / 2) - (kHorizontalPadding + 9),
-                            leading: const Icon(
-                              BipHip.friends,
-                              color: cPrimaryColor,
-                            ),
-                            text: 'Badges',
-                            textStyle: semiBold16TextStyle(cBlackColor),
-                          )
-                        ],
-                      ),
-                      kH16sizedBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomMenuContainer(
-                            height: 64,
-                            width: (width / 2) - (kHorizontalPadding + 9),
-                            leading: const Icon(
-                              BipHip.selling,
-                              color: cPrimaryColor,
-                            ),
-                            text: 'Earnings',
-                            textStyle: semiBold16TextStyle(cBlackColor),
-                          ),
-                          CustomMenuContainer(
-                            height: 64,
-                            width: (width / 2) - (kHorizontalPadding + 9),
-                            leading: const Icon(
-                              BipHip.kids,
-                              color: cPrimaryColor,
-                            ),
-                            text: 'Kids',
-                            textStyle: semiBold16TextStyle(cBlackColor),
-                          )
-                        ],
-                      ),
-                      kH16sizedBox,
-                      CustomMenuContainer(
-                        height: 64,
-                        width: (width / 2) - (kHorizontalPadding + 9),
-                        leading: const Icon(
-                          BipHip.world,
-                          color: cPrimaryColor,
-                        ),
-                        text: 'Shop',
-                        textStyle: semiBold16TextStyle(cBlackColor),
-                      ),
-                      kH20sizedBox,
+                      kH4sizedBox,
                       Container(
                         width: width,
                         height: 1,
