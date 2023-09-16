@@ -10,12 +10,14 @@ class CustomAppBar extends StatelessWidget {
     this.iconColor,
     this.titleColor,
     this.appBarColor,
+    this.isCenterTitle,
   }) : super(key: key);
 
   final dynamic title;
   final List<Widget>? action;
   final Function()? onBack;
   final bool hasBackButton;
+  final bool? isCenterTitle;
   final Color? iconColor;
   final Color? titleColor;
   final Color? appBarColor;
@@ -23,7 +25,7 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      centerTitle: true,
+      centerTitle: isCenterTitle ?? false,
       automaticallyImplyLeading: false,
       elevation: kCommonElevation,
       backgroundColor: appBarColor ?? cWhiteColor,

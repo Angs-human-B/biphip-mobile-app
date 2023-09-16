@@ -11,3 +11,4 @@ const String ksNext = 'Next';
 const String ksResend = 'Resend';
 const String ksResendCode = 'Didn’t receive code? ';
 const String ksSkip = 'Skip';
+const String ksMenu = 'Menu';
