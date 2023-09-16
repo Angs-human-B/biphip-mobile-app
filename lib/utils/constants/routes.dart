@@ -13,7 +13,7 @@ import 'package:bip_hip/views/auth/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
-import 'package:bip_hip/views/profile/menu.dart';
+import 'package:bip_hip/views/profile/menu/menu.dart';
 import 'package:bip_hip/views/splash_and_intro/splash_screen.dart';
 import 'package:get/get.dart';
 
