@@ -1,92 +1,126 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
-class ProfileController extends GetxController{
+class ProfileController extends GetxController {
   RxBool isSupportButtonPressed = RxBool(false);
   RxBool isSettingButtonPressed = RxBool(false);
 
   List shortcutButtonContent = [
     {
-      'text':'Friend',
+      'text': 'Friend',
       'icon': BipHip.friends,
-      'onPressed':(){ll('Friend');}
+      'onPressed': () {
+        ll('Friend');
+      }
     },
     {
-      'text':'Family',
+      'text': 'Family',
       'icon': BipHip.removeFamily,
-      'onPressed':(){ll('Family');}
+      'onPressed': () {
+        ll('Family');
+      }
     },
     {
-      'text':'Images',
+      'text': 'Images',
       'icon': BipHip.imageFile,
-      'onPressed':(){ll('Image');}
+      'onPressed': () {
+        ll('Image');
+      }
     },
     {
-      'text':'Videos',
+      'text': 'Videos',
       'icon': BipHip.playNew,
-      'onPressed':(){ll('Videos');}
+      'onPressed': () {
+        ll('Videos');
+      }
     },
     {
-      'text':'Stars',
+      'text': 'Stars',
       'icon': BipHip.giftNew,
-      'onPressed':(){ll('Stars');}
+      'onPressed': () {
+        ll('Stars');
+      }
     },
     {
-      'text':'Badges',
+      'text': 'Badges',
       'icon': BipHip.friends,
-      'onPressed':(){ll('Badges');}
+      'onPressed': () {
+        ll('Badges');
+      }
     },
     {
-      'text':'Earnings',
+      'text': 'Earnings',
       'icon': BipHip.selling,
-      'onPressed':(){ll('Earnings');}
+      'onPressed': () {
+        ll('Earnings');
+      }
     },
     {
-      'text':'Kids',
+      'text': 'Kids',
       'icon': BipHip.kids,
-      'onPressed':(){ll('Kids');}
+      'onPressed': () {
+        ll('Kids');
+      }
     },
     {
-      'text':'Shop',
+      'text': 'Shop',
       'icon': BipHip.world,
-      'onPressed':(){ll('Shop');}
+      'onPressed': () {
+        ll('Shop');
+      }
     },
   ];
 
   List supportButtonContent = [
     {
-      'text':'Help Center',
-      'onPressed':(){ll('help center');}
+      'text': 'Help Center',
+      'onPressed': () {
+        ll('help center');
+      }
     },
     {
-      'text':'Support Inbox',
-      'onPressed':(){ll('Support inbox');}
+      'text': 'Support Inbox',
+      'onPressed': () {
+        ll('Support inbox');
+      }
     },
     {
-      'text':'Report a Problem',
-      'onPressed':(){ll('Report a problem');}
+      'text': 'Report a Problem',
+      'onPressed': () {
+        ll('Report a problem');
+      }
     },
     {
-      'text':'Terms & Conditions',
-      'onPressed':(){ll('Terms and condition');}
+      'text': 'Terms & Conditions',
+      'onPressed': () {
+        ll('Terms and condition');
+      }
     },
   ];
 
   List settingsButtonContent = [
     {
-      'text':'Setting',
-      'onPressed':(){ll('Setting');}
+      'text': 'Setting',
+      'onPressed': () {
+        ll('Setting');
+      }
     },
     {
-      'text':'Recent Activity',
-      'onPressed':(){ll('Recent Activity');}
+      'text': 'Recent Activity',
+      'onPressed': () {
+        ll('Recent Activity');
+      }
     },
     {
-      'text':'Dark Mode',
-      'onPressed':(){ll('Dark Mode');}
+      'text': 'Dark Mode',
+      'onPressed': () {
+        ll('Dark Mode');
+      }
     },
     {
-      'text':'Language',
-      'onPressed':(){ll('Language');}
+      'text': 'Language',
+      'onPressed': () {
+        ll('Language');
+      }
     },
   ];
 }

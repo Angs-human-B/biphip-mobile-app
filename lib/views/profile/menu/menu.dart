@@ -47,6 +47,9 @@ class Menu extends StatelessWidget {
                       kH20sizedBox,
                       CustomMenuContainer(
                         height: 64,
+                        onPressed: () {
+                          Get.toNamed(krProfile);
+                        },
                         leading: ClipOval(
                           child: Container(
                             height: h40,
