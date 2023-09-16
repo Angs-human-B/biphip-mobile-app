@@ -61,6 +61,110 @@ class Menu extends StatelessWidget {
                     Text(
                       'All shortcuts',
                       style: semiBold18TextStyle(cBlackColor),
+                    ),
+                    kH16sizedBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomMenuContainer(
+                          height: 64,
+                          width: (width / 2) - (kHorizontalPadding + 9),
+                          leading: const Icon(
+                            BipHip.friends,
+                            color: cPrimaryColor,
+                          ),
+                          text: 'Friends',
+                          textStyle: semiBold16TextStyle(cBlackColor),
+                        ),
+                        CustomMenuContainer(
+                          height: 64,
+                          width: (width / 2) - (kHorizontalPadding + 9),
+                          leading: const Icon(
+                            BipHip.removeFamily,
+                            color: cPrimaryColor,
+                          ),
+                          text: 'Family',
+                          textStyle: semiBold16TextStyle(cBlackColor),
+                        )
+                      ],
+                    ),
+                    kH16sizedBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomMenuContainer(
+                          height: 64,
+                          width: (width / 2) - (kHorizontalPadding + 9),
+                          leading: const Icon(
+                            BipHip.imageFile,
+                            color: cPrimaryColor,
+                          ),
+                          text: 'Images',
+                          textStyle: semiBold16TextStyle(cBlackColor),
+                        ),
+                        CustomMenuContainer(
+                          height: 64,
+                          width: (width / 2) - (kHorizontalPadding + 9),
+                          leading: const Icon(
+                            BipHip.playNew,
+                            color: cPrimaryColor,
+                          ),
+                          text: 'Videos',
+                          textStyle: semiBold16TextStyle(cBlackColor),
+                        )
+                      ],
+                    ),
+                    kH16sizedBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomMenuContainer(
+                          height: 64,
+                          width: (width / 2) - (kHorizontalPadding + 9),
+                          leading: const Icon(
+                            BipHip.giftNew,
+                            color: cPrimaryColor,
+                          ),
+                          text: 'Stars',
+                          textStyle: semiBold16TextStyle(cBlackColor),
+                        ),
+                        CustomMenuContainer(
+                          height: 64,
+                          width: (width / 2) - (kHorizontalPadding + 9),
+                          leading: const Icon(
+                            BipHip.friends,
+                            color: cPrimaryColor,
+                          ),
+                          text: 'Family',
+                          textStyle: semiBold16TextStyle(cBlackColor),
+                        )
+                      ],
+                    ),
+                    kH16sizedBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomMenuContainer(
+                          height: 64,
+                          width: (width / 2) - (kHorizontalPadding + 9),
+                          leading: const Icon(
+                            BipHip.friends,
+                            color: cPrimaryColor,
+                          ),
+                          text: 'Friends',
+                          textStyle: semiBold16TextStyle(cBlackColor),
+                        ),
+                        CustomMenuContainer(
+                          height: 64,
+                          width: (width / 2) - (kHorizontalPadding + 9),
+                          leading: const Icon(
+                            BipHip.removeFamily,
+                            color: cPrimaryColor,
+                          ),
+                          text: 'Family',
+                          textStyle: semiBold16TextStyle(cBlackColor),
+                        )
+                      ],
                     )
                   ],
                 ),
@@ -74,32 +178,37 @@ class Menu extends StatelessWidget {
 }
 
 class CustomMenuContainer extends StatelessWidget {
-  const CustomMenuContainer({super.key, required this.leading, required this.text, required this.textStyle, this.height, this.width});
+  const CustomMenuContainer({super.key, required this.leading, required this.text, required this.textStyle, this.height, this.width, this.onPressed});
 
   final Widget leading;
   final double? height, width;
+  final VoidCallback? onPressed;
   final String text;
   final TextStyle textStyle;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k12CircularBorderRadius, border: Border.all(color: cLineColor)),
-      height: height,
-      width: width,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: k12Padding),
-            child: leading,
-          ),
-          Text(
-            text,
-            style: textStyle,
-          )
-        ],
+    return TextButton(
+      style: kTextButtonStyle,
+      onPressed: onPressed,
+      child: Container(
+        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k12CircularBorderRadius, border: Border.all(color: cLineColor)),
+        height: height,
+        width: width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k12Padding),
+              child: leading,
+            ),
+            Text(
+              text,
+              style: textStyle,
+            )
+          ],
+        ),
       ),
     );
   }
