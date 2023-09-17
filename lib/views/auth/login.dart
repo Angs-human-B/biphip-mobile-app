@@ -113,9 +113,11 @@ class Login extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: h20),
                       child: CustomElevatedButton(
                         label: 'Login',
-                        onPressed: _authenticationController.canLogin.value ? () {
-                          Get.toNamed(krMenu);
-                        } : null,
+                        onPressed: _authenticationController.canLogin.value
+                            ? () {
+                                Get.toNamed(krCreatePost);
+                              }
+                            : null,
                         buttonWidth: width - 40,
                         textStyle:
                             _authenticationController.canLogin.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),

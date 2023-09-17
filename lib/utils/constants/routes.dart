@@ -13,6 +13,7 @@ import 'package:bip_hip/views/auth/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/create_post/create_post.dart';
 import 'package:bip_hip/views/profile/menu/menu.dart';
 import 'package:bip_hip/views/profile/profile.dart';
 import 'package:bip_hip/views/splash_and_intro/splash_screen.dart';
@@ -44,6 +45,8 @@ const String krUploadPicture = '/upload-picture';
 const String krMenu = '/menu';
 const String krProfile = '/profile';
 
+const String krCreatePost = '/create-post';
+
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
   GetPage(name: krLogin, page: () => Login(), transition: Transition.noTransition),
@@ -70,4 +73,7 @@ List<GetPage<dynamic>>? routes = [
 
   //* info:: other screens
   GetPage(name: krSplashScreen, page: () => const SplashScreen(), transition: Transition.noTransition),
+
+  //* create post
+  GetPage(name: krCreatePost, page: () => CreatePost(), transition: Transition.noTransition),
 ];
