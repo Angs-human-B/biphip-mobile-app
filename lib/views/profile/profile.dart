@@ -1,9 +1,13 @@
+import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
+import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({super.key});
+  Profile({super.key});
+
+  final ProfileController _profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -213,7 +217,38 @@ class Profile extends StatelessWidget {
                       'Catagories',
                       style: semiBold14TextStyle(cBlackColor),
                     ),
-                  )
+                  ),
+                  // kH12sizedBox,
+                  SizedBox(
+                    width: width,
+                    height: 50,
+                    child: ListView.builder(
+                      itemCount: interestProfile.length,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(horizontal: k10Padding),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, i) {
+                        return Obx(
+                          () => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                            child: CustomChoiceChips(
+                              label: interestProfile[i],
+                              isSelected: (_profileController.interestCatagoriesIndex.value == i && _profileController.isInterestSelected.value),
+                              onSelected: (value) {
+                                _profileController.interestCatagoriesIndex.value = i;
+                                _profileController.isInterestSelected.value = value;
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: h8,
+                    width: width,
+                    color: cGreyBoxColor,
+                  ),
                 ],
               ),
             ),

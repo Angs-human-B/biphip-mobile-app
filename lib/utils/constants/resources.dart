@@ -224,3 +224,14 @@ List familyList = [
   {'name': 'Alyssa Krnunkenstein','image': 'assets/images/friend.png'},
   {'name': 'Alyssa Krnunkenstein','image': 'assets/images/friend.png'}
 ];
+
+List interestProfile = [
+  'All',
+  'Poetry',
+  'Photography',
+  'Singing',
+  'Writing',
+  'Painting',
+  'Kid',
+  'Story telling',
+];
