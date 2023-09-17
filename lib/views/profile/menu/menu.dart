@@ -77,19 +77,19 @@ class Menu extends StatelessWidget {
                         direction: Axis.horizontal,
                         spacing: 17.0,
                         children: [
-                          for (int i = 0; i < _profileController.shortcutButtonContent.length; i++)
+                          for (int i = 0; i < shortcutButtonContent.length; i++)
                             Padding(
                               padding: const EdgeInsets.only(bottom: k16Padding),
                               child: CustomMenuContainer(
                                 height: 64,
                                 width: (width / 2) - (kHorizontalPadding + 9),
                                 leading: Icon(
-                                  _profileController.shortcutButtonContent[i]['icon'],
+                                  shortcutButtonContent[i]['icon'],
                                   color: cPrimaryColor,
                                 ),
-                                text: _profileController.shortcutButtonContent[i]['text'],
+                                text: shortcutButtonContent[i]['text'],
                                 textStyle: semiBold16TextStyle(cBlackColor),
-                                onPressed: _profileController.shortcutButtonContent[i]['onPressed'],
+                                onPressed: shortcutButtonContent[i]['onPressed'],
                               ),
                             ),
                         ],
@@ -115,7 +115,7 @@ class Menu extends StatelessWidget {
                         ),
                       if (_profileController.isSupportButtonPressed.value)
                         ListOfButtons(
-                          list: _profileController.supportButtonContent,
+                          list: supportButtonContent,
                         ),
                       if (_profileController.isSupportButtonPressed.value) kH10sizedBox,
                       if (_profileController.isSupportButtonPressed.value || !_profileController.isSettingButtonPressed.value)
@@ -137,7 +137,7 @@ class Menu extends StatelessWidget {
                       ),
                       if (_profileController.isSettingButtonPressed.value)
                         ListOfButtons(
-                          list: _profileController.settingsButtonContent,
+                          list: settingsButtonContent,
                         ),
                       kH20sizedBox,
                       CustomElevatedButton(
