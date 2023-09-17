@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GlobalController extends GetxController {
@@ -80,6 +85,7 @@ class GlobalController extends GetxController {
     required TextStyle rightTextStyle,
     required String title,
     required bool isRightButtonShow,
+    double? bottomSheetHeight
   }) {
     showModalBottomSheet<void>(
       shape: const RoundedRectangleBorder(
@@ -92,6 +98,7 @@ class GlobalController extends GetxController {
           children: [
             SizedBox(
               width: width,
+              height: bottomSheetHeight,
               child: Column(
                 children: [
                   kH4sizedBox,
@@ -152,6 +159,37 @@ class GlobalController extends GetxController {
         );
       },
     );
+  }
+
+  //* Image picker
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> selectImageSource(RxBool isChanged, imageLink, imageFile, String source) async {
+    try {
+      final XFile? image = await _picker.pickImage(
+        source: source == 'gallery' ? ImageSource.gallery : ImageSource.camera,
+        maxHeight: 480,
+        maxWidth: 720,
+      );
+      if (image != null) {
+        final List<int> imageBytes = await image.readAsBytes();
+        final String base64Image = base64Encode(imageBytes);
+        final File imageTemporary = File(image.path);
+        // var value = await _image.length();
+        // ll(value);
+        imageFile(imageTemporary);
+        isChanged.value = true;
+        imageLink.value = 'data:image/png;base64,$base64Image';
+        // log(imageLink.toString());
+        Get.back();
+        ll(Get.find<AuthenticationController>().isProfileImageChanged.value);
+      } else {
+        ll('image not selected');
+        return;
+      }
+    } on PlatformException catch (e) {
+      ll("Failed to Pick Image $e");
+    }
   }
 
   //! end

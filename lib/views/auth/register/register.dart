@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
+import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/custom_container.dart';
 import 'package:bip_hip/widgets/common/linkup_text.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
@@ -25,11 +26,19 @@ class Register extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksRegisterNow.tr,
+              title: ksRegistration.tr,
               hasBackButton: false,
               onBack: () async {
                 Get.back();
               },
+              action: const [
+                Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: CustomCircularProgressBar(
+                    percent: .16,
+                  ),
+                ),
+              ],
             ),
           ),
           backgroundColor: cWhiteColor,
@@ -80,9 +89,15 @@ class Register extends StatelessWidget {
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerFirstNameTextEditingController,
+                        errorText: _authenticationController.firstNameError.value,
                         hint: "First Name",
                         onChanged: (text) {
-                          _authenticationController.checkCanLogin();
+                          _authenticationController.checkName();
+                          if (_authenticationController.registerFirstNameTextEditingController.text.trim() == '') {
+                            _authenticationController.firstNameError.value = "First name can't be empty";
+                          } else {
+                            _authenticationController.firstNameError.value = "";
+                          }
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
@@ -91,9 +106,15 @@ class Register extends StatelessWidget {
                       kH24sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerLastNameTextEditingController,
+                        errorText: _authenticationController.lastNameError.value,
                         hint: "Last Name",
                         onChanged: (text) {
                           _authenticationController.checkName();
+                          if (_authenticationController.registerLastNameTextEditingController.text.trim() == '') {
+                            _authenticationController.lastNameError.value = "Last name can't be empty";
+                          } else {
+                            _authenticationController.lastNameError.value = "";
+                          }
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,
@@ -109,7 +130,7 @@ class Register extends StatelessWidget {
                             : null,
                         buttonWidth: width - 40,
                         textStyle: _authenticationController.checkValidName.value
-                            ? semiBold16TextStyle(cBlackColor)
+                            ? semiBold16TextStyle(cWhiteColor)
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
                       kH24sizedBox,

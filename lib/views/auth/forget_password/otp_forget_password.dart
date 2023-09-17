@@ -1,13 +1,14 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/count_down.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
-import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
+import 'package:bip_hip/widgets/common/linkup_text.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
-import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
+import 'package:bip_hip/widgets/textfields/otp_textfield.dart';
 
-class SetEmail extends StatelessWidget {
-  SetEmail({super.key});
+class ForgetPasswordOTP extends StatelessWidget {
+  ForgetPasswordOTP({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
 
@@ -23,18 +24,10 @@ class SetEmail extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksRegistration.tr,
+              title: ksForgetPassword.tr,
               onBack: () async {
                 Get.back();
               },
-              action: const [
-                Padding(
-                  padding: EdgeInsets.only(right: 8.0),
-                  child: CustomCircularProgressBar(
-                    percent: 0.64,
-                  ),
-                ),
-              ],
             ),
           ),
           backgroundColor: cWhiteColor,
@@ -50,41 +43,46 @@ class SetEmail extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'What\'s your email?',
-                        subTitle: 'We will send code to your mail to confirm your account.',
+                        title: 'OTP Verification',
+                        subTitle: 'Enter the verification code we just sent to your email',
                       ),
                       kH50sizedBox,
-                      CustomModifiedTextField(
-                        controller: _authenticationController.registerEmailTextEditingController,
-                        errorText: _authenticationController.registerEmailError.value,
-                        hint: "Email",
-                        onChanged: (text) {
-                          _authenticationController.checkEmail();
-                          if (_authenticationController.registerEmailTextEditingController.text.trim() == '') {
-                            _authenticationController.registerEmailError.value = 'Email can\'t be empty';
-                          } else if (!_authenticationController.registerEmailTextEditingController.text.trim().isValidEmail) {
-                            _authenticationController.registerEmailError.value = 'Invalid email address';
-                          } else {
-                            _authenticationController.registerEmailError.value = '';
-                          }
+                      OtpTextField(
+                        controller: _authenticationController.forgotPasswordOTPTextEditingController,
+                        onChange: (value) {
+                          _authenticationController.checkCanForgotPasswordOTPVerifyNow();
                         },
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.done,
-                        inputType: TextInputType.emailAddress,
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
                         label: ksNext,
-                        onPressed: _authenticationController.checkValidEmail.value
+                        onPressed: _authenticationController.canForgotPasswordOTPVerifyNow.value
                             ? () {
-                                Get.toNamed(krSetNewPass);
+                                Get.toNamed(krResetPass);
+                                _authenticationController.resetForgotPasswordScreen();
                               }
                             : null,
                         buttonWidth: width - 40,
-                        textStyle: _authenticationController.checkValidEmail.value
+                        textStyle: _authenticationController.canForgotPasswordOTPVerifyNow.value
                             ? semiBold16TextStyle(cWhiteColor)
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
+                      kH25sizedBox,
+                      _authenticationController.isForgotPasswordOTPResendClick.value
+                          ? LinkupTextRow(
+                              prefix: ksResendCode,
+                              suffix: ksResend.tr,
+                              onPressed: () async {
+                                FocusScope.of(context).unfocus();
+                                _authenticationController.isForgotPasswordOTPResendClick.value = false;
+                              },
+                            )
+                          : CountDown(
+                              seconds: 120,
+                              onEnd: () {
+                                _authenticationController.isOTPResendClick.value = true;
+                              },
+                            ),
                     ],
                   ),
                 ),

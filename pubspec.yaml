@@ -30,6 +30,7 @@ dependencies:
   shared_preferences: ^2.2.1
   url_launcher: ^6.1.14
   get: ^4.6.5
+  percent_indicator: ^4.2.3
 
 dev_dependencies:
   flutter_test:

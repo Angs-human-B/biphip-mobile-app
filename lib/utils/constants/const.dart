@@ -31,7 +31,6 @@ const double kIconSize20 = 20.0;
 const double kIconSize24 = 24.0;
 const double kIconSize28 = 28.0;
 
-
 const double kIconSize14 = 14.0;
 const double kIconSize18 = 18.0;
 const double kIconSize22 = 22.0;
@@ -108,6 +107,7 @@ const kHBottomSizedBox = SizedBox(height: k40Padding);
 
 const double h60 = 60.0;
 const double h50 = 50.0;
+const double h40 = 40.0;
 const double h36 = 36.0;
 const double h32 = 32.0;
 const double h28 = 28.0;
@@ -121,6 +121,7 @@ const double h8 = 8.0;
 const double h26 = 26.0;
 const double h18 = 18.0;
 const double h10 = 10.0;
+const double h134 = 134.0;
 
 //* end:: font sizes
 
@@ -130,3 +131,32 @@ double width = 0.0;
 double keyboardValue = 0.0;
 
 var formatter = NumberFormat.decimalPattern('en_US');
+
+List profession = [
+  'Farmer',
+  'UI/UX Designer',
+  'Programmer',
+  'Product Designer',
+  'Cobbler',
+  'Tailor',
+  'Biker',
+  'Photographer',
+  'Artist',
+  'Singer',
+  'Content Writer',
+  'Others'
+];
+
+List interest = [
+  'Poetry',
+  'Photography',
+  'Singing',
+  'Writing',
+  'Painting',
+  'Kid',
+  'Story telling',
+];
+
+List genders = ['Male', 'Female', 'Others'];
+
+List userData = [{'name': 'Johnson'},{'name':'Marie Latham'},{'name':'Monjurul Sharker Omi'}];

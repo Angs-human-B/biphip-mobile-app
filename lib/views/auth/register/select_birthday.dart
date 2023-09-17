@@ -2,9 +2,11 @@ import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
+import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 import 'package:flutter/cupertino.dart';
+
 
 class SelectBirthday extends StatelessWidget {
   SelectBirthday({super.key});
@@ -24,10 +26,16 @@ class SelectBirthday extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksRegisterNow.tr,
+              title: ksRegistration.tr,
               onBack: () async {
                 Get.back();
               },
+              action:const [
+                Padding(
+                  padding:  EdgeInsets.only(right: 8.0),
+                  child:CustomCircularProgressBar(percent: 0.32,),
+                ),
+              ],
             ),
           ),
           backgroundColor: cWhiteColor,
@@ -76,7 +84,7 @@ class SelectBirthday extends StatelessWidget {
                             : null,
                         buttonWidth: width - 40,
                         textStyle: _authenticationController.birthDay.value != ''
-                            ? semiBold16TextStyle(cBlackColor)
+                            ? semiBold16TextStyle(cWhiteColor)
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
                     ],
