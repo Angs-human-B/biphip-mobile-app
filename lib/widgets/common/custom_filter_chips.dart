@@ -17,6 +17,7 @@ class CustomChoiceChips extends StatelessWidget {
       selectedColor: cPrimaryTint3Color,
       disabledColor: cWhiteColor,
       onSelected: onSelected,
+      backgroundColor: cWhiteColor,
       showCheckmark: false,
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
