@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 const double kButtonHeight = 44.0;
 const double kTextfieldHeight = 52.0;
-const double kCommonBackSpace = 60.0;
+const double kCommonBackSpace = 50.0;
 
 const double k4BorderRadius = 4.0;
 const double k8BorderRadius = 8.0;
@@ -107,6 +107,7 @@ const kHBottomSizedBox = SizedBox(height: k40Padding);
 
 const double h60 = 60.0;
 const double h50 = 50.0;
+const double h45 = 45.0;
 const double h40 = 40.0;
 const double h36 = 36.0;
 const double h32 = 32.0;

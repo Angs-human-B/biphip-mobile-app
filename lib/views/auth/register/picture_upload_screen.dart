@@ -101,7 +101,8 @@ class PictureUploadScreen extends StatelessWidget {
                                   CustomElevatedButton(
                                     label: 'Add photo',
                                     prefixIcon: BipHip.camera,
-                                    labelIconColor: cIconColor,
+                                    prefixIconColor: cIconColor,
+                                    suffixIconColor: cIconColor,
                                     onPressed: () async {
                                       ll(_authenticationController.isProfileImageChanged.value);
                                       await _globalController.selectImageSource(_authenticationController.isProfileImageChanged,
@@ -117,7 +118,8 @@ class PictureUploadScreen extends StatelessWidget {
                                   CustomElevatedButton(
                                     label: 'Choose from gallery',
                                     prefixIcon: BipHip.photo,
-                                    labelIconColor: cIconColor,
+                                    prefixIconColor: cIconColor,
+                                    suffixIconColor: cIconColor,
                                     onPressed: () async {
                                       await _globalController.selectImageSource(_authenticationController.isProfileImageChanged,
                                           _authenticationController.profileLink, _authenticationController.profileFile, 'gallery');

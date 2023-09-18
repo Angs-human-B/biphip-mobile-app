@@ -49,29 +49,163 @@ class CreatePost extends StatelessWidget {
                 height: height - kAppBarSize,
                 width: width,
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Obx(
-                        () => CustomModifiedTextField(
-                          controller: _createPostController.createPostTEController,
-                          maxLength: 1000,
-                          maxLines: 100,
-                          minLines: 1,
-                          isFilled: false,
-                          fillColor: cWhiteColor,
-                          inputAction: TextInputAction.newline,
-                          inputType: TextInputType.multiline,
-                          hint: "What's on your mind, Rana?",
-                          contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k16Padding),
-                          textHintStyle: regular20TextStyle(cPlaceHolderColor),
-                          textInputStyle: _createPostController.isTextLimitCrossed.value ? regular16TextStyle(cBlackColor) : regular20TextStyle(cBlackColor),
-                          onChanged: (v) {
-                            _createPostController.postButtonStateCheck();
-                          },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: h16, vertical: h12),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            kW8sizedBox,
+                            Stack(
+                              children: [
+                                SizedBox(
+                                  width: (_createPostController.postType.value == "kids" || _createPostController.postType.value == "selling") ? 70 : h45,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: h45,
+                                        width: h45,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Image.asset(
+                                          "assets/images/profileDefault.png",
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                if (_createPostController.postType.value == "kids" || _createPostController.postType.value == "selling")
+                                  Positioned(
+                                    right: 0,
+                                    bottom: 0,
+                                    top: 0,
+                                    child: Container(
+                                      height: h50,
+                                      width: h50,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Image.asset(
+                                        "assets/images/profilePic.png",
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            kW8sizedBox,
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Obx(
+                                          () => Padding(
+                                            padding: const EdgeInsets.only(top: 2.0),
+                                            child: RichText(
+                                              textAlign: TextAlign.left,
+                                              overflow: TextOverflow.clip,
+                                              maxLines: 2,
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Jane Smith',
+                                                    style: semiBold16TextStyle(cBlackColor),
+                                                  ),
+                                                  if (_createPostController.isTagAdded.value)
+                                                    TextSpan(
+                                                      text: ' is with ',
+                                                      style: regular16TextStyle(cBlackColor),
+                                                    ),
+                                                  if (_createPostController.isTagAdded.value)
+                                                    TextSpan(
+                                                      text: 'Shohag Jalal & 8 others',
+                                                      style: semiBold16TextStyle(cBlackColor),
+                                                    ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  kH4sizedBox,
+                                  Row(
+                                    children: [
+                                      CustomElevatedButton(
+                                        isCustomButton: true,
+                                        label: "Public",
+                                        onPressed: () {},
+                                        buttonHeight: 22,
+                                        prefixIcon: BipHip.world,
+                                        suffixIcon: BipHip.downArrow,
+                                        buttonColor: cGreyBoxColor,
+                                        prefixIconColor: cBlackColor,
+                                        suffixIconColor: cBlackColor,
+                                        textStyle: medium12TextStyle(cBlackColor),
+                                      ),
+                                      kW8sizedBox,
+                                      CustomElevatedButton(
+                                        label: _createPostController.postType.value == "" ? "Select Category" : "Selling",
+                                        onPressed: () {},
+                                        buttonHeight: 22,
+                                        isCustomButton: true,
+                                        suffixIcon: _createPostController.postType.value == "" ? BipHip.plus : BipHip.edit,
+                                        prefixIcon: _createPostController.postType.value == "" ? null : BipHip.sellNew,
+                                        buttonColor: cGreyBoxColor,
+                                        suffixIconColor: cBlackColor,
+                                        prefixIconColor: _createPostController.postType.value == "" ? null : cPrimaryColor,
+                                        textStyle: medium12TextStyle(cBlackColor),
+                                      ),
+                                      if (_createPostController.postType.value == "selling") kW8sizedBox,
+                                      if (_createPostController.postType.value == "selling")
+                                        CustomElevatedButton(
+                                          label: "Web",
+                                          onPressed: () {},
+                                          buttonHeight: 22,
+                                          isCustomButton: true,
+                                          suffixIcon: BipHip.edit,
+                                          prefixIcon: BipHip.webLink,
+                                          buttonColor: cGreyBoxColor,
+                                          suffixIconColor: cBlackColor,
+                                          prefixIconColor: cPrimaryColor,
+                                          textStyle: medium12TextStyle(cBlackColor),
+                                        ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      kH50sizedBox,
-                    ],
+                        Obx(
+                          () => CustomModifiedTextField(
+                            controller: _createPostController.createPostTEController,
+                            maxLength: 1000,
+                            maxLines: 100,
+                            minLines: 1,
+                            isFilled: false,
+                            fillColor: cWhiteColor,
+                            inputAction: TextInputAction.newline,
+                            inputType: TextInputType.multiline,
+                            hint: "What's on your mind, Rana?",
+                            contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k16Padding),
+                            textHintStyle: regular20TextStyle(cPlaceHolderColor),
+                            textInputStyle: _createPostController.isTextLimitCrossed.value ? regular16TextStyle(cBlackColor) : regular20TextStyle(cBlackColor),
+                            onChanged: (v) {
+                              _createPostController.postButtonStateCheck();
+                            },
+                          ),
+                        ),
+                        kH50sizedBox,
+                      ],
+                    ),
                   ),
                 ),
               ),
