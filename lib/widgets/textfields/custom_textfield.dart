@@ -14,6 +14,10 @@ class CustomModifiedTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final Function()? onSuffixPress;
   final IconData? prefixIcon, suffixIcon;
+  final TextStyle? textInputStyle, textHintStyle;
+  final Color? fillColor;
+  final bool? isFilled;
+  final EdgeInsetsGeometry? contentPadding;
 
   const CustomModifiedTextField({
     this.label,
@@ -37,6 +41,11 @@ class CustomModifiedTextField extends StatelessWidget {
     this.onChanged,
     Key? key,
     this.errorText,
+    this.textInputStyle,
+    this.textHintStyle,
+    this.contentPadding,
+    this.fillColor,
+    this.isFilled,
   }) : super(key: key);
 
   @override
@@ -63,7 +72,7 @@ class CustomModifiedTextField extends StatelessWidget {
         obscureText: obscureText,
         textAlign: TextAlign.start,
         textCapitalization: TextCapitalization.sentences,
-        style: inputStyle,
+        style: textInputStyle ?? inputStyle,
         readOnly: readOnly,
         focusNode: focusNode,
         autofocus: autoFocus,
@@ -76,7 +85,7 @@ class CustomModifiedTextField extends StatelessWidget {
           errorText: errorText,
           errorStyle: regular12TextStyle(cRedColor),
           isDense: true,
-          filled: true,
+          filled: isFilled ?? true,
           prefixIcon: prefixIcon != null
               ? Transform.scale(
                   scale: .85,
@@ -92,14 +101,14 @@ class CustomModifiedTextField extends StatelessWidget {
                   size: screenWiseSize(kIconSize20, 4),
                 )
               : null,
-          fillColor: cGreyBoxColor,
+          fillColor: fillColor ?? cGreyBoxColor,
           alignLabelWithHint: true,
           labelText: label,
           hintText: hint,
           labelStyle: hintStyle,
-          hintStyle: hintStyle,
+          hintStyle: textHintStyle ?? hintStyle,
           counter: (counter == null) ? const SizedBox.shrink() : counter,
-          contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k16Padding),
+          contentPadding: contentPadding ?? const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k16Padding),
           floatingLabelBehavior: FloatingLabelBehavior.never,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(k4BorderRadius),
