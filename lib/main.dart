@@ -40,9 +40,6 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         debugShowCheckedModeBanner: false,
-        // theme: ThemeData(
-        //   useMaterial3: true,
-        // ),
         initialRoute: krSplashScreen,
         getPages: routes,
       ),

@@ -6,6 +6,7 @@ List shortcutButtonContent = [
     'icon': BipHip.friends,
     'onPressed': () {
       ll('Friend');
+      Get.toNamed(krFriends);
     }
   },
   {
@@ -13,6 +14,7 @@ List shortcutButtonContent = [
     'icon': BipHip.removeFamily,
     'onPressed': () {
       ll('Family');
+      Get.toNamed(krFamily);
     }
   },
   {
@@ -122,7 +124,7 @@ List settingsButtonContent = [
 
 List profileInfoContent = [
   {
-    'icon': BipHip.location,
+    'icon': BipHip.address,
     'text': 'Lives in Mirpur, Dhaka, Bangladesh.',
     'isLink': false,
     'onPressed': () {
@@ -154,7 +156,7 @@ List profileInfoContent = [
     }
   },
   {
-    'icon': BipHip.selling,
+    'icon': BipHip.work,
     'text': 'Genie InfoTech',
     'isLink': false,
     'onPressed': () {
@@ -199,30 +201,30 @@ List friendList = [
   {'name': 'Karnaze Krnunkenstein', 'image': 'assets/images/friend.png'},
   {'name': 'Joe Biden', 'image': 'assets/images/friend.png'},
   {'name': 'Stewie Griffin', 'image': 'assets/images/friend.png'},
-  {'name': 'Rick Sanchez','image': 'assets/images/friend.png'},
-  {'name': 'Johan Liebert','image': 'assets/images/friend.png'},
-  {'name': 'Akshia Rekrahs','image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein','image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein','image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein','image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein','image': 'assets/images/friend.png'}
+  {'name': 'Rick Sanchez', 'image': 'assets/images/friend.png'},
+  {'name': 'Johan Liebert', 'image': 'assets/images/friend.png'},
+  {'name': 'Akshia Rekrahs', 'image': 'assets/images/friend.png'},
+  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
+  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
+  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
+  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'}
 ];
 
 List familyList = [
   {'name': 'Peter Griffin', 'image': 'assets/images/family.png'},
   {'name': 'Vladmir Putin', 'image': 'assets/images/family.png'},
   {'name': 'Meg Griffin', 'image': 'assets/images/family.png'},
-  {'name': 'Rick Sanchez','image': 'assets/images/family.png'},
-  {'name': 'Morty Sanchez','image': 'assets/images/family.png'},
-  {'name': 'Beth Sanchez','image': 'assets/images/family.png'},
-  {'name': 'Alyssa Krnunkenstein','image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein','image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein','image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein','image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein','image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein','image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein','image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein','image': 'assets/images/friend.png'}
+  {'name': 'Rick Sanchez', 'image': 'assets/images/family.png'},
+  {'name': 'Morty Sanchez', 'image': 'assets/images/family.png'},
+  {'name': 'Beth Sanchez', 'image': 'assets/images/family.png'},
+  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
+  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
+  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
+  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
+  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
+  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
+  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
+  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'}
 ];
 
 List interestProfile = [
@@ -234,4 +236,93 @@ List interestProfile = [
   'Painting',
   'Kid',
   'Story telling',
+];
+
+List friendsList = [
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+];
+List addFriendList = [
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
 ];
