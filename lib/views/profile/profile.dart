@@ -23,7 +23,7 @@ class Profile extends StatelessWidget {
             child: CustomAppBar(
               appBarColor: cWhiteColor,
               title: 'Monjurul Sharker Omi'.tr,
-              hasBackButton: false,
+              hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
                 Get.back();
@@ -203,6 +203,7 @@ class Profile extends StatelessWidget {
                     profilePic: 'assets/images/profilePic.png',
                     onPressed: () {
                       ll('post');
+                      Get.toNamed(krCreatePost);
                     },
                   ),
                   Container(

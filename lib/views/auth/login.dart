@@ -115,7 +115,8 @@ class Login extends StatelessWidget {
                         label: 'Login',
                         onPressed: _authenticationController.canLogin.value
                             ? () {
-                                Get.toNamed(krCreatePost);
+                                
+                                Get.toNamed(krMenu);
                               }
                             : null,
                         buttonWidth: width - 40,

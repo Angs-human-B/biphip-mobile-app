@@ -68,12 +68,12 @@ List<GetPage<dynamic>>? routes = [
   // GetPage(name: krIntroductionScreen, page: () => IntroductionPage()),
 
   //* menu screen
-  GetPage(name: krMenu, page: () => Menu()),
-  GetPage(name: krProfile, page: () => Profile()),
+  GetPage(name: krMenu, page: () => Menu(), transition: Transition.noTransition),
+  GetPage(name: krProfile, page: () => Profile(), transition: Transition.noTransition),
 
   //* info:: other screens
   GetPage(name: krSplashScreen, page: () => const SplashScreen(), transition: Transition.noTransition),
 
   //* create post
-  GetPage(name: krCreatePost, page: () => CreatePost(), transition: Transition.noTransition),
+  GetPage(name: krCreatePost, page: () => CreatePost(), transition: Transition.downToUp),
 ];
