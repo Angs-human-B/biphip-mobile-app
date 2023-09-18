@@ -55,6 +55,7 @@ const double kCommonElevation = 0.0;
 //* padding for different component
 const double kHorizontalPadding = 20.0;
 const double k0Padding = 0.0;
+ const double k2Padding = 2.0;
 const double k4Padding = 4.0;
 const double k8Padding = 8.0;
 const double k10Padding = 10.0;
