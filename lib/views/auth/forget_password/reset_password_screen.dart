@@ -93,7 +93,9 @@ class ResetPasswordScreen extends StatelessWidget {
                             _authenticationController.resetConfirmPasswordError.value = '';
                           }
                         },
-                        onSubmit: (text) {},
+                        onSubmit: (text) {
+                          FocusScope.of(context).unfocus();
+                        },
                         obscureText: _authenticationController.isResetConfirmPasswordToggleObscure.value,
                         inputAction: TextInputAction.done,
                         inputType: TextInputType.visiblePassword,

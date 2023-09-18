@@ -18,3 +18,4 @@ export 'package:bip_hip/controllers/common/sp_controller.dart';
 export 'package:bip_hip/controllers/common/global_controller.dart';
 export 'package:bip_hip/controllers/common/api_controller.dart';
 export 'package:bip_hip/utils/icons/bip_hip_icons.dart';
+export 'package:bip_hip/utils/constants/resources.dart';
