@@ -102,7 +102,9 @@ class SetPassword extends StatelessWidget {
                             _authenticationController.registerConfirmPasswordError.value = '';
                           }
                         },
-                        onSubmit: (text) {},
+                        onSubmit: (text) {
+                          FocusScope.of(context).unfocus();
+                        },
                         obscureText: _authenticationController.isRegisterConfirmPasswordToggleObscure.value,
                         inputAction: TextInputAction.done,
                         inputType: TextInputType.visiblePassword,
