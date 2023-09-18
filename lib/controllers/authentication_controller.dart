@@ -20,13 +20,14 @@ class AuthenticationController extends GetxController {
     Get.offAllNamed(krLogin);
     // log(intro.toString());
   }
-  void resetProfileImage(){
+
+  void resetProfileImage() {
     profileLink.value = '';
     profileFile.value = File('');
     isProfileImageChanged.value = false;
   }
 
-  void resetChipSelection(){
+  void resetChipSelection() {
     professionIndex.value = -1;
     interestIndex.clear();
     isProfessionSelected.value = false;
@@ -63,7 +64,9 @@ class AuthenticationController extends GetxController {
   final RxBool canLogin = RxBool(false);
 
   void checkCanLogin() {
-    if (loginEmailTextEditingController.text.trim().isNotEmpty && loginPasswordTextEditingController.text.length >= kMinPasswordLength) {
+    if (loginEmailTextEditingController.text.trim().isNotEmpty &&
+        loginPasswordTextEditingController.text.trim() != '' &&
+        loginPasswordTextEditingController.text.length >= kMinPasswordLength) {
       canLogin.value = true;
     } else {
       canLogin.value = false;
