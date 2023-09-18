@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:intl/intl.dart';
 
 const double kButtonHeight = 44.0;
 const double kTextfieldHeight = 52.0;
-const double kCommonBackSpace = 60.0;
+const double kCommonBackSpace = 50.0;
 
 const double k4BorderRadius = 4.0;
 const double k8BorderRadius = 8.0;
@@ -56,6 +55,7 @@ const double kCommonElevation = 0.0;
 //* padding for different component
 const double kHorizontalPadding = 20.0;
 const double k0Padding = 0.0;
+ const double k2Padding = 2.0;
 const double k4Padding = 4.0;
 const double k8Padding = 8.0;
 const double k10Padding = 10.0;
@@ -108,6 +108,7 @@ const kHBottomSizedBox = SizedBox(height: k40Padding);
 
 const double h60 = 60.0;
 const double h50 = 50.0;
+const double h45 = 45.0;
 const double h40 = 40.0;
 const double h36 = 36.0;
 const double h32 = 32.0;
@@ -130,6 +131,8 @@ const double h134 = 134.0;
 double height = 0.0;
 double width = 0.0;
 double keyboardValue = 0.0;
+
+const double kProfileImageSize = 150;
 
 var formatter = NumberFormat.decimalPattern('en_US');
 
@@ -160,4 +163,8 @@ List interest = [
 
 List genders = ['Male', 'Female', 'Others'];
 
-List userData = [{'name': 'Johnson'},{'name':'Marie Latham'},{'name':'Monjurul Sharker Omi'}];
+List userData = [
+  {'name': 'Johnson'},
+  {'name': 'Marie Latham'},
+  {'name': 'Monjurul Sharker Omi'}
+];

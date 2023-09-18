@@ -2,9 +2,9 @@ import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
+import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class SetEmail extends StatelessWidget {
   SetEmail({super.key});
@@ -23,21 +23,15 @@ class SetEmail extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksRegisterNow.tr,
+              title: ksRegistration.tr,
               onBack: () async {
                 Get.back();
               },
-              action: [
+              action: const [
                 Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CircularPercentIndicator(
-                    animateFromLastPercent: false,
-                    radius: 10.0,
-                    lineWidth: 2.0,
-                    animation: true,
-                    percent: .64,
-                    circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: cPrimaryColor,
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: CustomCircularProgressBar(
+                    percent: 0.64,
                   ),
                 ),
               ],
@@ -62,9 +56,17 @@ class SetEmail extends StatelessWidget {
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerEmailTextEditingController,
+                        errorText: _authenticationController.registerEmailError.value,
                         hint: "Email",
                         onChanged: (text) {
                           _authenticationController.checkEmail();
+                          if (_authenticationController.registerEmailTextEditingController.text.trim() == '') {
+                            _authenticationController.registerEmailError.value = 'Email can\'t be empty';
+                          } else if (!_authenticationController.registerEmailTextEditingController.text.trim().isValidEmail) {
+                            _authenticationController.registerEmailError.value = 'Invalid email address';
+                          } else {
+                            _authenticationController.registerEmailError.value = '';
+                          }
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,
