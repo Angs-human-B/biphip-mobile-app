@@ -8,6 +8,8 @@ class CreatePostController extends GetxController {
   final RxBool isPostButtonActive = RxBool(false);
   final RxBool isTextLimitCrossed = RxBool(false);
   final TextEditingController createPostTEController = TextEditingController();
+  final RxString postType = RxString('');
+  final RxBool isTagAdded = RxBool(false);
 
   void postButtonStateCheck() {
     if (createPostTEController.text.trim().isNotEmpty) {

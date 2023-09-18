@@ -162,7 +162,7 @@ class Profile extends StatelessWidget {
                           label: 'Edit Profile',
                           onPressed: () {},
                           prefixIcon: BipHip.edit,
-                          labelIconColor: cBlackColor,
+                          prefixIconColor: cBlackColor,
                           buttonHeight: 44,
                           buttonWidth: (width / 2) - 28,
                           buttonColor: cWhiteColor,

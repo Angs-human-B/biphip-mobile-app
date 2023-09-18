@@ -5,10 +5,11 @@ class CustomElevatedButton extends StatelessWidget {
   final GestureTapCallback? onPressed;
   final double? buttonWidth;
   final double? buttonHeight;
-  final Color? buttonColor, borderColor, labelIconColor;
+  final Color? buttonColor, borderColor, prefixIconColor, suffixIconColor;
   final bool isCircularHead;
   final IconData? prefixIcon, suffixIcon;
   final TextStyle? textStyle;
+  final bool? isCustomButton;
 
   const CustomElevatedButton({
     Key? key,
@@ -21,7 +22,10 @@ class CustomElevatedButton extends StatelessWidget {
     this.buttonHeight,
     this.isCircularHead = false,
     this.textStyle,
-    this.labelIconColor, this.suffixIcon,
+    this.prefixIconColor,
+    this.suffixIconColor,
+    this.suffixIcon,
+    this.isCustomButton,
   }) : super(key: key);
 
   @override
@@ -50,30 +54,33 @@ class CustomElevatedButton extends StatelessWidget {
           ),
           child: SizedBox(
             height: buttonHeight ?? (height > kSmallDeviceSizeLimit ? (kButtonHeight) : (kButtonHeight - 4)),
-            width: buttonWidth ?? width * .5,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (prefixIcon != null)
-                  Padding(
-                    padding: const EdgeInsets.only(right: k4Padding),
-                    child: Icon(
-                      prefixIcon!,
-                      color: labelIconColor ?? cWhiteColor,
-                      size: screenWiseSize(kIconSize18, 4),
+            width: isCustomButton == true ? null : (buttonWidth ?? width * .5),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: isCustomButton != true ? 0.0 : 6.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (prefixIcon != null)
+                    Padding(
+                      padding: const EdgeInsets.only(right: k4Padding),
+                      child: Icon(
+                        prefixIcon!,
+                        color: prefixIconColor ?? cWhiteColor,
+                        size: screenWiseSize(kIconSize18, 4),
+                      ),
                     ),
-                  ),
-                Text(label.toString(), textAlign: TextAlign.center, style: textStyle),
-                if (suffixIcon != null)
-                  Padding(
-                    padding: const EdgeInsets.only(left: k4Padding),
-                    child: Icon(
-                      suffixIcon!,
-                      color: labelIconColor ?? cWhiteColor,
-                      size: screenWiseSize(kIconSize18, 4),
+                  Text(label.toString(), textAlign: TextAlign.center, style: textStyle),
+                  if (suffixIcon != null)
+                    Padding(
+                      padding: const EdgeInsets.only(left: k4Padding),
+                      child: Icon(
+                        suffixIcon!,
+                        color: suffixIconColor ?? cWhiteColor,
+                        size: screenWiseSize(suffixIcon == BipHip.downArrow ? kIconSize22 : kIconSize18, 4),
+                      ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
