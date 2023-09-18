@@ -14,6 +14,8 @@ import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/create_post/create_post.dart';
+import 'package:bip_hip/views/profile/menu/family.dart';
+import 'package:bip_hip/views/profile/menu/friends.dart';
 import 'package:bip_hip/views/profile/menu/menu.dart';
 import 'package:bip_hip/views/profile/profile.dart';
 import 'package:bip_hip/views/splash_and_intro/splash_screen.dart';
@@ -44,6 +46,8 @@ const String krUploadPicture = '/upload-picture';
 
 const String krMenu = '/menu';
 const String krProfile = '/profile';
+const String krFriends = '/friends';
+const String krFamily = '/family';
 
 const String krCreatePost = '/create-post';
 
@@ -70,6 +74,8 @@ List<GetPage<dynamic>>? routes = [
   //* menu screen
   GetPage(name: krMenu, page: () => Menu(), transition: Transition.noTransition),
   GetPage(name: krProfile, page: () => Profile(), transition: Transition.noTransition),
+  GetPage(name: krFriends, page: () => Friends(), transition: Transition.noTransition),
+  GetPage(name: krFamily, page: () => Family(), transition: Transition.noTransition),
 
   //* info:: other screens
   GetPage(name: krSplashScreen, page: () => const SplashScreen(), transition: Transition.noTransition),

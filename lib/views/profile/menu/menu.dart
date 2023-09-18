@@ -28,7 +28,18 @@ class Menu extends StatelessWidget {
                 Get.back();
               },
               action: [
-                Padding(padding: const EdgeInsets.only(right: 8.0), child: IconButton(onPressed: () {}, icon: const Icon(BipHip.search))),
+                Padding(
+                  padding: const EdgeInsets.only(right: h20),
+                  child: TextButton(
+                    style: kTextButtonStyle,
+                    onPressed: () {},
+                    child: Icon(
+                      BipHip.search,
+                      color: cIconColor,
+                      size: isDeviceScreenLarge() ? 24 : 20,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -44,7 +55,7 @@ class Menu extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      kH20sizedBox,
+                      isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
                       CustomMenuContainer(
                         height: 64,
                         onPressed: () {

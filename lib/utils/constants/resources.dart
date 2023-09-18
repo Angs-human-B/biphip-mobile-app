@@ -6,6 +6,7 @@ List shortcutButtonContent = [
     'icon': BipHip.friends,
     'onPressed': () {
       ll('Friend');
+      Get.toNamed(krFriends);
     }
   },
   {
@@ -13,6 +14,7 @@ List shortcutButtonContent = [
     'icon': BipHip.removeFamily,
     'onPressed': () {
       ll('Family');
+      Get.toNamed(krFamily);
     }
   },
   {
@@ -234,4 +236,93 @@ List interestProfile = [
   'Painting',
   'Kid',
   'Story telling',
+];
+
+List friendsList = [
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+];
+List addFriendList = [
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
+  {
+    "name": "Maria Jones",
+    "image": "assets/images/profilePic4x.png",
+  },
 ];
