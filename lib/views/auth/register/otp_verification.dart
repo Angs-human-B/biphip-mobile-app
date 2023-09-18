@@ -1,0 +1,109 @@
+import 'package:bip_hip/controllers/authentication_controller.dart';
+import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/count_down.dart';
+import 'package:bip_hip/widgets/common/custom_app_bar.dart';
+import 'package:bip_hip/widgets/common/custom_button.dart';
+import 'package:bip_hip/widgets/common/linkup_text.dart';
+import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/textfields/otp_textfield.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+
+class OTPVerifyScreen extends StatelessWidget {
+  OTPVerifyScreen({super.key});
+
+  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+
+  @override
+  Widget build(BuildContext context) {
+    heightWidthKeyboardValue(context);
+    return Container(
+      color: cWhiteColor,
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kAppBarSize),
+            //* info:: appBar
+            child: CustomAppBar(
+              title: ksRegisterNow.tr,
+              onBack: () async {
+                Get.back();
+              },
+              action: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CircularPercentIndicator(
+                    // animateFromLastPercent: true,
+                    radius: 10.0,
+                    lineWidth: 2.0,
+                    animation: true,
+                    percent: 1,
+                    circularStrokeCap: CircularStrokeCap.round,
+                    progressColor: cPrimaryColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          backgroundColor: cWhiteColor,
+          body: SizedBox(
+            height: height,
+            width: width,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                child: Obx(
+                  () => Column(
+                    children: [
+                      kH24sizedBox,
+                      kH24sizedBox,
+                      const TopTitleAndSubtitle(
+                        title: 'OTP Verification',
+                        subTitle: 'Enter the verification code we just sent to your number at +880195XXXXXXX34',
+                      ),
+                      kH50sizedBox,
+                      OtpTextField(
+                        controller: _authenticationController.otpTextEditingController,
+                        onChange: (value) {
+                          _authenticationController.checkCanOTPVerifyNow();
+                        },
+                      ),
+                      kH24sizedBox,
+                      CustomElevatedButton(
+                        label: ksNext,
+                        onPressed: _authenticationController.canOTPVerifyNow.value
+                            ? () {
+                                Get.toNamed(krSelectProfession);
+                              }
+                            : null,
+                        buttonWidth: width - 40,
+                        textStyle: _authenticationController.canOTPVerifyNow.value
+                            ? semiBold16TextStyle(cWhiteColor)
+                            : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
+                      ),
+                      kH25sizedBox,
+                      _authenticationController.isOTPResendClick.value
+                          ? LinkupTextRow(
+                              prefix: ksResendCode,
+                              suffix: ksResend.tr,
+                              onPressed: () async {
+                                FocusScope.of(context).unfocus();
+                              },
+                            )
+                          : CountDown(
+                              seconds: 120,
+                              onEnd: () {
+                                _authenticationController.isOTPResendClick.value = true;
+                              },
+                            ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

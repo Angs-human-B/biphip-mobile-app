@@ -1,6 +1,5 @@
 
-import 'package:bip_hip/utils/constants/colors.dart';
-import 'package:flutter/material.dart';
+import 'package:bip_hip/utils/constants/imports.dart';
 
 class CommonRefreshIndicator extends StatelessWidget {
   const CommonRefreshIndicator({Key? key, required this.child, required this.onRefresh}) : super(key: key);

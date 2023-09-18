@@ -1,10 +1,5 @@
-import 'package:bip_hip/utils/constants/colors.dart';
-import 'package:bip_hip/utils/constants/const.dart';
-import 'package:bip_hip/utils/constants/strings.dart';
-import 'package:bip_hip/utils/constants/styles.dart';
-import 'package:bip_hip/utils/constants/urls.dart';
-import 'package:bip_hip/utils/utility_functions.dart';
-import 'package:flutter/material.dart';
+import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/logo_and_text_widget.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -16,22 +11,11 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: cWhiteColor,
       body: SizedBox(
         height: height,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                kiLogoImageUrl,
-                height: 80,
-                width: 80,
-              ),
-              kH8sizedBox,
-              Text(
-                ksBipHip,
-                style: semiBold20TextStyle(cPrimaryColor).copyWith(fontSize: h26),
-              )
-            ],
-          ),
+        width: width,
+        child: const LogoAndText(
+          size: 80.0,
+          fontSize: h26,
+          mainAxisAlignment: MainAxisAlignment.center,
         ),
       ),
     );
