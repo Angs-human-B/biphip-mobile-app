@@ -10,8 +10,7 @@ class AuthenticationController extends GetxController {
   final RxString profileLink = RxString('');
   final Rx<File?> profileFile = File('').obs;
   final RxBool isProfileImageChanged = RxBool(false);
-RxList users =RxList(userData);
-
+  RxList users = RxList(userData);
 
   // final ApiController _apiController = ApiController();
   // final SpController _spController = SpController();
@@ -20,6 +19,18 @@ RxList users =RxList(userData);
   void onIntroDone() async {
     Get.offAllNamed(krLogin);
     // log(intro.toString());
+  }
+  void resetProfileImage(){
+    profileLink.value = '';
+    profileFile.value = File('');
+    isProfileImageChanged.value = false;
+  }
+
+  void resetChipSelection(){
+    professionIndex.value = -1;
+    interestIndex.clear();
+    isProfessionSelected.value = false;
+    isInterestSelected.value = false;
   }
 
   /*
@@ -38,6 +49,8 @@ RxList users =RxList(userData);
   final TextEditingController loginPasswordTextEditingController = TextEditingController();
   final RxBool isLoginPasswordToggleObscure = RxBool(true);
   final RxBool isLoginRememberCheck = RxBool(false);
+  final RxString loginEmailErrorText = RxString('');
+  final RxString loginPasswordErrorText = RxString('');
 
   void resetLoginScreen() {
     loginEmailTextEditingController.clear();
@@ -111,6 +124,11 @@ RxList users =RxList(userData);
   final TextEditingController registerPhoneTextEditingController = TextEditingController();
   final TextEditingController registerPasswordTextEditingController = TextEditingController();
   final TextEditingController registerConfirmPasswordTextEditingController = TextEditingController();
+  final RxString firstNameError = RxString('');
+  final RxString lastNameError = RxString('');
+  final RxString registerEmailError = RxString('');
+  final RxString registerPasswordError = RxString('');
+  final RxString registerConfirmPasswordError = RxString('');
   final RxString birthDay = RxString('');
   final RxString gender = RxString('');
   final RxBool isRegisterPasswordToggleObscure = RxBool(true);
@@ -119,20 +137,24 @@ RxList users =RxList(userData);
   final RxBool checkValidName = RxBool(false);
   final RxBool checkValidEmail = RxBool(false);
   final RxBool checkValidPassword = RxBool(false);
+  final RxBool canRegister = RxBool(false);
 
   void resetRegisterScreen() {
     registerFirstNameTextEditingController.clear();
     registerLastNameTextEditingController.clear();
     registerEmailTextEditingController.clear();
-    registerPhoneTextEditingController.clear();
+    // registerPhoneTextEditingController.clear();
     registerPasswordTextEditingController.clear();
     registerConfirmPasswordTextEditingController.clear();
     isRegisterPasswordToggleObscure.value = true;
     isRegisterConfirmPasswordToggleObscure.value = true;
+    checkValidName.value = false;
+    checkValidEmail.value = false;
+    checkValidPassword.value = false;
     canRegister.value = false;
+    birthDay.value = '';
+    gender.value = '';
   }
-
-  final RxBool canRegister = RxBool(false);
 
   void checkName() {
     if (registerFirstNameTextEditingController.text.trim() != '' && registerLastNameTextEditingController.text.trim() != '') {
@@ -213,15 +235,19 @@ RxList users =RxList(userData);
   final TextEditingController forgotPasswordOTPTextEditingController = TextEditingController();
   final RxBool canSendOTP = RxBool(false);
   final RxBool canForgotPasswordOTPVerifyNow = RxBool(false);
-
+  final RxString forgotPasswordEmailError = RxString('');
+  final RxString resetPasswordError = RxString('');
+  final RxString resetConfirmPasswordError = RxString('');
 
   void resetForgotPasswordScreen() {
     forgotPasswordEmailTextEditingController.clear();
+    forgotPasswordOTPTextEditingController.clear();
     canSendOTP.value = false;
+    canForgotPasswordOTPVerifyNow.value = false;
   }
 
   void checkCanSendOTP() {
-    if (forgotPasswordEmailTextEditingController.text.isValidEmail) {
+    if (forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
       canSendOTP.value = true;
     } else {
       canSendOTP.value = false;
@@ -284,8 +310,8 @@ RxList users =RxList(userData);
   }
 
   void checkCanResetPassword() {
-    if (resetNewPasswordTextEditingController.text.length >= kMinPasswordLength &&
-        resetNewPasswordTextEditingController.text == resetConfirmPasswordTextEditingController.text) {
+    if (resetNewPasswordTextEditingController.text.trim().length >= kMinPasswordLength &&
+        resetNewPasswordTextEditingController.text.trim() == resetConfirmPasswordTextEditingController.text.trim()) {
       canResetPassword.value = true;
     } else {
       canResetPassword.value = false;
@@ -328,6 +354,7 @@ RxList users =RxList(userData);
   */
   final TextEditingController otpTextEditingController = TextEditingController();
   final RxBool isOTPResendClick = RxBool(false);
+  final RxBool isForgotPasswordOTPResendClick = RxBool(false);
   final RxBool canOTPVerifyNow = RxBool(false);
 
   void resetOTPScreen() {

@@ -20,6 +20,7 @@ class SelectProfessionScreen extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
@@ -73,12 +74,14 @@ class SelectProfessionScreen extends StatelessWidget {
                           )
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     CustomElevatedButton(
                       label: ksNext,
-                      onPressed: () {
-                        Get.toNamed(krSelectInterest);
-                      },
+                      onPressed: _authenticationController.isProfessionSelected.value
+                          ? () {
+                              Get.toNamed(krSelectInterest);
+                            }
+                          : null,
                       buttonWidth: width - 40,
                       textStyle: semiBold16TextStyle(cWhiteColor),
                     ),

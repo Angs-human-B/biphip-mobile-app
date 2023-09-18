@@ -47,9 +47,17 @@ class ForgotPasswordScreen extends StatelessWidget {
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.forgotPasswordEmailTextEditingController,
+                        errorText: _authenticationController.forgotPasswordEmailError.value,
                         hint: "Email",
                         onChanged: (text) {
                           _authenticationController.checkCanSendOTP();
+                          if (_authenticationController.forgotPasswordEmailTextEditingController.text.trim() == '') {
+                            _authenticationController.forgotPasswordEmailError.value = 'Email can\'t be empty';
+                          } else if (!_authenticationController.forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
+                            _authenticationController.forgotPasswordEmailError.value = 'Invalid email address';
+                          } else {
+                            _authenticationController.forgotPasswordEmailError.value = '';
+                          }
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,
@@ -64,9 +72,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                               }
                             : null,
                         buttonWidth: width - 40,
-                        textStyle: _authenticationController.canSendOTP.value
-                            ? semiBold16TextStyle(cWhiteColor)
-                            : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
+                        textStyle:
+                            _authenticationController.canSendOTP.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
                     ],
                   ),
