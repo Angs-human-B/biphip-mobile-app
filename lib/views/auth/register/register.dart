@@ -2,11 +2,11 @@ import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
+import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/custom_container.dart';
 import 'package:bip_hip/widgets/common/linkup_text.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class Register extends StatelessWidget {
   Register({super.key});
@@ -26,22 +26,16 @@ class Register extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksRegisterNow.tr,
+              title: ksRegistration.tr,
               hasBackButton: false,
               onBack: () async {
                 Get.back();
               },
-              action: [
+              action: const [
                 Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CircularPercentIndicator(
-                    animateFromLastPercent: false,
-                    radius: 10.0,
-                    lineWidth: 2.0,
-                    animation: true,
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: CustomCircularProgressBar(
                     percent: .16,
-                    circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: cPrimaryColor,
                   ),
                 ),
               ],
@@ -95,9 +89,15 @@ class Register extends StatelessWidget {
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerFirstNameTextEditingController,
+                        errorText: _authenticationController.firstNameError.value,
                         hint: "First Name",
                         onChanged: (text) {
-                          _authenticationController.checkCanLogin();
+                          _authenticationController.checkName();
+                          if (_authenticationController.registerFirstNameTextEditingController.text.trim() == '') {
+                            _authenticationController.firstNameError.value = "First name can't be empty";
+                          } else {
+                            _authenticationController.firstNameError.value = "";
+                          }
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
@@ -106,9 +106,15 @@ class Register extends StatelessWidget {
                       kH24sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerLastNameTextEditingController,
+                        errorText: _authenticationController.lastNameError.value,
                         hint: "Last Name",
                         onChanged: (text) {
                           _authenticationController.checkName();
+                          if (_authenticationController.registerLastNameTextEditingController.text.trim() == '') {
+                            _authenticationController.lastNameError.value = "Last name can't be empty";
+                          } else {
+                            _authenticationController.lastNameError.value = "";
+                          }
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,

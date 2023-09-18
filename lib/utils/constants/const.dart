@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:intl/intl.dart';
 
 const double kButtonHeight = 44.0;
@@ -131,6 +130,8 @@ double height = 0.0;
 double width = 0.0;
 double keyboardValue = 0.0;
 
+const double kProfileImageSize = 150;
+
 var formatter = NumberFormat.decimalPattern('en_US');
 
 List profession = [
@@ -160,4 +161,8 @@ List interest = [
 
 List genders = ['Male', 'Female', 'Others'];
 
-List userData = [{'name': 'Johnson'},{'name':'Marie Latham'},{'name':'Monjurul Sharker Omi'}];
+List userData = [
+  {'name': 'Johnson'},
+  {'name': 'Marie Latham'},
+  {'name': 'Monjurul Sharker Omi'}
+];

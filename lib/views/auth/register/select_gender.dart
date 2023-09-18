@@ -2,9 +2,9 @@ import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
+import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class SelectGender extends StatelessWidget {
   SelectGender({super.key});
@@ -24,21 +24,15 @@ class SelectGender extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksRegisterNow.tr,
+              title: ksRegistration.tr,
               onBack: () async {
                 Get.back();
               },
-              action: [
+              action: const [
                 Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CircularPercentIndicator(
-                    animateFromLastPercent: false,
-                    radius: 10.0,
-                    lineWidth: 2.0,
-                    animation: true,
-                    percent: .48,
-                    circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: cPrimaryColor,
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: CustomCircularProgressBar(
+                    percent: 0.48,
                   ),
                 ),
               ],
@@ -75,7 +69,8 @@ class SelectGender extends StatelessWidget {
                               rightText: '',
                               rightTextStyle: regular10TextStyle(cBlackColor),
                               title: 'Select Gender',
-                              isRightButtonShow: false);
+                              isRightButtonShow: false,
+                              bottomSheetHeight: 260);
                         },
                         text: _authenticationController.gender.value,
                         hintText: "Select gender",
@@ -114,39 +109,40 @@ class _GenderListContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Obx(() => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              RadioListTile(
-                title: Text(genders[0]),
-                value: genders[0],
-                groupValue: authenticationController.gender.value,
-                controlAffinity: ListTileControlAffinity.trailing,
-                onChanged: (value) {
-                  authenticationController.gender.value = value;
-                },
-              ),
-              RadioListTile(
-                title: Text(genders[1]),
-                value: genders[1],
-                groupValue: authenticationController.gender.value,
-                controlAffinity: ListTileControlAffinity.trailing,
-                onChanged: (value) {
-                  authenticationController.gender.value = value;
-                },
-              ),
-              RadioListTile(
-                title: Text(genders[2]),
-                value: genders[2],
-                groupValue: authenticationController.gender.value,
-                controlAffinity: ListTileControlAffinity.trailing,
-                onChanged: (value) {
-                  authenticationController.gender.value = value;
-                },
-              ),
-            ],
-          )),
-    );
+    return Obx(() => Column(
+          // mainAxisSize: MainAxisSize.min,
+          children: [
+            RadioListTile(
+              title: Text(genders[0]),
+              value: genders[0],
+              activeColor: cPrimaryColor,
+              groupValue: authenticationController.gender.value,
+              controlAffinity: ListTileControlAffinity.trailing,
+              onChanged: (value) {
+                authenticationController.gender.value = value;
+              },
+            ),
+            RadioListTile(
+              title: Text(genders[1]),
+              value: genders[1],
+              activeColor: cPrimaryColor,
+              groupValue: authenticationController.gender.value,
+              controlAffinity: ListTileControlAffinity.trailing,
+              onChanged: (value) {
+                authenticationController.gender.value = value;
+              },
+            ),
+            RadioListTile(
+              title: Text(genders[2]),
+              value: genders[2],
+              activeColor: cPrimaryColor,
+              groupValue: authenticationController.gender.value,
+              controlAffinity: ListTileControlAffinity.trailing,
+              onChanged: (value) {
+                authenticationController.gender.value = value;
+              },
+            ),
+          ],
+        ));
   }
 }
