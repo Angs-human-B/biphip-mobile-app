@@ -1,9 +1,13 @@
+import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class Photos extends StatelessWidget {
-  const Photos({super.key});
+   Photos({super.key});
+
+  final ProfileController _profileController = Get.find<ProfileController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +62,19 @@ class Photos extends StatelessWidget {
                   childCount: photos.length,
                   (context, index) {
                     var item = photos[index];
-                    return ClipRRect(
+                    return InkWell(
+                      onTap: () {
+                        _profileController.photoLink.value = item;
+                        Get.toNamed(krPhotoDetails);
+                      },
+                      child: ClipRRect(
                         borderRadius: k8CircularBorderRadius,
                         child: Image.asset(
                           item,
                           fit: BoxFit.cover,
-                        ));
+                        ),
+                      ),
+                    );
                   },
                 ),
               ),

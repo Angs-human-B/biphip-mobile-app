@@ -18,6 +18,7 @@ class ProfileController extends GetxController {
   final TextEditingController bioEditingController = TextEditingController();
   final RxInt bioCount = 0.obs;
   final RxString bio = RxString('');
+  final RxString photoLink = RxString('');
 
 //*For Friends tapable button
   RxBool isAllButtonClickedFriend = RxBool(true);
