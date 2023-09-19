@@ -22,6 +22,7 @@ List shortcutButtonContent = [
     'icon': BipHip.imageFile,
     'onPressed': () {
       ll('Image');
+      Get.toNamed(krPhotos);
     }
   },
   {
@@ -202,31 +203,26 @@ List editProfileInfoContent = [
     'icon': BipHip.address,
     'text': 'Lives in Mirpur, Dhaka, Bangladesh.',
     'isLink': false,
-    
   },
   {
     'icon': BipHip.location,
     'text': 'From Homna, Comilla, Bangladesh.',
     'isLink': false,
-    
   },
   {
     'icon': BipHip.love,
     'text': 'Single',
     'isLink': false,
-    
   },
   {
     'icon': BipHip.school,
     'text': 'B.N School, Dhaka, Bangladesh.',
     'isLink': false,
-    
   },
   {
     'icon': BipHip.work,
     'text': 'Genie InfoTech',
     'isLink': false,
-    
   }
 ];
 
@@ -358,4 +354,19 @@ List addFriendList = [
     "name": "Maria Jones",
     "image": "assets/images/profilePic4x.png",
   },
+];
+
+List photos = [
+  'assets/images/pic4.jpeg',
+  'assets/images/pic5.jpeg',
+  'assets/images/coverPic.png',
+  'assets/images/pic12.jpeg',
+  'assets/images/pic4.jpeg',
+  'assets/images/pic5.jpeg',
+  'assets/images/coverPic.png',
+  'assets/images/pic12.jpeg',
+  'assets/images/pic4.jpeg',
+  'assets/images/pic5.jpeg',
+  'assets/images/coverPic.png',
+  'assets/images/pic12.jpeg',
 ];
