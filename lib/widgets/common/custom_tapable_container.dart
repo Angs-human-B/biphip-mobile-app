@@ -24,7 +24,7 @@ class TapAbleButtonContainer extends StatelessWidget {
       width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(k8BorderRadius),
-        color: cNutralColor,
+        color: cNeutralColor,
       ),
       child: Obx(
         () => Row(
@@ -45,13 +45,13 @@ class TapAbleButtonContainer extends StatelessWidget {
                         borderRadius: BorderRadius.circular(k8BorderRadius),
                         boxShadow: const [
                           BoxShadow(
-                            color: cNutralColor,
+                            color: cNeutralColor,
                             spreadRadius: 1,
                             blurRadius: 5,
                             offset: Offset(4, 8),
                           ),
                         ],
-                        color: firstButtonClicked.value && !secondButtonClicked.value ? cWhiteColor : cNutralColor,
+                        color: firstButtonClicked.value && !secondButtonClicked.value ? cWhiteColor : cNeutralColor,
                       ),
                       child: Center(
                         child: Text(
@@ -76,10 +76,10 @@ class TapAbleButtonContainer extends StatelessWidget {
                       // height: 28,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(k8BorderRadius),
-                        color: !firstButtonClicked.value && secondButtonClicked.value ? cWhiteColor : cNutralColor,
+                        color: !firstButtonClicked.value && secondButtonClicked.value ? cWhiteColor : cNeutralColor,
                         boxShadow: const [
                           BoxShadow(
-                            color: cNutralColor,
+                            color: cNeutralColor,
                             spreadRadius: 1,
                             blurRadius: 5,
                             offset: Offset(4, 8),
@@ -109,10 +109,10 @@ class TapAbleButtonContainer extends StatelessWidget {
                       // height: 28,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(k8BorderRadius),
-                        color: !firstButtonClicked.value && !secondButtonClicked.value ? cWhiteColor : cNutralColor,
+                        color: !firstButtonClicked.value && !secondButtonClicked.value ? cWhiteColor : cNeutralColor,
                         boxShadow: const [
                           BoxShadow(
-                            color: cNutralColor,
+                            color: cNeutralColor,
                             spreadRadius: 1,
                             blurRadius: 5,
                             offset: Offset(4, 8),

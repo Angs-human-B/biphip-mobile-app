@@ -30,4 +30,4 @@ const Color cKidsColor = Color(0xFF4F94FC);
 const Color cPoetryColor = Color(0xFFFF5E5E);
 const Color cSellingColor = Color(0xFF05AAFD);
 const Color cTransparentColor = Colors.transparent;
-const Color cNutralColor = Color(0XFFECECEC);
+const Color cNeutralColor = Color(0XFFECECEC);

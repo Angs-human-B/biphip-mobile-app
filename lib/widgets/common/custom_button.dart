@@ -66,7 +66,7 @@ class CustomElevatedButton extends StatelessWidget {
                       child: Icon(
                         prefixIcon!,
                         color: prefixIconColor ?? cWhiteColor,
-                        size: screenWiseSize(kIconSize18, 4),
+                        size: screenWiseSize(kIconSize16, 4),
                       ),
                     ),
                   Text(label.toString(), textAlign: TextAlign.center, style: textStyle),
@@ -76,7 +76,7 @@ class CustomElevatedButton extends StatelessWidget {
                       child: Icon(
                         suffixIcon!,
                         color: suffixIconColor ?? cWhiteColor,
-                        size: screenWiseSize(suffixIcon == BipHip.downArrow ? kIconSize22 : kIconSize18, 4),
+                        size: screenWiseSize(suffixIcon == BipHip.downArrow ? kIconSize20 : kIconSize16, 4),
                       ),
                     ),
                 ],
