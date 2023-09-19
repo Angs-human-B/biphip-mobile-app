@@ -197,6 +197,39 @@ List profileInfoContent = [
   },
 ];
 
+List editProfileInfoContent = [
+  {
+    'icon': BipHip.address,
+    'text': 'Lives in Mirpur, Dhaka, Bangladesh.',
+    'isLink': false,
+    
+  },
+  {
+    'icon': BipHip.location,
+    'text': 'From Homna, Comilla, Bangladesh.',
+    'isLink': false,
+    
+  },
+  {
+    'icon': BipHip.love,
+    'text': 'Single',
+    'isLink': false,
+    
+  },
+  {
+    'icon': BipHip.school,
+    'text': 'B.N School, Dhaka, Bangladesh.',
+    'isLink': false,
+    
+  },
+  {
+    'icon': BipHip.work,
+    'text': 'Genie InfoTech',
+    'isLink': false,
+    
+  }
+];
+
 List friendList = [
   {'name': 'Karnaze Krnunkenstein', 'image': 'assets/images/friend.png'},
   {'name': 'Joe Biden', 'image': 'assets/images/friend.png'},

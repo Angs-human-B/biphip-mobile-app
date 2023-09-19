@@ -36,3 +36,4 @@ const String ksBrotherPending = 'Brother (Pending)';
 const String ksAddFamilyMember = 'Add Family Member';
 const String ksSelectRelation = 'Select Relation';
 const String ksPublic = 'Public';
+const String ksEditProfile = 'Edit profile';
