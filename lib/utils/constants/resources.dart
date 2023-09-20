@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 List shortcutButtonContent = [
@@ -6,6 +7,7 @@ List shortcutButtonContent = [
     'icon': BipHip.friends,
     'onPressed': () {
       ll('Friend');
+      Get.find<ProfileController>().resetTapButtonData();
       Get.toNamed(krFriends);
     }
   },
@@ -14,6 +16,7 @@ List shortcutButtonContent = [
     'icon': BipHip.removeFamily,
     'onPressed': () {
       ll('Family');
+      Get.find<ProfileController>().resetTapButtonData();
       Get.toNamed(krFamily);
     }
   },

@@ -7,21 +7,24 @@ class ProfileController extends GetxController {
   final RxBool isSettingButtonPressed = RxBool(false);
   final RxInt interestCatagoriesIndex = RxInt(0);
   final RxBool isInterestSelected = RxBool(false);
-  
-//*For Friends tapable button
-  RxBool isAllButtonClickedFriend = RxBool(true);
-  RxBool isReceivedButtonClickedFriend = RxBool(false);
-  void toggleTypeFriend(int index) {
-    if (index == 1) {
-      isAllButtonClickedFriend.value = true;
-      isReceivedButtonClickedFriend.value = false;
-    } else if (index == 2) {
-      isReceivedButtonClickedFriend.value = true;
-      isAllButtonClickedFriend.value = false;
-    } else {
-      isAllButtonClickedFriend.value = false;
-      isReceivedButtonClickedFriend.value = false;
+
+  final RxList tapAbleButtonState = RxList([true, false, false]);
+  final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
+
+//*For tapAble button
+  void toggleType(int index) {
+    for (int i = 0; i < 3; i++) {
+      if (index == i) {
+        tapAbleButtonState[i] = true;
+      } else {
+        tapAbleButtonState[i] = false;
+      }
     }
+  }
+
+  void resetTapButtonData() {
+    tapAbleButtonState.clear();
+    tapAbleButtonState.addAll([true, false, false]);
   }
 
 //*Search
@@ -36,28 +39,12 @@ class ProfileController extends GetxController {
 
   //*friends page list data show
   StatelessWidget allReceivedPendingFriendsView() {
-    if (isAllButtonClickedFriend.value == true) {
+    if (tapAbleButtonState[0] == true) {
       return AllFriendList();
-    } else if (isReceivedButtonClickedFriend.value == true) {
+    } else if (tapAbleButtonState[1] == true) {
       return ReceivedFriendList();
     } else {
       return PendingFriendList();
-    }
-  }
-
-  //*For Family tapable button
-  RxBool isAllButtonClickedFamily = RxBool(true);
-  RxBool isReceivedButtonClickedFamily = RxBool(false);
-  void toggleTypeFamily(int index) {
-    if (index == 1) {
-      isAllButtonClickedFamily.value = true;
-      isReceivedButtonClickedFamily.value = false;
-    } else if (index == 2) {
-      isReceivedButtonClickedFamily.value = true;
-      isAllButtonClickedFamily.value = false;
-    } else {
-      isAllButtonClickedFamily.value = false;
-      isReceivedButtonClickedFamily.value = false;
     }
   }
 
@@ -69,9 +56,9 @@ class ProfileController extends GetxController {
 
   //*friends page list data show
   StatelessWidget allReceivedPendingFamilyView() {
-    if (isAllButtonClickedFamily.value == true) {
+    if (tapAbleButtonState[0] == true) {
       return AllFamilyList();
-    } else if (isReceivedButtonClickedFamily.value == true) {
+    } else if (tapAbleButtonState[1] == true) {
       return ReceivedFamilyList();
     } else {
       return PendingFamilyList();

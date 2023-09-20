@@ -1,7 +1,6 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/menu/friends.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/custom_tapable_container.dart';
 
@@ -52,38 +51,38 @@ class Family extends StatelessWidget {
       ),
       body: Obx(
         () => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+          padding: const EdgeInsets.symmetric(horizontal: k16Padding),
           child: SingleChildScrollView(
             physics: const NeverScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TapAbleButtonContainer(
-                  firstText: ksAll.tr,
-                  secondText: ksReceived.tr,
-                  thirdText: ksPending.tr,
-                  firstButtonOnPressed: () {
-                    _profileController.toggleTypeFamily(1);
-                  },
-                  secondButtonOnPressed: () {
-                    _profileController.toggleTypeFamily(2);
-                  },
-                  thirdButtonOnPressed: () {
-                    _profileController.toggleTypeFamily(3);
-                  },
-                  firstButtonClicked: _profileController.isAllButtonClickedFamily,
-                  secondButtonClicked: _profileController.isReceivedButtonClickedFamily,
+                  buttonText: _profileController.tapAbleButtonText,
+                  buttonState: _profileController.tapAbleButtonState,
+                  buttonPress: RxList([
+                    () {
+                      _profileController.toggleType(0);
+                    },
+                    () {
+                      _profileController.toggleType(1);
+                    },
+                    () {
+                      _profileController.toggleType(2);
+                    },
+                  ]),
                 ),
-                kH12sizedBox,
-                _profileController.isAllButtonClickedFamily.value
-                    ? Text(
-                        '${ksTotalFamilyMembers.tr}: 55',
-                        style: semiBold14TextStyle(cBlackColor),
-                      )
-                    : Text(
-                        '${ksFamilyRequests.tr}: 33',
-                        style: semiBold14TextStyle(cBlackColor),
-                      ),
+                if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
+                if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
+                  _profileController.tapAbleButtonState[0]
+                      ? Text(
+                          '${ksTotalFamilyMembers.tr}: 55',
+                          style: semiBold14TextStyle(cBlackColor),
+                        )
+                      : Text(
+                          '${ksFamilyRequests.tr}: 33',
+                          style: semiBold14TextStyle(cBlackColor),
+                        ),
                 kH16sizedBox,
                 _profileController.allReceivedPendingFamilyView(),
               ],
