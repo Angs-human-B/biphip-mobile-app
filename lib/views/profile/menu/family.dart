@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/menu/friends.dart';
@@ -28,19 +29,22 @@ class Family extends StatelessWidget {
               child: TextButton(
                 style: kTextButtonStyle,
                 onPressed: () {
+                  _profileController.initializeRelationText();
                   _globalController.commonBottomSheet(
-                      context: context,
-                      // bottomSheetColor: cWhiteColor,
-                      bottomSheetHeight: height,
-                      content: AddFamilyMemberBottomSheetContent(),
-                      onPressCloseButton: () {
-                        Get.back();
-                      },
-                      onPressRightButton: null,
-                      rightText: '',
-                      rightTextStyle: regular10TextStyle(cWhiteColor),
-                      title: ksAddFamilyMember.tr,
-                      isRightButtonShow: false);
+                    context: context,
+                    isScrollControlled: true,
+                    isSearchShow: true,
+                    bottomSheetHeight: height * .6,
+                    content: AddFamilyMemberBottomSheetContent(),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {},
+                    rightText: 'Send',
+                    rightTextStyle: medium14TextStyle(cPrimaryColor),
+                    title: ksAddFamilyMember.tr,
+                    isRightButtonShow: true,
+                  );
                 },
                 child: Text(
                   ksAdd.tr,
@@ -230,17 +234,99 @@ class AddFamilyMemberBottomSheetContent extends StatelessWidget {
   const AddFamilyMemberBottomSheetContent({super.key});
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Obx(
+            () => CustomSelectionButton(
+              hintText: ksSelectRelation.tr,
+              text: Get.find<ProfileController>().relation.value == "" ? null : Get.find<ProfileController>().relation.value,
+              onPressed: () {
+                unFocus(context);
+                Get.find<ProfileController>().initializeSelectedRelationText();
+                Get.find<GlobalController>().commonBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  isSearchShow: false,
+                  bottomSheetHeight: height * .9,
+                  content: RelationContent(),
+                  onPressCloseButton: () {
+                    Get.back();
+                  },
+                  onPressRightButton: () {
+                    Get.find<ProfileController>().selectRelationTextChange();
+                    Get.back();
+                  },
+                  rightText: 'Ok',
+                  rightTextStyle: medium14TextStyle(cPrimaryColor),
+                  title: "Select Relation",
+                  isRightButtonShow: true,
+                );
+              },
+            ),
+          ),
           kH20sizedBox,
-          CustomSelectionButton(
-            text: ksSelectRelation.tr,
-            onPressed: () {},
+          Row(
+            children: [
+              Obx(
+                () => CustomElevatedButton(
+                  isCustomButton: true,
+                  label: Get.find<CreatePostController>().postType.value,
+                  prefixIcon: Get.find<CreatePostController>().postTypeIcon.value,
+                  onPressed: () {
+                    unFocus(context);
+                    Get.find<CreatePostController>().initializeAudienceText();
+                    Get.find<CreatePostController>().showAudienceSheet(context);
+                  },
+                  buttonHeight: 40,
+                  buttonWidth: width * .5,
+                  suffixIcon: BipHip.downArrow,
+                  buttonColor: cGreyBoxColor,
+                  prefixIconColor: cBlackColor,
+                  suffixIconColor: cBlackColor,
+                  textStyle: medium14TextStyle(cBlackColor),
+                ),
+              ),
+            ],
           ),
         ],
       ),
+    );
+  }
+}
+
+class RelationContent extends StatelessWidget {
+  RelationContent({super.key});
+  final ProfileController _profileController = Get.find<ProfileController>();
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: _profileController.relationList.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: k10Padding),
+          child: Obx(
+            () => CustomListTile(
+              itemColor: _profileController.relationListState[index] ? cPrimaryTint3Color : cWhiteColor,
+              onPressed: () {
+                _profileController.relationStatusChange(index);
+              },
+              title: _profileController.relationList[index],
+              borderColor: _profileController.relationListState[index] ? cPrimaryColor : cLineColor,
+              trailing: CustomRadioButton(
+                onChanged: () {
+                  _profileController.relationStatusChange(index);
+                },
+                isSelected: _profileController.relationListState[index],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

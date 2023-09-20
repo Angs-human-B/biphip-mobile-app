@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
@@ -75,17 +76,21 @@ class GlobalController extends GetxController {
   }
 
   //* info:: common bottom-sheet
-  void commonBottomSheet(
-      {required context,
-      required Widget content,
-      required onPressCloseButton,
-      required onPressRightButton,
-      required String rightText,
-      required TextStyle rightTextStyle,
-      required String title,
-      required bool isRightButtonShow,
-      double? bottomSheetHeight}) {
+  void commonBottomSheet({
+    required context,
+    required Widget content,
+    required onPressCloseButton,
+    required onPressRightButton,
+    required String rightText,
+    required TextStyle rightTextStyle,
+    required String title,
+    required bool isRightButtonShow,
+    double? bottomSheetHeight,
+    bool? isScrollControlled,
+    bool? isSearchShow,
+  }) {
     showModalBottomSheet<void>(
+      isScrollControlled: isScrollControlled ?? false,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
       ),
@@ -98,7 +103,8 @@ class GlobalController extends GetxController {
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: cWhiteColor),
               width: width,
-              height: bottomSheetHeight,
+              height: MediaQuery.of(context).viewInsets.bottom > 0.0 ? height * .9 : bottomSheetHeight ?? height * .5,
+              constraints: BoxConstraints(minHeight: height * .5, maxHeight: height * .9),
               child: Column(
                 children: [
                   kH4sizedBox,
@@ -115,6 +121,19 @@ class GlobalController extends GetxController {
                     color: cLineColor,
                     thickness: 1,
                   ),
+                  if (isSearchShow == true)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: k16Padding),
+                      child: CustomModifiedTextField(
+                        controller: Get.find<ProfileController>().searchController,
+                        autoFocus: true,
+                        prefixIcon: BipHip.search,
+                        suffixIcon: BipHip.photo, // todo:: icon will be changed
+                        hint: ksSearch.tr,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
+                        textInputStyle: regular16TextStyle(cBlackColor),
+                      ),
+                    ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Padding(
@@ -247,6 +266,11 @@ class GlobalController extends GetxController {
     } on PlatformException catch (e) {
       ll("Failed to Pick Video $e");
     }
+  }
+
+  void setKeyboardValue(value, keyValue) {
+    keyValue.value = value;
+    ll(value);
   }
 
   //! end

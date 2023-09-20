@@ -27,8 +27,11 @@ class Friends extends StatelessWidget {
                 style: kTextButtonStyle,
                 onPressed: () {
                   //*Common bottom sheet for add friend
+                  _profileController.searchController.clear();
                   _globalController.commonBottomSheet(
                     context: context,
+                    isSearchShow: true,
+                    isScrollControlled: true,
                     content: BottomSheetContent(),
                     onPressCloseButton: () {
                       Get.back();
@@ -38,9 +41,7 @@ class Friends extends StatelessWidget {
                     rightTextStyle: semiBold10TextStyle(cWhiteColor),
                     title: ksAddFriend.tr,
                     isRightButtonShow: false,
-                    bottomSheetHeight: height,
-                    // bottomSheetColor: cWhiteColor,
-                    // isScrollControlled: true,
+                    bottomSheetHeight: height * .9,
                   );
                 },
                 child: Text(
@@ -153,7 +154,7 @@ class CustomListViewItem extends StatelessWidget {
                             size: h10,
                             color: cRedColor,
                           ),
-                    kW4sizedBox,
+                    if (icon != null) kW4sizedBox,
                     subTitle == null
                         ? const SizedBox()
                         : Text(
@@ -388,42 +389,36 @@ class BottomSheetContent extends StatelessWidget {
   final ProfileController _profileController = Get.find<ProfileController>();
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Column(
         children: [
-          SizedBox(
-            height: height / 1.05,
-            child: Padding(
-              padding: const EdgeInsets.only(top: k10Padding, bottom: k20Padding),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: _profileController.addFriendLists.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: k10Padding),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                      child: TextButton(
-                          style: kTextButtonStyle,
-                          onPressed: () async {
-                            // ll(index);
-                          },
-                          child: CustomSingleButtonListViewItem(
-                            backgroundImage: AssetImage(_profileController.addFriendLists[index]['image']),
-                            name: _profileController.addFriendLists[index]['name'],
-                            buttonText: ksSendRequest.tr,
-                            buttonColor: cPrimaryColor,
-                            buttonOnPressed: () {},
-                            textStyle: semiBold14TextStyle(cWhiteColor),
-                            buttonWidth: 147,
-                          )),
-                    ),
-                  );
-                },
-              ),
-            ),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: _profileController.addFriendLists.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: k10Padding),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                  child: TextButton(
+                      style: kTextButtonStyle,
+                      onPressed: () async {
+                        // ll(index);
+                      },
+                      child: CustomSingleButtonListViewItem(
+                        backgroundImage: AssetImage(_profileController.addFriendLists[index]['image']),
+                        name: _profileController.addFriendLists[index]['name'],
+                        buttonText: ksSendRequest.tr,
+                        buttonColor: cPrimaryColor,
+                        buttonOnPressed: () {},
+                        textStyle: semiBold14TextStyle(cWhiteColor),
+                        buttonWidth: 147,
+                      )),
+                ),
+              );
+            },
           ),
         ],
       ),

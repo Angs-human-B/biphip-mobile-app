@@ -69,6 +69,7 @@ class CustomModifiedTextField extends StatelessWidget {
         }),
       )),
       child: TextFormField(
+        textAlignVertical: TextAlignVertical.center,
         obscureText: obscureText,
         textAlign: TextAlign.start,
         textCapitalization: TextCapitalization.sentences,
@@ -94,11 +95,14 @@ class CustomModifiedTextField extends StatelessWidget {
               : null,
           suffixIconConstraints: const BoxConstraints(),
           suffixIcon: suffixIcon != null
-              ? CustomIconButton(
-                  onPress: onSuffixPress,
-                  icon: suffixIcon,
-                  hasBorder: false,
-                  size: screenWiseSize(kIconSize20, 4),
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CustomIconButton(
+                    onPress: onSuffixPress,
+                    icon: suffixIcon,
+                    hasBorder: false,
+                    size: screenWiseSize(kIconSize20, 4),
+                  ),
                 )
               : null,
           fillColor: fillColor ?? cGreyBoxColor,

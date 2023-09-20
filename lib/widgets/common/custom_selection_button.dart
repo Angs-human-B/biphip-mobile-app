@@ -17,24 +17,24 @@ class CustomSelectionButton extends StatelessWidget {
             borderRadius: k4CircularBorderRadius,
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k16Padding),
+            padding: const EdgeInsets.symmetric(horizontal: k12Padding, vertical: k12Padding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (text != '')
+                if (text != null)
                   Text(
                     text ?? '',
                     style: regular14TextStyle(cBlackColor),
                   ),
-                if (text == '')
+                if (text == null)
                   Text(
                     hintText ?? '',
                     style: regular14TextStyle(cPlaceHolderColor),
                   ),
                 Icon(
                   BipHip.downArrow,
-                  color: (text != '') ? cBlackColor : cPlaceHolderColor,
+                  color: (text != null) ? cBlackColor : cPlaceHolderColor,
                 )
               ],
             ),
