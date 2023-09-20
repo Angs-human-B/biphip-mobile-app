@@ -22,7 +22,7 @@ class Friends extends StatelessWidget {
           },
           action: [
             Padding(
-              padding: const EdgeInsets.only(right: k16Padding),
+              padding: const EdgeInsets.only(right: k20Padding),
               child: TextButton(
                 style: kTextButtonStyle,
                 onPressed: () {
@@ -58,7 +58,7 @@ class Friends extends StatelessWidget {
           children: [
             kH4sizedBox,
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k16Padding),
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
               child: TapAbleButtonContainer(
                 buttonText: _profileController.tapAbleButtonText,
                 buttonState: _profileController.tapAbleButtonState,

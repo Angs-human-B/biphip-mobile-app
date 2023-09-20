@@ -24,70 +24,77 @@ class Family extends StatelessWidget {
           },
           action: [
             Padding(
-                padding: const EdgeInsets.only(right: k10Padding),
-                child: TextButton(
-                    style: kTextButtonStyle,
-                    onPressed: () {
-                      _globalController.commonBottomSheet(
-                          context: context,
-                          // bottomSheetColor: cWhiteColor,
-                          bottomSheetHeight: height,
-                          content: AddFamilyMemberBottomSheetContent(),
-                          onPressCloseButton: () {
-                            Get.back();
-                          },
-                          onPressRightButton: null,
-                          rightText: '',
-                          rightTextStyle: regular10TextStyle(cWhiteColor),
-                          title: ksAddFamilyMember.tr,
-                          isRightButtonShow: false);
-                    },
-                    child: Text(
-                      ksAdd.tr,
-                      style: medium12TextStyle(cPrimaryColor),
-                    ))),
+              padding: const EdgeInsets.only(right: k20Padding),
+              child: TextButton(
+                style: kTextButtonStyle,
+                onPressed: () {
+                  _globalController.commonBottomSheet(
+                      context: context,
+                      // bottomSheetColor: cWhiteColor,
+                      bottomSheetHeight: height,
+                      content: AddFamilyMemberBottomSheetContent(),
+                      onPressCloseButton: () {
+                        Get.back();
+                      },
+                      onPressRightButton: null,
+                      rightText: '',
+                      rightTextStyle: regular10TextStyle(cWhiteColor),
+                      title: ksAddFamilyMember.tr,
+                      isRightButtonShow: false);
+                },
+                child: Text(
+                  ksAdd.tr,
+                  style: medium14TextStyle(cPrimaryColor),
+                ),
+              ),
+            ),
           ],
         ),
       ),
       body: Obx(
-        () => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: k16Padding),
-          child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TapAbleButtonContainer(
-                  buttonText: _profileController.tapAbleButtonText,
-                  buttonState: _profileController.tapAbleButtonState,
-                  buttonPress: RxList([
-                    () {
-                      _profileController.toggleType(0);
-                    },
-                    () {
-                      _profileController.toggleType(1);
-                    },
-                    () {
-                      _profileController.toggleType(2);
-                    },
-                  ]),
-                ),
-                if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
-                if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
-                  _profileController.tapAbleButtonState[0]
-                      ? Text(
-                          '${ksTotalFamilyMembers.tr}: 55',
-                          style: semiBold14TextStyle(cBlackColor),
-                        )
-                      : Text(
-                          '${ksFamilyRequests.tr}: 33',
-                          style: semiBold14TextStyle(cBlackColor),
-                        ),
-                kH16sizedBox,
-                _profileController.allReceivedPendingFamilyView(),
-              ],
+        () => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            kH4sizedBox,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: TapAbleButtonContainer(
+                buttonText: _profileController.tapAbleButtonText,
+                buttonState: _profileController.tapAbleButtonState,
+                buttonPress: RxList([
+                  () {
+                    _profileController.toggleType(0);
+                  },
+                  () {
+                    _profileController.toggleType(1);
+                  },
+                  () {
+                    _profileController.toggleType(2);
+                  },
+                ]),
+              ),
             ),
-          ),
+            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
+            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                child: _profileController.tapAbleButtonState[0]
+                    ? Text(
+                        '${ksTotalFamilyMembers.tr}: 55',
+                        style: semiBold14TextStyle(cBlackColor),
+                      )
+                    : Text(
+                        '${ksFamilyRequests.tr}: 33',
+                        style: semiBold14TextStyle(cBlackColor),
+                      ),
+              ),
+            kH12sizedBox,
+            Expanded(
+              child: SingleChildScrollView(
+                child: _profileController.allReceivedPendingFamilyView(),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -100,40 +107,37 @@ class AllFamilyList extends StatelessWidget {
   final ProfileController _profileController = Get.find<ProfileController>();
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height / 1.5,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: k10Padding),
-        child: ListView.builder(
-          itemCount: _profileController.allFamilyLists.length,
-          shrinkWrap: true,
-          physics: const AlwaysScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            // var _item = _profileController.allFriendsList[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: k10Padding),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(k8BorderRadius),
-                child: TextButton(
-                  style: kTextButtonStyle,
-                  onPressed: () async {
-                    // ll(index);
-                  },
-                  child: CustomListViewItem(
-                    backgroundImage: AssetImage(_profileController.allFriendsLists[index]['image']),
-                    name: _profileController.allFriendsLists[index]['name'],
-                    icon: BipHip.love,
-                    subTitle: ksBrother.tr,
-                    firstButtonText: ksMessage.tr,
-                    secondButtonText: ksRemove.tr,
-                    firstButtonOnPressed: () {},
-                    secondButtonOnPressed: () {},
-                  ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+      child: ListView.builder(
+        itemCount: _profileController.allFamilyLists.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          // var _item = _profileController.allFriendsList[index];
+          return Padding(
+            padding: const EdgeInsets.only(bottom: k16Padding),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(k8BorderRadius),
+              child: TextButton(
+                style: kTextButtonStyle,
+                onPressed: () async {
+                  // ll(index);
+                },
+                child: CustomListViewItem(
+                  backgroundImage: AssetImage(_profileController.allFriendsLists[index]['image']),
+                  name: _profileController.allFriendsLists[index]['name'],
+                  icon: BipHip.love,
+                  subTitle: ksBrother.tr,
+                  firstButtonText: ksMessage.tr,
+                  secondButtonText: ksRemove.tr,
+                  firstButtonOnPressed: () {},
+                  secondButtonOnPressed: () {},
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -145,15 +149,15 @@ class ReceivedFamilyList extends StatelessWidget {
   final ProfileController _profileController = Get.find<ProfileController>();
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height / 1.5,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
       child: ListView.builder(
         itemCount: _profileController.receivedFriendLists.length,
         shrinkWrap: true,
-        physics: const AlwaysScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.only(bottom: k10Padding),
+            padding: const EdgeInsets.only(bottom: k16Padding),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(k8BorderRadius),
               child: TextButton(
@@ -185,40 +189,37 @@ class PendingFamilyList extends StatelessWidget {
   final ProfileController _profileController = Get.find<ProfileController>();
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height / 1.5,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: k10Padding),
-        child: ListView.builder(
-          itemCount: _profileController.pendingFriendLists.length,
-          shrinkWrap: true,
-          physics: const AlwaysScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: k10Padding),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(k8BorderRadius),
-                child: TextButton(
-                  style: kTextButtonStyle,
-                  onPressed: () async {
-                    // ll(index);
-                  },
-                  child: CustomSingleButtonListViewItem(
-                    backgroundImage: AssetImage(_profileController.pendingFriendLists[index]['image']),
-                    name: _profileController.pendingFriendLists[index]['name'],
-                    subTitle: ksBrotherPending.tr,
-                    buttonText: ksCancelRequest.tr,
-                    buttonOnPressed: () {},
-                    buttonColor: cWhiteColor,
-                    borderColor: cRedColor,
-                    textStyle: semiBold14TextStyle(cRedColor),
-                    buttonWidth: 147,
-                  ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+      child: ListView.builder(
+        itemCount: _profileController.pendingFriendLists.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: k10Padding),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(k8BorderRadius),
+              child: TextButton(
+                style: kTextButtonStyle,
+                onPressed: () async {
+                  // ll(index);
+                },
+                child: CustomSingleButtonListViewItem(
+                  backgroundImage: AssetImage(_profileController.pendingFriendLists[index]['image']),
+                  name: _profileController.pendingFriendLists[index]['name'],
+                  subTitle: ksBrotherPending.tr,
+                  buttonText: ksCancelRequest.tr,
+                  buttonOnPressed: () {},
+                  buttonColor: cWhiteColor,
+                  borderColor: cRedColor,
+                  textStyle: semiBold14TextStyle(cRedColor),
+                  buttonWidth: 147,
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
