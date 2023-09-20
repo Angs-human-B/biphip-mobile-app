@@ -75,7 +75,7 @@ class Profile extends StatelessWidget {
                                 ),
                                 child: ClipOval(
                                   child: Image.file(
-                                    _profileController.profileImageFile.value,
+                                    _profileController.newProfileImageFile.value,
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => ClipOval(
                                       child: Image.asset(
@@ -92,13 +92,14 @@ class Profile extends StatelessWidget {
                                 child: TextButton(
                                   style: kTextButtonStyle,
                                   onPressed: () {
-                                    _profileController.showPictureUploadModalBottomSheet(
-                                        context,
-                                        PictureUploadContent(
-                                          isImageChanged: _profileController.isProfileImageChanged,
-                                          imagePath: _profileController.profileImageLink,
-                                          imageFile: _profileController.profileImageFile,
-                                        ));
+                                    // _profileController.showPictureUploadModalBottomSheet(
+                                    //     context,
+                                    //     PictureUploadContent(
+                                    //       isImageChanged: _profileController.isProfileImageChanged,
+                                    //       imagePath: _profileController.profileImageLink,
+                                    //       imageFile: _profileController.profileImageFile,
+                                    //     ));
+                                    Get.toNamed(krPhotoPreview);
                                   },
                                   child: Container(
                                     height: h28,
