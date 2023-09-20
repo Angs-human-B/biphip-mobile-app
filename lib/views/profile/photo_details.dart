@@ -1,7 +1,6 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 
 class PhotoDetails extends StatelessWidget {
   PhotoDetails({super.key});

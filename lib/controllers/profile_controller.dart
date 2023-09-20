@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/menu/family.dart';
 import 'package:bip_hip/views/profile/menu/friends.dart';
+import 'package:video_player/video_player.dart';
 
 class ProfileController extends GetxController {
   final RxBool isSupportButtonPressed = RxBool(false);
@@ -11,6 +11,7 @@ class ProfileController extends GetxController {
   final RxBool isInterestSelected = RxBool(false);
   final RxString profileImageLink = RxString('');
   final Rx<File> profileImageFile = File('').obs;
+  final Rx<File> newProfileImageFile = File('').obs;
   final RxBool isProfileImageChanged = RxBool(false);
   final RxString coverImageLink = RxString('');
   final Rx<File> coverImageFile = File('').obs;
@@ -19,10 +20,25 @@ class ProfileController extends GetxController {
   final RxInt bioCount = 0.obs;
   final RxString bio = RxString('');
   final RxString photoLink = RxString('');
+  late VideoPlayerController videoPlayerController;
+  final RxString videoUrl = RxString('');
+  final RxBool isSharedToNewFeed = RxBool(false);
 
   final RxList tapAbleButtonState = RxList([true, false, false]);
   final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
 
+  void playVideo(
+    String videoUrl, {
+    bool init = false,
+  }) {
+    // if(index<0 || index>= videos.length){
+    //   return;
+    // }
+    videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl))
+      ..addListener(() {})
+      ..setLooping(true)
+      ..initialize().then((value) => videoPlayerController.play());
+  }
   final RxList relationList = RxList([
     "Father",
     "Mother",
