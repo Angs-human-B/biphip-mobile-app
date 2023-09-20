@@ -1,12 +1,11 @@
 name: bip_hip
 description: A new social app built with flutter
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.1.0 <4.0.0'
-
+  sdk: ">=3.1.0 <4.0.0"
 
 #  `flutter pub upgrade --major-versions`
 # `flutter pub outdated`.
@@ -53,7 +52,7 @@ flutter:
     - family: BipHip
       fonts:
         - asset: assets/fonts/Icon_font/BipHip.ttf
-        
-    - family: BipHip
+
+    - family: BipHip2
       fonts:
-        - asset: assets/fonts/Icon_font/BipHip.ttf
+        - asset: assets/fonts/Icon_font/BipHip2.ttf
