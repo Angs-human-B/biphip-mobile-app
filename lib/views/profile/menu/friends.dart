@@ -1,7 +1,5 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/custom_tapable_container.dart';
 
 class Friends extends StatelessWidget {
@@ -24,7 +22,7 @@ class Friends extends StatelessWidget {
           },
           action: [
             Padding(
-              padding: const EdgeInsets.only(right: k10Padding),
+              padding: const EdgeInsets.only(right: k16Padding),
               child: TextButton(
                 style: kTextButtonStyle,
                 onPressed: () {
@@ -58,41 +56,40 @@ class Friends extends StatelessWidget {
         () => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            kH16sizedBox,
+            kH4sizedBox,
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              padding: const EdgeInsets.symmetric(horizontal: k16Padding),
               child: TapAbleButtonContainer(
-                firstText: ksAll.tr,
-                secondText: ksReceived.tr,
-                thirdText: ksPending.tr,
-                firstButtonOnPressed: () {
-                  _profileController.toggleTypeFriend(1);
-                },
-                secondButtonOnPressed: () {
-                  _profileController.toggleTypeFriend(2);
-                },
-                thirdButtonOnPressed: () {
-                  _profileController.toggleTypeFriend(3);
-                },
-                firstButtonClicked: _profileController.isAllButtonClickedFriend,
-                secondButtonClicked: _profileController.isReceivedButtonClickedFriend,
+                buttonText: _profileController.tapAbleButtonText,
+                buttonState: _profileController.tapAbleButtonState,
+                buttonPress: RxList([
+                  () {
+                    _profileController.toggleType(0);
+                  },
+                  () {
+                    _profileController.toggleType(1);
+                  },
+                  () {
+                    _profileController.toggleType(2);
+                  },
+                ]),
               ),
             ),
-
+            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
+            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                child: _profileController.tapAbleButtonState[0]
+                    ? Text(
+                        '${ksTotalFriends.tr}: 557',
+                        style: semiBold14TextStyle(cBlackColor),
+                      )
+                    : Text(
+                        '${ksFriendRequests.tr}: 33',
+                        style: semiBold14TextStyle(cBlackColor),
+                      ),
+              ),
             kH12sizedBox,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-              child: _profileController.isAllButtonClickedFriend.value
-                  ? Text(
-                      '${ksTotalFriends.tr}: 557',
-                      style: semiBold14TextStyle(cBlackColor),
-                    )
-                  : Text(
-                      '${ksFriendRequests.tr}: 33',
-                      style: semiBold14TextStyle(cBlackColor),
-                    ),
-            ),
-            kH16sizedBox,
             //*All friend, Receive friend request and Pending friend request ui
             Expanded(
               child: SingleChildScrollView(

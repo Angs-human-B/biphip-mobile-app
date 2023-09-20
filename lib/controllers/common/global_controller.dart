@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GlobalController extends GetxController {
@@ -76,17 +75,16 @@ class GlobalController extends GetxController {
   }
 
   //* info:: common bottom-sheet
-  void commonBottomSheet({
-    required context,
-    required Widget content,
-    required onPressCloseButton,
-    required onPressRightButton,
-    required String rightText,
-    required TextStyle rightTextStyle,
-    required String title,
-    required bool isRightButtonShow,
-    double? bottomSheetHeight
-  }) {
+  void commonBottomSheet(
+      {required context,
+      required Widget content,
+      required onPressCloseButton,
+      required onPressRightButton,
+      required String rightText,
+      required TextStyle rightTextStyle,
+      required String title,
+      required bool isRightButtonShow,
+      double? bottomSheetHeight}) {
     showModalBottomSheet<void>(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
@@ -96,7 +94,9 @@ class GlobalController extends GetxController {
         return Stack(
           alignment: Alignment.topCenter,
           children: [
-            SizedBox(
+            Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: cWhiteColor),
               width: width,
               height: bottomSheetHeight,
               child: Column(
@@ -128,7 +128,7 @@ class GlobalController extends GetxController {
               ),
             ),
             Positioned(
-              top: h16,
+              top: h12,
               left: 5,
               child: CustomIconButton(
                 onPress: onPressCloseButton,
@@ -164,7 +164,7 @@ class GlobalController extends GetxController {
   //* Image picker
   final ImagePicker _picker = ImagePicker();
 
-  Future<void> selectImageSource(RxBool isChanged, imageLink, imageFile, String source) async {
+  Future<void> selectImageSource(RxBool isChanged, imageLink, imageFile, String source, [bool? isFromBottomSheet]) async {
     try {
       final XFile? image = await _picker.pickImage(
         source: source == 'gallery' ? ImageSource.gallery : ImageSource.camera,
@@ -175,20 +175,77 @@ class GlobalController extends GetxController {
         final List<int> imageBytes = await image.readAsBytes();
         final String base64Image = base64Encode(imageBytes);
         final File imageTemporary = File(image.path);
-        // var value = await _image.length();
-        // ll(value);
         imageFile(imageTemporary);
         isChanged.value = true;
         imageLink.value = 'data:image/png;base64,$base64Image';
         // log(imageLink.toString());
-        Get.back();
-        ll(Get.find<AuthenticationController>().isProfileImageChanged.value);
+        if (isFromBottomSheet != false) {
+          Get.back();
+        }
       } else {
         ll('image not selected');
         return;
       }
     } on PlatformException catch (e) {
       ll("Failed to Pick Image $e");
+    }
+  }
+
+  Future<void> selectMultiMediaSource(RxBool isMediaChanged, RxList<RxString> mediaLinkList, RxList<Rx<File?>> mediaFileList) async {
+    try {
+      final List<XFile> mediaList = await _picker.pickMultipleMedia(
+        maxHeight: 480,
+        maxWidth: 720,
+      );
+      if (mediaList.isNotEmpty) {
+        for (int i = 0; i < mediaList.length; i++) {
+          final String? type = lookupMimeType(mediaList[i].path);
+          ll(type);
+          final List<int> imageBytes = await mediaList[i].readAsBytes();
+          final String base64Image = base64Encode(imageBytes);
+          final File imageTemporary = File(mediaList[i].path);
+          mediaFileList.add(imageTemporary.obs);
+          isMediaChanged.value = true;
+          if (type != null) {
+            if (type.contains('image')) {
+              mediaLinkList.add('data:image/png;base64,$base64Image'.obs);
+            }
+            if (type.contains('video')) {
+              mediaLinkList.add('data:video/mp4;base64,$base64Image'.obs);
+            }
+          } else {
+            showSnackBar(title: 'Warning', message: "file format is not supported currently", color: cSecondaryColor);
+          }
+        }
+      } else {
+        ll('file not selected');
+        return;
+      }
+    } on PlatformException catch (e) {
+      ll("Failed to Pick file $e");
+    }
+  }
+
+  Future<void> selectVideoSource(RxBool isChanged, videoLink, videoFile, String source) async {
+    try {
+      final XFile? video = await _picker.pickVideo(
+          source: source == 'gallery' ? ImageSource.gallery : ImageSource.camera,
+          preferredCameraDevice: CameraDevice.rear,
+          maxDuration: const Duration(seconds: 600));
+      if (video != null) {
+        final List<int> videoBytes = await video.readAsBytes();
+        final String base64Video = base64Encode(videoBytes);
+        final File videoTemporary = File(video.path);
+        videoFile(videoTemporary);
+        isChanged.value = true;
+        videoLink.value = 'data:video/mp4;base64,$base64Video';
+        // log(videoLink.toString());
+      } else {
+        ll('video not selected');
+        return;
+      }
+    } on PlatformException catch (e) {
+      ll("Failed to Pick Video $e");
     }
   }
 

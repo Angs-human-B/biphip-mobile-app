@@ -1,8 +1,5 @@
 import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
-import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
 
 class CreatePost extends StatelessWidget {
   CreatePost({super.key});
@@ -138,33 +135,40 @@ class CreatePost extends StatelessWidget {
                                   kH4sizedBox,
                                   Row(
                                     children: [
-                                      CustomElevatedButton(
-                                        isCustomButton: true,
-                                        label: "Public",
-                                        onPressed: () {},
-                                        buttonHeight: 22,
-                                        prefixIcon: BipHip.world,
-                                        suffixIcon: BipHip.downArrow,
-                                        buttonColor: cGreyBoxColor,
-                                        prefixIconColor: cBlackColor,
-                                        suffixIconColor: cBlackColor,
-                                        textStyle: medium12TextStyle(cBlackColor),
+                                      Obx(
+                                        () => CustomElevatedButton(
+                                          isCustomButton: true,
+                                          label: _createPostController.postType.value,
+                                          prefixIcon: _createPostController.postTypeIcon.value,
+                                          onPressed: () {
+                                            _createPostController.initializeAudienceText();
+                                            _createPostController.showAudienceSheet(context);
+                                          },
+                                          buttonHeight: 22,
+                                          suffixIcon: BipHip.downArrow,
+                                          buttonColor: cGreyBoxColor,
+                                          prefixIconColor: cBlackColor,
+                                          suffixIconColor: cBlackColor,
+                                          textStyle: medium12TextStyle(cBlackColor),
+                                        ),
                                       ),
                                       kW8sizedBox,
                                       CustomElevatedButton(
-                                        label: _createPostController.postType.value == "" ? "Select Category" : "Selling",
-                                        onPressed: () {},
+                                        label: _createPostController.category.value == "" ? "Select Category" : _createPostController.category.value,
+                                        prefixIcon: _createPostController.category.value == "" ? null : BipHip.sellNew,
+                                        prefixIconColor: _createPostController.category.value == "" ? null : cPrimaryColor,
+                                        onPressed: () {
+                                          Get.toNamed(krSelectCategory);
+                                        },
                                         buttonHeight: 22,
                                         isCustomButton: true,
-                                        suffixIcon: _createPostController.postType.value == "" ? BipHip.plus : BipHip.edit,
-                                        prefixIcon: _createPostController.postType.value == "" ? null : BipHip.sellNew,
+                                        suffixIcon: _createPostController.category.value == "" ? BipHip.plus : BipHip.edit,
                                         buttonColor: cGreyBoxColor,
                                         suffixIconColor: cBlackColor,
-                                        prefixIconColor: _createPostController.postType.value == "" ? null : cPrimaryColor,
                                         textStyle: medium12TextStyle(cBlackColor),
                                       ),
-                                      if (_createPostController.postType.value == "selling") kW8sizedBox,
-                                      if (_createPostController.postType.value == "selling")
+                                      if (_createPostController.category.value == "Selling") kW8sizedBox,
+                                      if (_createPostController.category.value == "Selling")
                                         CustomElevatedButton(
                                           label: "Web",
                                           onPressed: () {},
@@ -242,9 +246,15 @@ class CreatePost extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       for (int i = 0; i < 4; i++)
-                        Icon(
-                          _createPostController.getBottomRowIcon(i + 1),
-                          color: _createPostController.getBottomIconColor(i + 1),
+                        TextButton(
+                          onPressed: () {
+                            _createPostController.getBottomRowOnPressed(i + 1);
+                          },
+                          style: kTextButtonStyle,
+                          child: Icon(
+                            _createPostController.getBottomRowIcon(i + 1),
+                            color: _createPostController.getBottomIconColor(i + 1),
+                          ),
                         ),
                     ],
                   ),

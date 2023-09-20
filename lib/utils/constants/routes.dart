@@ -16,6 +16,7 @@ import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/create_post/create_post.dart';
 import 'package:bip_hip/views/profile/edit_bio.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
+import 'package:bip_hip/views/create_post/select_category.dart';
 import 'package:bip_hip/views/profile/menu/family.dart';
 import 'package:bip_hip/views/profile/menu/friends.dart';
 import 'package:bip_hip/views/profile/menu/menu.dart';
@@ -62,6 +63,7 @@ const String krVideos = '/videos';
 const String krVideoDetails = '/video-details';
 
 const String krCreatePost = '/create-post';
+const String krSelectCategory = '/create-post/select-category';
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -100,4 +102,5 @@ List<GetPage<dynamic>>? routes = [
 
   //* create post
   GetPage(name: krCreatePost, page: () => CreatePost(), transition: Transition.downToUp),
+  GetPage(name: krSelectCategory, page: () => SelectCategory(), transition: Transition.downToUp),
 ];

@@ -20,91 +20,78 @@ class ProfileController extends GetxController {
   final RxString bio = RxString('');
   final RxString photoLink = RxString('');
 
-//*For Friends tapable button
-  RxBool isAllButtonClickedFriend = RxBool(true);
-  RxBool isReceivedButtonClickedFriend = RxBool(false);
-  void toggleTypeFriend(int index) {
-    if (index == 1) {
-      isAllButtonClickedFriend.value = true;
-      isReceivedButtonClickedFriend.value = false;
-    } else if (index == 2) {
-      isReceivedButtonClickedFriend.value = true;
-      isAllButtonClickedFriend.value = false;
-    } else {
-      isAllButtonClickedFriend.value = false;
-      isReceivedButtonClickedFriend.value = false;
+  final RxList tapAbleButtonState = RxList([true, false, false]);
+  final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
+
+  //*For tapAble button
+  void toggleType(int index) {
+    for (int i = 0; i < 3; i++) {
+      if (index == i) {
+        tapAbleButtonState[i] = true;
+      } else {
+        tapAbleButtonState[i] = false;
+      }
     }
   }
 
-//*Search
-  final TextEditingController searchController = TextEditingController();
-  RxBool isCloseIconVisible = RxBool(false);
+    void resetTapButtonData() {
+      tapAbleButtonState.clear();
+      tapAbleButtonState.addAll([true, false, false]);
+    }
 
-  //*Friends
-  RxList allFriendsLists = RxList(friendsList);
-  RxList receivedFriendLists = RxList(friendsList);
-  RxList pendingFriendLists = RxList(friendsList);
-  RxList addFriendLists = RxList(addFriendList);
+    //*Search
+    final TextEditingController searchController = TextEditingController();
+    RxBool isCloseIconVisible = RxBool(false);
 
-  //*friends page list data show
-  StatelessWidget allReceivedPendingFriendsView() {
-    if (isAllButtonClickedFriend.value == true) {
-      return AllFriendList();
-    } else if (isReceivedButtonClickedFriend.value == true) {
-      return ReceivedFriendList();
-    } else {
-      return PendingFriendList();
+    //*Friends
+    RxList allFriendsLists = RxList(friendsList);
+    RxList receivedFriendLists = RxList(friendsList);
+    RxList pendingFriendLists = RxList(friendsList);
+    RxList addFriendLists = RxList(addFriendList);
+
+    //*friends page list data show
+    StatelessWidget allReceivedPendingFriendsView() {
+      if (tapAbleButtonState[0] == true) {
+        return AllFriendList();
+      } else if (tapAbleButtonState[1] == true) {
+        return ReceivedFriendList();
+      } else {
+        return PendingFriendList();
+      }
+    }
+
+    //*Family
+    RxList allFamilyLists = RxList(friendsList);
+    RxList receivedFamilyLists = RxList(friendsList);
+    RxList pendingFamilyLists = RxList(friendsList);
+    RxList addFamilyLists = RxList(addFriendList);
+
+    //*friends page list data show
+    StatelessWidget allReceivedPendingFamilyView() {
+      if (tapAbleButtonState[0] == true) {
+        return AllFamilyList();
+      } else if (tapAbleButtonState[1] == true) {
+        return ReceivedFamilyList();
+      } else {
+        return PendingFamilyList();
+      }
+    }
+
+    void showPictureUploadModalBottomSheet(context, content) {
+      showModalBottomSheet(
+        backgroundColor: cWhiteColor,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
+        ),
+        context: context,
+        builder: (context) {
+          return content;
+        },
+      );
+    }
+
+    void clearBio() {
+      bioCount.value = 0;
+      bioEditingController.clear();
     }
   }
-
-  //*For Family tapable button
-  RxBool isAllButtonClickedFamily = RxBool(true);
-  RxBool isReceivedButtonClickedFamily = RxBool(false);
-  void toggleTypeFamily(int index) {
-    if (index == 1) {
-      isAllButtonClickedFamily.value = true;
-      isReceivedButtonClickedFamily.value = false;
-    } else if (index == 2) {
-      isReceivedButtonClickedFamily.value = true;
-      isAllButtonClickedFamily.value = false;
-    } else {
-      isAllButtonClickedFamily.value = false;
-      isReceivedButtonClickedFamily.value = false;
-    }
-  }
-
-  //*Family
-  RxList allFamilyLists = RxList(friendsList);
-  RxList receivedFamilyLists = RxList(friendsList);
-  RxList pendingFamilyLists = RxList(friendsList);
-  RxList addFamilyLists = RxList(addFriendList);
-
-  //*friends page list data show
-  StatelessWidget allReceivedPendingFamilyView() {
-    if (isAllButtonClickedFamily.value == true) {
-      return AllFamilyList();
-    } else if (isReceivedButtonClickedFamily.value == true) {
-      return ReceivedFamilyList();
-    } else {
-      return PendingFamilyList();
-    }
-  }
-
-  void showPictureUploadModalBottomSheet(context, content) {
-     showModalBottomSheet(
-      backgroundColor: cWhiteColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
-      ),
-      context: context,
-      builder: (context) {
-        return content;
-      },
-    );
-  }
-
-  void clearBio(){
-    bioCount.value = 0;
-    bioEditingController.clear();
-  }
-}
