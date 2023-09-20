@@ -14,10 +14,16 @@ import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/create_post/create_post.dart';
+import 'package:bip_hip/views/profile/edit_bio.dart';
+import 'package:bip_hip/views/profile/edit_profile.dart';
 import 'package:bip_hip/views/profile/menu/family.dart';
 import 'package:bip_hip/views/profile/menu/friends.dart';
 import 'package:bip_hip/views/profile/menu/menu.dart';
+import 'package:bip_hip/views/profile/photo_details.dart';
+import 'package:bip_hip/views/profile/photos.dart';
 import 'package:bip_hip/views/profile/profile.dart';
+import 'package:bip_hip/views/profile/video_details.dart';
+import 'package:bip_hip/views/profile/videos.dart';
 import 'package:bip_hip/views/splash_and_intro/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -48,6 +54,12 @@ const String krMenu = '/menu';
 const String krProfile = '/profile';
 const String krFriends = '/friends';
 const String krFamily = '/family';
+const String krEditProfile = '/edit-profile';
+const String krEditBio = '/edit-bio';
+const String krPhotos = '/photos';
+const String krPhotoDetails = '/photo-details';
+const String krVideos = '/videos';
+const String krVideoDetails = '/video-details';
 
 const String krCreatePost = '/create-post';
 
@@ -76,6 +88,12 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krProfile, page: () => Profile(), transition: Transition.noTransition),
   GetPage(name: krFriends, page: () => Friends(), transition: Transition.noTransition),
   GetPage(name: krFamily, page: () => Family(), transition: Transition.noTransition),
+  GetPage(name: krEditProfile, page: () => EditProfile(), transition: Transition.noTransition),
+  GetPage(name: krEditBio, page: () => EditBio(), transition: Transition.noTransition),
+  GetPage(name: krPhotos, page: () => Photos(), transition: Transition.noTransition),
+  GetPage(name: krPhotoDetails, page: () => PhotoDetails(), transition: Transition.noTransition),
+  GetPage(name: krVideos, page: () => Videos(), transition: Transition.noTransition),
+  GetPage(name: krVideoDetails, page: () => VideoDetails(), transition: Transition.noTransition),
 
   //* info:: other screens
   GetPage(name: krSplashScreen, page: () => const SplashScreen(), transition: Transition.noTransition),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/menu/family.dart';
 import 'package:bip_hip/views/profile/menu/friends.dart';
@@ -7,7 +9,17 @@ class ProfileController extends GetxController {
   final RxBool isSettingButtonPressed = RxBool(false);
   final RxInt interestCatagoriesIndex = RxInt(0);
   final RxBool isInterestSelected = RxBool(false);
-  
+  final RxString profileImageLink = RxString('');
+  final Rx<File> profileImageFile = File('').obs;
+  final RxBool isProfileImageChanged = RxBool(false);
+  final RxString coverImageLink = RxString('');
+  final Rx<File> coverImageFile = File('').obs;
+  final RxBool isCoverImageChanged = RxBool(false);
+  final TextEditingController bioEditingController = TextEditingController();
+  final RxInt bioCount = 0.obs;
+  final RxString bio = RxString('');
+  final RxString photoLink = RxString('');
+
 //*For Friends tapable button
   RxBool isAllButtonClickedFriend = RxBool(true);
   RxBool isReceivedButtonClickedFriend = RxBool(false);
@@ -76,5 +88,23 @@ class ProfileController extends GetxController {
     } else {
       return PendingFamilyList();
     }
+  }
+
+  void showPictureUploadModalBottomSheet(context, content) {
+     showModalBottomSheet(
+      backgroundColor: cWhiteColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
+      ),
+      context: context,
+      builder: (context) {
+        return content;
+      },
+    );
+  }
+
+  void clearBio(){
+    bioCount.value = 0;
+    bioEditingController.clear();
   }
 }
