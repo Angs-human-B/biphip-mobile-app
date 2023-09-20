@@ -44,10 +44,12 @@ class PhotoDetails extends StatelessWidget {
                   kH20sizedBox,
                   const CustomDivider(),
                   kH20sizedBox,
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [InteractionStats(), UserInteractionView()],
-                  )
+                  ),
+                  kH20sizedBox,
+                  const CustomDivider(),
                 ],
               ),
             ),
@@ -149,77 +151,34 @@ class UserInteractionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
-          width: 70,
-          child: Stack(
-            children: [
-              ClipOval(
-                child: Image.asset(
-                  'assets/images/profileDefault.png',
-                  fit: BoxFit.cover,
-                  height: 20,
-                  width: 20,
-                ),
-              ),
+        Stack(
+          children: [
+            const SizedBox(
+              width: 75,
+              height: 21,
+            ),
+            for (int index = 0; index < 6; index++)
               Positioned(
-                right: 10,
-                child: ClipOval(
-                  child: Image.asset(
-                    'assets/images/profileDefault.png',
-                    fit: BoxFit.cover,
-                    height: 20,
-                    width: 20,
+                left: index * 10,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: cPrimaryColor,
+                    borderRadius: BorderRadius.circular(22),
+                    border: Border.all(color: cPrimaryColor, width: 1),
+                  ),
+                  child: ClipOval(
+                    child: Image.asset(
+                      'assets/images/profileDefault.png',
+                      fit: BoxFit.cover,
+                      height: 20,
+                      width: 20,
+                    ),
                   ),
                 ),
               ),
-              Positioned(
-                right: 20,
-                child: ClipOval(
-                  child: Image.asset(
-                    'assets/images/profileDefault.png',
-                    fit: BoxFit.cover,
-                    height: 20,
-                    width: 20,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 30,
-                child: ClipOval(
-                  child: Image.asset(
-                    'assets/images/profileDefault.png',
-                    fit: BoxFit.cover,
-                    height: 20,
-                    width: 20,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 40,
-                child: ClipOval(
-                  child: Image.asset(
-                    'assets/images/profileDefault.png',
-                    fit: BoxFit.cover,
-                    height: 20,
-                    width: 20,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 50,
-                child: ClipOval(
-                  child: Image.asset(
-                    'assets/images/profileDefault.png',
-                    fit: BoxFit.cover,
-                    height: 20,
-                    width: 20,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          ],
         ),
         kH10sizedBox,
         Text(
