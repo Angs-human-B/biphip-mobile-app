@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/utils/icons/bip_hip_icons.dart';
 import 'package:bip_hip/widgets/common/checkbox_and_container.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/linkup_text.dart';
@@ -51,10 +50,18 @@ class Login extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: h20),
                       child: CustomModifiedTextField(
+                        errorText: _authenticationController.loginEmailErrorText.isEmpty ? null : _authenticationController.loginEmailErrorText.value,
                         controller: _authenticationController.loginEmailTextEditingController,
                         hint: "Email or Phone number",
                         onChanged: (text) {
                           _authenticationController.checkCanLogin();
+                          if (_authenticationController.loginEmailTextEditingController.text.trim() == '') {
+                            _authenticationController.loginEmailErrorText.value = 'Email or Phone number can\'t be empty';
+                          } else if (!_authenticationController.loginEmailTextEditingController.text.trim().isValidEmail) {
+                            _authenticationController.loginEmailErrorText.value = 'Invalid email address';
+                          } else {
+                            _authenticationController.loginEmailErrorText.value = '';
+                          }
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
@@ -65,6 +72,7 @@ class Login extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: h20),
                       child: CustomModifiedTextField(
+                        errorText: _authenticationController.loginPasswordErrorText.value,
                         controller: _authenticationController.loginPasswordTextEditingController,
                         hint: "Password",
                         suffixIcon: _authenticationController.isLoginPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
@@ -73,6 +81,13 @@ class Login extends StatelessWidget {
                         },
                         onChanged: (text) {
                           _authenticationController.checkCanLogin();
+                          if (_authenticationController.loginPasswordTextEditingController.text.trim() == '') {
+                            _authenticationController.loginPasswordErrorText.value = 'Password can\'t be empty';
+                          } else if (_authenticationController.loginPasswordTextEditingController.text.length < kMinPasswordLength) {
+                            _authenticationController.loginPasswordErrorText.value = 'Password can\'t be less then 8 characters';
+                          } else {
+                            _authenticationController.loginPasswordErrorText.value = '';
+                          }
                         },
                         onSubmit: (text) {},
                         obscureText: _authenticationController.isLoginPasswordToggleObscure.value,
@@ -98,7 +113,12 @@ class Login extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: h20),
                       child: CustomElevatedButton(
                         label: 'Login',
-                        onPressed: _authenticationController.canLogin.value ? () {} : null,
+                        onPressed: _authenticationController.canLogin.value
+                            ? () {
+                                
+                                Get.toNamed(krMenu);
+                              }
+                            : null,
                         buttonWidth: width - 40,
                         textStyle:
                             _authenticationController.canLogin.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),

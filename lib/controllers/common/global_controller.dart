@@ -85,6 +85,7 @@ class GlobalController extends GetxController {
     required TextStyle rightTextStyle,
     required String title,
     required bool isRightButtonShow,
+    double? bottomSheetHeight
   }) {
     showModalBottomSheet<void>(
       shape: const RoundedRectangleBorder(
@@ -97,6 +98,7 @@ class GlobalController extends GetxController {
           children: [
             SizedBox(
               width: width,
+              height: bottomSheetHeight,
               child: Column(
                 children: [
                   kH4sizedBox,

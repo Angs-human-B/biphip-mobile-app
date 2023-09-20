@@ -9,6 +9,7 @@ class ResetPasswordScreen extends StatelessWidget {
   ResetPasswordScreen({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final FocusNode _confirmPasswordFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +42,13 @@ class ResetPasswordScreen extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'Create New Password',
+                        title: 'Reset Password',
                         subTitle: 'Create a strong password to prevent unknown login of your personal account.',
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.resetNewPasswordTextEditingController,
+                        errorText: _authenticationController.resetPasswordError.value,
                         hint: "Type Password",
                         suffixIcon: _authenticationController.isResetNewPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                         onSuffixPress: () {
@@ -54,15 +56,26 @@ class ResetPasswordScreen extends StatelessWidget {
                         },
                         onChanged: (text) {
                           _authenticationController.checkCanResetPassword();
+                          if (_authenticationController.resetNewPasswordTextEditingController.text.trim() == '') {
+                            _authenticationController.resetPasswordError.value = 'Password can\'t be empty';
+                          } else if (_authenticationController.resetNewPasswordTextEditingController.text.length < kMinPasswordLength) {
+                            _authenticationController.resetPasswordError.value = 'Password can\'t be less then 8 characters';
+                          } else {
+                            _authenticationController.resetPasswordError.value = '';
+                          }
                         },
-                        onSubmit: (text) {},
-                        obscureText: _authenticationController.isResetNewPasswordToggleObscure.value,
+                        onSubmit: (text) {
+                          FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
+                        },
                         inputAction: TextInputAction.next,
+                        obscureText: _authenticationController.isResetNewPasswordToggleObscure.value,
                         inputType: TextInputType.visiblePassword,
                       ),
                       kH24sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.resetConfirmPasswordTextEditingController,
+                        focusNode: _confirmPasswordFocusNode,
+                        errorText: _authenticationController.resetConfirmPasswordError.value,
                         hint: "Confirm password",
                         suffixIcon: _authenticationController.isResetConfirmPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                         onSuffixPress: () {
@@ -71,8 +84,18 @@ class ResetPasswordScreen extends StatelessWidget {
                         },
                         onChanged: (text) {
                           _authenticationController.checkCanResetPassword();
+                          if (_authenticationController.resetConfirmPasswordTextEditingController.text.trim() == '') {
+                            _authenticationController.resetConfirmPasswordError.value = 'Confirm password can\'t be empty';
+                          } else if (_authenticationController.resetConfirmPasswordTextEditingController.text !=
+                              _authenticationController.resetNewPasswordTextEditingController.text) {
+                            _authenticationController.resetConfirmPasswordError.value = 'Password doesn\'t match';
+                          } else {
+                            _authenticationController.resetConfirmPasswordError.value = '';
+                          }
                         },
-                        onSubmit: (text) {},
+                        onSubmit: (text) {
+                          FocusScope.of(context).unfocus();
+                        },
                         obscureText: _authenticationController.isResetConfirmPasswordToggleObscure.value,
                         inputAction: TextInputAction.done,
                         inputType: TextInputType.visiblePassword,
@@ -83,6 +106,7 @@ class ResetPasswordScreen extends StatelessWidget {
                         onPressed: _authenticationController.canResetPassword.value
                             ? () {
                                 Get.toNamed(krLogin);
+                                _authenticationController.resetResetPasswordScreen();
                               }
                             : null,
                         buttonWidth: width - 40,

@@ -44,7 +44,7 @@ class ForgetPasswordOTP extends StatelessWidget {
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
                         title: 'OTP Verification',
-                        subTitle: 'Enter the verification code we just sent to your number at +880195XXXXXXX34',
+                        subTitle: 'Enter the verification code we just sent to your email',
                       ),
                       kH50sizedBox,
                       OtpTextField(
@@ -59,6 +59,7 @@ class ForgetPasswordOTP extends StatelessWidget {
                         onPressed: _authenticationController.canForgotPasswordOTPVerifyNow.value
                             ? () {
                                 Get.toNamed(krResetPass);
+                                _authenticationController.resetForgotPasswordScreen();
                               }
                             : null,
                         buttonWidth: width - 40,
@@ -67,12 +68,13 @@ class ForgetPasswordOTP extends StatelessWidget {
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
                       kH25sizedBox,
-                      _authenticationController.isOTPResendClick.value
+                      _authenticationController.isForgotPasswordOTPResendClick.value
                           ? LinkupTextRow(
                               prefix: ksResendCode,
                               suffix: ksResend.tr,
                               onPressed: () async {
                                 FocusScope.of(context).unfocus();
+                                _authenticationController.isForgotPasswordOTPResendClick.value = false;
                               },
                             )
                           : CountDown(

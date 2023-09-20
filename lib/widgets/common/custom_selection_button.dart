@@ -32,7 +32,10 @@ class CustomSelectionButton extends StatelessWidget {
                     hintText ?? '',
                     style: regular14TextStyle(cPlaceHolderColor),
                   ),
-                const Icon(BipHip.downArrow)
+                Icon(
+                  BipHip.downArrow,
+                  color: (text != '') ? cBlackColor : cPlaceHolderColor,
+                )
               ],
             ),
           ),

@@ -3,10 +3,10 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/count_down.dart';
 import 'package:bip_hip/widgets/common/custom_app_bar.dart';
 import 'package:bip_hip/widgets/common/custom_button.dart';
+import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/linkup_text.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 import 'package:bip_hip/widgets/textfields/otp_textfield.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class OTPVerifyScreen extends StatelessWidget {
   OTPVerifyScreen({super.key});
@@ -25,21 +25,15 @@ class OTPVerifyScreen extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksRegisterNow.tr,
+              title: ksRegistration.tr,
               onBack: () async {
                 Get.back();
               },
-              action: [
+              action: const [
                 Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CircularPercentIndicator(
-                    // animateFromLastPercent: true,
-                    radius: 10.0,
-                    lineWidth: 2.0,
-                    animation: true,
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: CustomCircularProgressBar(
                     percent: 1,
-                    circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: cPrimaryColor,
                   ),
                 ),
               ],
@@ -59,7 +53,7 @@ class OTPVerifyScreen extends StatelessWidget {
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
                         title: 'OTP Verification',
-                        subTitle: 'Enter the verification code we just sent to your number at +880195XXXXXXX34',
+                        subTitle: 'Enter the verification code we just sent to your email',
                       ),
                       kH50sizedBox,
                       OtpTextField(
@@ -74,6 +68,8 @@ class OTPVerifyScreen extends StatelessWidget {
                         onPressed: _authenticationController.canOTPVerifyNow.value
                             ? () {
                                 Get.toNamed(krSelectProfession);
+                                _authenticationController.resetRegisterScreen();
+                                _authenticationController.resetOTPScreen();
                               }
                             : null,
                         buttonWidth: width - 40,
@@ -88,6 +84,7 @@ class OTPVerifyScreen extends StatelessWidget {
                               suffix: ksResend.tr,
                               onPressed: () async {
                                 FocusScope.of(context).unfocus();
+                                _authenticationController.isOTPResendClick.value = false;
                               },
                             )
                           : CountDown(
