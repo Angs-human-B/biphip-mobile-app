@@ -39,6 +39,65 @@ class ProfileController extends GetxController {
       ..setLooping(true)
       ..initialize().then((value) => videoPlayerController.play());
   }
+  final RxList relationList = RxList([
+    "Father",
+    "Mother",
+    "Daughter",
+    "Son",
+    "Sister",
+    "Brother",
+    "Auntie",
+    "Uncle",
+    "Niece",
+    "Nephew",
+  ]);
+  final RxList relationListState = RxList([
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+
+  final RxString relation = RxString("");
+
+  void relationStatusChange(index) {
+    for (int i = 0; i < relationListState.length; i++) {
+      if (index == i) {
+        relationListState[i] = true;
+      } else {
+        relationListState[i] = false;
+      }
+    }
+  }
+
+  void selectRelationTextChange() {
+    for (int i = 0; i < relationListState.length; i++) {
+      if (relationListState[i]) {
+        relation.value = relationList[i];
+        break;
+      }
+    }
+  }
+
+  void initializeSelectedRelationText() {
+    for (int i = 0; i < relationListState.length; i++) {
+      if (relationList[i] == relation.value) {
+        relationListState[i] = true;
+      } else {
+        relationListState[i] = false;
+      }
+    }
+  }
+
+  void initializeRelationText() {
+    relation.value = "";
+  }
 
   //*For tapAble button
   void toggleType(int index) {
