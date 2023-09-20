@@ -21,6 +21,7 @@ import 'package:bip_hip/views/profile/menu/family.dart';
 import 'package:bip_hip/views/profile/menu/friends.dart';
 import 'package:bip_hip/views/profile/menu/menu.dart';
 import 'package:bip_hip/views/profile/photo_details.dart';
+import 'package:bip_hip/views/profile/photo_preview.dart';
 import 'package:bip_hip/views/profile/photos.dart';
 import 'package:bip_hip/views/profile/profile.dart';
 import 'package:bip_hip/views/profile/video_details.dart';
@@ -61,6 +62,7 @@ const String krPhotos = '/photos';
 const String krPhotoDetails = '/photo-details';
 const String krVideos = '/videos';
 const String krVideoDetails = '/video-details';
+const String krPhotoPreview = '/photo-preview';
 
 const String krCreatePost = '/create-post';
 const String krSelectCategory = '/create-post/select-category';
@@ -96,6 +98,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krPhotoDetails, page: () => PhotoDetails(), transition: Transition.noTransition),
   GetPage(name: krVideos, page: () => Videos(), transition: Transition.noTransition),
   GetPage(name: krVideoDetails, page: () => VideoDetails(), transition: Transition.noTransition),
+  GetPage(name: krPhotoPreview, page: () => PhotoPreview(), transition: Transition.noTransition),
 
   //* info:: other screens
   GetPage(name: krSplashScreen, page: () => const SplashScreen(), transition: Transition.noTransition),

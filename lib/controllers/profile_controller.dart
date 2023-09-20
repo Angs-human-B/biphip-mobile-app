@@ -11,6 +11,7 @@ class ProfileController extends GetxController {
   final RxBool isInterestSelected = RxBool(false);
   final RxString profileImageLink = RxString('');
   final Rx<File> profileImageFile = File('').obs;
+  final Rx<File> newProfileImageFile = File('').obs;
   final RxBool isProfileImageChanged = RxBool(false);
   final RxString coverImageLink = RxString('');
   final Rx<File> coverImageFile = File('').obs;
@@ -20,7 +21,8 @@ class ProfileController extends GetxController {
   final RxString bio = RxString('');
   final RxString photoLink = RxString('');
   late VideoPlayerController videoPlayerController;
-  RxString videoUrl = RxString('');
+  final RxString videoUrl = RxString('');
+  final RxBool isSharedToNewFeed = RxBool(false);
 
   final RxList tapAbleButtonState = RxList([true, false, false]);
   final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
