@@ -41,6 +41,7 @@ class ProfileController extends GetxController {
       ..setLooping(true)
       ..initialize().then((value) => videoPlayerController.play());
   }
+
   final RxList relationList = RxList([
     "Father",
     "Mother",
@@ -155,25 +156,12 @@ class ProfileController extends GetxController {
     }
   }
 
-  void showPictureUploadModalBottomSheet(context, content) {
-    showModalBottomSheet(
-      backgroundColor: cWhiteColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
-      ),
-      context: context,
-      builder: (context) {
-        return content;
-      },
-    );
-  }
-
   void clearBio() {
     bioCount.value = 0;
     bioEditingController.clear();
   }
 
-  void resetImage(){
+  void resetImage() {
     profileImageFile.value = File('');
     profileImageLink.value = '';
     isProfileImageChanged.value = false;

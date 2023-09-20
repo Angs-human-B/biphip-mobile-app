@@ -2,14 +2,13 @@ import 'dart:io';
 
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
 
 class Profile extends StatelessWidget {
   Profile({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +60,6 @@ class Profile extends StatelessWidget {
                         ),
                         Positioned(
                           bottom: 0,
-                          //right: ((width - 40) / 2) - ((height > kSmallDeviceSizeLimit ? kProfileImageSize : (kProfileImageSize - h10)) / 2),
                           left: 20,
                           child: Stack(
                             children: [
@@ -94,9 +92,19 @@ class Profile extends StatelessWidget {
                                   onPressed: () {
                                     _profileController.isProfilePicEditor.value = true;
                                     _profileController.resetImage();
-                                    _profileController.showPictureUploadModalBottomSheet(
-                                        context,
-                                        PictureUploadContent(
+                                    _globalController.commonBottomSheet(
+                                        context: context,
+                                        onPressCloseButton: () {
+                                          Get.back();
+                                        },
+                                        onPressRightButton: () {},
+                                        rightText: '',
+                                        rightTextStyle: regular14TextStyle(cBiddingColor),
+                                        title: 'Upload image',
+                                        isRightButtonShow: false,
+                                        isScrollControlled: false,
+                                        bottomSheetHeight: 170,
+                                        content: PictureUploadContent(
                                           isImageChanged: _profileController.isProfileImageChanged,
                                           imagePath: _profileController.profileImageLink,
                                           imageFile: _profileController.profileImageFile,
@@ -140,9 +148,19 @@ class Profile extends StatelessWidget {
                             onPressed: () {
                               _profileController.isProfilePicEditor.value = false;
                               _profileController.resetImage();
-                              _profileController.showPictureUploadModalBottomSheet(
-                                  context,
-                                  PictureUploadContent(
+                              _globalController.commonBottomSheet(
+                                  context: context,
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: () {},
+                                  rightText: '',
+                                  rightTextStyle: regular14TextStyle(cBiddingColor),
+                                  title: 'Upload image',
+                                  isRightButtonShow: false,
+                                  isScrollControlled: false,
+                                  bottomSheetHeight: 170,
+                                  content: PictureUploadContent(
                                     isImageChanged: _profileController.isCoverImageChanged,
                                     imagePath: _profileController.coverImageLink,
                                     imageFile: _profileController.coverImageFile,
@@ -504,7 +522,6 @@ class PictureUploadContent extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        kH35sizedBox,
         CustomElevatedButton(
           label: 'Add photo',
           prefixIcon: BipHip.camera,
@@ -540,7 +557,6 @@ class PictureUploadContent extends StatelessWidget {
           borderColor: cLineColor,
           textStyle: semiBold14TextStyle(cBlackColor),
         ),
-        kHBottomSizedBox
       ],
     );
   }
