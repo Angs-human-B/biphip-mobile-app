@@ -51,7 +51,7 @@ class Profile extends StatelessWidget {
                           height: 150,
                           width: width,
                           child: Image.file(
-                            _profileController.coverImageFile.value,
+                            _profileController.newCoverImageFile.value,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) => Image.asset(
                               'assets/images/coverPic.png',
@@ -92,14 +92,15 @@ class Profile extends StatelessWidget {
                                 child: TextButton(
                                   style: kTextButtonStyle,
                                   onPressed: () {
-                                    // _profileController.showPictureUploadModalBottomSheet(
-                                    //     context,
-                                    //     PictureUploadContent(
-                                    //       isImageChanged: _profileController.isProfileImageChanged,
-                                    //       imagePath: _profileController.profileImageLink,
-                                    //       imageFile: _profileController.profileImageFile,
-                                    //     ));
-                                    Get.toNamed(krPhotoPreview);
+                                    _profileController.isProfilePicEditor.value = true;
+                                    _profileController.resetImage();
+                                    _profileController.showPictureUploadModalBottomSheet(
+                                        context,
+                                        PictureUploadContent(
+                                          isImageChanged: _profileController.isProfileImageChanged,
+                                          imagePath: _profileController.profileImageLink,
+                                          imageFile: _profileController.profileImageFile,
+                                        ));
                                   },
                                   child: Container(
                                     height: h28,
@@ -137,6 +138,8 @@ class Profile extends StatelessWidget {
                           child: TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
+                              _profileController.isProfilePicEditor.value = false;
+                              _profileController.resetImage();
                               _profileController.showPictureUploadModalBottomSheet(
                                   context,
                                   PictureUploadContent(
@@ -509,6 +512,9 @@ class PictureUploadContent extends StatelessWidget {
           suffixIconColor: cIconColor,
           onPressed: () async {
             await _globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'camera');
+            if (isImageChanged.value) {
+              Get.toNamed(krPhotoPreview);
+            }
           },
           buttonHeight: h32,
           buttonWidth: width - 40,
@@ -524,6 +530,9 @@ class PictureUploadContent extends StatelessWidget {
           suffixIconColor: cIconColor,
           onPressed: () async {
             await _globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'gallery');
+            if (isImageChanged.value) {
+              Get.toNamed(krPhotoPreview);
+            }
           },
           buttonHeight: h32,
           buttonWidth: width - 40,

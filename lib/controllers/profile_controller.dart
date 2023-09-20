@@ -15,6 +15,7 @@ class ProfileController extends GetxController {
   final RxBool isProfileImageChanged = RxBool(false);
   final RxString coverImageLink = RxString('');
   final Rx<File> coverImageFile = File('').obs;
+  final Rx<File> newCoverImageFile = File('').obs;
   final RxBool isCoverImageChanged = RxBool(false);
   final TextEditingController bioEditingController = TextEditingController();
   final RxInt bioCount = 0.obs;
@@ -23,6 +24,7 @@ class ProfileController extends GetxController {
   late VideoPlayerController videoPlayerController;
   final RxString videoUrl = RxString('');
   final RxBool isSharedToNewFeed = RxBool(false);
+  final RxBool isProfilePicEditor = RxBool(true);
 
   final RxList tapAbleButtonState = RxList([true, false, false]);
   final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
@@ -169,5 +171,15 @@ class ProfileController extends GetxController {
   void clearBio() {
     bioCount.value = 0;
     bioEditingController.clear();
+  }
+
+  void resetImage(){
+    profileImageFile.value = File('');
+    profileImageLink.value = '';
+    isProfileImageChanged.value = false;
+    isSharedToNewFeed.value = false;
+    coverImageFile.value = File('');
+    coverImageLink.value = '';
+    isCoverImageChanged.value = false;
   }
 }
