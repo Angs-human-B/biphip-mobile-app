@@ -183,6 +183,7 @@ class UserInteractionView extends StatelessWidget {
         kH10sizedBox,
         Text(
           'Tanmoy and 432+ more liked',
+          overflow: TextOverflow.clip,
           style: semiBold8TextStyle(cBlackColor),
         )
       ],

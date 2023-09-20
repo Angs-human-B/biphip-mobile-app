@@ -30,6 +30,7 @@ List shortcutButtonContent = [
     'icon': BipHip.playNew,
     'onPressed': () {
       ll('Videos');
+      Get.toNamed(krVideos);
     }
   },
   {
