@@ -19,7 +19,7 @@ class PhotoPreview extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: 'Preview profile picture'.tr,
+              title: _profileController.isProfilePicEditor.value ? 'Preview profile picture'.tr : 'Preview cover picture'.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -30,9 +30,12 @@ class PhotoPreview extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 8.0),
                   child: TextButton(
                       style: kTextButtonStyle,
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.back();
+                        _profileController.resetImage();
+                      },
                       child: Text(
-                        'Cancel',
+                        'Discard',
                         style: regular14TextStyle(cRedColor),
                       )),
                 )
@@ -46,29 +49,47 @@ class PhotoPreview extends StatelessWidget {
               () => Column(
                 children: [
                   kH20sizedBox,
-                  Container(
-                    width: width,
-                    color: cBlackColor,
-                    child: Container(
-                        height: width,
-                        width: width,
-                        decoration: BoxDecoration(
-                          color: cGreyBoxColor,
-                          borderRadius: BorderRadius.circular(width / 2),
-                        ),
-                        child: ClipOval(
-                          child: Image.file(
-                            _profileController.profileImageFile.value,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => ClipOval(
-                              child: Image.asset(
-                                'assets/images/profileDefault.png',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                  _profileController.isProfilePicEditor.value
+                      ? Container(
+                          width: width,
+                          color: cBlackColor,
+                          child: Container(
+                              height: width,
+                              width: width,
+                              decoration: BoxDecoration(
+                                  // borderRadius: BorderRadius.circular(width / 2),
+                                  shape: BoxShape.circle),
+                              child: ClipOval(
+                                child: Image.file(
+                                  _profileController.profileImageFile.value,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => ClipOval(
+                                    child: Image.asset(
+                                      'assets/images/profileDefault.png',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              )),
+                        )
+                      : Container(
+                          width: width,
+                          height: 250,
+                          color: cBlackColor,
+                          child: Center(
+                            child: SizedBox(
+                                height: 150,
+                                width: width,
+                                child: Image.file(
+                                  _profileController.coverImageFile.value,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => Image.asset(
+                                    'assets/images/coverPic.png',
+                                    fit: BoxFit.cover,
+                                  ),
+                                )),
                           ),
-                        )),
-                  ),
+                        ),
                   kH24sizedBox,
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -88,7 +109,19 @@ class PhotoPreview extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  CustomElevatedButton(buttonWidth: width - 40, buttonHeight: h32, label: 'Save', onPressed: () {}),
+                  CustomElevatedButton(
+                      buttonWidth: width - 40,
+                      buttonHeight: h32,
+                      label: 'Save',
+                      onPressed: () {
+                        if (_profileController.isProfilePicEditor.value) {
+                          _profileController.newProfileImageFile.value = _profileController.profileImageFile.value;
+                        } else {
+                          _profileController.newCoverImageFile.value = _profileController.coverImageFile.value;
+                        }
+                        Get.back();
+                        _profileController.resetImage();
+                      }),
                   kHBottomSizedBox
                 ],
               ),

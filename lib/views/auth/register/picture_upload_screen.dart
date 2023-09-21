@@ -1,9 +1,6 @@
 import 'dart:io';
-
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 
 class PictureUploadScreen extends StatelessWidget {
@@ -90,14 +87,21 @@ class PictureUploadScreen extends StatelessWidget {
                       label: _authenticationController.isProfileImageChanged.value ? 'Save photo' : 'Add Photo',
                       onPressed: () {
                         if (!_authenticationController.isProfileImageChanged.value) {
-                          showModalBottomSheet(
-                            backgroundColor: cWhiteColor,
-                            context: context,
-                            builder: (context) {
-                              return Column(
+                          _globalController.commonBottomSheet(
+                              context: context,
+                              onPressCloseButton: () {
+                                Get.back();
+                              },
+                              onPressRightButton: () {},
+                              rightText: '',
+                              rightTextStyle: regular14TextStyle(cBiddingColor),
+                              title: 'Upload photo',
+                              isRightButtonShow: false,
+                              isScrollControlled: false,
+                              bottomSheetHeight: 180,
+                              content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  kH35sizedBox,
                                   CustomElevatedButton(
                                     label: 'Add photo',
                                     prefixIcon: BipHip.camera,
@@ -130,11 +134,8 @@ class PictureUploadScreen extends StatelessWidget {
                                     borderColor: cLineColor,
                                     textStyle: semiBold14TextStyle(cBlackColor),
                                   ),
-                                  kHBottomSizedBox
                                 ],
-                              );
-                            },
-                          );
+                              ));
                         } else {
                           _authenticationController.resetProfileImage();
                         }
