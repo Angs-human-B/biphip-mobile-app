@@ -1,13 +1,12 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/profile.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
 
 class EditProfile extends StatelessWidget {
   EditProfile({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +48,24 @@ class EditProfile extends StatelessWidget {
                             prefix: 'Profile picture',
                             suffix: 'Edit',
                             onEditPressed: () {
-                              _profileController.showPictureUploadModalBottomSheet(
-                                  context,
-                                  PictureUploadContent(
-                                    isImageChanged: _profileController.isProfileImageChanged,
-                                    imagePath: _profileController.profileImageLink,
-                                    imageFile: _profileController.profileImageFile,
-                                  ));
+                              _globalController.commonBottomSheet(
+                                context: context,
+                                onPressCloseButton: () {
+                                  Get.back();
+                                },
+                                onPressRightButton: () {},
+                                rightText: '',
+                                rightTextStyle: regular14TextStyle(cBiddingColor),
+                                title: 'Edit photo',
+                                isRightButtonShow: false,
+                                isScrollControlled: false,
+                                bottomSheetHeight: 180,
+                                content: PictureUploadContent(
+                                  isImageChanged: _profileController.isProfileImageChanged,
+                                  imagePath: _profileController.profileImageLink,
+                                  imageFile: _profileController.profileImageFile,
+                                ),
+                              );
                             },
                           ),
                           kH10sizedBox,
@@ -91,9 +101,19 @@ class EditProfile extends StatelessWidget {
                             prefix: 'Cover photo',
                             suffix: 'Edit',
                             onEditPressed: () {
-                              _profileController.showPictureUploadModalBottomSheet(
-                                  context,
-                                  PictureUploadContent(
+                              _globalController.commonBottomSheet(
+                                  context: context,
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: () {},
+                                  rightText: '',
+                                  rightTextStyle: regular14TextStyle(cBiddingColor),
+                                  title: 'Edit photo',
+                                  isRightButtonShow: false,
+                                  isScrollControlled: false,
+                                  bottomSheetHeight: 180,
+                                  content: PictureUploadContent(
                                     isImageChanged: _profileController.isCoverImageChanged,
                                     imagePath: _profileController.coverImageLink,
                                     imageFile: _profileController.coverImageFile,
@@ -123,7 +143,19 @@ class EditProfile extends StatelessWidget {
                             prefix: 'Bio',
                             suffix: _profileController.bio.value == '' ? 'Add' : 'Edit',
                             onEditPressed: () {
-                              _profileController.showPictureUploadModalBottomSheet(context, const EditBioModalSheet());
+                              _globalController.commonBottomSheet(
+                                  context: context,
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: () {},
+                                  rightText: '',
+                                  rightTextStyle: regular14TextStyle(cBiddingColor),
+                                  title: 'Edit Bio',
+                                  isRightButtonShow: false,
+                                  isScrollControlled: false,
+                                  bottomSheetHeight: 190,
+                                  content: const EditBioModalSheet());
                             },
                           ),
                           if (_profileController.bio.value != '') kH16sizedBox,
@@ -229,7 +261,6 @@ class EditBioModalSheet extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        kH24sizedBox,
         CustomElevatedButton(
           onPressed: () {
             Get.toNamed(krEditBio);
@@ -253,7 +284,6 @@ class EditBioModalSheet extends StatelessWidget {
           prefixIcon: BipHip.delete,
           prefixIconColor: cBlackColor,
         ),
-        kH24sizedBox,
       ],
     );
   }

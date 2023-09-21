@@ -104,7 +104,7 @@ class GlobalController extends GetxController {
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: cWhiteColor),
               width: width,
               height: MediaQuery.of(context).viewInsets.bottom > 0.0 ? height * .9 : bottomSheetHeight ?? height * .5,
-              constraints: BoxConstraints(minHeight: height * .5, maxHeight: height * .9),
+              constraints: BoxConstraints(minHeight: bottomSheetHeight ?? height * .5, maxHeight: height * .9),
               child: Column(
                 children: [
                   kH4sizedBox,
