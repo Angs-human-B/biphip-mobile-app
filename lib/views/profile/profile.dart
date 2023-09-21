@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/profile/profile_widgets/stories_widget.dart';
 import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
 
 class Profile extends StatelessWidget {
@@ -314,6 +315,8 @@ class Profile extends StatelessWidget {
                       width: width,
                       color: cGreyBoxColor,
                     ),
+                    // kH12sizedBox,
+                    StoriesWidget()
                   ],
                 ),
               ),
