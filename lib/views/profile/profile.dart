@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/profile/post_widgets/comment_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/stories_widget.dart';
 import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
 
@@ -316,7 +317,26 @@ class Profile extends StatelessWidget {
                       color: cGreyBoxColor,
                     ),
                     // kH12sizedBox,
-                    StoriesWidget()
+                    const StoriesWidget(),
+                    kH12sizedBox,
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: CommentWidget(
+                          profileImage: 'assets/images/pic5.jpeg',
+                          comment:
+                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
+                          timePassed: '30',
+                          isLikeButtonShown: true,
+                          commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
+                          isReplyButtonShown: true,
+                          isReactButtonShown: true,
+                          isLink: true,
+                          reactCount: 1234,
+                          userName: 'Monjurul Sharker Omi',
+                          isSendMessageShown: false,
+                          isHideButtonShown: true),
+                    ),
+                    kH12sizedBox,
                   ],
                 ),
               ),
