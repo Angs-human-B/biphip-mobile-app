@@ -1,10 +1,11 @@
-import 'package:bip_hip/controllers/create_post_controller.dart';
+// import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/create_post/create_post_widget/common_category_button.dart';
 
 class SelectCategory extends StatelessWidget {
   SelectCategory({super.key});
 
-  final CreatePostController _createPostController = Get.find<CreatePostController>();
+  // final CreatePostController _createPostController = Get.find<CreatePostController>();
 
   @override
   Widget build(BuildContext context) {
@@ -59,15 +60,90 @@ class SelectCategory extends StatelessWidget {
                     kH8sizedBox,
                     Wrap(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Text("Poetry"),
+                        CategoryComponent(
+                          suffixWidget: Transform.scale(
+                            scale: .7,
+                            child: CustomRadioButton(
+                              onChanged: () {},
+                              isSelected: true,
+                            ),
+                          ),
+                          icon: BipHip.poetry,
+                          iconColor: cRedColor,
+                          iconSize: isDeviceScreenLarge() ? h20 : h16,
+                          title: "Poetry",
+                          titleStyle: medium14TextStyle(cBlackColor),
                         ),
-                        Text("Painting"),
-                        Text("Stroytelling"),
-                        Text("Poetry"),
-                        Text("Painting"),
-                        Text("Stroytelling"),
+                        CategoryComponent(
+                          suffixWidget: Transform.scale(
+                            scale: .7,
+                            child: CustomRadioButton(
+                              onChanged: () {},
+                              isSelected: true,
+                            ),
+                          ),
+                          icon: BipHip.painting,
+                          iconColor: cPaintingColor,
+                          iconSize: isDeviceScreenLarge() ? h20 : h16,
+                          title: "Painting",
+                          titleStyle: medium14TextStyle(cBlackColor),
+                        ),
+                        CategoryComponent(
+                          suffixWidget: Transform.scale(
+                            scale: .7,
+                            child: CustomRadioButton(
+                              onChanged: () {},
+                              isSelected: true,
+                            ),
+                          ),
+                          icon: BipHip.kids,
+                          iconColor: cKidsColor,
+                          iconSize: isDeviceScreenLarge() ? h20 : h16,
+                          title: "Kids",
+                          titleStyle: medium14TextStyle(cBlackColor),
+                        ),
+                        CategoryComponent(
+                          suffixWidget: Transform.scale(
+                            scale: .7,
+                            child: CustomRadioButton(
+                              onChanged: () {},
+                              isSelected: true,
+                            ),
+                          ),
+                          icon: BipHip.storytelling,
+                          iconColor: cStoryTellingColor,
+                          iconSize: isDeviceScreenLarge() ? h20 : h16,
+                          title: "Storytelling",
+                          titleStyle: medium14TextStyle(cBlackColor),
+                        ),
+                        CategoryComponent(
+                          suffixWidget: Transform.scale(
+                            scale: .7,
+                            child: CustomRadioButton(
+                              onChanged: () {},
+                              isSelected: true,
+                            ),
+                          ),
+                          icon: BipHip.photography,
+                          iconColor: cPhotographyColor,
+                          iconSize: isDeviceScreenLarge() ? h20 : h16,
+                          title: "Photography",
+                          titleStyle: medium14TextStyle(cBlackColor),
+                        ),
+                        CategoryComponent(
+                          suffixWidget: Transform.scale(
+                            scale: .7,
+                            child: CustomRadioButton(
+                              onChanged: () {},
+                              isSelected: true,
+                            ),
+                          ),
+                          icon: BipHip.newsFill,
+                          iconColor: cBlackColor,
+                          iconSize: isDeviceScreenLarge() ? h20 : h16,
+                          title: "News",
+                          titleStyle: medium14TextStyle(cBlackColor),
+                        ),
                       ],
                     )
                   ],

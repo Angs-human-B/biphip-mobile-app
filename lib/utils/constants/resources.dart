@@ -52,7 +52,7 @@ List shortcutButtonContent = [
   },
   {
     'text': 'Earnings',
-    'icon': BipHip.selling,
+    'icon': BipHip.earnings,
     'onPressed': () {
       ll('Earnings');
     }
@@ -66,7 +66,7 @@ List shortcutButtonContent = [
   },
   {
     'text': 'Shop',
-    'icon': BipHip.world,
+    'icon': BipHip.shopFill,
     'onPressed': () {
       ll('Shop');
     }
@@ -76,24 +76,28 @@ List shortcutButtonContent = [
 List supportButtonContent = [
   {
     'text': 'Help Center',
+    'icon': BipHip.helpFill,
     'onPressed': () {
       ll('help center');
     }
   },
   {
     'text': 'Support Inbox',
+    'icon': BipHip.supportInbox,
     'onPressed': () {
       ll('Support inbox');
     }
   },
   {
     'text': 'Report a Problem',
+    'icon': BipHip.report,
     'onPressed': () {
       ll('Report a problem');
     }
   },
   {
     'text': 'Terms & Conditions',
+    'icon': BipHip.termsCondition,
     'onPressed': () {
       ll('Terms and condition');
     }
@@ -103,24 +107,28 @@ List supportButtonContent = [
 List settingsButtonContent = [
   {
     'text': 'Setting',
+    'icon': BipHip.setting,
     'onPressed': () {
       ll('Setting');
     }
   },
   {
     'text': 'Recent Activity',
+    'icon': BipHip.activity,
     'onPressed': () {
       ll('Recent Activity');
     }
   },
   {
     'text': 'Dark Mode',
+    'icon': BipHip.darkMode,
     'onPressed': () {
       ll('Dark Mode');
     }
   },
   {
     'text': 'Language',
+    'icon': BipHip.language,
     'onPressed': () {
       ll('Language');
     }
