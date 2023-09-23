@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/profile/edit_profile.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
@@ -117,14 +118,12 @@ class GlobalController extends GetxController {
                     width: width * .1,
                   ),
                   kH40sizedBox,
-                  const Divider(
-                    color: cLineColor,
-                    thickness: 1,
-                  ),
+                  const CustomDivider(),
                   if (isSearchShow == true)
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: k16Padding),
+                      padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k16Padding),
                       child: CustomModifiedTextField(
+                        borderRadius: h20,
                         controller: Get.find<ProfileController>().searchController,
                         autoFocus: true,
                         prefixIcon: BipHip.search,
