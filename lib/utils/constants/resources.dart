@@ -382,3 +382,12 @@ List photos = [
   'assets/images/coverPic.png',
   'assets/images/pic12.jpeg',
 ];
+
+List stories = [
+  {'name': 'Rick Sanchez', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
+  {'name': 'Stewie Griffin', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': true},
+  {'name': 'Johan Liebert', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
+  {'name': 'Karnaze Ravencroft', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': true},
+  {'name': 'Zekken McLaren', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
+  {'name': 'Loreta Stevenson', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
+];
