@@ -14,6 +14,7 @@ class CreatePostController extends GetxController {
   final Rx<IconData> postTypeIcon = Rx<IconData>(BipHip.world);
   final RxString category = RxString('');
   final Rx<IconData?> categoryIcon = Rx<IconData?>(null);
+  final Rx<Color?> categoryIconColor = Rx<Color?>(null);
   final RxBool isTagAdded = RxBool(false);
 
   // image and video picker variables
@@ -42,6 +43,8 @@ class CreatePostController extends GetxController {
     }
   }
 
+  final RxList audienceStatusList = RxList([true, false, false]);
+
   final List audienceTypeList = [
     {
       "title": "Public",
@@ -59,45 +62,92 @@ class CreatePostController extends GetxController {
       "icon": BipHip.lock,
     },
   ];
+
   final List categoryList = [
     {
       "title": "Poetry",
       "icon": BipHip.poetry,
+      "icon_color": cPoetryColor,
     },
     {
       "title": "Painting",
       "icon": BipHip.painting,
+      "icon_color": cPaintingColor,
     },
     {
       "title": "Kids",
       "icon": BipHip.kids,
+      "icon_color": cKidsColor,
     },
     {
       "title": "Storytelling",
       "icon": BipHip.storytelling,
+      "icon_color": cStoryTellingColor,
     },
     {
       "title": "Photography",
       "icon": BipHip.photography,
+      "icon_color": cPhotographyColor,
     },
     {
       "title": "News",
-      "icon": BipHip.audio, // todo:: icon will be changed
+      "icon": BipHip.newsFill, // todo:: icon will be changed
+      "icon_color": cBlackColor,
     },
     {
       "title": "Selling",
       "icon": BipHip.selling,
+      "icon_color": cSellingColor,
     },
   ];
 
-  final RxList audienceStatusList = RxList([true, false, false]);
+  final RxList categoryStatusList = RxList([false, false, false, false, false, false, false]);
+
+  final List tagFiendList = [
+    {
+      "name": "Takin Ahmed",
+      "image_url": kiGoogleImageUrl,
+    },
+    {
+      "name": "Takin Ahmed",
+      "image_url": kiGoogleImageUrl,
+    },
+    {
+      "name": "Takin Ahmed",
+      "image_url": kiGoogleImageUrl,
+    },
+    {
+      "name": "Takin Ahmed",
+      "image_url": kiGoogleImageUrl,
+    },
+    {
+      "name": "Takin Ahmed",
+      "image_url": kiGoogleImageUrl,
+    },
+    {
+      "name": "Takin Ahmed",
+      "image_url": kiGoogleImageUrl,
+    },
+    {
+      "name": "Takin Ahmed",
+      "image_url": kiGoogleImageUrl,
+    },
+    {
+      "name": "Takin Ahmed",
+      "image_url": kiGoogleImageUrl,
+    },
+    {
+      "name": "Takin Ahmed",
+      "image_url": kiGoogleImageUrl,
+    },
+  ];
 
 //------------------------------
 //! important:: create post related functions start
 //------------------------------
 
   void selectAudienceStatusChange(index) {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < audienceStatusList.length; i++) {
       if (index == i) {
         audienceStatusList[i] = true;
       } else {
@@ -107,7 +157,7 @@ class CreatePostController extends GetxController {
   }
 
   void selectAudienceTextChange() {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < audienceTypeList.length; i++) {
       if (audienceStatusList[i]) {
         postType.value = audienceTypeList[i]['title'];
         postTypeIcon.value = audienceTypeList[i]['icon'];
@@ -117,7 +167,7 @@ class CreatePostController extends GetxController {
   }
 
   void initializeAudienceText() {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < audienceStatusList.length; i++) {
       if (audienceTypeList[i]['title'] == postType.value) {
         audienceStatusList[i] = true;
       } else {
@@ -193,13 +243,50 @@ class CreatePostController extends GetxController {
     );
   }
 
+  void selectCategoryStatusChange(index) {
+    for (int i = 0; i < categoryStatusList.length; i++) {
+      if (index == i) {
+        categoryStatusList[i] = true;
+      } else {
+        categoryStatusList[i] = false;
+      }
+    }
+  }
+
+  void selectCategoryTextChange() {
+    for (int i = 0; i < categoryList.length; i++) {
+      if (categoryStatusList[i]) {
+        category.value = categoryList[i]['title'];
+        categoryIcon.value = categoryList[i]['icon'];
+        categoryIconColor.value = categoryList[i]['icon_color'];
+        break;
+      }
+    }
+  }
+
+  void initializeCategory() {
+    for (int i = 0; i < 3; i++) {
+      if (categoryList[i]['title'] == category.value) {
+        categoryStatusList[i] = true;
+      } else {
+        categoryStatusList[i] = false;
+      }
+    }
+  }
+
+  void resetCategoryData() {
+    category.value = "";
+    categoryIcon.value = null;
+    categoryIconColor.value = null;
+  }
+
 //------------------------------
 //! important:: create post related functions end
 //------------------------------
 //------------------------------
 //! important:: create post bottom option functions start
 //------------------------------
-  void getBottomRowOnPressed(index) {
+  void getBottomRowOnPressed(index, [context]) {
     if (index == 1) {
       _globalController.selectMultiMediaSource(isMediaChanged, mediaLinkList, mediaFileList);
     }
@@ -209,7 +296,48 @@ class CreatePostController extends GetxController {
     if (index == 3) {
       _globalController.selectVideoSource(isCreatePostVideoChanged, createPostVideoLink, createPostVideoFile, 'camera');
     } else {
-      BipHip.tagFriends;
+      _globalController.commonBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        isSearchShow: true,
+        content: Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: tagFiendList.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: k10Padding),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                  child: TextButton(
+                    style: kTextButtonStyle,
+                    onPressed: () async {
+                      // ll(index);
+                    },
+                    child: CustomListTile(
+                      leading: CircleAvatar(
+                        radius: 25,
+                        backgroundImage: AssetImage(tagFiendList[index]["image_url"]),
+                      ),
+                      title: tagFiendList[index]["name"],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        onPressCloseButton: () {
+          Get.back();
+        },
+        onPressRightButton: () {},
+        rightText: "Done",
+        rightTextStyle: medium14TextStyle(cPrimaryColor),
+        title: "Tag People",
+        isRightButtonShow: true,
+      );
     }
   }
 

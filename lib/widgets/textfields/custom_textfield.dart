@@ -18,6 +18,7 @@ class CustomModifiedTextField extends StatelessWidget {
   final Color? fillColor;
   final bool? isFilled;
   final EdgeInsetsGeometry? contentPadding;
+  final double? borderRadius;
 
   const CustomModifiedTextField({
     this.label,
@@ -46,6 +47,7 @@ class CustomModifiedTextField extends StatelessWidget {
     this.contentPadding,
     this.fillColor,
     this.isFilled,
+    this.borderRadius,
   }) : super(key: key);
 
   @override
@@ -115,7 +117,7 @@ class CustomModifiedTextField extends StatelessWidget {
           contentPadding: contentPadding ?? const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k16Padding),
           floatingLabelBehavior: FloatingLabelBehavior.never,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(k4BorderRadius),
+            borderRadius: BorderRadius.circular(borderRadius ?? k4BorderRadius),
             borderSide: const BorderSide(width: 0, style: BorderStyle.none),
           ),
         ),

@@ -9,6 +9,7 @@ class CategoryComponent extends StatelessWidget {
     required this.iconSize,
     required this.titleStyle,
     required this.suffixWidget,
+    this.onPress,
   });
 
   final IconData icon;
@@ -17,33 +18,38 @@ class CategoryComponent extends StatelessWidget {
   final double iconSize;
   final TextStyle titleStyle;
   final Widget suffixWidget;
+  final Function()? onPress;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
-      child: Container(
-        height: isDeviceScreenLarge() ? h36 : h32,
-        decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, border: Border.all(color: cLineColor)),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                icon,
-                color: iconColor,
-                size: iconSize,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Text(
-                  title,
-                  style: titleStyle,
+      child: TextButton(
+        onPressed: onPress,
+        style: kTextButtonStyle,
+        child: Container(
+          height: isDeviceScreenLarge() ? h36 : h32,
+          decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, border: Border.all(color: cLineColor)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  icon,
+                  color: iconColor,
+                  size: iconSize,
                 ),
-              ),
-              suffixWidget,
-            ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: Text(
+                    title,
+                    style: titleStyle,
+                  ),
+                ),
+                suffixWidget,
+              ],
+            ),
           ),
         ),
       ),
