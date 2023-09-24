@@ -106,42 +106,43 @@ class CreatePostController extends GetxController {
   final List tagFiendList = [
     {
       "name": "Takin Ahmed",
-      "image_url": kiGoogleImageUrl,
+      "image_url": kiLogoImageUrl,
     },
     {
       "name": "Takin Ahmed",
-      "image_url": kiGoogleImageUrl,
+      "image_url": kiLogoImageUrl,
     },
     {
       "name": "Takin Ahmed",
-      "image_url": kiGoogleImageUrl,
+      "image_url": kiLogoImageUrl,
     },
     {
       "name": "Takin Ahmed",
-      "image_url": kiGoogleImageUrl,
+      "image_url": kiLogoImageUrl,
     },
     {
       "name": "Takin Ahmed",
-      "image_url": kiGoogleImageUrl,
+      "image_url": kiLogoImageUrl,
     },
     {
       "name": "Takin Ahmed",
-      "image_url": kiGoogleImageUrl,
+      "image_url": kiLogoImageUrl,
     },
     {
       "name": "Takin Ahmed",
-      "image_url": kiGoogleImageUrl,
+      "image_url": kiLogoImageUrl,
     },
     {
       "name": "Takin Ahmed",
-      "image_url": kiGoogleImageUrl,
+      "image_url": kiLogoImageUrl,
     },
     {
       "name": "Takin Ahmed",
-      "image_url": kiGoogleImageUrl,
+      "image_url": kiLogoImageUrl,
     },
   ];
 
+  final RxList mediaList = RxList([]);
 //------------------------------
 //! important:: create post related functions start
 //------------------------------
@@ -280,53 +281,139 @@ class CreatePostController extends GetxController {
     categoryIconColor.value = null;
   }
 
+  void insertMedia(media) {
+    mediaList.addAll(media);
+  }
+
+  void removeMedia(index) {
+    mediaList.removeAt(index);
+  }
+
 //------------------------------
 //! important:: create post related functions end
 //------------------------------
 //------------------------------
 //! important:: create post bottom option functions start
 //------------------------------
-  void getBottomRowOnPressed(index, [context]) {
+  void getBottomRowOnPressed(index, [context]) async {
+    ll(index);
     if (index == 1) {
-      _globalController.selectMultiMediaSource(isMediaChanged, mediaLinkList, mediaFileList);
-    }
-    if (index == 2) {
-      _globalController.selectImageSource(isCreatePostImageChanged, createPostImageLink, createPostImageFile, 'camera', false);
-    }
-    if (index == 3) {
-      _globalController.selectVideoSource(isCreatePostVideoChanged, createPostVideoLink, createPostVideoFile, 'camera');
+      var status = await _globalController.selectMultiMediaSource(isMediaChanged, mediaLinkList, mediaFileList);
+      if (status) {
+        ll("media list length : ${mediaLinkList.length}");
+        insertMedia(mediaLinkList);
+        isMediaChanged.value = false;
+        mediaLinkList.clear();
+        mediaFileList.clear();
+      }
+    } else if (index == 2) {
+      var status = await _globalController.selectImageSource(isCreatePostImageChanged, createPostImageLink, createPostImageFile, 'camera', false);
+      if (status) {
+        insertMedia([createPostImageLink]);
+        isCreatePostImageChanged.value = false;
+        createPostImageLink.value = "";
+        createPostImageFile.value = File('');
+      }
+    } else if (index == 3) {
+      var status = await _globalController.selectVideoSource(isCreatePostVideoChanged, createPostVideoLink, createPostVideoFile, 'camera');
+      if (status) {
+        insertMedia([createPostVideoLink]);
+        isCreatePostVideoChanged.value = false;
+        createPostVideoLink.value = "";
+        createPostVideoFile.value = File('');
+      }
     } else {
       _globalController.commonBottomSheet(
         isScrollControlled: true,
+        bottomSheetHeight: height * .9,
         context: context,
         isSearchShow: true,
         content: Padding(
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: tagFiendList.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: k10Padding),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(k8BorderRadius),
-                  child: TextButton(
-                    style: kTextButtonStyle,
-                    onPressed: () async {
-                      // ll(index);
-                    },
-                    child: CustomListTile(
-                      leading: CircleAvatar(
-                        radius: 25,
-                        backgroundImage: AssetImage(tagFiendList[index]["image_url"]),
-                      ),
-                      title: tagFiendList[index]["name"],
-                    ),
-                  ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: k2Padding),
+                child: Text(
+                  "Selected",
+                  style: semiBold14TextStyle(cBlackColor),
                 ),
-              );
-            },
+              ),
+              kH8sizedBox,
+              Container(
+                color: cWhiteColor,
+                height: 40,
+                width: width,
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => kW8sizedBox,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 8,
+                  itemBuilder: (context, index) {
+                    return Stack(
+                      alignment: AlignmentDirectional.topEnd,
+                      children: [
+                        CircleAvatar(
+                          radius: 20,
+                          backgroundImage: AssetImage(tagFiendList[index]["image_url"]),
+                        ),
+                        Positioned(
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: cWhiteColor,
+                            ),
+                            child: const Icon(
+                              BipHip.circleCrossNew,
+                              size: 12,
+                              color: cRedColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+              kH8sizedBox,
+              Padding(
+                padding: const EdgeInsets.only(left: k2Padding),
+                child: Text(
+                  "SUGGESTION",
+                  style: regular14TextStyle(cSmallBodyTextColor),
+                ),
+              ),
+              kH8sizedBox,
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: tagFiendList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: k10Padding),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(k8BorderRadius),
+                      child: TextButton(
+                        style: kTextButtonStyle,
+                        onPressed: () async {
+                          // ll(index);
+                        },
+                        child: CustomListTile(
+                          padding: const EdgeInsets.symmetric(horizontal: k0Padding, vertical: k4Padding),
+                          // borderColor: cRedColor,
+                          leading: CircleAvatar(
+                            radius: 20,
+                            backgroundImage: AssetImage(tagFiendList[index]["image_url"]),
+                          ),
+                          title: tagFiendList[index]["name"],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
         onPressCloseButton: () {
