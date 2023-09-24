@@ -160,7 +160,7 @@ class CommentWidget extends StatelessWidget {
               ),
             ),
             kH4sizedBox,
-            Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor))
+            if (replyList == []) Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor))
           ],
         ),
       ],

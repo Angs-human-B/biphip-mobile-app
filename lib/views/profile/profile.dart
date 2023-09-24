@@ -1,8 +1,12 @@
 import 'dart:io';
-
+import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/profile/edit_profile.dart';
+import 'package:bip_hip/views/profile/post_widgets/biding_insight.dart';
+import 'package:bip_hip/views/profile/post_widgets/biding_widget.dart';
 import 'package:bip_hip/views/profile/post_widgets/comment_widget.dart';
+import 'package:bip_hip/views/profile/post_widgets/like_section_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/stories_widget.dart';
 import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
 
@@ -319,6 +323,64 @@ class Profile extends StatelessWidget {
                     // kH12sizedBox,
                     const StoriesWidget(),
                     kH12sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: BiddingWidget(
+                        totalBids: 25,
+                        bidingAmount: 300,
+                        bidingOnPressed: () {
+                          _globalController.commonBottomSheet(
+                              context: context,
+                              content: _PlaceBidContent(),
+                              onPressCloseButton: () {
+                                Get.back();
+                              },
+                              onPressRightButton: () {
+                                Get.back();
+                              },
+                              rightText: 'Send',
+                              rightTextStyle: semiBold12TextStyle(cPrimaryColor),
+                              title: 'Place a Bid',
+                              isRightButtonShow: true,
+                              isScrollControlled: true,
+                              bottomSheetHeight: height * .4);
+                        },
+                      ),
+                    ),
+                    kH12sizedBox,
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: CustomDivider(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: kHorizontalPadding,
+                      ),
+                      child: LikeSectionWidget(
+                        giftOnPressed: () {
+                          _globalController.commonBottomSheet(
+                              context: context,
+                              content: _BiddingInsightsContent(
+                                comment: bidingComments,
+                              ),
+                              onPressCloseButton: () {
+                                Get.back();
+                              },
+                              onPressRightButton: null,
+                              rightText: '',
+                              rightTextStyle: regular10TextStyle(cBlackColor),
+                              title: 'Biding Insights',
+                              isRightButtonShow: false,
+                              isScrollControlled: true,
+                              bottomSheetHeight: bidingComments.length <= 3 ? null : height * .7);
+                        },
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: CustomDivider(),
+                    ),
+                    kH12sizedBox,
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: CommentWidget(
@@ -582,5 +644,90 @@ class PictureUploadContent extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class _BiddingInsightsContent extends StatelessWidget {
+  const _BiddingInsightsContent({super.key, required this.comment});
+
+  final List comment;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const BidingInsight(highest: 500, lowest: 150),
+        kH16sizedBox,
+        Text(
+          'Bids',
+          style: semiBold16TextStyle(cBlackColor),
+        ),
+        kH8sizedBox,
+        ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: comment.length,
+            itemBuilder: (context, index) {
+              return CommentWidget(
+                  profileImage: comment[index]['image'],
+                  timePassed: '5',
+                  isLikeButtonShown: true,
+                  isReplyButtonShown: false,
+                  isReactButtonShown: true,
+                  comment: comment[index]['comment'],
+                  isLink: false,
+                  reactCount: 440,
+                  userName: comment[index]['userName'],
+                  isSendMessageShown: true,
+                  isHideButtonShown: false);
+            })
+      ],
+    );
+  }
+}
+
+class _PlaceBidContent extends StatelessWidget {
+  _PlaceBidContent({super.key});
+
+  final CreatePostController _createPostController = Get.find<CreatePostController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Recommended',
+              style: regular12TextStyle(cPlaceHolderColor),
+            ),
+            kH8sizedBox,
+            Wrap(
+              alignment: WrapAlignment.start,
+              direction: Axis.horizontal,
+              spacing: 10.0,
+              children: [
+                for (int i = 0; i < recommendedBid.length; i++)
+                  CustomChoiceChips(
+                    label: '\$${recommendedBid[i]}',
+                    borderRadius: k8CircularBorderRadius,
+                    isSelected: (_createPostController.selectedBidIndex.value == i),
+                    onSelected: (value) {
+                      _createPostController.selectedBidIndex.value = i;
+                      _createPostController.bidingTextEditingController.text = recommendedBid[i];
+                    },
+                  )
+              ],
+            ),
+            kH24sizedBox,
+            Text(
+              'Bid amount',
+              style: semiBold14TextStyle(cBlackColor),
+            ),
+            kH8sizedBox,
+            CustomModifiedTextField(
+                prefixIcon: Icons.attach_money_rounded, borderRadius: k8BorderRadius, controller: _createPostController.bidingTextEditingController)
+          ],
+        ));
   }
 }

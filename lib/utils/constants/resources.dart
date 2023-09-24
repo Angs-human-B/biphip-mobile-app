@@ -391,3 +391,12 @@ List stories = [
   {'name': 'Zekken McLaren', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
   {'name': 'Loreta Stevenson', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
 ];
+
+List bidingComments = [
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'}
+];
+
+List recommendedBid = ['10,000', '12,000', '11,000', '11,200', '15,100'];
