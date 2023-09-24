@@ -1,7 +1,5 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
@@ -51,8 +49,8 @@ class SelectBirthday extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'What\'s your birthday?',
-                        subTitle: 'You can change your birthday from your profile settings.',
+                        title: ksWhatBirthday,
+                        subTitle: ksChangeBirthday,
                       ),
                       kH50sizedBox,
                       CustomSelectionButton(
@@ -72,7 +70,7 @@ class SelectBirthday extends StatelessWidget {
                               });
                         },
                         text: _authenticationController.birthDay.value,
-                        hintText: "Select date of birth",
+                        hintText: ksSelectDOB,
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(

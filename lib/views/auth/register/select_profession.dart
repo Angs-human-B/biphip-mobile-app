@@ -1,10 +1,6 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
-
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 
 class SelectProfessionScreen extends StatelessWidget {
@@ -52,9 +48,8 @@ class SelectProfessionScreen extends StatelessWidget {
                     kH24sizedBox,
                     kH24sizedBox,
                     const TopTitleAndSubtitle(
-                      title: 'Let us know your profession!',
-                      subTitle:
-                          'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.',
+                      title: ksChooseProfession,
+                      subTitle: ksChooseProfessionSubtitle,
                     ),
                     kH16sizedBox,
                     Wrap(

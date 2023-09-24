@@ -41,7 +41,7 @@ class Login extends StatelessWidget {
                       child: SizedBox(
                         width: width,
                         child: const TopTitleAndSubtitle(
-                          title: "Login",
+                          title: ksLogin,
                           subTitle: "Please login to continue...",
                         ),
                       ),
@@ -56,9 +56,9 @@ class Login extends StatelessWidget {
                         onChanged: (text) {
                           _authenticationController.checkCanLogin();
                           if (_authenticationController.loginEmailTextEditingController.text.trim() == '') {
-                            _authenticationController.loginEmailErrorText.value = 'Email or Phone number can\'t be empty';
+                            _authenticationController.loginEmailErrorText.value = ksEmptyEmailErrorMessage;
                           } else if (!_authenticationController.loginEmailTextEditingController.text.trim().isValidEmail) {
-                            _authenticationController.loginEmailErrorText.value = 'Invalid email address';
+                            _authenticationController.loginEmailErrorText.value = ksInvalidEmailErrorMessage;
                           } else {
                             _authenticationController.loginEmailErrorText.value = '';
                           }
@@ -74,7 +74,7 @@ class Login extends StatelessWidget {
                       child: CustomModifiedTextField(
                         errorText: _authenticationController.loginPasswordErrorText.value,
                         controller: _authenticationController.loginPasswordTextEditingController,
-                        hint: "Password",
+                        hint: ksPassword,
                         suffixIcon: _authenticationController.isLoginPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                         onSuffixPress: () {
                           _authenticationController.isLoginPasswordToggleObscure.value = !_authenticationController.isLoginPasswordToggleObscure.value;
@@ -82,9 +82,9 @@ class Login extends StatelessWidget {
                         onChanged: (text) {
                           _authenticationController.checkCanLogin();
                           if (_authenticationController.loginPasswordTextEditingController.text.trim() == '') {
-                            _authenticationController.loginPasswordErrorText.value = 'Password can\'t be empty';
+                            _authenticationController.loginPasswordErrorText.value = ksEmptyPasswordErrorMessage;
                           } else if (_authenticationController.loginPasswordTextEditingController.text.length < kMinPasswordLength) {
-                            _authenticationController.loginPasswordErrorText.value = 'Password can\'t be less then 8 characters';
+                            _authenticationController.loginPasswordErrorText.value = ksPasswordLengthErrorMessage;
                           } else {
                             _authenticationController.loginPasswordErrorText.value = '';
                           }

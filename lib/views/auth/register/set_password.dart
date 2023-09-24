@@ -1,10 +1,7 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
-import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
 
 class SetPassword extends StatelessWidget {
   SetPassword({super.key});
@@ -51,14 +48,14 @@ class SetPassword extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'Create Password',
-                        subTitle: 'Create a strong password to prevent unknown login of your personal account.',
+                        title: ksCreatePassword,
+                        subTitle: ksCreateStrongPassword
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerPasswordTextEditingController,
                         errorText: _authenticationController.registerPasswordError.value,
-                        hint: "Password",
+                        hint: ksPassword,
                         suffixIcon: _authenticationController.isRegisterPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                         onSuffixPress: () {
                           _authenticationController.isRegisterPasswordToggleObscure.value = !_authenticationController.isRegisterPasswordToggleObscure.value;
@@ -66,9 +63,9 @@ class SetPassword extends StatelessWidget {
                         onChanged: (text) {
                           _authenticationController.checkPassword();
                           if (_authenticationController.registerPasswordTextEditingController.text.trim() == '') {
-                            _authenticationController.registerPasswordError.value = 'Password can\'t be empty';
+                            _authenticationController.registerPasswordError.value = ksEmptyPasswordErrorMessage;
                           } else if (_authenticationController.registerPasswordTextEditingController.text.length < kMinPasswordLength) {
-                            _authenticationController.registerPasswordError.value = 'Password can\'t be less then 8 characters';
+                            _authenticationController.registerPasswordError.value = ksPasswordLengthErrorMessage;
                           } else {
                             _authenticationController.registerPasswordError.value = '';
                           }
@@ -85,7 +82,7 @@ class SetPassword extends StatelessWidget {
                         controller: _authenticationController.registerConfirmPasswordTextEditingController,
                         focusNode: _confirmPasswordFocusNode,
                         errorText: _authenticationController.registerConfirmPasswordError.value,
-                        hint: "Confirm password",
+                        hint: ksConfirmPassword,
                         suffixIcon: _authenticationController.isRegisterConfirmPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                         onSuffixPress: () {
                           _authenticationController.isRegisterConfirmPasswordToggleObscure.value =
@@ -94,10 +91,10 @@ class SetPassword extends StatelessWidget {
                         onChanged: (text) {
                           _authenticationController.checkPassword();
                           if (_authenticationController.registerConfirmPasswordTextEditingController.text.trim() == '') {
-                            _authenticationController.registerConfirmPasswordError.value = 'Confirm password can\'t be empty';
+                            _authenticationController.registerConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage;
                           } else if (_authenticationController.registerConfirmPasswordTextEditingController.text !=
                               _authenticationController.registerPasswordTextEditingController.text) {
-                            _authenticationController.registerConfirmPasswordError.value = 'Password doesn\'t match';
+                            _authenticationController.registerConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage;
                           } else {
                             _authenticationController.registerConfirmPasswordError.value = '';
                           }

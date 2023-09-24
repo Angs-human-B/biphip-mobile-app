@@ -37,7 +37,7 @@ class PictureUploadScreen extends StatelessWidget {
                     kH24sizedBox,
                     kH24sizedBox,
                     const TopTitleAndSubtitle(
-                      title: 'Add a profile photo to let your friends and family find you',
+                      title: ksAddProfilePhoto,
                     ),
                     kH35sizedBox,
                     Stack(
@@ -84,7 +84,7 @@ class PictureUploadScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     CustomElevatedButton(
-                      label: _authenticationController.isProfileImageChanged.value ? 'Save photo' : 'Add Photo',
+                      label: _authenticationController.isProfileImageChanged.value ? ksSavePhoto : ksAddPhoto,
                       onPressed: () {
                         if (!_authenticationController.isProfileImageChanged.value) {
                           _globalController.commonBottomSheet(
@@ -95,7 +95,7 @@ class PictureUploadScreen extends StatelessWidget {
                               onPressRightButton: () {},
                               rightText: '',
                               rightTextStyle: regular14TextStyle(cBiddingColor),
-                              title: 'Upload photo',
+                              title: ksUploadPhoto,
                               isRightButtonShow: false,
                               isScrollControlled: false,
                               bottomSheetHeight: 180,
@@ -103,7 +103,7 @@ class PictureUploadScreen extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   CustomElevatedButton(
-                                    label: 'Add photo',
+                                    label: ksAddPhoto,
                                     prefixIcon: BipHip.camera,
                                     prefixIconColor: cIconColor,
                                     suffixIconColor: cIconColor,
@@ -120,7 +120,7 @@ class PictureUploadScreen extends StatelessWidget {
                                   ),
                                   kH16sizedBox,
                                   CustomElevatedButton(
-                                    label: 'Choose from gallery',
+                                    label: ksChooseFromGallery,
                                     prefixIcon: BipHip.photo,
                                     prefixIconColor: cIconColor,
                                     suffixIconColor: cIconColor,
