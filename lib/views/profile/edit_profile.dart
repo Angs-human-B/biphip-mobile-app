@@ -143,19 +143,23 @@ class EditProfile extends StatelessWidget {
                             prefix: 'Bio',
                             suffix: _profileController.bio.value == '' ? 'Add' : 'Edit',
                             onEditPressed: () {
-                              _globalController.commonBottomSheet(
-                                  context: context,
-                                  onPressCloseButton: () {
-                                    Get.back();
-                                  },
-                                  onPressRightButton: () {},
-                                  rightText: '',
-                                  rightTextStyle: regular14TextStyle(cBiddingColor),
-                                  title: 'Edit Bio',
-                                  isRightButtonShow: false,
-                                  isScrollControlled: false,
-                                  bottomSheetHeight: 190,
-                                  content: const EditBioModalSheet());
+                              if (_profileController.bio.value == '') {
+                                Get.toNamed(krEditBio);
+                              } else {
+                                _globalController.commonBottomSheet(
+                                    context: context,
+                                    onPressCloseButton: () {
+                                      Get.back();
+                                    },
+                                    onPressRightButton: () {},
+                                    rightText: '',
+                                    rightTextStyle: regular14TextStyle(cBiddingColor),
+                                    title: 'Edit Bio',
+                                    isRightButtonShow: false,
+                                    isScrollControlled: false,
+                                    bottomSheetHeight: 190,
+                                    content: const EditBioModalSheet());
+                              }
                             },
                           ),
                           if (_profileController.bio.value != '') kH16sizedBox,

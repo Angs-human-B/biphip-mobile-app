@@ -71,11 +71,12 @@ class CommentWidget extends StatelessWidget {
                       ),
                     ),
                     kH8sizedBox,
-                    Text(
-                      comment ?? '',
-                      overflow: TextOverflow.clip,
-                      style: regular14TextStyle(cBlackColor),
-                    ),
+                    if (comment != null)
+                      Text(
+                        comment ?? '',
+                        overflow: TextOverflow.clip,
+                        style: regular14TextStyle(cBlackColor),
+                      ),
                     if (isLink)
                       Text(
                         commentLink ?? '',
