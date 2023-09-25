@@ -1,11 +1,12 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class BiddingWidget extends StatelessWidget {
-  const BiddingWidget({super.key, required this.totalBids, required this.bidingAmount, required this.bidingOnPressed});
+  const BiddingWidget({super.key, required this.totalBids, required this.bidingAmount, required this.bidingOnPressed, required this.isPlaceBid});
 
   final int totalBids;
   final int bidingAmount;
   final VoidCallback bidingOnPressed;
+  final bool isPlaceBid;
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +23,10 @@ class BiddingWidget extends StatelessWidget {
               style: regular12TextStyle(cSmallBodyTextColor),
             ),
             CustomElevatedButton(
-              label: 'Place a Bid',
+              label: isPlaceBid ? 'Place a Bid' : 'See Biding Insights',
               textStyle: regular14TextStyle(cBiddingColor),
               buttonHeight: 24,
-              buttonWidth: 100,
+              buttonWidth: isPlaceBid ? 100 : 150,
               onPressed: bidingOnPressed,
               borderColor: cBiddingColor,
               buttonColor: cWhiteColor,

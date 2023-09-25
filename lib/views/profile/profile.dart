@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:bip_hip/controllers/create_post_controller.dart';
+import 'package:bip_hip/controllers/post_reaction_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
@@ -345,19 +345,16 @@ class Profile extends StatelessWidget {
                               isScrollControlled: true,
                               bottomSheetHeight: height * .4);
                         },
+                        isPlaceBid: true,
                       ),
                     ),
                     kH12sizedBox,
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                      child: CustomDivider(),
-                    ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: kHorizontalPadding,
-                      ),
-                      child: LikeSectionWidget(
-                        giftOnPressed: () {
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: BiddingWidget(
+                        totalBids: 25,
+                        bidingAmount: 300,
+                        bidingOnPressed: () {
                           _globalController.commonBottomSheet(
                               context: context,
                               content: _BiddingInsightsContent(
@@ -374,6 +371,20 @@ class Profile extends StatelessWidget {
                               isScrollControlled: true,
                               bottomSheetHeight: bidingComments.length <= 3 ? null : height * .7);
                         },
+                        isPlaceBid: false,
+                      ),
+                    ),
+                    kH12sizedBox,
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: CustomDivider(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: kHorizontalPadding,
+                      ),
+                      child: LikeSectionWidget(
+                        giftOnPressed: () {},
                       ),
                     ),
                     const Padding(
@@ -690,7 +701,7 @@ class _BiddingInsightsContent extends StatelessWidget {
 class _PlaceBidContent extends StatelessWidget {
   _PlaceBidContent({super.key});
 
-  final CreatePostController _createPostController = Get.find<CreatePostController>();
+  final PostReactionController _postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -711,10 +722,10 @@ class _PlaceBidContent extends StatelessWidget {
                   CustomChoiceChips(
                     label: '\$${recommendedBid[i]}',
                     borderRadius: k8CircularBorderRadius,
-                    isSelected: (_createPostController.selectedBidIndex.value == i),
+                    isSelected: (_postReactionController.selectedBidIndex.value == i),
                     onSelected: (value) {
-                      _createPostController.selectedBidIndex.value = i;
-                      _createPostController.bidingTextEditingController.text = recommendedBid[i];
+                      _postReactionController.selectedBidIndex.value = i;
+                      _postReactionController.bidingTextEditingController.text = recommendedBid[i];
                     },
                   )
               ],
@@ -726,7 +737,7 @@ class _PlaceBidContent extends StatelessWidget {
             ),
             kH8sizedBox,
             CustomModifiedTextField(
-                prefixIcon: Icons.attach_money_rounded, borderRadius: k8BorderRadius, controller: _createPostController.bidingTextEditingController)
+                prefixIcon: Icons.attach_money_rounded, borderRadius: k8BorderRadius, controller: _postReactionController.bidingTextEditingController)
           ],
         ));
   }
