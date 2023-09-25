@@ -211,7 +211,8 @@ class CreatePost extends StatelessWidget {
                               },
                             ),
                           ),
-                          if (_createPostController.mediaList.isNotEmpty)
+                          // if (_createPostController.isCreatePostImageChanged.value)
+                          if (_createPostController.allMediaList.isNotEmpty)
                             Obx(
                               () => Container(
                                 color: cWhiteColor,
@@ -226,10 +227,10 @@ class CreatePost extends StatelessWidget {
                                           onPressed: () {},
                                           child: Container(
                                             color: cRedColor,
-                                            height: _createPostController.mediaList.length < 2 ? 302 : 150,
+                                            height: _createPostController.allMediaList.length < 2 ? 302 : 150,
                                             width: width - 40,
-                                            child: Image.asset(
-                                              kiDummyImage2ImageUrl,
+                                            child: Image.file(
+                                              _createPostController.allMediaFileList[0].value,
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -250,13 +251,13 @@ class CreatePost extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    if (_createPostController.mediaList.length > 1)
+                                    if (_createPostController.allMediaList.length > 1)
                                       const SizedBox(
                                         height: 2,
                                       ),
                                     Row(
                                       children: [
-                                        if (_createPostController.mediaList.length > 1)
+                                        if (_createPostController.allMediaList.length > 1)
                                           Stack(
                                             children: [
                                               TextButton(
@@ -265,9 +266,9 @@ class CreatePost extends StatelessWidget {
                                                 child: Container(
                                                   color: cRedColor,
                                                   height: 150,
-                                                  width: _createPostController.mediaList.length < 3 ? (width - 40) : (width - 42) / 2,
-                                                  child: Image.asset(
-                                                    kiDummyImage2ImageUrl,
+                                                  width: _createPostController.allMediaList.length < 3 ? (width - 40) : (width - 42) / 2,
+                                                  child: Image.file(
+                                                    _createPostController.allMediaFileList[1].value,
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -288,18 +289,18 @@ class CreatePost extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                        if (_createPostController.mediaList.length > 2)
+                                        if (_createPostController.allMediaList.length > 2)
                                           const SizedBox(
                                             width: 2,
                                           ),
-                                        if (_createPostController.mediaList.length > 2)
+                                        if (_createPostController.allMediaList.length > 2)
                                           Stack(
                                             alignment: AlignmentDirectional.center,
                                             children: [
                                               TextButton(
                                                 style: kTextButtonStyle,
                                                 onPressed: () {
-                                                  if (_createPostController.mediaList.length > 3) {
+                                                  if (_createPostController.allMediaList.length > 3) {
                                                     Get.toNamed(krUploadedImageListPage);
                                                   }
                                                 },
@@ -307,15 +308,15 @@ class CreatePost extends StatelessWidget {
                                                   color: cRedColor,
                                                   height: 150,
                                                   width: (width - 42) / 2,
-                                                  child: Image.asset(
-                                                    kiDummyImage2ImageUrl,
+                                                  child: Image.file(
+                                                    _createPostController.allMediaFileList[2].value,
                                                     fit: BoxFit.cover,
                                                     color: cBlackColor.withOpacity(0.3),
                                                     colorBlendMode: BlendMode.multiply,
                                                   ),
                                                 ),
                                               ),
-                                              if (_createPostController.mediaList.length == 3)
+                                              if (_createPostController.allMediaList.length == 3)
                                                 Positioned(
                                                   top: 5,
                                                   right: 5,
@@ -330,7 +331,7 @@ class CreatePost extends StatelessWidget {
                                                     ),
                                                   ),
                                                 ),
-                                              if (_createPostController.mediaList.length > 3)
+                                              if (_createPostController.allMediaList.length > 3)
                                                 Positioned(
                                                   child: TextButton(
                                                     style: kTextButtonStyle,
@@ -338,7 +339,7 @@ class CreatePost extends StatelessWidget {
                                                       Get.toNamed(krUploadedImageListPage);
                                                     },
                                                     child: Text(
-                                                      "${_createPostController.mediaList.length - 2} More",
+                                                      "${_createPostController.allMediaList.length - 2} More",
                                                       style: semiBold16TextStyle(cWhiteColor),
                                                     ),
                                                   ),

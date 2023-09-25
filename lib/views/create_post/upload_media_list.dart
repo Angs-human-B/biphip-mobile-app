@@ -48,7 +48,7 @@ class UploadImageListPage extends StatelessWidget {
                 () => Column(
                   children: [
                     kH8sizedBox,
-                    for (int i = 0; i < _createPostController.mediaList.length; i++)
+                    for (int i = 0; i < _createPostController.allMediaFileList.length; i++)
                       Stack(
                         children: [
                           Padding(
@@ -60,8 +60,8 @@ class UploadImageListPage extends StatelessWidget {
                                 color: cRedColor,
                                 height: 150,
                                 width: width - 40,
-                                child: Image.asset(
-                                  kiDummyImage2ImageUrl,
+                                child: Image.file(
+                                  _createPostController.allMediaFileList[i].value,
                                   fit: BoxFit.cover,
                                 ),
                               ),

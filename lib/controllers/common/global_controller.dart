@@ -182,7 +182,7 @@ class GlobalController extends GetxController {
   //* Image picker
   final ImagePicker _picker = ImagePicker();
 
-  Future<bool> selectImageSource(RxBool isChanged, imageLink, imageFile, String source, [bool? isFromBottomSheet]) async {
+  Future<bool> selectImageSource(RxBool isChanged, imageLink, imageFile, String source, [bool? isFromBottomSheet, isList = false]) async {
     try {
       final XFile? image = await _picker.pickImage(
         source: source == 'gallery' ? ImageSource.gallery : ImageSource.camera,
@@ -193,7 +193,11 @@ class GlobalController extends GetxController {
         final List<int> imageBytes = await image.readAsBytes();
         final String base64Image = base64Encode(imageBytes);
         final File imageTemporary = File(image.path);
-        imageFile(imageTemporary);
+        if (isList) {
+          imageFile.add(imageTemporary.obs);
+        } else {
+          imageFile(imageTemporary);
+        }
         isChanged.value = true;
         imageLink.value = 'data:image/png;base64,$base64Image';
         // log(imageLink.toString());
@@ -248,7 +252,7 @@ class GlobalController extends GetxController {
     }
   }
 
-  Future<bool> selectVideoSource(RxBool isChanged, videoLink, videoFile, String source) async {
+  Future<bool> selectVideoSource(RxBool isChanged, videoLink, videoFile, String source, [isList = false]) async {
     try {
       final XFile? video = await _picker.pickVideo(
           source: source == 'gallery' ? ImageSource.gallery : ImageSource.camera,
@@ -258,7 +262,11 @@ class GlobalController extends GetxController {
         final List<int> videoBytes = await video.readAsBytes();
         final String base64Video = base64Encode(videoBytes);
         final File videoTemporary = File(video.path);
-        videoFile(videoTemporary);
+        if (isList) {
+          videoFile.add(videoTemporary.obs);
+        } else {
+          videoFile(videoTemporary);
+        }
         isChanged.value = true;
         videoLink.value = 'data:video/mp4;base64,$base64Video';
         // log(videoLink.toString());

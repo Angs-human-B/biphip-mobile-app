@@ -19,15 +19,15 @@ class CreatePostController extends GetxController {
 
   // image and video picker variables
   final RxString createPostImageLink = RxString('');
-  final Rx<File?> createPostImageFile = File('').obs;
+  final RxList<Rx<File>> createPostImageFile = RxList<Rx<File>>([]);
   final RxBool isCreatePostImageChanged = RxBool(false);
 
   final RxString createPostVideoLink = RxString('');
-  final Rx<File?> createPostVideoFile = File('').obs;
+  final RxList<Rx<File>> createPostVideoFile = RxList<Rx<File>>([]);
   final RxBool isCreatePostVideoChanged = RxBool(false);
 
   final RxList<RxString> mediaLinkList = RxList<RxString>([]);
-  final RxList<Rx<File?>> mediaFileList = RxList<Rx<File?>>([]);
+  final RxList<Rx<File>> mediaFileList = RxList<Rx<File>>([]);
   final RxBool isMediaChanged = RxBool(false);
 
   void postButtonStateCheck() {
@@ -142,7 +142,8 @@ class CreatePostController extends GetxController {
     },
   ];
 
-  final RxList mediaList = RxList([]);
+  final RxList allMediaList = RxList([]);
+  final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
 //------------------------------
 //! important:: create post related functions start
 //------------------------------
@@ -281,12 +282,31 @@ class CreatePostController extends GetxController {
     categoryIconColor.value = null;
   }
 
-  void insertMedia(media) {
-    mediaList.addAll(media);
+  void insertMedia(mediaLink, mediaFile) {
+    allMediaList.addAll(mediaLink);
+    allMediaFileList.addAll(mediaFile);
+    ll(allMediaFileList);
+    // ll(allMediaList);
   }
 
   void removeMedia(index) {
-    mediaList.removeAt(index);
+    allMediaList.removeAt(index);
+    allMediaFileList.removeAt(index);
+  }
+
+  void resetData() {
+    isMediaChanged.value = false;
+    mediaLinkList.clear();
+    mediaFileList.clear();
+    isCreatePostImageChanged.value = false;
+    createPostImageLink.value = "";
+    createPostImageFile.clear();
+    isCreatePostVideoChanged.value = false;
+    createPostVideoLink.value = "";
+    createPostVideoFile.clear();
+
+    allMediaList.clear();
+    allMediaFileList.clear();
   }
 
 //------------------------------
@@ -301,26 +321,26 @@ class CreatePostController extends GetxController {
       var status = await _globalController.selectMultiMediaSource(isMediaChanged, mediaLinkList, mediaFileList);
       if (status) {
         ll("media list length : ${mediaLinkList.length}");
-        insertMedia(mediaLinkList);
+        insertMedia(mediaLinkList, mediaFileList);
         isMediaChanged.value = false;
         mediaLinkList.clear();
         mediaFileList.clear();
       }
     } else if (index == 2) {
-      var status = await _globalController.selectImageSource(isCreatePostImageChanged, createPostImageLink, createPostImageFile, 'camera', false);
+      var status = await _globalController.selectImageSource(isCreatePostImageChanged, createPostImageLink, createPostImageFile, 'camera', false, true);
       if (status) {
-        insertMedia([createPostImageLink]);
+        insertMedia([createPostImageLink], createPostImageFile);
         isCreatePostImageChanged.value = false;
         createPostImageLink.value = "";
-        createPostImageFile.value = File('');
+        createPostImageFile.clear();
       }
     } else if (index == 3) {
-      var status = await _globalController.selectVideoSource(isCreatePostVideoChanged, createPostVideoLink, createPostVideoFile, 'camera');
+      var status = await _globalController.selectVideoSource(isCreatePostVideoChanged, createPostVideoLink, createPostVideoFile, 'camera', true);
       if (status) {
-        insertMedia([createPostVideoLink]);
+        insertMedia([createPostVideoLink], createPostVideoFile);
         isCreatePostVideoChanged.value = false;
         createPostVideoLink.value = "";
-        createPostVideoFile.value = File('');
+        createPostVideoFile.clear();
       }
     } else {
       _globalController.commonBottomSheet(
