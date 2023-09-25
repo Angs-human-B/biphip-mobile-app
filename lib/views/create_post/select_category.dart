@@ -33,8 +33,8 @@ class SelectCategory extends StatelessWidget {
                   child: TextButton(
                     style: kTextButtonStyle,
                     onPressed: () {
-                      _createPostController.selectCategoryTextChange();
-                      Get.back();
+                      _createPostController.selectCategoryTextChange(context);
+                     
                     },
                     child: Text(
                       "Next",

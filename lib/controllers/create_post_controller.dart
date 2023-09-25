@@ -255,7 +255,7 @@ class CreatePostController extends GetxController {
     }
   }
 
-  void selectCategoryTextChange() {
+  void selectCategoryTextChange(context) {
     for (int i = 0; i < categoryList.length; i++) {
       if (categoryStatusList[i]) {
         category.value = categoryList[i]['title'];
@@ -263,6 +263,194 @@ class CreatePostController extends GetxController {
         categoryIconColor.value = categoryList[i]['icon_color'];
         break;
       }
+    }
+    if (category.value == "Kids") {
+      _globalController.commonBottomSheet(
+        context: context,
+        content: Column(
+          children: [
+            kH8sizedBox,
+            OutLinedButton(
+              onPress: () {
+                _globalController.commonBottomSheet(
+                  context: context,
+                  content: Column(
+                    children: [
+                      kH8sizedBox,
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        separatorBuilder: (context, index) => kH8sizedBox,
+                        itemCount: 3,
+                        itemBuilder: (context, i) {
+                          return Obx(
+                            () => CustomListTile(
+                              onPressed: () {
+                                selectAudienceStatusChange(i);
+                              },
+                              itemColor: audienceStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
+                              title: audienceTypeList[i]['title'],
+                              subtitle: audienceTypeList[i]['subtitle'],
+                              leading: Container(
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: cNeutralColor,
+                                ),
+                                height: h28,
+                                width: h28,
+                                child: Icon(
+                                  audienceTypeList[i]['icon'],
+                                  color: cBlackColor,
+                                  size: isDeviceScreenLarge() ? h18 : h14,
+                                ),
+                              ),
+                              trailing: CustomRadioButton(
+                                onChanged: () {
+                                  selectAudienceStatusChange(i);
+                                },
+                                isSelected: audienceStatusList[i],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  onPressCloseButton: () {
+                    Get.back();
+                  },
+                  onPressRightButton: null,
+                  rightText: 'Done',
+                  rightTextStyle: medium14TextStyle(cPrimaryColor),
+                  title: "Select Kids",
+                  isRightButtonShow: true,
+                );
+              },
+              buttonText: "Select Kids",
+              buttonTextStyle: medium16TextStyle(cBlackColor),
+              borderColor: cLineColor,
+              widget: Icon(
+                BipHip.downArrowOutline,
+                color: cBlackColor,
+                size: isDeviceScreenLarge() ? h20 : h16,
+              ),
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            // kH12sizedBox,
+            // OutLinedButton(
+            //   onPress: () {},
+            //   buttonText: "Maria Jones",
+            //   buttonTextStyle: medium16TextStyle(cBlackColor),
+            //   borderColor: cPrimaryColor,
+            //   buttonColor: cPrimaryTint3Color,
+            //   widget: Icon(
+            //     BipHip.circleCrossNew,
+            //     color: cRedColor,
+            //     size: isDeviceScreenLarge() ? h20 : h18,
+            //   ),
+            //   backgroundImage: const NetworkImage("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"),
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // ),
+            kH12sizedBox,
+            Text(
+              "Or",
+              style: regular16TextStyle(cPlaceHolderColor),
+            ),
+            kH12sizedBox,
+            OutLinedButton(
+              onPress: () {},
+              buttonText: "Add Kid",
+              buttonTextStyle: medium16TextStyle(cPrimaryColor),
+              borderColor: cPrimaryColor,
+              widget: Icon(
+                BipHip.plus,
+                color: cPrimaryColor,
+                size: isDeviceScreenLarge() ? h20 : h16,
+              ),
+            ),
+            kH8sizedBox,
+            Text(
+              "*If you don’t have any kid added in system, use ‘Custom Add’ to post directly with kid’s details.",
+              style: regular14TextStyle(cSmallBodyTextColor),
+            ),
+          ],
+        ),
+        onPressCloseButton: () {
+          Get.back();
+        },
+        onPressRightButton: null,
+        rightText: 'Done',
+        rightTextStyle: medium14TextStyle(cPrimaryColor),
+        title: "Kids",
+        isRightButtonShow: true,
+      );
+    } else if (category.value == "Selling") {
+      _globalController.commonBottomSheet(
+        context: context,
+        content: Column(
+          children: [
+            kH8sizedBox,
+            OutLinedButton(
+              onPress: () {},
+              buttonText: "Select Saved Brand",
+              buttonTextStyle: medium16TextStyle(cBlackColor),
+              borderColor: cLineColor,
+              widget: Icon(
+                BipHip.downArrowOutline,
+                color: cBlackColor,
+                size: isDeviceScreenLarge() ? h20 : h16,
+              ),
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            // kH12sizedBox,
+            // OutLinedButton(
+            //   onPress: () {},
+            //   buttonText: "Maria Jones",
+            //   buttonTextStyle: medium16TextStyle(cBlackColor),
+            //   borderColor: cPrimaryColor,
+            //   buttonColor: cPrimaryTint3Color,
+            //   widget: Icon(
+            //     BipHip.circleCrossNew,
+            //     color: cRedColor,
+            //     size: isDeviceScreenLarge() ? h20 : h18,
+            //   ),
+            //   backgroundImage: const NetworkImage("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"),
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // ),
+            kH12sizedBox,
+            Text(
+              "Or",
+              style: regular16TextStyle(cPlaceHolderColor),
+            ),
+            kH12sizedBox,
+            OutLinedButton(
+              onPress: () {},
+              buttonText: "Add Brand",
+              buttonTextStyle: medium16TextStyle(cPrimaryColor),
+              borderColor: cPrimaryColor,
+              widget: Icon(
+                BipHip.plus,
+                color: cPrimaryColor,
+                size: isDeviceScreenLarge() ? h20 : h16,
+              ),
+            ),
+            kH8sizedBox,
+            Text(
+              "*Please add your own brand to promote and grow your business.",
+              style: regular14TextStyle(cSmallBodyTextColor),
+            ),
+          ],
+        ),
+        onPressCloseButton: null,
+        onPressRightButton: null,
+        rightText: 'Done',
+        rightTextStyle: medium14TextStyle(cPlaceHolderColor),
+        title: " Brands",
+        isRightButtonShow: true,
+      );
+    } else if (category.value == "News") {
+    } else {
+      Get.back();
     }
   }
 
@@ -474,6 +662,86 @@ class CreatePostController extends GetxController {
     } else {
       return cSecondaryColor;
     }
+  }
+}
+
+class OutLinedButton extends StatelessWidget {
+  const OutLinedButton({
+    super.key,
+    this.onPress,
+    required this.buttonText,
+    this.widget,
+    this.buttonColor,
+    required this.borderColor,
+    this.buttonTextStyle,
+    this.buttonHeight,
+    this.buttonWidth,
+    this.borderRadius,
+    this.mainAxisAlignment,
+    this.radius,
+    this.backgroundImage,
+  });
+
+  final Function()? onPress;
+  final String buttonText;
+  final Widget? widget;
+  final Color? buttonColor;
+  final Color borderColor;
+  final TextStyle? buttonTextStyle;
+  final double? buttonHeight, buttonWidth, radius;
+  final BorderRadiusGeometry? borderRadius;
+  final MainAxisAlignment? mainAxisAlignment;
+  final ImageProvider<Object>? backgroundImage;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPress,
+      style: kTextButtonStyle,
+      child: Container(
+        height: buttonHeight ?? h44,
+        width: buttonWidth ?? width,
+        decoration: BoxDecoration(
+          borderRadius: borderRadius ?? k4CircularBorderRadius,
+          border: Border.all(
+            color: borderColor,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (backgroundImage != null)
+                    CircleAvatar(
+                      radius: radius ?? 12,
+                      backgroundImage: backgroundImage ?? const AssetImage(kiProfileDefaultImageUrl),
+                    ),
+                  if (backgroundImage != null) kW8sizedBox,
+                  Text(
+                    buttonText,
+                    style: buttonTextStyle ?? medium16TextStyle(borderColor),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  kW4sizedBox,
+                  widget ?? kEmptySizedBox,
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
