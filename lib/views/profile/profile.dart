@@ -9,6 +9,7 @@ import 'package:bip_hip/views/profile/post_widgets/comment_widget.dart';
 import 'package:bip_hip/views/profile/post_widgets/like_section_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/stories_widget.dart';
 import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
+import 'package:flutter_svg/svg.dart';
 
 class Profile extends StatelessWidget {
   Profile({super.key});
@@ -23,6 +24,7 @@ class Profile extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Scaffold(
+          resizeToAvoidBottomInset: true,
           backgroundColor: cWhiteColor,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
@@ -354,6 +356,7 @@ class Profile extends StatelessWidget {
                       child: BiddingWidget(
                         totalBids: 25,
                         bidingAmount: 300,
+                        isPlaceBid: false,
                         bidingOnPressed: () {
                           _globalController.commonBottomSheet(
                               context: context,
@@ -371,7 +374,6 @@ class Profile extends StatelessWidget {
                               isScrollControlled: true,
                               bottomSheetHeight: bidingComments.length <= 3 ? null : height * .7);
                         },
-                        isPlaceBid: false,
                       ),
                     ),
                     kH12sizedBox,
@@ -384,7 +386,21 @@ class Profile extends StatelessWidget {
                         horizontal: kHorizontalPadding,
                       ),
                       child: LikeSectionWidget(
-                        giftOnPressed: () {},
+                        giftOnPressed: () {
+                          _globalController.commonBottomSheet(
+                              context: context,
+                              content: _GiftContent(),
+                              onPressCloseButton: () {
+                                Get.back();
+                              },
+                              onPressRightButton: null,
+                              rightText: '',
+                              rightTextStyle: regular10TextStyle(cBlackColor),
+                              title: 'Gift',
+                              isRightButtonShow: false,
+                              isScrollControlled: true,
+                              bottomSheetHeight: height * .9);
+                        },
                       ),
                     ),
                     const Padding(
@@ -740,5 +756,353 @@ class _PlaceBidContent extends StatelessWidget {
                 prefixIcon: Icons.attach_money_rounded, borderRadius: k8BorderRadius, controller: _postReactionController.bidingTextEditingController)
           ],
         ));
+  }
+}
+
+class _GiftContent extends StatelessWidget {
+  _GiftContent({super.key});
+
+  final PostReactionController _postReactionController = Get.find<PostReactionController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: h40,
+                  width: h40,
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: Image.asset('assets/images/profileDefault.png'),
+                ),
+                kW12sizedBox,
+                SizedBox(
+                  height: 40,
+                  child: Center(
+                    child: RichText(
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.clip,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(text: 'Support ', style: regular12TextStyle(cBlackColor)),
+                          //TODO: Referal name here
+                          TextSpan(
+                            text: 'Monjurul Sharker Omi',
+                            style: semiBold12TextStyle(cBlackColor),
+                          ),
+                          TextSpan(
+                            text: '\nby sending stars',
+                            style: regular12TextStyle(cBlackColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            kH8sizedBox,
+            Text(
+              'Stars let this creator earn money so that they can continue \nmaking content that you love.',
+              style: regular10TextStyle(cSmallBodyTextColor),
+            ),
+            kH16sizedBox,
+            const CustomDivider(),
+            kH16sizedBox,
+            Text(
+              'All Stars',
+              style: semiBold14TextStyle(cBlackColor),
+            ),
+            kH16sizedBox,
+            SizedBox(
+              height: 350,
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: giftPackages.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: .8,
+                  crossAxisCount: 3,
+                  crossAxisSpacing: k16Padding,
+                  mainAxisSpacing: k16Padding,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: () {
+                      _postReactionController.selectedPackage.value = giftPackages[index];
+                      _postReactionController.selectedGiftIndex.value = index;
+                      _postReactionController.isPackageSelected.value = true;
+                    },
+                    child: PackageGridViewContainer(
+                      index: index,
+                    ),
+                  );
+                },
+              ),
+            ),
+            kH24sizedBox,
+            const CustomDivider(),
+            kH16sizedBox,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                    height: 32,
+                    width: 32,
+                    decoration: const BoxDecoration(shape: BoxShape.circle),
+                    child: Image.asset('assets/images/profileDefault.png'),
+                  ),
+                ),
+                kW12sizedBox,
+                SizedBox(
+                  width: 315,
+                  child: CustomModifiedTextField(
+                      hint: 'Add a comment....',
+                      inputAction: TextInputAction.done,
+                      contentPadding: const EdgeInsets.symmetric(vertical: k10Padding, horizontal: k8Padding),
+                      borderRadius: 8,
+                      controller: _postReactionController.giftTextEditingController),
+                ),
+              ],
+            ),
+            kH16sizedBox,
+            CustomElevatedButton(
+                label: 'Get Stars',
+                buttonWidth: width - 40,
+                onPressed: _postReactionController.isPackageSelected.value
+                    ? () {
+                        _globalController.commonBottomSheet(
+                            context: context,
+                            content: _PurchaseStarContent(),
+                            onPressCloseButton: () {
+                              Get.back();
+                            },
+                            onPressRightButton: null,
+                            rightText: '',
+                            rightTextStyle: semiBold12TextStyle(cPrimaryColor),
+                            title: 'Purchase Star',
+                            isRightButtonShow: false,
+                            isScrollControlled: true,
+                            bottomSheetHeight: height * .9);
+                      }
+                    : null)
+          ],
+        ));
+  }
+}
+
+class PackageGridViewContainer extends StatelessWidget {
+  PackageGridViewContainer({
+    Key? key,
+    required index,
+  })  : _index = index,
+        super(key: key);
+
+  final int _index;
+  final PostReactionController _postReactionController = Get.find<PostReactionController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => Container(
+        decoration: BoxDecoration(
+            borderRadius: k8CircularBorderRadius,
+            color: (_postReactionController.selectedGiftIndex.value == _index) ? cPrimaryTint3Color : cWhiteColor,
+            border: Border.all(color: (_postReactionController.selectedGiftIndex.value == _index) ? cPrimaryColor : cLineColor)),
+        child: Padding(
+          padding: const EdgeInsets.all(k16Padding),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ClipRRect(
+                borderRadius: k8CircularBorderRadius,
+                child: SvgPicture.asset(
+                  giftPackages[_index]['badge'],
+                  fit: BoxFit.fill,
+                ),
+              ),
+              kH4sizedBox,
+              Text(
+                giftPackages[_index]['packageName'],
+                style: semiBold14TextStyle(cBlackColor),
+              ),
+              kH4sizedBox,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    BipHip.giftNew,
+                    color: cSecondaryColor,
+                    size: kIconSize12,
+                  ),
+                  kW4sizedBox,
+                  Text(
+                    giftPackages[_index]['amount'],
+                    style: regular10TextStyle(cBlackColor),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PurchaseStarContent extends StatelessWidget {
+  _PurchaseStarContent({super.key});
+
+  final PostReactionController _postReactionController = Get.find<PostReactionController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                'Your current balance (71 of 200)',
+                style: regular12TextStyle(cIconColor),
+              ),
+              IconButton(
+                  constraints: const BoxConstraints(),
+                  padding: EdgeInsets.zero,
+                  onPressed: () {},
+                  icon: const Icon(
+                    BipHip.info,
+                    size: kIconSize14,
+                    color: cIconColor,
+                  ))
+            ],
+          ),
+          kH4sizedBox,
+          Container(
+            height: 44,
+            width: width,
+            decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cGreyBoxColor),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  BipHip.giftNew,
+                  color: cSecondaryColor,
+                  size: kIconSize16,
+                ),
+                Text(
+                  '71',
+                  style: semiBold20TextStyle(cBlackColor).copyWith(foreground: Paint()..shader = linearGradient),
+                ),
+                Text(
+                  'Stars',
+                  style: regular12TextStyle(cSmallBodyTextColor),
+                ),
+              ],
+            ),
+          ),
+          kH24sizedBox,
+          const CustomDivider(),
+          kH16sizedBox,
+          Text(
+            'Your current balance (71 of 200)',
+            style: regular12TextStyle(cIconColor),
+          ),
+          kH8sizedBox,
+          CustomListTile(
+            title: '${_postReactionController.selectedPackage.value!['amount']} stars',
+            borderColor: cPrimaryColor,
+            itemColor: cPrimaryTint2Color,
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '\$${_postReactionController.selectedPackage.value!['cost']}',
+                  style: semiBold16TextStyle(cBlackColor),
+                ),
+                Radio(
+                  value: 0,
+                  groupValue: 0,
+                  onChanged: (v) {},
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  visualDensity: const VisualDensity(
+                    horizontal: VisualDensity.minimumDensity,
+                    vertical: VisualDensity.minimumDensity,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          kH16sizedBox,
+          const CustomDivider(),
+          kH16sizedBox,
+          Text(
+            'All stars',
+            style: regular12TextStyle(cIconColor),
+          ),
+          kH8sizedBox,
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Stars that you purchase here are kept in your balance. You can send stars from your balance at any time. ',
+                  style: regular12TextStyle(cBlackColor),
+                ),
+                TextSpan(
+                  text: 'Learn more about Stars.',
+                  style: regular12TextStyle(cPrimaryColor),
+                ),
+              ],
+            ),
+          ),
+          kH16sizedBox,
+          ListView.builder(
+              shrinkWrap: true,
+              itemCount: giftPackages.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: k8Padding),
+                  child: CustomListTile(
+                    title: '${giftPackages[index]['amount']} stars',
+                    borderColor: cPrimaryColor,
+                    itemColor: cPrimaryTint2Color,
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '\$${giftPackages[index]['cost']}',
+                          style: semiBold16TextStyle(cBlackColor),
+                        ),
+                        Radio(
+                          value: _postReactionController.selectedPackage.value,
+                          groupValue: giftPackages[index],
+                          onChanged: ( v) {
+                            // _postReactionController.selectedPackage.value = v;
+                          },
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              })
+        ],
+      ),
+    );
   }
 }

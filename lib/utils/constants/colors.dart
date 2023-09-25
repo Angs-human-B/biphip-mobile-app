@@ -31,3 +31,7 @@ const Color cPoetryColor = Color(0xFFFF5E5E);
 const Color cSellingColor = Color(0xFF05AAFD);
 const Color cTransparentColor = Colors.transparent;
 const Color cNeutralColor = Color(0XFFECECEC);
+
+final Shader linearGradient = const LinearGradient(
+  colors: <Color>[Color(0xff59d3fc), Color(0xff554dde)],
+).createShader(const Rect.fromLTRB(0, 0, 0, 0));

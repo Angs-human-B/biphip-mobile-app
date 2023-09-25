@@ -203,7 +203,7 @@ class ReactionView extends StatelessWidget {
                   ),
                   child: ClipOval(
                     child: SvgPicture.asset(
-                      'assets/images/wow.svg',
+                      'assets/svg/wow.svg',
                       fit: BoxFit.cover,
                     ),
                   ),
