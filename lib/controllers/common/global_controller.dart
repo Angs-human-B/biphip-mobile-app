@@ -121,7 +121,7 @@ class GlobalController extends GetxController {
                   const CustomDivider(),
                   if (isSearchShow == true)
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k16Padding),
+                      padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
                       child: CustomModifiedTextField(
                         borderRadius: h20,
                         controller: Get.find<ProfileController>().searchController,
@@ -182,7 +182,7 @@ class GlobalController extends GetxController {
   //* Image picker
   final ImagePicker _picker = ImagePicker();
 
-  Future<void> selectImageSource(RxBool isChanged, imageLink, imageFile, String source, [bool? isFromBottomSheet]) async {
+  Future<bool> selectImageSource(RxBool isChanged, imageLink, imageFile, String source, [bool? isFromBottomSheet, isList = false]) async {
     try {
       final XFile? image = await _picker.pickImage(
         source: source == 'gallery' ? ImageSource.gallery : ImageSource.camera,
@@ -193,23 +193,29 @@ class GlobalController extends GetxController {
         final List<int> imageBytes = await image.readAsBytes();
         final String base64Image = base64Encode(imageBytes);
         final File imageTemporary = File(image.path);
-        imageFile(imageTemporary);
+        if (isList) {
+          imageFile.add(imageTemporary.obs);
+        } else {
+          imageFile(imageTemporary);
+        }
         isChanged.value = true;
         imageLink.value = 'data:image/png;base64,$base64Image';
         // log(imageLink.toString());
         if (isFromBottomSheet != false) {
           Get.back();
         }
+        return true;
       } else {
         ll('image not selected');
-        return;
+        return false;
       }
     } on PlatformException catch (e) {
       ll("Failed to Pick Image $e");
+      return false;
     }
   }
 
-  Future<void> selectMultiMediaSource(RxBool isMediaChanged, RxList<RxString> mediaLinkList, RxList<Rx<File?>> mediaFileList) async {
+  Future<bool> selectMultiMediaSource(RxBool isMediaChanged, RxList<RxString> mediaLinkList, RxList<Rx<File?>> mediaFileList) async {
     try {
       final List<XFile> mediaList = await _picker.pickMultipleMedia(
         maxHeight: 480,
@@ -235,16 +241,18 @@ class GlobalController extends GetxController {
             showSnackBar(title: 'Warning', message: "file format is not supported currently", color: cSecondaryColor);
           }
         }
+        return true;
       } else {
         ll('file not selected');
-        return;
+        return false;
       }
     } on PlatformException catch (e) {
       ll("Failed to Pick file $e");
+      return false;
     }
   }
 
-  Future<void> selectVideoSource(RxBool isChanged, videoLink, videoFile, String source) async {
+  Future<bool> selectVideoSource(RxBool isChanged, videoLink, videoFile, String source, [isList = false]) async {
     try {
       final XFile? video = await _picker.pickVideo(
           source: source == 'gallery' ? ImageSource.gallery : ImageSource.camera,
@@ -254,16 +262,22 @@ class GlobalController extends GetxController {
         final List<int> videoBytes = await video.readAsBytes();
         final String base64Video = base64Encode(videoBytes);
         final File videoTemporary = File(video.path);
-        videoFile(videoTemporary);
+        if (isList) {
+          videoFile.add(videoTemporary.obs);
+        } else {
+          videoFile(videoTemporary);
+        }
         isChanged.value = true;
         videoLink.value = 'data:video/mp4;base64,$base64Video';
         // log(videoLink.toString());
+        return true;
       } else {
         ll('video not selected');
-        return;
+        return false;
       }
     } on PlatformException catch (e) {
       ll("Failed to Pick Video $e");
+      return false;
     }
   }
 
