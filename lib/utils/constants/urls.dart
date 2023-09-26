@@ -23,3 +23,7 @@ const String kiProfilePic4xImageUrl = 'assets/images/profilePic4x.png';
 const String kiDummyImage1ImageUrl = 'assets/images/pic4.jpeg';
 const String kiDummyImage2ImageUrl = 'assets/images/pic5.jpeg';
 const String kiDummyImage3ImageUrl = 'assets/images/pic12.jpeg';
+const String kiBadgeSvgImageUrl = 'assets/svg/badge.svg';
+const String kiHahaSvgImageUrl = 'assets/svg/haha.svg';
+const String kiLoveSvgImageUrl = 'assets/svg/love.svg';
+const String kiWowSvgImageUrl = 'assets/svg/wow.svg';
