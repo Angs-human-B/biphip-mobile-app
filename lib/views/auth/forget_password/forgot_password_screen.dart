@@ -1,9 +1,6 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
-import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});
@@ -41,20 +38,20 @@ class ForgotPasswordScreen extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'Type your email or Phone Number',
-                        subTitle: 'We will send code to your mail to confirm your account.',
+                        title: ksTypeEmailOrPhone,
+                        subTitle: ksSendCodeToConfirm,
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.forgotPasswordEmailTextEditingController,
                         errorText: _authenticationController.forgotPasswordEmailError.value,
-                        hint: "Email",
+                        hint: ksEmail,
                         onChanged: (text) {
                           _authenticationController.checkCanSendOTP();
                           if (_authenticationController.forgotPasswordEmailTextEditingController.text.trim() == '') {
-                            _authenticationController.forgotPasswordEmailError.value = 'Email can\'t be empty';
+                            _authenticationController.forgotPasswordEmailError.value = ksEmptyEmailErrorMessage;
                           } else if (!_authenticationController.forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
-                            _authenticationController.forgotPasswordEmailError.value = 'Invalid email address';
+                            _authenticationController.forgotPasswordEmailError.value = ksInvalidEmailErrorMessage;
                           } else {
                             _authenticationController.forgotPasswordEmailError.value = '';
                           }

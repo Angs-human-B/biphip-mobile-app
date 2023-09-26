@@ -1,8 +1,6 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
 
 class EditBio extends StatelessWidget {
   EditBio({super.key});
@@ -22,7 +20,7 @@ class EditBio extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: 'Edit bio'.tr,
+              title: _profileController.bio.value == '' ? 'Add bio'.tr : 'Edit bio'.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {

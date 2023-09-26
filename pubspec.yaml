@@ -46,6 +46,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/svg/
     - .env
     - .env.dev
     - .env.example

@@ -16,6 +16,7 @@ class CreatePostController extends GetxController {
   final Rx<IconData?> categoryIcon = Rx<IconData?>(null);
   final Rx<Color?> categoryIconColor = Rx<Color?>(null);
   final RxBool isTagAdded = RxBool(false);
+ 
 
   // image and video picker variables
   final RxString createPostImageLink = RxString('');

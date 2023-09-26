@@ -1,11 +1,12 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class CustomChoiceChips extends StatelessWidget {
-  const CustomChoiceChips({super.key, required this.label, required this.isSelected, this.onSelected});
+  const CustomChoiceChips({super.key, required this.label, required this.isSelected, this.onSelected, this.borderRadius});
 
   final String label;
   final bool isSelected;
   final Function(bool)? onSelected;
+  final BorderRadius? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class CustomChoiceChips extends StatelessWidget {
       showCheckmark: false,
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
-        borderRadius: k100CircularBorderRadius,
+        borderRadius: borderRadius??k100CircularBorderRadius,
       ),
       side: BorderSide(
         color: isSelected ? cPrimaryColor : cLineColor,

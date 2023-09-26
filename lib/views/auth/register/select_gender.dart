@@ -49,8 +49,8 @@ class SelectGender extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'What\'s your gender?',
-                        subTitle: 'You can change your gender from your profile settings.',
+                        title: ksWhatGender,
+                        subTitle: ksChangeGender,
                       ),
                       kH50sizedBox,
                       CustomSelectionButton(
@@ -66,14 +66,14 @@ class SelectGender extends StatelessWidget {
                             onPressRightButton: null,
                             rightText: '',
                             rightTextStyle: regular10TextStyle(cBlackColor),
-                            title: 'Select Gender',
+                            title: ksSelectGender,
                             isRightButtonShow: false,
                             isScrollControlled: true,
                             bottomSheetHeight: 260,
                           );
                         },
                         text: _authenticationController.gender.value,
-                        hintText: "Select gender",
+                        hintText: ksSelectGender,
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(

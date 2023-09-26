@@ -1,8 +1,6 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/count_down.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/linkup_text.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
@@ -52,8 +50,8 @@ class OTPVerifyScreen extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'OTP Verification',
-                        subTitle: 'Enter the verification code we just sent to your email',
+                        title: ksOTPVerification,
+                        subTitle: ksEnterCode,
                       ),
                       kH50sizedBox,
                       OtpTextField(
