@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/custom_outline_button.dart';
 
 class CreatePostController extends GetxController {
   // final ApiController _apiController = ApiController();
@@ -16,6 +17,12 @@ class CreatePostController extends GetxController {
   final Rx<IconData?> categoryIcon = Rx<IconData?>(null);
   final Rx<Color?> categoryIconColor = Rx<Color?>(null);
   final RxBool isTagAdded = RxBool(false);
+
+  final RxString selectedKidName = RxString('');
+  final RxString selectedKidImage = RxString('');
+
+  final RxString selectedBrandName = RxString('');
+  final RxString selectedBrandImage = RxString('');
 
   // image and video picker variables
   final RxString createPostImageLink = RxString('');
@@ -142,6 +149,85 @@ class CreatePostController extends GetxController {
     },
   ];
 
+  final RxList selectedKidStatusList = RxList([false, false, false, false, false, false, false, false, false]);
+  final List kidList = [
+    {
+      "name": "Takin Ahmed 1",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 2",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 3",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 4",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 5",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 6",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 7",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 8",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 9",
+      "image_url": kiLogoImageUrl,
+    },
+  ];
+  final RxList selectedBrandStatusList = RxList([false, false, false, false, false, false, false, false, false]);
+  final List brandList = [
+    {
+      "name": "Takin Ahmed 1",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 2",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 3",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 4",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 5",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 6",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 7",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 8",
+      "image_url": kiLogoImageUrl,
+    },
+    {
+      "name": "Takin Ahmed 9",
+      "image_url": kiLogoImageUrl,
+    },
+  ];
+
   final RxList allMediaList = RxList([]);
   final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
 //------------------------------
@@ -178,73 +264,6 @@ class CreatePostController extends GetxController {
     }
   }
 
-  void showAudienceSheet(context) {
-    Get.find<GlobalController>().commonBottomSheet(
-      bottomSheetHeight: height * .51,
-      context: context,
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Who can see your post?",
-            style: semiBold16TextStyle(cBlackColor),
-          ),
-          kH8sizedBox,
-          Text(
-            "Your post will appear in feed, on your profile and in search results. Your default audience is set to Public, but you can change the audience of this specific post.",
-            style: regular14TextStyle(cBlackColor),
-          ),
-          kH8sizedBox,
-          for (int i = 1; i <= 3; i++)
-            Padding(
-              padding: EdgeInsets.only(bottom: i == 3 ? 0.0 : 8.0),
-              child: Obx(
-                () => CustomListTile(
-                  onPressed: () {
-                    selectAudienceStatusChange(i - 1);
-                  },
-                  itemColor: audienceStatusList[i - 1] ? cPrimaryTint3Color : cWhiteColor,
-                  title: audienceTypeList[i - 1]['title'],
-                  subtitle: audienceTypeList[i - 1]['subtitle'],
-                  leading: Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: cNeutralColor,
-                    ),
-                    height: h28,
-                    width: h28,
-                    child: Icon(
-                      audienceTypeList[i - 1]['icon'],
-                      color: cBlackColor,
-                      size: isDeviceScreenLarge() ? h18 : h14,
-                    ),
-                  ),
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      selectAudienceStatusChange(i - 1);
-                    },
-                    isSelected: audienceStatusList[i - 1],
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
-      onPressCloseButton: () {
-        Get.back();
-      },
-      onPressRightButton: () {
-        ll("message");
-        selectAudienceTextChange();
-        Get.back();
-      },
-      rightText: "Done",
-      rightTextStyle: medium14TextStyle(cPrimaryColor),
-      title: "Edit Audience",
-      isRightButtonShow: true,
-    );
-  }
-
   void selectCategoryStatusChange(index) {
     for (int i = 0; i < categoryStatusList.length; i++) {
       if (index == i) {
@@ -273,42 +292,34 @@ class CreatePostController extends GetxController {
             OutLinedButton(
               onPress: () {
                 _globalController.commonBottomSheet(
+                  isScrollControlled: true,
+                  bottomSheetHeight: height * .7,
                   context: context,
                   content: Column(
                     children: [
-                      kH8sizedBox,
                       ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         separatorBuilder: (context, index) => kH8sizedBox,
-                        itemCount: 3,
+                        itemCount: kidList.length,
                         itemBuilder: (context, i) {
                           return Obx(
                             () => CustomListTile(
                               onPressed: () {
-                                selectAudienceStatusChange(i);
+                                selectKidStatusChange(i);
                               },
-                              itemColor: audienceStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
-                              title: audienceTypeList[i]['title'],
-                              subtitle: audienceTypeList[i]['subtitle'],
-                              leading: Container(
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: cNeutralColor,
-                                ),
-                                height: h28,
-                                width: h28,
-                                child: Icon(
-                                  audienceTypeList[i]['icon'],
-                                  color: cBlackColor,
-                                  size: isDeviceScreenLarge() ? h18 : h14,
-                                ),
+                              itemColor: selectedKidStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
+                              borderColor: selectedKidStatusList[i] ? cPrimaryColor : cLineColor,
+                              title: kidList[i]['name'],
+                              leading: CircleAvatar(
+                                radius: 12,
+                                backgroundImage: AssetImage(kidList[i]['image_url']),
                               ),
                               trailing: CustomRadioButton(
                                 onChanged: () {
-                                  selectAudienceStatusChange(i);
+                                  selectKidStatusChange(i);
                                 },
-                                isSelected: audienceStatusList[i],
+                                isSelected: selectedKidStatusList[i],
                               ),
                             ),
                           );
@@ -391,7 +402,53 @@ class CreatePostController extends GetxController {
           children: [
             kH8sizedBox,
             OutLinedButton(
-              onPress: () {},
+              onPress: () {
+                _globalController.commonBottomSheet(
+                  isScrollControlled: true,
+                  bottomSheetHeight: height * .7,
+                  context: context,
+                  content: Column(
+                    children: [
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        separatorBuilder: (context, index) => kH8sizedBox,
+                        itemCount: brandList.length,
+                        itemBuilder: (context, i) {
+                          return Obx(
+                            () => CustomListTile(
+                              onPressed: () {
+                                selectBrandStatusChange(i);
+                              },
+                              itemColor: selectedBrandStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
+                              borderColor: selectedBrandStatusList[i] ? cPrimaryColor : cLineColor,
+                              title: brandList[i]['name'],
+                              leading: CircleAvatar(
+                                radius: 12,
+                                backgroundImage: AssetImage(brandList[i]['image_url']),
+                              ),
+                              trailing: CustomRadioButton(
+                                onChanged: () {
+                                  selectBrandStatusChange(i);
+                                },
+                                isSelected: selectedBrandStatusList[i],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  onPressCloseButton: () {
+                    Get.back();
+                  },
+                  onPressRightButton: null,
+                  rightText: 'Done',
+                  rightTextStyle: medium14TextStyle(cPrimaryColor),
+                  title: "Select Kids",
+                  isRightButtonShow: true,
+                );
+              },
               buttonText: "Select Saved Brand",
               buttonTextStyle: medium16TextStyle(cBlackColor),
               borderColor: cLineColor,
@@ -400,7 +457,6 @@ class CreatePostController extends GetxController {
                 color: cBlackColor,
                 size: isDeviceScreenLarge() ? h20 : h16,
               ),
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
             // kH12sizedBox,
             // OutLinedButton(
@@ -460,6 +516,66 @@ class CreatePostController extends GetxController {
         categoryStatusList[i] = true;
       } else {
         categoryStatusList[i] = false;
+      }
+    }
+  }
+
+  void selectKidStatusChange(index) {
+    for (int i = 0; i < selectedKidStatusList.length; i++) {
+      if (index == i) {
+        selectedKidStatusList[i] = true;
+      } else {
+        selectedKidStatusList[i] = false;
+      }
+    }
+  }
+
+  void selectKidTextChange() {
+    for (int i = 0; i < kidList.length; i++) {
+      if (selectedKidStatusList[i]) {
+        selectedKidName.value = kidList[i]['name'];
+        selectedKidImage.value = kidList[i]['image_url'];
+        break;
+      }
+    }
+  }
+
+  void initializeKidText() {
+    for (int i = 0; i < selectedKidStatusList.length; i++) {
+      if (kidList[i]['name'] == selectedKidName.value) {
+        selectedKidStatusList[i] = true;
+      } else {
+        selectedKidStatusList[i] = false;
+      }
+    }
+  }
+
+  void selectBrandStatusChange(index) {
+    for (int i = 0; i < selectedBrandStatusList.length; i++) {
+      if (index == i) {
+        selectedBrandStatusList[i] = true;
+      } else {
+        selectedBrandStatusList[i] = false;
+      }
+    }
+  }
+
+  void selectBrandTextChange() {
+    for (int i = 0; i < brandList.length; i++) {
+      if (selectedBrandStatusList[i]) {
+        selectedBrandName.value = brandList[i]['name'];
+        selectedBrandImage.value = brandList[i]['image_url'];
+        break;
+      }
+    }
+  }
+
+  void initializeBrandText() {
+    for (int i = 0; i < selectedBrandStatusList.length; i++) {
+      if (brandList[i]['name'] == selectedBrandName.value) {
+        selectedBrandStatusList[i] = true;
+      } else {
+        selectedBrandStatusList[i] = false;
       }
     }
   }
@@ -663,88 +779,74 @@ class CreatePostController extends GetxController {
       return cSecondaryColor;
     }
   }
-}
-
-class OutLinedButton extends StatelessWidget {
-  const OutLinedButton({
-    super.key,
-    this.onPress,
-    required this.buttonText,
-    this.widget,
-    this.buttonColor,
-    required this.borderColor,
-    this.buttonTextStyle,
-    this.buttonHeight,
-    this.buttonWidth,
-    this.borderRadius,
-    this.mainAxisAlignment,
-    this.radius,
-    this.backgroundImage,
-  });
-
-  final Function()? onPress;
-  final String buttonText;
-  final Widget? widget;
-  final Color? buttonColor;
-  final Color borderColor;
-  final TextStyle? buttonTextStyle;
-  final double? buttonHeight, buttonWidth, radius;
-  final BorderRadiusGeometry? borderRadius;
-  final MainAxisAlignment? mainAxisAlignment;
-  final ImageProvider<Object>? backgroundImage;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPress,
-      style: kTextButtonStyle,
-      child: Container(
-        height: buttonHeight ?? h44,
-        width: buttonWidth ?? width,
-        decoration: BoxDecoration(
-          borderRadius: borderRadius ?? k4CircularBorderRadius,
-          border: Border.all(
-            color: borderColor,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (backgroundImage != null)
-                    CircleAvatar(
-                      radius: radius ?? 12,
-                      backgroundImage: backgroundImage ?? const AssetImage(kiProfileDefaultImageUrl),
-                    ),
-                  if (backgroundImage != null) kW8sizedBox,
-                  Text(
-                    buttonText,
-                    style: buttonTextStyle ?? medium16TextStyle(borderColor),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  kW4sizedBox,
-                  widget ?? kEmptySizedBox,
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 //------------------------------
 //! important:: create post bottom option functions end
 //------------------------------
+
+  void showAudienceSheet(context) {
+    Get.find<GlobalController>().commonBottomSheet(
+      bottomSheetHeight: height * .51,
+      context: context,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Who can see your post?",
+            style: semiBold16TextStyle(cBlackColor),
+          ),
+          kH8sizedBox,
+          Text(
+            "Your post will appear in feed, on your profile and in search results. Your default audience is set to Public, but you can change the audience of this specific post.",
+            style: regular14TextStyle(cBlackColor),
+          ),
+          kH8sizedBox,
+          for (int i = 1; i <= 3; i++)
+            Padding(
+              padding: EdgeInsets.only(bottom: i == 3 ? 0.0 : 8.0),
+              child: Obx(
+                () => CustomListTile(
+                  onPressed: () {
+                    selectAudienceStatusChange(i - 1);
+                  },
+                  itemColor: audienceStatusList[i - 1] ? cPrimaryTint3Color : cWhiteColor,
+                  title: audienceTypeList[i - 1]['title'],
+                  subtitle: audienceTypeList[i - 1]['subtitle'],
+                  leading: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: cNeutralColor,
+                    ),
+                    height: h28,
+                    width: h28,
+                    child: Icon(
+                      audienceTypeList[i - 1]['icon'],
+                      color: cBlackColor,
+                      size: isDeviceScreenLarge() ? h18 : h14,
+                    ),
+                  ),
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      selectAudienceStatusChange(i - 1);
+                    },
+                    isSelected: audienceStatusList[i - 1],
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        ll("message");
+        selectAudienceTextChange();
+        Get.back();
+      },
+      rightText: "Done",
+      rightTextStyle: medium14TextStyle(cPrimaryColor),
+      title: "Edit Audience",
+      isRightButtonShow: true,
+    );
+  }
+}
