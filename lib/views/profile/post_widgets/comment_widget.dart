@@ -1,6 +1,6 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:bip_hip/views/profile/post_widgets/post_activity_status_widget.dart';
 
 class CommentWidget extends StatelessWidget {
   const CommentWidget(
@@ -22,9 +22,12 @@ class CommentWidget extends StatelessWidget {
       required this.isHideButtonShown,
       this.hideButtonOnPressed,
       this.profileOnPressed,
-      this.commentLink});
+      this.commentLink,
+      this.image,
+      this.isImageComment});
   final String profileImage, timePassed, userName;
-  final String? commentLink, comment;
+  final String? commentLink, comment, image;
+  final bool? isImageComment;
   final bool isLikeButtonShown, isReplyButtonShown, isReactButtonShown, isLink, isSendMessageShown, isHideButtonShown;
   final int reactCount;
   final List? replyList;
@@ -87,8 +90,8 @@ class CommentWidget extends StatelessWidget {
                 ),
               ),
             ),
-            if (isLink) kH4sizedBox,
-            if (isLink)
+            if (isLink || isImageComment!) kH4sizedBox,
+            if (isLink && !isImageComment!)
               Container(
                 width: width - 80,
                 decoration: BoxDecoration(color: cWhiteColor, border: Border.all(color: cLineColor), borderRadius: k8CircularBorderRadius),
@@ -105,6 +108,18 @@ class CommentWidget extends StatelessWidget {
                     bodyTextOverflow: TextOverflow.ellipsis,
                     titleStyle: semiBold14TextStyle(cBlackColor),
                     bodyStyle: regular12TextStyle(cSmallBodyTextColor),
+                  ),
+                ),
+              ),
+            if (!isLink && isImageComment!)
+              SizedBox(
+                width: isDeviceScreenLarge() ? 150 : 120,
+                height: isDeviceScreenLarge() ? 150 : 120,
+                child: ClipRRect(
+                  borderRadius: k8CircularBorderRadius,
+                  child: Image.asset(
+                    image!,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -164,59 +179,6 @@ class CommentWidget extends StatelessWidget {
             if (replyList == []) Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor))
           ],
         ),
-      ],
-    );
-  }
-}
-
-class ReactionView extends StatelessWidget {
-  const ReactionView({super.key, required this.isPost, required this.reactCount});
-  final bool isPost;
-  final int reactCount;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (!isPost)
-          Text(
-            reactCount >= 1000 ? '${(reactCount / 1000).toStringAsFixed(1)}k' : reactCount.toString(),
-            style: regular10TextStyle(cSmallBodyTextColor),
-          ),
-        kW4sizedBox,
-        Stack(
-          children: [
-            const SizedBox(
-              width: 35,
-              height: 15,
-            ),
-            for (int index = 0; index < 3; index++)
-              Positioned(
-                left: index * 10,
-                child: Container(
-                  height: 15,
-                  width: 15,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: cWhiteColor, width: 1),
-                  ),
-                  child: ClipOval(
-                    child: SvgPicture.asset(
-                      'assets/svg/wow.svg',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
-        kW4sizedBox,
-        if (isPost)
-          Text(
-            reactCount > 1000 ? '${(reactCount / 1000).toStringAsFixed(1)}k' : reactCount.toString(),
-            style: regular10TextStyle(cSmallBodyTextColor),
-          ),
       ],
     );
   }

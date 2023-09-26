@@ -415,3 +415,15 @@ List giftPackages = [
   {'badge': 'assets/svg/badge.svg', 'packageName': 'CROWN', 'amount': '550', 'cost': '28.00'},
   {'badge': 'assets/svg/badge.svg', 'packageName': 'CELESTIAL', 'amount': '600', 'cost': '30.00'},
 ];
+
+List packages = [
+  {'amount': '100', 'cost': '2.00'},
+  {'amount': '150', 'cost': '5.00'},
+  {'amount': '200', 'cost': '8.00'},
+  {'amount': '250', 'cost': '10.00'},
+  {'amount': '300', 'cost': '12.00'},
+  {'amount': '350', 'cost': '15.00'},
+  {'amount': '400', 'cost': '18.00'},
+  {'amount': '450', 'cost': '20.00'},
+  {'amount': '500', 'cost': '22.00'},
+];

@@ -9,6 +9,7 @@ import 'package:bip_hip/views/profile/post_widgets/biding_insight.dart';
 import 'package:bip_hip/views/profile/post_widgets/biding_widget.dart';
 import 'package:bip_hip/views/profile/post_widgets/comment_widget.dart';
 import 'package:bip_hip/views/profile/post_widgets/like_section_widget.dart';
+import 'package:bip_hip/views/profile/post_widgets/post_activity_status_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/stories_widget.dart';
 import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
 import 'package:flutter_svg/svg.dart';
@@ -380,29 +381,34 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                     kH12sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: PostActivityStatusWidget(
+                        reactCount: 440,
+                        giftCount: 50,
+                        commentCount: 200,
+                        shareCount: 340,
+                        isGiftShown: true,
+                        giftOnPressed: () {
+                          ll('gift');
+                        },
+                      ),
+                    ),
+                    kH8sizedBox,
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: CustomDivider(),
                     ),
+
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: kHorizontalPadding,
                       ),
                       child: LikeSectionWidget(
+                        isGiftShown: true,
                         giftOnPressed: () {
-                          _globalController.commonBottomSheet(
-                              context: context,
-                              content: _GiftContent(),
-                              onPressCloseButton: () {
-                                Get.back();
-                              },
-                              onPressRightButton: null,
-                              rightText: '',
-                              rightTextStyle: regular10TextStyle(cBlackColor),
-                              title: 'Gift',
-                              isRightButtonShow: false,
-                              isScrollControlled: true,
-                              bottomSheetHeight: height * .9);
+                          _globalController.blankBottomSheet(
+                              context: context, content: _GiftContent(), title: 'Gift', isScrollControlled: true, bottomSheetHeight: height * .9);
                         },
                       ),
                     ),
@@ -422,7 +428,9 @@ class Profile extends StatelessWidget {
                           commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
                           isReplyButtonShown: true,
                           isReactButtonShown: true,
-                          isLink: true,
+                          isImageComment: true,
+                          image: kiDummyImage3ImageUrl,
+                          isLink: false,
                           reactCount: 1234,
                           userName: 'Monjurul Sharker Omi',
                           isSendMessageShown: false,
@@ -823,7 +831,7 @@ class _GiftContent extends StatelessWidget {
             ),
             kH16sizedBox,
             SizedBox(
-              height: 350,
+              height: 380,
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -977,7 +985,7 @@ class _PurchaseStarContent extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Your current balance (71 of 200)',
+                'Your current balance (${_postReactionController.balance} of 200)',
                 style: regular12TextStyle(cIconColor),
               ),
               IconButton(
@@ -1005,11 +1013,11 @@ class _PurchaseStarContent extends StatelessWidget {
                   size: kIconSize16,
                 ),
                 Text(
-                  '71',
+                  '${_postReactionController.balance}',
                   style: semiBold20TextStyle(cBlackColor).copyWith(foreground: Paint()..shader = linearGradient),
                 ),
                 Text(
-                  'Stars',
+                  ' Stars',
                   style: regular12TextStyle(cSmallBodyTextColor),
                 ),
               ],
@@ -1019,7 +1027,7 @@ class _PurchaseStarContent extends StatelessWidget {
           const CustomDivider(),
           kH16sizedBox,
           Text(
-            'Your current balance (71 of 200)',
+            'Your current balance (${_postReactionController.balance} of 200)',
             style: regular12TextStyle(cIconColor),
           ),
           kH8sizedBox,
@@ -1070,40 +1078,76 @@ class _PurchaseStarContent extends StatelessWidget {
             ),
           ),
           kH16sizedBox,
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: giftPackages.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: k8Padding),
-                  child: CustomListTile(
-                    title: '${giftPackages[index]['amount']} stars',
-                    borderColor: cPrimaryColor,
-                    itemColor: cPrimaryTint2Color,
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          '\$${giftPackages[index]['cost']}',
-                          style: semiBold16TextStyle(cBlackColor),
-                        ),
-                        Radio(
-                          value: _postReactionController.selectedPackage.value,
-                          groupValue: giftPackages[index],
-                          onChanged: ( v) {
-                            // _postReactionController.selectedPackage.value = v;
-                          },
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          visualDensity: const VisualDensity(
-                            horizontal: VisualDensity.minimumDensity,
-                            vertical: VisualDensity.minimumDensity,
+          SizedBox(
+            height: 230,
+            child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: packages.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: k8Padding),
+                    child: CustomListTile(
+                      title: '${packages[index]['amount']} stars',
+                      borderColor: _postReactionController.selectedPackage.value == packages[index] ? cPrimaryColor : cLineColor,
+                      itemColor: _postReactionController.selectedPackage.value == packages[index] ? cPrimaryTint3Color : cWhiteColor,
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            '\$${packages[index]['cost']}',
+                            style: semiBold16TextStyle(cBlackColor),
                           ),
-                        ),
-                      ],
+                          Radio(
+                            value: packages[index],
+                            groupValue: _postReactionController.selectedPackage.value,
+                            onChanged: (v) {
+                              _postReactionController.selectedPackage.value = v;
+                            },
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: const VisualDensity(
+                              horizontal: VisualDensity.minimumDensity,
+                              vertical: VisualDensity.minimumDensity,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              })
+                  );
+                }),
+          ),
+          kH20sizedBox,
+          const CustomDivider(),
+          kH8sizedBox,
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Checkbox(
+                value: _postReactionController.giftCheckBox.value,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                onChanged: (v) {
+                  _postReactionController.giftCheckBox.value = !_postReactionController.giftCheckBox.value;
+                },
+              ),
+              kW8sizedBox,
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(text: 'I agree with the ', style: regular12TextStyle(cBlackColor)),
+                    TextSpan(text: 'terms & condition', style: regular12TextStyle(cPrimaryColor))
+                  ],
+                ),
+              ),
+            ],
+          ),
+          kH10sizedBox,
+          CustomElevatedButton(
+              label: _postReactionController.balance < int.parse(_postReactionController.selectedPackage.value!['amount'])
+                  ? 'Buy ${_postReactionController.selectedPackage.value!['amount']} stars'
+                  : 'Give ${_postReactionController.selectedPackage.value!['amount']} stars',
+              buttonHeight: 42,
+              buttonWidth: width - 40,
+              onPressed: () {})
         ],
       ),
     );
