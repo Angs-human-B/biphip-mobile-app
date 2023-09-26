@@ -289,7 +289,6 @@ class GlobalController extends GetxController {
   void blankBottomSheet({
     required context,
     required Widget content,
-    required String title,
     double? bottomSheetHeight,
     bool? isScrollControlled,
   }) {

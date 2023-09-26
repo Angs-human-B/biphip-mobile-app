@@ -390,7 +390,8 @@ class Profile extends StatelessWidget {
                         shareCount: 340,
                         isGiftShown: true,
                         giftOnPressed: () {
-                          ll('gift');
+                          _globalController.blankBottomSheet(
+                              context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                         },
                       ),
                     ),
@@ -408,7 +409,7 @@ class Profile extends StatelessWidget {
                         isGiftShown: true,
                         giftOnPressed: () {
                           _globalController.blankBottomSheet(
-                              context: context, content: _GiftContent(), title: 'Gift', isScrollControlled: true, bottomSheetHeight: height * .9);
+                              context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                         },
                       ),
                     ),
@@ -448,6 +449,9 @@ class Profile extends StatelessWidget {
   }
 }
 
+//-------------------
+//! LinkUpIconTextRow
+//-------------------
 class LinkUpIconTextRow extends StatelessWidget {
   const LinkUpIconTextRow({super.key, required this.icon, required this.text, required this.isLink, this.onPressed});
 
@@ -1148,6 +1152,146 @@ class _PurchaseStarContent extends StatelessWidget {
               buttonHeight: 42,
               buttonWidth: width - 40,
               onPressed: () {})
+        ],
+      ),
+    );
+  }
+}
+
+class _BadgeTabViewContent extends StatelessWidget {
+  const _BadgeTabViewContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 5,
+      child: Column(
+        children: [
+          TabBar(
+            isScrollable: true,
+            tabs: [
+              Tab(
+                child: Text(
+                  'All',
+                  style: semiBold14TextStyle(cBlackColor),
+                ),
+              ),
+              Tab(
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/svg/badge.svg',
+                      width: 20,
+                    ),
+                    kW8sizedBox,
+                    Text(
+                      '255',
+                      style: regular12TextStyle(cBlackColor),
+                    )
+                  ],
+                ),
+              ),
+              Tab(
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/svg/haha.svg',
+                      width: 20,
+                    ),
+                    kW8sizedBox,
+                    Text(
+                      '255',
+                      style: regular12TextStyle(cBlackColor),
+                    )
+                  ],
+                ),
+              ),
+              Tab(
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/svg/love.svg',
+                      width: 20,
+                    ),
+                    kW8sizedBox,
+                    Text(
+                      '255',
+                      style: regular12TextStyle(cBlackColor),
+                    )
+                  ],
+                ),
+              ),
+              Tab(
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/svg/wow.svg',
+                      width: 20,
+                    ),
+                    kW8sizedBox,
+                    Text(
+                      '255',
+                      style: regular12TextStyle(cBlackColor),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: (height * 0.9) - 90,
+            width: width - 40,
+            child: TabBarView(
+              children: [
+                // ListView.builder(itemBuilder: itemBuilder)
+                Container(
+                  // color: cBlackColor,
+                  child: ListView.builder(
+                      itemCount: giftContributors.length,
+                      itemBuilder: (context, index) {
+                        var item = giftContributors[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: ListTile(
+                            leading: SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: ClipOval(
+                                child: Image.asset(item['image']),
+                              ),
+                            ),
+                            title: Text(
+                              item['name'],
+                              style: semiBold14TextStyle(cBlackColor),
+                            ),
+                            trailing: item['isFriend']
+                                ? Text(
+                                    'Message',
+                                    style: regular14TextStyle(cPrimaryColor),
+                                  )
+                                : Text(
+                                    'Add Friend',
+                                    style: regular14TextStyle(cPrimaryColor),
+                                  ),
+                          ),
+                        );
+                      }),
+                ),
+                Container(
+                  color: cRedColor,
+                ),
+                Container(
+                  color: cGreenColor,
+                ),
+                Container(
+                  color: cIconColor,
+                ),
+                Container(
+                  color: cKidsColor,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

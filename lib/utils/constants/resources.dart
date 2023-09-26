@@ -427,3 +427,23 @@ List packages = [
   {'amount': '450', 'cost': '20.00'},
   {'amount': '500', 'cost': '22.00'},
 ];
+
+List giftContributors = [
+  {'name': 'Sharker Omi', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge.svg', 'giftType': 'badge', 'isFriend': true},
+  {'name': 'Emon vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge.svg', 'giftType': 'badge', 'isFriend': true},
+  {'name': 'Maruf vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge.svg', 'giftType': 'badge', 'isFriend': false},
+  {'name': 'Rana vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge.svg', 'giftType': 'badge', 'isFriend': true},
+  {'name': 'Shahed vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge.svg', 'giftType': 'badge', 'isFriend': true},
+  {'name': 'Tonmoy vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/haha.svg', 'giftType': 'haha', 'isFriend': false},
+  {'name': 'Showrov vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/haha.svg', 'giftType': 'haha', 'isFriend': true},
+  {'name': 'Shohag vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/haha.svg', 'giftType': 'haha', 'isFriend': false},
+  {'name': 'Kaisar vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/haha.svg', 'giftType': 'haha', 'isFriend': true},
+  {'name': 'Murad Bro', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/wow.svg', 'giftType': 'wow', 'isFriend': false},
+  {'name': 'Rick Sanchez', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/wow.svg', 'giftType': 'wow', 'isFriend': true},
+  {'name': 'Morty Sanchez', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/wow.svg', 'giftType': 'wow', 'isFriend': true},
+  {'name': 'Brian Griffin', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/wow.svg', 'giftType': 'wow', 'isFriend': false},
+  {'name': 'Stewie Griffin', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/love.svg', 'giftType': 'love', 'isFriend': true},
+  {'name': 'Vladmir Putin', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/love.svg', 'giftType': 'love', 'isFriend': true},
+  {'name': 'Joe Biden', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/love.svg', 'giftType': 'false', 'isFriend': true},
+  {'name': 'Karnaze Rekrahs', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/love.svg', 'giftType': 'love', 'isFriend': false},
+];
