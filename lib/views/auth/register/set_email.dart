@@ -1,10 +1,7 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
 import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
-import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
 
 class SetEmail extends StatelessWidget {
   SetEmail({super.key});
@@ -50,20 +47,20 @@ class SetEmail extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'What\'s your email?',
-                        subTitle: 'We will send code to your mail to confirm your account.',
+                        title: ksWhatEmail,
+                        subTitle: ksSendCodeToConfirm,
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerEmailTextEditingController,
                         errorText: _authenticationController.registerEmailError.value,
-                        hint: "Email",
+                        hint: ksEmail,
                         onChanged: (text) {
                           _authenticationController.checkEmail();
                           if (_authenticationController.registerEmailTextEditingController.text.trim() == '') {
-                            _authenticationController.registerEmailError.value = 'Email can\'t be empty';
+                            _authenticationController.registerEmailError.value = ksEmptyEmailErrorMessage;
                           } else if (!_authenticationController.registerEmailTextEditingController.text.trim().isValidEmail) {
-                            _authenticationController.registerEmailError.value = 'Invalid email address';
+                            _authenticationController.registerEmailError.value = ksInvalidEmailErrorMessage;
                           } else {
                             _authenticationController.registerEmailError.value = '';
                           }

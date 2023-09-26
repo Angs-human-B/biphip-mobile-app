@@ -71,11 +71,12 @@ class CommentWidget extends StatelessWidget {
                       ),
                     ),
                     kH8sizedBox,
-                    Text(
-                      comment ?? '',
-                      overflow: TextOverflow.clip,
-                      style: regular14TextStyle(cBlackColor),
-                    ),
+                    if (comment != null)
+                      Text(
+                        comment ?? '',
+                        overflow: TextOverflow.clip,
+                        style: regular14TextStyle(cBlackColor),
+                      ),
                     if (isLink)
                       Text(
                         commentLink ?? '',
@@ -160,7 +161,7 @@ class CommentWidget extends StatelessWidget {
               ),
             ),
             kH4sizedBox,
-            Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor))
+            if (replyList == []) Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor))
           ],
         ),
       ],
@@ -202,7 +203,7 @@ class ReactionView extends StatelessWidget {
                   ),
                   child: ClipOval(
                     child: SvgPicture.asset(
-                      'assets/images/wow.svg',
+                      'assets/svg/wow.svg',
                       fit: BoxFit.cover,
                     ),
                   ),

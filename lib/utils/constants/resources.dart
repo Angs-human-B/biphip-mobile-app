@@ -391,3 +391,27 @@ List stories = [
   {'name': 'Zekken McLaren', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
   {'name': 'Loreta Stevenson', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
 ];
+
+List bidingComments = [
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'}
+];
+
+List recommendedBid = ['10,000', '12,000', '11,000', '11,200', '15,100'];
+
+List giftPackages = [
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'IRON', 'amount': '50', 'cost': '2.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'BRONZE', 'amount': '100', 'cost': '5.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'SILVER', 'amount': '150', 'cost': '8.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'GOLD', 'amount': '200', 'cost': '10.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'PLATINUM', 'amount': '250', 'cost': '12.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'DIAMOND', 'amount': '300', 'cost': '15.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'EMERALD', 'amount': '350', 'cost': '18.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'RUBY', 'amount': '400', 'cost': '20.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'RADIANT', 'amount': '450', 'cost': '22.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'ACE', 'amount': '500', 'cost': '25.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'CROWN', 'amount': '550', 'cost': '28.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'CELESTIAL', 'amount': '600', 'cost': '30.00'},
+];
