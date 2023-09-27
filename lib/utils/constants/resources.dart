@@ -396,6 +396,10 @@ List bidingComments = [
   {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
   {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
   {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
   {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'}
 ];
 
@@ -414,4 +418,52 @@ List giftPackages = [
   {'badge': 'assets/svg/badge.svg', 'packageName': 'ACE', 'amount': '500', 'cost': '25.00'},
   {'badge': 'assets/svg/badge.svg', 'packageName': 'CROWN', 'amount': '550', 'cost': '28.00'},
   {'badge': 'assets/svg/badge.svg', 'packageName': 'CELESTIAL', 'amount': '600', 'cost': '30.00'},
+];
+
+List packages = [
+  {'amount': '100', 'cost': '2.00'},
+  {'amount': '150', 'cost': '5.00'},
+  {'amount': '200', 'cost': '8.00'},
+  {'amount': '250', 'cost': '10.00'},
+  {'amount': '300', 'cost': '12.00'},
+  {'amount': '350', 'cost': '15.00'},
+  {'amount': '400', 'cost': '18.00'},
+  {'amount': '450', 'cost': '20.00'},
+  {'amount': '500', 'cost': '22.00'},
+];
+
+List giftContributors = [
+  {'name': 'Sharker Omi', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': true},
+  {'name': 'Emon vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': true},
+  {'name': 'Maruf vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': false},
+  {'name': 'Rana vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': true},
+  {'name': 'Shahed vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': true},
+  {'name': 'Tonmoy vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge2.svg', 'giftType': 'badge2', 'isFriend': false},
+  {'name': 'Showrov vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge2.svg', 'giftType': 'badge2', 'isFriend': true},
+  {'name': 'Shohag vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge2.svg', 'giftType': 'badge2', 'isFriend': false},
+  {'name': 'Kaisar vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge2.svg', 'giftType': 'badge2', 'isFriend': true},
+  {'name': 'Murad Bro', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge3.svg', 'giftType': 'badge3', 'isFriend': false},
+  {'name': 'Rick Sanchez', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge3.svg', 'giftType': 'badge3', 'isFriend': true},
+  {'name': 'Morty Sanchez', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge3.svg', 'giftType': 'badge3', 'isFriend': true},
+  {'name': 'Brian Griffin', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge3.svg', 'giftType': 'badge3', 'isFriend': false},
+  {'name': 'Stewie Griffin', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': true},
+  {'name': 'Vladmir Putin', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': true},
+  {'name': 'Joe Biden', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': true},
+  {'name': 'Karnaze Rekrahs', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': false},
+];
+
+List replyComment = [
+  {
+    'profileImage': kiDummyImage1ImageUrl,
+    'timePassed': '5',
+    'isLikeButtonShown': true,
+    'isReplyButtonShown': true,
+    'isReactButtonShown': true,
+    'isLink': false,
+    'reactCount': 10,
+    'userName': 'Steven',
+    'isImageComment': false,
+    'comment': 'Nice Pic',
+    'commentLink': ''
+  }
 ];

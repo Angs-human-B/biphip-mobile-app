@@ -1,12 +1,14 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class LikeSectionWidget extends StatelessWidget {
-  const LikeSectionWidget({super.key, this.likeOnLongPressed, this.commentOnPressed, this.shareOnPressed, this.giftOnPressed, this.likeOnTap});
+  const LikeSectionWidget(
+      {super.key, this.likeOnLongPressed, this.commentOnPressed, this.shareOnPressed, this.giftOnPressed, this.likeOnTap, required this.isGiftShown});
 
   final VoidCallback? likeOnTap;
   final VoidCallback? likeOnLongPressed;
   final VoidCallback? commentOnPressed;
   final VoidCallback? shareOnPressed;
+  final bool isGiftShown;
   final VoidCallback? giftOnPressed;
 
   @override
@@ -78,27 +80,28 @@ class LikeSectionWidget extends StatelessWidget {
             ),
           ),
         ),
-        InkWell(
-          onTap: giftOnPressed,
-          child: SizedBox(
-            width: 72,
-            height: 44,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Gift',
-                  style: semiBold12TextStyle(cIconColor),
-                ),
-                kW4sizedBox,
-                const Icon(
-                  BipHip.gift,
-                  color: cIconColor,
-                ),
-              ],
+        if (isGiftShown)
+          InkWell(
+            onTap: giftOnPressed,
+            child: SizedBox(
+              width: 72,
+              height: 44,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Gift',
+                    style: semiBold12TextStyle(cIconColor),
+                  ),
+                  kW4sizedBox,
+                  const Icon(
+                    BipHip.gift,
+                    color: cIconColor,
+                  ),
+                ],
+              ),
             ),
-          ),
-        )
+          )
       ],
     );
   }

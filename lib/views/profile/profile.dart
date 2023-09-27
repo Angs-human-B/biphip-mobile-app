@@ -7,8 +7,10 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
 import 'package:bip_hip/views/profile/post_widgets/biding_insight.dart';
 import 'package:bip_hip/views/profile/post_widgets/biding_widget.dart';
+import 'package:bip_hip/views/profile/post_widgets/comment_textfield.dart';
 import 'package:bip_hip/views/profile/post_widgets/comment_widget.dart';
 import 'package:bip_hip/views/profile/post_widgets/like_section_widget.dart';
+import 'package:bip_hip/views/profile/post_widgets/post_activity_status_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/stories_widget.dart';
 import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,6 +20,7 @@ class Profile extends StatelessWidget {
 
   final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
+  final PostReactionController _postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -146,6 +149,19 @@ class Profile extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+                              ),
+                              Positioned(
+                                right: 8,
+                                top: 15,
+                                child: Container(
+                                    height: h28,
+                                    width: h28,
+                                    decoration: BoxDecoration(
+                                      color: cGreyBoxColor,
+                                      borderRadius: BorderRadius.circular(26),
+                                      border: Border.all(color: cPrimaryColor, width: 1),
+                                    ),
+                                    child: SvgPicture.asset('assets/svg/badge1.svg')),
                               ),
                             ],
                           ),
@@ -361,48 +377,53 @@ class Profile extends StatelessWidget {
                         bidingAmount: 300,
                         isPlaceBid: false,
                         bidingOnPressed: () {
-                          _globalController.commonBottomSheet(
+                          _globalController.blankBottomSheet(
                               context: context,
                               content: _BiddingInsightsContent(
                                 comment: bidingComments,
                               ),
-                              onPressCloseButton: () {
-                                Get.back();
-                              },
-                              onPressRightButton: null,
-                              rightText: '',
-                              rightTextStyle: regular10TextStyle(cBlackColor),
-                              title: 'Biding Insights',
-                              isRightButtonShow: false,
                               isScrollControlled: true,
-                              bottomSheetHeight: bidingComments.length <= 3 ? null : height * .7);
+                              bottomSheetHeight: height * 0.6);
                         },
                       ),
                     ),
                     kH12sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: PostActivityStatusWidget(
+                        reactCount: 440,
+                        reactionOnPressed: () {
+                          // _postReactionController.initalize();
+                          _postReactionController.giftFilter(0);
+                          _globalController.blankBottomSheet(
+                              context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                        },
+                        giftCount: 50,
+                        commentCount: 200,
+                        shareCount: 340,
+                        isGiftShown: true,
+                        giftOnPressed: () {
+                          _postReactionController.giftFilter(0);
+                          _globalController.blankBottomSheet(
+                              context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                        },
+                      ),
+                    ),
+                    kH8sizedBox,
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: CustomDivider(),
                     ),
+
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: kHorizontalPadding,
                       ),
                       child: LikeSectionWidget(
+                        isGiftShown: true,
                         giftOnPressed: () {
-                          _globalController.commonBottomSheet(
-                              context: context,
-                              content: _GiftContent(),
-                              onPressCloseButton: () {
-                                Get.back();
-                              },
-                              onPressRightButton: null,
-                              rightText: '',
-                              rightTextStyle: regular10TextStyle(cBlackColor),
-                              title: 'Gift',
-                              isRightButtonShow: false,
-                              isScrollControlled: true,
-                              bottomSheetHeight: height * .9);
+                          _globalController.blankBottomSheet(
+                              context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                         },
                       ),
                     ),
@@ -411,22 +432,36 @@ class Profile extends StatelessWidget {
                       child: CustomDivider(),
                     ),
                     kH12sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: CommentWidget(
+                        profileImage: 'assets/images/pic5.jpeg',
+                        comment:
+                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
+                        timePassed: '30',
+                        isLikeButtonShown: true,
+                        commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
+                        isReplyButtonShown: true,
+                        isReactButtonShown: true,
+                        isImageComment: true,
+                        image: kiDummyImage3ImageUrl,
+                        isLink: false,
+                        reactCount: 1234,
+                        userName: 'Monjurul Sharker Omi',
+                        isSendMessageShown: false,
+                        isHideButtonShown: true,
+                        replyList: replyComment,
+                      ),
+                    ),
+                    kH12sizedBox,
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                      child: CommentWidget(
-                          profileImage: 'assets/images/pic5.jpeg',
-                          comment:
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
-                          timePassed: '30',
-                          isLikeButtonShown: true,
-                          commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
-                          isReplyButtonShown: true,
-                          isReactButtonShown: true,
-                          isLink: true,
-                          reactCount: 1234,
-                          userName: 'Monjurul Sharker Omi',
-                          isSendMessageShown: false,
-                          isHideButtonShown: true),
+                      child: CustomDivider(),
+                    ),
+                    kH12sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: CommentTextField(),
                     ),
                     kH12sizedBox,
                   ],
@@ -440,6 +475,9 @@ class Profile extends StatelessWidget {
   }
 }
 
+//-------------------
+//! LinkUpIconTextRow
+//-------------------
 class LinkUpIconTextRow extends StatelessWidget {
   const LinkUpIconTextRow({super.key, required this.icon, required this.text, required this.isLink, this.onPressed});
 
@@ -694,12 +732,14 @@ class _BiddingInsightsContent extends StatelessWidget {
           style: semiBold16TextStyle(cBlackColor),
         ),
         kH8sizedBox,
-        ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: comment.length,
-            itemBuilder: (context, index) {
-              return CommentWidget(
+        SizedBox(
+          height: 350,
+          child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: comment.length,
+              itemBuilder: (context, index) {
+                return CommentWidget(
                   profileImage: comment[index]['image'],
                   timePassed: '5',
                   isLikeButtonShown: true,
@@ -709,9 +749,13 @@ class _BiddingInsightsContent extends StatelessWidget {
                   isLink: false,
                   reactCount: 440,
                   userName: comment[index]['userName'],
+                  isImageComment: false,
                   isSendMessageShown: true,
-                  isHideButtonShown: false);
-            })
+                  isHideButtonShown: false,
+                  replyList: [],
+                );
+              }),
+        )
       ],
     );
   }
@@ -724,7 +768,10 @@ class _PlaceBidContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Column(
+    return Obx(
+      () => SizedBox(
+        height: 225,
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -758,7 +805,9 @@ class _PlaceBidContent extends StatelessWidget {
             CustomModifiedTextField(
                 prefixIcon: Icons.attach_money_rounded, borderRadius: k8BorderRadius, controller: _postReactionController.bidingTextEditingController)
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
 
@@ -793,7 +842,6 @@ class _GiftContent extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(text: 'Support ', style: regular12TextStyle(cBlackColor)),
-                          //TODO: Referal name here
                           TextSpan(
                             text: 'Monjurul Sharker Omi',
                             style: semiBold12TextStyle(cBlackColor),
@@ -823,7 +871,7 @@ class _GiftContent extends StatelessWidget {
             ),
             kH16sizedBox,
             SizedBox(
-              height: 350,
+              height: 380,
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -977,7 +1025,7 @@ class _PurchaseStarContent extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Your current balance (71 of 200)',
+                'Your current balance (${_postReactionController.balance} of 200)',
                 style: regular12TextStyle(cIconColor),
               ),
               IconButton(
@@ -1005,11 +1053,11 @@ class _PurchaseStarContent extends StatelessWidget {
                   size: kIconSize16,
                 ),
                 Text(
-                  '71',
+                  '${_postReactionController.balance}',
                   style: semiBold20TextStyle(cBlackColor).copyWith(foreground: Paint()..shader = linearGradient),
                 ),
                 Text(
-                  'Stars',
+                  ' Stars',
                   style: regular12TextStyle(cSmallBodyTextColor),
                 ),
               ],
@@ -1019,7 +1067,7 @@ class _PurchaseStarContent extends StatelessWidget {
           const CustomDivider(),
           kH16sizedBox,
           Text(
-            'Your current balance (71 of 200)',
+            'Your current balance (${_postReactionController.balance} of 200)',
             style: regular12TextStyle(cIconColor),
           ),
           kH8sizedBox,
@@ -1070,42 +1118,225 @@ class _PurchaseStarContent extends StatelessWidget {
             ),
           ),
           kH16sizedBox,
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: giftPackages.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: k8Padding),
-                  child: CustomListTile(
-                    title: '${giftPackages[index]['amount']} stars',
-                    borderColor: cPrimaryColor,
-                    itemColor: cPrimaryTint2Color,
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          '\$${giftPackages[index]['cost']}',
-                          style: semiBold16TextStyle(cBlackColor),
-                        ),
-                        Radio(
-                          value: _postReactionController.selectedPackage.value,
-                          groupValue: giftPackages[index],
-                          onChanged: ( v) {
-                            // _postReactionController.selectedPackage.value = v;
-                          },
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          visualDensity: const VisualDensity(
-                            horizontal: VisualDensity.minimumDensity,
-                            vertical: VisualDensity.minimumDensity,
+          SizedBox(
+            height: 230,
+            child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: packages.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: k8Padding),
+                    child: CustomListTile(
+                      title: '${packages[index]['amount']} stars',
+                      borderColor: _postReactionController.selectedPackage.value == packages[index] ? cPrimaryColor : cLineColor,
+                      itemColor: _postReactionController.selectedPackage.value == packages[index] ? cPrimaryTint3Color : cWhiteColor,
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            '\$${packages[index]['cost']}',
+                            style: semiBold16TextStyle(cBlackColor),
                           ),
-                        ),
-                      ],
+                          Radio(
+                            value: packages[index],
+                            groupValue: _postReactionController.selectedPackage.value,
+                            onChanged: (v) {
+                              _postReactionController.selectedPackage.value = v;
+                            },
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: const VisualDensity(
+                              horizontal: VisualDensity.minimumDensity,
+                              vertical: VisualDensity.minimumDensity,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              })
+                  );
+                }),
+          ),
+          kH20sizedBox,
+          const CustomDivider(),
+          kH8sizedBox,
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Checkbox(
+                value: _postReactionController.giftCheckBox.value,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                onChanged: (v) {
+                  _postReactionController.giftCheckBox.value = !_postReactionController.giftCheckBox.value;
+                },
+              ),
+              kW8sizedBox,
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(text: 'I agree with the ', style: regular12TextStyle(cBlackColor)),
+                    TextSpan(text: 'terms & condition', style: regular12TextStyle(cPrimaryColor))
+                  ],
+                ),
+              ),
+            ],
+          ),
+          kH10sizedBox,
+          CustomElevatedButton(
+              label: _postReactionController.balance < int.parse(_postReactionController.selectedPackage.value!['amount'])
+                  ? 'Buy ${_postReactionController.selectedPackage.value!['amount']} stars'
+                  : 'Give ${_postReactionController.selectedPackage.value!['amount']} stars',
+              buttonHeight: 42,
+              buttonWidth: width - 40,
+              onPressed: () {})
         ],
       ),
+    );
+  }
+}
+
+class _BadgeTabViewContent extends StatelessWidget {
+  _BadgeTabViewContent({super.key});
+
+  final PostReactionController _postReactionController = Get.find<PostReactionController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 5,
+      child: Obx(
+        () => Column(
+          children: [
+            TabBar(
+              controller: _postReactionController.tabController,
+              // onTap: (index) {
+              //   _postReactionController.giftFilter(index);
+
+              //   // ll(i);
+              // },
+              isScrollable: true,
+              tabs: [
+                const ReactionBottomSheetTab(
+                  isReactionImageShown: false,
+                  reactionImage: '',
+                  text: 'All',
+                ),
+                ReactionBottomSheetTab(
+                  isReactionImageShown: true,
+                  reactionImage: 'assets/svg/badge1.svg',
+                  text: _postReactionController.badgeCount1.value.toString(),
+                ),
+                ReactionBottomSheetTab(
+                  isReactionImageShown: true,
+                  reactionImage: 'assets/svg/badge2.svg',
+                  text: _postReactionController.badgeCount2.value.toString(),
+                ),
+                ReactionBottomSheetTab(
+                  isReactionImageShown: true,
+                  reactionImage: 'assets/svg/badge3.svg',
+                  text: _postReactionController.badgeCount3.value.toString(),
+                ),
+                ReactionBottomSheetTab(
+                  isReactionImageShown: true,
+                  reactionImage: 'assets/svg/badge4.svg',
+                  text: _postReactionController.badgeCount4.value.toString(),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: (height * 0.9) - 90,
+              width: width - 40,
+              child: TabBarView(controller: _postReactionController.tabController, children: [
+                ReactionTabPage(list: _postReactionController.gift1),
+                ReactionTabPage(list: _postReactionController.gift1),
+                ReactionTabPage(list: _postReactionController.gift1),
+                ReactionTabPage(list: _postReactionController.gift1),
+                ReactionTabPage(list: _postReactionController.gift1),
+              ]),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ReactionBottomSheetTab extends StatelessWidget {
+  const ReactionBottomSheetTab({super.key, required this.isReactionImageShown, required this.reactionImage, required this.text});
+
+  final bool isReactionImageShown;
+  final String reactionImage;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tab(
+      child: Row(
+        children: [
+          if (isReactionImageShown)
+            SvgPicture.asset(
+              reactionImage,
+              width: 20,
+            ),
+          if (isReactionImageShown) kW8sizedBox,
+          Text(
+            text,
+            style: isReactionImageShown ? regular12TextStyle(cBlackColor) : semiBold12TextStyle(cBlackColor),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class ReactionTabPage extends StatelessWidget {
+  const ReactionTabPage({super.key, required this.list});
+  final List list;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: ListView.builder(
+          itemCount: list.length,
+          itemBuilder: (context, index) {
+            var item = list[index];
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: ListTile(
+                leading: Stack(
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: ClipOval(
+                        child: Image.asset(item['image']),
+                      ),
+                    ),
+                    Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: SvgPicture.asset(
+                          item['giftImage'],
+                          height: 16,
+                          width: 16,
+                        ))
+                  ],
+                ),
+                title: Text(
+                  item['name'],
+                  style: semiBold14TextStyle(cBlackColor),
+                ),
+                trailing: item['isFriend']
+                    ? Text(
+                        'Message',
+                        style: regular14TextStyle(cPrimaryColor),
+                      )
+                    : Text(
+                        'Add Friend',
+                        style: regular14TextStyle(cPrimaryColor),
+                      ),
+              ),
+            );
+          }),
     );
   }
 }

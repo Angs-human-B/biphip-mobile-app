@@ -72,7 +72,7 @@ class PhotoDetails extends StatelessWidget {
                       reactCount: 0,
                       userName: 'Sharker Omi',
                       isSendMessageShown: false,
-                      isHideButtonShown: false,
+                      isHideButtonShown: false, isImageComment: false, replyList: [],
                     ),
                     kH16sizedBox,
                     const CommentWidget(
@@ -86,7 +86,7 @@ class PhotoDetails extends StatelessWidget {
                       reactCount: 0,
                       userName: 'Sharker Omi',
                       isSendMessageShown: false,
-                      isHideButtonShown: false,
+                      isHideButtonShown: false, isImageComment: false, replyList: [],
                     ),
                   ],
                 ),
