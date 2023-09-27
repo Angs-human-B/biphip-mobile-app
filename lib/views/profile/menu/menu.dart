@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/custom_bottom_nav.dart';
 
 class Menu extends StatelessWidget {
   Menu({super.key});
@@ -166,6 +167,14 @@ class Menu extends StatelessWidget {
                 ),
               ),
             ),
+          ),
+          bottomNavigationBar: CustomBottomNavBar(
+            width: width,
+            isFirstButtonClicked: false,
+            isSecondButtonClicked: false,
+            isThirdButtonClicked: false,
+            isFourthButtonClicked: false,
+            isFifthButtonClicked: true,
           ),
         ),
       ),

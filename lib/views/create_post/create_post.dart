@@ -61,7 +61,7 @@ class CreatePost extends StatelessWidget {
                               Stack(
                                 children: [
                                   SizedBox(
-                                    width: (_createPostController.postType.value == "kids" || _createPostController.postType.value == "selling") ? 70 : h45,
+                                    width: (_createPostController.category.value == "Kids" || _createPostController.category.value == "Selling") ? 70 : h45,
                                     child: Row(
                                       children: [
                                         Container(
@@ -78,19 +78,19 @@ class CreatePost extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  if (_createPostController.postType.value == "kids" || _createPostController.postType.value == "selling")
+                                  if (_createPostController.category.value == "Kids" || _createPostController.category.value == "Selling")
                                     Positioned(
                                       right: 0,
                                       bottom: 0,
                                       top: 0,
                                       child: Container(
-                                        height: h50,
-                                        width: h50,
+                                        height: h45,
+                                        width: h45,
                                         decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
                                         ),
                                         child: Image.asset(
-                                          "assets/images/profilePic.png",
+                                          "assets/images/profileDefault.png",
                                           fit: BoxFit.fill,
                                         ),
                                       ),

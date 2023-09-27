@@ -706,7 +706,7 @@ class CreatePostController extends GetxController {
                   },
                 ),
               ),
-              kH8sizedBox,
+              kH12sizedBox,
               Padding(
                 padding: const EdgeInsets.only(left: k2Padding),
                 child: Text(

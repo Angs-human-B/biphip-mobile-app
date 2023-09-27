@@ -121,11 +121,10 @@ class GlobalController extends GetxController {
                   const CustomDivider(),
                   if (isSearchShow == true)
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
+                      padding: const EdgeInsets.only(left: k16Padding, right: k16Padding, top: k16Padding),
                       child: CustomModifiedTextField(
                         borderRadius: h8,
                         controller: Get.find<ProfileController>().searchController,
-                        autoFocus: true,
                         prefixIcon: BipHip.search,
                         suffixIcon: BipHip.voiceFill,
                         hint: ksSearch.tr,

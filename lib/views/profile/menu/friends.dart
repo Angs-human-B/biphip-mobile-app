@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/custom_tapable_container.dart';
 
 class Friends extends StatelessWidget {
@@ -96,7 +97,7 @@ class Friends extends StatelessWidget {
               child: CustomModifiedTextField(
                 borderRadius: h8,
                 controller: Get.find<ProfileController>().searchController,
-                autoFocus: true,
+
                 prefixIcon: BipHip.search,
                 suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
                 hint: ksSearch.tr,
@@ -113,6 +114,14 @@ class Friends extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        width: width,
+        isFirstButtonClicked: false,
+        isSecondButtonClicked: true,
+        isThirdButtonClicked: false,
+        isFourthButtonClicked: false,
+        isFifthButtonClicked: false,
       ),
     );
   }

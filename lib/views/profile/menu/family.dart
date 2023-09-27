@@ -98,7 +98,6 @@ class Family extends StatelessWidget {
               child: CustomModifiedTextField(
                 borderRadius: h8,
                 controller: Get.find<ProfileController>().searchController,
-                autoFocus: true,
                 prefixIcon: BipHip.search,
                 suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
                 hint: ksSearch.tr,
