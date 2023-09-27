@@ -123,11 +123,11 @@ class GlobalController extends GetxController {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
                       child: CustomModifiedTextField(
-                        borderRadius: h20,
+                        borderRadius: h8,
                         controller: Get.find<ProfileController>().searchController,
                         autoFocus: true,
                         prefixIcon: BipHip.search,
-                        suffixIcon: BipHip.photo, // todo:: icon will be changed
+                        suffixIcon: BipHip.voiceFill,
                         hint: ksSearch.tr,
                         contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
                         textInputStyle: regular16TextStyle(cBlackColor),

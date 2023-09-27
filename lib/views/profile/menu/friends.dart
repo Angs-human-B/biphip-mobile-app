@@ -91,6 +91,20 @@ class Friends extends StatelessWidget {
                       ),
               ),
             kH12sizedBox,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: CustomModifiedTextField(
+                borderRadius: h8,
+                controller: Get.find<ProfileController>().searchController,
+                autoFocus: true,
+                prefixIcon: BipHip.search,
+                suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
+                hint: ksSearch.tr,
+                contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
+                textInputStyle: regular16TextStyle(cBlackColor),
+              ),
+            ),
+            kH12sizedBox,
             //*All friend, Receive friend request and Pending friend request ui
             Expanded(
               child: SingleChildScrollView(

@@ -32,9 +32,7 @@ class AddBrandPage extends StatelessWidget {
                   padding: const EdgeInsets.only(right: h20),
                   child: TextButton(
                     style: kTextButtonStyle,
-                    onPressed: () {
-                      _createPostController.selectCategoryTextChange(context);
-                    },
+                    onPressed: () {},
                     child: Text(
                       "Add",
                       style: medium14TextStyle(cPrimaryColor),
@@ -99,10 +97,10 @@ class AddBrandPage extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 6.0),
                               child: SvgPicture.asset(
-                                kiBadgeSvgImageUrl,
+                                kiWebSvgImageUrl,
                                 fit: BoxFit.fill,
-                                height: 40,
-                                width: 40,
+                                height: 36,
+                                width: 36,
                               ),
                             ),
                             kW8sizedBox,
@@ -125,10 +123,10 @@ class AddBrandPage extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 6.0),
                               child: SvgPicture.asset(
-                                kiBadgeSvgImageUrl,
+                                kiFacebookSvgImageUrl,
                                 fit: BoxFit.fill,
-                                height: 40,
-                                width: 40,
+                                height: 36,
+                                width: 36,
                               ),
                             ),
                             kW8sizedBox,
@@ -151,10 +149,10 @@ class AddBrandPage extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 6.0),
                               child: SvgPicture.asset(
-                                kiBadgeSvgImageUrl,
+                                kiLinkedListSvgImageUrl,
                                 fit: BoxFit.fill,
-                                height: 40,
-                                width: 40,
+                                height: 36,
+                                width: 36,
                               ),
                             ),
                             kW8sizedBox,
@@ -177,10 +175,10 @@ class AddBrandPage extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 6.0),
                               child: SvgPicture.asset(
-                                kiBadgeSvgImageUrl,
+                                kiTwitterSvgImageUrl,
                                 fit: BoxFit.fill,
-                                height: 40,
-                                width: 40,
+                                height: 36,
+                                width: 36,
                               ),
                             ),
                             kW8sizedBox,
@@ -203,10 +201,10 @@ class AddBrandPage extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 6.0),
                               child: SvgPicture.asset(
-                                kiBadgeSvgImageUrl,
+                                kiYoutubeSvgImageUrl,
                                 fit: BoxFit.fill,
-                                height: 40,
-                                width: 40,
+                                height: 36,
+                                width: 36,
                               ),
                             ),
                             kW8sizedBox,

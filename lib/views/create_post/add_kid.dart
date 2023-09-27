@@ -31,9 +31,7 @@ class AddKidPage extends StatelessWidget {
                   padding: const EdgeInsets.only(right: h20),
                   child: TextButton(
                     style: kTextButtonStyle,
-                    onPressed: () {
-                      _createPostController.selectCategoryTextChange(context);
-                    },
+                    onPressed: () {},
                     child: Text(
                       "Add",
                       style: medium14TextStyle(cPrimaryColor),
