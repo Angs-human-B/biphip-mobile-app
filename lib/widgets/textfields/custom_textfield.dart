@@ -91,10 +91,13 @@ class CustomModifiedTextField extends StatelessWidget {
           filled: isFilled ?? true,
           prefixIcon: prefixIcon != null
               ? Padding(
-                  padding: const EdgeInsets.only(right: 8.0, left: 8),
+                  padding: const EdgeInsets.only(left: h8, right: h8),
                   child: Transform.scale(
                     scale: .85,
-                    child: Icon(prefixIcon),
+                    child: Icon(
+                      prefixIcon,
+                      size: screenWiseSize(kIconSize20, 4),
+                    ),
                   ),
                 )
               : null,

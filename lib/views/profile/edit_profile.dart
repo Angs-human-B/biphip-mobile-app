@@ -194,7 +194,9 @@ class EditProfile extends StatelessWidget {
                             buttonWidth: width - 40,
                             buttonColor: cLineColor,
                             textStyle: semiBold12TextStyle(cBlackColor),
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed(krEditAboutInfo);
+                            },
                           ),
                           kH20sizedBox
                         ],
