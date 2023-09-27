@@ -396,6 +396,10 @@ List bidingComments = [
   {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
   {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
   {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
   {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'}
 ];
 
@@ -446,4 +450,20 @@ List giftContributors = [
   {'name': 'Vladmir Putin', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': true},
   {'name': 'Joe Biden', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': true},
   {'name': 'Karnaze Rekrahs', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': false},
+];
+
+List replyComment = [
+  {
+    'profileImage': kiDummyImage1ImageUrl,
+    'timePassed': '5',
+    'isLikeButtonShown': true,
+    'isReplyButtonShown': true,
+    'isReactButtonShown': true,
+    'isLink': false,
+    'reactCount': 10,
+    'userName': 'Steven',
+    'isImageComment': false,
+    'comment': 'Nice Pic',
+    'commentLink': ''
+  }
 ];

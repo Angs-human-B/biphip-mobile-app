@@ -48,6 +48,8 @@ class EditProfile extends StatelessWidget {
                             prefix: 'Profile picture',
                             suffix: 'Edit',
                             onEditPressed: () {
+                              _profileController.isProfilePicEditor.value = true;
+
                               _globalController.commonBottomSheet(
                                 context: context,
                                 onPressCloseButton: () {
@@ -81,7 +83,7 @@ class EditProfile extends StatelessWidget {
                                 ),
                                 child: ClipOval(
                                   child: Image.file(
-                                    _profileController.profileImageFile.value,
+                                    _profileController.newProfileImageFile.value,
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => ClipOval(
                                       child: Image.asset(
@@ -101,6 +103,8 @@ class EditProfile extends StatelessWidget {
                             prefix: 'Cover photo',
                             suffix: 'Edit',
                             onEditPressed: () {
+                              _profileController.isProfilePicEditor.value = false;
+
                               _globalController.commonBottomSheet(
                                   context: context,
                                   onPressCloseButton: () {
@@ -127,7 +131,7 @@ class EditProfile extends StatelessWidget {
                               height: 150,
                               width: width,
                               child: Image.file(
-                                _profileController.coverImageFile.value,
+                                _profileController.newCoverImageFile.value,
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => Image.asset(
                                   'assets/images/coverPic.png',

@@ -149,6 +149,19 @@ class Profile extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              Positioned(
+                                right: 8,
+                                top: 15,
+                                child: Container(
+                                    height: h28,
+                                    width: h28,
+                                    decoration: BoxDecoration(
+                                      color: cGreyBoxColor,
+                                      borderRadius: BorderRadius.circular(26),
+                                      border: Border.all(color: cPrimaryColor, width: 1),
+                                    ),
+                                    child: SvgPicture.asset('assets/svg/badge1.svg')),
+                              ),
                             ],
                           ),
                         ),
@@ -363,21 +376,13 @@ class Profile extends StatelessWidget {
                         bidingAmount: 300,
                         isPlaceBid: false,
                         bidingOnPressed: () {
-                          _globalController.commonBottomSheet(
+                          _globalController.blankBottomSheet(
                               context: context,
                               content: _BiddingInsightsContent(
                                 comment: bidingComments,
                               ),
-                              onPressCloseButton: () {
-                                Get.back();
-                              },
-                              onPressRightButton: null,
-                              rightText: '',
-                              rightTextStyle: regular10TextStyle(cBlackColor),
-                              title: 'Biding Insights',
-                              isRightButtonShow: false,
                               isScrollControlled: true,
-                              bottomSheetHeight: bidingComments.length <= 3 ? null : height * .7);
+                              bottomSheetHeight: height * 0.6);
                         },
                       ),
                     ),
@@ -426,24 +431,26 @@ class Profile extends StatelessWidget {
                       child: CustomDivider(),
                     ),
                     kH12sizedBox,
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: CommentWidget(
-                          profileImage: 'assets/images/pic5.jpeg',
-                          comment:
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
-                          timePassed: '30',
-                          isLikeButtonShown: true,
-                          commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
-                          isReplyButtonShown: true,
-                          isReactButtonShown: true,
-                          isImageComment: true,
-                          image: kiDummyImage3ImageUrl,
-                          isLink: false,
-                          reactCount: 1234,
-                          userName: 'Monjurul Sharker Omi',
-                          isSendMessageShown: false,
-                          isHideButtonShown: true),
+                        profileImage: 'assets/images/pic5.jpeg',
+                        comment:
+                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
+                        timePassed: '30',
+                        isLikeButtonShown: true,
+                        commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
+                        isReplyButtonShown: true,
+                        isReactButtonShown: true,
+                        isImageComment: true,
+                        image: kiDummyImage3ImageUrl,
+                        isLink: false,
+                        reactCount: 1234,
+                        userName: 'Monjurul Sharker Omi',
+                        isSendMessageShown: false,
+                        isHideButtonShown: true,
+                        replyList: replyComment,
+                      ),
                     ),
                     kH12sizedBox,
                   ],
@@ -714,12 +721,14 @@ class _BiddingInsightsContent extends StatelessWidget {
           style: semiBold16TextStyle(cBlackColor),
         ),
         kH8sizedBox,
-        ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: comment.length,
-            itemBuilder: (context, index) {
-              return CommentWidget(
+        SizedBox(
+          height: 350,
+          child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: comment.length,
+              itemBuilder: (context, index) {
+                return CommentWidget(
                   profileImage: comment[index]['image'],
                   timePassed: '5',
                   isLikeButtonShown: true,
@@ -729,9 +738,13 @@ class _BiddingInsightsContent extends StatelessWidget {
                   isLink: false,
                   reactCount: 440,
                   userName: comment[index]['userName'],
+                  isImageComment: false,
                   isSendMessageShown: true,
-                  isHideButtonShown: false);
-            })
+                  isHideButtonShown: false,
+                  replyList: [],
+                );
+              }),
+        )
       ],
     );
   }

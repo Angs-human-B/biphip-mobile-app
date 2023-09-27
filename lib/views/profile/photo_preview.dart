@@ -42,12 +42,13 @@ class PhotoPreview extends StatelessWidget {
               ],
             ),
           ),
-          body: SizedBox(
-            height: height - kAppBarSize,
-            width: width,
-            child: Obx(
-              () => SingleChildScrollView(
-                child: Column(
+          body: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: SizedBox(
+              height: height - kAppBarSize,
+              width: width,
+              child: Obx(
+                () => Column(
                   children: [
                     kH20sizedBox,
                     _profileController.isProfilePicEditor.value
