@@ -363,7 +363,7 @@ class Profile extends StatelessWidget {
                               rightTextStyle: semiBold12TextStyle(cPrimaryColor),
                               title: 'Place a Bid',
                               isRightButtonShow: true,
-                              isScrollControlled: false,
+                              isScrollControlled: true,
                               bottomSheetHeight: height * .4);
                         },
                         isPlaceBid: true,
@@ -768,7 +768,10 @@ class _PlaceBidContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Column(
+    return Obx(
+      () => SizedBox(
+        height: 225,
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -802,7 +805,9 @@ class _PlaceBidContent extends StatelessWidget {
             CustomModifiedTextField(
                 prefixIcon: Icons.attach_money_rounded, borderRadius: k8BorderRadius, controller: _postReactionController.bidingTextEditingController)
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
 

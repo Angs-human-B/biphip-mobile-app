@@ -90,11 +90,15 @@ class CustomModifiedTextField extends StatelessWidget {
           isDense: true,
           filled: isFilled ?? true,
           prefixIcon: prefixIcon != null
-              ? Transform.scale(
-                  scale: .85,
-                  child: Icon(prefixIcon),
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 8.0, left: 8),
+                  child: Transform.scale(
+                    scale: .85,
+                    child: Icon(prefixIcon),
+                  ),
                 )
               : null,
+          prefixIconConstraints: const BoxConstraints(),
           suffixIconConstraints: const BoxConstraints(),
           suffixIcon: suffixIcon != null
               ? Padding(
