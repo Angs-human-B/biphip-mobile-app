@@ -11,10 +11,10 @@ class PostActivityStatusWidget extends StatelessWidget {
       required this.isGiftShown,
       this.commentOnPressed,
       this.shareOnPressed,
-      this.giftOnPressed});
+      this.giftOnPressed, this.reactionOnPressed});
   final int reactCount, commentCount, giftCount, shareCount;
   final bool isGiftShown;
-  final VoidCallback? commentOnPressed, shareOnPressed, giftOnPressed;
+  final VoidCallback? reactionOnPressed,commentOnPressed, shareOnPressed, giftOnPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +22,12 @@ class PostActivityStatusWidget extends StatelessWidget {
       // mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        ReactionView(
-          isPost: true,
-          reactCount: reactCount,
+        InkWell(
+          onTap: reactionOnPressed,
+          child: ReactionView(
+            isPost: true,
+            reactCount: reactCount,
+          ),
         ),
         CommentShareRecord(
           commentCount: commentCount,

@@ -19,6 +19,7 @@ class Profile extends StatelessWidget {
 
   final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
+  final PostReactionController _postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -385,11 +386,18 @@ class Profile extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: PostActivityStatusWidget(
                         reactCount: 440,
+                        reactionOnPressed: () {
+                          // _postReactionController.initalize();
+                          _postReactionController.giftFilter(0);
+                          _globalController.blankBottomSheet(
+                              context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                        },
                         giftCount: 50,
                         commentCount: 200,
                         shareCount: 340,
                         isGiftShown: true,
                         giftOnPressed: () {
+                          _postReactionController.giftFilter(0);
                           _globalController.blankBottomSheet(
                               context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                         },
@@ -1159,141 +1167,148 @@ class _PurchaseStarContent extends StatelessWidget {
 }
 
 class _BadgeTabViewContent extends StatelessWidget {
-  const _BadgeTabViewContent({super.key});
+  _BadgeTabViewContent({super.key});
+
+  final PostReactionController _postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 5,
-      child: Column(
-        children: [
-          TabBar(
-            isScrollable: true,
-            tabs: [
-              Tab(
-                child: Text(
-                  'All',
-                  style: semiBold14TextStyle(cBlackColor),
+      child: Obx(
+        () => Column(
+          children: [
+            TabBar(
+              controller: _postReactionController.tabController,
+              // onTap: (index) {
+              //   _postReactionController.giftFilter(index);
+
+              //   // ll(i);
+              // },
+              isScrollable: true,
+              tabs: [
+                const ReactionBottomSheetTab(
+                  isReactionImageShown: false,
+                  reactionImage: '',
+                  text: 'All',
                 ),
-              ),
-              Tab(
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/svg/badge.svg',
-                      width: 20,
-                    ),
-                    kW8sizedBox,
-                    Text(
-                      '255',
-                      style: regular12TextStyle(cBlackColor),
-                    )
-                  ],
+                ReactionBottomSheetTab(
+                  isReactionImageShown: true,
+                  reactionImage: 'assets/svg/badge1.svg',
+                  text: _postReactionController.badgeCount1.value.toString(),
                 ),
-              ),
-              Tab(
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/svg/haha.svg',
-                      width: 20,
-                    ),
-                    kW8sizedBox,
-                    Text(
-                      '255',
-                      style: regular12TextStyle(cBlackColor),
-                    )
-                  ],
+                ReactionBottomSheetTab(
+                  isReactionImageShown: true,
+                  reactionImage: 'assets/svg/badge2.svg',
+                  text: _postReactionController.badgeCount2.value.toString(),
                 ),
-              ),
-              Tab(
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/svg/love.svg',
-                      width: 20,
-                    ),
-                    kW8sizedBox,
-                    Text(
-                      '255',
-                      style: regular12TextStyle(cBlackColor),
-                    )
-                  ],
+                ReactionBottomSheetTab(
+                  isReactionImageShown: true,
+                  reactionImage: 'assets/svg/badge3.svg',
+                  text: _postReactionController.badgeCount3.value.toString(),
                 ),
-              ),
-              Tab(
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/svg/wow.svg',
-                      width: 20,
-                    ),
-                    kW8sizedBox,
-                    Text(
-                      '255',
-                      style: regular12TextStyle(cBlackColor),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: (height * 0.9) - 90,
-            width: width - 40,
-            child: TabBarView(
-              children: [
-                // ListView.builder(itemBuilder: itemBuilder)
-                Container(
-                  // color: cBlackColor,
-                  child: ListView.builder(
-                      itemCount: giftContributors.length,
-                      itemBuilder: (context, index) {
-                        var item = giftContributors[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: ListTile(
-                            leading: SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: ClipOval(
-                                child: Image.asset(item['image']),
-                              ),
-                            ),
-                            title: Text(
-                              item['name'],
-                              style: semiBold14TextStyle(cBlackColor),
-                            ),
-                            trailing: item['isFriend']
-                                ? Text(
-                                    'Message',
-                                    style: regular14TextStyle(cPrimaryColor),
-                                  )
-                                : Text(
-                                    'Add Friend',
-                                    style: regular14TextStyle(cPrimaryColor),
-                                  ),
-                          ),
-                        );
-                      }),
-                ),
-                Container(
-                  color: cRedColor,
-                ),
-                Container(
-                  color: cGreenColor,
-                ),
-                Container(
-                  color: cIconColor,
-                ),
-                Container(
-                  color: cKidsColor,
+                ReactionBottomSheetTab(
+                  isReactionImageShown: true,
+                  reactionImage: 'assets/svg/badge4.svg',
+                  text: _postReactionController.badgeCount4.value.toString(),
                 ),
               ],
             ),
-          ),
+            SizedBox(
+              height: (height * 0.9) - 90,
+              width: width - 40,
+              child: TabBarView(controller: _postReactionController.tabController, children: [
+                ReactionTabPage(list: _postReactionController.gift1),
+                ReactionTabPage(list: _postReactionController.gift1),
+                ReactionTabPage(list: _postReactionController.gift1),
+                ReactionTabPage(list: _postReactionController.gift1),
+                ReactionTabPage(list: _postReactionController.gift1),
+              ]),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ReactionBottomSheetTab extends StatelessWidget {
+  const ReactionBottomSheetTab({super.key, required this.isReactionImageShown, required this.reactionImage, required this.text});
+
+  final bool isReactionImageShown;
+  final String reactionImage;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tab(
+      child: Row(
+        children: [
+          if (isReactionImageShown)
+            SvgPicture.asset(
+              reactionImage,
+              width: 20,
+            ),
+          if (isReactionImageShown) kW8sizedBox,
+          Text(
+            text,
+            style: isReactionImageShown ? regular12TextStyle(cBlackColor) : semiBold12TextStyle(cBlackColor),
+          )
         ],
       ),
+    );
+  }
+}
+
+class ReactionTabPage extends StatelessWidget {
+  const ReactionTabPage({super.key, required this.list});
+  final List list;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: ListView.builder(
+          itemCount: list.length,
+          itemBuilder: (context, index) {
+            var item = list[index];
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: ListTile(
+                leading: Stack(
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: ClipOval(
+                        child: Image.asset(item['image']),
+                      ),
+                    ),
+                    Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: SvgPicture.asset(
+                          item['giftImage'],
+                          height: 16,
+                          width: 16,
+                        ))
+                  ],
+                ),
+                title: Text(
+                  item['name'],
+                  style: semiBold14TextStyle(cBlackColor),
+                ),
+                trailing: item['isFriend']
+                    ? Text(
+                        'Message',
+                        style: regular14TextStyle(cPrimaryColor),
+                      )
+                    : Text(
+                        'Add Friend',
+                        style: regular14TextStyle(cPrimaryColor),
+                      ),
+              ),
+            );
+          }),
     );
   }
 }
