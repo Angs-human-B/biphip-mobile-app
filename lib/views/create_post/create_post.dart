@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
+import 'package:bip_hip/widgets/common/custom_outline_button.dart';
 
 class CreatePost extends StatelessWidget {
   CreatePost({super.key});
@@ -60,7 +61,7 @@ class CreatePost extends StatelessWidget {
                               Stack(
                                 children: [
                                   SizedBox(
-                                    width: (_createPostController.postType.value == "kids" || _createPostController.postType.value == "selling") ? 70 : h45,
+                                    width: (_createPostController.category.value == "Kids" || _createPostController.category.value == "Selling") ? 70 : h45,
                                     child: Row(
                                       children: [
                                         Container(
@@ -77,19 +78,19 @@ class CreatePost extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  if (_createPostController.postType.value == "kids" || _createPostController.postType.value == "selling")
+                                  if (_createPostController.category.value == "Kids" || _createPostController.category.value == "Selling")
                                     Positioned(
                                       right: 0,
                                       bottom: 0,
                                       top: 0,
                                       child: Container(
-                                        height: h50,
-                                        width: h50,
+                                        height: h45,
+                                        width: h45,
                                         decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
                                         ),
                                         child: Image.asset(
-                                          "assets/images/profilePic.png",
+                                          "assets/images/profileDefault.png",
                                           fit: BoxFit.fill,
                                         ),
                                       ),
@@ -172,15 +173,93 @@ class CreatePost extends StatelessWidget {
                                           if (_createPostController.category.value == "Selling") kW8sizedBox,
                                           if (_createPostController.category.value == "Selling")
                                             CustomElevatedButton(
-                                              label: "Web",
-                                              onPressed: () {},
+                                              label: "Post Type",
+                                              onPressed: () {
+                                                Get.find<GlobalController>().commonBottomSheet(
+                                                  context: context,
+                                                  content: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: [
+                                                      kH8sizedBox,
+                                                      CustomCheckBox(
+                                                        value: true,
+                                                        onChanged: (v) {},
+                                                        label: "Bidding Post",
+                                                        textStyle: medium14TextStyle(cBlackColor),
+                                                      ),
+                                                      kH8sizedBox,
+                                                      Row(
+                                                        children: [
+                                                          Expanded(
+                                                            child: Text(
+                                                              "Selecting bidding post will let the user write their preferred bidding price.",
+                                                              style: regular12TextStyle(cSmallBodyTextColor),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      kH16sizedBox,
+                                                      Text(
+                                                        "Or",
+                                                        style: regular16TextStyle(cPlaceHolderColor),
+                                                      ),
+                                                      kH16sizedBox,
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            "Platform & Action",
+                                                            style: medium14TextStyle(cBlackColor),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      kH8sizedBox,
+                                                      Row(
+                                                        children: [
+                                                          OutLinedButton(
+                                                            buttonText: "Select platform",
+                                                            buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
+                                                            borderColor: cLineColor,
+                                                            buttonWidth: width * .55 - 20,
+                                                            buttonHeight: 44,
+                                                            widget: const Icon(
+                                                              BipHip.downArrow,
+                                                              color: cPlaceHolderColor,
+                                                            ),
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          ),
+                                                          kW8sizedBox,
+                                                          OutLinedButton(
+                                                            buttonText: "Select CTA",
+                                                            buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
+                                                            borderColor: cLineColor,
+                                                            buttonWidth: width * .45 - 20,
+                                                            buttonHeight: 44,
+                                                            widget: const Icon(
+                                                              BipHip.downArrow,
+                                                              color: cPlaceHolderColor,
+                                                            ),
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                  onPressCloseButton: () {
+                                                    Get.back();
+                                                  },
+                                                  onPressRightButton: null,
+                                                  rightText: 'Done',
+                                                  rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                                  title: "Post Type",
+                                                  isRightButtonShow: true,
+                                                );
+                                              },
                                               buttonHeight: 22,
                                               isCustomButton: true,
-                                              suffixIcon: BipHip.edit,
-                                              prefixIcon: BipHip.webLink,
+                                              prefixIcon: BipHip.plus,
                                               buttonColor: cGreyBoxColor,
                                               suffixIconColor: cBlackColor,
-                                              prefixIconColor: cPrimaryColor,
+                                              prefixIconColor: cBlackColor,
                                               textStyle: medium12TextStyle(cBlackColor),
                                             ),
                                         ],
@@ -352,6 +431,51 @@ class CreatePost extends StatelessWidget {
                                 ),
                               ),
                             ),
+
+                          if (_createPostController.category.value == "Selling" || _createPostController.category.value == "News")
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (_createPostController.allMediaList.isNotEmpty) kH20sizedBox,
+                                Text(
+                                  "Required fields",
+                                  style: medium14TextStyle(cBlackColor),
+                                ),
+                                kH8sizedBox,
+                                CustomModifiedTextField(
+                                  controller: TextEditingController(),
+                                  hint: "Title",
+                                  onChanged: (text) {},
+                                  onSubmit: (text) {},
+                                  inputAction: TextInputAction.next,
+                                  inputType: TextInputType.number,
+                                  maxLength: 100,
+                                ),
+                                if (_createPostController.category.value == "Selling") kH8sizedBox,
+                                if (_createPostController.category.value == "Selling")
+                                  CustomModifiedTextField(
+                                    controller: TextEditingController(),
+                                    hint: "Price",
+                                    onChanged: (text) {},
+                                    onSubmit: (text) {},
+                                    inputAction: TextInputAction.next,
+                                    inputType: TextInputType.number,
+                                    maxLength: 10,
+                                  ),
+                                kH8sizedBox,
+                                CustomModifiedTextField(
+                                  controller: TextEditingController(),
+                                  hint: "Description",
+                                  onChanged: (text) {},
+                                  onSubmit: (text) {},
+                                  inputAction: TextInputAction.next,
+                                  inputType: TextInputType.number,
+                                  maxLength: 512,
+                                  maxLines: 7,
+                                ),
+                              ],
+                            ),
+
                           kH50sizedBox,
                         ],
                       ),

@@ -7,6 +7,8 @@ class BipHip {
   static const String? _kBipHipFontPkg = null;
   static const _kBipHip2FontFam = 'BipHip2';
   static const String? _kBipHip2FontPkg = null;
+  static const _kBipHip3FontFam = 'BipHip3';
+  static const String? _kBipHip3FontPkg = null;
 
   static const IconData add = IconData(0xe800, fontFamily: _kBipHipFontFam, fontPackage: _kBipHipFontPkg);
   static const IconData addImage = IconData(0xe801, fontFamily: _kBipHipFontFam, fontPackage: _kBipHipFontPkg);
@@ -150,4 +152,18 @@ class BipHip {
   static const IconData voiceOutline = IconData(0xe8e0, fontFamily: _kBipHip2FontFam, fontPackage: _kBipHip2FontPkg);
   static const IconData voiceFill = IconData(0xe8e1, fontFamily: _kBipHip2FontFam, fontPackage: _kBipHip2FontPkg);
   static const IconData whatsappFill = IconData(0xe8e3, fontFamily: _kBipHip2FontFam, fontPackage: _kBipHip2FontPkg);
+  static const IconData badgesFill = IconData(0xe800, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
+  static const IconData badgesOutline = IconData(0xe801, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
+  static const IconData friendsOutline = IconData(0xe802, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
+  static const IconData homeOutline = IconData(0xe804, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
+  static const IconData homeFill = IconData(0xe805, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
+  static const IconData menuOutline = IconData(0xe806, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
+  static const IconData menuFill = IconData(0xe807, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
+  static const IconData notificationOutline = IconData(0xe808, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
+  static const IconData commentOutline = IconData(0xe809, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
+  static const IconData notificationFill = IconData(0xe80a, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
+  static const IconData giftOutline = IconData(0xe80b, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
+  static const IconData heartOutline = IconData(0xe80c, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
+  static const IconData shareOutline = IconData(0xe80d, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
+  static const IconData friendsFill = IconData(0xe80e, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
 }

@@ -45,7 +45,7 @@ List shortcutButtonContent = [
   },
   {
     'text': 'Badges',
-    'icon': BipHip.friends,
+    'icon': BipHip.badgesFill,
     'onPressed': () {
       ll('Badges');
     }

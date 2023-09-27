@@ -1,7 +1,6 @@
 import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/create_post/create_post_widget/common_category_button.dart';
-import 'package:bip_hip/views/profile/edit_profile.dart';
+import 'package:bip_hip/widgets/common/custom_outline_button.dart';
 
 class AddKidPage extends StatelessWidget {
   AddKidPage({super.key});
@@ -21,7 +20,7 @@ class AddKidPage extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: "Select Category",
+              title: "Add Kid",
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -32,12 +31,9 @@ class AddKidPage extends StatelessWidget {
                   padding: const EdgeInsets.only(right: h20),
                   child: TextButton(
                     style: kTextButtonStyle,
-                    onPressed: () {
-                      _createPostController.selectCategoryTextChange(context);
-                     
-                    },
+                    onPressed: () {},
                     child: Text(
-                      "Next",
+                      "Add",
                       style: medium14TextStyle(cPrimaryColor),
                     ),
                   ),
@@ -54,78 +50,61 @@ class AddKidPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
-                    Text(
-                      "ENTERTAINMENT",
-                      style: regular14TextStyle(cSmallBodyTextColor),
+                    const CircleAvatar(
+                      radius: 50,
+                      backgroundImage: AssetImage(kiLogoImageUrl),
                     ),
-                    kH8sizedBox,
-                    Wrap(
-                      children: [
-                        for (int i = 0; i < _createPostController.categoryList.length - 1; i++)
-                          Obx(
-                            () => CategoryComponent(
-                              onPress: () {
-                                _createPostController.selectCategoryStatusChange(i);
-                              },
-                              suffixWidget: Transform.scale(
-                                scale: .7,
-                                child: CustomRadioButton(
-                                  onChanged: () {
-                                    _createPostController.selectCategoryStatusChange(i);
-                                  },
-                                  isSelected: _createPostController.categoryStatusList[i],
-                                ),
-                              ),
-                              icon: _createPostController.categoryList[i]['icon'],
-                              iconColor: _createPostController.categoryList[i]['icon_color'],
-                              iconSize: isDeviceScreenLarge() ? h20 : h16,
-                              title: _createPostController.categoryList[i]['title'],
-                              titleStyle: medium14TextStyle(cBlackColor),
-                            ),
-                          ),
-                      ],
-                    ),
-                    kH8sizedBox,
-                    Text(
-                      "*To add kid category, you need to follow the further steps.",
-                      style: regular12TextStyle(cPlaceHolderColor),
-                    ),
-                    kH16sizedBox,
-                    const CustomDivider(),
-                    kH16sizedBox,
-                    Text(
-                      "SELL",
-                      style: regular14TextStyle(cSmallBodyTextColor),
-                    ),
-                    kH8sizedBox,
-                    Obx(
-                      () => CategoryComponent(
-                        onPress: () {
-                          _createPostController.selectCategoryStatusChange(_createPostController.categoryList.length - 1);
-                        },
-                        suffixWidget: Transform.scale(
-                          scale: .7,
-                          child: CustomRadioButton(
-                            onChanged: () {
-                              _createPostController.selectCategoryStatusChange(_createPostController.categoryList.length - 1);
-                            },
-                            isSelected: _createPostController.categoryStatusList[_createPostController.categoryList.length - 1],
-                          ),
+                    isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
+                    OutLinedButton(
+                      onPress: null,
+                      buttonText: "Upload Image",
+                      borderColor: cPrimaryColor,
+                      buttonHeight: 32,
+                      buttonWidth: 150,
+                      suffixWidget: Padding(
+                        padding: const EdgeInsets.only(right: 4.0),
+                        child: Icon(
+                          BipHip.addImage,
+                          size: isDeviceScreenLarge() ? h20 : h16,
+                          color: cPrimaryColor,
                         ),
-                        icon: _createPostController.categoryList[_createPostController.categoryList.length - 1]['icon'],
-                        iconColor: _createPostController.categoryList[_createPostController.categoryList.length - 1]['icon_color'],
-                        iconSize: isDeviceScreenLarge() ? h20 : h16,
-                        title: _createPostController.categoryList[_createPostController.categoryList.length - 1]['title'],
-                        titleStyle: medium14TextStyle(cBlackColor),
                       ),
                     ),
-                    kH8sizedBox,
-                    Text(
-                      "*You can sell all kind of product here. Including your brand on that will boost your selling.",
-                      style: regular12TextStyle(cPlaceHolderColor),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        isDeviceScreenLarge() ? kH40sizedBox : kH30sizedBox,
+                        CustomModifiedTextField(
+                          controller: TextEditingController(),
+                          hint: "Write kid name",
+                          onChanged: (text) {},
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.next,
+                          inputType: TextInputType.text,
+                          maxLength: 50,
+                        ),
+                        kH8sizedBox,
+                        CustomModifiedTextField(
+                          controller: TextEditingController(),
+                          hint: "Write age",
+                          onChanged: (text) {},
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.next,
+                          inputType: TextInputType.number,
+                          maxLength: 3,
+                        ),
+                        kH8sizedBox,
+                        CustomCheckBox(
+                          value: true,
+                          onChanged: (v) {},
+                          label: "Save Kid’s information's for further use.",
+                          textStyle: regular14TextStyle(cBlackColor),
+                        ),
+                        isDeviceScreenLarge() ? kH40sizedBox : kH30sizedBox,
+                      ],
                     ),
                   ],
                 ),

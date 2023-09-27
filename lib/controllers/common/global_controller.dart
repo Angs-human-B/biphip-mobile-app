@@ -121,13 +121,12 @@ class GlobalController extends GetxController {
                   const CustomDivider(),
                   if (isSearchShow == true)
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
+                      padding: const EdgeInsets.only(left: k16Padding, right: k16Padding, top: k16Padding),
                       child: CustomModifiedTextField(
-                        borderRadius: h20,
+                        borderRadius: h8,
                         controller: Get.find<ProfileController>().searchController,
-                        autoFocus: true,
                         prefixIcon: BipHip.search,
-                        suffixIcon: BipHip.photo, // todo:: icon will be changed
+                        suffixIcon: BipHip.voiceFill,
                         hint: ksSearch.tr,
                         contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
                         textInputStyle: regular16TextStyle(cBlackColor),
@@ -337,6 +336,8 @@ class GlobalController extends GetxController {
       },
     );
   }
+  final searchController = TextEditingController();
+  final recentSearch = RxList();
 
   //! end
 }

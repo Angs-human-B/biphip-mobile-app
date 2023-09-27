@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/custom_tapable_container.dart';
 
 class Friends extends StatelessWidget {
@@ -91,6 +92,20 @@ class Friends extends StatelessWidget {
                       ),
               ),
             kH12sizedBox,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: CustomModifiedTextField(
+                borderRadius: h8,
+                controller: Get.find<ProfileController>().searchController,
+
+                prefixIcon: BipHip.search,
+                suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
+                hint: ksSearch.tr,
+                contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
+                textInputStyle: regular16TextStyle(cBlackColor),
+              ),
+            ),
+            kH12sizedBox,
             //*All friend, Receive friend request and Pending friend request ui
             Expanded(
               child: SingleChildScrollView(
@@ -99,6 +114,14 @@ class Friends extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        width: width,
+        isFirstButtonClicked: false,
+        isSecondButtonClicked: true,
+        isThirdButtonClicked: false,
+        isFourthButtonClicked: false,
+        isFifthButtonClicked: false,
       ),
     );
   }

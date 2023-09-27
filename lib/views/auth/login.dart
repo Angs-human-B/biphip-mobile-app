@@ -113,7 +113,6 @@ class Login extends StatelessWidget {
                         label: 'Login',
                         onPressed: _authenticationController.canLogin.value
                             ? () {
-                                
                                 Get.toNamed(krMenu);
                               }
                             : null,

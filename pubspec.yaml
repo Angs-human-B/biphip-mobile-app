@@ -59,3 +59,7 @@ flutter:
     - family: BipHip2
       fonts:
         - asset: assets/fonts/Icon_font/BipHip2.ttf
+
+    - family: BipHip3
+      fonts:
+        - asset: assets/fonts/Icon_font/BipHip3.ttf

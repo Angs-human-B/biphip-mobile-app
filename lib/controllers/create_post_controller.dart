@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/create_post/add_brand.dart';
+import 'package:bip_hip/views/create_post/add_kid.dart';
 import 'package:bip_hip/widgets/common/custom_outline_button.dart';
 
 class CreatePostController extends GetxController {
@@ -17,7 +19,6 @@ class CreatePostController extends GetxController {
   final Rx<IconData?> categoryIcon = Rx<IconData?>(null);
   final Rx<Color?> categoryIconColor = Rx<Color?>(null);
   final RxBool isTagAdded = RxBool(false);
- 
 
   final RxString selectedKidName = RxString('');
   final RxString selectedKidImage = RxString('');
@@ -370,7 +371,9 @@ class CreatePostController extends GetxController {
             ),
             kH12sizedBox,
             OutLinedButton(
-              onPress: () {},
+              onPress: () {
+                Get.to(() => AddKidPage());
+              },
               buttonText: "Add Kid",
               buttonTextStyle: medium16TextStyle(cPrimaryColor),
               borderColor: cPrimaryColor,
@@ -481,7 +484,9 @@ class CreatePostController extends GetxController {
             ),
             kH12sizedBox,
             OutLinedButton(
-              onPress: () {},
+              onPress: () {
+                Get.to(() => AddBrandPage());
+              },
               buttonText: "Add Brand",
               buttonTextStyle: medium16TextStyle(cPrimaryColor),
               borderColor: cPrimaryColor,
@@ -701,7 +706,7 @@ class CreatePostController extends GetxController {
                   },
                 ),
               ),
-              kH8sizedBox,
+              kH12sizedBox,
               Padding(
                 padding: const EdgeInsets.only(left: k2Padding),
                 child: Text(
