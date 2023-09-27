@@ -170,4 +170,15 @@ class ProfileController extends GetxController {
     coverImageLink.value = '';
     isCoverImageChanged.value = false;
   }
+
+  //-----------------
+  // !Edit About info
+  //-----------------
+  final TextEditingController homeTownTextEditingController = TextEditingController();
+  final TextEditingController presentAddressTextEditingController = TextEditingController();
+  final RxString startDateAddress = RxString('');
+  final RxString endDateAddress = RxString('');
+  final RxBool isCurrentlyLiveHere = RxBool(false);
+  final RxList cityList = RxList([]);
+  final RxBool showEditAddress = RxBool(false);
 }

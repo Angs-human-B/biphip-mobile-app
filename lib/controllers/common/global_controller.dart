@@ -285,6 +285,57 @@ class GlobalController extends GetxController {
     ll(value);
   }
 
+  void blankBottomSheet({
+    required context,
+    required Widget content,
+    double? bottomSheetHeight,
+    bool? isScrollControlled,
+  }) {
+    showModalBottomSheet<void>(
+      isScrollControlled: isScrollControlled ?? false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: cWhiteColor),
+              width: width,
+              height: MediaQuery.of(context).viewInsets.bottom > 0.0 ? height * .9 : bottomSheetHeight ?? height * .5,
+              constraints: BoxConstraints(minHeight: bottomSheetHeight ?? height * .5, maxHeight: height * .9),
+              child: Column(
+                children: [
+                  kH4sizedBox,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: cLineColor,
+                      borderRadius: k4CircularBorderRadius,
+                    ),
+                    height: 5,
+                    width: width * .1,
+                  ),
+                  kH10sizedBox,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
+                        child: content,
+                      ),
+                    ),
+                  ),
+                  kH4sizedBox,
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
   final searchController = TextEditingController();
   final recentSearch = RxList();
 

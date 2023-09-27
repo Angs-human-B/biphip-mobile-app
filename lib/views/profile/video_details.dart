@@ -211,6 +211,7 @@ class VideoDetails extends StatelessWidget {
                       userName: 'Sharker Omi',
                       isSendMessageShown: false,
                       isHideButtonShown: false,
+                      isImageComment: false, replyList: [],
                     ),
                     kH16sizedBox,
                     const CommentWidget(
@@ -225,6 +226,7 @@ class VideoDetails extends StatelessWidget {
                       userName: 'Sharker Omi',
                       isSendMessageShown: false,
                       isHideButtonShown: false,
+                      isImageComment: false, replyList: [],
                     ),
                   ],
                 ),
