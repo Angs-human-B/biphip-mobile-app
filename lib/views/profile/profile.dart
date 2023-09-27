@@ -351,20 +351,21 @@ class Profile extends StatelessWidget {
                         bidingAmount: 300,
                         bidingOnPressed: () {
                           _globalController.commonBottomSheet(
-                              context: context,
-                              content: _PlaceBidContent(),
-                              onPressCloseButton: () {
-                                Get.back();
-                              },
-                              onPressRightButton: () {
-                                Get.back();
-                              },
-                              rightText: 'Send',
-                              rightTextStyle: semiBold12TextStyle(cPrimaryColor),
-                              title: 'Place a Bid',
-                              isRightButtonShow: true,
-                              isScrollControlled: true,
-                              bottomSheetHeight: height * .4);
+                            context: context,
+                            content: _PlaceBidContent(),
+                            onPressCloseButton: () {
+                              Get.back();
+                            },
+                            onPressRightButton: () {
+                              Get.back();
+                            },
+                            rightText: 'Send',
+                            rightTextStyle: medium14TextStyle(cPrimaryColor),
+                            title: 'Place a Bid',
+                            isRightButtonShow: true,
+                            isScrollControlled: true,
+                            // bottomSheetHeight: height * .4,
+                          );
                         },
                         isPlaceBid: true,
                       ),
@@ -732,30 +733,27 @@ class _BiddingInsightsContent extends StatelessWidget {
           style: semiBold16TextStyle(cBlackColor),
         ),
         kH8sizedBox,
-        SizedBox(
-          height: 350,
-          child: ListView.builder(
-              physics: const AlwaysScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: comment.length,
-              itemBuilder: (context, index) {
-                return CommentWidget(
-                  profileImage: comment[index]['image'],
-                  timePassed: '5',
-                  isLikeButtonShown: true,
-                  isReplyButtonShown: false,
-                  isReactButtonShown: true,
-                  comment: comment[index]['comment'],
-                  isLink: false,
-                  reactCount: 440,
-                  userName: comment[index]['userName'],
-                  isImageComment: false,
-                  isSendMessageShown: true,
-                  isHideButtonShown: false,
-                  replyList: [],
-                );
-              }),
-        )
+        ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: comment.length,
+            itemBuilder: (context, index) {
+              return CommentWidget(
+                profileImage: comment[index]['image'],
+                timePassed: '5',
+                isLikeButtonShown: true,
+                isReplyButtonShown: false,
+                isReactButtonShown: true,
+                comment: comment[index]['comment'],
+                isLink: false,
+                reactCount: 440,
+                userName: comment[index]['userName'],
+                isImageComment: false,
+                isSendMessageShown: true,
+                isHideButtonShown: false,
+                replyList: [],
+              );
+            })
       ],
     );
   }
@@ -874,7 +872,7 @@ class _GiftContent extends StatelessWidget {
               height: 380,
               child: GridView.builder(
                 shrinkWrap: true,
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: giftPackages.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: .8,
@@ -914,8 +912,7 @@ class _GiftContent extends StatelessWidget {
                   ),
                 ),
                 kW12sizedBox,
-                SizedBox(
-                  width: 315,
+                Expanded(
                   child: CustomModifiedTextField(
                       hint: 'Add a comment....',
                       inputAction: TextInputAction.done,
@@ -1121,13 +1118,16 @@ class _PurchaseStarContent extends StatelessWidget {
           SizedBox(
             height: 230,
             child: ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: packages.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: k8Padding),
                     child: CustomListTile(
+                      onPressed: () {
+                        _postReactionController.selectedPackage.value = packages[index];
+                      },
                       title: '${packages[index]['amount']} stars',
                       borderColor: _postReactionController.selectedPackage.value == packages[index] ? cPrimaryColor : cLineColor,
                       itemColor: _postReactionController.selectedPackage.value == packages[index] ? cPrimaryTint3Color : cWhiteColor,
