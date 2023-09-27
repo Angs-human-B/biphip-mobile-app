@@ -285,5 +285,8 @@ class GlobalController extends GetxController {
     ll(value);
   }
 
+  final searchController = TextEditingController();
+  final recentSearch = RxList();
+
   //! end
 }

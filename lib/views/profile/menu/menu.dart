@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/custom_bottom_nav.dart';
+import 'package:bip_hip/widgets/common/search.dart';
 
 class Menu extends StatelessWidget {
   Menu({super.key});
@@ -31,7 +32,20 @@ class Menu extends StatelessWidget {
                   padding: const EdgeInsets.only(right: h20),
                   child: TextButton(
                     style: kTextButtonStyle,
-                    onPressed: () {},
+                    onPressed: () async {
+                      final spController = SpController();
+                      Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
+                      // FirebaseCrashlytics.instance.crash();
+                      Get.find<GlobalController>().searchController.clear();
+                      Get.to(
+                        () => Search(
+                          searchController: Get.find<GlobalController>().searchController,
+                          recentSearchList: Get.find<GlobalController>().recentSearch,
+                          onSubmit: () {},
+                        ),
+                        transition: Transition.noTransition,
+                      );
+                    },
                     child: Icon(
                       BipHip.search,
                       color: cIconColor,
