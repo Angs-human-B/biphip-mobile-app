@@ -6,6 +6,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxInt balance = RxInt(200);
   final TextEditingController bidingTextEditingController = TextEditingController();
   final TextEditingController giftTextEditingController = TextEditingController();
+  final TextEditingController commentTextEditingController = TextEditingController();
   final RxBool isPackageSelected = RxBool(false);
   final Rx<Map?> selectedPackage = Rx<Map?>(null);
   final RxBool giftCheckBox = RxBool(false);

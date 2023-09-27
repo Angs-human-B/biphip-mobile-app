@@ -7,6 +7,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
 import 'package:bip_hip/views/profile/post_widgets/biding_insight.dart';
 import 'package:bip_hip/views/profile/post_widgets/biding_widget.dart';
+import 'package:bip_hip/views/profile/post_widgets/comment_textfield.dart';
 import 'package:bip_hip/views/profile/post_widgets/comment_widget.dart';
 import 'package:bip_hip/views/profile/post_widgets/like_section_widget.dart';
 import 'package:bip_hip/views/profile/post_widgets/post_activity_status_widget.dart';
@@ -362,7 +363,7 @@ class Profile extends StatelessWidget {
                               rightTextStyle: semiBold12TextStyle(cPrimaryColor),
                               title: 'Place a Bid',
                               isRightButtonShow: true,
-                              isScrollControlled: true,
+                              isScrollControlled: false,
                               bottomSheetHeight: height * .4);
                         },
                         isPlaceBid: true,
@@ -451,6 +452,16 @@ class Profile extends StatelessWidget {
                         isHideButtonShown: true,
                         replyList: replyComment,
                       ),
+                    ),
+                    kH12sizedBox,
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: CustomDivider(),
+                    ),
+                    kH12sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: CommentTextField(),
                     ),
                     kH12sizedBox,
                   ],
@@ -826,7 +837,6 @@ class _GiftContent extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(text: 'Support ', style: regular12TextStyle(cBlackColor)),
-                          //TODO: Referal name here
                           TextSpan(
                             text: 'Monjurul Sharker Omi',
                             style: semiBold12TextStyle(cBlackColor),
