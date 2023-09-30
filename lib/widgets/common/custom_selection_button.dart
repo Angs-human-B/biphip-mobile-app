@@ -1,11 +1,14 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class CustomSelectionButton extends StatelessWidget {
-  const CustomSelectionButton({super.key, this.onPressed, this.text, this.hintText, this.prefixIcon});
+  const CustomSelectionButton(
+      {super.key, this.onPressed, this.text, this.hintText, this.prefixIcon, this.buttonColor, this.borderColor, this.buttonHeight, this.contentPadding});
   final Function()? onPressed;
   final IconData? prefixIcon;
-  final String? text;
-  final String? hintText;
+  final String? text, hintText;
+  final Color? buttonColor, borderColor;
+  final double? buttonHeight;
+  final EdgeInsetsGeometry? contentPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -13,32 +16,36 @@ class CustomSelectionButton extends StatelessWidget {
         onPressed: onPressed,
         style: kTextButtonStyle,
         child: Container(
-          decoration: BoxDecoration(
-            color: cGreyBoxColor,
-            borderRadius: k4CircularBorderRadius,
-          ),
+          height: buttonHeight,
+          decoration:
+              BoxDecoration(color: buttonColor ?? cGreyBoxColor, borderRadius: k4CircularBorderRadius, border: Border.all(color: borderColor ?? cWhiteColor)),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: k12Padding, vertical: k12Padding),
+            padding: contentPadding ?? const EdgeInsets.symmetric(horizontal: k12Padding, vertical: k12Padding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (prefixIcon != null)
-                  Icon(
-                    prefixIcon,
-                    color: cIconColor,
-                  ),
-                if (prefixIcon != null) kW4sizedBox,
-                if (text != '')
-                  Text(
-                    text ?? '',
-                    style: regular14TextStyle(cBlackColor),
-                  ),
-                if (text == '')
-                  Text(
-                    hintText ?? '',
-                    style: regular14TextStyle(cPlaceHolderColor),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    if (prefixIcon != null)
+                      Icon(
+                        prefixIcon,
+                        color: cIconColor,
+                      ),
+                    if (prefixIcon != null) kW8sizedBox,
+                    if (text != '')
+                      Text(
+                        text ?? '',
+                        style: regular14TextStyle(cBlackColor),
+                      ),
+                    if (text == '')
+                      Text(
+                        hintText ?? '',
+                        style: regular14TextStyle(cPlaceHolderColor),
+                      ),
+                  ],
+                ),
                 Icon(
                   BipHip.downArrow,
                   color: (text != null) ? cBlackColor : cPlaceHolderColor,
