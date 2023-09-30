@@ -75,8 +75,17 @@ class EditAboutInfo extends StatelessWidget {
                                   content: EditModalSheet(
                                     editButtonText: 'Edit Address',
                                     editOnPressed: () {
-                                      _profileController.setEditPageValue('Hometown Address', BipHip.location, _profileController.homeTownTextEditingController,
-                                          'Edit hometown address', false, true, false, false, 'checkBoxText', 'EDIT HOMETOWN');
+                                      _profileController.setEditPageValue(
+                                          'Edit Hometown Address',
+                                          BipHip.location,
+                                          _profileController.homeTownTextEditingController,
+                                          'Edit hometown address',
+                                          false,
+                                          true,
+                                          false,
+                                          false,
+                                          'checkBoxText',
+                                          'EDIT HOMETOWN');
                                       Get.toNamed(krEdit);
                                     },
                                     deleteButtonText: 'Delete Address',
@@ -94,7 +103,9 @@ class EditAboutInfo extends StatelessWidget {
                         buttonText: 'Add City',
                         showAddButton: true,
                         onPressedAdd: () {
-                          _profileController.showEditAddress.value = !_profileController.showEditAddress.value;
+                          _profileController.setEditPageValue('Add Present Address', BipHip.location, _profileController.presentAddressTextEditingController,
+                              'Add location', true, true, true, false, 'Currently living here', 'ADD PRESENT');
+                          Get.toNamed(krEdit);
                         },
                         buttonWidth: 108,
                       ),
@@ -118,7 +129,7 @@ class EditAboutInfo extends StatelessWidget {
                                       content: EditModalSheet(
                                         editButtonText: 'Edit Address',
                                         editOnPressed: () {
-                                          //  _profileController.setEditPageValue('Address', BipHip.location, textEditingController, textfieldHintText, showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText)
+                                           _profileController.setEditPageValue('Edit Present Address', BipHip.location, _profileController.presentAddressTextEditingController, 'Edit location', true, true, true, _profileController.isCurrentlyLiveHere.value, 'Currently living here','EDIT PRESENT');
                                         },
                                         deleteButtonText: 'Delete Address',
                                         deleteOnPressed: () {
@@ -129,119 +140,119 @@ class EditAboutInfo extends StatelessWidget {
                                 },
                               );
                             }),
-                      if (_profileController.showEditAddress.value) kH16sizedBox,
-                      if (_profileController.showEditAddress.value)
-                        CustomModifiedTextField(
-                          controller: _profileController.presentAddressTextEditingController,
-                          hint: 'Enter city',
-                          prefixIcon: BipHip.location,
-                          suffixIcon: BipHip.circleCrossNew,
-                          borderRadius: k8BorderRadius,
-                          onSuffixPress: () {
-                            _profileController.presentAddressTextEditingController.clear();
-                          },
-                        ),
-                      if (_profileController.showEditAddress.value)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: k16Padding),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: (width / 2) - 30,
-                                child: CustomSelectionButton(
-                                  prefixIcon: BipHip.calendarFill,
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return SizedBox(
-                                            height: height * 0.4,
-                                            child: CupertinoDatePicker(
-                                              mode: CupertinoDatePickerMode.monthYear,
-                                              onDateTimeChanged: (value) {
-                                                _profileController.startDateAddress.value = value.year.toString();
-                                              },
-                                            ),
-                                          );
-                                        });
-                                  },
-                                  text: _profileController.startDateAddress.value,
-                                  hintText: 'Start Date',
-                                ),
-                              ),
-                              SizedBox(
-                                width: (width / 2) - 30,
-                                child: CustomSelectionButton(
-                                  prefixIcon: BipHip.calendarFill,
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return SizedBox(
-                                            height: height * 0.4,
-                                            child: CupertinoDatePicker(
-                                              mode: CupertinoDatePickerMode.monthYear,
-                                              onDateTimeChanged: (value) {
-                                                _profileController.endDateAddress.value = value.year.toString();
-                                              },
-                                            ),
-                                          );
-                                        });
-                                  },
-                                  text: _profileController.endDateAddress.value,
-                                  hintText: 'End Date',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      if (_profileController.showEditAddress.value)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            OutLinedButton(
-                              buttonWidth: 80,
-                              buttonHeight: 25,
-                              onPress: () {},
-                              buttonText: 'Public',
-                              buttonTextStyle: semiBold12TextStyle(cBlackColor),
-                              borderColor: cLineColor,
-                              suffixWidget: const Padding(
-                                padding: EdgeInsets.only(right: k8Padding),
-                                child: Icon(
-                                  BipHip.world,
-                                  color: cIconColor,
-                                  size: kIconSize16,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 145,
-                              child: CustomCheckBox(
-                                  value: _profileController.isCurrentlyLiveHere.value,
-                                  label: "Currently live here",
-                                  onChanged: (v) {
-                                    _profileController.isCurrentlyLiveHere.value = !_profileController.isCurrentlyLiveHere.value;
-                                  },
-                                  textStyle: regular14TextStyle(cBlackColor)),
-                            )
-                          ],
-                        ),
-                      if (_profileController.showEditAddress.value)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: k10Padding),
-                          child: CancelSaveButton(
-                            onPressedCancel: () {
-                              _profileController.showEditAddress.value = false;
-                            },
-                            onPressedSave: () {
-                              _profileController.cityList.add(_profileController.presentAddressTextEditingController.text.trim());
-                              _profileController.showEditAddress.value = false;
-                              _profileController.presentAddressTextEditingController.clear();
-                            },
-                          ),
-                        ),
+                      // if (_profileController.showEditAddress.value) kH16sizedBox,
+                      // if (_profileController.showEditAddress.value)
+                      //   CustomModifiedTextField(
+                      //     controller: _profileController.presentAddressTextEditingController,
+                      //     hint: 'Enter city',
+                      //     prefixIcon: BipHip.location,
+                      //     suffixIcon: BipHip.circleCrossNew,
+                      //     borderRadius: k8BorderRadius,
+                      //     onSuffixPress: () {
+                      //       _profileController.presentAddressTextEditingController.clear();
+                      //     },
+                      //   ),
+                      //if (_profileController.showEditAddress.value)
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       SizedBox(
+                      //         width: (width / 2) - 30,
+                      //         child: CustomSelectionButton(
+                      //           prefixIcon: BipHip.calendarFill,
+                      //           onPressed: () {
+                      //             showModalBottomSheet(
+                      //                 context: context,
+                      //                 builder: (context) {
+                      //                   return SizedBox(
+                      //                     height: height * 0.4,
+                      //                     child: CupertinoDatePicker(
+                      //                       mode: CupertinoDatePickerMode.monthYear,
+                      //                       onDateTimeChanged: (value) {
+                      //                         _profileController.startDateAddress.value = value.year.toString();
+                      //                       },
+                      //                     ),
+                      //                   );
+                      //                 });
+                      //           },
+                      //           text: _profileController.startDateAddress.value,
+                      //           hintText: 'Start Date',
+                      //         ),
+                      //       ),
+                      //       SizedBox(
+                      //         width: (width / 2) - 30,
+                      //         child: CustomSelectionButton(
+                      //           prefixIcon: BipHip.calendarFill,
+                      //           onPressed: () {
+                      //             showModalBottomSheet(
+                      //                 context: context,
+                      //                 builder: (context) {
+                      //                   return SizedBox(
+                      //                     height: height * 0.4,
+                      //                     child: CupertinoDatePicker(
+                      //                       mode: CupertinoDatePickerMode.monthYear,
+                      //                       onDateTimeChanged: (value) {
+                      //                         _profileController.endDateAddress.value = value.year.toString();
+                      //                       },
+                      //                     ),
+                      //                   );
+                      //                 });
+                      //           },
+                      //           text: _profileController.endDateAddress.value,
+                      //           hintText: 'End Date',
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // if (_profileController.showEditAddress.value)
+                      //   Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       OutLinedButton(
+                      //         buttonWidth: 80,
+                      //         buttonHeight: 25,
+                      //         onPress: () {},
+                      //         buttonText: 'Public',
+                      //         buttonTextStyle: semiBold12TextStyle(cBlackColor),
+                      //         borderColor: cLineColor,
+                      //         suffixWidget: const Padding(
+                      //           padding: EdgeInsets.only(right: k8Padding),
+                      //           child: Icon(
+                      //             BipHip.world,
+                      //             color: cIconColor,
+                      //             size: kIconSize16,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       SizedBox(
+                      //         width: 145,
+                      //         child: CustomCheckBox(
+                      //             value: _profileController.isCurrentlyLiveHere.value,
+                      //             label: "Currently live here",
+                      //             onChanged: (v) {
+                      //               _profileController.isCurrentlyLiveHere.value = !_profileController.isCurrentlyLiveHere.value;
+                      //             },
+                      //             textStyle: regular14TextStyle(cBlackColor)),
+                      //       )
+                      //     ],
+                      //   ),
+                      // if (_profileController.showEditAddress.value)
+                      //   Padding(
+                      //     padding: const EdgeInsets.symmetric(vertical: k10Padding),
+                      //     child: CancelSaveButton(
+                      //       onPressedCancel: () {
+                      //         _profileController.showEditAddress.value = false;
+                      //       },
+                      //       onPressedSave: () {
+                      //         _profileController.cityList.add(_profileController.presentAddressTextEditingController.text.trim());
+                      //         _profileController.showEditAddress.value = false;
+                      //         _profileController.presentAddressTextEditingController.clear();
+                      //       },
+                      //     ),
+                      //   ),
                       kH20sizedBox,
                       const CustomDivider(),
                       kH20sizedBox,

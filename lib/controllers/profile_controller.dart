@@ -200,6 +200,7 @@ class ProfileController extends GetxController {
   final RxBool showEditAddress = RxBool(false);
   final RxBool showEditRelationshipStatus = RxBool(false);
   final RxBool showAddSchool = RxBool(false);
+  final RxList<TextEditingController> addressTextEditingControllerList = RxList([]);
   final RxList relationshipStatusList = RxList([
     'Single',
     'In a relationship',
@@ -236,6 +237,10 @@ class ProfileController extends GetxController {
       homeTown.value = homeTownTextEditingController.text.trim();
     } else if (functionFlag == 'EDIT HOMETOWN') {
       homeTown.value = homeTownTextEditingController.text.trim();
+    } else if (functionFlag == 'ADD PRESENT') {
+      cityList.add(presentAddressTextEditingController.text.trim());
+    } else if(functionFlag == 'EDIT PRESENT'){
+
     }
   }
 }

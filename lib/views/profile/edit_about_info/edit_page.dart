@@ -21,7 +21,7 @@ class EditPage extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: 'Edit ${_profileController.commonEditPageTitle}'.tr,
+              title: '${_profileController.commonEditPageTitle}'.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -126,7 +126,7 @@ class EditPage extends StatelessWidget {
                           ),
                         if (_profileController.isCommonEditCheckBoxShown.value)
                           SizedBox(
-                            width: 145,
+                            width: 155,
                             child: CustomCheckBox(
                                 value: _profileController.isCommonEditCheckBoxSelected.value,
                                 label: _profileController.commonEditCheckBoxText.value,
