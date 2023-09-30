@@ -1,4 +1,4 @@
-import 'dart:convert';
+// import 'dart:convert';
 import 'dart:io';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -31,6 +31,9 @@ class GlobalController extends GetxController {
       barrierDismissible: false,
       title: "",
       onWillPop: () async {
+        if (isLoading.value) {
+          return false;
+        }
         return true;
       },
       content: Column(
@@ -189,8 +192,8 @@ class GlobalController extends GetxController {
         maxWidth: 720,
       );
       if (image != null) {
-        final List<int> imageBytes = await image.readAsBytes();
-        final String base64Image = base64Encode(imageBytes);
+        // final List<int> imageBytes = await image.readAsBytes();
+        // final String base64Image = base64Encode(imageBytes);
         final File imageTemporary = File(image.path);
         if (isList) {
           imageFile.add(imageTemporary.obs);
@@ -198,7 +201,7 @@ class GlobalController extends GetxController {
           imageFile(imageTemporary);
         }
         isChanged.value = true;
-        imageLink.value = 'data:image/png;base64,$base64Image';
+        // imageLink.value = 'data:image/png;base64,$base64Image';
         // log(imageLink.toString());
         if (isFromBottomSheet != false) {
           Get.back();
@@ -224,18 +227,18 @@ class GlobalController extends GetxController {
         for (int i = 0; i < mediaList.length; i++) {
           final String? type = lookupMimeType(mediaList[i].path);
           ll(type);
-          final List<int> imageBytes = await mediaList[i].readAsBytes();
-          final String base64Image = base64Encode(imageBytes);
-          final File imageTemporary = File(mediaList[i].path);
-          mediaFileList.add(imageTemporary.obs);
-          isMediaChanged.value = true;
+          // final List<int> imageBytes = await mediaList[i].readAsBytes();
+          // final String base64Image = base64Encode(imageBytes);
           if (type != null) {
-            if (type.contains('image')) {
-              mediaLinkList.add('data:image/png;base64,$base64Image'.obs);
-            }
-            if (type.contains('video')) {
-              mediaLinkList.add('data:video/mp4;base64,$base64Image'.obs);
-            }
+            isMediaChanged.value = true;
+            final File imageTemporary = File(mediaList[i].path);
+            mediaFileList.add(imageTemporary.obs);
+            // if (type.contains('image')) {
+            //   mediaLinkList.add('data:image/png;base64,$base64Image'.obs);
+            // }
+            // if (type.contains('video')) {
+            //   mediaLinkList.add('data:video/mp4;base64,$base64Image'.obs);
+            // }
           } else {
             showSnackBar(title: 'Warning', message: "file format is not supported currently", color: cSecondaryColor);
           }
@@ -258,8 +261,8 @@ class GlobalController extends GetxController {
           preferredCameraDevice: CameraDevice.rear,
           maxDuration: const Duration(seconds: 600));
       if (video != null) {
-        final List<int> videoBytes = await video.readAsBytes();
-        final String base64Video = base64Encode(videoBytes);
+        // final List<int> videoBytes = await video.readAsBytes();
+        // final String base64Video = base64Encode(videoBytes);
         final File videoTemporary = File(video.path);
         if (isList) {
           videoFile.add(videoTemporary.obs);
@@ -267,7 +270,7 @@ class GlobalController extends GetxController {
           videoFile(videoTemporary);
         }
         isChanged.value = true;
-        videoLink.value = 'data:video/mp4;base64,$base64Video';
+        // videoLink.value = 'data:video/mp4;base64,$base64Video';
         // log(videoLink.toString());
         return true;
       } else {
@@ -336,6 +339,7 @@ class GlobalController extends GetxController {
       },
     );
   }
+
   final searchController = TextEditingController();
   final recentSearch = RxList();
 

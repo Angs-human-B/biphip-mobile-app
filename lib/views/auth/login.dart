@@ -112,8 +112,8 @@ class Login extends StatelessWidget {
                       child: CustomElevatedButton(
                         label: 'Login',
                         onPressed: _authenticationController.canLogin.value
-                            ? () {
-                                Get.toNamed(krMenu);
+                            ? () async {
+                                await _authenticationController.userLogin();
                               }
                             : null,
                         buttonWidth: width - 40,

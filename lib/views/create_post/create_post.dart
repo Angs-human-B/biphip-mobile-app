@@ -305,7 +305,7 @@ class CreatePost extends StatelessWidget {
                                           style: kTextButtonStyle,
                                           onPressed: () {},
                                           child: Container(
-                                            color: cRedColor,
+                                            color: cWhiteColor,
                                             height: _createPostController.allMediaList.length < 2 ? 302 : 150,
                                             width: width - 40,
                                             child: Image.file(
@@ -343,7 +343,7 @@ class CreatePost extends StatelessWidget {
                                                 style: kTextButtonStyle,
                                                 onPressed: () {},
                                                 child: Container(
-                                                  color: cRedColor,
+                                                  color: cWhiteColor,
                                                   height: 150,
                                                   width: _createPostController.allMediaList.length < 3 ? (width - 40) : (width - 42) / 2,
                                                   child: Image.file(
@@ -384,7 +384,7 @@ class CreatePost extends StatelessWidget {
                                                   }
                                                 },
                                                 child: Container(
-                                                  color: cRedColor,
+                                                  color: cWhiteColor,
                                                   height: 150,
                                                   width: (width - 42) / 2,
                                                   child: Image.file(
