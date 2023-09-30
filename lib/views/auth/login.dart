@@ -113,16 +113,7 @@ class Login extends StatelessWidget {
                         label: 'Login',
                         onPressed: _authenticationController.canLogin.value
                             ? () async {
-                                Get.toNamed(krMenu);
-                                final ApiController apiController = ApiController();
-                                await apiController.commonApiCall(
-                                  url: "/login",
-                                  requestMethod: kPost,
-                                  body: {
-                                    "email": "zmemon046@gmail.com",
-                                    "password": "password",
-                                  },
-                                );
+                                await _authenticationController.userLogin();
                               }
                             : null,
                         buttonWidth: width - 40,

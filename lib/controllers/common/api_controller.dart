@@ -2,19 +2,20 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:http/http.dart' as http;
 
 class ApiController {
   final _globalController = Get.find<GlobalController>();
 
-  // CommonDM convertToCommonObject(apiResponse) {
-  //   return CommonDM.fromJson(apiResponse);
-  // }
+  CommonDM convertToCommonObject(apiResponse) {
+    return CommonDM.fromJson(apiResponse);
+  }
 
   void timeOutFunction() {
     String error = ksConnectionTimeoutMessage.tr;
-    _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedTintColor);
+    _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
   }
 
   Future<http.Response> methodBasedResponse({
@@ -78,6 +79,7 @@ class ApiController {
     Map<String, dynamic>? body,
     required String requestMethod,
     int? timer,
+    bool? contentType,
   }) async {
     ll("Url : $url");
     final http.Client client = http.Client();
@@ -88,18 +90,20 @@ class ApiController {
 
     try {
       response = await methodBasedResponse(
-        client: client,
         method: requestMethod,
-        uri: uri,
         token: token,
         body: body,
+        uri: uri,
+        timer: timer,
+        client: client,
+        contentType: contentType,
       );
       ll("response headers : ${response.statusCode}");
       if (response.statusCode == 200) {
         ll("response body : ${response.body}");
-        // CommonDM cm = _convertToCommonObject(jsonDecode(response.body));
-        // return cm;
-        return jsonDecode(response.body);
+        CommonDM cm = convertToCommonObject(jsonDecode(response.body));
+        return cm;
+        // return jsonDecode(response.body);
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
         Get.offAllNamed(krLogin);
@@ -108,11 +112,11 @@ class ApiController {
       }
     } on SocketException {
       error = ksNoInternetConnectionMessage.tr;
-      _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedTintColor);
+      _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
       return null;
     } catch (e) {
       log(e.toString());
-      _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedTintColor);
+      _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
       return null;
     } finally {
       client.close();

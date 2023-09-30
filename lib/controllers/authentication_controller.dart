@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:bip_hip/models/auth/login_model.dart';
+import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class AuthenticationController extends GetxController {
@@ -12,9 +14,9 @@ class AuthenticationController extends GetxController {
   final RxBool isProfileImageChanged = RxBool(false);
   RxList users = RxList(userData);
 
-  // final ApiController _apiController = ApiController();
-  // final SpController _spController = SpController();
-  // final GlobalController _globalController = Get.find<GlobalController>();
+  final ApiController _apiController = ApiController();
+  final SpController _spController = SpController();
+  final GlobalController _globalController = Get.find<GlobalController>();
 
   void onIntroDone() async {
     Get.offAllNamed(krLogin);
@@ -58,6 +60,8 @@ class AuthenticationController extends GetxController {
     loginPasswordTextEditingController.clear();
     isLoginPasswordToggleObscure.value = true;
     isLoginRememberCheck.value = false;
+    loginEmailErrorText.value = '';
+    loginPasswordErrorText.value = '';
     canLogin.value = false;
   }
 
@@ -65,7 +69,7 @@ class AuthenticationController extends GetxController {
 
   void checkCanLogin() {
     if (loginEmailTextEditingController.text.trim().isNotEmpty &&
-        loginPasswordTextEditingController.text.trim() != '' &&
+        loginPasswordTextEditingController.text.trim().isNotEmpty &&
         loginPasswordTextEditingController.text.length >= kMinPasswordLength) {
       canLogin.value = true;
     } else {
@@ -73,46 +77,59 @@ class AuthenticationController extends GetxController {
     }
   }
 
-  // Future<void> userLogin() async {
-  //   try {
-  //     Map<String, dynamic> body = {
-  //       'email': loginEmailTextEditingController.text.toString(),
-  //       "password": loginPasswordTextEditingController.text.toString(),
-  //     };
-  //     ll("body : $body");
-  //     var response = await _apiController.commonPostWithBodyAndToken(
-  //       token: null,
-  //       url: kuLogin,
-  //       body: body,
-  //       showLoading: true,
-  //     ) as CommonDM;
+  Future<void> userLogin() async {
+    try {
+      Map<String, dynamic> body = {
+        'email': loginEmailTextEditingController.text.toString(),
+        "password": loginPasswordTextEditingController.text.toString(),
+      };
+      ll("body : $body");
+      var response = await _apiController.commonApiCall(
+        url: kuLogin,
+        body: body,
+        requestMethod: kPost,
+      ) as CommonDM;
 
-  //     if (response.success == true) {
-  //       _globalController.parentRoute.value = "login";
+      if (response.success == true) {
+        _globalController.parentRoute.value = "login";
 
-  //       CommonAuthDataModel loginData = CommonAuthDataModel.fromJson(response.data);
-  //       // log('Login_user_data : ${loginData.token}');
+        LoginModel loginData = LoginModel.fromJson(response.data);
+        // log('Login_user_data : ${loginData.token}');
 
-  //       if (loginData.user.isVerified == 1) {
-  //         await _spController.saveBearerToken(loginData.token);
-  //         await _spController.saveRememberMe(isLoginRememberCheck.value);
-  //         await setDeviceID(loginData.user.id);
-  //         Get.offAllNamed(krHome);
-  //         final HomeController homeController = Get.find<HomeController>();
-  //         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cSuccessColor, duration: 1000);
-  //         await homeController.getUserHome();
-  //       } else {
-  //         _globalController.loginTokenWithoutVerification.value = loginData.token!;
-  //         resetOTPScreen();
-  //         Get.toNamed(krOTP);
-  //       }
-  //     } else {
-  //       _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedAccentColor);
-  //     }
-  //   } catch (e) {
-  //     ll('userLogin error: $e');
-  //   }
-  // }
+        // if (loginData.user.isVerified == 1) {
+        //   await _spController.saveBearerToken(loginData.token);
+        //   await _spController.saveRememberMe(isLoginRememberCheck.value);
+        //   await setDeviceID(loginData.user.id);
+        //   Get.offAllNamed(krHome);
+        //   final HomeController homeController = Get.find<HomeController>();
+        //   _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cSuccessColor, duration: 1000);
+        //   await homeController.getUserHome();
+        // } else {
+        //   _globalController.loginTokenWithoutVerification.value = loginData.token!;
+        //   resetOTPScreen();
+        //   Get.toNamed(krOTP);
+        // }
+
+        await _spController.saveBearerToken(loginData.token);
+        await _spController.saveRememberMe(isLoginRememberCheck.value);
+        // await setDeviceID(loginData.user.id);
+        Get.offAllNamed(krMenu);
+        // final HomeController homeController = Get.find<HomeController>();
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        // await homeController.getUserHome();
+
+        // else {
+        // _globalController.loginTokenWithoutVerification.value = loginData.token!;
+        //   resetOTPScreen();
+        //   Get.toNamed(krOTP);
+        // }
+      } else {
+        _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+      }
+    } catch (e) {
+      ll('userLogin error: $e');
+    }
+  }
 
   /*
   |--------------------------------------------------------------------------

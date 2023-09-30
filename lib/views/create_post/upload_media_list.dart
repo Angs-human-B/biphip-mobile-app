@@ -57,7 +57,7 @@ class UploadImageListPage extends StatelessWidget {
                               style: kTextButtonStyle,
                               onPressed: () {},
                               child: Container(
-                                color: cRedColor,
+                                color: cWhiteColor,
                                 height: 150,
                                 width: width - 40,
                                 child: Image.file(

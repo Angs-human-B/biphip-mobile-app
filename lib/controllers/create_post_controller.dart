@@ -593,7 +593,8 @@ class CreatePostController extends GetxController {
   }
 
   void insertMedia(mediaLink, mediaFile) {
-    allMediaList.addAll(mediaLink);
+    // allMediaList.addAll(mediaLink);
+    allMediaList.addAll(mediaFile);
     allMediaFileList.addAll(mediaFile);
     ll(allMediaFileList);
     // ll(allMediaList);
