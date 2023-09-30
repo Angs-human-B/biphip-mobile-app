@@ -76,5 +76,17 @@ const String ksSelectDOB = "Select date of birth";
 const String ksSelectGender = 'Select Gender';
 const String ksChooseInterest = 'Choose your interest';
 const String ksChooseProfession = 'Let us know your profession!';
-const String ksChooseProfessionSubtitle = 'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.';
-const String ksCHooseInterestSubtitle = 'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.';
+const String ksAnErrorOccurred = 'An error occurred, unable to complete request now';
+const String ksConnectionTimeoutMessage = 'Connection timed out';
+const String ksNoInternetConnectionMessage = 'You are not connected to internet';
+const String ksLoadMore = 'Load more';
+const String ksTryAgain = 'Try again';
+const String ksReload = 'Reload';
+const String ksSuccess = 'Success';
+const String ksError = 'Error';
+const String ksInfo = 'Info';
+const String ksWarning = 'Warning';
+const String ksChooseProfessionSubtitle =
+    'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.';
+const String ksCHooseInterestSubtitle =
+    'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.';

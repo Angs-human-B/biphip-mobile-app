@@ -170,3 +170,7 @@ List userData = [
   {'name': 'Marie Latham'},
   {'name': 'Monjurul Sharker Omi'}
 ];
+
+const String kPost = "POST";
+const String kGet = "GET";
+const String kDelete = "DELETE";

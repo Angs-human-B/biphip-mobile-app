@@ -4,6 +4,16 @@
 |--------------------------------------------------------------------------
 */
 
+const String kuLogin = '/login';
+const String kuRegistration = '/signup';
+const String kuRegistrationVerifyOTP = '/user/verify-email-otp';
+const String kuRegistrationResendOTP = '/resend-otp';
+const String kuForgetPassword = '/forgot-password';
+const String kuForgetPasswordVerifyOTP = '/verify-forgot-password-otp';
+const String kuForgetPasswordResendOTP = '/resend-forgot-password-otp';
+const String kuResetPassword = '/user/reset-password';
+const String kuLogOut = '/logout';
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls
