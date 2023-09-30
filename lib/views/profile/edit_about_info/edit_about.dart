@@ -49,26 +49,50 @@ class EditAboutInfo extends StatelessWidget {
                         style: semiBold18TextStyle(cBlackColor),
                       ),
                       kH20sizedBox,
-                      Text(
-                        'Hometown',
-                        style: semiBold16TextStyle(cBlackColor),
-                      ),
-                      kH10sizedBox,
-                      CustomModifiedTextField(
-                        controller: _profileController.homeTownTextEditingController,
-                        hint: 'Hometown',
-                        prefixIcon: BipHip.location,
-                        suffixIcon: BipHip.circleCrossNew,
-                        borderRadius: k8BorderRadius,
-                        onSuffixPress: () {
-                          _profileController.homeTownTextEditingController.clear();
+                      RowTextButton(
+                        text: 'Hometown',
+                        buttonText: 'Add Hometown',
+                        showAddButton: _profileController.homeTown.value == '' ? true : false,
+                        buttonWidth: 151,
+                        onPressedAdd: () {
+                          _profileController.setEditPageValue('Add Hometown Address', BipHip.location, _profileController.homeTownTextEditingController,
+                              'Enter hometown address', false, true, false, false, '', 'HOMETOWN');
+                          Get.toNamed(krEdit);
                         },
                       ),
-                      kH24sizedBox,
+                      if (_profileController.homeTown.value != '')
+                        Padding(
+                          padding: const EdgeInsets.only(top: k10Padding),
+                          child: InfoContainer(
+                            prefixIcon: BipHip.location,
+                            suffixIcon: BipHip.edit,
+                            text: _profileController.homeTown.value,
+                            suffixOnPressed: () {
+                              _globalController.blankBottomSheet(
+                                  context: context,
+                                  isScrollControlled: false,
+                                  bottomSheetHeight: 150,
+                                  content: EditModalSheet(
+                                    editButtonText: 'Edit Address',
+                                    editOnPressed: () {
+                                      _profileController.setEditPageValue('Hometown Address', BipHip.location, _profileController.homeTownTextEditingController,
+                                          'Edit hometown address', false, true, false, false, 'checkBoxText', 'EDIT HOMETOWN');
+                                      Get.toNamed(krEdit);
+                                    },
+                                    deleteButtonText: 'Delete Address',
+                                    deleteOnPressed: () {
+                                      _profileController.homeTown.value = '';
+                                      Get.back();
+                                    },
+                                  ));
+                            },
+                          ),
+                        ),
+                      kH16sizedBox,
                       RowTextButton(
                         text: 'Present Address',
                         buttonText: 'Add City',
-                        showAddButton: _profileController.showEditAddress.value,
+                        showAddButton: true,
                         onPressedAdd: () {
                           _profileController.showEditAddress.value = !_profileController.showEditAddress.value;
                         },
@@ -83,10 +107,25 @@ class EditAboutInfo extends StatelessWidget {
                               var item = _profileController.cityList[index];
                               return InfoContainer(
                                 prefixIcon: BipHip.location,
-                                suffixIcon: BipHip.circleCrossNew,
+                                suffixIcon: BipHip.edit,
                                 text: item,
                                 suffixOnPressed: () {
-                                  _profileController.cityList.remove(_profileController.cityList[index]);
+                                  // _profileController.cityList.remove(_profileController.cityList[index]);
+                                  _globalController.blankBottomSheet(
+                                      context: context,
+                                      isScrollControlled: false,
+                                      bottomSheetHeight: 150,
+                                      content: EditModalSheet(
+                                        editButtonText: 'Edit Address',
+                                        editOnPressed: () {
+                                          //  _profileController.setEditPageValue('Address', BipHip.location, textEditingController, textfieldHintText, showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText)
+                                        },
+                                        deleteButtonText: 'Delete Address',
+                                        deleteOnPressed: () {
+                                          _profileController.cityList.remove(_profileController.cityList[index]);
+                                          Get.back();
+                                        },
+                                      ));
                                 },
                               );
                             }),
@@ -121,14 +160,14 @@ class EditAboutInfo extends StatelessWidget {
                                             child: CupertinoDatePicker(
                                               mode: CupertinoDatePickerMode.monthYear,
                                               onDateTimeChanged: (value) {
-                                                _profileController.startDateAddress.value = value.toString();
+                                                _profileController.startDateAddress.value = value.year.toString();
                                               },
                                             ),
                                           );
                                         });
                                   },
                                   text: _profileController.startDateAddress.value,
-                                  hintText: 'Start date',
+                                  hintText: 'Start Date',
                                 ),
                               ),
                               SizedBox(
@@ -144,14 +183,14 @@ class EditAboutInfo extends StatelessWidget {
                                             child: CupertinoDatePicker(
                                               mode: CupertinoDatePickerMode.monthYear,
                                               onDateTimeChanged: (value) {
-                                                _profileController.endDateAddress.value = value.toString();
+                                                _profileController.endDateAddress.value = value.year.toString();
                                               },
                                             ),
                                           );
                                         });
                                   },
                                   text: _profileController.endDateAddress.value,
-                                  hintText: 'End date',
+                                  hintText: 'End Date',
                                 ),
                               ),
                             ],
@@ -284,24 +323,101 @@ class EditAboutInfo extends StatelessWidget {
                           _profileController.showEditRelationshipStatus.value = true;
                           _globalController.commonBottomSheet(
                             context: context,
-                            content: _RelationshipStatusListContent(
+                            content: _EducationBackgroundContent(
                               profileController: _profileController,
                             ),
                             isScrollControlled: true,
-                            bottomSheetHeight: height * 0.6,
+                            bottomSheetHeight: height * 0.3,
                             onPressCloseButton: () {
                               Get.back();
                             },
-                            onPressRightButton: null,
-                            rightText: '',
-                            rightTextStyle: regular10TextStyle(cBlackColor),
-                            title: 'Select Relationship Status',
-                            isRightButtonShow: false,
+                            onPressRightButton: () {
+                              Get.back();
+                            },
+                            rightText: 'Done',
+                            rightTextStyle: medium14TextStyle(cPrimaryColor),
+                            title: 'Select Education Institute',
+                            isRightButtonShow: true,
                           );
                         },
-                        text: _profileController.relationshipStatus.value,
-                        hintText: 'Select ',
+                        text: _profileController.educationBackground.value,
+                        hintText: 'Select Education Institute',
                       ),
+                      kH16sizedBox,
+                      CustomModifiedTextField(
+                        controller: _profileController.educationInstituteTextEditingController,
+                        hint: 'Institute name',
+                        prefixIcon: BipHip.schoolNew,
+                        suffixIcon: BipHip.circleCrossNew,
+                        borderRadius: k8BorderRadius,
+                        onSuffixPress: () {
+                          _profileController.educationInstituteTextEditingController.clear();
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: (width / 2) - 30,
+                              child: CustomSelectionButton(
+                                prefixIcon: BipHip.calendarFill,
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return SizedBox(
+                                          height: height * 0.4,
+                                          child: CupertinoDatePicker(
+                                            mode: CupertinoDatePickerMode.monthYear,
+                                            onDateTimeChanged: (value) {
+                                              _profileController.joiningYearEducation.value = value.year.toString();
+                                            },
+                                          ),
+                                        );
+                                      });
+                                },
+                                text: _profileController.joiningYearEducation.value,
+                                hintText: 'Joining Year',
+                              ),
+                            ),
+                            SizedBox(
+                              width: (width / 2) - 30,
+                              child: CustomSelectionButton(
+                                prefixIcon: BipHip.calendarFill,
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return SizedBox(
+                                          height: height * 0.4,
+                                          child: CupertinoDatePicker(
+                                            mode: CupertinoDatePickerMode.monthYear,
+                                            onDateTimeChanged: (value) {
+                                              _profileController.leavingYearEducation.value = value.year.toString();
+                                            },
+                                          ),
+                                        );
+                                      });
+                                },
+                                text: _profileController.leavingYearEducation.value,
+                                hintText: 'Leaving Year',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 200,
+                        child: CustomCheckBox(
+                            value: _profileController.isCurrentlyStudyingHere.value,
+                            label: "Currently studying here",
+                            onChanged: (v) {
+                              _profileController.isCurrentlyStudyingHere.value = !_profileController.isCurrentlyStudyingHere.value;
+                            },
+                            textStyle: regular14TextStyle(cBlackColor)),
+                      )
                     ],
                   ),
                 ),
@@ -327,25 +443,29 @@ class InfoContainer extends StatelessWidget {
       height: 52,
       decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cGreyBoxColor),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: k12Padding),
+        padding: const EdgeInsets.symmetric(horizontal: k8Padding),
         child: Row(
           children: [
-            Icon(
-              prefixIcon,
-              color: cIconColor,
+            Transform.scale(
+              scale: .85,
+              child: Icon(
+                prefixIcon,
+                color: cIconColor,
+                size: screenWiseSize(kIconSize20, 4),
+              ),
             ),
             kW8sizedBox,
             Text(
               text,
-              style: regular14TextStyle(cBlackColor),
+              style: regular16TextStyle(cIconColor),
             ),
             const Spacer(),
-            InkWell(
-                onTap: suffixOnPressed,
-                child: Icon(
-                  suffixIcon,
-                  color: cIconColor,
-                )),
+            CustomIconButton(
+              onPress: suffixOnPressed,
+              icon: suffixIcon,
+              hasBorder: false,
+              size: screenWiseSize(kIconSize20, 4),
+            )
           ],
         ),
       ),
@@ -428,7 +548,7 @@ class RowTextButton extends StatelessWidget {
           text,
           style: semiBold16TextStyle(cBlackColor),
         ),
-        if (!showAddButton)
+        if (showAddButton)
           OutLinedButton(
             buttonText: buttonText,
             buttonTextStyle: semiBold14TextStyle(cPrimaryColor),
@@ -443,6 +563,78 @@ class RowTextButton extends StatelessWidget {
               ),
             ),
           )
+      ],
+    );
+  }
+}
+
+class _EducationBackgroundContent extends StatelessWidget {
+  const _EducationBackgroundContent({
+    Key? key,
+    required this.profileController,
+  }) : super(key: key);
+
+  final ProfileController profileController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: profileController.educationBackgroundList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Obx(() => RadioListTile(
+                  title: Text(profileController.educationBackgroundList[index]),
+                  value: profileController.educationBackgroundList[index],
+                  activeColor: cPrimaryColor,
+                  contentPadding: EdgeInsets.zero,
+                  groupValue: profileController.educationBackground.value,
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  onChanged: (value) {
+                    profileController.educationBackground.value = value;
+                  },
+                ));
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class EditModalSheet extends StatelessWidget {
+  const EditModalSheet({super.key, this.editOnPressed, this.deleteOnPressed, required this.editButtonText, required this.deleteButtonText});
+  final VoidCallback? editOnPressed, deleteOnPressed;
+  final String editButtonText, deleteButtonText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        CustomElevatedButton(
+          onPressed: editOnPressed,
+          label: editButtonText,
+          buttonColor: cWhiteColor,
+          borderColor: cBlackColor,
+          buttonWidth: width - 40,
+          textStyle: semiBold14TextStyle(cBlackColor),
+          prefixIcon: BipHip.edit,
+          prefixIconColor: cBlackColor,
+        ),
+        kH12sizedBox,
+        CustomElevatedButton(
+          onPressed: deleteOnPressed,
+          label: deleteButtonText,
+          buttonColor: cWhiteColor,
+          borderColor: cBlackColor,
+          buttonWidth: width - 40,
+          textStyle: semiBold14TextStyle(cBlackColor),
+          prefixIcon: BipHip.delete,
+          prefixIconColor: cBlackColor,
+        ),
       ],
     );
   }

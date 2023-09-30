@@ -174,15 +174,68 @@ class ProfileController extends GetxController {
   //-----------------
   // !Edit About info
   //-----------------
+  TextEditingController commonEditTextEditingController = TextEditingController();
+  RxString commonEditTextfieldHintText = RxString('');
+  RxBool isCommonEditDatePickerShown = RxBool(false);
+  RxBool isCommonEditPrivacyShown = RxBool(false);
+  RxBool isCommonEditCheckBoxShown = RxBool(false);
+  RxBool isCommonEditCheckBoxSelected = RxBool(false);
+  RxString commonEditCheckBoxText = RxString('');
+  RxString commonEditPageTitle = RxString('');
+  Rx<IconData> commonEditIconData = Rx<IconData>(BipHip.add);
+  RxString functionFlag = RxString('');
   final TextEditingController homeTownTextEditingController = TextEditingController();
+  final RxString homeTown = RxString('');
   final TextEditingController presentAddressTextEditingController = TextEditingController();
+  final TextEditingController educationInstituteTextEditingController = TextEditingController();
   final RxString startDateAddress = RxString('');
   final RxString endDateAddress = RxString('');
+  final RxString joiningYearEducation = RxString('');
+  final RxString leavingYearEducation = RxString('');
+  final RxString joiningYearJob = RxString('');
+  final RxString leavingYearJob = RxString('');
   final RxBool isCurrentlyLiveHere = RxBool(false);
+  final RxBool isCurrentlyStudyingHere = RxBool(false);
   final RxList cityList = RxList([]);
   final RxBool showEditAddress = RxBool(false);
   final RxBool showEditRelationshipStatus = RxBool(false);
   final RxBool showAddSchool = RxBool(false);
-  final RxList relationshipStatusList = RxList(['Single', 'In a relationship', 'Engaged', 'Married', 'In a civil partnership', 'In a domestic partnership','In an open relationship','It\'s complicated','Separated', 'Divorced', 'Widowed']);
+  final RxList relationshipStatusList = RxList([
+    'Single',
+    'In a relationship',
+    'Engaged',
+    'Married',
+    'In a civil partnership',
+    'In a domestic partnership',
+    'In an open relationship',
+    'It\'s complicated',
+    'Separated',
+    'Divorced',
+    'Widowed'
+  ]);
+  final RxList educationBackgroundList = RxList(['School', 'College', 'University']);
   final RxString relationshipStatus = RxString('');
+  final RxString educationBackground = RxString('');
+
+  void setEditPageValue(
+      pageTitle, iconData, textEditingController, textfieldHintText, showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function) {
+    commonEditPageTitle.value = pageTitle;
+    commonEditIconData.value = iconData;
+    commonEditTextEditingController = textEditingController;
+    commonEditTextfieldHintText.value = textfieldHintText;
+    isCommonEditDatePickerShown.value = showDatePickerRow;
+    isCommonEditPrivacyShown.value = showEditPrivacy;
+    isCommonEditCheckBoxShown.value = showCheckBox;
+    isCommonEditCheckBoxSelected.value = checkBoxSelect;
+    commonEditCheckBoxText.value = checkBoxText;
+    functionFlag.value = function;
+  }
+
+  void selectFunction(functionFlag) {
+    if (functionFlag == 'HOMETOWN') {
+      homeTown.value = homeTownTextEditingController.text.trim();
+    } else if (functionFlag == 'EDIT HOMETOWN') {
+      homeTown.value = homeTownTextEditingController.text.trim();
+    }
+  }
 }
