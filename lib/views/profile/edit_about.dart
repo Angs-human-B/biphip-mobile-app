@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/profile/edit_profile.dart';
 import 'package:bip_hip/widgets/common/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/custom_selection_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,7 @@ class EditAboutInfo extends StatelessWidget {
   EditAboutInfo({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -63,31 +65,14 @@ class EditAboutInfo extends StatelessWidget {
                         },
                       ),
                       kH24sizedBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Present Address',
-                            style: semiBold16TextStyle(cBlackColor),
-                          ),
-                          if (!_profileController.showEditAddress.value)
-                            OutLinedButton(
-                              buttonText: 'Add City',
-                              buttonTextStyle: semiBold14TextStyle(cPrimaryColor),
-                              borderColor: cWhiteColor,
-                              onPress: () {
-                                _profileController.showEditAddress.value = !_profileController.showEditAddress.value;
-                              },
-                              buttonWidth: 108,
-                              suffixWidget: const Padding(
-                                padding: EdgeInsets.only(right: k8Padding),
-                                child: Icon(
-                                  BipHip.addNew,
-                                  color: cPrimaryColor,
-                                ),
-                              ),
-                            )
-                        ],
+                      RowTextButton(
+                        text: 'Present Address',
+                        buttonText: 'Add City',
+                        showAddButton: _profileController.showEditAddress.value,
+                        onPressedAdd: () {
+                          _profileController.showEditAddress.value = !_profileController.showEditAddress.value;
+                        },
+                        buttonWidth: 108,
                       ),
                       if (_profileController.cityList.isNotEmpty) kH12sizedBox,
                       if (_profileController.cityList.isNotEmpty)
@@ -217,7 +202,106 @@ class EditAboutInfo extends StatelessWidget {
                               _profileController.presentAddressTextEditingController.clear();
                             },
                           ),
-                        )
+                        ),
+                      kH20sizedBox,
+                      const CustomDivider(),
+                      kH20sizedBox,
+                      Text(
+                        'Relationship Status',
+                        style: semiBold18TextStyle(cBlackColor),
+                      ),
+                      kH20sizedBox,
+                      CustomSelectionButton(
+                        prefixIcon: BipHip.love,
+                        onPressed: () {
+                          _profileController.showEditRelationshipStatus.value = true;
+                          _globalController.commonBottomSheet(
+                            context: context,
+                            content: _RelationshipStatusListContent(
+                              profileController: _profileController,
+                            ),
+                            isScrollControlled: true,
+                            bottomSheetHeight: height * 0.6,
+                            onPressCloseButton: () {
+                              Get.back();
+                            },
+                            onPressRightButton: null,
+                            rightText: '',
+                            rightTextStyle: regular10TextStyle(cBlackColor),
+                            title: 'Select Relationship Status',
+                            isRightButtonShow: false,
+                          );
+                        },
+                        text: _profileController.relationshipStatus.value,
+                        hintText: 'Select Relationship Status',
+                      ),
+                      if (_profileController.showEditRelationshipStatus.value) kH20sizedBox,
+                      if (_profileController.showEditRelationshipStatus.value)
+                        OutLinedButton(
+                          buttonWidth: 80,
+                          buttonHeight: 25,
+                          onPress: () {},
+                          buttonText: 'Public',
+                          buttonTextStyle: semiBold12TextStyle(cBlackColor),
+                          borderColor: cLineColor,
+                          suffixWidget: const Padding(
+                            padding: EdgeInsets.only(right: k8Padding),
+                            child: Icon(
+                              BipHip.world,
+                              color: cIconColor,
+                              size: kIconSize16,
+                            ),
+                          ),
+                        ),
+                      if (_profileController.showEditRelationshipStatus.value) kH20sizedBox,
+                      if (_profileController.showEditRelationshipStatus.value)
+                        CancelSaveButton(
+                          onPressedCancel: () {
+                            _profileController.showEditRelationshipStatus.value = false;
+                          },
+                          onPressedSave: () {
+                            _profileController.showEditRelationshipStatus.value = false;
+                          },
+                        ),
+                      kH20sizedBox,
+                      const CustomDivider(),
+                      kH20sizedBox,
+                      RowTextButton(
+                        text: 'Education Background',
+                        buttonText: 'Add School',
+                        showAddButton: _profileController.showAddSchool.value,
+                        onPressedAdd: () {
+                          _profileController.showAddSchool.value = !_profileController.showAddSchool.value;
+                        },
+                        buttonWidth: 126,
+                      ),
+                      CustomSelectionButton(
+                        buttonColor: cWhiteColor,
+                        buttonHeight: 32,
+                        borderColor: cLineColor,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding),
+                        onPressed: () {
+                          _profileController.showEditRelationshipStatus.value = true;
+                          _globalController.commonBottomSheet(
+                            context: context,
+                            content: _RelationshipStatusListContent(
+                              profileController: _profileController,
+                            ),
+                            isScrollControlled: true,
+                            bottomSheetHeight: height * 0.6,
+                            onPressCloseButton: () {
+                              Get.back();
+                            },
+                            onPressRightButton: null,
+                            rightText: '',
+                            rightTextStyle: regular10TextStyle(cBlackColor),
+                            title: 'Select Relationship Status',
+                            isRightButtonShow: false,
+                          );
+                        },
+                        text: _profileController.relationshipStatus.value,
+                        hintText: 'Select ',
+                      ),
                     ],
                   ),
                 ),
@@ -288,6 +372,77 @@ class CancelSaveButton extends StatelessWidget {
             onPressed: onPressedCancel),
         kW16sizedBox,
         CustomElevatedButton(label: 'Save', textStyle: semiBold14TextStyle(cWhiteColor), buttonHeight: h32, buttonWidth: 80, onPressed: onPressedSave),
+      ],
+    );
+  }
+}
+
+class _RelationshipStatusListContent extends StatelessWidget {
+  const _RelationshipStatusListContent({
+    Key? key,
+    required this.profileController,
+  }) : super(key: key);
+
+  final ProfileController profileController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: profileController.relationshipStatusList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Obx(() => RadioListTile(
+                  title: Text(profileController.relationshipStatusList[index]),
+                  value: profileController.relationshipStatusList[index],
+                  activeColor: cPrimaryColor,
+                  contentPadding: EdgeInsets.zero,
+                  groupValue: profileController.relationshipStatus.value,
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  onChanged: (value) {
+                    profileController.relationshipStatus.value = value;
+                  },
+                ));
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class RowTextButton extends StatelessWidget {
+  const RowTextButton({super.key, required this.text, required this.buttonText, required this.showAddButton, this.onPressedAdd, required this.buttonWidth});
+  final String text, buttonText;
+  final bool showAddButton;
+  final VoidCallback? onPressedAdd;
+  final double buttonWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          text,
+          style: semiBold16TextStyle(cBlackColor),
+        ),
+        if (!showAddButton)
+          OutLinedButton(
+            buttonText: buttonText,
+            buttonTextStyle: semiBold14TextStyle(cPrimaryColor),
+            borderColor: cWhiteColor,
+            onPress: onPressedAdd,
+            buttonWidth: buttonWidth,
+            suffixWidget: const Padding(
+              padding: EdgeInsets.only(right: k8Padding),
+              child: Icon(
+                BipHip.addNew,
+                color: cPrimaryColor,
+              ),
+            ),
+          )
       ],
     );
   }

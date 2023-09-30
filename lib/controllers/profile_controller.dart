@@ -181,4 +181,8 @@ class ProfileController extends GetxController {
   final RxBool isCurrentlyLiveHere = RxBool(false);
   final RxList cityList = RxList([]);
   final RxBool showEditAddress = RxBool(false);
+  final RxBool showEditRelationshipStatus = RxBool(false);
+  final RxBool showAddSchool = RxBool(false);
+  final RxList relationshipStatusList = RxList(['Single', 'In a relationship', 'Engaged', 'Married', 'In a civil partnership', 'In a domestic partnership','In an open relationship','It\'s complicated','Separated', 'Divorced', 'Widowed']);
+  final RxString relationshipStatus = RxString('');
 }
