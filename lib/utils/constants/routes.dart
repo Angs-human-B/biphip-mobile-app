@@ -15,7 +15,8 @@ import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/create_post/create_post.dart';
 import 'package:bip_hip/views/create_post/upload_media_list.dart';
-import 'package:bip_hip/views/profile/edit_about.dart';
+import 'package:bip_hip/views/profile/edit_about_info/edit_about.dart';
+import 'package:bip_hip/views/profile/edit_about_info/edit_page.dart';
 import 'package:bip_hip/views/profile/edit_bio.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
 import 'package:bip_hip/views/create_post/select_category.dart';
@@ -66,6 +67,7 @@ const String krVideos = '/videos';
 const String krVideoDetails = '/video-details';
 const String krPhotoPreview = '/photo-preview';
 const String krEditAboutInfo = '/edit-about-info';
+const String krEdit = '/edit';
 
 const String krCreatePost = '/create-post';
 const String krSelectCategory = '/create-post/select-category';
@@ -104,6 +106,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krVideoDetails, page: () => VideoDetails(), transition: Transition.noTransition),
   GetPage(name: krPhotoPreview, page: () => PhotoPreview(), transition: Transition.noTransition),
   GetPage(name: krEditAboutInfo, page: () => EditAboutInfo(), transition: Transition.noTransition),
+  GetPage(name: krEdit, page: () => EditPage(), transition: Transition.noTransition),
 
   //* info:: other screens
   GetPage(name: krSplashScreen, page: () => const SplashScreen(), transition: Transition.noTransition),
