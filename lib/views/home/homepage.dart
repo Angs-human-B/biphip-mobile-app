@@ -1,4 +1,8 @@
+import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
+import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
+import 'package:bip_hip/views/profile/profile_widgets/stories_widget.dart';
 import 'package:bip_hip/widgets/common/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/search.dart';
 
@@ -13,7 +17,7 @@ class HomePage extends StatelessWidget {
         top: false,
         child: Scaffold(
           resizeToAvoidBottomInset: true,
-          backgroundColor: cWhiteColor,
+          backgroundColor: cGreyBoxColor,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
@@ -78,6 +82,82 @@ class HomePage extends StatelessWidget {
           body: SizedBox(
             height: height,
             width: width,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  kH16sizedBox,
+                  Container(
+                    width: width,
+                    color: cWhiteColor,
+                    child: CustomPostButton(
+                      name: 'Monjurul',
+                      profilePic: 'assets/images/profilePic.png',
+                      onPressed: () {
+                        ll('post');
+                        Get.find<CreatePostController>().resetData();
+                        Get.toNamed(krCreatePost);
+                      },
+                      prefixWidget: const Icon(
+                        BipHip.imageFile,
+                        color: cIconColor,
+                      ),
+                    ),
+                  ),
+                  kH16sizedBox,
+                  Container(
+                    color: cWhiteColor,
+                    width: width,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: kHorizontalPadding,
+                      ),
+                      child: DefaultTabController(
+                        length: 3,
+                        child: TabBar(
+                          tabs: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                              child: Text(
+                                'Selfie',
+                                style: semiBold12TextStyle(cPrimaryColor),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                              child: Text(
+                                'Daily Quiz',
+                                style: semiBold12TextStyle(cPrimaryColor),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                              child: Text(
+                                'Weekly Winner',
+                                style: semiBold12TextStyle(cPrimaryColor),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: cWhiteColor,
+                    width: width,
+                    child: const StoriesWidget(),
+                  ),
+                  kH16sizedBox,
+                  Container(
+                    color: cWhiteColor,
+                    width: width,
+                    child: CommonPostWidget(
+                      isCommented: false,
+                      isLiked: true,
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
         ),
       ),

@@ -10,6 +10,7 @@ import 'package:bip_hip/views/profile/post_widgets/comment_textfield.dart';
 import 'package:bip_hip/views/profile/post_widgets/comment_widget.dart';
 import 'package:bip_hip/views/profile/post_widgets/like_section_widget.dart';
 import 'package:bip_hip/views/profile/post_widgets/post_activity_status_widget.dart';
+import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/stories_widget.dart';
 import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
 import 'package:flutter_svg/svg.dart';
@@ -341,7 +342,6 @@ class Profile extends StatelessWidget {
                       color: cGreyBoxColor,
                     ),
                     // kH12sizedBox,
-                    const StoriesWidget(),
                     kH12sizedBox,
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -615,52 +615,7 @@ class CustomGridViewContainer extends StatelessWidget {
   }
 }
 
-class CustomPostButton extends StatelessWidget {
-  const CustomPostButton({super.key, this.onPressed, required this.name, required this.profilePic, this.prefixWidget});
 
-  final VoidCallback? onPressed;
-  final String name, profilePic;
-  final Widget? prefixWidget;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      style: kTextButtonStyle,
-      onPressed: onPressed,
-      child: SizedBox(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: k12Padding),
-          child: Row(
-            children: [
-              kW20sizedBox,
-              ClipOval(
-                child: Container(
-                  height: h40,
-                  width: h40,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.asset(
-                    profilePic,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              kW12sizedBox,
-              Text(
-                'What\'s on your mind, $name?',
-                style: regular14TextStyle(cIconColor),
-              ),
-              const Spacer(),
-              prefixWidget ?? const SizedBox(),
-              kW12sizedBox
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class PictureUploadContent extends StatelessWidget {
   PictureUploadContent({super.key, required this.isImageChanged, required this.imageFile, required this.imagePath});
