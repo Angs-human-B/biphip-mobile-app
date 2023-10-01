@@ -48,7 +48,7 @@ class EditPage extends StatelessWidget {
                           borderColor: cLineColor,
                           contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding),
                           onPressed: () {
-                            _profileController.showEditRelationshipStatus.value = true;
+                            // _profileController.showEditRelationshipStatus.value = true;
                             _globalController.commonBottomSheet(
                               context: context,
                               content: _EducationBackgroundContent(
@@ -82,6 +82,20 @@ class EditPage extends StatelessWidget {
                         _profileController.commonEditTextEditingController.clear();
                       },
                     ),
+                    if (_profileController.isSecondaryTextfieldShown.value)
+                      Padding(
+                        padding: const EdgeInsets.only(top: k16Padding),
+                        child: CustomModifiedTextField(
+                          controller: _profileController.commonEditSecondaryTextEditingController,
+                          hint: 'Designation',
+                          prefixIcon: BipHip.work,
+                          suffixIcon: BipHip.circleCrossNew,
+                          borderRadius: k8BorderRadius,
+                          onSuffixPress: () {
+                            _profileController.commonEditSecondaryTextEditingController.clear();
+                          },
+                        ),
+                      ),
                     if (_profileController.isCommonEditDatePickerShown.value)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: k16Padding),
@@ -161,7 +175,7 @@ class EditPage extends StatelessWidget {
                             ),
                           if (_profileController.isCommonEditCheckBoxShown.value)
                             SizedBox(
-                              width: _profileController.commonEditCheckBoxText.value == 'Currently studying here' ? 175 : 155,
+                              width: _profileController.commonEditCheckBoxText.value == 'Currently living here' ? 155 : 175,
                               child: CustomCheckBox(
                                   value: _profileController.isCommonEditCheckBoxSelected.value,
                                   label: _profileController.commonEditCheckBoxText.value,
