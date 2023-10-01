@@ -180,6 +180,7 @@ class ProfileController extends GetxController {
   RxBool isCommonEditPrivacyShown = RxBool(false);
   RxBool isCommonEditCheckBoxShown = RxBool(false);
   RxBool isCommonEditCheckBoxSelected = RxBool(false);
+  RxBool isDropdownShown = RxBool(false);
   RxString commonEditCheckBoxText = RxString('');
   RxString commonEditPageTitle = RxString('');
   Rx<IconData> commonEditIconData = Rx<IconData>(BipHip.add);
@@ -200,7 +201,7 @@ class ProfileController extends GetxController {
   final RxBool showEditAddress = RxBool(false);
   final RxBool showEditRelationshipStatus = RxBool(false);
   final RxBool showAddSchool = RxBool(false);
-  final RxList<TextEditingController> addressTextEditingControllerList = RxList([]);
+  final RxInt cityListIndex = RxInt(-1);
   final RxList relationshipStatusList = RxList([
     'Single',
     'In a relationship',
@@ -219,8 +220,9 @@ class ProfileController extends GetxController {
   final RxString educationBackground = RxString('');
 
   void setEditPageValue(
-      pageTitle, iconData, textEditingController, textfieldHintText, showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function) {
+      pageTitle,showDropDown, iconData, textEditingController, textfieldHintText, showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function) {
     commonEditPageTitle.value = pageTitle;
+    isDropdownShown.value = showDropDown;
     commonEditIconData.value = iconData;
     commonEditTextEditingController = textEditingController;
     commonEditTextfieldHintText.value = textfieldHintText;
@@ -235,12 +237,18 @@ class ProfileController extends GetxController {
   void selectFunction(functionFlag) {
     if (functionFlag == 'HOMETOWN') {
       homeTown.value = homeTownTextEditingController.text.trim();
+      homeTownTextEditingController.clear();
     } else if (functionFlag == 'EDIT HOMETOWN') {
       homeTown.value = homeTownTextEditingController.text.trim();
+      homeTownTextEditingController.clear();
     } else if (functionFlag == 'ADD PRESENT') {
-      cityList.add(presentAddressTextEditingController.text.trim());
-    } else if(functionFlag == 'EDIT PRESENT'){
-
+      cityList.add(commonEditTextEditingController.text);
+      commonEditTextEditingController.clear();
+      presentAddressTextEditingController.clear();
+    } else if (functionFlag == 'EDIT PRESENT') {
+      cityList[cityListIndex.value]= commonEditTextEditingController.text;
+      presentAddressTextEditingController.clear();
+      commonEditTextEditingController.clear();
     }
   }
 }
