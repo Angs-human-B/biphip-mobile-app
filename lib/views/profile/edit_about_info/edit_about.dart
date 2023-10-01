@@ -445,110 +445,135 @@ class EditAboutInfo extends StatelessWidget {
                               ),
                             );
                           }),
-                      // CustomSelectionButton(
-                      //   buttonColor: cWhiteColor,
-                      //   buttonHeight: 32,
-                      //   borderColor: cLineColor,
-                      //   contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding),
-                      //   onPressed: () {
-                      //     _profileController.showEditRelationshipStatus.value = true;
-                      //     _globalController.commonBottomSheet(
-                      //       context: context,
-                      //       content: _EducationBackgroundContent(
-                      //         profileController: _profileController,
-                      //       ),
-                      //       isScrollControlled: true,
-                      //       bottomSheetHeight: height * 0.3,
-                      //       onPressCloseButton: () {
-                      //         Get.back();
-                      //       },
-                      //       onPressRightButton: () {
-                      //         Get.back();
-                      //       },
-                      //       rightText: 'Done',
-                      //       rightTextStyle: medium14TextStyle(cPrimaryColor),
-                      //       title: 'Select Education Institute',
-                      //       isRightButtonShow: true,
-                      //     );
+                      const CustomDivider(),
+                      kH16sizedBox,
+                      Text(
+                        'Contact Details',
+                        style: semiBold18TextStyle(cBlackColor),
+                      ),
+                      kH8sizedBox,
+                      RowTextButton(
+                        text: 'Phone',
+                        buttonText: 'Add Phone Number',
+                        showAddButton: true,
+                        onPressedAdd: () {
+                          _profileController.setEditPageValue('Add Phone Number', false, BipHip.phoneFill, _profileController.phoneTextEditingController, false,
+                              _profileController.phoneTextEditingController, 'Phone', false, true, false, false, '', 'ADD PHONE');
+                          Get.toNamed(krEdit);
+                        },
+                        buttonWidth: 177,
+                      ),
+                      kH16sizedBox,
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _profileController.phoneList.length,
+                          itemBuilder: (context, index) {
+                            var item = _profileController.phoneList[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: k10Padding),
+                              child: InfoContainer(
+                                prefixIcon: BipHip.phoneFill,
+                                suffixIcon: BipHip.edit,
+                                text: item,
+                                suffixOnPressed: () {
+                                  // _profileController.cityList.remove(_profileController.cityList[index]);
+                                  _globalController.blankBottomSheet(
+                                      context: context,
+                                      isScrollControlled: false,
+                                      bottomSheetHeight: 150,
+                                      content: EditModalSheet(
+                                        editButtonText: 'Edit Phone',
+                                        editOnPressed: () {
+                                          _profileController.phoneIndex.value = index;
+                                          _profileController.phoneTextEditingController.text = item;
+                                          _profileController.setEditPageValue(
+                                              'Edit Phone',
+                                              false,
+                                              BipHip.phoneFill,
+                                              _profileController.phoneTextEditingController,
+                                              false,
+                                              _profileController.phoneTextEditingController,
+                                              'Edit Phone',
+                                              false,
+                                              true,
+                                              false,
+                                              false,
+                                              '',
+                                              'EDIT PHONE');
+                                          Get.toNamed(krEdit);
+                                        },
+                                        deleteButtonText: 'Delete phone',
+                                        deleteOnPressed: () {
+                                          _profileController.phoneList.remove(item);
+                                          Get.back();
+                                        },
+                                      ));
+                                },
+                              ),
+                            );
+                          }),
+                      if (_profileController.phoneList.isNotEmpty) kH8sizedBox,
+                      RowTextButton(
+                        text: 'Email',
+                        buttonText: 'Add Email',
+                        showAddButton: true,
+                        onPressedAdd: () {
+                          _profileController.setEditPageValue('Add Email', false, BipHip.mail, _profileController.emailTextEditingController, false,
+                              _profileController.emailTextEditingController, 'Email', false, true, false, false, '', 'ADD EMAIL');
+                          Get.toNamed(krEdit);
+                        },
+                        buttonWidth: 118,
+                      ),
+                      kH16sizedBox,
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _profileController.emailList.length,
+                          itemBuilder: (context, index) {
+                            var item = _profileController.emailList[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: k10Padding),
+                              child: InfoContainer(
+                                prefixIcon: BipHip.mail,
+                                suffixIcon: BipHip.edit,
+                                text: item,
+                                suffixOnPressed: () {
+                                  // _profileController.cityList.remove(_profileController.cityList[index]);
+                                  _globalController.blankBottomSheet(
+                                      context: context,
+                                      isScrollControlled: false,
+                                      bottomSheetHeight: 150,
+                                      content: EditModalSheet(
+                                        editButtonText: 'Edit Email',
+                                        editOnPressed: () {
+                                          _profileController.emailIndex.value = index;
+                                          _profileController.emailTextEditingController.text = item;
+                                          _profileController.setEditPageValue('Edit Email', false, BipHip.mail, _profileController.emailTextEditingController,
+                                              false, _profileController.emailTextEditingController, 'Edit Email', false, true, false, false, '', 'EDIT EMAIL');
+                                          Get.toNamed(krEdit);
+                                        },
+                                        deleteButtonText: 'Delete email',
+                                        deleteOnPressed: () {
+                                          _profileController.emailList.remove(item);
+                                          Get.back();
+                                        },
+                                      ));
+                                },
+                              ),
+                            );
+                          }),
+                      // const CustomDivider(),
+                      // kH8sizedBox,
+                      // RowTextButton(
+                      //   text: 'Websites and social links',
+                      //   buttonText: 'Add Link',
+                      //   showAddButton: true,
+                      //   onPressedAdd: () {
+                      //     _profileController.setEditPageValue('Add Link', false, BipHip.webLink, _profileController.linkTextEditingController, false,
+                      //         _profileController.emailTextEditingController, 'Email', false, true, false, false, '', 'ADD EMAIL');
+                      //     Get.toNamed(krEdit);
                       //   },
-                      //   text: _profileController.educationBackground.value,
-                      //   hintText: 'Select Education Institute',
+                      //   buttonWidth: 109,
                       // ),
-                      // kH16sizedBox,
-                      // CustomModifiedTextField(
-                      //   controller: _profileController.educationInstituteTextEditingController,
-                      //   hint: 'Institute name',
-                      //   prefixIcon: BipHip.schoolNew,
-                      //   suffixIcon: BipHip.circleCrossNew,
-                      //   borderRadius: k8BorderRadius,
-                      //   onSuffixPress: () {
-                      //     _profileController.educationInstituteTextEditingController.clear();
-                      //   },
-                      // ),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(vertical: k16Padding),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: [
-                      //       SizedBox(
-                      //         width: (width / 2) - 30,
-                      //         child: CustomSelectionButton(
-                      //           prefixIcon: BipHip.calendarFill,
-                      //           onPressed: () {
-                      //             showModalBottomSheet(
-                      //                 context: context,
-                      //                 builder: (context) {
-                      //                   return SizedBox(
-                      //                     height: height * 0.4,
-                      //                     child: CupertinoDatePicker(
-                      //                       mode: CupertinoDatePickerMode.monthYear,
-                      //                       onDateTimeChanged: (value) {
-                      //                         _profileController.joiningYearEducation.value = value.year.toString();
-                      //                       },
-                      //                     ),
-                      //                   );
-                      //                 });
-                      //           },
-                      //           text: _profileController.joiningYearEducation.value,
-                      //           hintText: 'Joining Year',
-                      //         ),
-                      //       ),
-                      //       SizedBox(
-                      //         width: (width / 2) - 30,
-                      //         child: CustomSelectionButton(
-                      //           prefixIcon: BipHip.calendarFill,
-                      //           onPressed: () {
-                      //             showModalBottomSheet(
-                      //                 context: context,
-                      //                 builder: (context) {
-                      //                   return SizedBox(
-                      //                     height: height * 0.4,
-                      //                     child: CupertinoDatePicker(
-                      //                       mode: CupertinoDatePickerMode.monthYear,
-                      //                       onDateTimeChanged: (value) {
-                      //                         _profileController.leavingYearEducation.value = value.year.toString();
-                      //                       },
-                      //                     ),
-                      //                   );
-                      //                 });
-                      //           },
-                      //           text: _profileController.leavingYearEducation.value,
-                      //           hintText: 'Leaving Year',
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   width: 200,
-                      //   child: CustomCheckBox(
-                      //       value: _profileController.isCurrentlyStudyingHere.value,
-                      //       label: "Currently studying here",
-                      //       onChanged: (v) {
-                      //         _profileController.isCurrentlyStudyingHere.value = !_profileController.isCurrentlyStudyingHere.value;
-                      //       },
-                      //       textStyle: regular14TextStyle(cBlackColor)),
-                      // )
                     ],
                   ),
                 ),

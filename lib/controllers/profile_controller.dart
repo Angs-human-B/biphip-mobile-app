@@ -193,6 +193,9 @@ class ProfileController extends GetxController {
   final TextEditingController educationInstituteTextEditingController = TextEditingController();
   final TextEditingController officeNameTextEditingController = TextEditingController();
   final TextEditingController designationTextEditingController = TextEditingController();
+  final TextEditingController phoneTextEditingController = TextEditingController();
+  final TextEditingController emailTextEditingController = TextEditingController();
+  final TextEditingController linkTextEditingController = TextEditingController();
   final RxString startDateAddress = RxString('');
   final RxString endDateAddress = RxString('');
   final RxString joiningYearEducation = RxString('');
@@ -228,6 +231,10 @@ class ProfileController extends GetxController {
   final RxInt collegeIndex = RxInt(-1);
   final RxList<Map> officeList = RxList<Map>([]);
   final RxInt officeIndex = RxInt(-1);
+  final RxList phoneList = RxList([]);
+  final RxInt phoneIndex = RxInt(-1);
+  final RxList emailList = RxList([]);
+  final RxInt emailIndex = RxInt(-1);
   final RxString educationBackground = RxString('');
 
   void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
@@ -288,6 +295,18 @@ class ProfileController extends GetxController {
       officeNameTextEditingController.clear();
       commonEditTextEditingController.clear();
       commonEditSecondaryTextEditingController.clear();
+    }else if (functionFlag == 'ADD PHONE') {
+      phoneList.add(commonEditTextEditingController.text);
+      commonEditTextEditingController.clear();
+    }else if (functionFlag == 'EDIT PHONE') {
+      phoneList[phoneIndex.value] = commonEditTextEditingController.text;
+      commonEditTextEditingController.clear();
+    }else if (functionFlag == 'ADD EMAIL') {
+      emailList.add(commonEditTextEditingController.text);
+      commonEditTextEditingController.clear();
+    }else if (functionFlag == 'EDIT EMAIL') {
+      emailList[emailIndex.value] = commonEditTextEditingController.text;
+      commonEditTextEditingController.clear();
     }
   }
 }
