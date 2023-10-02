@@ -9,6 +9,7 @@ class CreatePost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ll(width);
     return Container(
       color: cWhiteColor,
       child: SafeArea(
@@ -57,7 +58,7 @@ class CreatePost extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              kW8sizedBox,
+                              // kW8sizedBox,
                               Stack(
                                 children: [
                                   SizedBox(
@@ -172,95 +173,97 @@ class CreatePost extends StatelessWidget {
                                           ),
                                           if (_createPostController.category.value == "Selling") kW8sizedBox,
                                           if (_createPostController.category.value == "Selling")
-                                            CustomElevatedButton(
-                                              label: "Post Type",
-                                              onPressed: () {
-                                                Get.find<GlobalController>().commonBottomSheet(
-                                                  context: context,
-                                                  content: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: [
-                                                      kH8sizedBox,
-                                                      CustomCheckBox(
-                                                        value: true,
-                                                        onChanged: (v) {},
-                                                        label: "Bidding Post",
-                                                        textStyle: medium14TextStyle(cBlackColor),
-                                                      ),
-                                                      kH8sizedBox,
-                                                      Row(
-                                                        children: [
-                                                          Expanded(
-                                                            child: Text(
-                                                              "Selecting bidding post will let the user write their preferred bidding price.",
-                                                              style: regular12TextStyle(cSmallBodyTextColor),
+                                            Expanded(
+                                              child: CustomElevatedButton(
+                                                label: "Post Type",
+                                                onPressed: () {
+                                                  Get.find<GlobalController>().commonBottomSheet(
+                                                    context: context,
+                                                    content: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        kH8sizedBox,
+                                                        CustomCheckBox(
+                                                          value: true,
+                                                          onChanged: (v) {},
+                                                          label: "Bidding Post",
+                                                          textStyle: medium14TextStyle(cBlackColor),
+                                                        ),
+                                                        kH8sizedBox,
+                                                        Row(
+                                                          children: [
+                                                            Expanded(
+                                                              child: Text(
+                                                                "Selecting bidding post will let the user write their preferred bidding price.",
+                                                                style: regular12TextStyle(cSmallBodyTextColor),
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      kH16sizedBox,
-                                                      Text(
-                                                        "Or",
-                                                        style: regular16TextStyle(cPlaceHolderColor),
-                                                      ),
-                                                      kH16sizedBox,
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            "Platform & Action",
-                                                            style: medium14TextStyle(cBlackColor),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      kH8sizedBox,
-                                                      Row(
-                                                        children: [
-                                                          OutLinedButton(
-                                                            buttonText: "Select platform",
-                                                            buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
-                                                            borderColor: cLineColor,
-                                                            buttonWidth: width * .55 - 20,
-                                                            buttonHeight: 44,
-                                                            widget: const Icon(
-                                                              BipHip.downArrow,
-                                                              color: cPlaceHolderColor,
+                                                          ],
+                                                        ),
+                                                        kH16sizedBox,
+                                                        Text(
+                                                          "Or",
+                                                          style: regular16TextStyle(cPlaceHolderColor),
+                                                        ),
+                                                        kH16sizedBox,
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              "Platform & Action",
+                                                              style: medium14TextStyle(cBlackColor),
                                                             ),
-                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          ),
-                                                          kW8sizedBox,
-                                                          OutLinedButton(
-                                                            buttonText: "Select CTA",
-                                                            buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
-                                                            borderColor: cLineColor,
-                                                            buttonWidth: width * .45 - 20,
-                                                            buttonHeight: 44,
-                                                            widget: const Icon(
-                                                              BipHip.downArrow,
-                                                              color: cPlaceHolderColor,
+                                                          ],
+                                                        ),
+                                                        kH8sizedBox,
+                                                        Row(
+                                                          children: [
+                                                            OutLinedButton(
+                                                              buttonText: "Select platform",
+                                                              buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
+                                                              borderColor: cLineColor,
+                                                              buttonWidth: width * .55 - 20,
+                                                              buttonHeight: 44,
+                                                              widget: const Icon(
+                                                                BipHip.downArrow,
+                                                                color: cPlaceHolderColor,
+                                                              ),
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                             ),
-                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          ),
-                                                        ],
-                                                      )
-                                                    ],
-                                                  ),
-                                                  onPressCloseButton: () {
-                                                    Get.back();
-                                                  },
-                                                  onPressRightButton: null,
-                                                  rightText: 'Done',
-                                                  rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                                  title: "Post Type",
-                                                  isRightButtonShow: true,
-                                                );
-                                              },
-                                              buttonHeight: 22,
-                                              isCustomButton: true,
-                                              prefixIcon: BipHip.plus,
-                                              buttonColor: cGreyBoxColor,
-                                              suffixIconColor: cBlackColor,
-                                              prefixIconColor: cBlackColor,
-                                              textStyle: medium12TextStyle(cBlackColor),
+                                                            kW8sizedBox,
+                                                            OutLinedButton(
+                                                              buttonText: "Select CTA",
+                                                              buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
+                                                              borderColor: cLineColor,
+                                                              buttonWidth: width * .45 - 20,
+                                                              buttonHeight: 44,
+                                                              widget: const Icon(
+                                                                BipHip.downArrow,
+                                                                color: cPlaceHolderColor,
+                                                              ),
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                    onPressCloseButton: () {
+                                                      Get.back();
+                                                    },
+                                                    onPressRightButton: null,
+                                                    rightText: 'Done',
+                                                    rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                                    title: "Post Type",
+                                                    isRightButtonShow: true,
+                                                  );
+                                                },
+                                                buttonHeight: 22,
+                                                isCustomButton: true,
+                                                prefixIcon: BipHip.plus,
+                                                buttonColor: cGreyBoxColor,
+                                                suffixIconColor: cBlackColor,
+                                                prefixIconColor: cBlackColor,
+                                                textStyle: medium12TextStyle(cBlackColor),
+                                              ),
                                             ),
                                         ],
                                       ),

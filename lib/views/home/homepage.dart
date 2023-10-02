@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/create_post_controller.dart';
+import 'package:bip_hip/controllers/home_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
@@ -7,7 +8,8 @@ import 'package:bip_hip/widgets/common/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/search.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+  final HomeController _homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -153,6 +155,23 @@ class HomePage extends StatelessWidget {
                     child: CommonPostWidget(
                       isCommented: false,
                       isLiked: true,
+                      userName: 'Monjurul Sharker',
+                      postTime: '3 hrs ago',
+                      isCategorized: true,
+                      isTextualPost: true,
+                      category: 'Selling',
+                      categoryIcon: _homeController.getCategoryIcon('Selling'),
+                      categoryIconColor: _homeController.getCategoryIconColor('Selling'),
+                      privacy: BipHip.world,
+                      brandName: 'Black Market',
+                      kidName: 'Babu',
+                      kidAge: '5 years',
+                      title: '5 Year old Kid for selling, with functioning organs (Except left kidney)',
+                      price: '1000',
+                      postText:
+                          'Good news for child traffickers and black market organ sellers. A 5 years old kid from Ohio is up for sell. The product has fully functional organs. Unfortunately, his left kidney got malfunctioned few months ago. Hospital documents will also be provided. Otherwise all organs are completely functional and product is refundable',
+                      mediaList: _homeController.imageList,
+                      isSelfPost: true,
                     ),
                   )
                 ],

@@ -113,7 +113,8 @@ class Login extends StatelessWidget {
                         label: 'Login',
                         onPressed: _authenticationController.canLogin.value
                             ? () async {
-                                await _authenticationController.userLogin();
+                                // await _authenticationController.userLogin();
+                                Get.toNamed(krHome);
                               }
                             : null,
                         buttonWidth: width - 40,
