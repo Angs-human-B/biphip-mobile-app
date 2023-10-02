@@ -175,11 +175,14 @@ class ProfileController extends GetxController {
   // !Edit About info
   //-----------------
   TextEditingController commonEditTextEditingController = TextEditingController();
+  TextEditingController commonEditSecondaryTextEditingController = TextEditingController();
   RxString commonEditTextfieldHintText = RxString('');
   RxBool isCommonEditDatePickerShown = RxBool(false);
   RxBool isCommonEditPrivacyShown = RxBool(false);
   RxBool isCommonEditCheckBoxShown = RxBool(false);
   RxBool isCommonEditCheckBoxSelected = RxBool(false);
+  RxBool isDropdownShown = RxBool(false);
+  RxBool isSecondaryTextfieldShown = RxBool(false);
   RxString commonEditCheckBoxText = RxString('');
   RxString commonEditPageTitle = RxString('');
   Rx<IconData> commonEditIconData = Rx<IconData>(BipHip.add);
@@ -188,6 +191,11 @@ class ProfileController extends GetxController {
   final RxString homeTown = RxString('');
   final TextEditingController presentAddressTextEditingController = TextEditingController();
   final TextEditingController educationInstituteTextEditingController = TextEditingController();
+  final TextEditingController officeNameTextEditingController = TextEditingController();
+  final TextEditingController designationTextEditingController = TextEditingController();
+  final TextEditingController phoneTextEditingController = TextEditingController();
+  final TextEditingController emailTextEditingController = TextEditingController();
+  final TextEditingController linkTextEditingController = TextEditingController();
   final RxString startDateAddress = RxString('');
   final RxString endDateAddress = RxString('');
   final RxString joiningYearEducation = RxString('');
@@ -196,11 +204,12 @@ class ProfileController extends GetxController {
   final RxString leavingYearJob = RxString('');
   final RxBool isCurrentlyLiveHere = RxBool(false);
   final RxBool isCurrentlyStudyingHere = RxBool(false);
+  final RxBool isCurrentlyWorkingHere = RxBool(false);
   final RxList cityList = RxList([]);
-  final RxBool showEditAddress = RxBool(false);
+  // final RxBool showEditAddress = RxBool(false);
   final RxBool showEditRelationshipStatus = RxBool(false);
-  final RxBool showAddSchool = RxBool(false);
-  final RxList<TextEditingController> addressTextEditingControllerList = RxList([]);
+  // final RxBool showAddSchool = RxBool(false);
+  final RxInt cityListIndex = RxInt(-1);
   final RxList relationshipStatusList = RxList([
     'Single',
     'In a relationship',
@@ -214,15 +223,28 @@ class ProfileController extends GetxController {
     'Divorced',
     'Widowed'
   ]);
-  final RxList educationBackgroundList = RxList(['School', 'College', 'University']);
+  final RxList educationBackgroundList = RxList(['School', 'College']);
   final RxString relationshipStatus = RxString('');
+  final RxList schoolList = RxList([]);
+  final RxInt schoolIndex = RxInt(-1);
+  final RxList collegeList = RxList([]);
+  final RxInt collegeIndex = RxInt(-1);
+  final RxList<Map> officeList = RxList<Map>([]);
+  final RxInt officeIndex = RxInt(-1);
+  final RxList phoneList = RxList([]);
+  final RxInt phoneIndex = RxInt(-1);
+  final RxList emailList = RxList([]);
+  final RxInt emailIndex = RxInt(-1);
   final RxString educationBackground = RxString('');
 
-  void setEditPageValue(
-      pageTitle, iconData, textEditingController, textfieldHintText, showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function) {
+  void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
+      showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function) {
     commonEditPageTitle.value = pageTitle;
+    isDropdownShown.value = showDropDown;
     commonEditIconData.value = iconData;
     commonEditTextEditingController = textEditingController;
+    isSecondaryTextfieldShown.value = showSecondaryTextfield;
+    commonEditSecondaryTextEditingController = secondaryTextEditingController;
     commonEditTextfieldHintText.value = textfieldHintText;
     isCommonEditDatePickerShown.value = showDatePickerRow;
     isCommonEditPrivacyShown.value = showEditPrivacy;
@@ -235,12 +257,56 @@ class ProfileController extends GetxController {
   void selectFunction(functionFlag) {
     if (functionFlag == 'HOMETOWN') {
       homeTown.value = homeTownTextEditingController.text.trim();
+      homeTownTextEditingController.clear();
     } else if (functionFlag == 'EDIT HOMETOWN') {
       homeTown.value = homeTownTextEditingController.text.trim();
+      homeTownTextEditingController.clear();
     } else if (functionFlag == 'ADD PRESENT') {
-      cityList.add(presentAddressTextEditingController.text.trim());
-    } else if(functionFlag == 'EDIT PRESENT'){
-
+      cityList.add(commonEditTextEditingController.text);
+      commonEditTextEditingController.clear();
+      presentAddressTextEditingController.clear();
+    } else if (functionFlag == 'EDIT PRESENT') {
+      cityList[cityListIndex.value] = commonEditTextEditingController.text;
+      presentAddressTextEditingController.clear();
+      commonEditTextEditingController.clear();
+    } else if (functionFlag == 'ADD SCHOOL') {
+      if (educationBackground.value == 'School') {
+        schoolList.add(commonEditTextEditingController.text);
+      } else {
+        collegeList.add(commonEditTextEditingController.text);
+      }
+      commonEditTextEditingController.clear();
+      educationInstituteTextEditingController.clear();
+    } else if (functionFlag == 'EDIT SCHOOL') {
+      schoolList[schoolIndex.value] = commonEditTextEditingController.text;
+      educationInstituteTextEditingController.clear();
+      commonEditTextEditingController.clear();
+    } else if (functionFlag == 'EDIT COLLEGE') {
+      collegeList[collegeIndex.value] = commonEditTextEditingController.text;
+      educationInstituteTextEditingController.clear();
+      commonEditTextEditingController.clear();
+    } else if (functionFlag == 'ADD WORKPLACE') {
+      officeList.add({'office': commonEditTextEditingController.text, 'designation': commonEditSecondaryTextEditingController.text});
+      officeNameTextEditingController.clear();
+      commonEditTextEditingController.clear();
+      commonEditSecondaryTextEditingController.clear();
+    } else if (functionFlag == 'EDIT WORKPLACE') {
+      officeList[officeIndex.value] = {'office': commonEditTextEditingController.text, 'designation': commonEditSecondaryTextEditingController.text};
+      officeNameTextEditingController.clear();
+      commonEditTextEditingController.clear();
+      commonEditSecondaryTextEditingController.clear();
+    }else if (functionFlag == 'ADD PHONE') {
+      phoneList.add(commonEditTextEditingController.text);
+      commonEditTextEditingController.clear();
+    }else if (functionFlag == 'EDIT PHONE') {
+      phoneList[phoneIndex.value] = commonEditTextEditingController.text;
+      commonEditTextEditingController.clear();
+    }else if (functionFlag == 'ADD EMAIL') {
+      emailList.add(commonEditTextEditingController.text);
+      commonEditTextEditingController.clear();
+    }else if (functionFlag == 'EDIT EMAIL') {
+      emailList[emailIndex.value] = commonEditTextEditingController.text;
+      commonEditTextEditingController.clear();
     }
   }
 }
