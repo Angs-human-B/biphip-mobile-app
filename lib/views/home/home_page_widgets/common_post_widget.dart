@@ -31,8 +31,8 @@ class CommonPostWidget extends StatelessWidget {
       required this.isTextualPost,
       this.postText,
       this.mediaList,
-      required this.isSelfPost});
-  final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost;
+      required this.isSelfPost, required this.isCommentShown});
+  final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown;
   final String userName, postTime;
   final String? category, brandName, kidName, kidAge, title, price, postText;
   final IconData? categoryIcon;
@@ -407,6 +407,7 @@ class CommonPostWidget extends StatelessWidget {
             child: CustomDivider(),
           ),
           kH12sizedBox,
+          if(isCommentShown)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
             child: CommentWidget(
