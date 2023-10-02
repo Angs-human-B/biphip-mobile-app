@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:bip_hip/models/auth/common_unverify_model.dart';
+import 'package:bip_hip/models/auth/forget_pass_model.dart';
 import 'package:bip_hip/models/auth/login_model.dart';
 import 'package:bip_hip/models/common/common_data_model.dart';
+import 'package:bip_hip/models/common/common_error_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class AuthenticationController extends GetxController {
@@ -24,6 +26,7 @@ class AuthenticationController extends GetxController {
 
   Future<void> getSavedUsers() async {
     List userList = await _spController.getUserList();
+    users.clear();
     users.addAll(userList);
   }
 
@@ -100,26 +103,13 @@ class AuthenticationController extends GetxController {
 
       if (response.success == true) {
         LoginModel loginData = LoginModel.fromJson(response.data);
-        // log('Login_user_data : ${loginData.token}');
-
-        // if (loginData.user.isVerified == 1) {
-        //   await _spController.saveBearerToken(loginData.token);
-        //   await _spController.saveRememberMe(isLoginRememberCheck.value);
-        //   await setDeviceID(loginData.user.id);
-        //   Get.offAllNamed(krHome);
-        //   final HomeController homeController = Get.find<HomeController>();
-        //   _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cSuccessColor, duration: 1000);
-        //   await homeController.getUserHome();
-        // } else {
-        //   _globalController.loginTokenWithoutVerification.value = loginData.token!;
-        //   resetOTPScreen();
-        //   Get.toNamed(krOTP);
-        // }
 
         await _spController.saveBearerToken(loginData.token);
         await _spController.saveRememberMe(isLoginRememberCheck.value);
         await _spController.saveUserList({
           "email": loginData.user.email.toString(),
+          "name": loginData.user.fullName.toString(),
+          "image_url": loginData.user.image,
           "token": loginData.token.toString(),
         });
         // await setDeviceID(loginData.user.id);
@@ -130,12 +120,19 @@ class AuthenticationController extends GetxController {
       } else {
         if (response.code == 410) {
           CommonUnVerifyModel commonUnVerifyModel = CommonUnVerifyModel.fromJson(response.data);
-          verificationToken.value = commonUnVerifyModel.token;
+          verificationToken.value = commonUnVerifyModel.token.toString();
           parentRoute.value = "login";
           resetOTPScreen();
           Get.toNamed(krOTP);
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          ErrorModel errorModel = ErrorModel.fromJson(response.data);
+          if (errorModel.errors.isEmpty) {
+            _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          } else {
+            _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          }
         }
-        _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
       }
     } catch (e) {
       ll('userLogin error: $e');
@@ -232,12 +229,17 @@ class AuthenticationController extends GetxController {
       if (response.success == true) {
         CommonUnVerifyModel commonUnVerifyModel = CommonUnVerifyModel.fromJson(response.data);
         // log('Login_user_data : ${loginData.token}');
-        verificationToken.value = commonUnVerifyModel.token;
+        verificationToken.value = commonUnVerifyModel.token.toString();
         resetOTPScreen();
         Get.toNamed(krOTP);
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
       }
     } catch (e) {
       ll('userRegister error: $e');
@@ -268,30 +270,34 @@ class AuthenticationController extends GetxController {
     }
   }
 
-  // Future<void> forgetPassword() async {
-  //   try {
-  //     Map<String, dynamic> body = {
-  //       'email': forgotPasswordEmailTextEditingController.text.toString(),
-  //       "forget": "1",
-  //     };
-  //     var response = await _apiController.commonPostWithBodyAndToken(
-  //       token: null,
-  //       url: kuForgetPassword,
-  //       body: body,
-  //       showLoading: true,
-  //     ) as CommonDM;
+  Future<void> forgetPassword() async {
+    try {
+      Map<String, dynamic> body = {
+        'email': forgotPasswordEmailTextEditingController.text.toString(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuForgetPassword,
+        body: body,
+      ) as CommonDM;
 
-  //     if (response.success == true) {
-  //       resetOTPScreen();
-  //       Get.toNamed(krOTP);
-  //       _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cSuccessColor, duration: 1000);
-  //     } else {
-  //       _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedAccentColor);
-  //     }
-  //   } catch (e) {
-  //     ll('forgetPassword error: $e');
-  //   }
-  // }
+      if (response.success == true) {
+        parentRoute.value = "forget-password";
+        resetOTPScreen();
+        Get.toNamed(krOTP);
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('forgetPassword error: $e');
+    }
+  }
 
   /*
   |--------------------------------------------------------------------------
@@ -326,34 +332,35 @@ class AuthenticationController extends GetxController {
     }
   }
 
-  // Future<void> resetPassword() async {
-  //   try {
-  //     Map<String, dynamic> body = {
-  //       "token": temporaryToken.value,
-  //       "email": forgotPasswordEmailTextEditingController.text,
-  //       "password": resetNewPasswordTextEditingController.text,
-  //       "password_confirmation": resetConfirmPasswordTextEditingController.text,
-  //     };
-  //     var response = await _apiController.commonPostWithBodyAndToken(
-  //       token: null,
-  //       url: kuResetPassword,
-  //       body: body,
-  //       showLoading: true,
-  //     ) as CommonDM;
+  Future<void> resetPassword() async {
+    try {
+      Map<String, dynamic> body = {
+        "password": resetNewPasswordTextEditingController.text,
+        "password_confirmation": resetConfirmPasswordTextEditingController.text,
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        token: verificationToken.value,
+        url: kuResetPassword,
+        body: body,
+      ) as CommonDM;
 
-  //     if (response.success == true) {
-  //       resetLoginScreen();
-  //       isLoginButtonClicked.value = true;
-  //       Get.offAllNamed(krLogin);
-
-  //       _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cSuccessColor, duration: 1000);
-  //     } else {
-  //       _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedAccentColor);
-  //     }
-  //   } catch (e) {
-  //     ll('resetPassword error: $e');
-  //   }
-  // }
+      if (response.success == true) {
+        resetLoginScreen();
+        Get.offAllNamed(krLogin);
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('resetPassword error: $e');
+    }
+  }
 
   /*
   |--------------------------------------------------------------------------
@@ -378,96 +385,121 @@ class AuthenticationController extends GetxController {
     }
   }
 
-  // Future<void> signUpVerify() async {
-  //   try {
-  //     String? token = _globalController.loginTokenWithoutVerification.value;
-  //     // log("token : $token");
+  Future<void> signUpVerify() async {
+    try {
+      String? token = verificationToken.value;
+      // log("token : $token");
 
-  //     Map<String, dynamic> body = {
-  //       'otp': otpTextEditingController.text.toString(),
-  //     };
-  //     var response = await _apiController.commonPostWithBodyAndToken(
-  //       url: kuSignUpVerify,
-  //       body: body,
-  //       showLoading: true,
-  //       token: token,
-  //     ) as CommonDM;
+      Map<String, dynamic> body = {
+        'otp': otpTextEditingController.text.toString(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuRegistrationVerifyOTP,
+        body: body,
+        token: token,
+      ) as CommonDM;
 
-  //     if (response.success == true) {
-  //       CommonAuthDataModel otpData = CommonAuthDataModel.fromJson(response.data);
-  //       // log('verified_user_data : ${otpData.user.isVerified}');
+      if (response.success == true) {
+        LoginModel otpData = LoginModel.fromJson(response.data);
+        // log('verified_user_data : ${otpData.user.isVerified}');
 
-  //       await _spController.saveBearerToken(otpData.token);
-  //       await _spController.saveRememberMe(true);
-  //       await setDeviceID(otpData.user.id);
-  //       Get.offAllNamed(krHome);
-  //       final HomeController homeController = Get.find<HomeController>();
-  //       _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cSuccessColor, duration: 1000);
-  //       await homeController.getUserHome();
-  //       // _globalController.updateAppLang(langCode: map['user']['lang_code']);
-  //       // _globalController.userLanguageCode.value = map['user']['lang_code'];
-  //       // _spController.saveLanguageCode(map['user']['lang_code'] ?? 'ja');
-  //       // if (map['user']['login_type'] != null) await _spController.saveSocialSite(map['user']['login_type']);
-  //     } else {
-  //       _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedAccentColor);
-  //     }
-  //   } catch (e) {
-  //     ll('signUpVerify error: $e');
-  //   }
-  // }
+        await _spController.saveBearerToken(otpData.token);
+        await _spController.saveRememberMe(true);
+        await _spController.saveUserList({
+          "email": otpData.user.email.toString(),
+          "name": otpData.user.fullName.toString(),
+          "image_url": otpData.user.image,
+          "token": otpData.token.toString(),
+        });
+        // await setDeviceID(otpData.user.id);
+        // Get.offAllNamed(krHome);
+        // final HomeController homeController = Get.find<HomeController>();
+        // await homeController.getUserHome();
+        if (parentRoute.value == "login") {
+          Get.offAllNamed(krMenu);
+        } else if (parentRoute.value == "register") {
+          Get.offAllNamed(krSelectProfession);
+          resetRegisterScreen();
+          resetOTPScreen();
+        }
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('signUpVerify error: $e');
+    }
+  }
 
-  // Future<void> forgetPasswordVerify() async {
-  //   try {
-  //     Map<String, dynamic> body = {
-  //       "email": forgotPasswordEmailTextEditingController.text,
-  //       'otp': otpTextEditingController.text.toString(),
-  //       "forget": "1",
-  //     };
-  //     var response = await _apiController.commonPostWithBodyAndToken(
-  //       token: null,
-  //       url: kuForgetPasswordOTPVerify,
-  //       body: body,
-  //       showLoading: true,
-  //     ) as CommonDM;
+  Future<void> forgetPasswordVerify() async {
+    try {
+      Map<String, dynamic> body = {
+        "email": forgotPasswordEmailTextEditingController.text,
+        'otp': otpTextEditingController.text.toString(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuForgetPasswordVerifyOTP,
+        body: body,
+      ) as CommonDM;
 
-  //     if (response.success == true) {
-  //       ForgotPasswordOTPVerifyDataModel forgotPasswordOTPVerifyDataModel = ForgotPasswordOTPVerifyDataModel.fromJson(response.data);
-  //       // log('verified_user_data : ${forgotPasswordOTPVerifyDataModel.user.isVerified}');
-  //       temporaryToken.value = forgotPasswordOTPVerifyDataModel.token.toString();
-  //       resetResetPasswordScreen();
-  //       Get.toNamed(krResetPass);
-  //       _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cSuccessColor, duration: 1000);
-  //     } else {
-  //       _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedAccentColor);
-  //     }
-  //   } catch (e) {
-  //     ll('forgetPasswordVerify error: $e');
-  //   }
-  // }
+      if (response.success == true) {
+        ForgetPassOtpVerify forgetPassOtpVerify = ForgetPassOtpVerify.fromJson(response.data);
+        verificationToken.value = forgetPassOtpVerify.token.toString();
+        ll(verificationToken.value);
+        resetResetPasswordScreen();
+        Get.toNamed(krResetPass);
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('forgetPasswordVerify error: $e');
+    }
+  }
 
-  // Future<void> resendOTP() async {
-  //   try {
-  //     Map<String, dynamic> body = {
-  //       "email": forgotPasswordEmailTextEditingController.text,
-  //     };
-  //     // log(body.toString());
-  //     var response = await _apiController.commonPostWithBodyAndToken(
-  //       token: null,
-  //       url: kuResendOTP,
-  //       body: body,
-  //       showLoading: true,
-  //     ) as CommonDM;
+  Future<void> resendOTP() async {
+    try {
+      Map<String, dynamic> body = {
+        if (parentRoute.value == "forget-password") "email": forgotPasswordEmailTextEditingController.text.trim(),
+      };
+      ll(body.toString());
+      ll(parentRoute.value.toString());
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        token: (parentRoute.value == "login" || parentRoute.value == "register") ? verificationToken.value : null,
+        url: (parentRoute.value == "login" || parentRoute.value == "register") ? kuRegistrationResendOTP : kuForgetPasswordResendOTP,
+        body: body,
+      ) as CommonDM;
 
-  //     if (response.success == true) {
-  //       resetOTPScreen();
-  //       isOTPResendClick.value = false;
-  //       // log('data : ${response.data}');
-  //       _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cSuccessColor, duration: 1000);
-  //     } else {
-  //       _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedAccentColor);
-  //     }
-  //   } catch (e) {
-  //     ll('resendOTP error: $e');
-  //   }
-  // }
+      if (response.success == true) {
+        CommonUnVerifyModel commonUnVerifyModel = CommonUnVerifyModel.fromJson(response.data);
+        verificationToken.value = commonUnVerifyModel.token.toString();
+        resetOTPScreen();
+        isOTPResendClick.value = false;
+        // log('data : ${response.data}');
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('resendOTP error: $e');
+    }
+  }
 }

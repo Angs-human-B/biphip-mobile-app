@@ -51,6 +51,8 @@ class SpController {
     for (int i = 0; i < userList.length; i++) {
       if (userList[i]['email'] == userInfo['email']) {
         userList.removeAt(i);
+        String encodeData = json.encode(userList);
+        await preferences.setString(kUserList, encodeData);
         break;
       }
     }

@@ -1,6 +1,6 @@
 class CommonUnVerifyModel {
-  int otp;
-  String token;
+  int? otp;
+  String? token;
 
   CommonUnVerifyModel({
     required this.otp,

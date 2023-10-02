@@ -65,7 +65,7 @@ class SelectBirthday extends StatelessWidget {
                                   child: CupertinoDatePicker(
                                     mode: CupertinoDatePickerMode.date,
                                     onDateTimeChanged: (value) {
-                                      _authenticationController.birthDay.value = DateFormat("yyyy-mm--dd").format(value);
+                                      _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(value);
                                     },
                                   ),
                                 );

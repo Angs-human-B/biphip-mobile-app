@@ -68,16 +68,13 @@ class OTPVerifyScreen extends StatelessWidget {
                       CustomElevatedButton(
                         label: ksNext,
                         onPressed: _authenticationController.canOTPVerifyNow.value
-                            ? () {
+                            ? () async {
                                 if (_authenticationController.parentRoute.value == "login") {
-                                  Get.offAllNamed(krMenu);
+                                  await _authenticationController.signUpVerify();
                                 } else if (_authenticationController.parentRoute.value == "register") {
-                                  Get.offAllNamed(krSelectProfession);
-                                  _authenticationController.resetRegisterScreen();
-                                  _authenticationController.resetOTPScreen();
+                                  await _authenticationController.signUpVerify();
                                 } else {
-                                  Get.toNamed(krResetPass);
-                                  // _authenticationController.resetForgotPasswordScreen();
+                                  await _authenticationController.forgetPasswordVerify();
                                 }
                               }
                             : null,
@@ -93,7 +90,7 @@ class OTPVerifyScreen extends StatelessWidget {
                               suffix: ksResend.tr,
                               onPressed: () async {
                                 FocusScope.of(context).unfocus();
-                                _authenticationController.isOTPResendClick.value = false;
+                                await _authenticationController.resendOTP();
                               },
                             )
                           : CountDown(
