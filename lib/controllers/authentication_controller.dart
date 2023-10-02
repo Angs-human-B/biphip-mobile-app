@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bip_hip/models/auth/common_unverify_model.dart';
 import 'package:bip_hip/models/auth/login_model.dart';
 import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -12,15 +13,22 @@ class AuthenticationController extends GetxController {
   final RxString profileLink = RxString('');
   final Rx<File?> profileFile = File('').obs;
   final RxBool isProfileImageChanged = RxBool(false);
-  RxList users = RxList(userData);
+  final RxList users = RxList([]);
 
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
 
+  final RxString parentRoute = RxString("register");
+  final RxString verificationToken = RxString('');
+
+  Future<void> getSavedUsers() async {
+    List userList = await _spController.getUserList();
+    users.addAll(userList);
+  }
+
   void onIntroDone() async {
     Get.offAllNamed(krLogin);
-    // log(intro.toString());
   }
 
   void resetProfileImage() {
@@ -91,8 +99,6 @@ class AuthenticationController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        _globalController.parentRoute.value = "login";
-
         LoginModel loginData = LoginModel.fromJson(response.data);
         // log('Login_user_data : ${loginData.token}');
 
@@ -112,18 +118,23 @@ class AuthenticationController extends GetxController {
 
         await _spController.saveBearerToken(loginData.token);
         await _spController.saveRememberMe(isLoginRememberCheck.value);
+        await _spController.saveUserList({
+          "email": loginData.user.email.toString(),
+          "token": loginData.token.toString(),
+        });
         // await setDeviceID(loginData.user.id);
         Get.offAllNamed(krMenu);
         // final HomeController homeController = Get.find<HomeController>();
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
         // await homeController.getUserHome();
-
-        // else {
-        // _globalController.loginTokenWithoutVerification.value = loginData.token!;
-        //   resetOTPScreen();
-        //   Get.toNamed(krOTP);
-        // }
       } else {
+        if (response.code == 410) {
+          CommonUnVerifyModel commonUnVerifyModel = CommonUnVerifyModel.fromJson(response.data);
+          verificationToken.value = commonUnVerifyModel.token;
+          parentRoute.value = "login";
+          resetOTPScreen();
+          Get.toNamed(krOTP);
+        }
         _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
       }
     } catch (e) {
@@ -139,9 +150,7 @@ class AuthenticationController extends GetxController {
 
   final TextEditingController registerFirstNameTextEditingController = TextEditingController();
   final TextEditingController registerLastNameTextEditingController = TextEditingController();
-  final TextEditingController registerBirthDayTextEditingController = TextEditingController();
   final TextEditingController registerEmailTextEditingController = TextEditingController();
-  final TextEditingController registerPhoneTextEditingController = TextEditingController();
   final TextEditingController registerPasswordTextEditingController = TextEditingController();
   final TextEditingController registerConfirmPasswordTextEditingController = TextEditingController();
   final RxString firstNameError = RxString('');
@@ -157,13 +166,11 @@ class AuthenticationController extends GetxController {
   final RxBool checkValidName = RxBool(false);
   final RxBool checkValidEmail = RxBool(false);
   final RxBool checkValidPassword = RxBool(false);
-  final RxBool canRegister = RxBool(false);
 
   void resetRegisterScreen() {
     registerFirstNameTextEditingController.clear();
     registerLastNameTextEditingController.clear();
     registerEmailTextEditingController.clear();
-    // registerPhoneTextEditingController.clear();
     registerPasswordTextEditingController.clear();
     registerConfirmPasswordTextEditingController.clear();
     isRegisterPasswordToggleObscure.value = true;
@@ -171,9 +178,13 @@ class AuthenticationController extends GetxController {
     checkValidName.value = false;
     checkValidEmail.value = false;
     checkValidPassword.value = false;
-    canRegister.value = false;
     birthDay.value = '';
     gender.value = '';
+    firstNameError.value = '';
+    lastNameError.value = '';
+    registerEmailError.value = '';
+    registerPasswordError.value = '';
+    registerConfirmPasswordError.value = '';
   }
 
   void checkName() {
@@ -200,50 +211,38 @@ class AuthenticationController extends GetxController {
       checkValidPassword.value = false;
     }
   }
-  // void checkCanRegister() {
-  //   if (registerEmailTextEditingController.text.isValidEmail &&
-  //       registerPasswordTextEditingController.text.length >= kMinPasswordLength &&
-  //       registerPasswordTextEditingController.text == registerConfirmPasswordTextEditingController.text) {
-  //     canRegister.value = true;
-  //   } else {
-  //     canRegister.value = false;
-  //   }
-  // }
 
-  // Future<void> userRegister() async {
-  //   try {
-  //     Map<String, dynamic> body = {
-  //       "name": registerNameTextEditingController.text,
-  //       "email": registerEmailTextEditingController.text,
-  //       "password": registerPasswordTextEditingController.text,
-  //       "password_confirmation": registerConfirmPasswordTextEditingController.text,
-  //       "phone": registerPhoneTextEditingController.text,
-  //       "refer_code": "",
-  //     };
-  //     var response = await _apiController.commonPostWithBodyAndToken(
-  //       token: null,
-  //       url: kuRegister,
-  //       body: body,
-  //       showLoading: true,
-  //     ) as CommonDM;
+  Future<void> userRegister() async {
+    try {
+      Map<String, dynamic> body = {
+        "first_name": registerFirstNameTextEditingController.text,
+        "last_name": registerLastNameTextEditingController.text,
+        "email": registerEmailTextEditingController.text,
+        "dob": birthDay.value,
+        "gender": gender.value,
+        "password": registerPasswordTextEditingController.text,
+        "password_confirmation": registerConfirmPasswordTextEditingController.text,
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuRegistration,
+        body: body,
+      ) as CommonDM;
 
-  //     if (response.success == true) {
-  //       _globalController.parentRoute.value = "login";
-
-  //       CommonAuthDataModel loginData = CommonAuthDataModel.fromJson(response.data);
-  //       // log('Login_user_data : ${loginData.token}');
-  //       _globalController.loginTokenWithoutVerification.value = loginData.token!;
-
-  //       resetOTPScreen();
-  //       Get.toNamed(krOTP);
-  //       _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cSuccessColor, duration: 1000);
-  //     } else {
-  //       _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedAccentColor);
-  //     }
-  //   } catch (e) {
-  //     ll('userRegister error: $e');
-  //   }
-  // }
+      if (response.success == true) {
+        CommonUnVerifyModel commonUnVerifyModel = CommonUnVerifyModel.fromJson(response.data);
+        // log('Login_user_data : ${loginData.token}');
+        verificationToken.value = commonUnVerifyModel.token;
+        resetOTPScreen();
+        Get.toNamed(krOTP);
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+      }
+    } catch (e) {
+      ll('userRegister error: $e');
+    }
+  }
 
   /*
   |--------------------------------------------------------------------------
@@ -252,18 +251,13 @@ class AuthenticationController extends GetxController {
   */
 
   final TextEditingController forgotPasswordEmailTextEditingController = TextEditingController();
-  final TextEditingController forgotPasswordOTPTextEditingController = TextEditingController();
-  final RxBool canSendOTP = RxBool(false);
-  final RxBool canForgotPasswordOTPVerifyNow = RxBool(false);
   final RxString forgotPasswordEmailError = RxString('');
-  final RxString resetPasswordError = RxString('');
-  final RxString resetConfirmPasswordError = RxString('');
+  final RxBool canSendOTP = RxBool(false);
 
   void resetForgotPasswordScreen() {
     forgotPasswordEmailTextEditingController.clear();
-    forgotPasswordOTPTextEditingController.clear();
+    forgotPasswordEmailError.value = '';
     canSendOTP.value = false;
-    canForgotPasswordOTPVerifyNow.value = false;
   }
 
   void checkCanSendOTP() {
@@ -271,14 +265,6 @@ class AuthenticationController extends GetxController {
       canSendOTP.value = true;
     } else {
       canSendOTP.value = false;
-    }
-  }
-
-  void checkCanForgotPasswordOTPVerifyNow() {
-    if (forgotPasswordOTPTextEditingController.text.length == kOTPLength) {
-      canForgotPasswordOTPVerifyNow.value = true;
-    } else {
-      canForgotPasswordOTPVerifyNow.value = false;
     }
   }
 
@@ -296,7 +282,6 @@ class AuthenticationController extends GetxController {
   //     ) as CommonDM;
 
   //     if (response.success == true) {
-  //       _globalController.parentRoute.value = "forget-password";
   //       resetOTPScreen();
   //       Get.toNamed(krOTP);
   //       _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cSuccessColor, duration: 1000);
@@ -319,13 +304,16 @@ class AuthenticationController extends GetxController {
   final RxBool isResetConfirmPasswordToggleObscure = RxBool(true);
   final RxBool canResetPassword = RxBool(false);
 
-  final RxString temporaryToken = RxString('');
+  final RxString resetPasswordError = RxString('');
+  final RxString resetConfirmPasswordError = RxString('');
 
   void resetResetPasswordScreen() {
     resetNewPasswordTextEditingController.clear();
     resetConfirmPasswordTextEditingController.clear();
     isResetNewPasswordToggleObscure.value = true;
     isResetConfirmPasswordToggleObscure.value = true;
+    resetPasswordError.value = '';
+    resetConfirmPasswordError.value = '';
     canResetPassword.value = false;
   }
 
@@ -374,7 +362,6 @@ class AuthenticationController extends GetxController {
   */
   final TextEditingController otpTextEditingController = TextEditingController();
   final RxBool isOTPResendClick = RxBool(false);
-  final RxBool isForgotPasswordOTPResendClick = RxBool(false);
   final RxBool canOTPVerifyNow = RxBool(false);
 
   void resetOTPScreen() {

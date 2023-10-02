@@ -22,19 +22,23 @@ class OTPVerifyScreen extends StatelessWidget {
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
-            child: CustomAppBar(
-              title: ksRegistration.tr,
-              onBack: () async {
-                Get.back();
-              },
-              action: const [
-                Padding(
-                  padding: EdgeInsets.only(right: 8.0),
-                  child: CustomCircularProgressBar(
-                    percent: 1,
-                  ),
-                ),
-              ],
+            child: Obx(
+              () => CustomAppBar(
+                title: _authenticationController.parentRoute.value == "register" ? ksRegistration.tr : ksForgetPassword.tr,
+                onBack: () async {
+                  Get.back();
+                },
+                action: _authenticationController.parentRoute.value == "register"
+                    ? const [
+                        Padding(
+                          padding: EdgeInsets.only(right: 8.0),
+                          child: CustomCircularProgressBar(
+                            percent: 1,
+                          ),
+                        ),
+                      ]
+                    : null,
+              ),
             ),
           ),
           backgroundColor: cWhiteColor,
@@ -65,9 +69,16 @@ class OTPVerifyScreen extends StatelessWidget {
                         label: ksNext,
                         onPressed: _authenticationController.canOTPVerifyNow.value
                             ? () {
-                                Get.toNamed(krSelectProfession);
-                                _authenticationController.resetRegisterScreen();
-                                _authenticationController.resetOTPScreen();
+                                if (_authenticationController.parentRoute.value == "login") {
+                                  Get.offAllNamed(krMenu);
+                                } else if (_authenticationController.parentRoute.value == "register") {
+                                  Get.offAllNamed(krSelectProfession);
+                                  _authenticationController.resetRegisterScreen();
+                                  _authenticationController.resetOTPScreen();
+                                } else {
+                                  Get.toNamed(krResetPass);
+                                  // _authenticationController.resetForgotPasswordScreen();
+                                }
                               }
                             : null,
                         buttonWidth: width - 40,

@@ -65,7 +65,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                         label: ksNext,
                         onPressed: _authenticationController.canSendOTP.value
                             ? () {
-                                Get.toNamed(krForgetPasswordOTP);
+                                _authenticationController.parentRoute.value = "forget_password";
+                                _authenticationController.resetOTPScreen();
+                                Get.toNamed(krOTP);
                               }
                             : null,
                         buttonWidth: width - 40,

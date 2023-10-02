@@ -47,10 +47,7 @@ class SetPassword extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       kH24sizedBox,
-                      const TopTitleAndSubtitle(
-                        title: ksCreatePassword,
-                        subTitle: ksCreateStrongPassword
-                      ),
+                      const TopTitleAndSubtitle(title: ksCreatePassword, subTitle: ksCreateStrongPassword),
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerPasswordTextEditingController,
@@ -111,6 +108,8 @@ class SetPassword extends StatelessWidget {
                         label: ksNext,
                         onPressed: _authenticationController.checkValidPassword.value
                             ? () {
+                                _authenticationController.parentRoute.value = "register";
+                                _authenticationController.resetOTPScreen();
                                 Get.toNamed(krOTP);
                               }
                             : null,

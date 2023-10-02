@@ -43,7 +43,7 @@ class SavedUserLogin extends StatelessWidget {
                             child: ListView.builder(
                                 itemCount: _authenticationController.users.length,
                                 shrinkWrap: true,
-                                physics: const AlwaysScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   var item = _authenticationController.users;
                                   return CustomUserListContainer(
@@ -57,7 +57,9 @@ class SavedUserLogin extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: h20),
                           child: CustomElevatedButton(
                             label: 'Login to another account',
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.offAllNamed(krLogin);
+                            },
                             buttonHeight: h32,
                             buttonWidth: width - 40,
                             buttonColor: cWhiteColor,
@@ -72,7 +74,7 @@ class SavedUserLogin extends StatelessWidget {
                   bottom: h32,
                   child: CustomTextButton(
                     onPressed: () {
-                      Get.toNamed(krRegister);
+                      Get.offAllNamed(krRegister);
                     },
                     text: "Register for new account",
                     textStyle: semiBold14TextStyle(cPrimaryColor),
