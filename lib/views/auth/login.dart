@@ -26,7 +26,7 @@ class Login extends StatelessWidget {
                 () => Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: getPaddingTop(context) + h60),
+                      padding: isDeviceScreenLarge() ? EdgeInsets.only(top: getPaddingTop(context) + h60) : EdgeInsets.only(top: getPaddingTop(context) + h40),
                       child: const LogoAndText(
                         size: h50,
                         fontSize: h18,
@@ -102,6 +102,7 @@ class Login extends StatelessWidget {
                           _authenticationController.isLoginRememberCheck.value = !_authenticationController.isLoginRememberCheck.value;
                         },
                         onPressForgetButton: () {
+                          _authenticationController.resetForgotPasswordScreen();
                           Get.toNamed(krForgotPassword);
                         },
                       ),

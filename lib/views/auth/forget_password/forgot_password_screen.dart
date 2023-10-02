@@ -64,8 +64,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                       CustomElevatedButton(
                         label: ksNext,
                         onPressed: _authenticationController.canSendOTP.value
-                            ? () {
-                                Get.toNamed(krForgetPasswordOTP);
+                            ? () async {
+                                await _authenticationController.forgetPassword();
                               }
                             : null,
                         buttonWidth: width - 40,

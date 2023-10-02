@@ -5,7 +5,6 @@ import 'package:bip_hip/widgets/common/custom_container.dart';
 import 'package:bip_hip/widgets/common/linkup_text.dart';
 import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
 
-
 class Register extends StatelessWidget {
   Register({super.key});
 
@@ -64,7 +63,6 @@ class Register extends StatelessWidget {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(text: 'You are registering with ', style: regular14TextStyle(cBlackColor)),
-                                    //TODO: Referal name here
                                     TextSpan(
                                       text: 'John Doe',
                                       style: semiBold14TextStyle(cBlackColor),
@@ -101,7 +99,7 @@ class Register extends StatelessWidget {
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.name,
                       ),
-                      kH24sizedBox,
+                      kH12sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerLastNameTextEditingController,
                         errorText: _authenticationController.lastNameError.value,
@@ -118,7 +116,7 @@ class Register extends StatelessWidget {
                         inputAction: TextInputAction.done,
                         inputType: TextInputType.name,
                       ),
-                      kH24sizedBox,
+                      kH12sizedBox,
                       CustomElevatedButton(
                         label: ksNext,
                         onPressed: _authenticationController.checkValidName.value

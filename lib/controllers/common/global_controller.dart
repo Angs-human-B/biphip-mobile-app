@@ -17,8 +17,6 @@ class GlobalController extends GetxController {
     {'langCode': 'en', 'countryCode': 'US', 'langName': 'English'},
   ]);
 
-  //* parent route
-  final RxString parentRoute = RxString("");
 
   //* info:: show loading
   final isLoading = RxBool(false);

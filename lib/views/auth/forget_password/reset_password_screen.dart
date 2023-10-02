@@ -102,9 +102,8 @@ class ResetPasswordScreen extends StatelessWidget {
                       CustomElevatedButton(
                         label: ksNext,
                         onPressed: _authenticationController.canResetPassword.value
-                            ? () {
-                                Get.toNamed(krLogin);
-                                _authenticationController.resetResetPasswordScreen();
+                            ? () async{
+                                await _authenticationController.resetPassword();
                               }
                             : null,
                         buttonWidth: width - 40,

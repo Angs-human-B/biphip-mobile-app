@@ -145,7 +145,15 @@ class PictureUploadScreen extends StatelessWidget {
                     ),
                     if (!_authenticationController.isProfileImageChanged.value) kH20sizedBox,
                     if (!_authenticationController.isProfileImageChanged.value)
-                      CustomTextButton(onPressed: () {}, text: ksSkip, textStyle: semiBold16TextStyle(cBlackColor)),
+                      CustomElevatedButton(
+                        buttonWidth: width - 40,
+                        buttonColor: cWhiteColor,
+                        onPressed: () {
+                          Get.offAllNamed(krMenu);
+                        },
+                        label: ksSkip,
+                        textStyle: semiBold16TextStyle(cPrimaryColor),
+                      ),
                     kHBottomSizedBox
                   ],
                 ),

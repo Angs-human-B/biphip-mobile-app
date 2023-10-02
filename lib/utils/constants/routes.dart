@@ -1,6 +1,5 @@
 //* info:: auth screens
 import 'package:bip_hip/views/auth/forget_password/forgot_password_screen.dart';
-import 'package:bip_hip/views/auth/forget_password/otp_forget_password.dart';
 import 'package:bip_hip/views/auth/forget_password/reset_password_screen.dart';
 import 'package:bip_hip/views/auth/login.dart';
 import 'package:bip_hip/views/auth/register/otp_verification.dart';
@@ -38,7 +37,6 @@ const String krSavedUserLogin = '/saved-user-login';
 const String krForgotPassword = '/forgot-password';
 const String krResetPass = '/reset-pass';
 const String krSetNewPass = '/set-new-pass';
-const String krForgetPasswordOTP = '/forgot-password-otp';
 const String krOTP = '/otp-verify';
 
 const String krIntroductionScreen = '/introduction-screen';
@@ -88,7 +86,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krSelectInterest, page: () => SelectInterestScreen(), transition: Transition.noTransition),
   GetPage(name: krUploadPicture, page: () => PictureUploadScreen(), transition: Transition.noTransition),
   GetPage(name: krForgotPassword, page: () => ForgotPasswordScreen(), transition: Transition.noTransition),
-  GetPage(name: krForgetPasswordOTP, page: () => ForgetPasswordOTP(), transition: Transition.noTransition),
   GetPage(name: krResetPass, page: () => ResetPasswordScreen(), transition: Transition.noTransition),
   GetPage(name: krOTP, page: () => OTPVerifyScreen(), transition: Transition.noTransition),
 
