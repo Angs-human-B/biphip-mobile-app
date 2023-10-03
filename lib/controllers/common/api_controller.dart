@@ -1,175 +1,125 @@
-// import 'dart:async';
-// import 'dart:convert';
-// import 'dart:developer';
-// import 'dart:io';
-// import 'package:bip_hip/utils/constants/imports.dart';
-// import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
+import 'package:bip_hip/models/common/common_data_model.dart';
+import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:http/http.dart' as http;
 
 class ApiController {
-  // final _globalController = Get.find<GlobalController>();
+  final _globalController = Get.find<GlobalController>();
 
-  // CommonDM convertToCommonObject(apiResponse) {
-  //   return CommonDM.fromJson(apiResponse);
-  // }
+  CommonDM convertToCommonObject(apiResponse) {
+    return CommonDM.fromJson(apiResponse);
+  }
 
-  //* info:: common get
-  // Future<dynamic> commonGet({
-  //   required String? token,
-  //   required String url,
-  //   required bool showLoading,
-  //   int? timer,
-  // }) async {
-  //   log("url:$url");
-  //   if (showLoading) {
-  //     _globalController.showLoading();
-  //   }
-  //   final http.Client client = http.Client();
-  //   final Uri uri = Uri.parse(Environment.baseUrl + url);
+  void timeOutFunction() {
+    String error = ksConnectionTimeoutMessage.tr;
+    _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+  }
 
-  //   http.Response response;
-  //   String error = ksAnErrorOccurred.tr;
-  //   try {
-  //     response = await client.get(
-  //       uri,
-  //       headers: {
-  //         'Authorization': 'Bearer $token',
-  //         'app-role': 'user',
-  //       },
-  //     ).timeout(
-  //       Duration(seconds: timer ?? 30),
-  //       onTimeout: () {
-  //         error = ksConnectionTimeoutMessage.tr;
-  //         if (showLoading) {
-  //           if (_globalController.isLoading.value) {
-  //             _globalController.isLoading.value = false;
-  //             Get.back();
-  //           }
-  //         }
-  //         _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedTintColor);
-  //         throw TimeoutException(ksConnectionTimeoutMessage.tr);
-  //       },
-  //     );
-  //     if (showLoading) {
-  //       if (_globalController.isLoading.value) {
-  //         _globalController.isLoading.value = false;
-  //         Get.back();
-  //       }
-  //     }
-  //     ll("response : ${response.body}");
-  //     CommonDM cm = _convertToCommonObject(jsonDecode(response.body));
-  //     return cm;
-  //     // return jsonDecode(response.body);
-  //   } on SocketException {
-  //     error = ksNoInternetConnectionMessage.tr;
-  //     if (showLoading) {
-  //       if (_globalController.isLoading.value) {
-  //         _globalController.isLoading.value = false;
-  //         Get.back();
-  //       }
-  //     }
-  //     _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedAccentColor);
-  //     return null;
-  //   } catch (e) {
-  //     log(e.toString());
-  //     if (showLoading) {
-  //       if (_globalController.isLoading.value) {
-  //         _globalController.isLoading.value = false;
-  //         Get.back();
-  //       }
-  //     }
-  //     _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedAccentColor);
-  //     return null;
-  //   } finally {
-  //     if (showLoading) {
-  //       if (_globalController.isLoading.value) {
-  //         _globalController.isLoading.value = false;
-  //         Get.back();
-  //       }
-  //     }
-  //     client.close();
-  //   }
-  // }
+  Future<http.Response> methodBasedResponse({
+    required String method,
+    required String? token,
+    Map<String, dynamic>? body,
+    required Uri uri,
+    int? timer,
+    required http.Client client,
+    bool? contentType,
+  }) async {
+    if (method == "GET") {
+      return await client.get(
+        uri,
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+      ).timeout(
+        Duration(seconds: timer ?? 30),
+        onTimeout: () {
+          timeOutFunction();
+          throw TimeoutException(ksConnectionTimeoutMessage.tr);
+        },
+      );
+    } else if (method == "POST") {
+      return await client.post(
+        uri,
+        body: body,
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          if (contentType != null) 'content-Type': 'multipart/form-data',
+        },
+      ).timeout(
+        Duration(seconds: timer ?? 30),
+        onTimeout: () {
+          timeOutFunction();
+          throw TimeoutException(ksConnectionTimeoutMessage.tr);
+        },
+      );
+    } else {
+      return await client.delete(
+        uri,
+        body: body,
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+      ).timeout(
+        Duration(seconds: timer ?? 30),
+        onTimeout: () {
+          timeOutFunction();
+          throw TimeoutException(ksConnectionTimeoutMessage.tr);
+        },
+      );
+    }
+  }
 
-  // //* info:: common post with body and token
-  // Future<dynamic> commonPostWithBodyAndToken({
-  //   required String? token,
-  //   required String url,
-  //   required Map<String, dynamic> body,
-  //   required bool showLoading,
-  //   int? timer,
-  // }) async {
-  //   if (showLoading) {
-  //     _globalController.showLoading();
-  //   }
-  //   final http.Client client = http.Client();
-  //   final Uri uri = Uri.parse(Environment.baseUrl + url);
-  //   http.Response response;
-  //   String error = ksAnErrorOccurred.tr;
-  //   try {
-  //     response = await client
-  //         .post(
-  //       uri,
-  //       headers: {
-  //         if (token != null) 'Authorization': 'Bearer $token',
-  //         'app-role': 'user',
-  //       },
-  //       body: body,
-  //     )
-  //         .timeout(
-  //       Duration(seconds: timer ?? 30),
-  //       onTimeout: () {
-  //         error = ksConnectionTimeoutMessage.tr;
-  //         if (showLoading) {
-  //           if (_globalController.isLoading.value) {
-  //             _globalController.isLoading.value = false;
-  //             Get.back();
-  //           }
-  //         }
-  //         _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedAccentColor);
-  //         throw TimeoutException(ksConnectionTimeoutMessage.tr);
-  //       },
-  //     );
-  //     if (showLoading) {
-  //       if (_globalController.isLoading.value) {
-  //         _globalController.isLoading.value = false;
-  //         Get.back();
-  //       }
-  //     }
-  //     ll("response : ${jsonDecode(response.body)}");
-  //     // return jsonDecode(response.body);
-  //     CommonDM cm = _convertToCommonObject(jsonDecode(response.body));
-  //     return cm;
-  //   } on SocketException {
-  //     error = ksNoInternetConnectionMessage.tr;
-  //     if (showLoading) {
-  //       if (_globalController.isLoading.value) {
-  //         _globalController.isLoading.value = false;
-  //         Get.back();
-  //       }
-  //     }
-  //     _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedAccentColor);
-  //     return null;
-  //   } catch (e) {
-  //     log(e.toString());
-  //     if (showLoading) {
-  //       if (_globalController.isLoading.value) {
-  //         _globalController.isLoading.value = false;
-  //         Get.back();
-  //       }
-  //     }
+  //* Common Api call
+  Future<dynamic> commonApiCall({
+    String? token,
+    required String url,
+    Map<String, dynamic>? body,
+    required String requestMethod,
+    int? timer,
+    bool? contentType,
+  }) async {
+    ll("Url : $url");
+    final http.Client client = http.Client();
+    final Uri uri = Uri.parse(Environment.apiUrl + url);
+    ll("uri : $uri");
+    http.Response response;
+    String error = ksAnErrorOccurred.tr;
 
-  //     _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedAccentColor);
-  //     return null;
-  //   } finally {
-  //     if (showLoading) {
-  //       if (_globalController.isLoading.value) {
-  //         _globalController.isLoading.value = false;
-  //         Get.back();
-  //       }
-  //     }
-  //     client.close();
-  //   }
-  // }
-
-
+    try {
+      response = await methodBasedResponse(
+        method: requestMethod,
+        token: token,
+        body: body,
+        uri: uri,
+        timer: timer,
+        client: client,
+        contentType: contentType,
+      );
+      ll("response headers : ${response.statusCode}");
+      if (response.statusCode == 200) {
+        ll("response body : ${response.body}");
+        CommonDM cm = convertToCommonObject(jsonDecode(response.body));
+        return cm;
+        // return jsonDecode(response.body);
+      } else if (response.statusCode == 401 || response.statusCode == 403) {
+        await SpController().onLogout();
+        Get.offAllNamed(krLogin);
+      } else {
+        return null;
+      }
+    } on SocketException {
+      error = ksNoInternetConnectionMessage.tr;
+      _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+      return null;
+    } catch (e) {
+      log(e.toString());
+      _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+      return null;
+    } finally {
+      client.close();
+    }
+  }
 }

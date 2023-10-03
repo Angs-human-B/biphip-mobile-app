@@ -1,10 +1,7 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
-import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
-import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
+import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 
 class SelectInterestScreen extends StatelessWidget {
   SelectInterestScreen({super.key});
@@ -51,9 +48,8 @@ class SelectInterestScreen extends StatelessWidget {
                     kH24sizedBox,
                     kH24sizedBox,
                     const TopTitleAndSubtitle(
-                      title: 'Choose your interest',
-                      subTitle:
-                          'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.',
+                      title: ksChooseInterest,
+                      subTitle:ksCHooseInterestSubtitle,
                     ),
                     kH16sizedBox,
                     Wrap(

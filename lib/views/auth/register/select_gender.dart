@@ -1,10 +1,8 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
-import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
-import 'package:bip_hip/widgets/common/custom_selection_button.dart';
-import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
+import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 
 class SelectGender extends StatelessWidget {
   SelectGender({super.key});
@@ -51,29 +49,31 @@ class SelectGender extends StatelessWidget {
                       kH24sizedBox,
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'What\'s your gender?',
-                        subTitle: 'You can change your gender from your profile settings.',
+                        title: ksWhatGender,
+                        subTitle: ksChangeGender,
                       ),
                       kH50sizedBox,
                       CustomSelectionButton(
                         onPressed: () {
                           _globalController.commonBottomSheet(
-                              context: context,
-                              content: _GenderListContent(
-                                authenticationController: _authenticationController,
-                              ),
-                              onPressCloseButton: () {
-                                Get.back();
-                              },
-                              onPressRightButton: null,
-                              rightText: '',
-                              rightTextStyle: regular10TextStyle(cBlackColor),
-                              title: 'Select Gender',
-                              isRightButtonShow: false,
-                              bottomSheetHeight: 260);
+                            context: context,
+                            content: _GenderListContent(
+                              authenticationController: _authenticationController,
+                            ),
+                            onPressCloseButton: () {
+                              Get.back();
+                            },
+                            onPressRightButton: null,
+                            rightText: '',
+                            rightTextStyle: regular10TextStyle(cBlackColor),
+                            title: ksSelectGender,
+                            isRightButtonShow: false,
+                            isScrollControlled: true,
+                            bottomSheetHeight: 260,
+                          );
                         },
                         text: _authenticationController.gender.value,
-                        hintText: "Select gender",
+                        hintText: ksSelectGender,
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
@@ -116,6 +116,7 @@ class _GenderListContent extends StatelessWidget {
               title: Text(genders[0]),
               value: genders[0],
               activeColor: cPrimaryColor,
+              contentPadding: EdgeInsets.zero,
               groupValue: authenticationController.gender.value,
               controlAffinity: ListTileControlAffinity.trailing,
               onChanged: (value) {
@@ -126,6 +127,7 @@ class _GenderListContent extends StatelessWidget {
               title: Text(genders[1]),
               value: genders[1],
               activeColor: cPrimaryColor,
+              contentPadding: EdgeInsets.zero,
               groupValue: authenticationController.gender.value,
               controlAffinity: ListTileControlAffinity.trailing,
               onChanged: (value) {
@@ -136,6 +138,7 @@ class _GenderListContent extends StatelessWidget {
               title: Text(genders[2]),
               value: genders[2],
               activeColor: cPrimaryColor,
+              contentPadding: EdgeInsets.zero,
               groupValue: authenticationController.gender.value,
               controlAffinity: ListTileControlAffinity.trailing,
               onChanged: (value) {

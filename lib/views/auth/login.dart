@@ -1,11 +1,9 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/checkbox_and_container.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
-import 'package:bip_hip/widgets/common/linkup_text.dart';
-import 'package:bip_hip/widgets/common/logo_and_text_widget.dart';
-import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
-import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
+import 'package:bip_hip/widgets/common/button/checkbox_and_container.dart';
+import 'package:bip_hip/widgets/common/button/linkup_text.dart';
+import 'package:bip_hip/widgets/common/button/logo_and_text_widget.dart';
+import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 
 class Login extends StatelessWidget {
   Login({Key? key}) : super(key: key);
@@ -28,7 +26,7 @@ class Login extends StatelessWidget {
                 () => Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: getPaddingTop(context) + h60),
+                      padding: isDeviceScreenLarge() ? EdgeInsets.only(top: getPaddingTop(context) + h60) : EdgeInsets.only(top: getPaddingTop(context) + h40),
                       child: const LogoAndText(
                         size: h50,
                         fontSize: h18,
@@ -41,7 +39,7 @@ class Login extends StatelessWidget {
                       child: SizedBox(
                         width: width,
                         child: const TopTitleAndSubtitle(
-                          title: "Login",
+                          title: ksLogin,
                           subTitle: "Please login to continue...",
                         ),
                       ),
@@ -56,9 +54,9 @@ class Login extends StatelessWidget {
                         onChanged: (text) {
                           _authenticationController.checkCanLogin();
                           if (_authenticationController.loginEmailTextEditingController.text.trim() == '') {
-                            _authenticationController.loginEmailErrorText.value = 'Email or Phone number can\'t be empty';
+                            _authenticationController.loginEmailErrorText.value = ksEmptyEmailErrorMessage;
                           } else if (!_authenticationController.loginEmailTextEditingController.text.trim().isValidEmail) {
-                            _authenticationController.loginEmailErrorText.value = 'Invalid email address';
+                            _authenticationController.loginEmailErrorText.value = ksInvalidEmailErrorMessage;
                           } else {
                             _authenticationController.loginEmailErrorText.value = '';
                           }
@@ -74,7 +72,7 @@ class Login extends StatelessWidget {
                       child: CustomModifiedTextField(
                         errorText: _authenticationController.loginPasswordErrorText.value,
                         controller: _authenticationController.loginPasswordTextEditingController,
-                        hint: "Password",
+                        hint: ksPassword,
                         suffixIcon: _authenticationController.isLoginPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                         onSuffixPress: () {
                           _authenticationController.isLoginPasswordToggleObscure.value = !_authenticationController.isLoginPasswordToggleObscure.value;
@@ -82,9 +80,9 @@ class Login extends StatelessWidget {
                         onChanged: (text) {
                           _authenticationController.checkCanLogin();
                           if (_authenticationController.loginPasswordTextEditingController.text.trim() == '') {
-                            _authenticationController.loginPasswordErrorText.value = 'Password can\'t be empty';
+                            _authenticationController.loginPasswordErrorText.value = ksEmptyPasswordErrorMessage;
                           } else if (_authenticationController.loginPasswordTextEditingController.text.length < kMinPasswordLength) {
-                            _authenticationController.loginPasswordErrorText.value = 'Password can\'t be less then 8 characters';
+                            _authenticationController.loginPasswordErrorText.value = ksPasswordLengthErrorMessage;
                           } else {
                             _authenticationController.loginPasswordErrorText.value = '';
                           }
@@ -104,6 +102,7 @@ class Login extends StatelessWidget {
                           _authenticationController.isLoginRememberCheck.value = !_authenticationController.isLoginRememberCheck.value;
                         },
                         onPressForgetButton: () {
+                          _authenticationController.resetForgotPasswordScreen();
                           Get.toNamed(krForgotPassword);
                         },
                       ),
@@ -113,9 +112,12 @@ class Login extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: h20),
                       child: CustomElevatedButton(
                         label: 'Login',
-                        onPressed: _authenticationController.canLogin.value ? () {
-                          Get.toNamed(krMenu);
-                        } : null,
+                        onPressed: _authenticationController.canLogin.value
+                            ? () async {
+                                // await _authenticationController.userLogin();
+                                Get.toNamed(krHome);
+                              }
+                            : null,
                         buttonWidth: width - 40,
                         textStyle:
                             _authenticationController.canLogin.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),

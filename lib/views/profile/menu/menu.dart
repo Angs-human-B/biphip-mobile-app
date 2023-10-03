@@ -1,7 +1,8 @@
+import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
+import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
+import 'package:bip_hip/widgets/common/utils/search.dart';
 
 class Menu extends StatelessWidget {
   Menu({super.key});
@@ -28,7 +29,31 @@ class Menu extends StatelessWidget {
                 Get.back();
               },
               action: [
-                Padding(padding: const EdgeInsets.only(right: 8.0), child: IconButton(onPressed: () {}, icon: const Icon(BipHip.search))),
+                Padding(
+                  padding: const EdgeInsets.only(right: h20),
+                  child: TextButton(
+                    style: kTextButtonStyle,
+                    onPressed: () async {
+                      final spController = SpController();
+                      Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
+                      // FirebaseCrashlytics.instance.crash();
+                      Get.find<GlobalController>().searchController.clear();
+                      Get.to(
+                        () => Search(
+                          searchController: Get.find<GlobalController>().searchController,
+                          recentSearchList: Get.find<GlobalController>().recentSearch,
+                          onSubmit: () {},
+                        ),
+                        transition: Transition.rightToLeft,
+                      );
+                    },
+                    child: Icon(
+                      BipHip.search,
+                      color: cIconColor,
+                      size: isDeviceScreenLarge() ? 24 : 20,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -44,7 +69,7 @@ class Menu extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      kH20sizedBox,
+                      isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
                       CustomMenuContainer(
                         height: 64,
                         onPressed: () {
@@ -77,19 +102,19 @@ class Menu extends StatelessWidget {
                         direction: Axis.horizontal,
                         spacing: 17.0,
                         children: [
-                          for (int i = 0; i < _profileController.shortcutButtonContent.length; i++)
+                          for (int i = 0; i < shortcutButtonContent.length; i++)
                             Padding(
                               padding: const EdgeInsets.only(bottom: k16Padding),
                               child: CustomMenuContainer(
                                 height: 64,
                                 width: (width / 2) - (kHorizontalPadding + 9),
                                 leading: Icon(
-                                  _profileController.shortcutButtonContent[i]['icon'],
+                                  shortcutButtonContent[i]['icon'],
                                   color: cPrimaryColor,
                                 ),
-                                text: _profileController.shortcutButtonContent[i]['text'],
+                                text: shortcutButtonContent[i]['text'],
                                 textStyle: semiBold16TextStyle(cBlackColor),
-                                onPressed: _profileController.shortcutButtonContent[i]['onPressed'],
+                                onPressed: shortcutButtonContent[i]['onPressed'],
                               ),
                             ),
                         ],
@@ -103,6 +128,7 @@ class Menu extends StatelessWidget {
                       CustomExpandableMenuButton(
                         height: h50,
                         text: 'Help & support',
+                        icon: BipHip.helpFill,
                         onPressed: () {
                           _profileController.isSupportButtonPressed.value = !_profileController.isSupportButtonPressed.value;
                         },
@@ -115,7 +141,7 @@ class Menu extends StatelessWidget {
                         ),
                       if (_profileController.isSupportButtonPressed.value)
                         ListOfButtons(
-                          list: _profileController.supportButtonContent,
+                          list: supportButtonContent,
                         ),
                       if (_profileController.isSupportButtonPressed.value) kH10sizedBox,
                       if (_profileController.isSupportButtonPressed.value || !_profileController.isSettingButtonPressed.value)
@@ -125,11 +151,13 @@ class Menu extends StatelessWidget {
                           color: cLineColor,
                         ),
                       CustomExpandableMenuButton(
-                          onPressed: () {
-                            _profileController.isSettingButtonPressed.value = !_profileController.isSettingButtonPressed.value;
-                          },
-                          height: h50,
-                          text: 'Settings & privacy'),
+                        onPressed: () {
+                          _profileController.isSettingButtonPressed.value = !_profileController.isSettingButtonPressed.value;
+                        },
+                        height: h50,
+                        text: 'Settings & privacy',
+                        icon: BipHip.setting,
+                      ),
                       Container(
                         width: width,
                         height: 1,
@@ -137,12 +165,19 @@ class Menu extends StatelessWidget {
                       ),
                       if (_profileController.isSettingButtonPressed.value)
                         ListOfButtons(
-                          list: _profileController.settingsButtonContent,
+                          list: settingsButtonContent,
                         ),
                       kH20sizedBox,
                       CustomElevatedButton(
                         label: 'Logout',
-                        onPressed: () {},
+                        onPressed: () async {
+                          await Get.find<AuthenticationController>().getSavedUsers();
+                          if (Get.find<AuthenticationController>().users.isNotEmpty) {
+                            Get.offAllNamed(krSavedUserLogin);
+                          } else {
+                            Get.offAllNamed(krLogin);
+                          }
+                        },
                         buttonHeight: 42,
                         buttonWidth: width - 40,
                         buttonColor: cWhiteColor,
@@ -154,6 +189,14 @@ class Menu extends StatelessWidget {
                 ),
               ),
             ),
+          ),
+          bottomNavigationBar: CustomBottomNavBar(
+            width: width,
+            isFirstButtonClicked: false,
+            isSecondButtonClicked: false,
+            isThirdButtonClicked: false,
+            isFourthButtonClicked: false,
+            isFifthButtonClicked: true,
           ),
         ),
       ),
@@ -199,11 +242,12 @@ class CustomMenuContainer extends StatelessWidget {
 }
 
 class CustomExpandableMenuButton extends StatelessWidget {
-  const CustomExpandableMenuButton({super.key, required this.text, this.height, this.onPressed});
+  const CustomExpandableMenuButton({super.key, required this.text, this.height, this.onPressed, required this.icon});
 
   final String text;
   final VoidCallback? onPressed;
   final double? height;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -218,9 +262,10 @@ class CustomExpandableMenuButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: k10Padding),
           child: Row(
             children: [
-              const Icon(
-                BipHip.info,
+              Icon(
+                icon,
                 color: cIconColor,
+                size: isDeviceScreenLarge() ? 22 : 18,
               ),
               kW8sizedBox,
               Text(
@@ -228,9 +273,10 @@ class CustomExpandableMenuButton extends StatelessWidget {
                 style: semiBold16TextStyle(cBlackColor),
               ),
               const Spacer(),
-              const Icon(
+              Icon(
                 BipHip.downArrow,
                 color: cIconColor,
+                size: isDeviceScreenLarge() ? h28 : h24,
               )
             ],
           ),
@@ -256,7 +302,16 @@ class ListOfButtons extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(top: k10Padding),
           child: CustomMenuContainer(
-              height: 48, onPressed: item['onPressed'], leading: const Icon(BipHip.openedEye), text: item['text'], textStyle: semiBold14TextStyle(cBlackColor)),
+            height: 48,
+            onPressed: item['onPressed'],
+            leading: Icon(
+              item['icon'],
+              color: cIconColor,
+              size: isDeviceScreenLarge() ? h20 : h16,
+            ),
+            text: item['text'],
+            textStyle: semiBold14TextStyle(cBlackColor),
+          ),
         );
       },
     );

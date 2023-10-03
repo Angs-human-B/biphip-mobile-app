@@ -1,6 +1,5 @@
 //* info:: auth screens
 import 'package:bip_hip/views/auth/forget_password/forgot_password_screen.dart';
-import 'package:bip_hip/views/auth/forget_password/otp_forget_password.dart';
 import 'package:bip_hip/views/auth/forget_password/reset_password_screen.dart';
 import 'package:bip_hip/views/auth/login.dart';
 import 'package:bip_hip/views/auth/register/otp_verification.dart';
@@ -13,8 +12,23 @@ import 'package:bip_hip/views/auth/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/create_post/create_post.dart';
+import 'package:bip_hip/views/create_post/upload_media_list.dart';
+import 'package:bip_hip/views/home/homepage.dart';
+import 'package:bip_hip/views/profile/edit_about_info/edit_about.dart';
+import 'package:bip_hip/views/profile/edit_about_info/edit_page.dart';
+import 'package:bip_hip/views/profile/edit_bio.dart';
+import 'package:bip_hip/views/profile/edit_profile.dart';
+import 'package:bip_hip/views/create_post/select_category.dart';
+import 'package:bip_hip/views/profile/menu/family.dart';
+import 'package:bip_hip/views/profile/menu/friends.dart';
 import 'package:bip_hip/views/profile/menu/menu.dart';
+import 'package:bip_hip/views/profile/photo_details.dart';
+import 'package:bip_hip/views/profile/photo_preview.dart';
+import 'package:bip_hip/views/profile/photos.dart';
 import 'package:bip_hip/views/profile/profile.dart';
+import 'package:bip_hip/views/profile/video_details.dart';
+import 'package:bip_hip/views/profile/videos.dart';
 import 'package:bip_hip/views/splash_and_intro/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +37,6 @@ const String krSavedUserLogin = '/saved-user-login';
 const String krForgotPassword = '/forgot-password';
 const String krResetPass = '/reset-pass';
 const String krSetNewPass = '/set-new-pass';
-const String krForgetPasswordOTP = '/forgot-password-otp';
 const String krOTP = '/otp-verify';
 
 const String krIntroductionScreen = '/introduction-screen';
@@ -43,6 +56,22 @@ const String krUploadPicture = '/upload-picture';
 
 const String krMenu = '/menu';
 const String krProfile = '/profile';
+const String krFriends = '/friends';
+const String krFamily = '/family';
+const String krEditProfile = '/edit-profile';
+const String krEditBio = '/edit-bio';
+const String krPhotos = '/photos';
+const String krPhotoDetails = '/photo-details';
+const String krVideos = '/videos';
+const String krVideoDetails = '/video-details';
+const String krPhotoPreview = '/photo-preview';
+const String krEditAboutInfo = '/edit-about-info';
+const String krEdit = '/edit';
+
+const String krCreatePost = '/create-post';
+const String krSelectCategory = '/create-post/select-category';
+const String krUploadedImageListPage = '/create-post/uploaded-image-list';
+
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -57,7 +86,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krSelectInterest, page: () => SelectInterestScreen(), transition: Transition.noTransition),
   GetPage(name: krUploadPicture, page: () => PictureUploadScreen(), transition: Transition.noTransition),
   GetPage(name: krForgotPassword, page: () => ForgotPasswordScreen(), transition: Transition.noTransition),
-  GetPage(name: krForgetPasswordOTP, page: () => ForgetPasswordOTP(), transition: Transition.noTransition),
   GetPage(name: krResetPass, page: () => ResetPasswordScreen(), transition: Transition.noTransition),
   GetPage(name: krOTP, page: () => OTPVerifyScreen(), transition: Transition.noTransition),
 
@@ -65,9 +93,28 @@ List<GetPage<dynamic>>? routes = [
   // GetPage(name: krIntroductionScreen, page: () => IntroductionPage()),
 
   //* menu screen
-  GetPage(name: krMenu, page: () => Menu()),
-  GetPage(name: krProfile, page: () => Profile()),
+  GetPage(name: krMenu, page: () => Menu(), transition: Transition.noTransition),
+  GetPage(name: krProfile, page: () => Profile(), transition: Transition.noTransition),
+  GetPage(name: krFriends, page: () => Friends(), transition: Transition.noTransition),
+  GetPage(name: krFamily, page: () => Family(), transition: Transition.noTransition),
+  GetPage(name: krEditProfile, page: () => EditProfile(), transition: Transition.noTransition),
+  GetPage(name: krEditBio, page: () => EditBio(), transition: Transition.noTransition),
+  GetPage(name: krPhotos, page: () => Photos(), transition: Transition.noTransition),
+  GetPage(name: krPhotoDetails, page: () => PhotoDetails(), transition: Transition.noTransition),
+  GetPage(name: krVideos, page: () => Videos(), transition: Transition.noTransition),
+  GetPage(name: krVideoDetails, page: () => VideoDetails(), transition: Transition.noTransition),
+  GetPage(name: krPhotoPreview, page: () => PhotoPreview(), transition: Transition.noTransition),
+  GetPage(name: krEditAboutInfo, page: () => EditAboutInfo(), transition: Transition.noTransition),
+  GetPage(name: krEdit, page: () => EditPage(), transition: Transition.noTransition),
 
   //* info:: other screens
   GetPage(name: krSplashScreen, page: () => const SplashScreen(), transition: Transition.noTransition),
+
+  //* create post
+  GetPage(name: krCreatePost, page: () => CreatePost(), transition: Transition.downToUp),
+  GetPage(name: krSelectCategory, page: () => SelectCategory(), transition: Transition.downToUp),
+  GetPage(name: krUploadedImageListPage, page: () => UploadImageListPage(), transition: Transition.rightToLeft),
+
+  //* home
+  GetPage(name: krHome, page: () => HomePage(), transition: Transition.noTransition)
 ];
