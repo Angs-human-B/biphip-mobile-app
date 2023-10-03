@@ -1,14 +1,14 @@
 //* info:: auth screens
 import 'package:bip_hip/views/auth/forget_password/forgot_password_screen.dart';
 import 'package:bip_hip/views/auth/forget_password/reset_password_screen.dart';
-import 'package:bip_hip/views/auth/login.dart';
+import 'package:bip_hip/views/auth/login/login.dart';
 import 'package:bip_hip/views/auth/register/otp_verification.dart';
 import 'package:bip_hip/views/auth/register/picture_upload_screen.dart';
 import 'package:bip_hip/views/auth/register/register.dart';
 import 'package:bip_hip/views/auth/register/select_interest.dart';
 import 'package:bip_hip/views/auth/register/select_profession.dart';
 import 'package:bip_hip/views/auth/register/set_password.dart';
-import 'package:bip_hip/views/auth/saved_user_login.dart';
+import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
