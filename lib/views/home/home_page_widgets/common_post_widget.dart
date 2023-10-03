@@ -30,15 +30,17 @@ class CommonPostWidget extends StatelessWidget {
       this.categoryIconColor,
       required this.isTextualPost,
       this.postText,
-      this.mediaList,
-      required this.isSelfPost, required this.isCommentShown});
-  final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown;
+      required this.mediaList,
+      required this.isSelfPost,
+      required this.isCommentShown,
+      required this.isSharedPost});
+  final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost;
   final String userName, postTime;
   final String? category, brandName, kidName, kidAge, title, price, postText;
   final IconData? categoryIcon;
   final IconData privacy;
   final Color? categoryIconColor;
-  final List? mediaList;
+  final List mediaList;
   final HomeController _homeController = Get.find<HomeController>();
   final PostReactionController _postReactionController = Get.find<PostReactionController>();
   final GlobalController _globalController = Get.find<GlobalController>();
@@ -169,7 +171,28 @@ class CommonPostWidget extends StatelessWidget {
               ),
             ),
           kH16sizedBox,
-          if (mediaList!.isNotEmpty)
+          if (isSharedPost)
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: k8CircularBorderRadius,
+                  border: Border.all(color: cLineColor),
+                ),
+                child: CommonPostWidget(
+                  isCommented: false,
+                  isLiked: false,
+                  mediaList: [],
+                  isCategorized: false,
+                  userName: 'Steve Sanchez',
+                  postTime: '5 hrs ago',
+                  privacy: BipHip.world,
+                  isTextualPost: true,
+                  isSelfPost: false,
+                  isCommentShown: false,
+                  isSharedPost: false,
+                  postText:
+                      'When i was sixteen i won a great victory. I thought i would live to be a hundred. Now i know i shall not see thirty. None of us knows how our life may end. When you stand before god you cannot say i was told by others to do thus or the virtue was not inconvenient. A father may claim a son, a king may move a man. Also he can move himself. Only when he moves himself he truly starts his own game',
+                )),
+          if (mediaList.isNotEmpty)
             Obx(
               () => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -196,7 +219,7 @@ class CommonPostWidget extends StatelessWidget {
                       //       ),
                       //     ),
                       //   ),
-                      if (mediaList!.length > 3)
+                      if (mediaList.length > 3)
                         Row(
                           children: [
                             TextButton(
@@ -204,10 +227,10 @@ class CommonPostWidget extends StatelessWidget {
                               onPressed: () {},
                               child: Container(
                                 decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                                height: mediaList!.length < 2 ? 302 : 150,
-                                width: mediaList!.length > 2 ? (width - 42) / 2 : (width - 42),
+                                height: mediaList.length < 2 ? 302 : 150,
+                                width: mediaList.length > 2 ? (width - 42) / 2 : (width - 42),
                                 child: Image.asset(
-                                  mediaList![0],
+                                  mediaList[0],
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -223,70 +246,70 @@ class CommonPostWidget extends StatelessWidget {
                                 height: 150,
                                 width: (width - 42) / 2,
                                 child: Image.asset(
-                                  mediaList![1],
+                                  mediaList[1],
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
                           ],
                         ),
-                      if (mediaList!.length > 1)
+                      if (mediaList.length > 1)
                         const SizedBox(
                           height: 2,
                         ),
                       Row(
                         children: [
-                          if (mediaList!.length < 4)
+                          if (mediaList.length < 4)
                             TextButton(
                               style: kTextButtonStyle,
                               onPressed: () {},
                               child: Container(
                                 decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                                 height: 150,
-                                width: mediaList!.length < 3 ? (width - 40) : (width - 42) / 2,
+                                width: mediaList.length < 3 ? (width - 40) : (width - 42) / 2,
                                 child: Image.asset(
-                                  mediaList![1],
+                                  mediaList[1],
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
-                          if (mediaList!.length > 3)
+                          if (mediaList.length > 3)
                             TextButton(
                               style: kTextButtonStyle,
                               onPressed: () {},
                               child: Container(
                                 decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                                 height: 150,
-                                width: mediaList!.length == 4 ? (width - 42) / 2 : (width - 44) / 3,
+                                width: mediaList.length == 4 ? (width - 42) / 2 : (width - 44) / 3,
                                 child: Image.asset(
-                                  mediaList![2],
+                                  mediaList[2],
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
-                          if (mediaList!.length > 2)
+                          if (mediaList.length > 2)
                             const SizedBox(
                               width: 2,
                             ),
-                          if (mediaList!.length > 3)
+                          if (mediaList.length > 3)
                             TextButton(
                               style: kTextButtonStyle,
                               onPressed: () {},
                               child: Container(
                                 decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                                 height: 150,
-                                width: mediaList!.length == 4 ? (width - 42) / 2 : (width - 44) / 3,
+                                width: mediaList.length == 4 ? (width - 42) / 2 : (width - 44) / 3,
                                 child: Image.asset(
-                                  mediaList![3],
+                                  mediaList[3],
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
-                          if (mediaList!.length > 4)
+                          if (mediaList.length > 4)
                             const SizedBox(
                               width: 2,
                             ),
-                          if (mediaList!.length >= 5)
+                          if (mediaList.length >= 5)
                             Stack(
                               alignment: AlignmentDirectional.center,
                               children: [
@@ -298,14 +321,14 @@ class CommonPostWidget extends StatelessWidget {
                                     height: 150,
                                     width: (width - 44) / 3,
                                     child: Image.asset(
-                                      mediaList![4],
+                                      mediaList[4],
                                       fit: BoxFit.cover,
-                                      color: mediaList!.length > 5 ? cBlackColor.withOpacity(0.3) : null,
-                                      colorBlendMode: mediaList!.length > 5 ? BlendMode.multiply : null,
+                                      color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
+                                      colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,
                                     ),
                                   ),
                                 ),
-                                if (mediaList!.length > 5)
+                                if (mediaList.length > 5)
                                   Positioned(
                                     child: TextButton(
                                       style: kTextButtonStyle,
@@ -313,7 +336,7 @@ class CommonPostWidget extends StatelessWidget {
                                         Get.toNamed(krUploadedImageListPage);
                                       },
                                       child: Text(
-                                        "${mediaList!.length - 5} More",
+                                        "${mediaList.length - 5} More",
                                         style: semiBold16TextStyle(cWhiteColor),
                                       ),
                                     ),
@@ -372,63 +395,68 @@ class CommonPostWidget extends StatelessWidget {
                 isPlaceBid: true,
               ),
             ),
-          kH12sizedBox,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: PostActivityStatusWidget(
-              reactCount: 440,
-              reactionOnPressed: () {
-                _postReactionController.giftFilter(0);
-                _globalController.blankBottomSheet(context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-              },
-              giftCount: 50,
-              commentCount: 200,
-              shareCount: 340,
-              isGiftShown: true,
-              giftOnPressed: () {
-                _postReactionController.giftFilter(0);
-                _globalController.blankBottomSheet(context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-              },
+          if (isSharedPost) kH12sizedBox,
+          if (isSharedPost)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              child: PostActivityStatusWidget(
+                reactCount: 440,
+                reactionOnPressed: () {
+                  _postReactionController.giftFilter(0);
+                  _globalController.blankBottomSheet(
+                      context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                },
+                giftCount: 50,
+                commentCount: 200,
+                shareCount: 340,
+                isGiftShown: true,
+                giftOnPressed: () {
+                  _postReactionController.giftFilter(0);
+                  _globalController.blankBottomSheet(
+                      context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                },
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: kHorizontalPadding,
+          if (isSharedPost)
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: kHorizontalPadding,
+              ),
+              child: LikeSectionWidget(
+                isGiftShown: true,
+                giftOnPressed: () {
+                  _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                },
+              ),
             ),
-            child: LikeSectionWidget(
-              isGiftShown: true,
-              giftOnPressed: () {
-                _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-              },
+          if (isSharedPost)
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              child: CustomDivider(),
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: CustomDivider(),
-          ),
-          kH12sizedBox,
-          if(isCommentShown)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: CommentWidget(
-              profileImage: 'assets/images/pic5.jpeg',
-              comment:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
-              timePassed: '30',
-              isLikeButtonShown: true,
-              commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
-              isReplyButtonShown: true,
-              isReactButtonShown: true,
-              isImageComment: true,
-              image: kiDummyImage3ImageUrl,
-              isLink: false,
-              reactCount: 1234,
-              userName: 'Monjurul Sharker Omi',
-              isSendMessageShown: false,
-              isHideButtonShown: true,
-              replyList: replyComment,
+          if (isSharedPost) kH12sizedBox,
+          if (isCommentShown)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              child: CommentWidget(
+                profileImage: 'assets/images/pic5.jpeg',
+                comment:
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
+                timePassed: '30',
+                isLikeButtonShown: true,
+                commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
+                isReplyButtonShown: true,
+                isReactButtonShown: true,
+                isImageComment: true,
+                image: kiDummyImage3ImageUrl,
+                isLink: false,
+                reactCount: 1234,
+                userName: 'Monjurul Sharker Omi',
+                isSendMessageShown: false,
+                isHideButtonShown: true,
+                replyList: replyComment,
+              ),
             ),
-          ),
         ],
       ),
     );

@@ -155,6 +155,7 @@ class HomePage extends StatelessWidget {
                     child: CommonPostWidget(
                       isCommented: false,
                       isLiked: true,
+                      isSharedPost: true,
                       userName: 'Monjurul Sharker',
                       postTime: '3 hrs ago',
                       isCategorized: true,
@@ -170,7 +171,7 @@ class HomePage extends StatelessWidget {
                       price: '1000',
                       postText:
                           'Good news for child traffickers and black market organ sellers. A 5 years old kid from Ohio is up for sell. The product has fully functional organs. Unfortunately, his left kidney got malfunctioned few months ago. Hospital documents will also be provided. Otherwise all organs are completely functional and product is refundable',
-                      mediaList: _homeController.imageList,
+                      mediaList: [],
                       isSelfPost: true,
                       isCommentShown: false,
                     ),
