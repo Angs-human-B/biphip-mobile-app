@@ -1,5 +1,5 @@
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/linkup_text.dart';
+import 'package:bip_hip/widgets/common/button/linkup_text.dart';
 
 class CountDown extends StatelessWidget {
   const CountDown({

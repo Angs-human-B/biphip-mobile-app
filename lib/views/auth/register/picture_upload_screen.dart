@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 
 class PictureUploadScreen extends StatelessWidget {
   PictureUploadScreen({super.key});
@@ -145,7 +145,15 @@ class PictureUploadScreen extends StatelessWidget {
                     ),
                     if (!_authenticationController.isProfileImageChanged.value) kH20sizedBox,
                     if (!_authenticationController.isProfileImageChanged.value)
-                      CustomTextButton(onPressed: () {}, text: ksSkip, textStyle: semiBold16TextStyle(cBlackColor)),
+                      CustomElevatedButton(
+                        buttonWidth: width - 40,
+                        buttonColor: cWhiteColor,
+                        onPressed: () {
+                          Get.offAllNamed(krMenu);
+                        },
+                        label: ksSkip,
+                        textStyle: semiBold16TextStyle(cPrimaryColor),
+                      ),
                     kHBottomSizedBox
                   ],
                 ),

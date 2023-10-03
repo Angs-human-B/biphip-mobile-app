@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});
@@ -64,8 +64,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                       CustomElevatedButton(
                         label: ksNext,
                         onPressed: _authenticationController.canSendOTP.value
-                            ? () {
-                                Get.toNamed(krForgetPasswordOTP);
+                            ? () async {
+                                await _authenticationController.forgetPassword();
                               }
                             : null,
                         buttonWidth: width - 40,

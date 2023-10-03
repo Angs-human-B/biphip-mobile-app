@@ -1,8 +1,17 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class CustomSelectionButton extends StatelessWidget {
-  const CustomSelectionButton(
-      {super.key, this.onPressed, this.text, this.hintText, this.prefixIcon, this.buttonColor, this.borderColor, this.buttonHeight, this.contentPadding});
+  const CustomSelectionButton({
+    super.key,
+    this.onPressed,
+    this.text,
+    this.hintText,
+    this.prefixIcon,
+    this.buttonColor,
+    this.borderColor,
+    this.buttonHeight,
+    this.contentPadding,
+  });
   final Function()? onPressed;
   final IconData? prefixIcon;
   final String? text, hintText;

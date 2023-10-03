@@ -3,7 +3,7 @@ import 'package:bip_hip/models/video_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
 import 'package:bip_hip/views/profile/photo_details.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
+import 'package:bip_hip/widgets/common/utils/custom_app_bar.dart';
 
 class Videos extends StatelessWidget {
   const Videos({super.key});

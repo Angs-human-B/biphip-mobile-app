@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_outline_button.dart';
+import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AddBrandPage extends StatelessWidget {
@@ -32,7 +32,9 @@ class AddBrandPage extends StatelessWidget {
                   padding: const EdgeInsets.only(right: h20),
                   child: TextButton(
                     style: kTextButtonStyle,
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.back();
+                    },
                     child: Text(
                       "Add",
                       style: medium14TextStyle(cPrimaryColor),

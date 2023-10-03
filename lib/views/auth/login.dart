@@ -1,9 +1,9 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/checkbox_and_container.dart';
-import 'package:bip_hip/widgets/common/linkup_text.dart';
-import 'package:bip_hip/widgets/common/logo_and_text_widget.dart';
-import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/common/button/checkbox_and_container.dart';
+import 'package:bip_hip/widgets/common/button/linkup_text.dart';
+import 'package:bip_hip/widgets/common/button/logo_and_text_widget.dart';
+import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 
 class Login extends StatelessWidget {
   Login({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class Login extends StatelessWidget {
                 () => Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: getPaddingTop(context) + h60),
+                      padding: isDeviceScreenLarge() ? EdgeInsets.only(top: getPaddingTop(context) + h60) : EdgeInsets.only(top: getPaddingTop(context) + h40),
                       child: const LogoAndText(
                         size: h50,
                         fontSize: h18,
@@ -102,6 +102,7 @@ class Login extends StatelessWidget {
                           _authenticationController.isLoginRememberCheck.value = !_authenticationController.isLoginRememberCheck.value;
                         },
                         onPressForgetButton: () {
+                          _authenticationController.resetForgotPasswordScreen();
                           Get.toNamed(krForgotPassword);
                         },
                       ),

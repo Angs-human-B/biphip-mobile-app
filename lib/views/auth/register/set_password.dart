@@ -1,7 +1,7 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
-import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
+import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 
 class SetPassword extends StatelessWidget {
   SetPassword({super.key});
@@ -47,10 +47,7 @@ class SetPassword extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       kH24sizedBox,
-                      const TopTitleAndSubtitle(
-                        title: ksCreatePassword,
-                        subTitle: ksCreateStrongPassword
-                      ),
+                      const TopTitleAndSubtitle(title: ksCreatePassword, subTitle: ksCreateStrongPassword),
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerPasswordTextEditingController,
@@ -110,7 +107,10 @@ class SetPassword extends StatelessWidget {
                       CustomElevatedButton(
                         label: ksNext,
                         onPressed: _authenticationController.checkValidPassword.value
-                            ? () {
+                            ? () async {
+                                await _authenticationController.userRegister();
+                                _authenticationController.parentRoute.value = "register";
+                                _authenticationController.resetOTPScreen();
                                 Get.toNamed(krOTP);
                               }
                             : null,

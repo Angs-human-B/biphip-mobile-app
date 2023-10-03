@@ -165,11 +165,6 @@ List interest = [
 
 List genders = ['Male', 'Female', 'Others'];
 
-List userData = [
-  {'name': 'Johnson'},
-  {'name': 'Marie Latham'},
-  {'name': 'Monjurul Sharker Omi'}
-];
 
 const String kPost = "POST";
 const String kGet = "GET";

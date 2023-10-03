@@ -1,7 +1,8 @@
+import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_bottom_nav.dart';
-import 'package:bip_hip/widgets/common/search.dart';
+import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
+import 'package:bip_hip/widgets/common/utils/search.dart';
 
 class Menu extends StatelessWidget {
   Menu({super.key});
@@ -43,7 +44,7 @@ class Menu extends StatelessWidget {
                           recentSearchList: Get.find<GlobalController>().recentSearch,
                           onSubmit: () {},
                         ),
-                        transition: Transition.noTransition,
+                        transition: Transition.rightToLeft,
                       );
                     },
                     child: Icon(
@@ -169,7 +170,14 @@ class Menu extends StatelessWidget {
                       kH20sizedBox,
                       CustomElevatedButton(
                         label: 'Logout',
-                        onPressed: () {},
+                        onPressed: () async {
+                          await Get.find<AuthenticationController>().getSavedUsers();
+                          if (Get.find<AuthenticationController>().users.isNotEmpty) {
+                            Get.offAllNamed(krSavedUserLogin);
+                          } else {
+                            Get.offAllNamed(krLogin);
+                          }
+                        },
                         buttonHeight: 42,
                         buttonWidth: width - 40,
                         buttonColor: cWhiteColor,

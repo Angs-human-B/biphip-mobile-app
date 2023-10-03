@@ -1,10 +1,10 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
-import 'package:bip_hip/widgets/common/custom_selection_button.dart';
-import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
+import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'package:intl/intl.dart';
 
 class SelectBirthday extends StatelessWidget {
   SelectBirthday({super.key});
@@ -28,10 +28,12 @@ class SelectBirthday extends StatelessWidget {
               onBack: () async {
                 Get.back();
               },
-              action:const [
+              action: const [
                 Padding(
-                  padding:  EdgeInsets.only(right: 8.0),
-                  child:CustomCircularProgressBar(percent: 0.32,),
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: CustomCircularProgressBar(
+                    percent: 0.32,
+                  ),
                 ),
               ],
             ),
@@ -63,7 +65,7 @@ class SelectBirthday extends StatelessWidget {
                                   child: CupertinoDatePicker(
                                     mode: CupertinoDatePickerMode.date,
                                     onDateTimeChanged: (value) {
-                                      _authenticationController.birthDay.value = value.toString();
+                                      _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(value);
                                     },
                                   ),
                                 );

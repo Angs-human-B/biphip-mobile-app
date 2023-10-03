@@ -4,8 +4,8 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/stories_widget.dart';
-import 'package:bip_hip/widgets/common/custom_bottom_nav.dart';
-import 'package:bip_hip/widgets/common/search.dart';
+import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
+import 'package:bip_hip/widgets/common/utils/search.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
