@@ -1,7 +1,7 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
-
 
 class ResetPasswordScreen extends StatelessWidget {
   ResetPasswordScreen({super.key});
@@ -25,6 +25,14 @@ class ResetPasswordScreen extends StatelessWidget {
               onBack: () async {
                 Get.back();
               },
+              action: const [
+                Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: CustomCircularProgressBar(
+                    percent: 1.0,
+                  ),
+                ),
+              ],
             ),
           ),
           backgroundColor: cWhiteColor,
@@ -69,7 +77,7 @@ class ResetPasswordScreen extends StatelessWidget {
                         obscureText: _authenticationController.isResetNewPasswordToggleObscure.value,
                         inputType: TextInputType.visiblePassword,
                       ),
-                      kH24sizedBox,
+                      kH4sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.resetConfirmPasswordTextEditingController,
                         focusNode: _confirmPasswordFocusNode,
@@ -102,7 +110,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       CustomElevatedButton(
                         label: ksNext,
                         onPressed: _authenticationController.canResetPassword.value
-                            ? () async{
+                            ? () async {
                                 await _authenticationController.resetPassword();
                               }
                             : null,

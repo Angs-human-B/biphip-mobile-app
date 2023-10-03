@@ -74,7 +74,7 @@ class SetPassword extends StatelessWidget {
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.visiblePassword,
                       ),
-                      kH24sizedBox,
+                      kH4sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerConfirmPasswordTextEditingController,
                         focusNode: _confirmPasswordFocusNode,

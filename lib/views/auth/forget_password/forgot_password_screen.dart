@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
@@ -23,6 +24,14 @@ class ForgotPasswordScreen extends StatelessWidget {
               onBack: () async {
                 Get.back();
               },
+              action: const [
+                Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: CustomCircularProgressBar(
+                    percent: .33,
+                  ),
+                ),
+              ],
             ),
           ),
           backgroundColor: cWhiteColor,
@@ -37,7 +46,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       kH24sizedBox,
-                       TopTitleAndSubtitle(
+                      TopTitleAndSubtitle(
                         title: ksTypeEmailOrPhone.tr,
                         subTitle: ksSendCodeToConfirm.tr,
                       ),
@@ -65,7 +74,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                         label: ksNext.tr,
                         onPressed: _authenticationController.canSendOTP.value
                             ? () async {
-                                await _authenticationController.forgetPassword();
+                                // await _authenticationController.forgetPassword();
+                                Get.toNamed(krResetPass);
                               }
                             : null,
                         buttonWidth: width - 40,

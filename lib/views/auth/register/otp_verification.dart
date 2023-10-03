@@ -28,12 +28,12 @@ class OTPVerifyScreen extends StatelessWidget {
                 onBack: () async {
                   Get.back();
                 },
-                action: _authenticationController.parentRoute.value == "register"
-                    ? const [
+                action: (_authenticationController.parentRoute.value == "register" || _authenticationController.parentRoute.value == "forget-password")
+                    ? [
                         Padding(
-                          padding: EdgeInsets.only(right: 8.0),
+                          padding: const EdgeInsets.only(right: 8.0),
                           child: CustomCircularProgressBar(
-                            percent: 1,
+                            percent: _authenticationController.parentRoute.value == "register" ? 1.0 : .66,
                           ),
                         ),
                       ]
