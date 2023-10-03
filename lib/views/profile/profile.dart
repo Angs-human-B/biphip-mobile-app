@@ -5,7 +5,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
 import 'package:bip_hip/views/profile/post_widgets/comment_textfield.dart';
 import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
-import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
+import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Profile extends StatelessWidget {

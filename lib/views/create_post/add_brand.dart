@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_outline_button.dart';
+import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AddBrandPage extends StatelessWidget {

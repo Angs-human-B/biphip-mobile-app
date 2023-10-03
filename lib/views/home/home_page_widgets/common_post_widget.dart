@@ -8,7 +8,7 @@ import 'package:bip_hip/views/profile/post_widgets/biding_widget.dart';
 import 'package:bip_hip/views/profile/post_widgets/comment_widget.dart';
 import 'package:bip_hip/views/profile/post_widgets/like_section_widget.dart';
 import 'package:bip_hip/views/profile/post_widgets/post_activity_status_widget.dart';
-import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
+import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CommonPostWidget extends StatelessWidget {

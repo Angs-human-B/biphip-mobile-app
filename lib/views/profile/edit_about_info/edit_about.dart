@@ -1,9 +1,8 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
-import 'package:bip_hip/widgets/common/custom_outline_button.dart';
-import 'package:bip_hip/widgets/common/custom_selection_button.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
+import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 
 class EditAboutInfo extends StatelessWidget {
   EditAboutInfo({super.key});
@@ -43,12 +42,12 @@ class EditAboutInfo extends StatelessWidget {
                   () => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      kH20sizedBox,
+                      kH10sizedBox,
                       Text(
                         'Address',
                         style: semiBold18TextStyle(cBlackColor),
                       ),
-                      kH20sizedBox,
+                      kH10sizedBox,
                       RowTextButton(
                         text: 'Hometown',
                         buttonText: 'Add Hometown',

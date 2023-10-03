@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/logo_and_text_widget.dart';
+import 'package:bip_hip/widgets/common/button/logo_and_text_widget.dart';
 
 class SavedUserLogin extends StatelessWidget {
   SavedUserLogin({Key? key}) : super(key: key);

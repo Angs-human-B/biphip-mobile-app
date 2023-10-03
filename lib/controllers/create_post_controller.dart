@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/create_post/add_brand.dart';
 import 'package:bip_hip/views/create_post/add_kid.dart';
-import 'package:bip_hip/widgets/common/custom_outline_button.dart';
+import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 
 class CreatePostController extends GetxController {
   // final ApiController _apiController = ApiController();

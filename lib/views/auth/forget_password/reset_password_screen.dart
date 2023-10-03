@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 
 
 class ResetPasswordScreen extends StatelessWidget {
