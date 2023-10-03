@@ -1,10 +1,28 @@
 //!  --------------------------------------------
 
+//---------------------------------------
+//* not changeable
+//---------------------------------------
+
 const String ksBipHip = 'BipHip';
+
+//---------------------------------------
+//* common
+//---------------------------------------
+
 const String ksLoading = 'Loading...';
-const String ksRememberMe = 'Remember me';
-const String ksForgotPassword = 'Forgot password?';
+
+//---------------------------------------
+//* authentication story
+//---------------------------------------
+const String ksPleaseLoginToContinue = "Please login to continue";
+const String ksEmailOrPhone = "Email or Phone number";
 const String ksPassword = 'Password';
+const String ksRememberMe = 'Remember me';
+const String ksLogin = 'Login';
+const String ksOrLoginWith = "Or login with";
+const String ksDoNotHaveAnyAccount = "Don't have an account?";
+const String ksForgotPassword = 'Forgot password?';
 const String ksForgetPassword = 'Forget password';
 const String ksRegisterNow = 'Register Now';
 const String ksRegistration = 'Registration';
@@ -66,7 +84,6 @@ const String ksEmptyFirstNameErrorMessage = "First name can't be empty";
 const String ksLastName = "Last Name";
 const String ksEmptyLastNameErrorMessage = "Last name can't be empty";
 const String ksAlreadyHaveAccount = 'Already have an account?';
-const String ksLogin = 'Log in';
 const String ksWhatBirthday = 'What\'s your birthday?';
 const String ksWhatEmail = 'What\'s your email?';
 const String ksWhatGender = 'What\'s your gender?';
