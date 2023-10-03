@@ -118,7 +118,6 @@ class CustomUserListContainer extends StatelessWidget {
             borderRadius: k4CircularBorderRadius,
             color: cGreyBoxColor,
           ),
-          // height: isDeviceScreenLarge() ? kLargeListItemHeight : kSmallListItemHeight,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -155,7 +154,7 @@ class CustomUserListContainer extends StatelessWidget {
                   icon: Icon(
                     BipHip.delete,
                     color: cIconColor,
-                    size: height > kSmallDeviceSizeLimit ? kIconSize20 : kIconSize16,
+                    size: isDeviceScreenLarge() ? kIconSize20 : kIconSize16,
                   ),
                 ),
               )

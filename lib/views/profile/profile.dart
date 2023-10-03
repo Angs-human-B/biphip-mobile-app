@@ -69,8 +69,8 @@ class Profile extends StatelessWidget {
                           child: Stack(
                             children: [
                               Container(
-                                height: height > kSmallDeviceSizeLimit ? kProfileImageSize : (kProfileImageSize - h10),
-                                width: height > kSmallDeviceSizeLimit ? kProfileImageSize : (kProfileImageSize - h10),
+                                height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                                width:isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
                                 decoration: BoxDecoration(
                                   color: cGreyBoxColor,
                                   borderRadius: BorderRadius.circular(90),

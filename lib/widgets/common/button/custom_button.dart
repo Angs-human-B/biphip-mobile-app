@@ -53,7 +53,7 @@ class CustomElevatedButton extends StatelessWidget {
             splashFactory: InkRipple.splashFactory,
           ),
           child: SizedBox(
-            height: buttonHeight ?? (height > kSmallDeviceSizeLimit ? (kButtonHeight) : (kButtonHeight - 4)),
+            height: buttonHeight ?? (isDeviceScreenLarge() ? (kButtonHeight) : (kButtonHeight - 4)),
             width: isCustomButton == true ? null : (buttonWidth ?? width * .5),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: isCustomButton != true ? 0.0 : 6.0),
