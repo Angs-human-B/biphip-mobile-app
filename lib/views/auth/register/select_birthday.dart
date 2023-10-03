@@ -50,9 +50,9 @@ class SelectBirthday extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       kH24sizedBox,
-                      const TopTitleAndSubtitle(
-                        title: ksWhatBirthday,
-                        subTitle: ksChangeBirthday,
+                       TopTitleAndSubtitle(
+                        title: ksWhatBirthday.tr,
+                        subTitle: ksChangeBirthday.tr,
                       ),
                       kH50sizedBox,
                       CustomSelectionButton(
@@ -72,11 +72,11 @@ class SelectBirthday extends StatelessWidget {
                               });
                         },
                         text: _authenticationController.birthDay.value,
-                        hintText: ksSelectDOB,
+                        hintText: ksSelectDOB.tr,
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
-                        label: ksNext,
+                        label: ksNext.tr,
                         onPressed: _authenticationController.birthDay.value != ''
                             ? () {
                                 Get.toNamed(krSelectGender);

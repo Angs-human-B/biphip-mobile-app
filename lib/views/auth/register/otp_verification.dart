@@ -53,9 +53,9 @@ class OTPVerifyScreen extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       kH24sizedBox,
-                      const TopTitleAndSubtitle(
-                        title: ksOTPVerification,
-                        subTitle: ksEnterCode,
+                      TopTitleAndSubtitle(
+                        title: ksOTPVerification.tr,
+                        subTitle: ksEnterCode.tr,
                       ),
                       kH50sizedBox,
                       OtpTextField(
@@ -66,7 +66,7 @@ class OTPVerifyScreen extends StatelessWidget {
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
-                        label: ksNext,
+                        label: ksNext.tr,
                         onPressed: _authenticationController.canOTPVerifyNow.value
                             ? () async {
                                 if (_authenticationController.parentRoute.value == "login") {
@@ -86,7 +86,7 @@ class OTPVerifyScreen extends StatelessWidget {
                       kH25sizedBox,
                       _authenticationController.isOTPResendClick.value
                           ? LinkupTextRow(
-                              prefix: ksResendCode,
+                              prefix: ksResendCode.tr,
                               suffix: ksResend.tr,
                               onPressed: () async {
                                 FocusScope.of(context).unfocus();

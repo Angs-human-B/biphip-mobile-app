@@ -230,8 +230,10 @@ class AuthenticationController extends GetxController {
         CommonUnVerifyModel commonUnVerifyModel = CommonUnVerifyModel.fromJson(response.data);
         // log('Login_user_data : ${loginData.token}');
         verificationToken.value = commonUnVerifyModel.token.toString();
+        parentRoute.value = "register";
         resetOTPScreen();
         Get.toNamed(krOTP);
+
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
