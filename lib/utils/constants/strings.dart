@@ -14,6 +14,7 @@ const String ksLoading = 'Loading...';
 const String ksNext = 'Next';
 const String ksSkip = 'Skip';
 const String ksAdd = 'Add';
+const String ksDone = 'Done';
 const String ksSearch = 'Search';
 const String ksConfirm = 'Confirm';
 const String ksCancel = 'Cancel';
@@ -115,3 +116,53 @@ const String ksChooseProfessionSubtitle =
     'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.';
 const String ksCHooseInterestSubtitle =
     'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.';
+
+//---------------------------------------
+//* Create Post
+//---------------------------------------
+const String ksAddBrand = "Add Brand";
+const String ksUploadImage = "Upload Image";
+const String ksWriteBrandName = "Write brand name";
+const String ksWriteHere = "Write here";
+const String ksAddSocialLinks = "Add Social Links (Minimum 1)";
+const String ksAddKid = "Add Kid";
+const String ksWriteKidName = "Write kid name";
+const String ksWriteAge = "Write age";
+const String ksSaveKidInformation = "Save Kid’s information's for further use.";
+const String ksCreatePost = 'Create post';
+const String ksPost = "Post";
+const String ksIsWithSmall = 'is with';
+const String ksOthersSmall = 'others';
+const String ksPostType = "Post Type";
+const String ksBiddingPost = "Bidding Post";
+const String ksOr = "Or";
+const String ksPlatformAndAction = "Platform & Action";
+const String ksSelectPlatform = "Select platform";
+const String ksSelectCTA = "Select CTA";
+const String ksWhatsOnYourMind = "What's on your mind";
+const String ksMore = "More";
+const String ksTitle = "Title";
+const String ksPrice = "Price";
+const String ksDescription = "Description";
+const String ksRequiredFields = "Required fields";
+const String ksSelectCategory = "Select Category";
+const String ksEntertainmentAllCap = "ENTERTAINMENT";
+const String ksSellAllCap = "SELL";
+const String ksImages = "Images";
+const String ksSelectKids = "Select Kids";
+const String ksKids = "Kids";
+const String ksBrands = "Brands";
+const String ksSelectBrands = "Select Brands";
+const String ksSelectSavedBrands = "Select Saved Brand";
+const String ksSelected = "Selected";
+const String ksTagPeople = "Tag People";
+const String ksWhoCanSeeYourPost = "Who can see your post";
+const String ksEditAudience = "Edit Audience";
+const String ksSuggestionAllCap = "SUGGESTION";
+const String ksAudienceInformation =
+    "Your post will appear in feed, on your profile and in search results. Your default audience is set to Public, but you can change the audience of this specific post.";
+const String ksAddBrandInstruction = "Please add your own brand to promote and grow your business.";
+const String ksCustomAddInstruction = "If you don’t have any kid added in system, use ‘Custom Add’ to post directly with kid’s details.";
+const String ksSellInformation = "You can sell all kind of product here. Including your brand on that will boost your selling.";
+const String ksAddKidInstructions = "To add kid category, you need to follow the further steps.";
+const String ksBiddingPostDescription = "Selecting bidding post will let the user write their preferred bidding price.";

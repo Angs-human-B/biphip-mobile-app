@@ -21,7 +21,7 @@ class SelectCategory extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: "Select Category",
+              title: ksSelectCategory.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -34,10 +34,9 @@ class SelectCategory extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       _createPostController.selectCategoryTextChange(context);
-                     
                     },
                     child: Text(
-                      "Next",
+                      ksNext.tr,
                       style: medium14TextStyle(cPrimaryColor),
                     ),
                   ),
@@ -58,7 +57,7 @@ class SelectCategory extends StatelessWidget {
                   children: [
                     isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
                     Text(
-                      "ENTERTAINMENT",
+                      ksEntertainmentAllCap.tr,
                       style: regular14TextStyle(cSmallBodyTextColor),
                     ),
                     kH8sizedBox,
@@ -90,14 +89,14 @@ class SelectCategory extends StatelessWidget {
                     ),
                     kH8sizedBox,
                     Text(
-                      "*To add kid category, you need to follow the further steps.",
+                      "*${ksAddKidInstructions.tr}",
                       style: regular12TextStyle(cPlaceHolderColor),
                     ),
                     kH16sizedBox,
                     const CustomDivider(),
                     kH16sizedBox,
                     Text(
-                      "SELL",
+                      ksSellAllCap.tr,
                       style: regular14TextStyle(cSmallBodyTextColor),
                     ),
                     kH8sizedBox,
@@ -124,7 +123,7 @@ class SelectCategory extends StatelessWidget {
                     ),
                     kH8sizedBox,
                     Text(
-                      "*You can sell all kind of product here. Including your brand on that will boost your selling.",
+                      "*${ksSellInformation.tr}",
                       style: regular12TextStyle(cPlaceHolderColor),
                     ),
                   ],
