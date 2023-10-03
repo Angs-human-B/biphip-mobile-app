@@ -63,3 +63,7 @@ Widget imageLoadingBuilder(context, child, loadingProgress) {
     isTextVisible: false,
   );
 }
+
+void unfocus(context) {
+  FocusScope.of(context).unfocus();
+}

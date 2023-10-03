@@ -1,10 +1,11 @@
-import 'dart:convert';
+// import 'dart:convert';
 import 'dart:io';
-
-import 'package:bip_hip/controllers/authentication_controller.dart';
+import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/profile/edit_profile.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GlobalController extends GetxController {
@@ -16,8 +17,6 @@ class GlobalController extends GetxController {
     {'langCode': 'en', 'countryCode': 'US', 'langName': 'English'},
   ]);
 
-  //* parent route
-  final RxString parentRoute = RxString("");
 
   //* info:: show loading
   final isLoading = RxBool(false);
@@ -30,6 +29,9 @@ class GlobalController extends GetxController {
       barrierDismissible: false,
       title: "",
       onWillPop: () async {
+        if (isLoading.value) {
+          return false;
+        }
         return true;
       },
       content: Column(
@@ -85,9 +87,12 @@ class GlobalController extends GetxController {
     required TextStyle rightTextStyle,
     required String title,
     required bool isRightButtonShow,
-    double? bottomSheetHeight
+    double? bottomSheetHeight,
+    bool? isScrollControlled,
+    bool? isSearchShow,
   }) {
     showModalBottomSheet<void>(
+      isScrollControlled: isScrollControlled ?? false,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
       ),
@@ -96,9 +101,12 @@ class GlobalController extends GetxController {
         return Stack(
           alignment: Alignment.topCenter,
           children: [
-            SizedBox(
+            Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: cWhiteColor),
               width: width,
-              height: bottomSheetHeight,
+              height: MediaQuery.of(context).viewInsets.bottom > 0.0 ? height * .9 : bottomSheetHeight ?? height * .5,
+              constraints: BoxConstraints(minHeight: bottomSheetHeight ?? height * .5, maxHeight: height * .9),
               child: Column(
                 children: [
                   kH4sizedBox,
@@ -111,10 +119,20 @@ class GlobalController extends GetxController {
                     width: width * .1,
                   ),
                   kH40sizedBox,
-                  const Divider(
-                    color: cLineColor,
-                    thickness: 1,
-                  ),
+                  const CustomDivider(),
+                  if (isSearchShow == true)
+                    Padding(
+                      padding: const EdgeInsets.only(left: k16Padding, right: k16Padding, top: k16Padding),
+                      child: CustomModifiedTextField(
+                        borderRadius: h8,
+                        controller: Get.find<ProfileController>().searchController,
+                        prefixIcon: BipHip.search,
+                        suffixIcon: BipHip.voiceFill,
+                        hint: ksSearch.tr,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
+                        textInputStyle: regular16TextStyle(cBlackColor),
+                      ),
+                    ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Padding(
@@ -128,7 +146,7 @@ class GlobalController extends GetxController {
               ),
             ),
             Positioned(
-              top: h16,
+              top: h12,
               left: 5,
               child: CustomIconButton(
                 onPress: onPressCloseButton,
@@ -164,7 +182,7 @@ class GlobalController extends GetxController {
   //* Image picker
   final ImagePicker _picker = ImagePicker();
 
-  Future<void> selectImageSource(RxBool isChanged, imageLink, imageFile, String source) async {
+  Future<bool> selectImageSource(RxBool isChanged, imageLink, imageFile, String source, [bool? isFromBottomSheet, isList = false]) async {
     try {
       final XFile? image = await _picker.pickImage(
         source: source == 'gallery' ? ImageSource.gallery : ImageSource.camera,
@@ -172,25 +190,156 @@ class GlobalController extends GetxController {
         maxWidth: 720,
       );
       if (image != null) {
-        final List<int> imageBytes = await image.readAsBytes();
-        final String base64Image = base64Encode(imageBytes);
+        // final List<int> imageBytes = await image.readAsBytes();
+        // final String base64Image = base64Encode(imageBytes);
         final File imageTemporary = File(image.path);
-        // var value = await _image.length();
-        // ll(value);
-        imageFile(imageTemporary);
+        if (isList) {
+          imageFile.add(imageTemporary.obs);
+        } else {
+          imageFile(imageTemporary);
+        }
         isChanged.value = true;
-        imageLink.value = 'data:image/png;base64,$base64Image';
+        // imageLink.value = 'data:image/png;base64,$base64Image';
         // log(imageLink.toString());
-        Get.back();
-        ll(Get.find<AuthenticationController>().isProfileImageChanged.value);
+        if (isFromBottomSheet != false) {
+          Get.back();
+        }
+        return true;
       } else {
         ll('image not selected');
-        return;
+        return false;
       }
     } on PlatformException catch (e) {
       ll("Failed to Pick Image $e");
+      return false;
     }
   }
+
+  Future<bool> selectMultiMediaSource(RxBool isMediaChanged, RxList<RxString> mediaLinkList, RxList<Rx<File?>> mediaFileList) async {
+    try {
+      final List<XFile> mediaList = await _picker.pickMultipleMedia(
+        maxHeight: 480,
+        maxWidth: 720,
+      );
+      if (mediaList.isNotEmpty) {
+        for (int i = 0; i < mediaList.length; i++) {
+          final String? type = lookupMimeType(mediaList[i].path);
+          ll(type);
+          // final List<int> imageBytes = await mediaList[i].readAsBytes();
+          // final String base64Image = base64Encode(imageBytes);
+          if (type != null) {
+            isMediaChanged.value = true;
+            final File imageTemporary = File(mediaList[i].path);
+            mediaFileList.add(imageTemporary.obs);
+            // if (type.contains('image')) {
+            //   mediaLinkList.add('data:image/png;base64,$base64Image'.obs);
+            // }
+            // if (type.contains('video')) {
+            //   mediaLinkList.add('data:video/mp4;base64,$base64Image'.obs);
+            // }
+          } else {
+            showSnackBar(title: 'Warning', message: "file format is not supported currently", color: cSecondaryColor);
+          }
+        }
+        return true;
+      } else {
+        ll('file not selected');
+        return false;
+      }
+    } on PlatformException catch (e) {
+      ll("Failed to Pick file $e");
+      return false;
+    }
+  }
+
+  Future<bool> selectVideoSource(RxBool isChanged, videoLink, videoFile, String source, [isList = false]) async {
+    try {
+      final XFile? video = await _picker.pickVideo(
+          source: source == 'gallery' ? ImageSource.gallery : ImageSource.camera,
+          preferredCameraDevice: CameraDevice.rear,
+          maxDuration: const Duration(seconds: 600));
+      if (video != null) {
+        // final List<int> videoBytes = await video.readAsBytes();
+        // final String base64Video = base64Encode(videoBytes);
+        final File videoTemporary = File(video.path);
+        if (isList) {
+          videoFile.add(videoTemporary.obs);
+        } else {
+          videoFile(videoTemporary);
+        }
+        isChanged.value = true;
+        // videoLink.value = 'data:video/mp4;base64,$base64Video';
+        // log(videoLink.toString());
+        return true;
+      } else {
+        ll('video not selected');
+        return false;
+      }
+    } on PlatformException catch (e) {
+      ll("Failed to Pick Video $e");
+      return false;
+    }
+  }
+
+  void setKeyboardValue(value, keyValue) {
+    keyValue.value = value;
+    ll(value);
+  }
+
+  void blankBottomSheet({
+    required context,
+    required Widget content,
+    double? bottomSheetHeight,
+    bool? isScrollControlled,
+  }) {
+    showModalBottomSheet<void>(
+      isScrollControlled: isScrollControlled ?? false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: cWhiteColor),
+              width: width,
+              height: MediaQuery.of(context).viewInsets.bottom > 0.0 ? height * .9 : bottomSheetHeight ?? height * .5,
+              constraints: BoxConstraints(minHeight: bottomSheetHeight ?? height * .5, maxHeight: height * .9),
+              child: Column(
+                children: [
+                  kH4sizedBox,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: cLineColor,
+                      borderRadius: k4CircularBorderRadius,
+                    ),
+                    height: 5,
+                    width: width * .1,
+                  ),
+                  kH10sizedBox,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
+                        child: content,
+                      ),
+                    ),
+                  ),
+                  kH4sizedBox,
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  final searchController = TextEditingController();
+  final recentSearch = RxList();
 
   //! end
 }
