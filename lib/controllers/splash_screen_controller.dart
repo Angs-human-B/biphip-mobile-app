@@ -33,7 +33,7 @@ class SplashScreenController extends GetxController {
           Get.offAllNamed(krMenu);
         } else {
           Get.find<AuthenticationController>().resetLoginScreen();
-          Get.offAllNamed(krLogin);
+          Get.offAllNamed(krHome);
         }
       },
     );

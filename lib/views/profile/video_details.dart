@@ -2,8 +2,9 @@ import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
-import 'package:bip_hip/views/profile/photo_details.dart';
 import 'package:bip_hip/views/profile/post_widgets/comment_widget.dart';
+import 'package:bip_hip/views/profile/post_widgets/like_section_widget.dart';
+import 'package:bip_hip/views/profile/post_widgets/post_activity_status_widget.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoDetails extends StatelessWidget {
@@ -180,16 +181,42 @@ class VideoDetails extends StatelessWidget {
                         ),
                       ],
                     ),
+                    // kH20sizedBox,
+                    // const CustomDivider(),
                     kH20sizedBox,
-                    const CustomDivider(),
-                    kH20sizedBox,
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [InteractionStats(), UserInteractionView()],
+                    // const Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [InteractionStats(), UserInteractionView()],
+                    // ),
+                    PostActivityStatusWidget(
+                      reactCount: 440,
+                      reactionOnPressed: () {
+                        // _postReactionController.giftFilter(0);
+                        // _globalController.blankBottomSheet(
+                        //     context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                      },
+                      giftCount: 50,
+                      commentCount: 200,
+                      shareCount: 340,
+                      isGiftShown: true,
+                      giftOnPressed: () {
+                        // _postReactionController.giftFilter(0);
+                        // _globalController.blankBottomSheet(
+                        //     context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                      },
                     ),
-                    kH20sizedBox,
+                    LikeSectionWidget(
+                      isGiftShown: true,
+                      giftOnPressed: () {
+                        // _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                      },
+                      commentOnPressed: () {
+                        // showComment.value = !showComment.value;
+                        // ll(showComment);
+                      },
+                    ),
                     const CustomDivider(),
-                    kH20sizedBox,
+                    kH16sizedBox,
                     Row(
                       children: [
                         Text(
@@ -211,7 +238,8 @@ class VideoDetails extends StatelessWidget {
                       userName: 'Sharker Omi',
                       isSendMessageShown: false,
                       isHideButtonShown: false,
-                      isImageComment: false, replyList: [],
+                      isImageComment: false,
+                      replyList: [],
                     ),
                     kH16sizedBox,
                     const CommentWidget(
@@ -226,7 +254,8 @@ class VideoDetails extends StatelessWidget {
                       userName: 'Sharker Omi',
                       isSendMessageShown: false,
                       isHideButtonShown: false,
-                      isImageComment: false, replyList: [],
+                      isImageComment: false,
+                      replyList: [],
                     ),
                   ],
                 ),

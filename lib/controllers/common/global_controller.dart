@@ -17,7 +17,6 @@ class GlobalController extends GetxController {
     {'langCode': 'en', 'countryCode': 'US', 'langName': 'English'},
   ]);
 
-
   //* info:: show loading
   final isLoading = RxBool(false);
 
@@ -322,10 +321,7 @@ class GlobalController extends GetxController {
                   kH10sizedBox,
                   Expanded(
                     child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
-                        child: content,
-                      ),
+                      child: content,
                     ),
                   ),
                   kH4sizedBox,
