@@ -86,7 +86,7 @@ class ApiController {
     final Uri uri = Uri.parse(Environment.apiUrl + url);
     ll("uri : $uri");
     http.Response response;
-    String error = ksAnErrorOccurred.tr;
+    String error = ksSomethingWentWrong.tr;
 
     try {
       response = await methodBasedResponse(
@@ -108,6 +108,7 @@ class ApiController {
         await SpController().onLogout();
         Get.offAllNamed(krLogin);
       } else {
+        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
         return null;
       }
     } on SocketException {

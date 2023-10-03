@@ -23,7 +23,7 @@ const String ksSuccess = 'Success';
 const String ksError = 'Error';
 const String ksInfo = 'Info';
 const String ksWarning = 'Warning';
-const String ksAnErrorOccurred = 'An error occurred, unable to complete request now';
+const String ksSomethingWentWrong = 'Something went wrong, please try again later';
 const String ksConnectionTimeoutMessage = 'Connection timed out';
 const String ksNoInternetConnectionMessage = 'You are not connected to internet';
 
