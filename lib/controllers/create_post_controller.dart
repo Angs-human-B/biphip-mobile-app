@@ -332,7 +332,9 @@ class CreatePostController extends GetxController {
                   onPressCloseButton: () {
                     Get.back();
                   },
-                  onPressRightButton: null,
+                  onPressRightButton: () {
+                    Get.back();
+                  },
                   rightText: 'Done',
                   rightTextStyle: medium14TextStyle(cPrimaryColor),
                   title: "Select Kids",
@@ -393,7 +395,9 @@ class CreatePostController extends GetxController {
         onPressCloseButton: () {
           Get.back();
         },
-        onPressRightButton: null,
+        onPressRightButton: () {
+          Get.back();
+        },
         rightText: 'Done',
         rightTextStyle: medium14TextStyle(cPrimaryColor),
         title: "Kids",
@@ -446,10 +450,12 @@ class CreatePostController extends GetxController {
                   onPressCloseButton: () {
                     Get.back();
                   },
-                  onPressRightButton: null,
+                  onPressRightButton: () {
+                    Get.back();
+                  },
                   rightText: 'Done',
                   rightTextStyle: medium14TextStyle(cPrimaryColor),
-                  title: "Select Kids",
+                  title: "Select Brands",
                   isRightButtonShow: true,
                 );
               },
@@ -503,10 +509,14 @@ class CreatePostController extends GetxController {
             ),
           ],
         ),
-        onPressCloseButton: null,
-        onPressRightButton: null,
+        onPressCloseButton: () {
+          Get.back();
+        },
+        onPressRightButton: () {
+          Get.back();
+        },
         rightText: 'Done',
-        rightTextStyle: medium14TextStyle(cPlaceHolderColor),
+        rightTextStyle: medium14TextStyle(cPrimaryColor),
         title: " Brands",
         isRightButtonShow: true,
       );
@@ -750,7 +760,9 @@ class CreatePostController extends GetxController {
         onPressCloseButton: () {
           Get.back();
         },
-        onPressRightButton: () {},
+        onPressRightButton: () {
+          Get.back();
+        },
         rightText: "Done",
         rightTextStyle: medium14TextStyle(cPrimaryColor),
         title: "Tag People",

@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
+import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 
@@ -34,10 +35,10 @@ class EditAboutInfo extends StatelessWidget {
           body: SizedBox(
             height: height - kAppBarSize,
             width: width,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                 child: Obx(
                   () => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,7 +236,7 @@ class EditAboutInfo extends StatelessWidget {
                         ),
                       kH20sizedBox,
                       const CustomDivider(),
-                      kH8sizedBox,
+                      kH16sizedBox,
                       RowTextButton(
                         text: 'Education Background',
                         buttonText: 'Add School',
@@ -370,7 +371,7 @@ class EditAboutInfo extends StatelessWidget {
                             );
                           }),
                       const CustomDivider(),
-                      kH8sizedBox,
+                      kH16sizedBox,
                       RowTextButton(
                         text: 'Work',
                         buttonText: 'Add Workplace',
@@ -560,6 +561,7 @@ class EditAboutInfo extends StatelessWidget {
                               ),
                             );
                           }),
+                      kH16sizedBox,
                       // const CustomDivider(),
                       // kH8sizedBox,
                       // RowTextButton(
@@ -704,20 +706,16 @@ class RowTextButton extends StatelessWidget {
           style: semiBold16TextStyle(cBlackColor),
         ),
         if (showAddButton)
-          OutLinedButton(
-            buttonText: buttonText,
-            buttonTextStyle: semiBold14TextStyle(cPrimaryColor),
-            borderColor: cWhiteColor,
-            onPress: onPressedAdd,
-            buttonWidth: buttonWidth,
-            suffixWidget: const Padding(
-              padding: EdgeInsets.only(right: k8Padding),
-              child: Icon(
-                BipHip.addNew,
-                color: cPrimaryColor,
-              ),
+          CustomTextButtonV2(
+            onPressed: onPressedAdd,
+            text: buttonText,
+            textStyle: semiBold14TextStyle(cPrimaryColor),
+            prefixWidget: Icon(
+              BipHip.addNew,
+              color: cPrimaryColor,
+              size: isDeviceScreenLarge() ? h20 : h16,
             ),
-          )
+          ),
       ],
     );
   }

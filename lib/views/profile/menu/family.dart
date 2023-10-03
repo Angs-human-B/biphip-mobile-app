@@ -39,7 +39,9 @@ class Family extends StatelessWidget {
                     onPressCloseButton: () {
                       Get.back();
                     },
-                    onPressRightButton: () {},
+                    onPressRightButton: () {
+                      Get.back();
+                    },
                     rightText: 'Send',
                     rightTextStyle: medium14TextStyle(cPrimaryColor),
                     title: ksAddFamilyMember.tr,
@@ -255,7 +257,7 @@ class AddFamilyMemberBottomSheetContent extends StatelessWidget {
           Obx(
             () => CustomSelectionButton(
               hintText: ksSelectRelation.tr,
-              text: Get.find<ProfileController>().relation.value == "" ? null : Get.find<ProfileController>().relation.value,
+              text: Get.find<ProfileController>().relation.value == "" ? '' : Get.find<ProfileController>().relation.value,
               onPressed: () {
                 unFocus(context);
                 Get.find<ProfileController>().initializeSelectedRelationText();

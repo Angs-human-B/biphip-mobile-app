@@ -249,7 +249,9 @@ class CreatePost extends StatelessWidget {
                                                     onPressCloseButton: () {
                                                       Get.back();
                                                     },
-                                                    onPressRightButton: null,
+                                                    onPressRightButton: () {
+                                                      Get.back();
+                                                    },
                                                     rightText: 'Done',
                                                     rightTextStyle: medium14TextStyle(cPrimaryColor),
                                                     title: "Post Type",

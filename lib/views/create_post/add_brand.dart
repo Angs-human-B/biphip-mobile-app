@@ -32,7 +32,9 @@ class AddBrandPage extends StatelessWidget {
                   padding: const EdgeInsets.only(right: h20),
                   child: TextButton(
                     style: kTextButtonStyle,
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.back();
+                    },
                     child: Text(
                       "Add",
                       style: medium14TextStyle(cPrimaryColor),

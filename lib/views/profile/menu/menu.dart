@@ -44,7 +44,7 @@ class Menu extends StatelessWidget {
                           recentSearchList: Get.find<GlobalController>().recentSearch,
                           onSubmit: () {},
                         ),
-                        transition: Transition.noTransition,
+                        transition: Transition.rightToLeft,
                       );
                     },
                     child: Icon(
