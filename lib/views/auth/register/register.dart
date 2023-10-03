@@ -1,12 +1,9 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
-import 'package:bip_hip/widgets/common/custom_circular_progress_bar.dart';
-import 'package:bip_hip/widgets/common/custom_container.dart';
-import 'package:bip_hip/widgets/common/linkup_text.dart';
-import 'package:bip_hip/widgets/common/top_text_and_subtext.dart';
-import 'package:bip_hip/widgets/textfields/custom_textfield.dart';
+import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
+import 'package:bip_hip/widgets/common/utils/custom_container.dart';
+import 'package:bip_hip/widgets/common/button/linkup_text.dart';
+import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 
 class Register extends StatelessWidget {
   Register({super.key});
@@ -66,7 +63,6 @@ class Register extends StatelessWidget {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(text: 'You are registering with ', style: regular14TextStyle(cBlackColor)),
-                                    //TODO: Referal name here
                                     TextSpan(
                                       text: 'John Doe',
                                       style: semiBold14TextStyle(cBlackColor),
@@ -83,18 +79,18 @@ class Register extends StatelessWidget {
                         ),
                       kH24sizedBox,
                       const TopTitleAndSubtitle(
-                        title: 'What\'s your full name?',
-                        subTitle: 'Writing your real name will help others to find you.',
+                        title: ksWhatFullName,
+                        subTitle: ksWriteRealName,
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerFirstNameTextEditingController,
                         errorText: _authenticationController.firstNameError.value,
-                        hint: "First Name",
+                        hint: ksFirstName,
                         onChanged: (text) {
                           _authenticationController.checkName();
                           if (_authenticationController.registerFirstNameTextEditingController.text.trim() == '') {
-                            _authenticationController.firstNameError.value = "First name can't be empty";
+                            _authenticationController.firstNameError.value = ksEmptyFirstNameErrorMessage;
                           } else {
                             _authenticationController.firstNameError.value = "";
                           }
@@ -103,15 +99,15 @@ class Register extends StatelessWidget {
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.name,
                       ),
-                      kH24sizedBox,
+                      kH12sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerLastNameTextEditingController,
                         errorText: _authenticationController.lastNameError.value,
-                        hint: "Last Name",
+                        hint: ksLastName,
                         onChanged: (text) {
                           _authenticationController.checkName();
                           if (_authenticationController.registerLastNameTextEditingController.text.trim() == '') {
-                            _authenticationController.lastNameError.value = "Last name can't be empty";
+                            _authenticationController.lastNameError.value = ksEmptyLastNameErrorMessage;
                           } else {
                             _authenticationController.lastNameError.value = "";
                           }
@@ -120,7 +116,7 @@ class Register extends StatelessWidget {
                         inputAction: TextInputAction.done,
                         inputType: TextInputType.name,
                       ),
-                      kH24sizedBox,
+                      kH12sizedBox,
                       CustomElevatedButton(
                         label: ksNext,
                         onPressed: _authenticationController.checkValidName.value
@@ -135,8 +131,8 @@ class Register extends StatelessWidget {
                       ),
                       kH24sizedBox,
                       LinkupTextRow(
-                          prefix: "Already have an account?",
-                          suffix: 'Login',
+                          prefix: ksAlreadyHaveAccount,
+                          suffix: ksLogin,
                           onPressed: () {
                             Get.toNamed(krLogin);
                           })

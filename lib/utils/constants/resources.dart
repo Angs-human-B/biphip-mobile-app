@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 List shortcutButtonContent = [
@@ -6,6 +7,7 @@ List shortcutButtonContent = [
     'icon': BipHip.friends,
     'onPressed': () {
       ll('Friend');
+      Get.find<ProfileController>().resetTapButtonData();
       Get.toNamed(krFriends);
     }
   },
@@ -14,6 +16,7 @@ List shortcutButtonContent = [
     'icon': BipHip.removeFamily,
     'onPressed': () {
       ll('Family');
+      Get.find<ProfileController>().resetTapButtonData();
       Get.toNamed(krFamily);
     }
   },
@@ -22,6 +25,7 @@ List shortcutButtonContent = [
     'icon': BipHip.imageFile,
     'onPressed': () {
       ll('Image');
+      Get.toNamed(krPhotos);
     }
   },
   {
@@ -29,6 +33,7 @@ List shortcutButtonContent = [
     'icon': BipHip.playNew,
     'onPressed': () {
       ll('Videos');
+      Get.toNamed(krVideos);
     }
   },
   {
@@ -40,14 +45,14 @@ List shortcutButtonContent = [
   },
   {
     'text': 'Badges',
-    'icon': BipHip.friends,
+    'icon': BipHip.badgesFill,
     'onPressed': () {
       ll('Badges');
     }
   },
   {
     'text': 'Earnings',
-    'icon': BipHip.selling,
+    'icon': BipHip.earnings,
     'onPressed': () {
       ll('Earnings');
     }
@@ -61,7 +66,7 @@ List shortcutButtonContent = [
   },
   {
     'text': 'Shop',
-    'icon': BipHip.world,
+    'icon': BipHip.shopFill,
     'onPressed': () {
       ll('Shop');
     }
@@ -71,24 +76,28 @@ List shortcutButtonContent = [
 List supportButtonContent = [
   {
     'text': 'Help Center',
+    'icon': BipHip.helpFill,
     'onPressed': () {
       ll('help center');
     }
   },
   {
     'text': 'Support Inbox',
+    'icon': BipHip.supportInbox,
     'onPressed': () {
       ll('Support inbox');
     }
   },
   {
     'text': 'Report a Problem',
+    'icon': BipHip.report,
     'onPressed': () {
       ll('Report a problem');
     }
   },
   {
     'text': 'Terms & Conditions',
+    'icon': BipHip.termsCondition,
     'onPressed': () {
       ll('Terms and condition');
     }
@@ -98,24 +107,28 @@ List supportButtonContent = [
 List settingsButtonContent = [
   {
     'text': 'Setting',
+    'icon': BipHip.setting,
     'onPressed': () {
       ll('Setting');
     }
   },
   {
     'text': 'Recent Activity',
+    'icon': BipHip.activity,
     'onPressed': () {
       ll('Recent Activity');
     }
   },
   {
     'text': 'Dark Mode',
+    'icon': BipHip.darkMode,
     'onPressed': () {
       ll('Dark Mode');
     }
   },
   {
     'text': 'Language',
+    'icon': BipHip.language,
     'onPressed': () {
       ll('Language');
     }
@@ -195,6 +208,34 @@ List profileInfoContent = [
       ll('linkedin');
     }
   },
+];
+
+List editProfileInfoContent = [
+  {
+    'icon': BipHip.address,
+    'text': 'Lives in Mirpur, Dhaka, Bangladesh.',
+    'isLink': false,
+  },
+  {
+    'icon': BipHip.location,
+    'text': 'From Homna, Comilla, Bangladesh.',
+    'isLink': false,
+  },
+  {
+    'icon': BipHip.love,
+    'text': 'Single',
+    'isLink': false,
+  },
+  {
+    'icon': BipHip.school,
+    'text': 'B.N School, Dhaka, Bangladesh.',
+    'isLink': false,
+  },
+  {
+    'icon': BipHip.work,
+    'text': 'Genie InfoTech',
+    'isLink': false,
+  }
 ];
 
 List friendList = [
@@ -325,4 +366,104 @@ List addFriendList = [
     "name": "Maria Jones",
     "image": "assets/images/profilePic4x.png",
   },
+];
+
+List photos = [
+  'assets/images/pic4.jpeg',
+  'assets/images/pic5.jpeg',
+  'assets/images/coverPic.png',
+  'assets/images/pic12.jpeg',
+  'assets/images/pic4.jpeg',
+  'assets/images/pic5.jpeg',
+  'assets/images/coverPic.png',
+  'assets/images/pic12.jpeg',
+  'assets/images/pic4.jpeg',
+  'assets/images/pic5.jpeg',
+  'assets/images/coverPic.png',
+  'assets/images/pic12.jpeg',
+];
+
+List stories = [
+  {'name': 'Rick Sanchez', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
+  {'name': 'Stewie Griffin', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': true},
+  {'name': 'Johan Liebert', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
+  {'name': 'Karnaze Ravencroft', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': true},
+  {'name': 'Zekken McLaren', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
+  {'name': 'Loreta Stevenson', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
+];
+
+List bidingComments = [
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'}
+];
+
+List recommendedBid = ['10,000', '12,000', '11,000', '11,200', '15,100'];
+
+List giftPackages = [
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'IRON', 'amount': '50', 'cost': '2.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'BRONZE', 'amount': '100', 'cost': '5.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'SILVER', 'amount': '150', 'cost': '8.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'GOLD', 'amount': '200', 'cost': '10.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'PLATINUM', 'amount': '250', 'cost': '12.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'DIAMOND', 'amount': '300', 'cost': '15.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'EMERALD', 'amount': '350', 'cost': '18.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'RUBY', 'amount': '400', 'cost': '20.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'RADIANT', 'amount': '450', 'cost': '22.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'ACE', 'amount': '500', 'cost': '25.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'CROWN', 'amount': '550', 'cost': '28.00'},
+  {'badge': 'assets/svg/badge.svg', 'packageName': 'CELESTIAL', 'amount': '600', 'cost': '30.00'},
+];
+
+List packages = [
+  {'amount': '100', 'cost': '2.00'},
+  {'amount': '150', 'cost': '5.00'},
+  {'amount': '200', 'cost': '8.00'},
+  {'amount': '250', 'cost': '10.00'},
+  {'amount': '300', 'cost': '12.00'},
+  {'amount': '350', 'cost': '15.00'},
+  {'amount': '400', 'cost': '18.00'},
+  {'amount': '450', 'cost': '20.00'},
+  {'amount': '500', 'cost': '22.00'},
+];
+
+List giftContributors = [
+  {'name': 'Sharker Omi', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': true},
+  {'name': 'Emon vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': true},
+  {'name': 'Maruf vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': false},
+  {'name': 'Rana vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': true},
+  {'name': 'Shahed vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': true},
+  {'name': 'Tonmoy vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge2.svg', 'giftType': 'badge2', 'isFriend': false},
+  {'name': 'Showrov vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge2.svg', 'giftType': 'badge2', 'isFriend': true},
+  {'name': 'Shohag vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge2.svg', 'giftType': 'badge2', 'isFriend': false},
+  {'name': 'Kaisar vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge2.svg', 'giftType': 'badge2', 'isFriend': true},
+  {'name': 'Murad Bro', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge3.svg', 'giftType': 'badge3', 'isFriend': false},
+  {'name': 'Rick Sanchez', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge3.svg', 'giftType': 'badge3', 'isFriend': true},
+  {'name': 'Morty Sanchez', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge3.svg', 'giftType': 'badge3', 'isFriend': true},
+  {'name': 'Brian Griffin', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge3.svg', 'giftType': 'badge3', 'isFriend': false},
+  {'name': 'Stewie Griffin', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': true},
+  {'name': 'Vladmir Putin', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': true},
+  {'name': 'Joe Biden', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': true},
+  {'name': 'Karnaze Rekrahs', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': false},
+];
+
+List replyComment = [
+  {
+    'profileImage': kiDummyImage1ImageUrl,
+    'timePassed': '5',
+    'isLikeButtonShown': true,
+    'isReplyButtonShown': true,
+    'isReactButtonShown': true,
+    'isLink': false,
+    'reactCount': 10,
+    'userName': 'Steven',
+    'isImageComment': false,
+    'comment': 'Nice Pic',
+    'commentLink': ''
+  }
 ];

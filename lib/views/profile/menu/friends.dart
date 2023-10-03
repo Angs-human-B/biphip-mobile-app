@@ -1,8 +1,7 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
-import 'package:bip_hip/widgets/common/custom_tapable_container.dart';
+import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
+import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 
 class Friends extends StatelessWidget {
   Friends({super.key});
@@ -24,13 +23,16 @@ class Friends extends StatelessWidget {
           },
           action: [
             Padding(
-              padding: const EdgeInsets.only(right: k10Padding),
+              padding: const EdgeInsets.only(right: k20Padding),
               child: TextButton(
                 style: kTextButtonStyle,
                 onPressed: () {
                   //*Common bottom sheet for add friend
+                  _profileController.searchController.clear();
                   _globalController.commonBottomSheet(
                     context: context,
+                    isSearchShow: true,
+                    isScrollControlled: true,
                     content: BottomSheetContent(),
                     onPressCloseButton: () {
                       Get.back();
@@ -40,9 +42,7 @@ class Friends extends StatelessWidget {
                     rightTextStyle: semiBold10TextStyle(cWhiteColor),
                     title: ksAddFriend.tr,
                     isRightButtonShow: false,
-                    bottomSheetHeight: height,
-                    // bottomSheetColor: cWhiteColor,
-                    // isScrollControlled: true,
+                    bottomSheetHeight: height * .9,
                   );
                 },
                 child: Text(
@@ -58,41 +58,54 @@ class Friends extends StatelessWidget {
         () => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            kH16sizedBox,
+            kH4sizedBox,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: k20Padding),
               child: TapAbleButtonContainer(
-                firstText: ksAll.tr,
-                secondText: ksReceived.tr,
-                thirdText: ksPending.tr,
-                firstButtonOnPressed: () {
-                  _profileController.toggleTypeFriend(1);
-                },
-                secondButtonOnPressed: () {
-                  _profileController.toggleTypeFriend(2);
-                },
-                thirdButtonOnPressed: () {
-                  _profileController.toggleTypeFriend(3);
-                },
-                firstButtonClicked: _profileController.isAllButtonClickedFriend,
-                secondButtonClicked: _profileController.isReceivedButtonClickedFriend,
+                buttonText: _profileController.tapAbleButtonText,
+                buttonState: _profileController.tapAbleButtonState,
+                buttonPress: RxList([
+                  () {
+                    _profileController.toggleType(0);
+                  },
+                  () {
+                    _profileController.toggleType(1);
+                  },
+                  () {
+                    _profileController.toggleType(2);
+                  },
+                ]),
               ),
             ),
-
+            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
+            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                child: _profileController.tapAbleButtonState[0]
+                    ? Text(
+                        '${ksTotalFriends.tr}: 557',
+                        style: semiBold14TextStyle(cBlackColor),
+                      )
+                    : Text(
+                        '${ksFriendRequests.tr}: 33',
+                        style: semiBold14TextStyle(cBlackColor),
+                      ),
+              ),
             kH12sizedBox,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-              child: _profileController.isAllButtonClickedFriend.value
-                  ? Text(
-                      '${ksTotalFriends.tr}: 557',
-                      style: semiBold14TextStyle(cBlackColor),
-                    )
-                  : Text(
-                      '${ksFriendRequests.tr}: 33',
-                      style: semiBold14TextStyle(cBlackColor),
-                    ),
+              child: CustomModifiedTextField(
+                borderRadius: h8,
+                controller: Get.find<ProfileController>().searchController,
+
+                prefixIcon: BipHip.search,
+                suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
+                hint: ksSearch.tr,
+                contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
+                textInputStyle: regular16TextStyle(cBlackColor),
+              ),
             ),
-            kH16sizedBox,
+            kH12sizedBox,
             //*All friend, Receive friend request and Pending friend request ui
             Expanded(
               child: SingleChildScrollView(
@@ -101,6 +114,14 @@ class Friends extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        width: width,
+        isFirstButtonClicked: false,
+        isSecondButtonClicked: true,
+        isThirdButtonClicked: false,
+        isFourthButtonClicked: false,
+        isFifthButtonClicked: false,
       ),
     );
   }
@@ -156,7 +177,7 @@ class CustomListViewItem extends StatelessWidget {
                             size: h10,
                             color: cRedColor,
                           ),
-                    kW4sizedBox,
+                    if (icon != null) kW4sizedBox,
                     subTitle == null
                         ? const SizedBox()
                         : Text(
@@ -391,44 +412,34 @@ class BottomSheetContent extends StatelessWidget {
   final ProfileController _profileController = Get.find<ProfileController>();
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-      child: Column(
-        children: [
-          SizedBox(
-            height: height / 1.05,
-            child: Padding(
-              padding: const EdgeInsets.only(top: k10Padding, bottom: k20Padding),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: _profileController.addFriendLists.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: k10Padding),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                      child: TextButton(
-                          style: kTextButtonStyle,
-                          onPressed: () async {
-                            // ll(index);
-                          },
-                          child: CustomSingleButtonListViewItem(
-                            backgroundImage: AssetImage(_profileController.addFriendLists[index]['image']),
-                            name: _profileController.addFriendLists[index]['name'],
-                            buttonText: ksSendRequest.tr,
-                            buttonColor: cPrimaryColor,
-                            buttonOnPressed: () {},
-                            textStyle: semiBold14TextStyle(cWhiteColor),
-                            buttonWidth: 147,
-                          )),
-                    ),
-                  );
-                },
-              ),
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: _profileController.addFriendLists.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: k10Padding),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(k8BorderRadius),
+              child: TextButton(
+                  style: kTextButtonStyle,
+                  onPressed: () async {
+                    // ll(index);
+                  },
+                  child: CustomSingleButtonListViewItem(
+                    backgroundImage: AssetImage(_profileController.addFriendLists[index]['image']),
+                    name: _profileController.addFriendLists[index]['name'],
+                    buttonText: ksSendRequest.tr,
+                    buttonColor: cPrimaryColor,
+                    buttonOnPressed: () {},
+                    textStyle: semiBold14TextStyle(cWhiteColor),
+                    buttonWidth: 147,
+                  )),
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

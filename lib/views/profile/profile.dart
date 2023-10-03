@@ -1,13 +1,18 @@
+import 'dart:io';
+import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_app_bar.dart';
-import 'package:bip_hip/widgets/common/custom_button.dart';
-import 'package:bip_hip/widgets/common/custom_filter_chips.dart';
+import 'package:bip_hip/views/profile/edit_profile.dart';
+import 'package:bip_hip/views/profile/post_widgets/comment_textfield.dart';
+import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
+import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
+import 'package:flutter_svg/svg.dart';
 
 class Profile extends StatelessWidget {
   Profile({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +21,7 @@ class Profile extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Scaffold(
+          resizeToAvoidBottomInset: true,
           backgroundColor: cWhiteColor,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
@@ -35,222 +41,319 @@ class Profile extends StatelessWidget {
             width: width,
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
-                    children: [
-                      Container(
-                        height: 225,
-                        color: cTransparentColor,
-                      ),
-                      SizedBox(
-                        height: 150,
-                        width: width,
-                        child: Image.asset(
-                          'assets/images/coverPic.png',
-                          fit: BoxFit.cover,
+              child: Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Stack(
+                      children: [
+                        Container(
+                          height: 225,
+                          color: cTransparentColor,
                         ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        //right: ((width - 40) / 2) - ((height > kSmallDeviceSizeLimit ? kProfileImageSize : (kProfileImageSize - h10)) / 2),
-                        left: 20,
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: height > kSmallDeviceSizeLimit ? kProfileImageSize : (kProfileImageSize - h10),
-                              width: height > kSmallDeviceSizeLimit ? kProfileImageSize : (kProfileImageSize - h10),
-                              decoration: BoxDecoration(
-                                color: cGreyBoxColor,
-                                borderRadius: BorderRadius.circular(90),
-                                border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
-                              ),
-                              child: ClipOval(
-                                child: Image.asset(
-                                  'assets/images/profilePic4x.png',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                        SizedBox(
+                          height: 150,
+                          width: width,
+                          child: Image.file(
+                            _profileController.newCoverImageFile.value,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) => Image.asset(
+                              'assets/images/coverPic.png',
+                              fit: BoxFit.cover,
                             ),
-                            Positioned(
-                              right: 8,
-                              bottom: 15,
-                              child: Container(
-                                height: h28,
-                                width: h28,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 20,
+                          child: Stack(
+                            children: [
+                              Container(
+                                height: height > kSmallDeviceSizeLimit ? kProfileImageSize : (kProfileImageSize - h10),
+                                width: height > kSmallDeviceSizeLimit ? kProfileImageSize : (kProfileImageSize - h10),
                                 decoration: BoxDecoration(
                                   color: cGreyBoxColor,
-                                  borderRadius: BorderRadius.circular(26),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: cBlackColor.withAlpha(100),
-                                      offset: const Offset(
-                                        1.0,
-                                        1.0,
-                                      ),
-                                      blurRadius: 5.0,
-                                      spreadRadius: 2.0,
-                                    ),
-                                  ],
-                                  // border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
+                                  borderRadius: BorderRadius.circular(90),
+                                  border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
                                 ),
-                                child: const Icon(
-                                  BipHip.camera,
-                                  color: cBlackColor,
-                                  size: kIconSize14,
+                                child: ClipOval(
+                                  child: Image.file(
+                                    _profileController.newProfileImageFile.value,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) => ClipOval(
+                                      child: Image.asset(
+                                        'assets/images/profileDefault.png',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        right: 16,
-                        bottom: 60,
-                        child: Container(
-                          height: h28,
-                          width: h28,
-                          decoration: BoxDecoration(
-                            color: cGreyBoxColor,
-                            boxShadow: [
-                              BoxShadow(
-                                color: cBlackColor.withAlpha(100),
-                                offset: const Offset(
-                                  0.0,
-                                  1.0,
+                              Positioned(
+                                right: 8,
+                                bottom: 15,
+                                child: TextButton(
+                                  style: kTextButtonStyle,
+                                  onPressed: () {
+                                    _profileController.isProfilePicEditor.value = true;
+                                    _profileController.resetImage();
+                                    _globalController.commonBottomSheet(
+                                        context: context,
+                                        onPressCloseButton: () {
+                                          Get.back();
+                                        },
+                                        onPressRightButton: () {},
+                                        rightText: '',
+                                        rightTextStyle: regular14TextStyle(cBiddingColor),
+                                        title: 'Upload image',
+                                        isRightButtonShow: false,
+                                        isScrollControlled: false,
+                                        bottomSheetHeight: 170,
+                                        content: PictureUploadContent(
+                                          isImageChanged: _profileController.isProfileImageChanged,
+                                          imagePath: _profileController.profileImageLink,
+                                          imageFile: _profileController.profileImageFile,
+                                        ));
+                                  },
+                                  child: Container(
+                                    height: h28,
+                                    width: h28,
+                                    decoration: BoxDecoration(
+                                      color: cGreyBoxColor,
+                                      borderRadius: BorderRadius.circular(26),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: cBlackColor.withAlpha(100),
+                                          offset: const Offset(
+                                            1.0,
+                                            1.0,
+                                          ),
+                                          blurRadius: 5.0,
+                                          spreadRadius: 2.0,
+                                        ),
+                                      ],
+                                      // border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
+                                    ),
+                                    child: const Icon(
+                                      BipHip.camera,
+                                      color: cBlackColor,
+                                      size: kIconSize14,
+                                    ),
+                                  ),
                                 ),
-                                blurRadius: 5.0,
-                                spreadRadius: 2.0,
+                              ),
+                              Positioned(
+                                right: 8,
+                                top: 15,
+                                child: Container(
+                                    height: h28,
+                                    width: h28,
+                                    decoration: BoxDecoration(
+                                      color: cGreyBoxColor,
+                                      borderRadius: BorderRadius.circular(26),
+                                      border: Border.all(color: cPrimaryColor, width: 1),
+                                    ),
+                                    child: SvgPicture.asset('assets/svg/badge1.svg')),
                               ),
                             ],
-                            borderRadius: BorderRadius.circular(26),
-                            // border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
-                          ),
-                          child: const Icon(
-                            BipHip.camera,
-                            color: cBlackColor,
-                            size: kIconSize14,
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                  kH10sizedBox,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                    child: Text(
-                      'Monjurul Sharker Omi',
-                      style: semiBold20TextStyle(cBlackColor),
-                    ),
-                  ),
-                  kH12sizedBox,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomElevatedButton(
-                          label: 'Add Selfie',
-                          buttonHeight: 44,
-                          buttonWidth: (width / 2) - 28,
-                          prefixIcon: BipHip.camera,
-                          textStyle: semiBold18TextStyle(cWhiteColor),
-                          onPressed: () {},
-                        ),
-                        CustomElevatedButton(
-                          label: 'Edit Profile',
-                          onPressed: () {},
-                          prefixIcon: BipHip.edit,
-                          prefixIconColor: cBlackColor,
-                          buttonHeight: 44,
-                          buttonWidth: (width / 2) - 28,
-                          buttonColor: cWhiteColor,
-                          textStyle: semiBold18TextStyle(cBlackColor),
-                        )
-                      ],
-                    ),
-                  ),
-                  kH16sizedBox,
-                  for (int i = 0; i < profileInfoContent.length; i++)
-                    LinkUpIconTextRow(
-                      icon: profileInfoContent[i]['icon'],
-                      text: profileInfoContent[i]['text'],
-                      isLink: profileInfoContent[i]['isLink'],
-                      onPressed: profileInfoContent[i]['onPressed'],
-                    ),
-                  kH12sizedBox,
-                  Container(
-                    height: h8,
-                    width: width,
-                    color: cGreyBoxColor,
-                  ),
-                  FriendsFamilyGridView(header: 'Friends', count: friendList.length.toString(), friendList: friendList),
-                  kH12sizedBox,
-                  Container(
-                    height: h8,
-                    width: width,
-                    color: cGreyBoxColor,
-                  ),
-                  FriendsFamilyGridView(header: 'Family', count: familyList.length.toString(), friendList: familyList),
-                  Container(
-                    height: h8,
-                    width: width,
-                    color: cGreyBoxColor,
-                  ),
-                  CustomPostButton(
-                    name: 'Monjurul',
-                    profilePic: 'assets/images/profilePic.png',
-                    onPressed: () {
-                      ll('post');
-                      Get.toNamed(krCreatePost);
-                    },
-                  ),
-                  Container(
-                    height: h8,
-                    width: width,
-                    color: cGreyBoxColor,
-                  ),
-                  kH12sizedBox,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                    child: Text(
-                      'Catagories',
-                      style: semiBold14TextStyle(cBlackColor),
-                    ),
-                  ),
-                  // kH12sizedBox,
-                  SizedBox(
-                    width: width,
-                    height: 50,
-                    child: ListView.builder(
-                      itemCount: interestProfile.length,
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.symmetric(horizontal: k10Padding),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, i) {
-                        return Obx(
-                          () => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: k4Padding),
-                            child: CustomChoiceChips(
-                              label: interestProfile[i],
-                              isSelected: (_profileController.interestCatagoriesIndex.value == i && _profileController.isInterestSelected.value),
-                              onSelected: (value) {
-                                _profileController.interestCatagoriesIndex.value = i;
-                                _profileController.isInterestSelected.value = value;
-                              },
+                        Positioned(
+                          right: 16,
+                          bottom: 60,
+                          child: TextButton(
+                            style: kTextButtonStyle,
+                            onPressed: () {
+                              _profileController.isProfilePicEditor.value = false;
+                              _profileController.resetImage();
+                              _globalController.commonBottomSheet(
+                                  context: context,
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: () {},
+                                  rightText: '',
+                                  rightTextStyle: regular14TextStyle(cBiddingColor),
+                                  title: 'Upload image',
+                                  isRightButtonShow: false,
+                                  isScrollControlled: false,
+                                  bottomSheetHeight: 170,
+                                  content: PictureUploadContent(
+                                    isImageChanged: _profileController.isCoverImageChanged,
+                                    imagePath: _profileController.coverImageLink,
+                                    imageFile: _profileController.coverImageFile,
+                                  ));
+                            },
+                            child: Container(
+                              height: h28,
+                              width: h28,
+                              decoration: BoxDecoration(
+                                color: cGreyBoxColor,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: cBlackColor.withAlpha(100),
+                                    offset: const Offset(
+                                      0.0,
+                                      1.0,
+                                    ),
+                                    blurRadius: 5.0,
+                                    spreadRadius: 2.0,
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.circular(26),
+                                // border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
+                              ),
+                              child: const Icon(
+                                BipHip.camera,
+                                color: cBlackColor,
+                                size: kIconSize14,
+                              ),
                             ),
                           ),
-                        );
+                        ),
+                      ],
+                    ),
+                    kH10sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: Text(
+                        'Monjurul Sharker Omi',
+                        style: semiBold20TextStyle(cBlackColor),
+                      ),
+                    ),
+                    kH12sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomElevatedButton(
+                            label: 'Add Selfie',
+                            buttonHeight: 44,
+                            buttonWidth: (width / 2) - 28,
+                            prefixIcon: BipHip.camera,
+                            textStyle: semiBold18TextStyle(cWhiteColor),
+                            onPressed: () {},
+                          ),
+                          CustomElevatedButton(
+                            label: 'Edit Profile',
+                            onPressed: () {
+                              Get.toNamed(krEditProfile);
+                            },
+                            prefixIcon: BipHip.edit,
+                            prefixIconColor: cBlackColor,
+                            buttonHeight: 44,
+                            buttonWidth: (width / 2) - 28,
+                            buttonColor: cWhiteColor,
+                            textStyle: semiBold18TextStyle(cBlackColor),
+                          )
+                        ],
+                      ),
+                    ),
+                    kH16sizedBox,
+                    for (int i = 0; i < profileInfoContent.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                        child: LinkUpIconTextRow(
+                          icon: profileInfoContent[i]['icon'],
+                          text: profileInfoContent[i]['text'],
+                          isLink: profileInfoContent[i]['isLink'],
+                          onPressed: profileInfoContent[i]['onPressed'],
+                        ),
+                      ),
+                    kH12sizedBox,
+                    Container(
+                      height: h8,
+                      width: width,
+                      color: cGreyBoxColor,
+                    ),
+                    FriendsFamilyGridView(header: 'Friends', count: friendList.length.toString(), friendList: friendList),
+                    kH12sizedBox,
+                    Container(
+                      height: h8,
+                      width: width,
+                      color: cGreyBoxColor,
+                    ),
+                    FriendsFamilyGridView(header: 'Family', count: familyList.length.toString(), friendList: familyList),
+                    Container(
+                      height: h8,
+                      width: width,
+                      color: cGreyBoxColor,
+                    ),
+                    CustomPostButton(
+                      name: 'Monjurul',
+                      profilePic: 'assets/images/profilePic.png',
+                      onPressed: () {
+                        ll('post');
+                        Get.find<CreatePostController>().resetData();
+                        Get.toNamed(krCreatePost);
                       },
                     ),
-                  ),
-                  Container(
-                    height: h8,
-                    width: width,
-                    color: cGreyBoxColor,
-                  ),
-                ],
+                    Container(
+                      height: h8,
+                      width: width,
+                      color: cGreyBoxColor,
+                    ),
+                    kH12sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: Text(
+                        'Catagories',
+                        style: semiBold14TextStyle(cBlackColor),
+                      ),
+                    ),
+                    // kH12sizedBox,
+                    SizedBox(
+                      width: width,
+                      height: 50,
+                      child: ListView.builder(
+                        itemCount: interestProfile.length,
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(horizontal: k10Padding),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, i) {
+                          return Obx(
+                            () => Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                              child: CustomChoiceChips(
+                                label: interestProfile[i],
+                                isSelected: (_profileController.interestCatagoriesIndex.value == i && _profileController.isInterestSelected.value),
+                                onSelected: (value) {
+                                  _profileController.interestCatagoriesIndex.value = i;
+                                  _profileController.isInterestSelected.value = value;
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Container(
+                      height: h8,
+                      width: width,
+                      color: cGreyBoxColor,
+                    ),
+                    kH12sizedBox,
+
+                    kH8sizedBox,
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: CustomDivider(),
+                    ),
+
+                    kH12sizedBox,
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: CustomDivider(),
+                    ),
+                    kH12sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: CommentTextField(),
+                    ),
+                    kH12sizedBox,
+                  ],
+                ),
               ),
             ),
           ),
@@ -260,6 +363,9 @@ class Profile extends StatelessWidget {
   }
 }
 
+//-------------------
+//! LinkUpIconTextRow
+//-------------------
 class LinkUpIconTextRow extends StatelessWidget {
   const LinkUpIconTextRow({super.key, required this.icon, required this.text, required this.isLink, this.onPressed});
 
@@ -271,7 +377,7 @@ class LinkUpIconTextRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k12Padding),
+      padding: const EdgeInsets.only(bottom: k12Padding),
       child: TextButton(
         style: kTextButtonStyle,
         onPressed: onPressed,
@@ -397,49 +503,55 @@ class CustomGridViewContainer extends StatelessWidget {
   }
 }
 
-class CustomPostButton extends StatelessWidget {
-  const CustomPostButton({super.key, this.onPressed, required this.name, required this.profilePic, this.prefixWidget});
+class PictureUploadContent extends StatelessWidget {
+  PictureUploadContent({super.key, required this.isImageChanged, required this.imageFile, required this.imagePath});
 
-  final VoidCallback? onPressed;
-  final String name, profilePic;
-  final Widget? prefixWidget;
+  final GlobalController _globalController = Get.find<GlobalController>();
+  final RxBool isImageChanged;
+  final Rx<File> imageFile;
+  final RxString imagePath;
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      style: kTextButtonStyle,
-      onPressed: onPressed,
-      child: SizedBox(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: k12Padding),
-          child: Row(
-            children: [
-              kW20sizedBox,
-              ClipOval(
-                child: Container(
-                  height: h40,
-                  width: h40,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.asset(
-                    profilePic,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              kW12sizedBox,
-              Text(
-                'What\'s on your mind, $name?',
-                style: regular14TextStyle(cIconColor),
-              ),
-              const Spacer(),
-              prefixWidget ?? const SizedBox(),
-              kW12sizedBox
-            ],
-          ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        CustomElevatedButton(
+          label: 'Add photo',
+          prefixIcon: BipHip.camera,
+          prefixIconColor: cIconColor,
+          suffixIconColor: cIconColor,
+          onPressed: () async {
+            await _globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'camera');
+            if (isImageChanged.value) {
+              Get.toNamed(krPhotoPreview);
+            }
+          },
+          buttonHeight: h32,
+          buttonWidth: width - 40,
+          buttonColor: cWhiteColor,
+          borderColor: cLineColor,
+          textStyle: semiBold14TextStyle(cBlackColor),
         ),
-      ),
+        kH16sizedBox,
+        CustomElevatedButton(
+          label: 'Choose from gallery',
+          prefixIcon: BipHip.photo,
+          prefixIconColor: cIconColor,
+          suffixIconColor: cIconColor,
+          onPressed: () async {
+            await _globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'gallery');
+            if (isImageChanged.value) {
+              Get.toNamed(krPhotoPreview);
+            }
+          },
+          buttonHeight: h32,
+          buttonWidth: width - 40,
+          buttonColor: cWhiteColor,
+          borderColor: cLineColor,
+          textStyle: semiBold14TextStyle(cBlackColor),
+        ),
+      ],
     );
   }
 }

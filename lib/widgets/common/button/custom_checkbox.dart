@@ -19,14 +19,14 @@ class CustomCheckBox extends StatelessWidget {
       width: height > kSmallDeviceSizeLimit ? h18 : h14,
       height: height > kSmallDeviceSizeLimit ? h18 : h14,
       decoration: BoxDecoration(
-        border: kIconColorBoxBorder,
+        border: Border.all(color: value ? cPrimaryColor : cIconColor, width: 1),
         borderRadius: BorderRadius.circular(k4BorderRadius),
-        color: cWhiteColor,
+        color: value ? cPrimaryColor : cWhiteColor,
       ),
       child: value
           ? Icon(
               Icons.check,
-              color: cIconColor,
+              color: cWhiteColor,
               size: height > kSmallDeviceSizeLimit ? kIconSize14 : kIconSize12,
             )
           : null,

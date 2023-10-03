@@ -6,6 +6,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   BinderController().dependencies();
   await dotenv.load(fileName: Environment.fileName);
+  ll("Filename : ${Environment.fileName}");
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
