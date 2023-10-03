@@ -56,7 +56,7 @@ class SavedUserLogin extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: h20),
                           child: CustomElevatedButton(
-                            label: 'Login to another account',
+                            label: ksLoginToAnotherAccount.tr,
                             onPressed: () {
                               Get.offAllNamed(krLogin);
                             },
@@ -76,7 +76,7 @@ class SavedUserLogin extends StatelessWidget {
                     onPressed: () {
                       Get.offAllNamed(krRegister);
                     },
-                    text: "Register for new account",
+                    text: ksRegisterForNewAccount.tr,
                     textStyle: semiBold14TextStyle(cPrimaryColor),
                   ),
                 )
@@ -118,7 +118,6 @@ class CustomUserListContainer extends StatelessWidget {
             borderRadius: k4CircularBorderRadius,
             color: cGreyBoxColor,
           ),
-          // height: isDeviceScreenLarge() ? kLargeListItemHeight : kSmallListItemHeight,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -155,7 +154,7 @@ class CustomUserListContainer extends StatelessWidget {
                   icon: Icon(
                     BipHip.delete,
                     color: cIconColor,
-                    size: height > kSmallDeviceSizeLimit ? kIconSize20 : kIconSize16,
+                    size: isDeviceScreenLarge() ? kIconSize20 : kIconSize16,
                   ),
                 ),
               )

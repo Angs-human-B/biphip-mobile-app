@@ -3,8 +3,8 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 
-class SelectInterestScreen extends StatelessWidget {
-  SelectInterestScreen({super.key});
+class SelectProfessionScreen extends StatelessWidget {
+  SelectProfessionScreen({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
 
@@ -28,9 +28,9 @@ class SelectInterestScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 16.0),
                   child: CustomTextButton(
                       onPressed: () {
-                        Get.toNamed(krUploadPicture);
+                        Get.toNamed(krSelectInterest);
                       },
-                      text: ksSkip,
+                      text: ksSkip.tr,
                       textStyle: regular14TextStyle(cPrimaryColor)),
                 )
               ],
@@ -47,9 +47,9 @@ class SelectInterestScreen extends StatelessWidget {
                   children: [
                     kH24sizedBox,
                     kH24sizedBox,
-                    const TopTitleAndSubtitle(
-                      title: ksChooseInterest,
-                      subTitle:ksCHooseInterestSubtitle,
+                    TopTitleAndSubtitle(
+                      title: ksChooseProfession.tr,
+                      subTitle: ksChooseProfessionSubtitle.tr,
                     ),
                     kH16sizedBox,
                     Wrap(
@@ -57,28 +57,24 @@ class SelectInterestScreen extends StatelessWidget {
                       direction: Axis.horizontal,
                       spacing: 8.0,
                       children: [
-                        for (int i = 0; i < interest.length; i++)
+                        for (int i = 0; i < profession.length; i++)
                           CustomChoiceChips(
-                            label: interest[i],
-                            isSelected: (_authenticationController.interestIndex.contains(i) && _authenticationController.isInterestSelected.value),
+                            label: profession[i],
+                            isSelected: (_authenticationController.professionIndex.value == i && _authenticationController.isProfessionSelected.value),
                             onSelected: (value) {
-                              if (!_authenticationController.interestIndex.contains(i)) {
-                                _authenticationController.isInterestSelected.value = value;
-                                _authenticationController.interestIndex.add(i);
-                              } else {
-                                _authenticationController.interestIndex.remove(i);
-                              }
+                              _authenticationController.professionIndex.value = i;
+
+                              _authenticationController.isProfessionSelected.value = value;
                             },
                           )
                       ],
                     ),
                     const Spacer(),
                     CustomElevatedButton(
-                      label: ksNext,
-                      onPressed: _authenticationController.interestIndex.isNotEmpty
+                      label: ksNext.tr,
+                      onPressed: _authenticationController.isProfessionSelected.value
                           ? () {
-                              Get.toNamed(krUploadPicture);
-                              _authenticationController.resetChipSelection();
+                              Get.toNamed(krSelectInterest);
                             }
                           : null,
                       buttonWidth: width - 40,

@@ -2,7 +2,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 dynamic screenWiseSize(size, difference) {
-  return height > kSmallDeviceSizeLimit ? size : size - difference;
+  return isDeviceScreenLarge() ? size : size - difference;
 }
 
 TextStyle medium24TextStyle(Color color) {

@@ -3,8 +3,8 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 
-class SelectProfessionScreen extends StatelessWidget {
-  SelectProfessionScreen({super.key});
+class SelectInterestScreen extends StatelessWidget {
+  SelectInterestScreen({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
 
@@ -28,9 +28,9 @@ class SelectProfessionScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 16.0),
                   child: CustomTextButton(
                       onPressed: () {
-                        Get.toNamed(krSelectInterest);
+                        Get.toNamed(krUploadPicture);
                       },
-                      text: ksSkip,
+                      text: ksSkip.tr,
                       textStyle: regular14TextStyle(cPrimaryColor)),
                 )
               ],
@@ -47,9 +47,9 @@ class SelectProfessionScreen extends StatelessWidget {
                   children: [
                     kH24sizedBox,
                     kH24sizedBox,
-                    const TopTitleAndSubtitle(
-                      title: ksChooseProfession,
-                      subTitle: ksChooseProfessionSubtitle,
+                    TopTitleAndSubtitle(
+                      title: ksChooseInterest.tr,
+                      subTitle: ksCHooseInterestSubtitle.tr,
                     ),
                     kH16sizedBox,
                     Wrap(
@@ -57,24 +57,28 @@ class SelectProfessionScreen extends StatelessWidget {
                       direction: Axis.horizontal,
                       spacing: 8.0,
                       children: [
-                        for (int i = 0; i < profession.length; i++)
+                        for (int i = 0; i < interest.length; i++)
                           CustomChoiceChips(
-                            label: profession[i],
-                            isSelected: (_authenticationController.professionIndex.value == i && _authenticationController.isProfessionSelected.value),
+                            label: interest[i],
+                            isSelected: (_authenticationController.interestIndex.contains(i) && _authenticationController.isInterestSelected.value),
                             onSelected: (value) {
-                              _authenticationController.professionIndex.value = i;
-
-                              _authenticationController.isProfessionSelected.value = value;
+                              if (!_authenticationController.interestIndex.contains(i)) {
+                                _authenticationController.isInterestSelected.value = value;
+                                _authenticationController.interestIndex.add(i);
+                              } else {
+                                _authenticationController.interestIndex.remove(i);
+                              }
                             },
                           )
                       ],
                     ),
                     const Spacer(),
                     CustomElevatedButton(
-                      label: ksNext,
-                      onPressed: _authenticationController.isProfessionSelected.value
+                      label: ksNext.tr,
+                      onPressed: _authenticationController.interestIndex.isNotEmpty
                           ? () {
-                              Get.toNamed(krSelectInterest);
+                              Get.toNamed(krUploadPicture);
+                              _authenticationController.resetChipSelection();
                             }
                           : null,
                       buttonWidth: width - 40,

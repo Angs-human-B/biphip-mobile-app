@@ -20,7 +20,7 @@ class AddKidPage extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: "Add Kid",
+              title: ksAddKid.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -35,7 +35,7 @@ class AddKidPage extends StatelessWidget {
                       Get.back();
                     },
                     child: Text(
-                      "Add",
+                      ksAdd.tr,
                       style: medium14TextStyle(cPrimaryColor),
                     ),
                   ),
@@ -62,7 +62,7 @@ class AddKidPage extends StatelessWidget {
                     isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
                     OutLinedButton(
                       onPress: null,
-                      buttonText: "Upload Image",
+                      buttonText: ksUploadImage.tr,
                       borderColor: cPrimaryColor,
                       buttonHeight: 32,
                       buttonWidth: 150,
@@ -81,7 +81,7 @@ class AddKidPage extends StatelessWidget {
                         isDeviceScreenLarge() ? kH40sizedBox : kH30sizedBox,
                         CustomModifiedTextField(
                           controller: TextEditingController(),
-                          hint: "Write kid name",
+                          hint: ksWriteKidName.tr,
                           onChanged: (text) {},
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,
@@ -91,7 +91,7 @@ class AddKidPage extends StatelessWidget {
                         kH8sizedBox,
                         CustomModifiedTextField(
                           controller: TextEditingController(),
-                          hint: "Write age",
+                          hint:ksWriteAge.tr,
                           onChanged: (text) {},
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,
@@ -102,7 +102,7 @@ class AddKidPage extends StatelessWidget {
                         CustomCheckBox(
                           value: true,
                           onChanged: (v) {},
-                          label: "Save Kid’s information's for further use.",
+                          label: ksSaveKidInformation.tr,
                           textStyle: regular14TextStyle(cBlackColor),
                         ),
                         isDeviceScreenLarge() ? kH40sizedBox : kH30sizedBox,

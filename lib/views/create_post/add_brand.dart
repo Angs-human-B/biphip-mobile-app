@@ -21,7 +21,7 @@ class AddBrandPage extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: "Add Brand",
+              title: ksAddBrand.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -36,7 +36,7 @@ class AddBrandPage extends StatelessWidget {
                       Get.back();
                     },
                     child: Text(
-                      "Add",
+                      ksAdd.tr,
                       style: medium14TextStyle(cPrimaryColor),
                     ),
                   ),
@@ -63,7 +63,7 @@ class AddBrandPage extends StatelessWidget {
                     isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
                     OutLinedButton(
                       onPress: null,
-                      buttonText: "Upload Image",
+                      buttonText: ksUploadImage.tr,
                       borderColor: cPrimaryColor,
                       buttonHeight: 32,
                       buttonWidth: 150,
@@ -82,14 +82,14 @@ class AddBrandPage extends StatelessWidget {
                         isDeviceScreenLarge() ? kH40sizedBox : kH30sizedBox,
                         CustomModifiedTextField(
                           controller: TextEditingController(),
-                          hint: "Write brand name",
+                          hint: ksWriteBrandName.tr,
                           onChanged: (text) {},
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,
                           inputType: TextInputType.text,
                         ),
                         Text(
-                          "Add Social Links (Minimum 1)",
+                          ksAddSocialLinks.tr,
                           style: medium14TextStyle(cBlackColor),
                         ),
                         kH8sizedBox,
@@ -109,7 +109,7 @@ class AddBrandPage extends StatelessWidget {
                             Expanded(
                               child: CustomModifiedTextField(
                                 controller: TextEditingController(),
-                                hint: "Write here...",
+                                hint: "${ksWriteHere.tr}...",
                                 onChanged: (text) {},
                                 onSubmit: (text) {},
                                 inputAction: TextInputAction.next,
@@ -135,7 +135,7 @@ class AddBrandPage extends StatelessWidget {
                             Expanded(
                               child: CustomModifiedTextField(
                                 controller: TextEditingController(),
-                                hint: "Write here...",
+                                hint: "${ksWriteHere.tr}...",
                                 onChanged: (text) {},
                                 onSubmit: (text) {},
                                 inputAction: TextInputAction.next,
@@ -161,7 +161,7 @@ class AddBrandPage extends StatelessWidget {
                             Expanded(
                               child: CustomModifiedTextField(
                                 controller: TextEditingController(),
-                                hint: "Write here...",
+                                hint: "${ksWriteHere.tr}...",
                                 onChanged: (text) {},
                                 onSubmit: (text) {},
                                 inputAction: TextInputAction.next,
@@ -187,7 +187,7 @@ class AddBrandPage extends StatelessWidget {
                             Expanded(
                               child: CustomModifiedTextField(
                                 controller: TextEditingController(),
-                                hint: "Write here...",
+                                hint: "${ksWriteHere.tr}...",
                                 onChanged: (text) {},
                                 onSubmit: (text) {},
                                 inputAction: TextInputAction.next,
@@ -213,7 +213,7 @@ class AddBrandPage extends StatelessWidget {
                             Expanded(
                               child: CustomModifiedTextField(
                                 controller: TextEditingController(),
-                                hint: "Write here...",
+                                hint: "${ksWriteHere.tr}...",
                                 onChanged: (text) {},
                                 onSubmit: (text) {},
                                 inputAction: TextInputAction.next,

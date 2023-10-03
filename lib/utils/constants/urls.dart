@@ -4,15 +4,15 @@
 |--------------------------------------------------------------------------
 */
 
-const String kuLogin = '/login';
-const String kuRegistration = '/signup';
-const String kuRegistrationVerifyOTP = '/user/verify-email-otp';
-const String kuRegistrationResendOTP = '/resend-otp';
-const String kuForgetPassword = '/forgot-password';
-const String kuForgetPasswordVerifyOTP = '/verify-forgot-password-otp';
-const String kuForgetPasswordResendOTP = '/resend-forgot-password-otp';
-const String kuResetPassword = '/user/reset-password';
-const String kuLogOut = '/logout';
+const String kuLogin = '/mobile/login';
+const String kuRegistration = '/mobile/signup';
+const String kuRegistrationVerifyOTP = '/mobile/user/verify-email-otp';
+const String kuRegistrationResendOTP = '/mobile/resend-otp';
+const String kuForgetPassword = '/mobile/forgot-password';
+const String kuForgetPasswordVerifyOTP = '/mobile/verify-forgot-password-otp';
+const String kuForgetPasswordResendOTP = '/mobile/resend-forgot-password-otp';
+const String kuResetPassword = '/mobile/user/reset-password';
+const String kuLogOut = '/mobile/logout';
 
 /*
 |--------------------------------------------------------------------------

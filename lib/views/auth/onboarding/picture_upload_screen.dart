@@ -36,8 +36,8 @@ class PictureUploadScreen extends StatelessWidget {
                   children: [
                     kH24sizedBox,
                     kH24sizedBox,
-                    const TopTitleAndSubtitle(
-                      title: ksAddProfilePhoto,
+                    TopTitleAndSubtitle(
+                      title: ksAddProfilePhoto.tr,
                     ),
                     kH35sizedBox,
                     Stack(
@@ -53,7 +53,7 @@ class PictureUploadScreen extends StatelessWidget {
                               _authenticationController.profileFile.value ?? File(''),
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) => ClipOval(
-                                child: Image.asset('assets/images/profileDefault.png'),
+                                child: Image.asset(kiProfileDefaultImageUrl),
                               ),
                             ),
                           ),
@@ -84,7 +84,7 @@ class PictureUploadScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     CustomElevatedButton(
-                      label: _authenticationController.isProfileImageChanged.value ? ksSavePhoto : ksAddPhoto,
+                      label: _authenticationController.isProfileImageChanged.value ? ksSavePhoto.tr : ksAddPhoto.tr,
                       onPressed: () {
                         if (!_authenticationController.isProfileImageChanged.value) {
                           _globalController.commonBottomSheet(
@@ -95,7 +95,7 @@ class PictureUploadScreen extends StatelessWidget {
                               onPressRightButton: () {},
                               rightText: '',
                               rightTextStyle: regular14TextStyle(cBiddingColor),
-                              title: ksUploadPhoto,
+                              title: ksUploadPhoto.tr,
                               isRightButtonShow: false,
                               isScrollControlled: false,
                               bottomSheetHeight: 180,
@@ -103,14 +103,14 @@ class PictureUploadScreen extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   CustomElevatedButton(
-                                    label: ksAddPhoto,
+                                    label: ksAddPhoto.tr,
                                     prefixIcon: BipHip.camera,
                                     prefixIconColor: cIconColor,
                                     suffixIconColor: cIconColor,
                                     onPressed: () async {
                                       ll(_authenticationController.isProfileImageChanged.value);
                                       await _globalController.selectImageSource(_authenticationController.isProfileImageChanged,
-                                          _authenticationController.profileLink, _authenticationController.profileFile, 'camera');
+                                          _authenticationController.profileLink, _authenticationController.profileFile, 'camera', true);
                                     },
                                     buttonHeight: h32,
                                     buttonWidth: width - 40,
@@ -120,13 +120,13 @@ class PictureUploadScreen extends StatelessWidget {
                                   ),
                                   kH16sizedBox,
                                   CustomElevatedButton(
-                                    label: ksChooseFromGallery,
+                                    label: ksChooseFromGallery.tr,
                                     prefixIcon: BipHip.photo,
                                     prefixIconColor: cIconColor,
                                     suffixIconColor: cIconColor,
                                     onPressed: () async {
                                       await _globalController.selectImageSource(_authenticationController.isProfileImageChanged,
-                                          _authenticationController.profileLink, _authenticationController.profileFile, 'gallery');
+                                          _authenticationController.profileLink, _authenticationController.profileFile, 'gallery', true);
                                     },
                                     buttonHeight: h32,
                                     buttonWidth: width - 40,
@@ -151,7 +151,7 @@ class PictureUploadScreen extends StatelessWidget {
                         onPressed: () {
                           Get.offAllNamed(krMenu);
                         },
-                        label: ksSkip,
+                        label: ksSkip.tr,
                         textStyle: semiBold16TextStyle(cPrimaryColor),
                       ),
                     kHBottomSizedBox

@@ -75,8 +75,8 @@ class EditProfile extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                height: height > kSmallDeviceSizeLimit ? kProfileImageSize : (kProfileImageSize - h10),
-                                width: height > kSmallDeviceSizeLimit ? kProfileImageSize : (kProfileImageSize - h10),
+                                height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                                width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
                                 decoration: BoxDecoration(
                                   color: cWhiteColor,
                                   borderRadius: BorderRadius.circular(110),

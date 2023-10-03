@@ -21,7 +21,7 @@ class CreatePost extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: 'Create post'.tr,
+              title: ksCreatePost.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -32,7 +32,7 @@ class CreatePost extends StatelessWidget {
                   padding: const EdgeInsets.only(right: h16),
                   child: Obx(
                     () => CustomElevatedButton(
-                      label: "Post",
+                      label: ksPost.tr,
                       onPressed: _createPostController.isPostButtonActive.value ? () {} : null,
                       buttonWidth: 60,
                       buttonHeight: 32,
@@ -72,7 +72,7 @@ class CreatePost extends StatelessWidget {
                                             shape: BoxShape.circle,
                                           ),
                                           child: Image.asset(
-                                            "assets/images/profileDefault.png",
+                                            kiProfileDefaultImageUrl,
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -91,7 +91,7 @@ class CreatePost extends StatelessWidget {
                                           shape: BoxShape.circle,
                                         ),
                                         child: Image.asset(
-                                          "assets/images/profileDefault.png",
+                                          kiProfileDefaultImageUrl,
                                           fit: BoxFit.fill,
                                         ),
                                       ),
@@ -120,12 +120,12 @@ class CreatePost extends StatelessWidget {
                                                     ),
                                                     if (_createPostController.isTagAdded.value)
                                                       TextSpan(
-                                                        text: ' is with ',
+                                                        text: ' ${ksIsWithSmall.tr} ',
                                                         style: regular16TextStyle(cBlackColor),
                                                       ),
                                                     if (_createPostController.isTagAdded.value)
                                                       TextSpan(
-                                                        text: 'Shohag Jalal & 8 others',
+                                                        text: 'Shohag Jalal & 8 ${ksOthersSmall.tr}',
                                                         style: semiBold16TextStyle(cBlackColor),
                                                       ),
                                                   ],
@@ -175,7 +175,7 @@ class CreatePost extends StatelessWidget {
                                           if (_createPostController.category.value == "Selling")
                                             Expanded(
                                               child: CustomElevatedButton(
-                                                label: "Post Type",
+                                                label: ksPostType.tr,
                                                 onPressed: () {
                                                   Get.find<GlobalController>().commonBottomSheet(
                                                     context: context,
@@ -186,7 +186,7 @@ class CreatePost extends StatelessWidget {
                                                         CustomCheckBox(
                                                           value: true,
                                                           onChanged: (v) {},
-                                                          label: "Bidding Post",
+                                                          label: ksBiddingPost.tr,
                                                           textStyle: medium14TextStyle(cBlackColor),
                                                         ),
                                                         kH8sizedBox,
@@ -194,7 +194,7 @@ class CreatePost extends StatelessWidget {
                                                           children: [
                                                             Expanded(
                                                               child: Text(
-                                                                "Selecting bidding post will let the user write their preferred bidding price.",
+                                                                ksBiddingPostDescription.tr,
                                                                 style: regular12TextStyle(cSmallBodyTextColor),
                                                               ),
                                                             ),
@@ -202,14 +202,14 @@ class CreatePost extends StatelessWidget {
                                                         ),
                                                         kH16sizedBox,
                                                         Text(
-                                                          "Or",
+                                                          ksOr.tr,
                                                           style: regular16TextStyle(cPlaceHolderColor),
                                                         ),
                                                         kH16sizedBox,
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              "Platform & Action",
+                                                              ksPlatformAndAction.tr,
                                                               style: medium14TextStyle(cBlackColor),
                                                             ),
                                                           ],
@@ -218,7 +218,7 @@ class CreatePost extends StatelessWidget {
                                                         Row(
                                                           children: [
                                                             OutLinedButton(
-                                                              buttonText: "Select platform",
+                                                              buttonText: ksSelectPlatform.tr,
                                                               buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
                                                               borderColor: cLineColor,
                                                               buttonWidth: width * .55 - 20,
@@ -231,7 +231,7 @@ class CreatePost extends StatelessWidget {
                                                             ),
                                                             kW8sizedBox,
                                                             OutLinedButton(
-                                                              buttonText: "Select CTA",
+                                                              buttonText: ksSelectCTA.tr,
                                                               buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
                                                               borderColor: cLineColor,
                                                               buttonWidth: width * .45 - 20,
@@ -252,9 +252,9 @@ class CreatePost extends StatelessWidget {
                                                     onPressRightButton: () {
                                                       Get.back();
                                                     },
-                                                    rightText: 'Done',
+                                                    rightText: ksDone.tr,
                                                     rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                                    title: "Post Type",
+                                                    title: ksPostType.tr,
                                                     isRightButtonShow: true,
                                                   );
                                                 },
@@ -285,7 +285,7 @@ class CreatePost extends StatelessWidget {
                               fillColor: cWhiteColor,
                               inputAction: TextInputAction.newline,
                               inputType: TextInputType.multiline,
-                              hint: "What's on your mind, Rana?",
+                              hint: "${ksWhatsOnYourMind.tr}, Rana?",
                               contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k16Padding),
                               textHintStyle: regular20TextStyle(cPlaceHolderColor),
                               textInputStyle:
@@ -423,7 +423,7 @@ class CreatePost extends StatelessWidget {
                                                       Get.toNamed(krUploadedImageListPage);
                                                     },
                                                     child: Text(
-                                                      "${_createPostController.allMediaList.length - 2} More",
+                                                      "${_createPostController.allMediaList.length - 2} ${ksMore.tr}",
                                                       style: semiBold16TextStyle(cWhiteColor),
                                                     ),
                                                   ),
@@ -443,13 +443,13 @@ class CreatePost extends StatelessWidget {
                               children: [
                                 if (_createPostController.allMediaList.isNotEmpty) kH20sizedBox,
                                 Text(
-                                  "Required fields",
+                                  ksRequiredFields.tr,
                                   style: medium14TextStyle(cBlackColor),
                                 ),
                                 kH8sizedBox,
                                 CustomModifiedTextField(
                                   controller: TextEditingController(),
-                                  hint: "Title",
+                                  hint: ksTitle.tr,
                                   onChanged: (text) {},
                                   onSubmit: (text) {},
                                   inputAction: TextInputAction.next,
@@ -460,7 +460,7 @@ class CreatePost extends StatelessWidget {
                                 if (_createPostController.category.value == "Selling")
                                   CustomModifiedTextField(
                                     controller: TextEditingController(),
-                                    hint: "Price",
+                                    hint: ksPrice.tr,
                                     onChanged: (text) {},
                                     onSubmit: (text) {},
                                     inputAction: TextInputAction.next,
@@ -470,7 +470,7 @@ class CreatePost extends StatelessWidget {
                                 kH8sizedBox,
                                 CustomModifiedTextField(
                                   controller: TextEditingController(),
-                                  hint: "Description",
+                                  hint: ksDescription.tr,
                                   onChanged: (text) {},
                                   onSubmit: (text) {},
                                   inputAction: TextInputAction.next,

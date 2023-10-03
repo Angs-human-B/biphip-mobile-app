@@ -38,9 +38,9 @@ class Login extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: h20),
                       child: SizedBox(
                         width: width,
-                        child: const TopTitleAndSubtitle(
-                          title: ksLogin,
-                          subTitle: "Please login to continue...",
+                        child: TopTitleAndSubtitle(
+                          title: ksLogin.tr,
+                          subTitle: "${ksPleaseLoginToContinue.tr}...",
                         ),
                       ),
                     ),
@@ -50,13 +50,13 @@ class Login extends StatelessWidget {
                       child: CustomModifiedTextField(
                         errorText: _authenticationController.loginEmailErrorText.isEmpty ? null : _authenticationController.loginEmailErrorText.value,
                         controller: _authenticationController.loginEmailTextEditingController,
-                        hint: "Email or Phone number",
+                        hint: ksEmailOrPhone.tr,
                         onChanged: (text) {
                           _authenticationController.checkCanLogin();
                           if (_authenticationController.loginEmailTextEditingController.text.trim() == '') {
-                            _authenticationController.loginEmailErrorText.value = ksEmptyEmailErrorMessage;
+                            _authenticationController.loginEmailErrorText.value = ksEmptyEmailErrorMessage.tr;
                           } else if (!_authenticationController.loginEmailTextEditingController.text.trim().isValidEmail) {
-                            _authenticationController.loginEmailErrorText.value = ksInvalidEmailErrorMessage;
+                            _authenticationController.loginEmailErrorText.value = ksInvalidEmailErrorMessage.tr;
                           } else {
                             _authenticationController.loginEmailErrorText.value = '';
                           }
@@ -72,7 +72,7 @@ class Login extends StatelessWidget {
                       child: CustomModifiedTextField(
                         errorText: _authenticationController.loginPasswordErrorText.value,
                         controller: _authenticationController.loginPasswordTextEditingController,
-                        hint: ksPassword,
+                        hint: ksPassword.tr,
                         suffixIcon: _authenticationController.isLoginPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                         onSuffixPress: () {
                           _authenticationController.isLoginPasswordToggleObscure.value = !_authenticationController.isLoginPasswordToggleObscure.value;
@@ -80,9 +80,9 @@ class Login extends StatelessWidget {
                         onChanged: (text) {
                           _authenticationController.checkCanLogin();
                           if (_authenticationController.loginPasswordTextEditingController.text.trim() == '') {
-                            _authenticationController.loginPasswordErrorText.value = ksEmptyPasswordErrorMessage;
+                            _authenticationController.loginPasswordErrorText.value = ksEmptyPasswordErrorMessage.tr;
                           } else if (_authenticationController.loginPasswordTextEditingController.text.length < kMinPasswordLength) {
-                            _authenticationController.loginPasswordErrorText.value = ksPasswordLengthErrorMessage;
+                            _authenticationController.loginPasswordErrorText.value = ksPasswordLengthErrorMessage.tr;
                           } else {
                             _authenticationController.loginPasswordErrorText.value = '';
                           }
@@ -111,11 +111,10 @@ class Login extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: h20),
                       child: CustomElevatedButton(
-                        label: 'Login',
+                        label: ksLogin.tr,
                         onPressed: _authenticationController.canLogin.value
                             ? () async {
-                                // await _authenticationController.userLogin();
-                                Get.toNamed(krHome);
+                                await _authenticationController.userLogin();
                               }
                             : null,
                         buttonWidth: width - 40,
@@ -127,7 +126,7 @@ class Login extends StatelessWidget {
                     Column(
                       children: [
                         Text(
-                          "Or login with",
+                          ksOrLoginWith.tr,
                           style: regular14TextStyle(cBlackColor),
                         ),
                         kH8sizedBox,
@@ -169,8 +168,8 @@ class Login extends StatelessWidget {
                     ),
                     kH12sizedBox,
                     LinkupTextRow(
-                      prefix: "Don't have an account?",
-                      suffix: "Register Now",
+                      prefix: ksDoNotHaveAnyAccount.tr,
+                      suffix: ksRegisterNow.tr,
                       onPressed: () {
                         Get.offAllNamed(krRegister);
                       },

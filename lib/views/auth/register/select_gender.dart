@@ -48,9 +48,9 @@ class SelectGender extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       kH24sizedBox,
-                      const TopTitleAndSubtitle(
-                        title: ksWhatGender,
-                        subTitle: ksChangeGender,
+                      TopTitleAndSubtitle(
+                        title: ksWhatGender.tr,
+                        subTitle: ksChangeGender.tr,
                       ),
                       kH50sizedBox,
                       CustomSelectionButton(
@@ -66,18 +66,18 @@ class SelectGender extends StatelessWidget {
                             onPressRightButton: null,
                             rightText: '',
                             rightTextStyle: regular10TextStyle(cBlackColor),
-                            title: ksSelectGender,
+                            title: ksSelectGender.tr,
                             isRightButtonShow: false,
                             isScrollControlled: true,
                             bottomSheetHeight: 260,
                           );
                         },
                         text: _authenticationController.gender.value,
-                        hintText: ksSelectGender,
+                        hintText: ksSelectGender.tr,
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
-                        label: ksNext,
+                        label: ksNext.tr,
                         onPressed: _authenticationController.gender.value != ''
                             ? () {
                                 Get.toNamed(krSetEmail);

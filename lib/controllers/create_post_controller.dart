@@ -335,13 +335,13 @@ class CreatePostController extends GetxController {
                   onPressRightButton: () {
                     Get.back();
                   },
-                  rightText: 'Done',
+                  rightText: ksDone.tr,
                   rightTextStyle: medium14TextStyle(cPrimaryColor),
-                  title: "Select Kids",
+                  title: ksSelectKids.tr,
                   isRightButtonShow: true,
                 );
               },
-              buttonText: "Select Kids",
+              buttonText: ksSelectKids.tr,
               buttonTextStyle: medium16TextStyle(cBlackColor),
               borderColor: cLineColor,
               widget: Icon(
@@ -368,7 +368,7 @@ class CreatePostController extends GetxController {
             // ),
             kH12sizedBox,
             Text(
-              "Or",
+              ksOr.tr,
               style: regular16TextStyle(cPlaceHolderColor),
             ),
             kH12sizedBox,
@@ -376,7 +376,7 @@ class CreatePostController extends GetxController {
               onPress: () {
                 Get.to(() => AddKidPage());
               },
-              buttonText: "Add Kid",
+              buttonText: ksAddKid.tr,
               buttonTextStyle: medium16TextStyle(cPrimaryColor),
               borderColor: cPrimaryColor,
               widget: Icon(
@@ -387,7 +387,7 @@ class CreatePostController extends GetxController {
             ),
             kH8sizedBox,
             Text(
-              "*If you don’t have any kid added in system, use ‘Custom Add’ to post directly with kid’s details.",
+              "*${ksCustomAddInstruction.tr}",
               style: regular14TextStyle(cSmallBodyTextColor),
             ),
           ],
@@ -398,9 +398,9 @@ class CreatePostController extends GetxController {
         onPressRightButton: () {
           Get.back();
         },
-        rightText: 'Done',
+        rightText: ksDone.tr,
         rightTextStyle: medium14TextStyle(cPrimaryColor),
-        title: "Kids",
+        title: ksKids.tr,
         isRightButtonShow: true,
       );
     } else if (category.value == "Selling") {
@@ -453,13 +453,13 @@ class CreatePostController extends GetxController {
                   onPressRightButton: () {
                     Get.back();
                   },
-                  rightText: 'Done',
+                  rightText: ksDone.tr,
                   rightTextStyle: medium14TextStyle(cPrimaryColor),
-                  title: "Select Brands",
+                  title: ksSelectBrands.tr,
                   isRightButtonShow: true,
                 );
               },
-              buttonText: "Select Saved Brand",
+              buttonText: ksSelectSavedBrands.tr,
               buttonTextStyle: medium16TextStyle(cBlackColor),
               borderColor: cLineColor,
               widget: Icon(
@@ -485,7 +485,7 @@ class CreatePostController extends GetxController {
             // ),
             kH12sizedBox,
             Text(
-              "Or",
+              ksOr.tr,
               style: regular16TextStyle(cPlaceHolderColor),
             ),
             kH12sizedBox,
@@ -493,7 +493,7 @@ class CreatePostController extends GetxController {
               onPress: () {
                 Get.to(() => AddBrandPage());
               },
-              buttonText: "Add Brand",
+              buttonText: ksAddBrand.tr,
               buttonTextStyle: medium16TextStyle(cPrimaryColor),
               borderColor: cPrimaryColor,
               widget: Icon(
@@ -504,7 +504,7 @@ class CreatePostController extends GetxController {
             ),
             kH8sizedBox,
             Text(
-              "*Please add your own brand to promote and grow your business.",
+              "*${ksAddBrandInstruction.tr}",
               style: regular14TextStyle(cSmallBodyTextColor),
             ),
           ],
@@ -515,9 +515,9 @@ class CreatePostController extends GetxController {
         onPressRightButton: () {
           Get.back();
         },
-        rightText: 'Done',
+        rightText: ksDone.tr,
         rightTextStyle: medium14TextStyle(cPrimaryColor),
-        title: " Brands",
+        title: ksBrands.tr,
         isRightButtonShow: true,
       );
     } else if (category.value == "News") {
@@ -678,7 +678,7 @@ class CreatePostController extends GetxController {
               Padding(
                 padding: const EdgeInsets.only(left: k2Padding),
                 child: Text(
-                  "Selected",
+                  ksSelected.tr,
                   style: semiBold14TextStyle(cBlackColor),
                 ),
               ),
@@ -721,7 +721,7 @@ class CreatePostController extends GetxController {
               Padding(
                 padding: const EdgeInsets.only(left: k2Padding),
                 child: Text(
-                  "SUGGESTION",
+                  ksSuggestionAllCap.tr,
                   style: regular14TextStyle(cSmallBodyTextColor),
                 ),
               ),
@@ -763,9 +763,9 @@ class CreatePostController extends GetxController {
         onPressRightButton: () {
           Get.back();
         },
-        rightText: "Done",
+        rightText: ksDone.tr,
         rightTextStyle: medium14TextStyle(cPrimaryColor),
-        title: "Tag People",
+        title: ksTagPeople.tr,
         isRightButtonShow: true,
       );
     }
@@ -810,12 +810,12 @@ class CreatePostController extends GetxController {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Who can see your post?",
+            "${ksWhoCanSeeYourPost.tr}?",
             style: semiBold16TextStyle(cBlackColor),
           ),
           kH8sizedBox,
           Text(
-            "Your post will appear in feed, on your profile and in search results. Your default audience is set to Public, but you can change the audience of this specific post.",
+            ksAudienceInformation.tr,
             style: regular14TextStyle(cBlackColor),
           ),
           kH8sizedBox,
@@ -862,9 +862,9 @@ class CreatePostController extends GetxController {
         selectAudienceTextChange();
         Get.back();
       },
-      rightText: "Done",
+      rightText: ksDone.tr,
       rightTextStyle: medium14TextStyle(cPrimaryColor),
-      title: "Edit Audience",
+      title: ksEditAudience.tr,
       isRightButtonShow: true,
     );
   }
