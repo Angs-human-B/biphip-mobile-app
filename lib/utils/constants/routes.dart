@@ -14,6 +14,7 @@ import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/create_post/create_post.dart';
 import 'package:bip_hip/views/create_post/upload_media_list.dart';
+import 'package:bip_hip/views/home/homepage.dart';
 import 'package:bip_hip/views/profile/edit_about_info/edit_about.dart';
 import 'package:bip_hip/views/profile/edit_about_info/edit_page.dart';
 import 'package:bip_hip/views/profile/edit_bio.dart';
@@ -71,6 +72,7 @@ const String krCreatePost = '/create-post';
 const String krSelectCategory = '/create-post/select-category';
 const String krUploadedImageListPage = '/create-post/uploaded-image-list';
 
+
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
   GetPage(name: krLogin, page: () => Login(), transition: Transition.noTransition),
@@ -112,4 +114,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krCreatePost, page: () => CreatePost(), transition: Transition.downToUp),
   GetPage(name: krSelectCategory, page: () => SelectCategory(), transition: Transition.downToUp),
   GetPage(name: krUploadedImageListPage, page: () => UploadImageListPage(), transition: Transition.rightToLeft),
+
+  //* home
+  GetPage(name: krHome, page: () => HomePage(), transition: Transition.noTransition)
 ];

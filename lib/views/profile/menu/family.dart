@@ -2,8 +2,8 @@ import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/menu/friends.dart';
-import 'package:bip_hip/widgets/common/custom_selection_button.dart';
-import 'package:bip_hip/widgets/common/custom_tapable_container.dart';
+import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 
 class Family extends StatelessWidget {
   Family({super.key});
@@ -39,7 +39,9 @@ class Family extends StatelessWidget {
                     onPressCloseButton: () {
                       Get.back();
                     },
-                    onPressRightButton: () {},
+                    onPressRightButton: () {
+                      Get.back();
+                    },
                     rightText: 'Send',
                     rightTextStyle: medium14TextStyle(cPrimaryColor),
                     title: ksAddFamilyMember.tr,
@@ -255,7 +257,7 @@ class AddFamilyMemberBottomSheetContent extends StatelessWidget {
           Obx(
             () => CustomSelectionButton(
               hintText: ksSelectRelation.tr,
-              text: Get.find<ProfileController>().relation.value == "" ? null : Get.find<ProfileController>().relation.value,
+              text: Get.find<ProfileController>().relation.value == "" ? '' : Get.find<ProfileController>().relation.value,
               onPressed: () {
                 unFocus(context);
                 Get.find<ProfileController>().initializeSelectedRelationText();

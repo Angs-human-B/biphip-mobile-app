@@ -1,8 +1,8 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/custom_bottom_nav.dart';
-import 'package:bip_hip/widgets/common/search.dart';
+import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
+import 'package:bip_hip/widgets/common/utils/search.dart';
 
 class Menu extends StatelessWidget {
   Menu({super.key});
@@ -44,7 +44,7 @@ class Menu extends StatelessWidget {
                           recentSearchList: Get.find<GlobalController>().recentSearch,
                           onSubmit: () {},
                         ),
-                        transition: Transition.noTransition,
+                        transition: Transition.rightToLeft,
                       );
                     },
                     child: Icon(

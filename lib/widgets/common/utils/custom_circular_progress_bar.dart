@@ -10,13 +10,13 @@ class CustomCircularProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircularPercentIndicator(
-                    animateFromLastPercent: false,
-                    radius: 10.0,
-                    lineWidth: 2.0,
-                    animation: true,
-                    percent: percent,
-                    circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: cPrimaryColor,
-                  );
+      animateFromLastPercent: false,
+      radius: 10.0,
+      lineWidth: 2.0,
+      animation: true,
+      percent: percent,
+      circularStrokeCap: CircularStrokeCap.round,
+      progressColor: cPrimaryColor,
+    );
   }
 }

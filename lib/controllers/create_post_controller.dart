@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/create_post/add_brand.dart';
 import 'package:bip_hip/views/create_post/add_kid.dart';
-import 'package:bip_hip/widgets/common/custom_outline_button.dart';
+import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 
 class CreatePostController extends GetxController {
   // final ApiController _apiController = ApiController();
@@ -332,7 +332,9 @@ class CreatePostController extends GetxController {
                   onPressCloseButton: () {
                     Get.back();
                   },
-                  onPressRightButton: null,
+                  onPressRightButton: () {
+                    Get.back();
+                  },
                   rightText: 'Done',
                   rightTextStyle: medium14TextStyle(cPrimaryColor),
                   title: "Select Kids",
@@ -393,7 +395,9 @@ class CreatePostController extends GetxController {
         onPressCloseButton: () {
           Get.back();
         },
-        onPressRightButton: null,
+        onPressRightButton: () {
+          Get.back();
+        },
         rightText: 'Done',
         rightTextStyle: medium14TextStyle(cPrimaryColor),
         title: "Kids",
@@ -446,10 +450,12 @@ class CreatePostController extends GetxController {
                   onPressCloseButton: () {
                     Get.back();
                   },
-                  onPressRightButton: null,
+                  onPressRightButton: () {
+                    Get.back();
+                  },
                   rightText: 'Done',
                   rightTextStyle: medium14TextStyle(cPrimaryColor),
-                  title: "Select Kids",
+                  title: "Select Brands",
                   isRightButtonShow: true,
                 );
               },
@@ -503,10 +509,14 @@ class CreatePostController extends GetxController {
             ),
           ],
         ),
-        onPressCloseButton: null,
-        onPressRightButton: null,
+        onPressCloseButton: () {
+          Get.back();
+        },
+        onPressRightButton: () {
+          Get.back();
+        },
         rightText: 'Done',
-        rightTextStyle: medium14TextStyle(cPlaceHolderColor),
+        rightTextStyle: medium14TextStyle(cPrimaryColor),
         title: " Brands",
         isRightButtonShow: true,
       );
@@ -750,7 +760,9 @@ class CreatePostController extends GetxController {
         onPressCloseButton: () {
           Get.back();
         },
-        onPressRightButton: () {},
+        onPressRightButton: () {
+          Get.back();
+        },
         rightText: "Done",
         rightTextStyle: medium14TextStyle(cPrimaryColor),
         title: "Tag People",

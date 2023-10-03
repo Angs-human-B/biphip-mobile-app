@@ -45,7 +45,9 @@ class CustomBottomNavBar extends StatelessWidget {
                 title: "Home",
                 icon: BipHip.homeOutline,
                 iconSelected: BipHip.homeFill,
-                onPressed: () async {},
+                onPressed: () async {
+                  Get.toNamed(krHome);
+                },
               ),
 
               //* Request
