@@ -142,8 +142,8 @@ class Profile extends StatelessWidget {
                                 ),
                               ),
                               Positioned(
-                                right: 8,
-                                top: 15,
+                                right: 6,
+                                top: 10,
                                 child: Container(
                                     height: h28,
                                     width: h28,
