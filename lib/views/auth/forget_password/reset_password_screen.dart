@@ -47,15 +47,15 @@ class ResetPasswordScreen extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       kH24sizedBox,
-                      const TopTitleAndSubtitle(
-                        title: ksResetPassword,
-                        subTitle: ksCreateStrongPassword,
+                       TopTitleAndSubtitle(
+                        title: ksResetPassword.tr,
+                        subTitle: ksCreateStrongPassword.tr,
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.resetNewPasswordTextEditingController,
                         errorText: _authenticationController.resetPasswordError.value,
-                        hint: ksTypePassword,
+                        hint: ksTypePassword.tr,
                         suffixIcon: _authenticationController.isResetNewPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                         onSuffixPress: () {
                           _authenticationController.isResetNewPasswordToggleObscure.value = !_authenticationController.isResetNewPasswordToggleObscure.value;
@@ -63,9 +63,9 @@ class ResetPasswordScreen extends StatelessWidget {
                         onChanged: (text) {
                           _authenticationController.checkCanResetPassword();
                           if (_authenticationController.resetNewPasswordTextEditingController.text.trim() == '') {
-                            _authenticationController.resetPasswordError.value = ksEmptyPasswordErrorMessage;
+                            _authenticationController.resetPasswordError.value = ksEmptyPasswordErrorMessage.tr;
                           } else if (_authenticationController.resetNewPasswordTextEditingController.text.length < kMinPasswordLength) {
-                            _authenticationController.resetPasswordError.value = ksPasswordLengthErrorMessage;
+                            _authenticationController.resetPasswordError.value = ksPasswordLengthErrorMessage.tr;
                           } else {
                             _authenticationController.resetPasswordError.value = '';
                           }
@@ -82,7 +82,7 @@ class ResetPasswordScreen extends StatelessWidget {
                         controller: _authenticationController.resetConfirmPasswordTextEditingController,
                         focusNode: _confirmPasswordFocusNode,
                         errorText: _authenticationController.resetConfirmPasswordError.value,
-                        hint: "Confirm password",
+                        hint: ksConfirmPassword.tr,
                         suffixIcon: _authenticationController.isResetConfirmPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                         onSuffixPress: () {
                           _authenticationController.isResetConfirmPasswordToggleObscure.value =
@@ -91,10 +91,10 @@ class ResetPasswordScreen extends StatelessWidget {
                         onChanged: (text) {
                           _authenticationController.checkCanResetPassword();
                           if (_authenticationController.resetConfirmPasswordTextEditingController.text.trim() == '') {
-                            _authenticationController.resetConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage;
+                            _authenticationController.resetConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage.tr;
                           } else if (_authenticationController.resetConfirmPasswordTextEditingController.text !=
                               _authenticationController.resetNewPasswordTextEditingController.text) {
-                            _authenticationController.resetConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage;
+                            _authenticationController.resetConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
                           } else {
                             _authenticationController.resetConfirmPasswordError.value = '';
                           }
@@ -108,7 +108,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
-                        label: ksNext,
+                        label: ksNext.tr,
                         onPressed: _authenticationController.canResetPassword.value
                             ? () async {
                                 await _authenticationController.resetPassword();
