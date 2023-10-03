@@ -12,29 +12,32 @@ import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CommonPostWidget extends StatelessWidget {
-  CommonPostWidget(
-      {super.key,
-      required this.isCommented,
-      required this.isLiked,
-      required this.isCategorized,
-      required this.userName,
-      required this.postTime,
-      required this.privacy,
-      required this.isTextualPost,
-      this.category,
-      this.brandName,
-      this.kidName,
-      this.kidAge,
-      this.title,
-      this.price,
-      this.categoryIcon,
-      this.categoryIconColor,
-      this.postText,
-      required this.mediaList,
-      required this.isSelfPost,
-      required this.isCommentShown,
-      required this.isSharedPost});
-  final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost;
+  CommonPostWidget({
+    super.key,
+    required this.isCommented,
+    required this.isLiked,
+    required this.isCategorized,
+    required this.userName,
+    required this.postTime,
+    required this.privacy,
+    required this.isTextualPost,
+    this.category,
+    this.brandName,
+    this.kidName,
+    this.kidAge,
+    this.title,
+    this.price,
+    this.categoryIcon,
+    this.categoryIconColor,
+    this.postText,
+    required this.mediaList,
+    required this.isSelfPost,
+    required this.isCommentShown,
+    required this.isSharedPost, required this.showBottomSection,
+  });
+  final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost,showBottomSection;
+  // final RxBool sharedPostSeeMore = RxBool(false);
+  // final RxBool postSeeMore = RxBool(false);
   final String userName, postTime;
   final String? category, brandName, kidName, kidAge, title, price, postText;
   final IconData? categoryIcon;
@@ -45,298 +48,309 @@ class CommonPostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (isLiked)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
-              child: Row(
-                children: [
-                  Stack(
-                    children: [
-                      const SizedBox(
-                        width: 40,
-                        height: 20,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (isLiked)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
+            child: Row(
+              children: [
+                Stack(
+                  children: [
+                    const SizedBox(
+                      width: 40,
+                      height: 20,
+                    ),
+                    for (int index = 0; index < 3; index++)
+                      Positioned(
+                        left: index * 10,
+                        child: Container(
+                          height: 20,
+                          width: 20,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: cWhiteColor, width: 1),
+                          ),
+                          child: Image.asset(
+                            'assets/images/profileDefault.png',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
                       ),
-                      for (int index = 0; index < 3; index++)
-                        Positioned(
-                          left: index * 10,
+                  ],
+                ),
+                kW8sizedBox,
+                RichText(
+                    text: TextSpan(children: [
+                  TextSpan(text: 'Aminul Islam Rana and 10 other ', style: semiBold14TextStyle(cBlackColor)),
+                  TextSpan(text: 'liked it.', style: regular14TextStyle(cSmallBodyTextColor))
+                ]))
+              ],
+            ),
+          ),
+        if (isCommented)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
+            child: Row(
+              children: [
+                kW8sizedBox,
+                RichText(
+                    text: TextSpan(children: [
+                  TextSpan(text: 'Aminul Islam Rana ', style: semiBold14TextStyle(cBlackColor)),
+                  TextSpan(text: 'commented.', style: regular14TextStyle(cSmallBodyTextColor))
+                ])),
+              ],
+            ),
+          ),
+        if (isSharedPost) const CustomDivider(),
+        kH10sizedBox,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: PostUpperContainer(
+            userName: userName,
+            postTime: postTime,
+            isCategorized: isCategorized,
+            category: category,
+            categoryIcon: categoryIcon,
+            categoryIconColor: categoryIconColor,
+            privacy: privacy,
+            brandName: brandName,
+            kidName: kidName,
+            kidAge: kidAge,
+            title: title,
+          ),
+        ),
+        kH8sizedBox,
+        if ((category == 'News' || category == 'Selling') && isCategorized)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: kHorizontalPadding),
+            child: Text(
+              title!,
+              overflow: TextOverflow.clip,
+              style: semiBold14TextStyle(cBlackColor),
+            ),
+          ),
+        if (category == 'Selling' && isCategorized)
+          Padding(
+            padding: const EdgeInsets.only(bottom: k12Padding, left: kHorizontalPadding, right: kHorizontalPadding),
+            child: Text(
+              'Price: $price\$',
+              style: semiBold14TextStyle(cBlackColor),
+            ),
+          ),
+        if (isTextualPost)
+          Obx(() => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                child: RichText(
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.clip,
+                  maxLines: (_homeController.seeMore.value && postText!.length > 256) ? 5 : null,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: postText,
+                        style: regular14TextStyle(cBlackColor),
+                      ),
+                    ],
+                  ),
+                ),
+              )),
+        if (postText!.length > 256)
+          Obx(() => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                child: TextButton(
+                  style: kTextButtonStyle,
+                  onPressed: () {
+                    // if(isSharedPost){
+                    // _homeController.changeSeeMoreValue(postSeeMore);
+                    // postSeeMore.value = !postSeeMore.value;
+                    // }else {
+                    // _homeController.changeSeeMoreValue(sharedPostSeeMore);
+                    // sharedPostSeeMore.value = !sharedPostSeeMore.value;
+                    // }
+                    _homeController.seeMore.value = !_homeController.seeMore.value;
+                  },
+                  child: Text(
+                    _homeController.seeMore.value ? 'See More' : 'Show Less',
+                    style: semiBold14TextStyle(cPrimaryColor),
+                  ),
+                ),
+              )),
+        kH16sizedBox,
+        if (isSharedPost)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: k8CircularBorderRadius,
+                  border: Border.all(color: cLineColor),
+                ),
+                child: CommonPostWidget(
+                  isCommented: false,
+                  isLiked: false,
+                  mediaList: [],
+                  isCategorized: false,
+                  userName: 'Steve Sanchez',
+                  postTime: '5 hrs ago',
+                  privacy: BipHip.world,
+                  isTextualPost: true,
+                  isSelfPost: false,
+                  isCommentShown: false,
+                  isSharedPost: false,
+                  showBottomSection: false,
+                  postText:
+                      'When i was sixteen i won a great victory. I thought i would live to be a hundred. Now i know i shall not see thirty. None of us knows how our life may end.',
+                )),
+          ),
+        if (mediaList.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: Container(
+              color: cWhiteColor,
+              height: 302,
+              width: width - 40,
+              child: Column(
+                children: [
+                  // if (mediaList.length > 0 )
+                  Row(
+                    children: [
+                      TextButton(
+                        style: kTextButtonStyle,
+                        onPressed: () {},
+                        child: Container(
+                          decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
+                          height: mediaList.length < 2 ? 302 : 150,
+                          width: mediaList.length > 3 ? (width - 42) / 2 : (width - 40),
+                          child: Image.asset(
+                            mediaList[0],
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      if (mediaList.length > 3)
+                        const SizedBox(
+                          width: 2,
+                        ),
+                      if (mediaList.length > 3)
+                        TextButton(
+                          style: kTextButtonStyle,
+                          onPressed: () {},
                           child: Container(
-                            height: 20,
-                            width: 20,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: cWhiteColor, width: 1),
-                            ),
+                            decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
+                            height: 150,
+                            width: (width - 42) / 2,
                             child: Image.asset(
-                              'assets/images/profileDefault.png',
-                              fit: BoxFit.fill,
+                              mediaList[1],
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
                     ],
                   ),
-                  kW8sizedBox,
-                  RichText(
-                      text: TextSpan(children: [
-                    TextSpan(text: 'Aminul Islam Rana and 10 other ', style: semiBold14TextStyle(cBlackColor)),
-                    TextSpan(text: 'liked it.', style: regular14TextStyle(cSmallBodyTextColor))
-                  ]))
-                ],
-              ),
-            ),
-          if (isCommented)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
-              child: Row(
-                children: [
-                  kW8sizedBox,
-                  RichText(
-                      text: TextSpan(children: [
-                    TextSpan(text: 'Aminul Islam Rana ', style: semiBold14TextStyle(cBlackColor)),
-                    TextSpan(text: 'commented.', style: regular14TextStyle(cSmallBodyTextColor))
-                  ])),
-                ],
-              ),
-            ),
-          const CustomDivider(),
-          kH10sizedBox,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: PostUpperContainer(
-              userName: userName,
-              postTime: postTime,
-              isCategorized: isCategorized,
-              category: category,
-              categoryIcon: categoryIcon,
-              categoryIconColor: categoryIconColor,
-              privacy: privacy,
-              brandName: brandName,
-              kidName: kidName,
-              kidAge: kidAge,
-              title: title,
-            ),
-          ),
-          kH8sizedBox,
-          if ((category == 'News' || category == 'Selling') && isCategorized)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: kHorizontalPadding),
-              child: Text(
-                title!,
-                overflow: TextOverflow.clip,
-                style: semiBold14TextStyle(cBlackColor),
-              ),
-            ),
-          if (category == 'Selling' && isCategorized)
-            Padding(
-              padding: const EdgeInsets.only(bottom: k12Padding, left: kHorizontalPadding, right: kHorizontalPadding),
-              child: Text(
-                'Price: $price\$',
-                style: semiBold14TextStyle(cBlackColor),
-              ),
-            ),
-          if (isTextualPost)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: RichText(
-                textAlign: TextAlign.left,
-                overflow: TextOverflow.clip,
-                maxLines: (postText!.length > 256 && _homeController.seeMore.value) ? 5 : null,
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: postText,
-                      style: regular14TextStyle(cBlackColor),
+                  if (mediaList.length > 1)
+                    const SizedBox(
+                      height: 2,
                     ),
-                  ],
-                ),
-              ),
-            ),
-          if (postText!.length > 256)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: TextButton(
-                style: kTextButtonStyle,
-                onPressed: () {
-                  _homeController.seeMore.value = !_homeController.seeMore.value;
-                },
-                child: Text(
-                  _homeController.seeMore.value ? 'See More' : 'Show Less',
-                  style: semiBold14TextStyle(cPrimaryColor),
-                ),
-              ),
-            ),
-          kH16sizedBox,
-          if (isSharedPost)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: k8CircularBorderRadius,
-                    border: Border.all(color: cLineColor),
-                  ),
-                  child: CommonPostWidget(
-                    isCommented: false,
-                    isLiked: false,
-                    mediaList: [],
-                    isCategorized: false,
-                    userName: 'Steve Sanchez',
-                    postTime: '5 hrs ago',
-                    privacy: BipHip.world,
-                    isTextualPost: true,
-                    isSelfPost: false,
-                    isCommentShown: false,
-                    isSharedPost: false,
-                    postText:
-                        'When i was sixteen i won a great victory. I thought i would live to be a hundred. Now i know i shall not see thirty. None of us knows how our life may end. When you stand before god you cannot say i was told by others to do thus or the virtue was not inconvenient. A father may claim a son, a king may move a man. Also he can move himself. Only when he moves himself he truly starts his own game',
-                  )),
-            ),
-          if (mediaList.isNotEmpty)
-            Obx(
-              () => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: Container(
-                  color: cWhiteColor,
-                  height: 302,
-                  width: width - 40,
-                  child: Column(
+                  Row(
                     children: [
+                      if (mediaList.length < 4 && mediaList.length > 1)
+                        TextButton(
+                          style: kTextButtonStyle,
+                          onPressed: () {},
+                          child: Container(
+                            decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
+                            height: 150,
+                            width: mediaList.length < 3 ? (width - 40) : (width - 42) / 2,
+                            child: Image.asset(
+                              mediaList[1],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      if (mediaList.length < 4 && mediaList.length > 2)
+                        const SizedBox(
+                          width: 2,
+                        ),
+                      if (mediaList.length > 2)
+                        TextButton(
+                          style: kTextButtonStyle,
+                          onPressed: () {},
+                          child: Container(
+                            decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
+                            height: 150,
+                            width: mediaList.length > 4 ? (width - 44) / 3 : (width - 42) / 2,
+                            child: Image.asset(
+                              mediaList[2],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                       if (mediaList.length > 3)
-                        Row(
+                        const SizedBox(
+                          width: 2,
+                        ),
+                      if (mediaList.length > 3)
+                        TextButton(
+                          style: kTextButtonStyle,
+                          onPressed: () {},
+                          child: Container(
+                            decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
+                            height: 150,
+                            width: mediaList.length < 5 ? (width - 42) / 2 : (width - 44) / 3,
+                            child: Image.asset(
+                              mediaList[3],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      if (mediaList.length > 4)
+                        const SizedBox(
+                          width: 2,
+                        ),
+                      if (mediaList.length >= 5)
+                        Stack(
+                          alignment: AlignmentDirectional.center,
                           children: [
                             TextButton(
                               style: kTextButtonStyle,
                               onPressed: () {},
                               child: Container(
                                 decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                                height: mediaList.length < 2 ? 302 : 150,
-                                width: mediaList.length > 2 ? (width - 42) / 2 : (width - 42),
-                                child: Image.asset(
-                                  mediaList[0],
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 2,
-                            ),
-                            TextButton(
-                              style: kTextButtonStyle,
-                              onPressed: () {},
-                              child: Container(
-                                decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                                 height: 150,
-                                width: (width - 42) / 2,
+                                width: (width - 44) / 3,
                                 child: Image.asset(
-                                  mediaList[1],
+                                  mediaList[4],
                                   fit: BoxFit.cover,
+                                  color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
+                                  colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,
                                 ),
                               ),
                             ),
+                            if (mediaList.length > 5)
+                              Positioned(
+                                child: TextButton(
+                                  style: kTextButtonStyle,
+                                  onPressed: () {
+                                    Get.toNamed(krUploadedImageListPage);
+                                  },
+                                  child: Text(
+                                    "${mediaList.length - 5} More",
+                                    style: semiBold16TextStyle(cWhiteColor),
+                                  ),
+                                ),
+                              ),
                           ],
                         ),
-                      if (mediaList.length > 1)
-                        const SizedBox(
-                          height: 2,
-                        ),
-                      Row(
-                        children: [
-                          if (mediaList.length < 4)
-                            TextButton(
-                              style: kTextButtonStyle,
-                              onPressed: () {},
-                              child: Container(
-                                decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                                height: 150,
-                                width: mediaList.length < 3 ? (width - 40) : (width - 42) / 2,
-                                child: Image.asset(
-                                  mediaList[1],
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          if (mediaList.length > 3)
-                            TextButton(
-                              style: kTextButtonStyle,
-                              onPressed: () {},
-                              child: Container(
-                                decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                                height: 150,
-                                width: mediaList.length == 4 ? (width - 42) / 2 : (width - 44) / 3,
-                                child: Image.asset(
-                                  mediaList[2],
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          if (mediaList.length > 2)
-                            const SizedBox(
-                              width: 2,
-                            ),
-                          if (mediaList.length > 3)
-                            TextButton(
-                              style: kTextButtonStyle,
-                              onPressed: () {},
-                              child: Container(
-                                decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                                height: 150,
-                                width: mediaList.length == 4 ? (width - 42) / 2 : (width - 44) / 3,
-                                child: Image.asset(
-                                  mediaList[3],
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          if (mediaList.length > 4)
-                            const SizedBox(
-                              width: 2,
-                            ),
-                          if (mediaList.length >= 5)
-                            Stack(
-                              alignment: AlignmentDirectional.center,
-                              children: [
-                                TextButton(
-                                  style: kTextButtonStyle,
-                                  onPressed: () {},
-                                  child: Container(
-                                    decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                                    height: 150,
-                                    width: (width - 44) / 3,
-                                    child: Image.asset(
-                                      mediaList[4],
-                                      fit: BoxFit.cover,
-                                      color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
-                                      colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,
-                                    ),
-                                  ),
-                                ),
-                                if (mediaList.length > 5)
-                                  Positioned(
-                                    child: TextButton(
-                                      style: kTextButtonStyle,
-                                      onPressed: () {
-                                        Get.toNamed(krUploadedImageListPage);
-                                      },
-                                      child: Text(
-                                        "${mediaList.length - 5} More",
-                                        style: semiBold16TextStyle(cWhiteColor),
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                        ],
-                      ),
                     ],
                   ),
-                ),
+                ],
               ),
             ),
-          if (isSharedPost) PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
-        ],
-      ),
+          ),
+        if (showBottomSection) PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown),
+        // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
+      ],
     );
   }
 }
@@ -347,115 +361,122 @@ class PostBottomSection extends StatelessWidget {
   final GlobalController _globalController = Get.find<GlobalController>();
   final PostReactionController _postReactionController = Get.find<PostReactionController>();
   final bool isSelfPost, isCommentShown;
+  final RxBool showComment = RxBool(false);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (isSelfPost)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: BiddingWidget(
-              totalBids: 25,
-              bidingAmount: 300,
-              isPlaceBid: false,
-              bidingOnPressed: () {
-                _globalController.blankBottomSheet(
-                    context: context,
-                    content: _BiddingInsightsContent(
-                      comment: bidingComments,
-                    ),
-                    isScrollControlled: true,
-                    bottomSheetHeight: height * 0.6);
-              },
-            ),
-          ),
-        if (!isSelfPost)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: BiddingWidget(
-              totalBids: 25,
-              bidingAmount: 300,
-              bidingOnPressed: () {
-                _globalController.commonBottomSheet(
-                  context: context,
-                  content: _PlaceBidContent(),
-                  onPressCloseButton: () {
-                    Get.back();
+    return Obx(() => Column(
+          children: [
+            if (isSelfPost)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                child: BiddingWidget(
+                  totalBids: 25,
+                  bidingAmount: 300,
+                  isPlaceBid: false,
+                  bidingOnPressed: () {
+                    _globalController.blankBottomSheet(
+                        context: context,
+                        content: _BiddingInsightsContent(
+                          comment: bidingComments,
+                        ),
+                        isScrollControlled: true,
+                        bottomSheetHeight: height * 0.6);
                   },
-                  onPressRightButton: () {
-                    Get.back();
+                ),
+              ),
+            if (!isSelfPost)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                child: BiddingWidget(
+                  totalBids: 25,
+                  bidingAmount: 300,
+                  bidingOnPressed: () {
+                    _globalController.commonBottomSheet(
+                      context: context,
+                      content: _PlaceBidContent(),
+                      onPressCloseButton: () {
+                        Get.back();
+                      },
+                      onPressRightButton: () {
+                        Get.back();
+                      },
+                      rightText: 'Send',
+                      rightTextStyle: medium14TextStyle(cPrimaryColor),
+                      title: 'Place a Bid',
+                      isRightButtonShow: true,
+                      isScrollControlled: true,
+                      // bottomSheetHeight: height * .4,
+                    );
                   },
-                  rightText: 'Send',
-                  rightTextStyle: medium14TextStyle(cPrimaryColor),
-                  title: 'Place a Bid',
-                  isRightButtonShow: true,
-                  isScrollControlled: true,
-                  // bottomSheetHeight: height * .4,
-                );
-              },
-              isPlaceBid: true,
+                  isPlaceBid: true,
+                ),
+              ),
+            kH12sizedBox,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              child: PostActivityStatusWidget(
+                reactCount: 440,
+                reactionOnPressed: () {
+                  _postReactionController.giftFilter(0);
+                  _globalController.blankBottomSheet(
+                      context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                },
+                giftCount: 50,
+                commentCount: 200,
+                shareCount: 340,
+                isGiftShown: true,
+                giftOnPressed: () {
+                  _postReactionController.giftFilter(0);
+                  _globalController.blankBottomSheet(
+                      context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                },
+              ),
             ),
-          ),
-        kH12sizedBox,
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          child: PostActivityStatusWidget(
-            reactCount: 440,
-            reactionOnPressed: () {
-              _postReactionController.giftFilter(0);
-              _globalController.blankBottomSheet(context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-            },
-            giftCount: 50,
-            commentCount: 200,
-            shareCount: 340,
-            isGiftShown: true,
-            giftOnPressed: () {
-              _postReactionController.giftFilter(0);
-              _globalController.blankBottomSheet(context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-            },
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: kHorizontalPadding,
-          ),
-          child: LikeSectionWidget(
-            isGiftShown: true,
-            giftOnPressed: () {
-              _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-            },
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          child: CustomDivider(),
-        ),
-        kH12sizedBox,
-        if (isCommentShown)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: CommentWidget(
-              profileImage: 'assets/images/pic5.jpeg',
-              comment:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
-              timePassed: '30',
-              isLikeButtonShown: true,
-              commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
-              isReplyButtonShown: true,
-              isReactButtonShown: true,
-              isImageComment: true,
-              image: kiDummyImage3ImageUrl,
-              isLink: false,
-              reactCount: 1234,
-              userName: 'Monjurul Sharker Omi',
-              isSendMessageShown: false,
-              isHideButtonShown: true,
-              replyList: replyComment,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: kHorizontalPadding,
+              ),
+              child: LikeSectionWidget(
+                isGiftShown: true,
+                giftOnPressed: () {
+                  _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                },
+                commentOnPressed: () {
+                  showComment.value = !showComment.value;
+                  ll(showComment);
+                },
+              ),
             ),
-          ),
-      ],
-    );
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              child: CustomDivider(),
+            ),
+            kH12sizedBox,
+            if (isCommentShown && showComment.value)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                child: CommentWidget(
+                  profileImage: 'assets/images/pic5.jpeg',
+                  comment:
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
+                  timePassed: '30',
+                  isLikeButtonShown: true,
+                  commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
+                  isReplyButtonShown: true,
+                  isReactButtonShown: true,
+                  isImageComment: true,
+                  image: kiDummyImage3ImageUrl,
+                  isLink: false,
+                  reactCount: 1234,
+                  userName: 'Monjurul Sharker Omi',
+                  isSendMessageShown: false,
+                  isHideButtonShown: true,
+                  replyList: replyComment,
+                ),
+              ),
+          ],
+        ));
   }
 }
 
