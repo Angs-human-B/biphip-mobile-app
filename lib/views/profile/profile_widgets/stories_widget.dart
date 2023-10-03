@@ -11,7 +11,7 @@ class StoriesWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: k10Padding),
         child: ListView.builder(
-            padding: const EdgeInsets.only(left: k20Padding),
+            padding: const EdgeInsets.only(left: k10Padding),
             itemCount: stories.length + 1,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,

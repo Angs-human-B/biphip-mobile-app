@@ -48,7 +48,7 @@ class EditAboutInfo extends StatelessWidget {
                         'Address',
                         style: semiBold18TextStyle(cBlackColor),
                       ),
-                      kH10sizedBox,
+                      kH20sizedBox,
                       RowTextButton(
                         text: 'Hometown',
                         buttonText: 'Add Hometown',
@@ -71,7 +71,7 @@ class EditAboutInfo extends StatelessWidget {
                               _globalController.blankBottomSheet(
                                   context: context,
                                   isScrollControlled: false,
-                                  bottomSheetHeight: 150,
+                                  bottomSheetHeight: 130,
                                   content: EditModalSheet(
                                     editButtonText: 'Edit Address',
                                     editOnPressed: () {
@@ -142,7 +142,7 @@ class EditAboutInfo extends StatelessWidget {
                                     _globalController.blankBottomSheet(
                                         context: context,
                                         isScrollControlled: false,
-                                        bottomSheetHeight: 150,
+                                        bottomSheetHeight: 130,
                                         content: EditModalSheet(
                                           editButtonText: 'Edit Address',
                                           editOnPressed: () {
@@ -284,7 +284,7 @@ class EditAboutInfo extends StatelessWidget {
                                   _globalController.blankBottomSheet(
                                       context: context,
                                       isScrollControlled: false,
-                                      bottomSheetHeight: 150,
+                                      bottomSheetHeight: 130,
                                       content: EditModalSheet(
                                         editButtonText: 'Edit School',
                                         editOnPressed: () {
@@ -338,7 +338,7 @@ class EditAboutInfo extends StatelessWidget {
                                   _globalController.blankBottomSheet(
                                       context: context,
                                       isScrollControlled: false,
-                                      bottomSheetHeight: 150,
+                                      bottomSheetHeight: 130,
                                       content: EditModalSheet(
                                         editButtonText: 'Edit College',
                                         editOnPressed: () {
@@ -412,7 +412,7 @@ class EditAboutInfo extends StatelessWidget {
                                   _globalController.blankBottomSheet(
                                       context: context,
                                       isScrollControlled: false,
-                                      bottomSheetHeight: 150,
+                                      bottomSheetHeight: 130,
                                       content: EditModalSheet(
                                         editButtonText: 'Edit Workplace',
                                         editOnPressed: () {
@@ -451,7 +451,7 @@ class EditAboutInfo extends StatelessWidget {
                         'Contact Details',
                         style: semiBold18TextStyle(cBlackColor),
                       ),
-                      kH8sizedBox,
+                      kH20sizedBox,
                       RowTextButton(
                         text: 'Phone',
                         buttonText: 'Add Phone Number',
@@ -480,7 +480,7 @@ class EditAboutInfo extends StatelessWidget {
                                   _globalController.blankBottomSheet(
                                       context: context,
                                       isScrollControlled: false,
-                                      bottomSheetHeight: 150,
+                                      bottomSheetHeight: 130,
                                       content: EditModalSheet(
                                         editButtonText: 'Edit Phone',
                                         editOnPressed: () {
@@ -541,7 +541,7 @@ class EditAboutInfo extends StatelessWidget {
                                   _globalController.blankBottomSheet(
                                       context: context,
                                       isScrollControlled: false,
-                                      bottomSheetHeight: 150,
+                                      bottomSheetHeight: 130,
                                       content: EditModalSheet(
                                         editButtonText: 'Edit Email',
                                         editOnPressed: () {

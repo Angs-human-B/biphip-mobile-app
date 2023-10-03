@@ -19,6 +19,8 @@ class CommonPostWidget extends StatelessWidget {
       required this.isCategorized,
       required this.userName,
       required this.postTime,
+      required this.privacy,
+      required this.isTextualPost,
       this.category,
       this.brandName,
       this.kidName,
@@ -26,9 +28,7 @@ class CommonPostWidget extends StatelessWidget {
       this.title,
       this.price,
       this.categoryIcon,
-      required this.privacy,
       this.categoryIconColor,
-      required this.isTextualPost,
       this.postText,
       required this.mediaList,
       required this.isSelfPost,
@@ -42,8 +42,6 @@ class CommonPostWidget extends StatelessWidget {
   final Color? categoryIconColor;
   final List mediaList;
   final HomeController _homeController = Get.find<HomeController>();
-  final PostReactionController _postReactionController = Get.find<PostReactionController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -172,26 +170,29 @@ class CommonPostWidget extends StatelessWidget {
             ),
           kH16sizedBox,
           if (isSharedPost)
-            Container(
-                decoration: BoxDecoration(
-                  borderRadius: k8CircularBorderRadius,
-                  border: Border.all(color: cLineColor),
-                ),
-                child: CommonPostWidget(
-                  isCommented: false,
-                  isLiked: false,
-                  mediaList: [],
-                  isCategorized: false,
-                  userName: 'Steve Sanchez',
-                  postTime: '5 hrs ago',
-                  privacy: BipHip.world,
-                  isTextualPost: true,
-                  isSelfPost: false,
-                  isCommentShown: false,
-                  isSharedPost: false,
-                  postText:
-                      'When i was sixteen i won a great victory. I thought i would live to be a hundred. Now i know i shall not see thirty. None of us knows how our life may end. When you stand before god you cannot say i was told by others to do thus or the virtue was not inconvenient. A father may claim a son, a king may move a man. Also he can move himself. Only when he moves himself he truly starts his own game',
-                )),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: k8CircularBorderRadius,
+                    border: Border.all(color: cLineColor),
+                  ),
+                  child: CommonPostWidget(
+                    isCommented: false,
+                    isLiked: false,
+                    mediaList: [],
+                    isCategorized: false,
+                    userName: 'Steve Sanchez',
+                    postTime: '5 hrs ago',
+                    privacy: BipHip.world,
+                    isTextualPost: true,
+                    isSelfPost: false,
+                    isCommentShown: false,
+                    isSharedPost: false,
+                    postText:
+                        'When i was sixteen i won a great victory. I thought i would live to be a hundred. Now i know i shall not see thirty. None of us knows how our life may end. When you stand before god you cannot say i was told by others to do thus or the virtue was not inconvenient. A father may claim a son, a king may move a man. Also he can move himself. Only when he moves himself he truly starts his own game',
+                  )),
+            ),
           if (mediaList.isNotEmpty)
             Obx(
               () => Padding(
@@ -202,23 +203,6 @@ class CommonPostWidget extends StatelessWidget {
                   width: width - 40,
                   child: Column(
                     children: [
-                      // if (mediaList!.length < 4)
-                      //   TextButton(
-                      //     style: kTextButtonStyle,
-                      //     onPressed: () {},
-                      //     child: Container(
-                      //       height: mediaList!.length < 2 ? 302 : 150,
-                      //       decoration: BoxDecoration(
-                      //         borderRadius: k4CircularBorderRadius,
-                      //         color: cWhiteColor,
-                      //       ),
-                      //       width: width - 40,
-                      //       child: Image.asset(
-                      //         mediaList![0],
-                      //         fit: BoxFit.cover,
-                      //       ),
-                      //     ),
-                      //   ),
                       if (mediaList.length > 3)
                         Row(
                           children: [
@@ -350,115 +334,127 @@ class CommonPostWidget extends StatelessWidget {
                 ),
               ),
             ),
-          if (isSelfPost)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: BiddingWidget(
-                totalBids: 25,
-                bidingAmount: 300,
-                isPlaceBid: false,
-                bidingOnPressed: () {
-                  _globalController.blankBottomSheet(
-                      context: context,
-                      content: _BiddingInsightsContent(
-                        comment: bidingComments,
-                      ),
-                      isScrollControlled: true,
-                      bottomSheetHeight: height * 0.6);
-                },
-              ),
-            ),
-          if (!isSelfPost)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: BiddingWidget(
-                totalBids: 25,
-                bidingAmount: 300,
-                bidingOnPressed: () {
-                  _globalController.commonBottomSheet(
-                    context: context,
-                    content: _PlaceBidContent(),
-                    onPressCloseButton: () {
-                      Get.back();
-                    },
-                    onPressRightButton: () {
-                      Get.back();
-                    },
-                    rightText: 'Send',
-                    rightTextStyle: medium14TextStyle(cPrimaryColor),
-                    title: 'Place a Bid',
-                    isRightButtonShow: true,
-                    isScrollControlled: true,
-                    // bottomSheetHeight: height * .4,
-                  );
-                },
-                isPlaceBid: true,
-              ),
-            ),
-          if (isSharedPost) kH12sizedBox,
-          if (isSharedPost)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: PostActivityStatusWidget(
-                reactCount: 440,
-                reactionOnPressed: () {
-                  _postReactionController.giftFilter(0);
-                  _globalController.blankBottomSheet(
-                      context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                },
-                giftCount: 50,
-                commentCount: 200,
-                shareCount: 340,
-                isGiftShown: true,
-                giftOnPressed: () {
-                  _postReactionController.giftFilter(0);
-                  _globalController.blankBottomSheet(
-                      context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                },
-              ),
-            ),
-          if (isSharedPost)
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: kHorizontalPadding,
-              ),
-              child: LikeSectionWidget(
-                isGiftShown: true,
-                giftOnPressed: () {
-                  _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                },
-              ),
-            ),
-          if (isSharedPost)
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: CustomDivider(),
-            ),
-          if (isSharedPost) kH12sizedBox,
-          if (isCommentShown)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: CommentWidget(
-                profileImage: 'assets/images/pic5.jpeg',
-                comment:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
-                timePassed: '30',
-                isLikeButtonShown: true,
-                commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
-                isReplyButtonShown: true,
-                isReactButtonShown: true,
-                isImageComment: true,
-                image: kiDummyImage3ImageUrl,
-                isLink: false,
-                reactCount: 1234,
-                userName: 'Monjurul Sharker Omi',
-                isSendMessageShown: false,
-                isHideButtonShown: true,
-                replyList: replyComment,
-              ),
-            ),
+          if (isSharedPost) PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
         ],
       ),
+    );
+  }
+}
+
+class PostBottomSection extends StatelessWidget {
+  PostBottomSection({super.key, required this.isSelfPost, required this.isCommentShown});
+
+  final GlobalController _globalController = Get.find<GlobalController>();
+  final PostReactionController _postReactionController = Get.find<PostReactionController>();
+  final bool isSelfPost, isCommentShown;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        if (isSelfPost)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: BiddingWidget(
+              totalBids: 25,
+              bidingAmount: 300,
+              isPlaceBid: false,
+              bidingOnPressed: () {
+                _globalController.blankBottomSheet(
+                    context: context,
+                    content: _BiddingInsightsContent(
+                      comment: bidingComments,
+                    ),
+                    isScrollControlled: true,
+                    bottomSheetHeight: height * 0.6);
+              },
+            ),
+          ),
+        if (!isSelfPost)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: BiddingWidget(
+              totalBids: 25,
+              bidingAmount: 300,
+              bidingOnPressed: () {
+                _globalController.commonBottomSheet(
+                  context: context,
+                  content: _PlaceBidContent(),
+                  onPressCloseButton: () {
+                    Get.back();
+                  },
+                  onPressRightButton: () {
+                    Get.back();
+                  },
+                  rightText: 'Send',
+                  rightTextStyle: medium14TextStyle(cPrimaryColor),
+                  title: 'Place a Bid',
+                  isRightButtonShow: true,
+                  isScrollControlled: true,
+                  // bottomSheetHeight: height * .4,
+                );
+              },
+              isPlaceBid: true,
+            ),
+          ),
+        kH12sizedBox,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: PostActivityStatusWidget(
+            reactCount: 440,
+            reactionOnPressed: () {
+              _postReactionController.giftFilter(0);
+              _globalController.blankBottomSheet(context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+            },
+            giftCount: 50,
+            commentCount: 200,
+            shareCount: 340,
+            isGiftShown: true,
+            giftOnPressed: () {
+              _postReactionController.giftFilter(0);
+              _globalController.blankBottomSheet(context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: kHorizontalPadding,
+          ),
+          child: LikeSectionWidget(
+            isGiftShown: true,
+            giftOnPressed: () {
+              _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+            },
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: CustomDivider(),
+        ),
+        kH12sizedBox,
+        if (isCommentShown)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: CommentWidget(
+              profileImage: 'assets/images/pic5.jpeg',
+              comment:
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
+              timePassed: '30',
+              isLikeButtonShown: true,
+              commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
+              isReplyButtonShown: true,
+              isReactButtonShown: true,
+              isImageComment: true,
+              image: kiDummyImage3ImageUrl,
+              isLink: false,
+              reactCount: 1234,
+              userName: 'Monjurul Sharker Omi',
+              isSendMessageShown: false,
+              isHideButtonShown: true,
+              replyList: replyComment,
+            ),
+          ),
+      ],
     );
   }
 }
@@ -470,38 +466,41 @@ class _BiddingInsightsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const BidingInsight(highest: 500, lowest: 150),
-        kH16sizedBox,
-        Text(
-          'Bids',
-          style: semiBold16TextStyle(cBlackColor),
-        ),
-        kH8sizedBox,
-        ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: comment.length,
-            itemBuilder: (context, index) {
-              return CommentWidget(
-                profileImage: comment[index]['image'],
-                timePassed: '5',
-                isLikeButtonShown: true,
-                isReplyButtonShown: false,
-                isReactButtonShown: true,
-                comment: comment[index]['comment'],
-                isLink: false,
-                reactCount: 440,
-                userName: comment[index]['userName'],
-                isImageComment: false,
-                isSendMessageShown: true,
-                isHideButtonShown: false,
-                replyList: [],
-              );
-            })
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const BidingInsight(highest: 500, lowest: 150),
+          kH16sizedBox,
+          Text(
+            'Bids',
+            style: semiBold16TextStyle(cBlackColor),
+          ),
+          kH8sizedBox,
+          ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: comment.length,
+              itemBuilder: (context, index) {
+                return CommentWidget(
+                  profileImage: comment[index]['image'],
+                  timePassed: '5',
+                  isLikeButtonShown: true,
+                  isReplyButtonShown: false,
+                  isReactButtonShown: true,
+                  comment: comment[index]['comment'],
+                  isLink: false,
+                  reactCount: 440,
+                  userName: comment[index]['userName'],
+                  isImageComment: false,
+                  isSendMessageShown: true,
+                  isHideButtonShown: false,
+                  replyList: [],
+                );
+              })
+        ],
+      ),
     );
   }
 }
@@ -568,45 +567,47 @@ class _BadgeTabViewContent extends StatelessWidget {
       child: Obx(
         () => Column(
           children: [
-            TabBar(
-              controller: _postReactionController.tabController,
-              // onTap: (index) {
-              //   _postReactionController.giftFilter(index);
+            SizedBox(
+              height: 40,
+              child: TabBar(
+                controller: _postReactionController.tabController,
+                // onTap: (index) {
+                //   _postReactionController.giftFilter(index);
 
-              //   // ll(i);
-              // },
-              isScrollable: true,
-              tabs: [
-                const ReactionBottomSheetTab(
-                  isReactionImageShown: false,
-                  reactionImage: '',
-                  text: 'All',
-                ),
-                ReactionBottomSheetTab(
-                  isReactionImageShown: true,
-                  reactionImage: 'assets/svg/badge1.svg',
-                  text: _postReactionController.badgeCount1.value.toString(),
-                ),
-                ReactionBottomSheetTab(
-                  isReactionImageShown: true,
-                  reactionImage: 'assets/svg/badge2.svg',
-                  text: _postReactionController.badgeCount2.value.toString(),
-                ),
-                ReactionBottomSheetTab(
-                  isReactionImageShown: true,
-                  reactionImage: 'assets/svg/badge3.svg',
-                  text: _postReactionController.badgeCount3.value.toString(),
-                ),
-                ReactionBottomSheetTab(
-                  isReactionImageShown: true,
-                  reactionImage: 'assets/svg/badge4.svg',
-                  text: _postReactionController.badgeCount4.value.toString(),
-                ),
-              ],
+                //   // ll(i);
+                // },
+                isScrollable: true,
+                tabs: [
+                  const ReactionBottomSheetTab(
+                    isReactionImageShown: false,
+                    reactionImage: '',
+                    text: 'All',
+                  ),
+                  ReactionBottomSheetTab(
+                    isReactionImageShown: true,
+                    reactionImage: 'assets/svg/badge1.svg',
+                    text: _postReactionController.badgeCount1.value.toString(),
+                  ),
+                  ReactionBottomSheetTab(
+                    isReactionImageShown: true,
+                    reactionImage: 'assets/svg/badge2.svg',
+                    text: _postReactionController.badgeCount2.value.toString(),
+                  ),
+                  ReactionBottomSheetTab(
+                    isReactionImageShown: true,
+                    reactionImage: 'assets/svg/badge3.svg',
+                    text: _postReactionController.badgeCount3.value.toString(),
+                  ),
+                  ReactionBottomSheetTab(
+                    isReactionImageShown: true,
+                    reactionImage: 'assets/svg/badge4.svg',
+                    text: _postReactionController.badgeCount4.value.toString(),
+                  ),
+                ],
+              ),
             ),
             SizedBox(
-              height: (height * 0.9) - 90,
-              width: width - 40,
+              height: (height * 0.9) - 65,
               child: TabBarView(controller: _postReactionController.tabController, children: [
                 ReactionTabPage(list: _postReactionController.gift1),
                 ReactionTabPage(list: _postReactionController.gift1),
@@ -656,50 +657,47 @@ class ReactionTabPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: ListView.builder(
-          itemCount: list.length,
-          itemBuilder: (context, index) {
-            var item = list[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: ListTile(
-                leading: Stack(
-                  children: [
-                    SizedBox(
-                      height: 40,
-                      width: 40,
-                      child: ClipOval(
-                        child: Image.asset(item['image']),
-                      ),
+    return ListView.separated(
+        separatorBuilder: (context, index) => kH8sizedBox,
+        // physics: const NeverScrollableScrollPhysics(),
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          var item = list[index];
+          return Padding(
+            padding: const EdgeInsets.only(left: h8, right: h8),
+            child: CustomListTile(
+              leading: Stack(
+                children: [
+                  SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: ClipOval(
+                      child: Image.asset(item['image']),
                     ),
-                    Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: SvgPicture.asset(
-                          item['giftImage'],
-                          height: 16,
-                          width: 16,
-                        ))
-                  ],
-                ),
-                title: Text(
-                  item['name'],
-                  style: semiBold14TextStyle(cBlackColor),
-                ),
-                trailing: item['isFriend']
-                    ? Text(
-                        'Message',
-                        style: regular14TextStyle(cPrimaryColor),
-                      )
-                    : Text(
-                        'Add Friend',
-                        style: regular14TextStyle(cPrimaryColor),
-                      ),
+                  ),
+                  Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: SvgPicture.asset(
+                        item['giftImage'],
+                        height: 16,
+                        width: 16,
+                      ))
+                ],
               ),
-            );
-          }),
-    );
+              title: item['name'],
+              trailing: item['isFriend']
+                  ? Text(
+                      'Message',
+                      style: regular14TextStyle(cPrimaryColor),
+                    )
+                  : Text(
+                      'Add Friend',
+                      style: regular14TextStyle(cPrimaryColor),
+                    ),
+            ),
+          );
+        });
   }
 }
 
@@ -711,133 +709,136 @@ class _GiftContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: h40,
-                  width: h40,
-                  decoration: const BoxDecoration(shape: BoxShape.circle),
-                  child: Image.asset('assets/images/profileDefault.png'),
-                ),
-                kW12sizedBox,
-                SizedBox(
-                  height: 40,
-                  child: Center(
-                    child: RichText(
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.clip,
-                      text: TextSpan(
-                        children: [
-                          TextSpan(text: 'Support ', style: regular12TextStyle(cBlackColor)),
-                          TextSpan(
-                            text: 'Monjurul Sharker Omi',
-                            style: semiBold12TextStyle(cBlackColor),
-                          ),
-                          TextSpan(
-                            text: '\nby sending stars',
-                            style: regular12TextStyle(cBlackColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            kH8sizedBox,
-            Text(
-              'Stars let this creator earn money so that they can continue \nmaking content that you love.',
-              style: regular10TextStyle(cSmallBodyTextColor),
-            ),
-            kH16sizedBox,
-            const CustomDivider(),
-            kH16sizedBox,
-            Text(
-              'All Stars',
-              style: semiBold14TextStyle(cBlackColor),
-            ),
-            kH16sizedBox,
-            SizedBox(
-              height: 380,
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: giftPackages.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: .8,
-                  crossAxisCount: 3,
-                  crossAxisSpacing: k16Padding,
-                  mainAxisSpacing: k16Padding,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () {
-                      _postReactionController.selectedPackage.value = giftPackages[index];
-                      _postReactionController.selectedGiftIndex.value = index;
-                      _postReactionController.isPackageSelected.value = true;
-                    },
-                    child: PackageGridViewContainer(
-                      index: index,
-                    ),
-                  );
-                },
-              ),
-            ),
-            kH24sizedBox,
-            const CustomDivider(),
-            kH16sizedBox,
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: Container(
-                    height: 32,
-                    width: 32,
+    return Obx(() => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: h40,
+                    width: h40,
                     decoration: const BoxDecoration(shape: BoxShape.circle),
                     child: Image.asset('assets/images/profileDefault.png'),
                   ),
+                  kW12sizedBox,
+                  SizedBox(
+                    height: 40,
+                    child: Center(
+                      child: RichText(
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.clip,
+                        text: TextSpan(
+                          children: [
+                            TextSpan(text: 'Support ', style: regular12TextStyle(cBlackColor)),
+                            TextSpan(
+                              text: 'Monjurul Sharker Omi',
+                              style: semiBold12TextStyle(cBlackColor),
+                            ),
+                            TextSpan(
+                              text: '\nby sending stars',
+                              style: regular12TextStyle(cBlackColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              kH8sizedBox,
+              Text(
+                'Stars let this creator earn money so that they can continue \nmaking content that you love.',
+                style: regular10TextStyle(cSmallBodyTextColor),
+              ),
+              kH16sizedBox,
+              const CustomDivider(),
+              kH16sizedBox,
+              Text(
+                'All Stars',
+                style: semiBold14TextStyle(cBlackColor),
+              ),
+              kH16sizedBox,
+              SizedBox(
+                height: 380,
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: giftPackages.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: .8,
+                    crossAxisCount: 3,
+                    crossAxisSpacing: k16Padding,
+                    mainAxisSpacing: k16Padding,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: () {
+                        _postReactionController.selectedPackage.value = giftPackages[index];
+                        _postReactionController.selectedGiftIndex.value = index;
+                        _postReactionController.isPackageSelected.value = true;
+                      },
+                      child: PackageGridViewContainer(
+                        index: index,
+                      ),
+                    );
+                  },
                 ),
-                kW12sizedBox,
-                Expanded(
-                  child: CustomModifiedTextField(
-                      hint: 'Add a comment....',
-                      inputAction: TextInputAction.done,
-                      contentPadding: const EdgeInsets.symmetric(vertical: k10Padding, horizontal: k8Padding),
-                      borderRadius: 8,
-                      controller: _postReactionController.giftTextEditingController),
-                ),
-              ],
-            ),
-            kH16sizedBox,
-            CustomElevatedButton(
-                label: 'Get Stars',
-                buttonWidth: width - 40,
-                onPressed: _postReactionController.isPackageSelected.value
-                    ? () {
-                        _globalController.commonBottomSheet(
-                            context: context,
-                            content: _PurchaseStarContent(),
-                            onPressCloseButton: () {
-                              Get.back();
-                            },
-                            onPressRightButton: null,
-                            rightText: '',
-                            rightTextStyle: semiBold12TextStyle(cPrimaryColor),
-                            title: 'Purchase Star',
-                            isRightButtonShow: false,
-                            isScrollControlled: true,
-                            bottomSheetHeight: height * .9);
-                      }
-                    : null)
-          ],
+              ),
+              kH24sizedBox,
+              const CustomDivider(),
+              kH16sizedBox,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Container(
+                      height: 32,
+                      width: 32,
+                      decoration: const BoxDecoration(shape: BoxShape.circle),
+                      child: Image.asset('assets/images/profileDefault.png'),
+                    ),
+                  ),
+                  kW12sizedBox,
+                  Expanded(
+                    child: CustomModifiedTextField(
+                        hint: 'Add a comment....',
+                        inputAction: TextInputAction.done,
+                        contentPadding: const EdgeInsets.symmetric(vertical: k10Padding, horizontal: k8Padding),
+                        borderRadius: 8,
+                        controller: _postReactionController.giftTextEditingController),
+                  ),
+                ],
+              ),
+              kH16sizedBox,
+              CustomElevatedButton(
+                  label: 'Get Stars',
+                  buttonWidth: width - 40,
+                  onPressed: _postReactionController.isPackageSelected.value
+                      ? () {
+                          _globalController.commonBottomSheet(
+                              context: context,
+                              content: _PurchaseStarContent(),
+                              onPressCloseButton: () {
+                                Get.back();
+                              },
+                              onPressRightButton: null,
+                              rightText: '',
+                              rightTextStyle: semiBold12TextStyle(cPrimaryColor),
+                              title: 'Purchase Star',
+                              isRightButtonShow: false,
+                              isScrollControlled: true,
+                              bottomSheetHeight: height * .9);
+                        }
+                      : null)
+            ],
+          ),
         ));
   }
 }
