@@ -30,7 +30,7 @@ class SelectInterestScreen extends StatelessWidget {
                       onPressed: () {
                         Get.toNamed(krUploadPicture);
                       },
-                      text: ksSkip,
+                      text: ksSkip.tr,
                       textStyle: regular14TextStyle(cPrimaryColor)),
                 )
               ],
@@ -47,9 +47,9 @@ class SelectInterestScreen extends StatelessWidget {
                   children: [
                     kH24sizedBox,
                     kH24sizedBox,
-                    const TopTitleAndSubtitle(
-                      title: ksChooseInterest,
-                      subTitle:ksCHooseInterestSubtitle,
+                    TopTitleAndSubtitle(
+                      title: ksChooseInterest.tr,
+                      subTitle: ksCHooseInterestSubtitle.tr,
                     ),
                     kH16sizedBox,
                     Wrap(
@@ -74,7 +74,7 @@ class SelectInterestScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     CustomElevatedButton(
-                      label: ksNext,
+                      label: ksNext.tr,
                       onPressed: _authenticationController.interestIndex.isNotEmpty
                           ? () {
                               Get.toNamed(krUploadPicture);

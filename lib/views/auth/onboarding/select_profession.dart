@@ -30,7 +30,7 @@ class SelectProfessionScreen extends StatelessWidget {
                       onPressed: () {
                         Get.toNamed(krSelectInterest);
                       },
-                      text: ksSkip,
+                      text: ksSkip.tr,
                       textStyle: regular14TextStyle(cPrimaryColor)),
                 )
               ],
@@ -47,9 +47,9 @@ class SelectProfessionScreen extends StatelessWidget {
                   children: [
                     kH24sizedBox,
                     kH24sizedBox,
-                    const TopTitleAndSubtitle(
-                      title: ksChooseProfession,
-                      subTitle: ksChooseProfessionSubtitle,
+                    TopTitleAndSubtitle(
+                      title: ksChooseProfession.tr,
+                      subTitle: ksChooseProfessionSubtitle.tr,
                     ),
                     kH16sizedBox,
                     Wrap(
@@ -71,7 +71,7 @@ class SelectProfessionScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     CustomElevatedButton(
-                      label: ksNext,
+                      label: ksNext.tr,
                       onPressed: _authenticationController.isProfessionSelected.value
                           ? () {
                               Get.toNamed(krSelectInterest);
