@@ -51,7 +51,7 @@ class EditAboutInfo extends StatelessWidget {
                       kH20sizedBox,
                       RowTextButton(
                         text: 'Hometown',
-                        buttonText: 'Add Hometown',
+                        buttonText: 'Add',
                         showAddButton: _profileController.homeTown.value == '' ? true : false,
                         buttonWidth: 151,
                         onPressedAdd: () {
@@ -103,7 +103,7 @@ class EditAboutInfo extends StatelessWidget {
                       kH16sizedBox,
                       RowTextButton(
                         text: 'Present Address',
-                        buttonText: 'Add City',
+                        buttonText: 'Add',
                         showAddButton: true,
                         onPressedAdd: () {
                           _profileController.setEditPageValue(
@@ -206,8 +206,8 @@ class EditAboutInfo extends StatelessWidget {
                         text: _profileController.relationshipStatus.value,
                         hintText: 'Select Relationship Status',
                       ),
-                      if (_profileController.showEditRelationshipStatus.value) kH20sizedBox,
-                      if (_profileController.showEditRelationshipStatus.value)
+                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH20sizedBox,
+                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
                         OutLinedButton(
                           buttonWidth: 80,
                           buttonHeight: 25,
@@ -224,8 +224,8 @@ class EditAboutInfo extends StatelessWidget {
                             ),
                           ),
                         ),
-                      if (_profileController.showEditRelationshipStatus.value) kH20sizedBox,
-                      if (_profileController.showEditRelationshipStatus.value)
+                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH20sizedBox,
+                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
                         CancelSaveButton(
                           onPressedCancel: () {
                             _profileController.showEditRelationshipStatus.value = false;
@@ -239,7 +239,7 @@ class EditAboutInfo extends StatelessWidget {
                       kH16sizedBox,
                       RowTextButton(
                         text: 'Education Background',
-                        buttonText: 'Add School',
+                        buttonText: 'Add',
                         showAddButton: true,
                         onPressedAdd: () {
                           _profileController.setEditPageValue(
@@ -373,8 +373,50 @@ class EditAboutInfo extends StatelessWidget {
                       const CustomDivider(),
                       kH16sizedBox,
                       RowTextButton(
+                        text: 'Profession',
+                        buttonText: 'Add',
+                        showAddButton: _profileController.selectedProfession.value == '',
+                        onPressedAdd: () {
+                          _profileController.isRouteFromAboutInfo.value = true;
+                          Get.toNamed(krSelectProfession);
+                        },
+                        buttonWidth: 149,
+                      ),
+                      if (_profileController.selectedProfession.value != '')
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: CustomSelectionButton(
+                            prefixIcon: BipHip.work,
+                            onPressed: () {
+                              _profileController.showEditRelationshipStatus.value = true;
+                              _globalController.blankBottomSheet(
+                                  context: context,
+                                  isScrollControlled: false,
+                                  bottomSheetHeight: 130,
+                                  content: EditModalSheet(
+                                    editButtonText: 'Edit Profession',
+                                    editOnPressed: () {
+                                      _profileController.isRouteFromAboutInfo.value = true;
+                                      Get.back();
+                                      Get.toNamed(krSelectProfession);
+                                    },
+                                    deleteButtonText: 'Delete Profession',
+                                    deleteOnPressed: () {
+                                      _profileController.selectedProfession.value = '';
+                                      Get.back();
+                                    },
+                                  ));
+                            },
+                            text: _profileController.selectedProfession.value,
+                            hintText: 'Select Profession',
+                          ),
+                        ),
+                      kH16sizedBox,
+                      const CustomDivider(),
+                      kH16sizedBox,
+                      RowTextButton(
                         text: 'Work',
-                        buttonText: 'Add Workplace',
+                        buttonText: 'Add',
                         showAddButton: true,
                         onPressedAdd: () {
                           _profileController.setEditPageValue(
@@ -454,7 +496,7 @@ class EditAboutInfo extends StatelessWidget {
                       kH20sizedBox,
                       RowTextButton(
                         text: 'Phone',
-                        buttonText: 'Add Phone Number',
+                        buttonText: 'Add',
                         showAddButton: true,
                         onPressedAdd: () {
                           _profileController.setEditPageValue('Add Phone Number', false, BipHip.phoneFill, _profileController.phoneTextEditingController, false,
@@ -515,7 +557,7 @@ class EditAboutInfo extends StatelessWidget {
                       if (_profileController.phoneList.isNotEmpty) kH8sizedBox,
                       RowTextButton(
                         text: 'Email',
-                        buttonText: 'Add Email',
+                        buttonText: 'Add',
                         showAddButton: true,
                         onPressedAdd: () {
                           _profileController.setEditPageValue('Add Email', false, BipHip.mail, _profileController.emailTextEditingController, false,

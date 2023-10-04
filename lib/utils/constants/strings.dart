@@ -15,6 +15,7 @@ const String ksNext = 'Next';
 const String ksSkip = 'Skip';
 const String ksAdd = 'Add';
 const String ksDone = 'Done';
+const String ksSave = 'Save';
 const String ksSearch = 'Search';
 const String ksConfirm = 'Confirm';
 const String ksCancel = 'Cancel';
@@ -84,6 +85,7 @@ const String ksSelectDOB = "Select date of birth";
 const String ksSelectGender = 'Select Gender';
 const String ksChooseInterest = 'Choose your interest';
 const String ksChooseProfession = 'Let us know your profession!';
+const String ksEditYourProfession = 'Edit your profession';
 
 //---------------------------------------
 //* Profile

@@ -183,6 +183,8 @@ class ProfileController extends GetxController {
   RxBool isCommonEditCheckBoxSelected = RxBool(false);
   RxBool isDropdownShown = RxBool(false);
   RxBool isSecondaryTextfieldShown = RxBool(false);
+  RxBool isRouteFromAboutInfo = RxBool(false);
+  RxString selectedProfession = RxString('');
   RxString commonEditCheckBoxText = RxString('');
   RxString commonEditPageTitle = RxString('');
   Rx<IconData> commonEditIconData = Rx<IconData>(BipHip.add);
@@ -225,6 +227,7 @@ class ProfileController extends GetxController {
   ]);
   final RxList educationBackgroundList = RxList(['School', 'College']);
   final RxString relationshipStatus = RxString('');
+  final RxString tempRelationshipStatus = RxString('');
   final RxList schoolList = RxList([]);
   final RxInt schoolIndex = RxInt(-1);
   final RxList collegeList = RxList([]);
@@ -295,16 +298,16 @@ class ProfileController extends GetxController {
       officeNameTextEditingController.clear();
       commonEditTextEditingController.clear();
       commonEditSecondaryTextEditingController.clear();
-    }else if (functionFlag == 'ADD PHONE') {
+    } else if (functionFlag == 'ADD PHONE') {
       phoneList.add(commonEditTextEditingController.text);
       commonEditTextEditingController.clear();
-    }else if (functionFlag == 'EDIT PHONE') {
+    } else if (functionFlag == 'EDIT PHONE') {
       phoneList[phoneIndex.value] = commonEditTextEditingController.text;
       commonEditTextEditingController.clear();
-    }else if (functionFlag == 'ADD EMAIL') {
+    } else if (functionFlag == 'ADD EMAIL') {
       emailList.add(commonEditTextEditingController.text);
       commonEditTextEditingController.clear();
-    }else if (functionFlag == 'EDIT EMAIL') {
+    } else if (functionFlag == 'EDIT EMAIL') {
       emailList[emailIndex.value] = commonEditTextEditingController.text;
       commonEditTextEditingController.clear();
     }
