@@ -45,8 +45,8 @@ class EditProfile extends StatelessWidget {
                         children: [
                           kH16sizedBox,
                           RowTextEdit(
-                            prefix: 'Profile picture',
-                            suffix: 'Edit',
+                            prefix: ksProfilePicture.tr,
+                            suffix: ksEdit.tr,
                             onEditPressed: () {
                               _profileController.isProfilePicEditor.value = true;
 
@@ -58,7 +58,7 @@ class EditProfile extends StatelessWidget {
                                 onPressRightButton: () {},
                                 rightText: '',
                                 rightTextStyle: regular14TextStyle(cBiddingColor),
-                                title: 'Edit photo',
+                                title: ksEditPhoto.tr,
                                 isRightButtonShow: false,
                                 isScrollControlled: false,
                                 bottomSheetHeight: 180,
@@ -87,7 +87,7 @@ class EditProfile extends StatelessWidget {
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => ClipOval(
                                       child: Image.asset(
-                                        'assets/images/profileDefault.png',
+                                        kiProfileDefaultImageUrl,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -100,8 +100,8 @@ class EditProfile extends StatelessWidget {
                           const CustomDivider(),
                           kH16sizedBox,
                           RowTextEdit(
-                            prefix: 'Cover photo',
-                            suffix: 'Edit',
+                            prefix: ksCoverPhoto.tr,
+                            suffix: ksEdit.tr,
                             onEditPressed: () {
                               _profileController.isProfilePicEditor.value = false;
 
@@ -113,7 +113,7 @@ class EditProfile extends StatelessWidget {
                                   onPressRightButton: () {},
                                   rightText: '',
                                   rightTextStyle: regular14TextStyle(cBiddingColor),
-                                  title: 'Edit photo',
+                                  title: ksEditPhoto.tr,
                                   isRightButtonShow: false,
                                   isScrollControlled: false,
                                   bottomSheetHeight: 180,
@@ -134,7 +134,7 @@ class EditProfile extends StatelessWidget {
                                 _profileController.newCoverImageFile.value,
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => Image.asset(
-                                  'assets/images/coverPic.png',
+                                  kiCoverPicImageUrl,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -144,8 +144,8 @@ class EditProfile extends StatelessWidget {
                           const CustomDivider(),
                           kH16sizedBox,
                           RowTextEdit(
-                            prefix: 'Bio',
-                            suffix: _profileController.bio.value == '' ? 'Add' : 'Edit',
+                            prefix: ksBio.tr,
+                            suffix: _profileController.bio.value == '' ? ksAdd.tr : ksEdit.tr,
                             onEditPressed: () {
                               if (_profileController.bio.value == '') {
                                 Get.toNamed(krEditBio);
@@ -158,7 +158,7 @@ class EditProfile extends StatelessWidget {
                                     onPressRightButton: () {},
                                     rightText: '',
                                     rightTextStyle: regular14TextStyle(cBiddingColor),
-                                    title: 'Edit Bio',
+                                    title: ksEditBio.tr,
                                     isRightButtonShow: false,
                                     isScrollControlled: false,
                                     bottomSheetHeight: 190,
@@ -175,8 +175,8 @@ class EditProfile extends StatelessWidget {
                           const CustomDivider(),
                           kH16sizedBox,
                           RowTextEdit(
-                            prefix: 'Intro',
-                            suffix: 'Edit',
+                            prefix: ksIntro.tr,
+                            suffix: ksEdit.tr,
                             onEditPressed: () {},
                           ),
                           kH16sizedBox,
@@ -189,7 +189,7 @@ class EditProfile extends StatelessWidget {
                           const CustomDivider(),
                           kH16sizedBox,
                           CustomElevatedButton(
-                            label: 'Edit your about info',
+                            label: ksEditYouAboutInfo.tr,
                             buttonHeight: h28,
                             buttonWidth: width - 40,
                             buttonColor: cLineColor,
@@ -275,7 +275,7 @@ class EditBioModalSheet extends StatelessWidget {
           onPressed: () {
             Get.toNamed(krEditBio);
           },
-          label: 'Edit bio',
+          label: ksEditBio.tr,
           buttonColor: cWhiteColor,
           borderColor: cBlackColor,
           buttonWidth: width - 40,
@@ -286,7 +286,7 @@ class EditBioModalSheet extends StatelessWidget {
         kH12sizedBox,
         CustomElevatedButton(
           onPressed: () {},
-          label: 'Remove bio',
+          label: ksRemoveBio.tr,
           buttonColor: cWhiteColor,
           borderColor: cBlackColor,
           buttonWidth: width - 40,

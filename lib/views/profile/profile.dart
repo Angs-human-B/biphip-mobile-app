@@ -57,7 +57,7 @@ class Profile extends StatelessWidget {
                             _profileController.newCoverImageFile.value,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) => Image.asset(
-                              'assets/images/coverPic.png',
+                              kiCoverPicImageUrl,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -81,7 +81,7 @@ class Profile extends StatelessWidget {
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => ClipOval(
                                       child: Image.asset(
-                                        'assets/images/profileDefault.png',
+                                        kiProfileDefaultImageUrl,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -104,7 +104,7 @@ class Profile extends StatelessWidget {
                                         onPressRightButton: () {},
                                         rightText: '',
                                         rightTextStyle: regular14TextStyle(cBiddingColor),
-                                        title: 'Upload image',
+                                        title: ksUploadImage.tr,
                                         isRightButtonShow: false,
                                         isScrollControlled: false,
                                         bottomSheetHeight: 170,
@@ -152,7 +152,7 @@ class Profile extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(26),
                                       border: Border.all(color: cPrimaryColor, width: 1),
                                     ),
-                                    child: SvgPicture.asset('assets/svg/badge1.svg')),
+                                    child: SvgPicture.asset(kiBadge1SvgImageUrl)),
                               ),
                             ],
                           ),
@@ -173,7 +173,7 @@ class Profile extends StatelessWidget {
                                   onPressRightButton: () {},
                                   rightText: '',
                                   rightTextStyle: regular14TextStyle(cBiddingColor),
-                                  title: 'Upload image',
+                                  title: ksUploadImage.tr,
                                   isRightButtonShow: false,
                                   isScrollControlled: false,
                                   bottomSheetHeight: 170,
@@ -231,7 +231,7 @@ class Profile extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomElevatedButton(
-                                  label: 'Add Selfie',
+                                  label: ksAddSelfie.tr,
                                   buttonHeight: 44,
                                   buttonWidth: (width / 2) - 28,
                                   prefixIcon: BipHip.camera,
@@ -239,7 +239,7 @@ class Profile extends StatelessWidget {
                                   onPressed: () {},
                                 ),
                                 CustomElevatedButton(
-                                  label: 'Edit Profile',
+                                  label: ksEditProfile.tr,
                                   onPressed: () {
                                     Get.toNamed(krEditProfile);
                                   },
