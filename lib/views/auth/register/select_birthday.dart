@@ -50,7 +50,7 @@ class SelectBirthday extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       kH24sizedBox,
-                       TopTitleAndSubtitle(
+                      TopTitleAndSubtitle(
                         title: ksWhatBirthday.tr,
                         subTitle: ksChangeBirthday.tr,
                       ),
@@ -63,6 +63,8 @@ class SelectBirthday extends StatelessWidget {
                                 return SizedBox(
                                   height: height * 0.4,
                                   child: CupertinoDatePicker(
+                                    maximumDate: DateTime.now().subtract(const Duration(days: 15 * 365)),
+                                    initialDateTime: DateTime.now().subtract(const Duration(days: 16 * 365)),
                                     mode: CupertinoDatePickerMode.date,
                                     onDateTimeChanged: (value) {
                                       _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(value);

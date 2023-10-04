@@ -171,11 +171,14 @@ class Menu extends StatelessWidget {
                       CustomElevatedButton(
                         label: 'Logout',
                         onPressed: () async {
-                          await Get.find<AuthenticationController>().getSavedUsers();
-                          if (Get.find<AuthenticationController>().users.isNotEmpty) {
+                          var status = await SpController().getRememberMe();
+                          if (status == true) {
+                            await Get.find<AuthenticationController>().getSavedUsers();
                             Get.offAllNamed(krSavedUserLogin);
+                            await SpController().onLogout();
+                            Get.find<AuthenticationController>().resetLoginScreen();
                           } else {
-                            Get.offAllNamed(krLogin);
+                            await Get.find<AuthenticationController>().logout();
                           }
                         },
                         buttonHeight: 42,
