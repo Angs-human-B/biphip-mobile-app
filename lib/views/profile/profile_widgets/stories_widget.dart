@@ -20,7 +20,7 @@ class StoriesWidget extends StatelessWidget {
                 return const _StoryCard(
                   isStory: false,
                   storyImage: '',
-                  profileImage: 'assets/images/pic5.jpeg',
+                  profileImage: kiDummyImage2ImageUrl,
                   userName: '',
                   isSeen: false,
                 );
@@ -134,7 +134,7 @@ class _StoryCard extends StatelessWidget {
                   left: 32,
                   bottom: 5,
                   child: Text(
-                    'Add\nSelfie',
+                    '${ksAdd.tr}\n${ksSelfie.tr}',
                     textAlign: TextAlign.center,
                     style: semiBold10TextStyle(cBlackColor),
                   ),

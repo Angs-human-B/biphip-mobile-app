@@ -21,7 +21,7 @@ class Videos extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: 'Videos'.tr,
+              title: ksVideos.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {

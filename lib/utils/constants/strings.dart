@@ -17,6 +17,7 @@ const String ksAdd = 'Add';
 const String ksDone = 'Done';
 const String ksEdit = 'Edit';
 const String ksSave = 'Save';
+const String ksSend = 'Send';
 const String ksDelete = 'Delete';
 const String ksSearch = 'Search';
 const String ksConfirm = 'Confirm';
@@ -32,7 +33,7 @@ const String ksNoInternetConnectionMessage = 'You are not connected to internet'
 const String ksFileFormatNotSupported = "file format is not supported currently";
 const String ksUnAuthorizedError = "UnAuthorized request";
 const String ksAbout = 'About';
-
+const String ksOk = 'Ok';
 //---------------------------------------
 //* authentication story
 //---------------------------------------
@@ -90,6 +91,53 @@ const String ksSelectGender = 'Select Gender';
 const String ksChooseInterest = 'Choose your interest';
 const String ksChooseProfession = 'Let us know your profession!';
 const String ksEditYourProfession = 'Edit your profession';
+const String ksLogout= 'Logout';
+const String ksAddBio = 'Add bio';
+const String ksBio = 'Bio';
+const String ksEditBio = 'Edit bio';
+const String ksRemoveBio = 'RemoveBio bio';
+const String ksEditPhoto = 'Edit photo';
+const String ksEnterYourBio = 'Enter your bio';
+const String ksProfilePicture = 'Profile picture';
+const String ksCoverPhoto = 'Cover photo';
+const String ksIntro = 'Intro';
+const String ksDiscard = 'Discard';
+const String ksEditYouAboutInfo = 'Edit your about info';
+const String ksPhotos = 'Photos';
+const String ksVideos = 'Videos';
+const String ksPreviewProfilePicture = 'Preview profile picture';
+const String ksPreviewCoverPicture = 'Preview cover picture';
+const String ksShareYourUpdateToNewsFeed ='Share your update to news feed';
+const String ksAddSelfie = 'Add Selfie';
+
+//---------------------------------------
+//* Menu
+//---------------------------------------
+const String ksAllShortcuts = 'All shortcuts';
+const String ksHelpSupport = 'Help & support';
+const String ksSettingsPrivacy = 'Settings & privacy';
+
+//---------------------------------------
+//* Post widgets
+//---------------------------------------
+const String ksHighest = 'Highest';
+const String ksLowest = 'Lowest';
+const String ksTotalBids = 'Total bids';
+const String ksPlaceABid = 'Place a Bid';
+const String ksSeeBidingInsights = 'See Biding Insights';
+const String ksWriteAReply = 'Write a reply...';
+const String ksSendMessage = 'Send message';
+const String ksLike = 'Like';
+const String ksGifts = 'Gifts';
+const String ksReply = 'Reply';
+const String ksHide = 'Hide';
+const String ksLove = 'Love';
+const String ksGift = 'Gift';
+const String ksShare = 'Share';
+const String ksComment = 'Comment';
+const String ksShares = 'Shares';
+const String ksComments = 'Comments';
+const String ksSelfie = 'Selfie';
 
 //---------------------------------------
 //* Profile
@@ -137,7 +185,37 @@ const String ksAddPresentAddress = 'Add present address';
 const String ksCurrentlyLivingHere = 'Currently living here';
 const String ksEditPresentAddress = 'Edit present address';
 const String ksRelationshipStatus = 'Relationship status';
-const String ks = '';
+const String ksSelectRelationshipStatus = 'Select relationship status';
+const String ksSchool = 'School';
+const String ksCollege = 'College';
+const String ksEditSchool = 'Edit school';
+const String ksCurrentlyStudyingHere = 'Currently studying here';
+const String ksCurrentlyWorkingHere = 'Currently working here';
+const String ksDeleteSchool = 'Delete school';
+const String ksDeleteCollege = 'Delete college';
+const String ksEditCollege = 'Edit college';
+const String ksProfession = 'Profession';
+const String ksEditProfession = 'Edit profession';
+const String ksDeleteProfession = 'Delete profession';
+const String ksSelectProfession = 'Select profession';
+const String ksInterest = 'Interest';
+const String ksWork = 'Work';
+const String ksAddWorkplace = 'Add workplace';
+const String ksEditWorkplace = 'Edit workplace';
+const String ksDeleteWorkplace = 'Delete workplace';
+const String ksOfficeName= 'Office name';
+const String ksContactDetails = 'Contact details';
+const String ksPhone = 'Phone';
+const String ksAddPhoneNumber = 'Add phone number';
+const String ksAddEmail = 'Add email';
+const String ksEditEmail = 'Edit email';
+const String ksDeleteEmail = 'Delete email';
+const String ksEditPhone = 'Edit phone';
+const String ksDeletePhone = 'Delete phone';
+const String ksSelectEducationInstitute = 'Select educational institute';
+const String ksDesignation = 'Designation';
+const String ksStartDate = 'Start date';
+const String ksEndDate = 'End date';
 
 //---------------------------------------
 //* Create Post

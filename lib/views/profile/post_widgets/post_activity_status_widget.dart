@@ -77,7 +77,7 @@ class ReactionView extends StatelessWidget {
                   ),
                   child: ClipOval(
                     child: SvgPicture.asset(
-                      'assets/svg/wow.svg',
+                      kiWowSvgImageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -118,7 +118,7 @@ class CommentShareRecord extends StatelessWidget {
         InkWell(
           onTap: commentOnPressed,
           child: Text(
-            commentCount >= 1000 ? '${(commentCount / 1000).toStringAsFixed(1)}k comments' : '$commentCount comments',
+            commentCount >= 1000 ? '${(commentCount / 1000).toStringAsFixed(1)}k ${ksComments.tr}' : '$commentCount ${ksComments.tr}',
             style: regular10TextStyle(cSmallBodyTextColor),
           ),
         ),
@@ -126,7 +126,7 @@ class CommentShareRecord extends StatelessWidget {
         InkWell(
           onTap: shareOnPressed,
           child: Text(
-            shareCount > 1000 ? '${(shareCount / 1000).toStringAsFixed(1)}k shares' : '$shareCount shares',
+            shareCount > 1000 ? '${(shareCount / 1000).toStringAsFixed(1)}k ${ksShare.tr}' : '$shareCount ${ksShares}',
             style: regular10TextStyle(cSmallBodyTextColor),
           ),
         ),
@@ -134,7 +134,7 @@ class CommentShareRecord extends StatelessWidget {
         InkWell(
           onTap: giftOnPressed,
           child: Text(
-            giftCount > 1000 ? '${(giftCount / 1000).toStringAsFixed(1)}k gifts' : '$giftCount gifts',
+            giftCount > 1000 ? '${(giftCount / 1000).toStringAsFixed(1)}k ${ksGifts.tr}' : '$giftCount ${ksGifts.tr}',
             style: regular10TextStyle(cSmallBodyTextColor),
           ),
         ),

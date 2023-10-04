@@ -63,14 +63,14 @@ class EditPage extends StatelessWidget {
                                 onPressRightButton: () {
                                   Get.back();
                                 },
-                                rightText: 'Done',
+                                rightText: ksDone.tr,
                                 rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                title: 'Select Education Institute',
+                                title: ksSelectEducationInstitute.tr,
                                 isRightButtonShow: true,
                               );
                             },
                             text: _profileController.educationBackground.value,
-                            hintText: 'Select Education Institute',
+                            hintText: ksSelectEducationInstitute.tr,
                           ),
                         ),
                       CustomModifiedTextField(
@@ -89,7 +89,7 @@ class EditPage extends StatelessWidget {
                           padding: const EdgeInsets.only(top: k16Padding),
                           child: CustomModifiedTextField(
                             controller: _profileController.commonEditSecondaryTextEditingController,
-                            hint: 'Designation',
+                            hint: ksDesignation.tr,
                             prefixIcon: BipHip.work,
                             suffixIcon: BipHip.circleCrossNew,
                             borderRadius: k8BorderRadius,
@@ -124,7 +124,7 @@ class EditPage extends StatelessWidget {
                                         });
                                   },
                                   text: _profileController.startDateAddress.value,
-                                  hintText: 'Start Date',
+                                  hintText: ksStartDate.tr,
                                 ),
                               ),
                               SizedBox(
@@ -147,7 +147,7 @@ class EditPage extends StatelessWidget {
                                         });
                                   },
                                   text: _profileController.endDateAddress.value,
-                                  hintText: 'End Date',
+                                  hintText: ksEndDate.tr,
                                 ),
                               ),
                             ],
@@ -163,7 +163,7 @@ class EditPage extends StatelessWidget {
                                 buttonWidth: 80,
                                 buttonHeight: 25,
                                 onPress: () {},
-                                buttonText: 'Public',
+                                buttonText: ksPublic.tr,
                                 buttonTextStyle: semiBold12TextStyle(cBlackColor),
                                 borderColor: cLineColor,
                                 suffixWidget: const Padding(

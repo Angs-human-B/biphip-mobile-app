@@ -26,7 +26,7 @@ class LikeSectionWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Love',
+                  ksLove.tr,
                   style: semiBold12TextStyle(cIconColor),
                 ),
                 kW4sizedBox,
@@ -48,7 +48,7 @@ class LikeSectionWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Comment',
+                  ksComment.tr,
                   style: semiBold12TextStyle(cIconColor),
                 ),
                 kW4sizedBox,
@@ -70,7 +70,7 @@ class LikeSectionWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Share',
+                  ksShare.tr,
                   style: semiBold12TextStyle(cIconColor),
                 ),
                 kW4sizedBox,
@@ -93,7 +93,7 @@ class LikeSectionWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Gift',
+                    ksGift.tr,
                     style: semiBold12TextStyle(cIconColor),
                   ),
                   kW4sizedBox,
