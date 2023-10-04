@@ -15,7 +15,9 @@ class ApiController {
 
   void timeOutFunction() {
     String error = ksConnectionTimeoutMessage.tr;
-    _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+    if (!Get.isSnackbarOpen) {
+      _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+    }
   }
 
   Future<http.Response> methodBasedResponse({
@@ -108,16 +110,22 @@ class ApiController {
         await SpController().onLogout();
         Get.offAllNamed(krLogin);
       } else {
-        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        if (!Get.isSnackbarOpen) {
+          _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        }
         return null;
       }
     } on SocketException {
       error = ksNoInternetConnectionMessage.tr;
-      _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+      if (!Get.isSnackbarOpen) {
+        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+      }
       return null;
     } catch (e) {
       log(e.toString());
-      _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+      if (!Get.isSnackbarOpen) {
+        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+      }
       return null;
     } finally {
       client.close();
