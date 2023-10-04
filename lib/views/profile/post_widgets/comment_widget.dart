@@ -139,7 +139,7 @@ class CommentWidget extends StatelessWidget {
                       InkWell(
                         onTap: likeButtonOnPressed,
                         child: Text(
-                          'Like',
+                          ksLike.tr,
                           style: regular10TextStyle(cSmallBodyTextColor),
                         ),
                       ),
@@ -148,7 +148,7 @@ class CommentWidget extends StatelessWidget {
                       InkWell(
                         onTap: replyButtonOnPressed,
                         child: Text(
-                          'Reply',
+                          ksReply.tr,
                           style: regular10TextStyle(cSmallBodyTextColor),
                         ),
                       ),
@@ -156,7 +156,7 @@ class CommentWidget extends StatelessWidget {
                       InkWell(
                         onTap: sendMessageOnPressed,
                         child: Text(
-                          'Send Message',
+                          ksSendMessage.tr,
                           style: regular10TextStyle(cSmallBodyTextColor),
                         ),
                       ),
@@ -165,7 +165,7 @@ class CommentWidget extends StatelessWidget {
                       InkWell(
                         onTap: hideButtonOnPressed,
                         child: Text(
-                          'Hide',
+                          ksHide.tr,
                           style: regular10TextStyle(cSmallBodyTextColor),
                         ),
                       ),
@@ -338,7 +338,7 @@ class ReplyCommentWidget extends StatelessWidget {
                       InkWell(
                         onTap: likeButtonOnPressed,
                         child: Text(
-                          'Like',
+                          ksLike.tr,
                           style: regular10TextStyle(cSmallBodyTextColor),
                         ),
                       ),
@@ -347,7 +347,7 @@ class ReplyCommentWidget extends StatelessWidget {
                       InkWell(
                         onTap: replyButtonOnPressed,
                         child: Text(
-                          'Reply',
+                          ksReply.tr,
                           style: regular10TextStyle(cSmallBodyTextColor),
                         ),
                       ),

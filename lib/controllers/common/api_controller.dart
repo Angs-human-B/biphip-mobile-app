@@ -100,7 +100,7 @@ class ApiController {
         client: client,
         contentType: contentType,
       );
-      ll("response headers : ${response.statusCode}");
+      ll("response statusCode : ${response.statusCode}");
       if (response.statusCode == 200) {
         ll("response body : ${response.body}");
         CommonDM cm = convertToCommonObject(jsonDecode(response.body));
@@ -109,6 +109,8 @@ class ApiController {
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
         Get.offAllNamed(krLogin);
+        _globalController.showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
+        return null;
       } else {
         if (!Get.isSnackbarOpen) {
           _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);

@@ -19,7 +19,7 @@ class PhotoPreview extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: _profileController.isProfilePicEditor.value ? 'Preview profile picture'.tr : 'Preview cover picture'.tr,
+              title: _profileController.isProfilePicEditor.value ? ksPreviewProfilePicture.tr : ksPreviewCoverPicture.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -35,7 +35,7 @@ class PhotoPreview extends StatelessWidget {
                         _profileController.resetImage();
                       },
                       child: Text(
-                        'Discard',
+                        ksDiscard.tr,
                         style: regular14TextStyle(cRedColor),
                       )),
                 )
@@ -67,7 +67,7 @@ class PhotoPreview extends StatelessWidget {
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => ClipOval(
                                       child: Image.asset(
-                                        'assets/images/profileDefault.png',
+                                        kiProfileDefaultImageUrl,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -86,7 +86,7 @@ class PhotoPreview extends StatelessWidget {
                                     _profileController.coverImageFile.value,
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => Image.asset(
-                                      'assets/images/coverPic.png',
+                                      kiCoverPicImageUrl,
                                       fit: BoxFit.cover,
                                     ),
                                   )),
@@ -99,7 +99,7 @@ class PhotoPreview extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Share your update to news feed',
+                            ksShareYourUpdateToNewsFeed.tr,
                             style: regular18TextStyle(cBlackColor),
                           ),
                           Checkbox(
@@ -114,7 +114,7 @@ class PhotoPreview extends StatelessWidget {
                     CustomElevatedButton(
                         buttonWidth: width - 40,
                         buttonHeight: h32,
-                        label: 'Save',
+                        label: ksSave.tr,
                         onPressed: () {
                           if (_profileController.isProfilePicEditor.value) {
                             _profileController.newProfileImageFile.value = _profileController.profileImageFile.value;

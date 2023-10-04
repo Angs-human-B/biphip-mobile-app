@@ -83,7 +83,7 @@ class Menu extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                             child: Image.asset(
-                              'assets/images/profilePic.png',
+                              kiProfilePicImageUrl,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -93,7 +93,7 @@ class Menu extends StatelessWidget {
                       ),
                       kH25sizedBox,
                       Text(
-                        'All shortcuts',
+                        ksAllShortcuts.tr,
                         style: semiBold18TextStyle(cBlackColor),
                       ),
                       kH16sizedBox,
@@ -127,7 +127,7 @@ class Menu extends StatelessWidget {
                       ),
                       CustomExpandableMenuButton(
                         height: h50,
-                        text: 'Help & support',
+                        text: ksHelpSupport.tr,
                         icon: BipHip.helpFill,
                         onPressed: () {
                           _profileController.isSupportButtonPressed.value = !_profileController.isSupportButtonPressed.value;
@@ -155,7 +155,7 @@ class Menu extends StatelessWidget {
                           _profileController.isSettingButtonPressed.value = !_profileController.isSettingButtonPressed.value;
                         },
                         height: h50,
-                        text: 'Settings & privacy',
+                        text: ksSettingsPrivacy.tr,
                         icon: BipHip.setting,
                       ),
                       Container(
@@ -169,7 +169,7 @@ class Menu extends StatelessWidget {
                         ),
                       kH20sizedBox,
                       CustomElevatedButton(
-                        label: 'Logout',
+                        label: ksLogout.tr,
                         onPressed: () async {
                           await Get.find<AuthenticationController>().getSavedUsers();
                           if (Get.find<AuthenticationController>().users.isNotEmpty) {

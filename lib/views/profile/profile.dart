@@ -57,7 +57,7 @@ class Profile extends StatelessWidget {
                             _profileController.newCoverImageFile.value,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) => Image.asset(
-                              'assets/images/coverPic.png',
+                              kiCoverPicImageUrl,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -69,7 +69,7 @@ class Profile extends StatelessWidget {
                             children: [
                               Container(
                                 height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
-                                width:isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                                width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
                                 decoration: BoxDecoration(
                                   color: cGreyBoxColor,
                                   borderRadius: BorderRadius.circular(90),
@@ -81,7 +81,7 @@ class Profile extends StatelessWidget {
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => ClipOval(
                                       child: Image.asset(
-                                        'assets/images/profileDefault.png',
+                                        kiProfileDefaultImageUrl,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -104,7 +104,7 @@ class Profile extends StatelessWidget {
                                         onPressRightButton: () {},
                                         rightText: '',
                                         rightTextStyle: regular14TextStyle(cBiddingColor),
-                                        title: 'Upload image',
+                                        title: ksUploadImage.tr,
                                         isRightButtonShow: false,
                                         isScrollControlled: false,
                                         bottomSheetHeight: 170,
@@ -152,7 +152,7 @@ class Profile extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(26),
                                       border: Border.all(color: cPrimaryColor, width: 1),
                                     ),
-                                    child: SvgPicture.asset('assets/svg/badge1.svg')),
+                                    child: SvgPicture.asset(kiBadge1SvgImageUrl)),
                               ),
                             ],
                           ),
@@ -173,7 +173,7 @@ class Profile extends StatelessWidget {
                                   onPressRightButton: () {},
                                   rightText: '',
                                   rightTextStyle: regular14TextStyle(cBiddingColor),
-                                  title: 'Upload image',
+                                  title: ksUploadImage.tr,
                                   isRightButtonShow: false,
                                   isScrollControlled: false,
                                   bottomSheetHeight: 170,
@@ -215,6 +215,7 @@ class Profile extends StatelessWidget {
                     Container(
                       color: cWhiteColor,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           kH10sizedBox,
                           Padding(
@@ -231,7 +232,7 @@ class Profile extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomElevatedButton(
-                                  label: 'Add Selfie',
+                                  label: ksAddSelfie.tr,
                                   buttonHeight: 44,
                                   buttonWidth: (width / 2) - 28,
                                   prefixIcon: BipHip.camera,
@@ -239,7 +240,7 @@ class Profile extends StatelessWidget {
                                   onPressed: () {},
                                 ),
                                 CustomElevatedButton(
-                                  label: 'Edit Profile',
+                                  label: ksEditProfile.tr,
                                   onPressed: () {
                                     Get.toNamed(krEditProfile);
                                   },
@@ -268,15 +269,17 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                     kH12sizedBox,
-                    Container(color: cWhiteColor, child: FriendsFamilyGridView(header: 'Friends', count: friendList.length.toString(), friendList: friendList)),
+                    Container(
+                        color: cWhiteColor, child: FriendsFamilyGridView(header: ksFriends.tr, count: friendList.length.toString(), friendList: friendList)),
                     kH12sizedBox,
-                    Container(color: cWhiteColor, child: FriendsFamilyGridView(header: 'Family', count: familyList.length.toString(), friendList: familyList)),
+                    Container(
+                        color: cWhiteColor, child: FriendsFamilyGridView(header: ksFamily.tr, count: familyList.length.toString(), friendList: familyList)),
                     kH12sizedBox,
                     Container(
                       color: cWhiteColor,
                       child: CustomPostButton(
                         name: 'Monjurul',
-                        profilePic: 'assets/images/profilePic.png',
+                        profilePic: kiProfilePicImageUrl,
                         onPressed: () {
                           ll('post');
                           Get.find<CreatePostController>().resetData();
@@ -293,7 +296,7 @@ class Profile extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
                             child: Text(
-                              'Catagories',
+                              ksCatagories.tr,
                               style: semiBold14TextStyle(cBlackColor),
                             ),
                           ),
@@ -445,7 +448,7 @@ class FriendsFamilyGridView extends StatelessWidget {
                 style: regular12TextStyle(cSmallBodyTextColor),
               ),
               const Spacer(),
-              CustomTextButton(onPressed: seeAll, text: 'See All', textStyle: semiBold14TextStyle(cPrimaryColor)),
+              CustomTextButton(onPressed: seeAll, text: ksSeeAll.tr, textStyle: semiBold14TextStyle(cPrimaryColor)),
             ],
           ),
           kH12sizedBox,
@@ -532,7 +535,7 @@ class PictureUploadContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         CustomElevatedButton(
-          label: 'Add photo',
+          label: ksAddPhoto.tr,
           prefixIcon: BipHip.camera,
           prefixIconColor: cIconColor,
           suffixIconColor: cIconColor,
@@ -550,7 +553,7 @@ class PictureUploadContent extends StatelessWidget {
         ),
         kH16sizedBox,
         CustomElevatedButton(
-          label: 'Choose from gallery',
+          label: ksChooseFromGallery.tr,
           prefixIcon: BipHip.photo,
           prefixIconColor: cIconColor,
           suffixIconColor: cIconColor,

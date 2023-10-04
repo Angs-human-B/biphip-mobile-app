@@ -239,33 +239,33 @@ List editProfileInfoContent = [
 ];
 
 List friendList = [
-  {'name': 'Karnaze Krnunkenstein', 'image': 'assets/images/friend.png'},
-  {'name': 'Joe Biden', 'image': 'assets/images/friend.png'},
-  {'name': 'Stewie Griffin', 'image': 'assets/images/friend.png'},
-  {'name': 'Rick Sanchez', 'image': 'assets/images/friend.png'},
-  {'name': 'Johan Liebert', 'image': 'assets/images/friend.png'},
-  {'name': 'Akshia Rekrahs', 'image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'}
+  {'name': 'Karnaze Krnunkenstein', 'image': kiFriendImageUrl},
+  {'name': 'Joe Biden', 'image': kiFriendImageUrl},
+  {'name': 'Stewie Griffin', 'image': kiFriendImageUrl},
+  {'name': 'Rick Sanchez', 'image': kiFriendImageUrl},
+  {'name': 'Johan Liebert', 'image': kiFriendImageUrl},
+  {'name': 'Akshia Rekrahs', 'image': kiFriendImageUrl},
+  {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
+  {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
+  {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
+  {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl}
 ];
 
 List familyList = [
-  {'name': 'Peter Griffin', 'image': 'assets/images/family.png'},
-  {'name': 'Vladmir Putin', 'image': 'assets/images/family.png'},
-  {'name': 'Meg Griffin', 'image': 'assets/images/family.png'},
-  {'name': 'Rick Sanchez', 'image': 'assets/images/family.png'},
-  {'name': 'Morty Sanchez', 'image': 'assets/images/family.png'},
-  {'name': 'Beth Sanchez', 'image': 'assets/images/family.png'},
-  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'},
-  {'name': 'Alyssa Krnunkenstein', 'image': 'assets/images/friend.png'}
+  {'name': 'Peter Griffin', 'image': kiFamilyImageUrl},
+  {'name': 'Vladmir Putin', 'image': kiFamilyImageUrl},
+  {'name': 'Meg Griffin', 'image': kiFamilyImageUrl},
+  {'name': 'Rick Sanchez', 'image': kiFamilyImageUrl},
+  {'name': 'Morty Sanchez', 'image': kiFamilyImageUrl},
+  {'name': 'Beth Sanchez', 'image': kiFamilyImageUrl},
+  {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
+  {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
+  {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
+  {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
+  {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
+  {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
+  {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
+  {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl}
 ];
 
 List interestProfile = [
@@ -282,142 +282,142 @@ List interestProfile = [
 List friendsList = [
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
 ];
 List addFriendList = [
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
   {
     "name": "Maria Jones",
-    "image": "assets/images/profilePic4x.png",
+    "image": kiProfilePic4xImageUrl,
   },
 ];
 
 List photos = [
-  'assets/images/pic4.jpeg',
-  'assets/images/pic5.jpeg',
-  'assets/images/coverPic.png',
-  'assets/images/pic12.jpeg',
-  'assets/images/pic4.jpeg',
-  'assets/images/pic5.jpeg',
-  'assets/images/coverPic.png',
-  'assets/images/pic12.jpeg',
-  'assets/images/pic4.jpeg',
-  'assets/images/pic5.jpeg',
-  'assets/images/coverPic.png',
-  'assets/images/pic12.jpeg',
+  kiDummyImage1ImageUrl,
+  kiDummyImage2ImageUrl,
+  kiCoverPicImageUrl,
+  kiDummyImage3ImageUrl,
+  kiDummyImage1ImageUrl,
+  kiDummyImage2ImageUrl,
+  kiCoverPicImageUrl,
+  kiDummyImage3ImageUrl,
+  kiDummyImage1ImageUrl,
+  kiDummyImage2ImageUrl,
+  kiCoverPicImageUrl,
+  kiDummyImage3ImageUrl,
 ];
 
 List stories = [
-  {'name': 'Rick Sanchez', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
-  {'name': 'Stewie Griffin', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': true},
-  {'name': 'Johan Liebert', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
-  {'name': 'Karnaze Ravencroft', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': true},
-  {'name': 'Zekken McLaren', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
-  {'name': 'Loreta Stevenson', 'profileImage': 'assets/images/pic4.jpeg', 'storyImage': 'assets/images/pic12.jpeg', 'isSeen': false},
+  {'name': 'Rick Sanchez', 'profileImage': kiDummyImage1ImageUrl, 'storyImage': kiDummyImage3ImageUrl, 'isSeen': false},
+  {'name': 'Stewie Griffin', 'profileImage': kiDummyImage1ImageUrl, 'storyImage': kiDummyImage3ImageUrl, 'isSeen': true},
+  {'name': 'Johan Liebert', 'profileImage': kiDummyImage1ImageUrl, 'storyImage': kiDummyImage3ImageUrl, 'isSeen': false},
+  {'name': 'Karnaze Ravencroft', 'profileImage': kiDummyImage1ImageUrl, 'storyImage': kiDummyImage3ImageUrl, 'isSeen': true},
+  {'name': 'Zekken McLaren', 'profileImage': kiDummyImage1ImageUrl, 'storyImage': kiDummyImage3ImageUrl, 'isSeen': false},
+  {'name': 'Loreta Stevenson', 'profileImage': kiDummyImage1ImageUrl, 'storyImage': kiDummyImage3ImageUrl, 'isSeen': false},
 ];
 
 List bidingComments = [
-  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
-  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
-  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
-  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
-  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
-  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
-  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
-  {'image': 'assets/images/pic4.jpeg', 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'}
+  {'image': kiDummyImage1ImageUrl, 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': kiDummyImage1ImageUrl, 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': kiDummyImage1ImageUrl, 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': kiDummyImage1ImageUrl, 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': kiDummyImage1ImageUrl, 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': kiDummyImage1ImageUrl, 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': kiDummyImage1ImageUrl, 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
+  {'image': kiDummyImage1ImageUrl, 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'}
 ];
 
 List recommendedBid = ['10,000', '12,000', '11,000', '11,200', '15,100'];
 
 List giftPackages = [
-  {'badge': 'assets/svg/badge.svg', 'packageName': 'IRON', 'amount': '50', 'cost': '2.00'},
-  {'badge': 'assets/svg/badge.svg', 'packageName': 'BRONZE', 'amount': '100', 'cost': '5.00'},
-  {'badge': 'assets/svg/badge.svg', 'packageName': 'SILVER', 'amount': '150', 'cost': '8.00'},
-  {'badge': 'assets/svg/badge.svg', 'packageName': 'GOLD', 'amount': '200', 'cost': '10.00'},
-  {'badge': 'assets/svg/badge.svg', 'packageName': 'PLATINUM', 'amount': '250', 'cost': '12.00'},
-  {'badge': 'assets/svg/badge.svg', 'packageName': 'DIAMOND', 'amount': '300', 'cost': '15.00'},
-  {'badge': 'assets/svg/badge.svg', 'packageName': 'EMERALD', 'amount': '350', 'cost': '18.00'},
-  {'badge': 'assets/svg/badge.svg', 'packageName': 'RUBY', 'amount': '400', 'cost': '20.00'},
-  {'badge': 'assets/svg/badge.svg', 'packageName': 'RADIANT', 'amount': '450', 'cost': '22.00'},
-  {'badge': 'assets/svg/badge.svg', 'packageName': 'ACE', 'amount': '500', 'cost': '25.00'},
-  {'badge': 'assets/svg/badge.svg', 'packageName': 'CROWN', 'amount': '550', 'cost': '28.00'},
-  {'badge': 'assets/svg/badge.svg', 'packageName': 'CELESTIAL', 'amount': '600', 'cost': '30.00'},
+  {'badge': kiBadgeSvgImageUrl, 'packageName': 'IRON', 'amount': '50', 'cost': '2.00'},
+  {'badge': kiBadgeSvgImageUrl, 'packageName': 'BRONZE', 'amount': '100', 'cost': '5.00'},
+  {'badge': kiBadgeSvgImageUrl, 'packageName': 'SILVER', 'amount': '150', 'cost': '8.00'},
+  {'badge': kiBadgeSvgImageUrl, 'packageName': 'GOLD', 'amount': '200', 'cost': '10.00'},
+  {'badge': kiBadgeSvgImageUrl, 'packageName': 'PLATINUM', 'amount': '250', 'cost': '12.00'},
+  {'badge': kiBadgeSvgImageUrl, 'packageName': 'DIAMOND', 'amount': '300', 'cost': '15.00'},
+  {'badge': kiBadgeSvgImageUrl, 'packageName': 'EMERALD', 'amount': '350', 'cost': '18.00'},
+  {'badge': kiBadgeSvgImageUrl, 'packageName': 'RUBY', 'amount': '400', 'cost': '20.00'},
+  {'badge': kiBadgeSvgImageUrl, 'packageName': 'RADIANT', 'amount': '450', 'cost': '22.00'},
+  {'badge': kiBadgeSvgImageUrl, 'packageName': 'ACE', 'amount': '500', 'cost': '25.00'},
+  {'badge': kiBadgeSvgImageUrl, 'packageName': 'CROWN', 'amount': '550', 'cost': '28.00'},
+  {'badge': kiBadgeSvgImageUrl, 'packageName': 'CELESTIAL', 'amount': '600', 'cost': '30.00'},
 ];
 
 List packages = [
@@ -433,23 +433,23 @@ List packages = [
 ];
 
 List giftContributors = [
-  {'name': 'Sharker Omi', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': true},
-  {'name': 'Emon vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': true},
-  {'name': 'Maruf vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': false},
-  {'name': 'Rana vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': true},
-  {'name': 'Shahed vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge1.svg', 'giftType': 'badge1', 'isFriend': true},
-  {'name': 'Tonmoy vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge2.svg', 'giftType': 'badge2', 'isFriend': false},
-  {'name': 'Showrov vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge2.svg', 'giftType': 'badge2', 'isFriend': true},
-  {'name': 'Shohag vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge2.svg', 'giftType': 'badge2', 'isFriend': false},
-  {'name': 'Kaisar vai', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge2.svg', 'giftType': 'badge2', 'isFriend': true},
-  {'name': 'Murad Bro', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge3.svg', 'giftType': 'badge3', 'isFriend': false},
-  {'name': 'Rick Sanchez', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge3.svg', 'giftType': 'badge3', 'isFriend': true},
-  {'name': 'Morty Sanchez', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge3.svg', 'giftType': 'badge3', 'isFriend': true},
-  {'name': 'Brian Griffin', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge3.svg', 'giftType': 'badge3', 'isFriend': false},
-  {'name': 'Stewie Griffin', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': true},
-  {'name': 'Vladmir Putin', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': true},
-  {'name': 'Joe Biden', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': true},
-  {'name': 'Karnaze Rekrahs', 'image': kiDummyImage1ImageUrl, 'giftImage': 'assets/svg/badge4.svg', 'giftType': 'badge4', 'isFriend': false},
+  {'name': 'Sharker Omi', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge1SvgImageUrl, 'giftType': 'badge1', 'isFriend': true},
+  {'name': 'Emon vai', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge1SvgImageUrl, 'giftType': 'badge1', 'isFriend': true},
+  {'name': 'Maruf vai', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge1SvgImageUrl, 'giftType': 'badge1', 'isFriend': false},
+  {'name': 'Rana vai', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge1SvgImageUrl, 'giftType': 'badge1', 'isFriend': true},
+  {'name': 'Shahed vai', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge1SvgImageUrl, 'giftType': 'badge1', 'isFriend': true},
+  {'name': 'Tonmoy vai', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge2SvgImageUrl, 'giftType': 'badge2', 'isFriend': false},
+  {'name': 'Showrov vai', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge2SvgImageUrl, 'giftType': 'badge2', 'isFriend': true},
+  {'name': 'Shohag vai', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge2SvgImageUrl, 'giftType': 'badge2', 'isFriend': false},
+  {'name': 'Kaisar vai', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge2SvgImageUrl, 'giftType': 'badge2', 'isFriend': true},
+  {'name': 'Murad Bro', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge3SvgImageUrl, 'giftType': 'badge3', 'isFriend': false},
+  {'name': 'Rick Sanchez', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge3SvgImageUrl, 'giftType': 'badge3', 'isFriend': true},
+  {'name': 'Morty Sanchez', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge3SvgImageUrl, 'giftType': 'badge3', 'isFriend': true},
+  {'name': 'Brian Griffin', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge3SvgImageUrl, 'giftType': 'badge3', 'isFriend': false},
+  {'name': 'Stewie Griffin', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge4SvgImageUrl, 'giftType': 'badge4', 'isFriend': true},
+  {'name': 'Vladmir Putin', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge4SvgImageUrl, 'giftType': 'badge4', 'isFriend': true},
+  {'name': 'Joe Biden', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge4SvgImageUrl, 'giftType': 'badge4', 'isFriend': true},
+  {'name': 'Karnaze Rekrahs', 'image': kiDummyImage1ImageUrl, 'giftImage': kiBadge4SvgImageUrl, 'giftType': 'badge4', 'isFriend': false},
 ];
 
 List replyComment = [
