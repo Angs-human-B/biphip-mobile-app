@@ -26,7 +26,7 @@ class LogoAndText extends StatelessWidget {
         ),
         kH8sizedBox,
         Text(
-          ksBipHip.tr,
+          ksBipHip,
           style: semiBold20TextStyle(cPrimaryColor).copyWith(fontSize: fontSize),
         )
       ],
