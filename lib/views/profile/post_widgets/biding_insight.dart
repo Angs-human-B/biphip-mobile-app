@@ -32,7 +32,7 @@ class BidingInsight extends StatelessWidget {
                     ),
                     kH4sizedBox,
                     Text(
-                      'Highest',
+                      ksHighest.tr,
                       style: regular12TextStyle(cBlackColor),
                     )
                   ],
@@ -66,7 +66,7 @@ class BidingInsight extends StatelessWidget {
                     ),
                     kH4sizedBox,
                     Text(
-                      'Lowest',
+                      ksLowest.tr,
                       style: regular12TextStyle(cBlackColor),
                     )
                   ],

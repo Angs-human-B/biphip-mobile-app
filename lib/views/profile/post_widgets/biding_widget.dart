@@ -19,11 +19,11 @@ class BiddingWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Total bids $totalBids, Highest \$$bidingAmount',
+              '${ksTotalBids.tr} $totalBids, ${ksHighest.tr} \$$bidingAmount',
               style: regular12TextStyle(cSmallBodyTextColor),
             ),
             CustomElevatedButton(
-              label: isPlaceBid ? 'Place a Bid' : 'See Biding Insights',
+              label: isPlaceBid ? ksPlaceABid.tr : ksSeeBidingInsights.tr,
               textStyle: regular14TextStyle(cBiddingColor),
               buttonHeight: 24,
               buttonWidth: isPlaceBid ? 100 : 150,
