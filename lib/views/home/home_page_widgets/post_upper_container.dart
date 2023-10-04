@@ -42,7 +42,7 @@ class PostUpperContainer extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: Image.asset(
-                      "assets/images/profileDefault.png",
+                      kiProfileDefaultImageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -61,7 +61,7 @@ class PostUpperContainer extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Image.asset(
-                    "assets/images/profileDefault.png",
+                    kiProfileDefaultImageUrl,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -89,7 +89,7 @@ class PostUpperContainer extends StatelessWidget {
                             ),
                             if (isCategorized)
                               TextSpan(
-                                text: ' posted on ',
+                                text: ' ${ksPostedOn.tr} ',
                                 style: regular16TextStyle(cSmallBodyTextColor),
                               ),
                             if (isCategorized)
