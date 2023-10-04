@@ -113,6 +113,13 @@ const String ksCatagories = 'Catagories';
 const String ksSeeAll = 'See all';
 
 //---------------------------------------
+//* Home
+//---------------------------------------
+const String ksDailyQuiz = 'Daily Quiz';
+const String ksWeeklyWinner = 'Weekly Winner';
+
+
+//---------------------------------------
 //* Menu
 //---------------------------------------
 const String ksAllShortcuts = 'All shortcuts';
