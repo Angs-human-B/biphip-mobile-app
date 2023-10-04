@@ -11,9 +11,12 @@ class CustomChoiceChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChoiceChip(
-      label: Text(
-        label,
-        style: regular14TextStyle(isSelected ? cPrimaryColor : cBlackColor),
+      label: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: h8),
+        child: Text(
+          label,
+          style: regular14TextStyle(isSelected ? cPrimaryColor : cBlackColor),
+        ),
       ),
       selectedColor: cPrimaryTint3Color,
       disabledColor: cWhiteColor,
@@ -22,7 +25,7 @@ class CustomChoiceChips extends StatelessWidget {
       showCheckmark: false,
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
-        borderRadius: borderRadius??k100CircularBorderRadius,
+        borderRadius: borderRadius ?? k100CircularBorderRadius,
       ),
       side: BorderSide(
         color: isSelected ? cPrimaryColor : cLineColor,

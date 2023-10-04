@@ -3,6 +3,8 @@ import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
 import 'package:bip_hip/views/profile/post_widgets/comment_widget.dart';
+import 'package:bip_hip/views/profile/post_widgets/like_section_widget.dart';
+import 'package:bip_hip/views/profile/post_widgets/post_activity_status_widget.dart';
 
 class PhotoDetails extends StatelessWidget {
   PhotoDetails({super.key});
@@ -173,17 +175,43 @@ class PhotoDetails extends StatelessWidget {
                         ),
                       ],
                     ),
+                    // kH20sizedBox,
+                    // const CustomDivider(),
                     kH20sizedBox,
-                    const CustomDivider(),
-                    kH20sizedBox,
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InteractionStats(),
-                        UserInteractionView(),
-                      ],
+                    // const Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     InteractionStats(),
+                    //     UserInteractionView(),
+                    //   ],
+                    // ),
+                    PostActivityStatusWidget(
+                      reactCount: 440,
+                      reactionOnPressed: () {
+                        // _postReactionController.giftFilter(0);
+                        // _globalController.blankBottomSheet(
+                        //     context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                      },
+                      giftCount: 50,
+                      commentCount: 200,
+                      shareCount: 340,
+                      isGiftShown: true,
+                      giftOnPressed: () {
+                        // _postReactionController.giftFilter(0);
+                        // _globalController.blankBottomSheet(
+                        //     context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                      },
                     ),
-                    kH20sizedBox,
+                    LikeSectionWidget(
+                      isGiftShown: true,
+                      giftOnPressed: () {
+                        // _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                      },
+                      commentOnPressed: () {
+                        // showComment.value = !showComment.value;
+                        // ll(showComment);
+                      },
+                    ),
                     const CustomDivider(),
                     kH20sizedBox,
                     Text(
@@ -202,7 +230,9 @@ class PhotoDetails extends StatelessWidget {
                       reactCount: 0,
                       userName: 'Sharker Omi',
                       isSendMessageShown: false,
-                      isHideButtonShown: false, isImageComment: false, replyList: [],
+                      isHideButtonShown: false,
+                      isImageComment: false,
+                      replyList: [],
                     ),
                     kH16sizedBox,
                     const CommentWidget(
@@ -216,7 +246,9 @@ class PhotoDetails extends StatelessWidget {
                       reactCount: 0,
                       userName: 'Sharker Omi',
                       isSendMessageShown: false,
-                      isHideButtonShown: false, isImageComment: false, replyList: [],
+                      isHideButtonShown: false,
+                      isImageComment: false,
+                      replyList: [],
                     ),
                   ],
                 ),

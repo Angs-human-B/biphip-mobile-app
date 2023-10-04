@@ -3,7 +3,8 @@ import 'package:bip_hip/utils/constants/imports.dart';
 class HomeController extends GetxController {
   final Rx<Color> categoryIconColor = Rx<Color>(cWhiteColor);
   final Rx<IconData> categoryIcon = Rx<IconData>(BipHip.add);
-  final RxBool showSeeMore = RxBool(false);
+  // final RxBool showSeeMore = RxBool(false);
+  final RxBool sharedPostSeeMore = RxBool(true);
   final RxBool seeMore = RxBool(false);
   final RxList imageList = RxList([
     kiDummyImage1ImageUrl,
@@ -50,5 +51,10 @@ class HomeController extends GetxController {
       }
     }
     return categoryIconColor.value;
+  }
+
+  void changeSeeMoreValue(bool value) {
+    value = !value;
+    ll(seeMore);
   }
 }
