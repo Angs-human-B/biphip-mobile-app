@@ -237,7 +237,7 @@ class GlobalController extends GetxController {
             //   mediaLinkList.add('data:video/mp4;base64,$base64Image'.obs);
             // }
           } else {
-            showSnackBar(title: 'Warning', message: "file format is not supported currently", color: cSecondaryColor);
+            showSnackBar(title: ksWarning.tr, message: ksFileFormatNotSupported.tr, color: cSecondaryColor);
           }
         }
         return true;

@@ -26,6 +26,7 @@ const String ksWarning = 'Warning';
 const String ksSomethingWentWrong = 'Something went wrong, please try again later';
 const String ksConnectionTimeoutMessage = 'Connection timed out';
 const String ksNoInternetConnectionMessage = 'You are not connected to internet';
+const String ksFileFormatNotSupported = "file format is not supported currently";
 
 //---------------------------------------
 //* authentication story
