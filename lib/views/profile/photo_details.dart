@@ -25,7 +25,7 @@ class PhotoDetails extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: 'Photos'.tr,
+              title: ksPhotos.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -66,7 +66,7 @@ class PhotoDetails extends StatelessWidget {
                                       shape: BoxShape.circle,
                                     ),
                                     child: Image.asset(
-                                      "assets/images/profileDefault.png",
+                                      kiProfileDefaultImageUrl,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -85,7 +85,7 @@ class PhotoDetails extends StatelessWidget {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Image.asset(
-                                    "assets/images/profilePic.png",
+                                    kiProfilePicImageUrl,
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -146,7 +146,7 @@ class PhotoDetails extends StatelessWidget {
                                     ),
                                     kW8sizedBox,
                                     CustomElevatedButton(
-                                      label: _createPostController.category.value == "" ? "Select Category" : _createPostController.category.value,
+                                      label: _createPostController.category.value == "" ? ksSelectCategory.tr : _createPostController.category.value,
                                       prefixIcon: _createPostController.category.value == "" ? null : _createPostController.categoryIcon.value,
                                       prefixIconColor: _createPostController.category.value == "" ? null : _createPostController.categoryIconColor.value,
                                       onPressed: () {},
@@ -158,7 +158,7 @@ class PhotoDetails extends StatelessWidget {
                                     if (_createPostController.category.value == "Selling") kW8sizedBox,
                                     if (_createPostController.category.value == "Selling")
                                       CustomElevatedButton(
-                                        label: "Post Type",
+                                        label: ksPostType.tr,
                                         onPressed: () {},
                                         buttonHeight: 22,
                                         isCustomButton: true,
@@ -215,12 +215,12 @@ class PhotoDetails extends StatelessWidget {
                     const CustomDivider(),
                     kH20sizedBox,
                     Text(
-                      'Comment',
+                      ksComment.tr,
                       style: semiBold14TextStyle(cBlackColor),
                     ),
                     kH16sizedBox,
                     const CommentWidget(
-                      profileImage: 'assets/images/profileDefault.png',
+                      profileImage: kiProfileDefaultImageUrl,
                       timePassed: '5',
                       isLikeButtonShown: true,
                       isReplyButtonShown: true,
@@ -236,7 +236,7 @@ class PhotoDetails extends StatelessWidget {
                     ),
                     kH16sizedBox,
                     const CommentWidget(
-                      profileImage: 'assets/images/profileDefault.png',
+                      profileImage: kiProfileDefaultImageUrl,
                       timePassed: '5',
                       isLikeButtonShown: true,
                       isReplyButtonShown: true,
@@ -371,7 +371,7 @@ class UserInteractionView extends StatelessWidget {
                   ),
                   child: ClipOval(
                     child: Image.asset(
-                      'assets/images/profileDefault.png',
+                      kiProfileDefaultImageUrl,
                       fit: BoxFit.cover,
                       height: 20,
                       width: 20,

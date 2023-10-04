@@ -21,7 +21,7 @@ class Photos extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: 'Photos'.tr,
+              title: ksPhotos.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {

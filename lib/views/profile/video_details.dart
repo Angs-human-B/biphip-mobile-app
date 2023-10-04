@@ -26,7 +26,7 @@ class VideoDetails extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: 'Videos'.tr,
+              title: ksVideos.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -72,7 +72,7 @@ class VideoDetails extends StatelessWidget {
                                       shape: BoxShape.circle,
                                     ),
                                     child: Image.asset(
-                                      "assets/images/profileDefault.png",
+                                      kiProfileDefaultImageUrl,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -91,7 +91,7 @@ class VideoDetails extends StatelessWidget {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Image.asset(
-                                    "assets/images/profilePic.png",
+                                    kiProfilePicImageUrl,
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -152,7 +152,7 @@ class VideoDetails extends StatelessWidget {
                                     ),
                                     kW8sizedBox,
                                     CustomElevatedButton(
-                                      label: _createPostController.category.value == "" ? "Select Category" : _createPostController.category.value,
+                                      label: _createPostController.category.value == "" ? ksSelectCategory.tr : _createPostController.category.value,
                                       prefixIcon: _createPostController.category.value == "" ? null : _createPostController.categoryIcon.value,
                                       prefixIconColor: _createPostController.category.value == "" ? null : _createPostController.categoryIconColor.value,
                                       onPressed: () {},
@@ -164,7 +164,7 @@ class VideoDetails extends StatelessWidget {
                                     if (_createPostController.category.value == "Selling") kW8sizedBox,
                                     if (_createPostController.category.value == "Selling")
                                       CustomElevatedButton(
-                                        label: "Post Type",
+                                        label: ksPostType.tr,
                                         onPressed: () {},
                                         buttonHeight: 22,
                                         isCustomButton: true,
@@ -220,14 +220,14 @@ class VideoDetails extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          'Comment',
+                          ksComment.tr,
                           style: semiBold14TextStyle(cBlackColor),
                         ),
                       ],
                     ),
                     kH16sizedBox,
                     const CommentWidget(
-                      profileImage: 'assets/images/profileDefault.png',
+                      profileImage: kiProfileDefaultImageUrl,
                       timePassed: '5',
                       isLikeButtonShown: true,
                       isReplyButtonShown: true,
@@ -243,7 +243,7 @@ class VideoDetails extends StatelessWidget {
                     ),
                     kH16sizedBox,
                     const CommentWidget(
-                      profileImage: 'assets/images/profileDefault.png',
+                      profileImage: kiProfileDefaultImageUrl,
                       timePassed: '5',
                       isLikeButtonShown: true,
                       isReplyButtonShown: true,
