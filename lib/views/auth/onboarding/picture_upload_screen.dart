@@ -149,7 +149,7 @@ class PictureUploadScreen extends StatelessWidget {
                         buttonWidth: width - 40,
                         buttonColor: cWhiteColor,
                         onPressed: () {
-                          Get.offAllNamed(krMenu);
+                          Get.offAllNamed(krHome);
                         },
                         label: ksSkip.tr,
                         textStyle: semiBold16TextStyle(cPrimaryColor),
