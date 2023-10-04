@@ -185,6 +185,7 @@ class ProfileController extends GetxController {
   RxBool isSecondaryTextfieldShown = RxBool(false);
   RxBool isRouteFromAboutInfo = RxBool(false);
   RxString selectedProfession = RxString('');
+  RxList selectedInterests = RxList([]);
   RxString commonEditCheckBoxText = RxString('');
   RxString commonEditPageTitle = RxString('');
   Rx<IconData> commonEditIconData = Rx<IconData>(BipHip.add);

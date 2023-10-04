@@ -28,6 +28,7 @@ const String ksSomethingWentWrong = 'Something went wrong, please try again late
 const String ksConnectionTimeoutMessage = 'Connection timed out';
 const String ksNoInternetConnectionMessage = 'You are not connected to internet';
 const String ksFileFormatNotSupported = "file format is not supported currently";
+const String ksUnAuthorizedError = "UnAuthorized request";
 
 //---------------------------------------
 //* authentication story

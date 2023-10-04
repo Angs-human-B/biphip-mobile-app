@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
+import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
@@ -68,10 +69,10 @@ class EditAboutInfo extends StatelessWidget {
                             suffixIcon: BipHip.edit,
                             text: _profileController.homeTown.value,
                             suffixOnPressed: () {
-                              _globalController.blankBottomSheet(
+                              _globalController.commonBottomSheet(
                                   context: context,
                                   isScrollControlled: false,
-                                  bottomSheetHeight: 130,
+                                  bottomSheetHeight: 160,
                                   content: EditModalSheet(
                                     editButtonText: 'Edit Address',
                                     editOnPressed: () {
@@ -96,7 +97,15 @@ class EditAboutInfo extends StatelessWidget {
                                       _profileController.homeTown.value = '';
                                       Get.back();
                                     },
-                                  ));
+                                  ),
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: null,
+                                  rightText: '',
+                                  rightTextStyle: regular10TextStyle(cBlackColor),
+                                  title: 'Edit',
+                                  isRightButtonShow: false);
                             },
                           ),
                         ),
@@ -139,10 +148,18 @@ class EditAboutInfo extends StatelessWidget {
                                   text: item,
                                   suffixOnPressed: () {
                                     // _profileController.cityList.remove(_profileController.cityList[index]);
-                                    _globalController.blankBottomSheet(
+                                    _globalController.commonBottomSheet(
                                         context: context,
                                         isScrollControlled: false,
-                                        bottomSheetHeight: 130,
+                                        bottomSheetHeight: 160,
+                                        onPressCloseButton: () {
+                                          Get.back();
+                                        },
+                                        onPressRightButton: null,
+                                        rightText: '',
+                                        rightTextStyle: regular10TextStyle(cBlackColor),
+                                        title: 'Edit',
+                                        isRightButtonShow: false,
                                         content: EditModalSheet(
                                           editButtonText: 'Edit Address',
                                           editOnPressed: () {
@@ -281,10 +298,18 @@ class EditAboutInfo extends StatelessWidget {
                                 text: item,
                                 suffixOnPressed: () {
                                   // _profileController.cityList.remove(_profileController.cityList[index]);
-                                  _globalController.blankBottomSheet(
+                                  _globalController.commonBottomSheet(
                                       context: context,
                                       isScrollControlled: false,
-                                      bottomSheetHeight: 130,
+                                      bottomSheetHeight: 160,
+                                      onPressCloseButton: () {
+                                        Get.back();
+                                      },
+                                      onPressRightButton: null,
+                                      rightText: '',
+                                      rightTextStyle: regular10TextStyle(cBlackColor),
+                                      title: 'Edit',
+                                      isRightButtonShow: false,
                                       content: EditModalSheet(
                                         editButtonText: 'Edit School',
                                         editOnPressed: () {
@@ -335,10 +360,18 @@ class EditAboutInfo extends StatelessWidget {
                                 text: item,
                                 suffixOnPressed: () {
                                   // _profileController.cityList.remove(_profileController.cityList[index]);
-                                  _globalController.blankBottomSheet(
+                                  _globalController.commonBottomSheet(
                                       context: context,
                                       isScrollControlled: false,
-                                      bottomSheetHeight: 130,
+                                      bottomSheetHeight: 160,
+                                       onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: null,
+                                  rightText: '',
+                                  rightTextStyle: regular10TextStyle(cBlackColor),
+                                  title: 'Edit',
+                                  isRightButtonShow: false,
                                       content: EditModalSheet(
                                         editButtonText: 'Edit College',
                                         editOnPressed: () {
@@ -389,10 +422,18 @@ class EditAboutInfo extends StatelessWidget {
                             prefixIcon: BipHip.work,
                             onPressed: () {
                               _profileController.showEditRelationshipStatus.value = true;
-                              _globalController.blankBottomSheet(
+                              _globalController.commonBottomSheet(
                                   context: context,
                                   isScrollControlled: false,
-                                  bottomSheetHeight: 130,
+                                  bottomSheetHeight: 160,
+                                   onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: null,
+                                  rightText: '',
+                                  rightTextStyle: regular10TextStyle(cBlackColor),
+                                  title: 'Edit',
+                                  isRightButtonShow: false,
                                   content: EditModalSheet(
                                     editButtonText: 'Edit Profession',
                                     editOnPressed: () {
@@ -410,6 +451,33 @@ class EditAboutInfo extends StatelessWidget {
                             text: _profileController.selectedProfession.value,
                             hintText: 'Select Profession',
                           ),
+                        ),
+                      kH16sizedBox,
+                      const CustomDivider(),
+                      kH16sizedBox,
+                      RowTextButton(
+                        text: 'Interest',
+                        buttonText: 'Add',
+                        showAddButton: true,
+                        onPressedAdd: () {
+                          _profileController.isRouteFromAboutInfo.value = true;
+                          Get.toNamed(krSelectInterest);
+                        },
+                        buttonWidth: 149,
+                      ),
+                      if (_profileController.selectedInterests.isNotEmpty)
+                        Wrap(
+                          alignment: WrapAlignment.start,
+                          direction: Axis.horizontal,
+                          spacing: 8.0,
+                          children: [
+                            for (int i = 0; i < _profileController.selectedInterests.length; i++)
+                              CustomChoiceChips(
+                                label: _profileController.selectedInterests[i],
+                                isSelected: false,
+                                onSelected: null,
+                              )
+                          ],
                         ),
                       kH16sizedBox,
                       const CustomDivider(),
