@@ -69,7 +69,7 @@ class Profile extends StatelessWidget {
                             children: [
                               Container(
                                 height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
-                                width:isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                                width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
                                 decoration: BoxDecoration(
                                   color: cGreyBoxColor,
                                   borderRadius: BorderRadius.circular(90),
@@ -215,6 +215,7 @@ class Profile extends StatelessWidget {
                     Container(
                       color: cWhiteColor,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           kH10sizedBox,
                           Padding(
@@ -268,9 +269,11 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                     kH12sizedBox,
-                    Container(color: cWhiteColor, child: FriendsFamilyGridView(header: ksFriends.tr, count: friendList.length.toString(), friendList: friendList)),
+                    Container(
+                        color: cWhiteColor, child: FriendsFamilyGridView(header: ksFriends.tr, count: friendList.length.toString(), friendList: friendList)),
                     kH12sizedBox,
-                    Container(color: cWhiteColor, child: FriendsFamilyGridView(header: ksFamily.tr, count: familyList.length.toString(), friendList: familyList)),
+                    Container(
+                        color: cWhiteColor, child: FriendsFamilyGridView(header: ksFamily.tr, count: familyList.length.toString(), friendList: familyList)),
                     kH12sizedBox,
                     Container(
                       color: cWhiteColor,

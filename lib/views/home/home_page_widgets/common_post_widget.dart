@@ -33,9 +33,10 @@ class CommonPostWidget extends StatelessWidget {
     required this.mediaList,
     required this.isSelfPost,
     required this.isCommentShown,
-    required this.isSharedPost, required this.showBottomSection,
+    required this.isSharedPost,
+    required this.showBottomSection,
   });
-  final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost,showBottomSection;
+  final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection;
   // final RxBool sharedPostSeeMore = RxBool(false);
   // final RxBool postSeeMore = RxBool(false);
   final String userName, postTime;
@@ -591,15 +592,12 @@ class _BadgeTabViewContent extends StatelessWidget {
             SizedBox(
               height: 40,
               child: TabBar(
+                padding: EdgeInsets.zero,
+                labelPadding: EdgeInsets.zero,
                 controller: _postReactionController.tabController,
-                // onTap: (index) {
-                //   _postReactionController.giftFilter(index);
-
-                //   // ll(i);
-                // },
                 isScrollable: true,
                 tabs: [
-                 ReactionBottomSheetTab(
+                  ReactionBottomSheetTab(
                     isReactionImageShown: false,
                     reactionImage: '',
                     text: ksAll.tr,
@@ -653,20 +651,24 @@ class ReactionBottomSheetTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Tab(
-      child: Row(
-        children: [
-          if (isReactionImageShown)
-            SvgPicture.asset(
-              reactionImage,
-              width: 20,
-            ),
-          if (isReactionImageShown) kW8sizedBox,
-          Text(
-            text,
-            style: isReactionImageShown ? regular12TextStyle(cBlackColor) : semiBold12TextStyle(cBlackColor),
-          )
-        ],
+    return SizedBox(
+      width: (width - 30) / 5,
+      child: Tab(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (isReactionImageShown)
+              SvgPicture.asset(
+                reactionImage,
+                width: 20,
+              ),
+            if (isReactionImageShown) kW8sizedBox,
+            Text(
+              text,
+              style: isReactionImageShown ? regular12TextStyle(cBlackColor) : semiBold12TextStyle(cBlackColor),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -730,137 +732,139 @@ class _GiftContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: h40,
-                    width: h40,
-                    decoration: const BoxDecoration(shape: BoxShape.circle),
-                    child: Image.asset(kiProfileDefaultImageUrl),
-                  ),
-                  kW12sizedBox,
-                  SizedBox(
-                    height: 40,
-                    child: Center(
-                      child: RichText(
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.clip,
-                        text: TextSpan(
-                          children: [
-                            TextSpan(text: '${ksSupport.tr} ', style: regular12TextStyle(cBlackColor)),
-                            TextSpan(
-                              text: 'Monjurul Sharker Omi',
-                              style: semiBold12TextStyle(cBlackColor),
-                            ),
-                            TextSpan(
-                              text: '\nby sending stars',
-                              style: regular12TextStyle(cBlackColor),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              kH8sizedBox,
-              Text(
-                ksStarsLetThis.tr,
-                style: regular10TextStyle(cSmallBodyTextColor),
-              ),
-              kH16sizedBox,
-              const CustomDivider(),
-              kH16sizedBox,
-              Text(
-                ksAllStars.tr,
-                style: semiBold14TextStyle(cBlackColor),
-              ),
-              kH16sizedBox,
-              SizedBox(
-                height: 380,
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: giftPackages.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: .8,
-                    crossAxisCount: 3,
-                    crossAxisSpacing: k16Padding,
-                    mainAxisSpacing: k16Padding,
-                  ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () {
-                        _postReactionController.selectedPackage.value = giftPackages[index];
-                        _postReactionController.selectedGiftIndex.value = index;
-                        _postReactionController.isPackageSelected.value = true;
-                      },
-                      child: PackageGridViewContainer(
-                        index: index,
-                      ),
-                    );
-                  },
+    return Obx(
+      () => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: h40,
+                  width: h40,
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: Image.asset(kiProfileDefaultImageUrl),
                 ),
-              ),
-              kH24sizedBox,
-              const CustomDivider(),
-              kH16sizedBox,
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: Container(
-                      height: 32,
-                      width: 32,
-                      decoration: const BoxDecoration(shape: BoxShape.circle),
-                      child: Image.asset(kiProfilePicImageUrl),
+                kW12sizedBox,
+                SizedBox(
+                  height: 40,
+                  child: Center(
+                    child: RichText(
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.clip,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(text: '${ksSupport.tr} ', style: regular12TextStyle(cBlackColor)),
+                          TextSpan(
+                            text: 'Monjurul Sharker Omi',
+                            style: semiBold12TextStyle(cBlackColor),
+                          ),
+                          TextSpan(
+                            text: '\nby sending stars',
+                            style: regular12TextStyle(cBlackColor),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  kW12sizedBox,
-                  Expanded(
-                    child: CustomModifiedTextField(
-                        hint: '${ksAddAComment.tr}...',
-                        inputAction: TextInputAction.done,
-                        contentPadding: const EdgeInsets.symmetric(vertical: k10Padding, horizontal: k8Padding),
-                        borderRadius: 8,
-                        controller: _postReactionController.giftTextEditingController),
-                  ),
-                ],
+                )
+              ],
+            ),
+            kH8sizedBox,
+            Text(
+              ksStarsLetThis.tr,
+              style: regular10TextStyle(cSmallBodyTextColor),
+            ),
+            kH16sizedBox,
+            const CustomDivider(),
+            kH16sizedBox,
+            Text(
+              ksAllStars.tr,
+              style: semiBold14TextStyle(cBlackColor),
+            ),
+            kH16sizedBox,
+            SizedBox(
+              height: 380,
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: giftPackages.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: .8,
+                  crossAxisCount: 3,
+                  crossAxisSpacing: k16Padding,
+                  mainAxisSpacing: k16Padding,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: () {
+                      _postReactionController.selectedPackage.value = giftPackages[index];
+                      _postReactionController.selectedGiftIndex.value = index;
+                      _postReactionController.isPackageSelected.value = true;
+                    },
+                    child: PackageGridViewContainer(
+                      index: index,
+                    ),
+                  );
+                },
               ),
-              kH16sizedBox,
-              CustomElevatedButton(
-                  label: ksGetStars.tr,
-                  buttonWidth: width - 40,
-                  onPressed: _postReactionController.isPackageSelected.value
-                      ? () {
-                          _globalController.commonBottomSheet(
-                              context: context,
-                              content: _PurchaseStarContent(),
-                              onPressCloseButton: () {
-                                Get.back();
-                              },
-                              onPressRightButton: null,
-                              rightText: '',
-                              rightTextStyle: semiBold12TextStyle(cPrimaryColor),
-                              title: ksPurchaseStar.tr,
-                              isRightButtonShow: false,
-                              isScrollControlled: true,
-                              bottomSheetHeight: height * .9);
-                        }
-                      : null)
-            ],
-          ),
-        ),);
+            ),
+            kH24sizedBox,
+            const CustomDivider(),
+            kH16sizedBox,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Container(
+                    height: 32,
+                    width: 32,
+                    decoration: const BoxDecoration(shape: BoxShape.circle),
+                    child: Image.asset(kiProfilePicImageUrl),
+                  ),
+                ),
+                kW12sizedBox,
+                Expanded(
+                  child: CustomModifiedTextField(
+                      hint: '${ksAddAComment.tr}...',
+                      inputAction: TextInputAction.done,
+                      contentPadding: const EdgeInsets.symmetric(vertical: k10Padding, horizontal: k8Padding),
+                      borderRadius: 8,
+                      controller: _postReactionController.giftTextEditingController),
+                ),
+              ],
+            ),
+            kH16sizedBox,
+            CustomElevatedButton(
+                label: ksGetStars.tr,
+                buttonWidth: width - 40,
+                onPressed: _postReactionController.isPackageSelected.value
+                    ? () {
+                        _globalController.commonBottomSheet(
+                            context: context,
+                            content: _PurchaseStarContent(),
+                            onPressCloseButton: () {
+                              Get.back();
+                            },
+                            onPressRightButton: null,
+                            rightText: '',
+                            rightTextStyle: semiBold12TextStyle(cPrimaryColor),
+                            title: ksPurchaseStar.tr,
+                            isRightButtonShow: false,
+                            isScrollControlled: true,
+                            bottomSheetHeight: height * .9);
+                      }
+                    : null)
+          ],
+        ),
+      ),
+    );
   }
 }
 
