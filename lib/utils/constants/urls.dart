@@ -131,6 +131,10 @@ const String kiBoostPost4xImage3ImageUrl = 'assets/images/boost4x.png';
 
 //* svg images
 const String kiBadgeSvgImageUrl = 'assets/svg/badge.svg';
+const String kiBadge1SvgImageUrl = 'assets/svg/badge1.svg';
+const String kiBadge2SvgImageUrl = 'assets/svg/badge2.svg';
+const String kiBadge3SvgImageUrl = 'assets/svg/badge3.svg';
+const String kiBadge4SvgImageUrl = 'assets/svg/badge4.svg';
 const String kiHahaSvgImageUrl = 'assets/svg/haha.svg';
 const String kiLoveSvgImageUrl = 'assets/svg/love.svg';
 const String kiWowSvgImageUrl = 'assets/svg/wow.svg';
