@@ -33,7 +33,7 @@ class CustomPostButton extends StatelessWidget {
               ),
               kW12sizedBox,
               Text(
-                'What\'s on your mind, $name?',
+                '${ksWhatsOnYourMind.tr}, $name?',
                 style: regular14TextStyle(cIconColor),
               ),
               const Spacer(),
