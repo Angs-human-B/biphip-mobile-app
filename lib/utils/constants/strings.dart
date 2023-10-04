@@ -15,7 +15,9 @@ const String ksNext = 'Next';
 const String ksSkip = 'Skip';
 const String ksAdd = 'Add';
 const String ksDone = 'Done';
+const String ksEdit = 'Edit';
 const String ksSave = 'Save';
+const String ksDelete = 'Delete';
 const String ksSearch = 'Search';
 const String ksConfirm = 'Confirm';
 const String ksCancel = 'Cancel';
@@ -29,6 +31,7 @@ const String ksConnectionTimeoutMessage = 'Connection timed out';
 const String ksNoInternetConnectionMessage = 'You are not connected to internet';
 const String ksFileFormatNotSupported = "file format is not supported currently";
 const String ksUnAuthorizedError = "UnAuthorized request";
+const String ksAbout = 'About';
 
 //---------------------------------------
 //* authentication story
@@ -86,6 +89,7 @@ const String ksSelectDOB = "Select date of birth";
 const String ksSelectGender = 'Select Gender';
 const String ksChooseInterest = 'Choose your interest';
 const String ksChooseProfession = 'Let us know your profession!';
+const String ksEditYourProfession = 'Edit your profession';
 
 //---------------------------------------
 //* Profile
@@ -119,6 +123,21 @@ const String ksChooseProfessionSubtitle =
     'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.';
 const String ksCHooseInterestSubtitle =
     'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.';
+const String ksAddress = 'Address';
+const String ksHomeTown = 'Hometown';
+const String ksAddHomeTownAddress = 'Add hometown address';
+const String ksEnterHometownAddress = 'Enter hometown address';
+const String ksEditHometownAddress = 'Edit hometown address';
+const String ksEditAddress = 'Edit address';
+const String ksDeleteAddress = 'Delete address';
+const String ksPresentAddress = 'Present address';
+const String ksEditLocation = 'Edit location';
+const String ksAddLocation = 'Add location';
+const String ksAddPresentAddress = 'Add present address';
+const String ksCurrentlyLivingHere = 'Currently living here';
+const String ksEditPresentAddress = 'Edit present address';
+const String ksRelationshipStatus = 'Relationship status';
+const String ks = '';
 
 //---------------------------------------
 //* Create Post
