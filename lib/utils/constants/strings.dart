@@ -16,6 +16,7 @@ const String ksSkip = 'Skip';
 const String ksAdd = 'Add';
 const String ksDone = 'Done';
 const String ksSave = 'Save';
+const String ksDelete = 'Delete';
 const String ksSearch = 'Search';
 const String ksConfirm = 'Confirm';
 const String ksCancel = 'Cancel';

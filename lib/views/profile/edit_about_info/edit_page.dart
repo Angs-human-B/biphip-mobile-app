@@ -189,16 +189,33 @@ class EditPage extends StatelessWidget {
                           ],
                         ),
                       const Spacer(),
-                      CustomElevatedButton(
-                          label: 'Save',
-                          textStyle: semiBold14TextStyle(cWhiteColor),
-                          buttonHeight: h32,
-                          buttonWidth: width - 40,
-                          onPressed: () {
-                            ll(_profileController.functionFlag.value);
-                            _profileController.selectFunction(_profileController.functionFlag.value);
-                            Get.back();
-                          }),
+                      Row(
+                        children: [
+                          if (_profileController.functionFlag.contains('EDIT'))
+                            CustomElevatedButton(
+                                label: ksDelete,
+                                buttonColor: cWhiteColor,
+                                borderColor: cRedColor,
+                                textStyle: semiBold14TextStyle(cRedColor),
+                                buttonHeight: h32,
+                                buttonWidth: (width - 48) / 2,
+                                onPressed: () {
+                                  _profileController.selectFunction("${_profileController.functionFlag.value} DELETE", _profileController.deleteIndex.value);
+                                  Get.back();
+                                }),
+                          if (_profileController.functionFlag.contains('EDIT')) kW8sizedBox,
+                          CustomElevatedButton(
+                              label: ksSave,
+                              textStyle: semiBold14TextStyle(cWhiteColor),
+                              buttonHeight: h32,
+                              buttonWidth: !_profileController.functionFlag.contains('EDIT') ? width - 40 : (width - 48) / 2,
+                              onPressed: () {
+                                ll(_profileController.functionFlag.value);
+                                _profileController.selectFunction(_profileController.functionFlag.value);
+                                Get.back();
+                              }),
+                        ],
+                      ),
                       kHBottomSizedBox
                     ],
                   ),

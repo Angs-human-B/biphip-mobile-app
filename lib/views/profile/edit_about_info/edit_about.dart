@@ -76,6 +76,7 @@ class EditAboutInfo extends StatelessWidget {
                                   content: EditModalSheet(
                                     editButtonText: 'Edit Address',
                                     editOnPressed: () {
+                                      _profileController.homeTownTextEditingController.text = _profileController.homeTown.value;
                                       _profileController.setEditPageValue(
                                           'Edit Hometown Address',
                                           false,
@@ -164,6 +165,7 @@ class EditAboutInfo extends StatelessWidget {
                                           editButtonText: 'Edit Address',
                                           editOnPressed: () {
                                             _profileController.cityListIndex.value = index;
+                                            _profileController.deleteIndex.value = index;
                                             _profileController.presentAddressTextEditingController.text = item;
                                             _profileController.setEditPageValue(
                                                 'Edit Present Address',
@@ -314,6 +316,7 @@ class EditAboutInfo extends StatelessWidget {
                                         editButtonText: 'Edit School',
                                         editOnPressed: () {
                                           _profileController.schoolIndex.value = index;
+                                          _profileController.deleteIndex.value = index;
                                           _profileController.educationInstituteTextEditingController.text = item;
                                           _profileController.setEditPageValue(
                                               'Edit School',
@@ -364,18 +367,19 @@ class EditAboutInfo extends StatelessWidget {
                                       context: context,
                                       isScrollControlled: false,
                                       bottomSheetHeight: 160,
-                                       onPressCloseButton: () {
-                                    Get.back();
-                                  },
-                                  onPressRightButton: null,
-                                  rightText: '',
-                                  rightTextStyle: regular10TextStyle(cBlackColor),
-                                  title: 'Edit',
-                                  isRightButtonShow: false,
+                                      onPressCloseButton: () {
+                                        Get.back();
+                                      },
+                                      onPressRightButton: null,
+                                      rightText: '',
+                                      rightTextStyle: regular10TextStyle(cBlackColor),
+                                      title: 'Edit',
+                                      isRightButtonShow: false,
                                       content: EditModalSheet(
                                         editButtonText: 'Edit College',
                                         editOnPressed: () {
                                           _profileController.collegeIndex.value = index;
+                                          _profileController.deleteIndex.value = index;
                                           _profileController.educationInstituteTextEditingController.text = item;
                                           _profileController.setEditPageValue(
                                               'Edit College',
@@ -426,7 +430,7 @@ class EditAboutInfo extends StatelessWidget {
                                   context: context,
                                   isScrollControlled: false,
                                   bottomSheetHeight: 160,
-                                   onPressCloseButton: () {
+                                  onPressCloseButton: () {
                                     Get.back();
                                   },
                                   onPressRightButton: null,
@@ -527,6 +531,7 @@ class EditAboutInfo extends StatelessWidget {
                                         editButtonText: 'Edit Workplace',
                                         editOnPressed: () {
                                           _profileController.officeIndex.value = index;
+                                          _profileController.deleteIndex.value = index;
                                           _profileController.officeNameTextEditingController.text = item['office'];
                                           _profileController.designationTextEditingController.text = item['designation'];
                                           _profileController.setEditPageValue(
@@ -595,6 +600,7 @@ class EditAboutInfo extends StatelessWidget {
                                         editButtonText: 'Edit Phone',
                                         editOnPressed: () {
                                           _profileController.phoneIndex.value = index;
+                                          _profileController.deleteIndex.value = index;
                                           _profileController.phoneTextEditingController.text = item;
                                           _profileController.setEditPageValue(
                                               'Edit Phone',
@@ -656,6 +662,8 @@ class EditAboutInfo extends StatelessWidget {
                                         editButtonText: 'Edit Email',
                                         editOnPressed: () {
                                           _profileController.emailIndex.value = index;
+                                          _profileController.deleteIndex.value = index;
+
                                           _profileController.emailTextEditingController.text = item;
                                           _profileController.setEditPageValue('Edit Email', false, BipHip.mail, _profileController.emailTextEditingController,
                                               false, _profileController.emailTextEditingController, 'Edit Email', false, true, false, false, '', 'EDIT EMAIL');
