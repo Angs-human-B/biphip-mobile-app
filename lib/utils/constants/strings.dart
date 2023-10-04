@@ -109,6 +109,37 @@ const String ksPreviewProfilePicture = 'Preview profile picture';
 const String ksPreviewCoverPicture = 'Preview cover picture';
 const String ksShareYourUpdateToNewsFeed ='Share your update to news feed';
 const String ksAddSelfie = 'Add Selfie';
+const String ksCatagories = 'Catagories';
+const String ksSeeAll = 'See all';
+
+//---------------------------------------
+//* Home
+//---------------------------------------
+const String ksDailyQuiz = 'Daily Quiz';
+const String ksWeeklyWinner = 'Weekly Winner';
+
+//---------------------------------------
+//* Home widget
+//---------------------------------------
+const String ksSeeMore = 'See more';
+const String ksShowLess = 'Show less';
+const String ksBids = 'Bids';
+const String ksRecommended = 'Recommended';
+const String ksBidAmount = 'Bid amount';
+const String ksSupport = 'Support';
+const String ksAllStars = 'All stars';
+const String ksGetStars = 'Get stars';
+const String ksPurchaseStar = 'Purchase stars';
+const String ksAddAComment = 'Add a comment';
+const String ksYourCurrentBalance = 'Your current balance';
+const String ksStarsLetThis= 'Stars let this creator earn money so that they can continue \nmaking content that you love.';
+const String ksStarsThatYouPurchase = 'Stars that you purchase here are kept in your balance. You can send stars from your balance at any time.';
+const String ksLearnMoreAboutStars = 'Learn more about Stars.';
+const String ksIAgreeWith = 'I agree with the';
+const String ksTermsCondition = 'terms & condition';
+const String ksBuy = 'Buy';
+const String ksGive = 'Give';
+const String ksPostedOn = 'posted on';
 
 //---------------------------------------
 //* Menu

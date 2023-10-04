@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: 'BipHip'.tr,
+              title: ksBipHip.tr,
               titleColor: cPrimaryColor,
               hasBackButton: false,
               isCenterTitle: false,
@@ -92,7 +92,7 @@ class HomePage extends StatelessWidget {
                     color: cWhiteColor,
                     child: CustomPostButton(
                       name: 'Monjurul',
-                      profilePic: 'assets/images/profilePic.png',
+                      profilePic: kiProfilePicImageUrl,
                       onPressed: () {
                         ll('post');
                         Get.find<CreatePostController>().resetData();
@@ -119,21 +119,21 @@ class HomePage extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: k8Padding),
                               child: Text(
-                                'Selfie',
+                                ksSelfie.tr,
                                 style: semiBold12TextStyle(cPrimaryColor),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: k8Padding),
                               child: Text(
-                                'Daily Quiz',
+                                ksDailyQuiz.tr,
                                 style: semiBold12TextStyle(cPrimaryColor),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: k8Padding),
                               child: Text(
-                                'Weekly Winner',
+                                ksWeeklyWinner.tr,
                                 style: semiBold12TextStyle(cPrimaryColor),
                               ),
                             ),
