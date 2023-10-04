@@ -42,7 +42,7 @@ class Family extends StatelessWidget {
                     onPressRightButton: () {
                       Get.back();
                     },
-                    rightText: 'Send',
+                    rightText: ksSend.tr,
                     rightTextStyle: medium14TextStyle(cPrimaryColor),
                     title: ksAddFamilyMember.tr,
                     isRightButtonShow: true,
@@ -274,9 +274,9 @@ class AddFamilyMemberBottomSheetContent extends StatelessWidget {
                     Get.find<ProfileController>().selectRelationTextChange();
                     Get.back();
                   },
-                  rightText: 'Ok',
+                  rightText: ksOk.tr,
                   rightTextStyle: medium14TextStyle(cPrimaryColor),
-                  title: "Select Relation",
+                  title: ksSelectRelation.tr,
                   isRightButtonShow: true,
                 );
               },
