@@ -268,15 +268,15 @@ class Profile extends StatelessWidget {
                       ),
                     ),
                     kH12sizedBox,
-                    Container(color: cWhiteColor, child: FriendsFamilyGridView(header: 'Friends', count: friendList.length.toString(), friendList: friendList)),
+                    Container(color: cWhiteColor, child: FriendsFamilyGridView(header: ksFriends.tr, count: friendList.length.toString(), friendList: friendList)),
                     kH12sizedBox,
-                    Container(color: cWhiteColor, child: FriendsFamilyGridView(header: 'Family', count: familyList.length.toString(), friendList: familyList)),
+                    Container(color: cWhiteColor, child: FriendsFamilyGridView(header: ksFamily.tr, count: familyList.length.toString(), friendList: familyList)),
                     kH12sizedBox,
                     Container(
                       color: cWhiteColor,
                       child: CustomPostButton(
                         name: 'Monjurul',
-                        profilePic: 'assets/images/profilePic.png',
+                        profilePic: kiProfilePicImageUrl,
                         onPressed: () {
                           ll('post');
                           Get.find<CreatePostController>().resetData();
@@ -293,7 +293,7 @@ class Profile extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
                             child: Text(
-                              'Catagories',
+                              ksCatagories.tr,
                               style: semiBold14TextStyle(cBlackColor),
                             ),
                           ),
@@ -445,7 +445,7 @@ class FriendsFamilyGridView extends StatelessWidget {
                 style: regular12TextStyle(cSmallBodyTextColor),
               ),
               const Spacer(),
-              CustomTextButton(onPressed: seeAll, text: 'See All', textStyle: semiBold14TextStyle(cPrimaryColor)),
+              CustomTextButton(onPressed: seeAll, text: ksSeeAll.tr, textStyle: semiBold14TextStyle(cPrimaryColor)),
             ],
           ),
           kH12sizedBox,
@@ -532,7 +532,7 @@ class PictureUploadContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         CustomElevatedButton(
-          label: 'Add photo',
+          label: ksAddPhoto.tr,
           prefixIcon: BipHip.camera,
           prefixIconColor: cIconColor,
           suffixIconColor: cIconColor,
@@ -550,7 +550,7 @@ class PictureUploadContent extends StatelessWidget {
         ),
         kH16sizedBox,
         CustomElevatedButton(
-          label: 'Choose from gallery',
+          label: ksChooseFromGallery.tr,
           prefixIcon: BipHip.photo,
           prefixIconColor: cIconColor,
           suffixIconColor: cIconColor,

@@ -109,6 +109,8 @@ const String ksPreviewProfilePicture = 'Preview profile picture';
 const String ksPreviewCoverPicture = 'Preview cover picture';
 const String ksShareYourUpdateToNewsFeed ='Share your update to news feed';
 const String ksAddSelfie = 'Add Selfie';
+const String ksCatagories = 'Catagories';
+const String ksSeeAll = 'See all';
 
 //---------------------------------------
 //* Menu
