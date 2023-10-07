@@ -95,7 +95,8 @@ class EditAboutInfo extends StatelessWidget {
                                     },
                                     deleteButtonText: ksDeleteAddress.tr,
                                     deleteOnPressed: () {
-                                      _profileController.homeTown.value = '';
+                                      // _profileController.homeTown.value = '';
+                                      //todo: implement hometown delete api
                                       Get.back();
                                     },
                                   ),
@@ -134,54 +135,53 @@ class EditAboutInfo extends StatelessWidget {
                         },
                         buttonWidth: 108,
                       ),
-                      if (_profileController.profileData.value!.currentCity != null) kH12sizedBox,
-                      if (_profileController.profileData.value!.currentCity != null)
+                      if (_profileController.currentCityData.value!.city != null) kH12sizedBox,
+                      if (_profileController.currentCityData.value!.city != null)
                         InfoContainer(
                           prefixIcon: BipHip.location,
                           suffixIcon: BipHip.edit,
-                          text: checkNullOrStringNull(_profileController.profileData.value!.currentCity!.city),
+                          text: checkNullOrStringNull(_profileController.currentCityData.value!.city),
                           suffixOnPressed: () {
                             // _profileController.cityList.remove(_profileController.cityList[index]);
-                            // _globalController.commonBottomSheet(
-                            //     context: context,
-                            //     isScrollControlled: false,
-                            //     bottomSheetHeight: 160,
-                            //     onPressCloseButton: () {
-                            //       Get.back();
-                            //     },
-                            //     onPressRightButton: null,
-                            //     rightText: '',
-                            //     rightTextStyle: regular10TextStyle(cBlackColor),
-                            //     title: ksEdit.tr,
-                            //     isRightButtonShow: false,
-                            //     content: EditModalSheet(
-                            //       editButtonText: ksEditAddress.tr,
-                            //       editOnPressed: () {
-                            //         _profileController.cityListIndex.value = index;
-                            //         _profileController.deleteIndex.value = index;
-                            //         _profileController.presentAddressTextEditingController.text = item;
-                            //         _profileController.setEditPageValue(
-                            //             ksEditPresentAddress.tr,
-                            //             false,
-                            //             BipHip.location,
-                            //             _profileController.presentAddressTextEditingController,
-                            //             false,
-                            //             _profileController.presentAddressTextEditingController,
-                            //             ksEditLocation.tr,
-                            //             true,
-                            //             true,
-                            //             true,
-                            //             _profileController.isCurrentlyLiveHere.value,
-                            //             ksCurrentlyLivingHere.tr,
-                            //             'EDIT PRESENT');
-                            //         Get.toNamed(krEdit);
-                            //       },
-                            //       deleteButtonText: ksDeleteAddress.tr,
-                            //       deleteOnPressed: () {
-                            //         _profileController.cityList.remove(item);
-                            //         Get.back();
-                            //       },
-                            //     ));
+                            _globalController.commonBottomSheet(
+                                context: context,
+                                isScrollControlled: false,
+                                bottomSheetHeight: 160,
+                                onPressCloseButton: () {
+                                  Get.back();
+                                },
+                                onPressRightButton: null,
+                                rightText: '',
+                                rightTextStyle: regular10TextStyle(cBlackColor),
+                                title: ksEdit.tr,
+                                isRightButtonShow: false,
+                                content: EditModalSheet(
+                                  editButtonText: ksEditAddress.tr,
+                                  editOnPressed: () {
+                                    _profileController.presentAddressTextEditingController.text = _profileController.currentCityData.value!.city!;
+                                    _profileController.setEditPageValue(
+                                        ksEditPresentAddress.tr,
+                                        false,
+                                        BipHip.location,
+                                        _profileController.presentAddressTextEditingController,
+                                        false,
+                                        _profileController.presentAddressTextEditingController,
+                                        ksEditLocation.tr,
+                                        true,
+                                        true,
+                                        true,
+                                        _profileController.isCurrentlyLiveHere.value,
+                                        ksCurrentlyLivingHere.tr,
+                                        'EDIT PRESENT');
+                                    Get.toNamed(krEdit);
+                                  },
+                                  deleteButtonText: ksDeleteAddress.tr,
+                                  deleteOnPressed: () {
+                                    //todo: implement delete address api
+                                    // _profileController.cityList.remove(item);
+                                    Get.back();
+                                  },
+                                ));
                           },
                         ),
                       if (_profileController.cityList.isNotEmpty)
