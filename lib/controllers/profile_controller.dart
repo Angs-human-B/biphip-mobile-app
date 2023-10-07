@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/models/common/common_error_model.dart';
-import 'package:bip_hip/models/profile_overview_model.dart';
+import 'package:bip_hip/models/profile/profile_overview_model.dart';
+// import 'package:bip_hip/models/profile/profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/menu/family.dart';
 import 'package:bip_hip/views/profile/menu/friends.dart';
@@ -265,12 +266,12 @@ class ProfileController extends GetxController {
     functionFlag.value = function;
   }
 
-  void selectFunction(functionFlag, [index]) {
+  void selectFunction(functionFlag, [index]) async {
     if (functionFlag == 'HOMETOWN') {
-      homeTown.value = homeTownTextEditingController.text.trim();
+      await setHometown();
       homeTownTextEditingController.clear();
     } else if (functionFlag == 'EDIT HOMETOWN') {
-      homeTown.value = homeTownTextEditingController.text.trim();
+      await setHometown();
       homeTownTextEditingController.clear();
     } else if (functionFlag == 'ADD PRESENT') {
       cityList.add(commonEditTextEditingController.text);
@@ -345,20 +346,21 @@ class ProfileController extends GetxController {
     }
   }
 
-  IconData getLinkIcon(String type){
-    if(type.toLowerCase() == "facebook"){
+  IconData getLinkIcon(String type) {
+    if (type.toLowerCase() == "facebook") {
       return BipHip.facebook;
-    }else if(type.toLowerCase() == "linkedin"){
+    } else if (type.toLowerCase() == "linkedin") {
       return BipHip.linkedin;
-    }else if(type.toLowerCase() == "twitter"){
+    } else if (type.toLowerCase() == "twitter") {
       return BipHip.twitter;
-    }else{
+    } else {
       return BipHip.webLink;
     }
   }
 
   //* Profile overview API Implementation
   Rx<ProfileOverviewModel?> profileData = Rx<ProfileOverviewModel?>(null);
+  Rx<CurrentCity?> hometownData = Rx<CurrentCity?>(null);
   Future<void> getProfileOverview() async {
     try {
       String? token = await _spController.getBearerToken();
@@ -369,7 +371,7 @@ class ProfileController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         profileData.value = ProfileOverviewModel.fromJson(response.data);
-        ll(profileData.value!.user!.fullName);
+        hometownData.value = CurrentCity.fromJson(response.data['hometown']);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
@@ -380,6 +382,36 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       ll('getProfileOverview error: $e');
+    }
+  }
+
+  //* Set Hometown API Implementation
+  Future<void> setHometown() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'city': homeTownTextEditingController.text.trim(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuSetHomeTown,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        hometownData.value = CurrentCity.fromJson(response.data);
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('setHometown error: $e');
     }
   }
 }

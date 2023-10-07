@@ -53,7 +53,7 @@ class EditAboutInfo extends StatelessWidget {
                       RowTextButton(
                         text: ksHomeTown.tr,
                         buttonText: ksAdd.tr,
-                        showAddButton: _profileController.profileData.value!.hometown == null ? true : false,
+                        showAddButton: _profileController.hometownData.value == null ? true : false,
                         buttonWidth: 151,
                         onPressedAdd: () {
                           _profileController.setEditPageValue(ksAddHomeTownAddress.tr, false, BipHip.location, _profileController.homeTownTextEditingController,
@@ -61,13 +61,13 @@ class EditAboutInfo extends StatelessWidget {
                           Get.toNamed(krEdit);
                         },
                       ),
-                      if (_profileController.profileData.value!.hometown != null)
+                      if (_profileController.hometownData.value != null)
                         Padding(
                           padding: const EdgeInsets.only(top: k10Padding),
                           child: InfoContainer(
                             prefixIcon: BipHip.location,
                             suffixIcon: BipHip.edit,
-                            text: checkNullOrStringNull(_profileController.profileData.value!.hometown!.city),
+                            text: checkNullOrStringNull(_profileController.hometownData.value!.city),
                             suffixOnPressed: () {
                               _globalController.commonBottomSheet(
                                   context: context,
@@ -76,7 +76,7 @@ class EditAboutInfo extends StatelessWidget {
                                   content: EditModalSheet(
                                     editButtonText: ksEditAddress.tr,
                                     editOnPressed: () {
-                                      _profileController.homeTownTextEditingController.text = _profileController.profileData.value!.hometown!.city!;
+                                      _profileController.homeTownTextEditingController.text = _profileController.hometownData.value!.city!;
                                       _profileController.setEditPageValue(
                                           ksEditHometownAddress.tr,
                                           false,
