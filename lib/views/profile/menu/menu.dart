@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/profile_controllers/menu_section_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
@@ -8,6 +9,7 @@ class Menu extends StatelessWidget {
   Menu({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
+  final MenuSectionController _menuController = Get.find<MenuSectionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -102,19 +104,21 @@ class Menu extends StatelessWidget {
                         direction: Axis.horizontal,
                         spacing: 17.0,
                         children: [
-                          for (int i = 0; i < shortcutButtonContent.length; i++)
+                          for (int i = 0; i < _menuController.shortcutButtonContent.length; i++)
                             Padding(
                               padding: const EdgeInsets.only(bottom: k16Padding),
                               child: CustomMenuContainer(
                                 height: 64,
                                 width: (width / 2) - (kHorizontalPadding + 9),
                                 leading: Icon(
-                                  shortcutButtonContent[i]['icon'],
+                                  _menuController.shortcutButtonContent[i]['icon'],
                                   color: cPrimaryColor,
                                 ),
-                                text: shortcutButtonContent[i]['text'],
+                                text: _menuController.shortcutButtonContent[i]['text'],
                                 textStyle: semiBold16TextStyle(cBlackColor),
-                                onPressed: shortcutButtonContent[i]['onPressed'],
+                                onPressed: () {
+                                  _menuController.menuPressFunction(i);
+                                },
                               ),
                             ),
                         ],
@@ -141,7 +145,7 @@ class Menu extends StatelessWidget {
                         ),
                       if (_profileController.isSupportButtonPressed.value)
                         ListOfButtons(
-                          list: supportButtonContent,
+                          list: _menuController.supportButtonContent,
                         ),
                       if (_profileController.isSupportButtonPressed.value) kH10sizedBox,
                       if (_profileController.isSupportButtonPressed.value || !_profileController.isSettingButtonPressed.value)
@@ -165,7 +169,7 @@ class Menu extends StatelessWidget {
                       ),
                       if (_profileController.isSettingButtonPressed.value)
                         ListOfButtons(
-                          list: settingsButtonContent,
+                          list: _menuController.settingsButtonContent,
                         ),
                       kH20sizedBox,
                       CustomElevatedButton(
