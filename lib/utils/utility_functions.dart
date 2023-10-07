@@ -67,3 +67,11 @@ Widget imageLoadingBuilder(context, child, loadingProgress) {
 void unfocus(context) {
   FocusScope.of(context).unfocus();
 }
+
+dynamic checkNullOrStringNull(str) {
+ if (str == null || str == 'null' || str == '' || str == 'NA') {
+ return null;
+ } else {
+ return str;
+ }
+}

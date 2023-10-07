@@ -1,10 +1,16 @@
 import 'dart:io';
+import 'package:bip_hip/models/common/common_data_model.dart';
+import 'package:bip_hip/models/common/common_error_model.dart';
+import 'package:bip_hip/models/profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/menu/family.dart';
 import 'package:bip_hip/views/profile/menu/friends.dart';
 import 'package:video_player/video_player.dart';
 
 class ProfileController extends GetxController {
+  final ApiController _apiController = ApiController();
+  final SpController _spController = SpController();
+  final GlobalController _globalController = Get.find<GlobalController>();
   final RxBool isSupportButtonPressed = RxBool(false);
   final RxBool isSettingButtonPressed = RxBool(false);
   final RxInt interestCatagoriesIndex = RxInt(0);
@@ -312,30 +318,56 @@ class ProfileController extends GetxController {
     } else if (functionFlag == 'EDIT EMAIL') {
       emailList[emailIndex.value] = commonEditTextEditingController.text;
       commonEditTextEditingController.clear();
-    }else if(functionFlag=='EDIT HOMETOWN DELETE'){
+    } else if (functionFlag == 'EDIT HOMETOWN DELETE') {
       homeTown.value = '';
       homeTownTextEditingController.clear();
-    }else if(functionFlag =='EDIT PRESENT DELETE'){
+    } else if (functionFlag == 'EDIT PRESENT DELETE') {
       cityList.removeAt(index);
-    }else if(functionFlag =='EDIT SCHOOL DELETE'){
+    } else if (functionFlag == 'EDIT SCHOOL DELETE') {
       schoolList.removeAt(index);
       educationInstituteTextEditingController.clear();
       commonEditTextEditingController.clear();
-    }else if(functionFlag =='EDIT COLLEGE DELETE'){
+    } else if (functionFlag == 'EDIT COLLEGE DELETE') {
       collegeList.removeAt(index);
       educationInstituteTextEditingController.clear();
       commonEditTextEditingController.clear();
-    }else if(functionFlag =='EDIT WORKPLACE DELETE'){
+    } else if (functionFlag == 'EDIT WORKPLACE DELETE') {
       officeList.removeAt(index);
       officeNameTextEditingController.clear();
       commonEditTextEditingController.clear();
       commonEditSecondaryTextEditingController.clear();
-    }else if(functionFlag =='EDIT PHONE DELETE'){
+    } else if (functionFlag == 'EDIT PHONE DELETE') {
       phoneList.removeAt(index);
       commonEditTextEditingController.clear();
-    }else if(functionFlag =='EDIT EMAIL DELETE'){
+    } else if (functionFlag == 'EDIT EMAIL DELETE') {
       emailList.removeAt(index);
       commonEditTextEditingController.clear();
+    }
+  }
+
+  //* Profile overview API Implementation
+  Rx<ProfileOverviewModel?> profileData = Rx<ProfileOverviewModel?>(null);
+  Future<void> getProfileOverview() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetProfileOverView,
+      ) as CommonDM;
+      if (response.success == true) {
+        profileData.value = ProfileOverviewModel.fromJson(response.data);
+        ll(profileData.value!.user!.fullName);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getProfileOverview error: $e');
     }
   }
 }

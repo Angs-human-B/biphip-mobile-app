@@ -27,7 +27,7 @@ class Profile extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: 'Monjurul Sharker Omi'.tr,
+              title: _profileController.profileData.value!.user!.fullName,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -53,8 +53,8 @@ class Profile extends StatelessWidget {
                         SizedBox(
                           height: 150,
                           width: width,
-                          child: Image.file(
-                            _profileController.newCoverImageFile.value,
+                          child: Image.network(
+                            Environment.imageBaseUrl + _profileController.profileData.value!.user!.coverPhoto.toString(),
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) => Image.asset(
                               kiCoverPicImageUrl,
@@ -76,8 +76,8 @@ class Profile extends StatelessWidget {
                                   border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
                                 ),
                                 child: ClipOval(
-                                  child: Image.file(
-                                    _profileController.newProfileImageFile.value,
+                                  child: Image.network(
+                                    Environment.imageBaseUrl + _profileController.profileData.value!.user!.profilePicture.toString(),
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => ClipOval(
                                       child: Image.asset(
@@ -221,7 +221,7 @@ class Profile extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                             child: Text(
-                              'Monjurul Sharker Omi',
+                              _profileController.profileData.value!.user!.fullName ?? '',
                               style: semiBold20TextStyle(cBlackColor),
                             ),
                           ),
@@ -255,16 +255,88 @@ class Profile extends StatelessWidget {
                             ),
                           ),
                           kH16sizedBox,
-                          for (int i = 0; i < profileInfoContent.length; i++)
+                          if (_profileController.profileData.value!.currentCity != null && _profileController.profileData.value!.currentCity!.isCurrent == 1)
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                               child: LinkUpIconTextRow(
-                                icon: profileInfoContent[i]['icon'],
-                                text: profileInfoContent[i]['text'],
-                                isLink: profileInfoContent[i]['isLink'],
-                                onPressed: profileInfoContent[i]['onPressed'],
+                                icon: BipHip.address,
+                                text: 'Lives in ${_profileController.profileData.value!.currentCity!.city}',
+                                isLink: false,
+                                onPressed: null,
                               ),
                             ),
+                          if (_profileController.profileData.value!.hometown!.city != null)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: LinkUpIconTextRow(
+                                icon: BipHip.location,
+                                text: 'From ${_profileController.profileData.value!.hometown!.city}',
+                                isLink: false,
+                                onPressed: null,
+                              ),
+                            ),
+                          if (_profileController.profileData.value!.user!.relation != null)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: LinkUpIconTextRow(
+                                icon: BipHip.love,
+                                text: _profileController.profileData.value!.user!.relation,
+                                isLink: false,
+                                onPressed: null,
+                              ),
+                            ),
+                          if (_profileController.profileData.value!.school.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: LinkUpIconTextRow(
+                                icon: BipHip.school,
+                                text: checkNullOrStringNull(_profileController.profileData.value!.school[0].school),
+                                isLink: false,
+                                onPressed: null,
+                              ),
+                            ),
+                          if (_profileController.profileData.value!.college.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: LinkUpIconTextRow(
+                                icon: BipHip.school,
+                                text: checkNullOrStringNull(_profileController.profileData.value!.college[0].school),
+                                isLink: false,
+                                onPressed: null,
+                              ),
+                            ),
+                          if (_profileController.profileData.value!.currentWorkplace != null)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: LinkUpIconTextRow(
+                                icon: BipHip.work,
+                                text: checkNullOrStringNull(_profileController.profileData.value!.currentWorkplace!.company),
+                                isLink: false,
+                                onPressed: null,
+                              ),
+                            ),
+                          if (_profileController.profileData.value!.contacts.isNotEmpty)
+                            for (int i = 0; i < _profileController.profileData.value!.contacts.length; i++)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                child: LinkUpIconTextRow(
+                                  icon: _profileController.profileData.value!.contacts[i].type == 'email' ? BipHip.mail : BipHip.phoneFill,
+                                  text: checkNullOrStringNull(_profileController.profileData.value!.contacts[i].value),
+                                  isLink: true,
+                                  onPressed: null,
+                                ),
+                              ),
+                          if (_profileController.profileData.value!.links.isNotEmpty)
+                            for (int i = 0; i < _profileController.profileData.value!.links.length; i++)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                child: LinkUpIconTextRow(
+                                  icon: BipHip.facebook,
+                                  text: checkNullOrStringNull(_profileController.profileData.value!.links[i].link),
+                                  isLink: true,
+                                  onPressed: null,
+                                ),
+                              ),
                         ],
                       ),
                     ),
@@ -278,8 +350,9 @@ class Profile extends StatelessWidget {
                     Container(
                       color: cWhiteColor,
                       child: CustomPostButton(
-                        name: 'Monjurul',
-                        profilePic: kiProfilePicImageUrl,
+                        name: checkNullOrStringNull(_profileController.profileData.value!.user!.firstName) ??
+                            _profileController.profileData.value!.user!.firstName,
+                        profilePic: _profileController.profileData.value!.user!.profilePicture.toString(),
                         onPressed: () {
                           ll('post');
                           Get.find<CreatePostController>().resetData();
