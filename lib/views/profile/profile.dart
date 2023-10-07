@@ -331,7 +331,7 @@ class Profile extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                 child: LinkUpIconTextRow(
-                                  icon: BipHip.facebook,
+                                  icon: _profileController.getLinkIcon(_profileController.profileData.value!.links[i].type.toString()),
                                   text: checkNullOrStringNull(_profileController.profileData.value!.links[i].link),
                                   isLink: true,
                                   onPressed: null,

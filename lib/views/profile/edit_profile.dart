@@ -82,8 +82,8 @@ class EditProfile extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(110),
                                 ),
                                 child: ClipOval(
-                                  child: Image.file(
-                                    _profileController.newProfileImageFile.value,
+                                  child: Image.network(
+                                    Environment.imageBaseUrl + _profileController.profileData.value!.user!.profilePicture.toString(),
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => ClipOval(
                                       child: Image.asset(
@@ -130,8 +130,8 @@ class EditProfile extends StatelessWidget {
                             child: SizedBox(
                               height: 150,
                               width: width,
-                              child: Image.file(
-                                _profileController.newCoverImageFile.value,
+                              child: Image.network(
+                                Environment.imageBaseUrl + _profileController.profileData.value!.user!.coverPhoto.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => Image.asset(
                                   kiCoverPicImageUrl,
@@ -145,9 +145,9 @@ class EditProfile extends StatelessWidget {
                           kH16sizedBox,
                           RowTextEdit(
                             prefix: ksBio.tr,
-                            suffix: _profileController.bio.value == '' ? ksAdd.tr : ksEdit.tr,
+                            suffix: _profileController.profileData.value!.user!.bio == null ? ksAdd.tr : ksEdit.tr,
                             onEditPressed: () {
-                              if (_profileController.bio.value == '') {
+                              if (_profileController.profileData.value!.user!.bio == null) {
                                 Get.toNamed(krEditBio);
                               } else {
                                 _globalController.commonBottomSheet(
@@ -166,12 +166,12 @@ class EditProfile extends StatelessWidget {
                               }
                             },
                           ),
-                          if (_profileController.bio.value != '') kH16sizedBox,
+                          if (_profileController.profileData.value!.user!.bio != null) kH16sizedBox,
                           Text(
-                            _profileController.bio.value,
+                            _profileController.profileData.value!.user!.bio ?? '',
                             style: regular14TextStyle(cIconColor),
                           ),
-                          if (_profileController.bio.value != '') kH16sizedBox,
+                          if (_profileController.profileData.value!.user!.bio != null) kH16sizedBox,
                           const CustomDivider(),
                           kH16sizedBox,
                           RowTextEdit(
@@ -180,12 +180,55 @@ class EditProfile extends StatelessWidget {
                             onEditPressed: () {},
                           ),
                           kH16sizedBox,
-                          for (int i = 0; i < editProfileInfoContent.length; i++)
+                          // for (int i = 0; i < editProfileInfoContent.length; i++)
+                          //   LinkUpIconTextRow(
+                          //     icon: profileInfoContent[i]['icon'],
+                          //     text: profileInfoContent[i]['text'],
+                          //     isLink: profileInfoContent[i]['isLink'],
+                          //   ),
+                          if (_profileController.profileData.value!.currentCity != null && _profileController.profileData.value!.currentCity!.isCurrent == 1)
                             LinkUpIconTextRow(
-                              icon: profileInfoContent[i]['icon'],
-                              text: profileInfoContent[i]['text'],
-                              isLink: profileInfoContent[i]['isLink'],
+                              icon: BipHip.address,
+                              text: 'Lives in ${_profileController.profileData.value!.currentCity!.city}',
+                              isLink: false,
+                              onPressed: null,
                             ),
+                          if (_profileController.profileData.value!.hometown!.city != null)
+                            LinkUpIconTextRow(
+                              icon: BipHip.location,
+                              text: 'From ${_profileController.profileData.value!.hometown!.city}',
+                              isLink: false,
+                              onPressed: null,
+                            ),
+                          if (_profileController.profileData.value!.user!.relation != null)
+                            LinkUpIconTextRow(
+                              icon: BipHip.love,
+                              text: _profileController.profileData.value!.user!.relation,
+                              isLink: false,
+                              onPressed: null,
+                            ),
+                          if (_profileController.profileData.value!.school.isNotEmpty)
+                            LinkUpIconTextRow(
+                              icon: BipHip.school,
+                              text: checkNullOrStringNull(_profileController.profileData.value!.school[0].school),
+                              isLink: false,
+                              onPressed: null,
+                            ),
+                          if (_profileController.profileData.value!.college.isNotEmpty)
+                            LinkUpIconTextRow(
+                              icon: BipHip.school,
+                              text: checkNullOrStringNull(_profileController.profileData.value!.college[0].school),
+                              isLink: false,
+                              onPressed: null,
+                            ),
+                          if (_profileController.profileData.value!.currentWorkplace != null)
+                            LinkUpIconTextRow(
+                              icon: BipHip.work,
+                              text: checkNullOrStringNull(_profileController.profileData.value!.currentWorkplace!.company),
+                              isLink: false,
+                              onPressed: null,
+                            ),
+
                           const CustomDivider(),
                           kH16sizedBox,
                           CustomElevatedButton(

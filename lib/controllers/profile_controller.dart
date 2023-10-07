@@ -345,6 +345,18 @@ class ProfileController extends GetxController {
     }
   }
 
+  IconData getLinkIcon(String type){
+    if(type.toLowerCase() == "facebook"){
+      return BipHip.facebook;
+    }else if(type.toLowerCase() == "linkedin"){
+      return BipHip.linkedin;
+    }else if(type.toLowerCase() == "twitter"){
+      return BipHip.twitter;
+    }else{
+      return BipHip.webLink;
+    }
+  }
+
   //* Profile overview API Implementation
   Rx<ProfileOverviewModel?> profileData = Rx<ProfileOverviewModel?>(null);
   Future<void> getProfileOverview() async {

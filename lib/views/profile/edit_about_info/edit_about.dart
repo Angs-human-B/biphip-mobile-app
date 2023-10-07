@@ -53,7 +53,7 @@ class EditAboutInfo extends StatelessWidget {
                       RowTextButton(
                         text: ksHomeTown.tr,
                         buttonText: ksAdd.tr,
-                        showAddButton: _profileController.homeTown.value == '' ? true : false,
+                        showAddButton: _profileController.profileData.value!.hometown == null ? true : false,
                         buttonWidth: 151,
                         onPressedAdd: () {
                           _profileController.setEditPageValue(ksAddHomeTownAddress.tr, false, BipHip.location, _profileController.homeTownTextEditingController,
@@ -61,13 +61,13 @@ class EditAboutInfo extends StatelessWidget {
                           Get.toNamed(krEdit);
                         },
                       ),
-                      if (_profileController.homeTown.value != '')
+                      if (_profileController.profileData.value!.hometown != null)
                         Padding(
                           padding: const EdgeInsets.only(top: k10Padding),
                           child: InfoContainer(
                             prefixIcon: BipHip.location,
                             suffixIcon: BipHip.edit,
-                            text: _profileController.homeTown.value,
+                            text: checkNullOrStringNull(_profileController.profileData.value!.hometown!.city),
                             suffixOnPressed: () {
                               _globalController.commonBottomSheet(
                                   context: context,
@@ -76,7 +76,7 @@ class EditAboutInfo extends StatelessWidget {
                                   content: EditModalSheet(
                                     editButtonText: ksEditAddress.tr,
                                     editOnPressed: () {
-                                      _profileController.homeTownTextEditingController.text = _profileController.homeTown.value;
+                                      _profileController.homeTownTextEditingController.text = _profileController.profileData.value!.hometown!.city!;
                                       _profileController.setEditPageValue(
                                           ksEditHometownAddress.tr,
                                           false,
@@ -134,7 +134,56 @@ class EditAboutInfo extends StatelessWidget {
                         },
                         buttonWidth: 108,
                       ),
-                      if (_profileController.cityList.isNotEmpty) kH12sizedBox,
+                      if (_profileController.profileData.value!.currentCity != null) kH12sizedBox,
+                      if (_profileController.profileData.value!.currentCity != null)
+                        InfoContainer(
+                          prefixIcon: BipHip.location,
+                          suffixIcon: BipHip.edit,
+                          text: checkNullOrStringNull(_profileController.profileData.value!.currentCity!.city),
+                          suffixOnPressed: () {
+                            // _profileController.cityList.remove(_profileController.cityList[index]);
+                            // _globalController.commonBottomSheet(
+                            //     context: context,
+                            //     isScrollControlled: false,
+                            //     bottomSheetHeight: 160,
+                            //     onPressCloseButton: () {
+                            //       Get.back();
+                            //     },
+                            //     onPressRightButton: null,
+                            //     rightText: '',
+                            //     rightTextStyle: regular10TextStyle(cBlackColor),
+                            //     title: ksEdit.tr,
+                            //     isRightButtonShow: false,
+                            //     content: EditModalSheet(
+                            //       editButtonText: ksEditAddress.tr,
+                            //       editOnPressed: () {
+                            //         _profileController.cityListIndex.value = index;
+                            //         _profileController.deleteIndex.value = index;
+                            //         _profileController.presentAddressTextEditingController.text = item;
+                            //         _profileController.setEditPageValue(
+                            //             ksEditPresentAddress.tr,
+                            //             false,
+                            //             BipHip.location,
+                            //             _profileController.presentAddressTextEditingController,
+                            //             false,
+                            //             _profileController.presentAddressTextEditingController,
+                            //             ksEditLocation.tr,
+                            //             true,
+                            //             true,
+                            //             true,
+                            //             _profileController.isCurrentlyLiveHere.value,
+                            //             ksCurrentlyLivingHere.tr,
+                            //             'EDIT PRESENT');
+                            //         Get.toNamed(krEdit);
+                            //       },
+                            //       deleteButtonText: ksDeleteAddress.tr,
+                            //       deleteOnPressed: () {
+                            //         _profileController.cityList.remove(item);
+                            //         Get.back();
+                            //       },
+                            //     ));
+                          },
+                        ),
                       if (_profileController.cityList.isNotEmpty)
                         ListView.builder(
                             shrinkWrap: true,
@@ -222,7 +271,7 @@ class EditAboutInfo extends StatelessWidget {
                             isRightButtonShow: false,
                           );
                         },
-                        text: _profileController.relationshipStatus.value,
+                        text: checkNullOrStringNull(_profileController.profileData.value!.user!.relation),
                         hintText: ksSelectRelationshipStatus.tr,
                       ),
                       if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH20sizedBox,
@@ -279,7 +328,7 @@ class EditAboutInfo extends StatelessWidget {
                         },
                         buttonWidth: 126,
                       ),
-                      if (_profileController.schoolList.isNotEmpty)
+                      if (_profileController.profileData.value!.school.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: k16Padding),
                           child: Text(
@@ -289,15 +338,15 @@ class EditAboutInfo extends StatelessWidget {
                         ),
                       ListView.builder(
                           shrinkWrap: true,
-                          itemCount: _profileController.schoolList.length,
+                          itemCount: _profileController.profileData.value!.school.length,
                           itemBuilder: (context, index) {
-                            var item = _profileController.schoolList[index];
+                            var item = _profileController.profileData.value!.school[index];
                             return Padding(
                               padding: const EdgeInsets.only(bottom: k10Padding),
                               child: InfoContainer(
                                 prefixIcon: BipHip.schoolNew,
                                 suffixIcon: BipHip.edit,
-                                text: item,
+                                text: checkNullOrStringNull(item.school),
                                 suffixOnPressed: () {
                                   // _profileController.cityList.remove(_profileController.cityList[index]);
                                   _globalController.commonBottomSheet(
@@ -317,7 +366,7 @@ class EditAboutInfo extends StatelessWidget {
                                         editOnPressed: () {
                                           _profileController.schoolIndex.value = index;
                                           _profileController.deleteIndex.value = index;
-                                          _profileController.educationInstituteTextEditingController.text = item;
+                                          _profileController.educationInstituteTextEditingController.text = item.school!;
                                           _profileController.setEditPageValue(
                                               ksEditSchool.tr,
                                               false,
@@ -344,7 +393,7 @@ class EditAboutInfo extends StatelessWidget {
                               ),
                             );
                           }),
-                      if (_profileController.collegeList.isNotEmpty)
+                      if (_profileController.profileData.value!.college.isNotEmpty)
                         Text(
                           ksCollege.tr,
                           style: semiBold16TextStyle(cBlackColor),
@@ -352,15 +401,15 @@ class EditAboutInfo extends StatelessWidget {
                       kH16sizedBox,
                       ListView.builder(
                           shrinkWrap: true,
-                          itemCount: _profileController.collegeList.length,
+                          itemCount: _profileController.profileData.value!.college.length,
                           itemBuilder: (context, index) {
-                            var item = _profileController.collegeList[index];
+                            var item = _profileController.profileData.value!.college[index];
                             return Padding(
                               padding: const EdgeInsets.only(bottom: k10Padding),
                               child: InfoContainer(
                                 prefixIcon: BipHip.schoolNew,
                                 suffixIcon: BipHip.edit,
-                                text: item,
+                                text: checkNullOrStringNull(item.school),
                                 suffixOnPressed: () {
                                   // _profileController.cityList.remove(_profileController.cityList[index]);
                                   _globalController.commonBottomSheet(
@@ -380,7 +429,7 @@ class EditAboutInfo extends StatelessWidget {
                                         editOnPressed: () {
                                           _profileController.collegeIndex.value = index;
                                           _profileController.deleteIndex.value = index;
-                                          _profileController.educationInstituteTextEditingController.text = item;
+                                          _profileController.educationInstituteTextEditingController.text = item.school!;
                                           _profileController.setEditPageValue(
                                               ksEditCollege.tr,
                                               false,
@@ -412,14 +461,14 @@ class EditAboutInfo extends StatelessWidget {
                       RowTextButton(
                         text: ksProfession.tr,
                         buttonText: ksAdd.tr,
-                        showAddButton: _profileController.selectedProfession.value == '',
+                        showAddButton: _profileController.profileData.value!.currentWorkplace == null,
                         onPressedAdd: () {
                           _profileController.isRouteFromAboutInfo.value = true;
                           Get.toNamed(krSelectProfession);
                         },
                         buttonWidth: 149,
                       ),
-                      if (_profileController.selectedProfession.value != '')
+                      if (_profileController.profileData.value!.currentWorkplace != null)
                         Padding(
                           padding: const EdgeInsets.only(top: 16),
                           child: CustomSelectionButton(
@@ -452,7 +501,7 @@ class EditAboutInfo extends StatelessWidget {
                                     },
                                   ));
                             },
-                            text: _profileController.selectedProfession.value,
+                            text: _profileController.profileData.value!.currentWorkplace!.company,
                             hintText: ksSelectProfession.tr,
                           ),
                         ),
@@ -572,8 +621,8 @@ class EditAboutInfo extends StatelessWidget {
                         buttonText: ksAdd.tr,
                         showAddButton: true,
                         onPressedAdd: () {
-                          _profileController.setEditPageValue(ksAddPhoneNumber.tr, false, BipHip.phoneFill, _profileController.phoneTextEditingController, false,
-                              _profileController.phoneTextEditingController, ksPhone.tr, false, true, false, false, '', 'ADD PHONE');
+                          _profileController.setEditPageValue(ksAddPhoneNumber.tr, false, BipHip.phoneFill, _profileController.phoneTextEditingController,
+                              false, _profileController.phoneTextEditingController, ksPhone.tr, false, true, false, false, '', 'ADD PHONE');
                           Get.toNamed(krEdit);
                         },
                         buttonWidth: 177,
@@ -665,8 +714,20 @@ class EditAboutInfo extends StatelessWidget {
                                           _profileController.deleteIndex.value = index;
 
                                           _profileController.emailTextEditingController.text = item;
-                                          _profileController.setEditPageValue(ksEditEmail.tr, false, BipHip.mail, _profileController.emailTextEditingController,
-                                              false, _profileController.emailTextEditingController, ksEditEmail.tr, false, true, false, false, '', 'EDIT EMAIL');
+                                          _profileController.setEditPageValue(
+                                              ksEditEmail.tr,
+                                              false,
+                                              BipHip.mail,
+                                              _profileController.emailTextEditingController,
+                                              false,
+                                              _profileController.emailTextEditingController,
+                                              ksEditEmail.tr,
+                                              false,
+                                              true,
+                                              false,
+                                              false,
+                                              '',
+                                              'EDIT EMAIL');
                                           Get.toNamed(krEdit);
                                         },
                                         deleteButtonText: ksDeleteEmail.tr,
