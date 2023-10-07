@@ -461,14 +461,14 @@ class EditAboutInfo extends StatelessWidget {
                       RowTextButton(
                         text: ksProfession.tr,
                         buttonText: ksAdd.tr,
-                        showAddButton: _profileController.profileData.value!.currentWorkplace == null,
+                        showAddButton: _profileController.profileData.value!.user!.profession[0] == '',
                         onPressedAdd: () {
                           _profileController.isRouteFromAboutInfo.value = true;
                           Get.toNamed(krSelectProfession);
                         },
                         buttonWidth: 149,
                       ),
-                      if (_profileController.profileData.value!.currentWorkplace != null)
+                      if (_profileController.profileData.value!.user!.profession[0] != '')
                         Padding(
                           padding: const EdgeInsets.only(top: 16),
                           child: CustomSelectionButton(
@@ -501,7 +501,7 @@ class EditAboutInfo extends StatelessWidget {
                                     },
                                   ));
                             },
-                            text: _profileController.profileData.value!.currentWorkplace!.company,
+                            text: _profileController.profileData.value!.user!.profession[0],
                             hintText: ksSelectProfession.tr,
                           ),
                         ),
@@ -518,15 +518,15 @@ class EditAboutInfo extends StatelessWidget {
                         },
                         buttonWidth: 149,
                       ),
-                      if (_profileController.selectedInterests.isNotEmpty)
+                      if (_profileController.profileData.value!.user!.interest.isNotEmpty)
                         Wrap(
                           alignment: WrapAlignment.start,
                           direction: Axis.horizontal,
                           spacing: 8.0,
                           children: [
-                            for (int i = 0; i < _profileController.selectedInterests.length; i++)
+                            for (int i = 0; i < _profileController.profileData.value!.user!.interest.length; i++)
                               CustomChoiceChips(
-                                label: _profileController.selectedInterests[i],
+                                label: _profileController.profileData.value!.user!.interest[i],
                                 isSelected: false,
                                 onSelected: null,
                               )
@@ -559,6 +559,51 @@ class EditAboutInfo extends StatelessWidget {
                         buttonWidth: 149,
                       ),
                       kH16sizedBox,
+                      if (_profileController.profileData.value!.currentWorkplace != null)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: k10Padding),
+                          child: InfoContainer(
+                            prefixIcon: BipHip.officeFill,
+                            suffixIcon: BipHip.edit,
+                            text: checkNullOrStringNull(_profileController.profileData.value!.currentWorkplace!.company),
+                            suffixOnPressed: () {
+                              // _profileController.cityList.remove(_profileController.cityList[index]);
+                              // _globalController.blankBottomSheet(
+                              //     context: context,
+                              //     isScrollControlled: false,
+                              //     bottomSheetHeight: 130,
+                              //     content: EditModalSheet(
+                              //       editButtonText: ksEditWorkplace.tr,
+                              //       editOnPressed: () {
+                              //         _profileController.officeIndex.value = index;
+                              //         _profileController.deleteIndex.value = index;
+                              //         _profileController.officeNameTextEditingController.text = item['office'];
+                              //         _profileController.designationTextEditingController.text = item['designation'];
+                              //         _profileController.setEditPageValue(
+                              //             ksEditWorkplace.tr,
+                              //             false,
+                              //             BipHip.officeFill,
+                              //             _profileController.officeNameTextEditingController,
+                              //             true,
+                              //             _profileController.designationTextEditingController,
+                              //             ksEditWorkplace.tr,
+                              //             true,
+                              //             true,
+                              //             true,
+                              //             _profileController.isCurrentlyWorkingHere.value,
+                              //             ksCurrentlyWorkingHere.tr,
+                              //             'EDIT WORKPLACE');
+                              //         Get.toNamed(krEdit);
+                              //       },
+                              //       deleteButtonText: ksDeleteWorkplace.tr,
+                              //       deleteOnPressed: () {
+                              //         // _profileController.officeList.remove(item);
+                              //         Get.back();
+                              //       },
+                              //     ));
+                            },
+                          ),
+                        ),
                       ListView.builder(
                           shrinkWrap: true,
                           itemCount: _profileController.officeList.length,
@@ -628,55 +673,51 @@ class EditAboutInfo extends StatelessWidget {
                         buttonWidth: 177,
                       ),
                       kH16sizedBox,
-                      ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _profileController.phoneList.length,
-                          itemBuilder: (context, index) {
-                            var item = _profileController.phoneList[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: k10Padding),
-                              child: InfoContainer(
-                                prefixIcon: BipHip.phoneFill,
-                                suffixIcon: BipHip.edit,
-                                text: item,
-                                suffixOnPressed: () {
-                                  // _profileController.cityList.remove(_profileController.cityList[index]);
-                                  _globalController.blankBottomSheet(
-                                      context: context,
-                                      isScrollControlled: false,
-                                      bottomSheetHeight: 130,
-                                      content: EditModalSheet(
-                                        editButtonText: ksEditPhone.tr,
-                                        editOnPressed: () {
-                                          _profileController.phoneIndex.value = index;
-                                          _profileController.deleteIndex.value = index;
-                                          _profileController.phoneTextEditingController.text = item;
-                                          _profileController.setEditPageValue(
-                                              ksEditPhone.tr,
-                                              false,
-                                              BipHip.phoneFill,
-                                              _profileController.phoneTextEditingController,
-                                              false,
-                                              _profileController.phoneTextEditingController,
-                                              ksEditPhone.tr,
-                                              false,
-                                              true,
-                                              false,
-                                              false,
-                                              '',
-                                              'EDIT PHONE');
-                                          Get.toNamed(krEdit);
-                                        },
-                                        deleteButtonText: ksDeletePhone.tr,
-                                        deleteOnPressed: () {
-                                          _profileController.phoneList.remove(item);
-                                          Get.back();
-                                        },
-                                      ));
-                                },
-                              ),
-                            );
-                          }),
+                      for (int i = 0; i < _profileController.profileData.value!.contacts.length; i++)
+                        if (_profileController.profileData.value!.contacts[i].type == 'phone')
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: k10Padding),
+                            child: InfoContainer(
+                              prefixIcon: BipHip.phoneFill,
+                              suffixIcon: BipHip.edit,
+                              text: checkNullOrStringNull(_profileController.profileData.value!.contacts[i].value),
+                              suffixOnPressed: () {
+                                // _profileController.cityList.remove(_profileController.cityList[index]);
+                                // _globalController.blankBottomSheet(
+                                //     context: context,
+                                //     isScrollControlled: false,
+                                //     bottomSheetHeight: 130,
+                                //     content: EditModalSheet(
+                                //       editButtonText: ksEditPhone.tr,
+                                //       editOnPressed: () {
+                                //         _profileController.phoneIndex.value = index;
+                                //         _profileController.deleteIndex.value = index;
+                                //         _profileController.phoneTextEditingController.text = item;
+                                //         _profileController.setEditPageValue(
+                                //             ksEditPhone.tr,
+                                //             false,
+                                //             BipHip.phoneFill,
+                                //             _profileController.phoneTextEditingController,
+                                //             false,
+                                //             _profileController.phoneTextEditingController,
+                                //             ksEditPhone.tr,
+                                //             false,
+                                //             true,
+                                //             false,
+                                //             false,
+                                //             '',
+                                //             'EDIT PHONE');
+                                //         Get.toNamed(krEdit);
+                                //       },
+                                //       deleteButtonText: ksDeletePhone.tr,
+                                //       deleteOnPressed: () {
+                                //         // _profileController.phoneList.remove(item);
+                                //         Get.back();
+                                //       },
+                                //     ));
+                              },
+                            ),
+                          ),
                       if (_profileController.phoneList.isNotEmpty) kH8sizedBox,
                       RowTextButton(
                         text: ksEmail.tr,
@@ -690,56 +731,52 @@ class EditAboutInfo extends StatelessWidget {
                         buttonWidth: 118,
                       ),
                       kH16sizedBox,
-                      ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _profileController.emailList.length,
-                          itemBuilder: (context, index) {
-                            var item = _profileController.emailList[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: k10Padding),
-                              child: InfoContainer(
-                                prefixIcon: BipHip.mail,
-                                suffixIcon: BipHip.edit,
-                                text: item,
-                                suffixOnPressed: () {
-                                  // _profileController.cityList.remove(_profileController.cityList[index]);
-                                  _globalController.blankBottomSheet(
-                                      context: context,
-                                      isScrollControlled: false,
-                                      bottomSheetHeight: 130,
-                                      content: EditModalSheet(
-                                        editButtonText: ksEditEmail.tr,
-                                        editOnPressed: () {
-                                          _profileController.emailIndex.value = index;
-                                          _profileController.deleteIndex.value = index;
+                      for (int i = 0; i < _profileController.profileData.value!.contacts.length; i++)
+                        if (_profileController.profileData.value!.contacts[i].type == 'email')
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: k10Padding),
+                            child: InfoContainer(
+                              prefixIcon: BipHip.mail,
+                              suffixIcon: BipHip.edit,
+                              text: checkNullOrStringNull(_profileController.profileData.value!.contacts[i].value),
+                              suffixOnPressed: () {
+                                // _profileController.cityList.remove(_profileController.cityList[index]);
+                                // _globalController.blankBottomSheet(
+                                //     context: context,
+                                //     isScrollControlled: false,
+                                //     bottomSheetHeight: 130,
+                                //     content: EditModalSheet(
+                                //       editButtonText: ksEditEmail.tr,
+                                //       editOnPressed: () {
+                                //         _profileController.emailIndex.value = index;
+                                //         _profileController.deleteIndex.value = index;
 
-                                          _profileController.emailTextEditingController.text = item;
-                                          _profileController.setEditPageValue(
-                                              ksEditEmail.tr,
-                                              false,
-                                              BipHip.mail,
-                                              _profileController.emailTextEditingController,
-                                              false,
-                                              _profileController.emailTextEditingController,
-                                              ksEditEmail.tr,
-                                              false,
-                                              true,
-                                              false,
-                                              false,
-                                              '',
-                                              'EDIT EMAIL');
-                                          Get.toNamed(krEdit);
-                                        },
-                                        deleteButtonText: ksDeleteEmail.tr,
-                                        deleteOnPressed: () {
-                                          _profileController.emailList.remove(item);
-                                          Get.back();
-                                        },
-                                      ));
-                                },
-                              ),
-                            );
-                          }),
+                                //         _profileController.emailTextEditingController.text = item;
+                                //         _profileController.setEditPageValue(
+                                //             ksEditEmail.tr,
+                                //             false,
+                                //             BipHip.mail,
+                                //             _profileController.emailTextEditingController,
+                                //             false,
+                                //             _profileController.emailTextEditingController,
+                                //             ksEditEmail.tr,
+                                //             false,
+                                //             true,
+                                //             false,
+                                //             false,
+                                //             '',
+                                //             'EDIT EMAIL');
+                                //         Get.toNamed(krEdit);
+                                //       },
+                                //       deleteButtonText: ksDeleteEmail.tr,
+                                //       deleteOnPressed: () {
+                                //         _profileController.emailList.remove(item);
+                                //         Get.back();
+                                //       },
+                                //     ));
+                              },
+                            ),
+                          ),
                       kH16sizedBox,
                       // const CustomDivider(),
                       // kH8sizedBox,
