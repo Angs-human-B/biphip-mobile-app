@@ -362,8 +362,10 @@ class ProfileController extends GetxController {
   Rx<ProfileOverviewModel?> profileData = Rx<ProfileOverviewModel?>(null);
   Rx<CurrentCity?> hometownData = Rx<CurrentCity?>(null);
   Rx<CurrentCity?> currentCityData = Rx<CurrentCity?>(null);
+  RxBool isProfileLoading = RxBool(false);
   Future<void> getProfileOverview() async {
     try {
+      isProfileLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -374,6 +376,7 @@ class ProfileController extends GetxController {
         profileData.value = ProfileOverviewModel.fromJson(response.data);
         hometownData.value = CurrentCity.fromJson(response.data['hometown']);
         currentCityData.value = CurrentCity.fromJson(response.data['current_city']);
+        isProfileLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {

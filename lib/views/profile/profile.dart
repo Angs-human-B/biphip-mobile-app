@@ -6,6 +6,7 @@ import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Profile extends StatelessWidget {
   Profile({super.key});
@@ -27,7 +28,7 @@ class Profile extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: '${_profileController.profileData.value!.user!.firstName} ${_profileController.profileData.value!.user!.lastName}' ,
+              // title: '${(_profileController.profileData.value!.user!.firstName)} ${_profileController.profileData.value!.user!.lastName}',
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -53,14 +54,22 @@ class Profile extends StatelessWidget {
                         SizedBox(
                           height: 150,
                           width: width,
-                          child: Image.network(
-                            Environment.imageBaseUrl + _profileController.profileData.value!.user!.coverPhoto.toString(),
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => Image.asset(
-                              kiCoverPicImageUrl,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                          child: _profileController.isProfileLoading.value
+                              ? Shimmer.fromColors(
+                                  baseColor: cWhiteColor,
+                                  highlightColor: Colors.grey,
+                                  child: Container(
+                                    color: cWhiteColor,
+                                  ),
+                                )
+                              : Image.network(
+                                  Environment.imageBaseUrl + _profileController.profileData.value!.user!.coverPhoto.toString(),
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => Image.asset(
+                                    kiCoverPicImageUrl,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                         ),
                         Positioned(
                           bottom: 0,
@@ -76,16 +85,24 @@ class Profile extends StatelessWidget {
                                   border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
                                 ),
                                 child: ClipOval(
-                                  child: Image.network(
-                                    Environment.imageBaseUrl + _profileController.profileData.value!.user!.profilePicture.toString(),
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => ClipOval(
-                                      child: Image.asset(
-                                        kiProfileDefaultImageUrl,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
+                                  child: _profileController.isProfileLoading.value
+                                      ? Shimmer.fromColors(
+                                          baseColor: cWhiteColor,
+                                          highlightColor: Colors.grey,
+                                          child: Container(
+                                            color: cWhiteColor,
+                                          ),
+                                        )
+                                      : Image.network(
+                                          Environment.imageBaseUrl + _profileController.profileData.value!.user!.profilePicture.toString(),
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stackTrace) => ClipOval(
+                                            child: Image.asset(
+                                              kiProfileDefaultImageUrl,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
                                 ),
                               ),
                               Positioned(
@@ -220,10 +237,23 @@ class Profile extends StatelessWidget {
                           kH10sizedBox,
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                            child: Text(
-                              '${_profileController.profileData.value!.user!.firstName} ${_profileController.profileData.value!.user!.lastName}',
-                              style: semiBold20TextStyle(cBlackColor),
-                            ),
+                            child: _profileController.isProfileLoading.value
+                                ? Shimmer.fromColors(
+                                    baseColor: cWhiteColor,
+                                    highlightColor: Colors.grey,
+                                    child: Container(
+                                      height: h20,
+                                      width: width * 0.6,
+                                      decoration: BoxDecoration(
+                                        borderRadius: k8CircularBorderRadius,
+                                        color: cWhiteColor,
+                                      ),
+                                    ),
+                                  )
+                                : Text(
+                                    '${_profileController.profileData.value!.user!.firstName} ${_profileController.profileData.value!.user!.lastName}',
+                                    style: semiBold20TextStyle(cBlackColor),
+                                  ),
                           ),
                           kH12sizedBox,
                           Padding(
@@ -258,42 +288,106 @@ class Profile extends StatelessWidget {
                           if (_profileController.profileData.value!.currentCity != null && _profileController.profileData.value!.currentCity!.isCurrent == 1)
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                              child: LinkUpIconTextRow(
-                                icon: BipHip.address,
-                                text: 'Lives in ${_profileController.profileData.value!.currentCity!.city}',
-                                isLink: false,
-                                onPressed: null,
-                              ),
+                              child: _profileController.isProfileLoading.value
+                                  ? Shimmer.fromColors(
+                                      baseColor: cWhiteColor,
+                                      highlightColor: Colors.grey,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(bottom: k12Padding),
+                                        child: Container(
+                                          height: h20,
+                                          width: width * 0.7,
+                                          decoration: BoxDecoration(
+                                            borderRadius: k8CircularBorderRadius,
+                                            color: cWhiteColor,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : LinkUpIconTextRow(
+                                      icon: BipHip.address,
+                                      text: 'Lives in ${_profileController.profileData.value!.currentCity!.city}',
+                                      isLink: false,
+                                      onPressed: null,
+                                    ),
                             ),
                           if (_profileController.profileData.value!.hometown!.city != null)
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                              child: LinkUpIconTextRow(
-                                icon: BipHip.location,
-                                text: 'From ${_profileController.profileData.value!.hometown!.city}',
-                                isLink: false,
-                                onPressed: null,
-                              ),
+                              child: _profileController.isProfileLoading.value
+                                  ? Shimmer.fromColors(
+                                      baseColor: cWhiteColor,
+                                      highlightColor: Colors.grey,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(bottom: k12Padding),
+                                        child: Container(
+                                          height: h20,
+                                          width: width * 0.7,
+                                          decoration: BoxDecoration(
+                                            borderRadius: k8CircularBorderRadius,
+                                            color: cWhiteColor,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : LinkUpIconTextRow(
+                                      icon: BipHip.location,
+                                      text: 'From ${_profileController.profileData.value!.hometown!.city}',
+                                      isLink: false,
+                                      onPressed: null,
+                                    ),
                             ),
                           if (_profileController.profileData.value!.user!.relation != null)
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                              child: LinkUpIconTextRow(
-                                icon: BipHip.love,
-                                text: _profileController.profileData.value!.user!.relation,
-                                isLink: false,
-                                onPressed: null,
-                              ),
+                              child: _profileController.isProfileLoading.value
+                                  ? Shimmer.fromColors(
+                                      baseColor: cWhiteColor,
+                                      highlightColor: Colors.grey,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(bottom: k12Padding),
+                                        child: Container(
+                                          height: h20,
+                                          width: width * 0.7,
+                                          decoration: BoxDecoration(
+                                            borderRadius: k8CircularBorderRadius,
+                                            color: cWhiteColor,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : LinkUpIconTextRow(
+                                      icon: BipHip.love,
+                                      text: _profileController.profileData.value!.user!.relation,
+                                      isLink: false,
+                                      onPressed: null,
+                                    ),
                             ),
                           if (_profileController.profileData.value!.school.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                              child: LinkUpIconTextRow(
-                                icon: BipHip.school,
-                                text: checkNullOrStringNull(_profileController.profileData.value!.school[0].school),
-                                isLink: false,
-                                onPressed: null,
-                              ),
+                              child: _profileController.isProfileLoading.value
+                                  ? Shimmer.fromColors(
+                                      baseColor: cWhiteColor,
+                                      highlightColor: Colors.grey,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(bottom: k12Padding),
+                                        child: Container(
+                                          height: h20,
+                                          width: width * 0.7,
+                                          decoration: BoxDecoration(
+                                            borderRadius: k8CircularBorderRadius,
+                                            color: cWhiteColor,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : LinkUpIconTextRow(
+                                      icon: BipHip.school,
+                                      text: checkNullOrStringNull(_profileController.profileData.value!.school[0].school),
+                                      isLink: false,
+                                      onPressed: null,
+                                    ),
                             ),
                           if (_profileController.profileData.value!.college.isNotEmpty)
                             Padding(
