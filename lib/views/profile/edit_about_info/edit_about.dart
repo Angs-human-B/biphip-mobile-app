@@ -128,7 +128,7 @@ class EditAboutInfo extends StatelessWidget {
                               true,
                               true,
                               true,
-                              false,
+                              _profileController.isCurrentlyLiveHere.value,
                               ksCurrentlyLivingHere.tr,
                               'ADD PRESENT');
                           Get.toNamed(krEdit);
@@ -328,7 +328,7 @@ class EditAboutInfo extends StatelessWidget {
                         },
                         buttonWidth: 126,
                       ),
-                      if (_profileController.profileData.value!.school.isNotEmpty)
+                      if (_profileController.schoolDataList.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: k16Padding),
                           child: Text(
@@ -338,9 +338,9 @@ class EditAboutInfo extends StatelessWidget {
                         ),
                       ListView.builder(
                           shrinkWrap: true,
-                          itemCount: _profileController.profileData.value!.school.length,
+                          itemCount: _profileController.schoolDataList.length,
                           itemBuilder: (context, index) {
-                            var item = _profileController.profileData.value!.school[index];
+                            var item = _profileController.schoolDataList[index];
                             return Padding(
                               padding: const EdgeInsets.only(bottom: k10Padding),
                               child: InfoContainer(

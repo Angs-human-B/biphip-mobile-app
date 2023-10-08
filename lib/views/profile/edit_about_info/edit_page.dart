@@ -183,6 +183,7 @@ class EditPage extends StatelessWidget {
                                     label: _profileController.commonEditCheckBoxText.value,
                                     onChanged: (v) {
                                       _profileController.isCommonEditCheckBoxSelected.value = !_profileController.isCommonEditCheckBoxSelected.value;
+                                      ll(_profileController.isCommonEditCheckBoxSelected.value);
                                     },
                                     textStyle: regular14TextStyle(cBlackColor)),
                               )

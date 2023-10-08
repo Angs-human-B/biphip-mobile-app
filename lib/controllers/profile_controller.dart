@@ -274,7 +274,7 @@ class ProfileController extends GetxController {
       await setHometown();
       homeTownTextEditingController.clear();
     } else if (functionFlag == 'ADD PRESENT') {
-      cityList.add(commonEditTextEditingController.text);
+      await setCity();
       commonEditTextEditingController.clear();
       presentAddressTextEditingController.clear();
     } else if (functionFlag == 'EDIT PRESENT') {
@@ -283,7 +283,7 @@ class ProfileController extends GetxController {
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'ADD SCHOOL') {
       if (educationBackground.value == 'School') {
-        schoolList.add(commonEditTextEditingController.text);
+        await storeSchool();
       } else {
         collegeList.add(commonEditTextEditingController.text);
       }
@@ -374,8 +374,9 @@ class ProfileController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         profileData.value = ProfileOverviewModel.fromJson(response.data);
-        hometownData.value = CurrentCity.fromJson(response.data['hometown']);
-        currentCityData.value = CurrentCity.fromJson(response.data['current_city']);
+        hometownData.value = profileData.value!.hometown;
+        currentCityData.value = profileData.value!.currentCity;
+        schoolDataList.addAll(profileData.value!.school);
         isProfileLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -417,6 +418,123 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       ll('setHometown error: $e');
+    }
+  }
+
+  //* set city API Implementation
+  Future<void> setCity() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'city': presentAddressTextEditingController.text.trim(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: isCommonEditCheckBoxSelected.value ? kuSetCurrentCity : kuOtherCity,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        currentCityData.value = CurrentCity.fromJson(response.data);
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('setCity error: $e');
+    }
+  }
+
+  //* delete city API Implementation
+  Future<void> deleteCity(id) async {
+    try {
+      String? token = await _spController.getBearerToken();
+
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: '$kuDeleteCity/$id',
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('deleteCity error: $e');
+    }
+  }
+
+  //* set city API Implementation
+  RxList<School> schoolDataList = RxList<School>([]);
+  Future<void> storeSchool() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'school': educationInstituteTextEditingController.text.trim(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuStoreSchool,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        schoolDataList.add(School.fromJson(response.data));
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('storeSchool error: $e');
+    }
+  }
+  //* set city API Implementation
+  RxList<College> collegeDataList = RxList<College>([]);
+  Future<void> storeCollege() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'school': educationInstituteTextEditingController.text.trim(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuStoreCollege,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        collegeDataList.add(College.fromJson(response.data));
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('storeCollege error: $e');
     }
   }
 }

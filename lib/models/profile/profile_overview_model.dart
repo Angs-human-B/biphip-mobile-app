@@ -21,7 +21,7 @@ class ProfileOverviewModel {
 
   factory ProfileOverviewModel.fromJson(Map<String, dynamic> json) => ProfileOverviewModel(
         user: User.fromJson(json["user"]),
-        hometown: CurrentCity.fromJson(json["hometown"]),
+        hometown: json["hometown"] == null ? null : CurrentCity.fromJson(json["hometown"]),
         currentCity: CurrentCity.fromJson(json["current_city"]),
         school: List<School>.from(json["school"].map((x) => School.fromJson(x))),
         college: List<College>.from(json["college"].map((x) => College.fromJson(x))),
@@ -108,13 +108,13 @@ class CurrentCity {
     required this.isCurrent,
   });
 
-  factory CurrentCity.fromJson(Map<String, dynamic> json) => CurrentCity(
-        id: json["id"],
-        userId: json["user_id"],
-        city: json["city"],
-        moved: json["moved"],
-        isHometown: json["is_hometown"],
-        isCurrent: json["is_current"],
+  factory CurrentCity.fromJson(Map<String, dynamic>? json) => CurrentCity(
+        id: json?["id"],
+        userId: json?["user_id"],
+        city: json?["city"],
+        moved: json?["moved"],
+        isHometown: json?["is_hometown"],
+        isCurrent: json?["is_current"],
       );
 }
 
@@ -240,7 +240,6 @@ class User {
     required this.lastName,
     required this.email,
     required this.phone,
-
     required this.gender,
     required this.dob,
     required this.profession,
@@ -253,7 +252,6 @@ class User {
     required this.relation,
     required this.relationWithName,
     required this.relationWithId,
-
     required this.profilePicture,
     required this.coverPhoto,
     required this.friendStatus,
@@ -268,7 +266,6 @@ class User {
         lastName: json["last_name"],
         email: json["email"],
         phone: json["phone"],
-
         gender: json["gender"],
         dob: DateTime.parse(json["dob"]),
         profession: List<String>.from(json["profession"].map((x) => x)),
@@ -281,7 +278,6 @@ class User {
         relation: json["relation"],
         relationWithName: json["relation_with_name"],
         relationWithId: json["relation_with_id"],
-
         profilePicture: json["profile_picture"],
         coverPhoto: json["cover_photo"],
         friendStatus: json["friend_status"],
