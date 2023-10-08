@@ -25,9 +25,13 @@ class CustomPostButton extends StatelessWidget {
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                   ),
-                  child: Image.asset(
-                    profilePic,
+                  child: Image.network(
+                    Environment.imageBaseUrl + profilePic.toString(),
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Image.asset(
+                      kiProfilePicImageUrl,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
