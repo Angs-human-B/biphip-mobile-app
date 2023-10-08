@@ -26,13 +26,14 @@ class LikeSectionWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Love',
+                  ksLove.tr,
                   style: semiBold12TextStyle(cIconColor),
                 ),
                 kW4sizedBox,
                 const Icon(
                   BipHip.love,
                   color: cIconColor,
+                  size: kIconSize20,
                 ),
               ],
             ),
@@ -47,13 +48,14 @@ class LikeSectionWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Comment',
+                  ksComment.tr,
                   style: semiBold12TextStyle(cIconColor),
                 ),
                 kW4sizedBox,
                 const Icon(
-                  BipHip.comment,
+                  BipHip.commentOutline,
                   color: cIconColor,
+                  size: kIconSize20,
                 ),
               ],
             ),
@@ -68,13 +70,14 @@ class LikeSectionWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Share',
+                  ksShare.tr,
                   style: semiBold12TextStyle(cIconColor),
                 ),
                 kW4sizedBox,
                 const Icon(
-                  BipHip.share,
+                  BipHip.shareOutline,
                   color: cIconColor,
+                  size: kIconSize20,
                 ),
               ],
             ),
@@ -90,13 +93,14 @@ class LikeSectionWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Gift',
+                    ksGift.tr,
                     style: semiBold12TextStyle(cIconColor),
                   ),
                   kW4sizedBox,
                   const Icon(
                     BipHip.gift,
                     color: cIconColor,
+                    size: kIconSize20,
                   ),
                 ],
               ),

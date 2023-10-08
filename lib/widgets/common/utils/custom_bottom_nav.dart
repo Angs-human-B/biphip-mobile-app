@@ -46,7 +46,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 icon: BipHip.homeOutline,
                 iconSelected: BipHip.homeFill,
                 onPressed: () async {
-                  Get.toNamed(krHome);
+                  Get.offAllNamed(krHome);
                 },
               ),
 
@@ -135,14 +135,14 @@ class _BottomNavbarItem extends StatelessWidget {
             isClicked
                 ? Icon(
                     iconSelected,
-                    size: height > kSmallDeviceSizeLimit ? 20 : 16,
+                    size: isDeviceScreenLarge() ? 20 : 16,
                     color: cPrimaryColor,
                   )
                 : Stack(
                     children: [
                       Icon(
                         icon,
-                        size: height > kSmallDeviceSizeLimit ? 20 : 16,
+                        size: isDeviceScreenLarge() ? 20 : 16,
                         color: cIconColor,
                       ),
                       Visibility(

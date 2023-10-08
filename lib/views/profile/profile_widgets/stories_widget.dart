@@ -11,7 +11,7 @@ class StoriesWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: k10Padding),
         child: ListView.builder(
-            padding: const EdgeInsets.only(left: k20Padding),
+            padding: const EdgeInsets.only(left: k10Padding),
             itemCount: stories.length + 1,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
@@ -20,7 +20,7 @@ class StoriesWidget extends StatelessWidget {
                 return const _StoryCard(
                   isStory: false,
                   storyImage: '',
-                  profileImage: 'assets/images/pic5.jpeg',
+                  profileImage: kiDummyImage2ImageUrl,
                   userName: '',
                   isSeen: false,
                 );
@@ -134,7 +134,7 @@ class _StoryCard extends StatelessWidget {
                   left: 32,
                   bottom: 5,
                   child: Text(
-                    'Add\nSelfie',
+                    '${ksAdd.tr}\n${ksSelfie.tr}',
                     textAlign: TextAlign.center,
                     style: semiBold10TextStyle(cBlackColor),
                   ),

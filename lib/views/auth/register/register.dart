@@ -62,13 +62,13 @@ class Register extends StatelessWidget {
                                 overflow: TextOverflow.clip,
                                 text: TextSpan(
                                   children: [
-                                    TextSpan(text: 'You are registering with ', style: regular14TextStyle(cBlackColor)),
+                                    TextSpan(text: '${ksYouAreRegisteringWith.tr} ', style: regular14TextStyle(cBlackColor)),
                                     TextSpan(
                                       text: 'John Doe',
                                       style: semiBold14TextStyle(cBlackColor),
                                     ),
                                     TextSpan(
-                                      text: '\'s referral link',
+                                      text: '\'s ${ksReferCodeSmall.tr}',
                                       style: regular14TextStyle(cBlackColor),
                                     ),
                                   ],
@@ -78,19 +78,19 @@ class Register extends StatelessWidget {
                           ),
                         ),
                       kH24sizedBox,
-                      const TopTitleAndSubtitle(
-                        title: ksWhatFullName,
-                        subTitle: ksWriteRealName,
+                      TopTitleAndSubtitle(
+                        title: ksWhatFullName.tr,
+                        subTitle: ksWriteRealName.tr,
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerFirstNameTextEditingController,
                         errorText: _authenticationController.firstNameError.value,
-                        hint: ksFirstName,
+                        hint: ksFirstName.tr,
                         onChanged: (text) {
                           _authenticationController.checkName();
                           if (_authenticationController.registerFirstNameTextEditingController.text.trim() == '') {
-                            _authenticationController.firstNameError.value = ksEmptyFirstNameErrorMessage;
+                            _authenticationController.firstNameError.value = ksEmptyFirstNameErrorMessage.tr;
                           } else {
                             _authenticationController.firstNameError.value = "";
                           }
@@ -99,15 +99,15 @@ class Register extends StatelessWidget {
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.name,
                       ),
-                      kH12sizedBox,
+                      kH4sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerLastNameTextEditingController,
                         errorText: _authenticationController.lastNameError.value,
-                        hint: ksLastName,
+                        hint: ksLastName.tr,
                         onChanged: (text) {
                           _authenticationController.checkName();
                           if (_authenticationController.registerLastNameTextEditingController.text.trim() == '') {
-                            _authenticationController.lastNameError.value = ksEmptyLastNameErrorMessage;
+                            _authenticationController.lastNameError.value = ksEmptyLastNameErrorMessage.tr;
                           } else {
                             _authenticationController.lastNameError.value = "";
                           }
@@ -116,9 +116,9 @@ class Register extends StatelessWidget {
                         inputAction: TextInputAction.done,
                         inputType: TextInputType.name,
                       ),
-                      kH12sizedBox,
+                      kH24sizedBox,
                       CustomElevatedButton(
-                        label: ksNext,
+                        label: ksNext.tr,
                         onPressed: _authenticationController.checkValidName.value
                             ? () {
                                 Get.toNamed(krSelectBirthday);
@@ -131,11 +131,12 @@ class Register extends StatelessWidget {
                       ),
                       kH24sizedBox,
                       LinkupTextRow(
-                          prefix: ksAlreadyHaveAccount,
-                          suffix: ksLogin,
-                          onPressed: () {
-                            Get.toNamed(krLogin);
-                          })
+                        prefix: ksAlreadyHaveAccount.tr,
+                        suffix: ksLogin.tr,
+                        onPressed: () {
+                          Get.toNamed(krLogin);
+                        },
+                      )
                     ],
                   ),
                 ),

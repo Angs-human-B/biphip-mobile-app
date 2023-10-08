@@ -18,7 +18,7 @@ class UploadImageListPage extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: "Images",
+              title: ksImages.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -28,14 +28,15 @@ class UploadImageListPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: h16),
                   child: TextButton(
-                      style: kTextButtonStyle,
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: Text(
-                        'Done',
-                        style: medium14TextStyle(cPrimaryColor),
-                      )),
+                    style: kTextButtonStyle,
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Text(
+                      ksDone.tr,
+                      style: medium14TextStyle(cPrimaryColor),
+                    ),
+                  ),
                 )
               ],
             ),

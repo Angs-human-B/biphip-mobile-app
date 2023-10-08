@@ -2,8 +2,9 @@ import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
-import 'package:bip_hip/views/profile/photo_details.dart';
 import 'package:bip_hip/views/profile/post_widgets/comment_widget.dart';
+import 'package:bip_hip/views/profile/post_widgets/like_section_widget.dart';
+import 'package:bip_hip/views/profile/post_widgets/post_activity_status_widget.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoDetails extends StatelessWidget {
@@ -25,7 +26,7 @@ class VideoDetails extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: 'Videos'.tr,
+              title: ksVideos.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -71,7 +72,7 @@ class VideoDetails extends StatelessWidget {
                                       shape: BoxShape.circle,
                                     ),
                                     child: Image.asset(
-                                      "assets/images/profileDefault.png",
+                                      kiProfileDefaultImageUrl,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -90,7 +91,7 @@ class VideoDetails extends StatelessWidget {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Image.asset(
-                                    "assets/images/profilePic.png",
+                                    kiProfilePicImageUrl,
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -151,7 +152,7 @@ class VideoDetails extends StatelessWidget {
                                     ),
                                     kW8sizedBox,
                                     CustomElevatedButton(
-                                      label: _createPostController.category.value == "" ? "Select Category" : _createPostController.category.value,
+                                      label: _createPostController.category.value == "" ? ksSelectCategory.tr : _createPostController.category.value,
                                       prefixIcon: _createPostController.category.value == "" ? null : _createPostController.categoryIcon.value,
                                       prefixIconColor: _createPostController.category.value == "" ? null : _createPostController.categoryIconColor.value,
                                       onPressed: () {},
@@ -163,7 +164,7 @@ class VideoDetails extends StatelessWidget {
                                     if (_createPostController.category.value == "Selling") kW8sizedBox,
                                     if (_createPostController.category.value == "Selling")
                                       CustomElevatedButton(
-                                        label: "Post Type",
+                                        label: ksPostType.tr,
                                         onPressed: () {},
                                         buttonHeight: 22,
                                         isCustomButton: true,
@@ -180,27 +181,53 @@ class VideoDetails extends StatelessWidget {
                         ),
                       ],
                     ),
+                    // kH20sizedBox,
+                    // const CustomDivider(),
                     kH20sizedBox,
-                    const CustomDivider(),
-                    kH20sizedBox,
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [InteractionStats(), UserInteractionView()],
+                    // const Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [InteractionStats(), UserInteractionView()],
+                    // ),
+                    PostActivityStatusWidget(
+                      reactCount: 440,
+                      reactionOnPressed: () {
+                        // _postReactionController.giftFilter(0);
+                        // _globalController.blankBottomSheet(
+                        //     context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                      },
+                      giftCount: 50,
+                      commentCount: 200,
+                      shareCount: 340,
+                      isGiftShown: true,
+                      giftOnPressed: () {
+                        // _postReactionController.giftFilter(0);
+                        // _globalController.blankBottomSheet(
+                        //     context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                      },
                     ),
-                    kH20sizedBox,
+                    LikeSectionWidget(
+                      isGiftShown: true,
+                      giftOnPressed: () {
+                        // _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                      },
+                      commentOnPressed: () {
+                        // showComment.value = !showComment.value;
+                        // ll(showComment);
+                      },
+                    ),
                     const CustomDivider(),
-                    kH20sizedBox,
+                    kH16sizedBox,
                     Row(
                       children: [
                         Text(
-                          'Comment',
+                          ksComment.tr,
                           style: semiBold14TextStyle(cBlackColor),
                         ),
                       ],
                     ),
                     kH16sizedBox,
                     const CommentWidget(
-                      profileImage: 'assets/images/profileDefault.png',
+                      profileImage: kiProfileDefaultImageUrl,
                       timePassed: '5',
                       isLikeButtonShown: true,
                       isReplyButtonShown: true,
@@ -211,11 +238,12 @@ class VideoDetails extends StatelessWidget {
                       userName: 'Sharker Omi',
                       isSendMessageShown: false,
                       isHideButtonShown: false,
-                      isImageComment: false, replyList: [],
+                      isImageComment: false,
+                      replyList: [],
                     ),
                     kH16sizedBox,
                     const CommentWidget(
-                      profileImage: 'assets/images/profileDefault.png',
+                      profileImage: kiProfileDefaultImageUrl,
                       timePassed: '5',
                       isLikeButtonShown: true,
                       isReplyButtonShown: true,
@@ -226,7 +254,8 @@ class VideoDetails extends StatelessWidget {
                       userName: 'Sharker Omi',
                       isSendMessageShown: false,
                       isHideButtonShown: false,
-                      isImageComment: false, replyList: [],
+                      isImageComment: false,
+                      replyList: [],
                     ),
                   ],
                 ),

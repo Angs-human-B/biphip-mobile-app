@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
+import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
@@ -24,7 +25,7 @@ class EditAboutInfo extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: 'About'.tr,
+              title: ksAbout.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -45,44 +46,45 @@ class EditAboutInfo extends StatelessWidget {
                     children: [
                       kH10sizedBox,
                       Text(
-                        'Address',
+                        ksAddress.tr,
                         style: semiBold18TextStyle(cBlackColor),
                       ),
-                      kH10sizedBox,
+                      kH20sizedBox,
                       RowTextButton(
-                        text: 'Hometown',
-                        buttonText: 'Add Hometown',
-                        showAddButton: _profileController.homeTown.value == '' ? true : false,
+                        text: ksHomeTown.tr,
+                        buttonText: ksAdd.tr,
+                        showAddButton: _profileController.hometownData.value == null ? true : false,
                         buttonWidth: 151,
                         onPressedAdd: () {
-                          _profileController.setEditPageValue('Add Hometown Address', false, BipHip.location, _profileController.homeTownTextEditingController,
-                              false, _profileController.homeTownTextEditingController, 'Enter hometown address', false, true, false, false, '', 'HOMETOWN');
+                          _profileController.setEditPageValue(ksAddHomeTownAddress.tr, false, BipHip.location, _profileController.homeTownTextEditingController,
+                              false, _profileController.homeTownTextEditingController, ksEnterHometownAddress.tr, false, true, false, false, '', 'HOMETOWN');
                           Get.toNamed(krEdit);
                         },
                       ),
-                      if (_profileController.homeTown.value != '')
+                      if (_profileController.hometownData.value != null)
                         Padding(
                           padding: const EdgeInsets.only(top: k10Padding),
                           child: InfoContainer(
                             prefixIcon: BipHip.location,
                             suffixIcon: BipHip.edit,
-                            text: _profileController.homeTown.value,
+                            text: checkNullOrStringNull(_profileController.hometownData.value!.city),
                             suffixOnPressed: () {
-                              _globalController.blankBottomSheet(
+                              _globalController.commonBottomSheet(
                                   context: context,
                                   isScrollControlled: false,
-                                  bottomSheetHeight: 150,
+                                  bottomSheetHeight: 160,
                                   content: EditModalSheet(
-                                    editButtonText: 'Edit Address',
+                                    editButtonText: ksEditAddress.tr,
                                     editOnPressed: () {
+                                      _profileController.homeTownTextEditingController.text = _profileController.hometownData.value!.city!;
                                       _profileController.setEditPageValue(
-                                          'Edit Hometown Address',
+                                          ksEditHometownAddress.tr,
                                           false,
                                           BipHip.location,
                                           _profileController.homeTownTextEditingController,
                                           false,
                                           _profileController.homeTownTextEditingController,
-                                          'Edit hometown address',
+                                          ksEditHometownAddress.tr,
                                           false,
                                           true,
                                           false,
@@ -91,40 +93,97 @@ class EditAboutInfo extends StatelessWidget {
                                           'EDIT HOMETOWN');
                                       Get.toNamed(krEdit);
                                     },
-                                    deleteButtonText: 'Delete Address',
+                                    deleteButtonText: ksDeleteAddress.tr,
                                     deleteOnPressed: () {
-                                      _profileController.homeTown.value = '';
+                                      // _profileController.homeTown.value = '';
+                                      //todo: implement hometown delete api
                                       Get.back();
                                     },
-                                  ));
+                                  ),
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: null,
+                                  rightText: '',
+                                  rightTextStyle: regular10TextStyle(cBlackColor),
+                                  title: ksEdit.tr,
+                                  isRightButtonShow: false);
                             },
                           ),
                         ),
                       kH16sizedBox,
                       RowTextButton(
-                        text: 'Present Address',
-                        buttonText: 'Add City',
+                        text: ksPresentAddress.tr,
+                        buttonText: ksAdd.tr,
                         showAddButton: true,
                         onPressedAdd: () {
                           _profileController.setEditPageValue(
-                              'Add Present Address',
+                              ksAddPresentAddress.tr,
                               false,
                               BipHip.location,
                               _profileController.presentAddressTextEditingController,
                               false,
                               _profileController.presentAddressTextEditingController,
-                              'Add location',
+                              ksAddLocation.tr,
                               true,
                               true,
                               true,
                               false,
-                              'Currently living here',
+                              ksCurrentlyLivingHere.tr,
                               'ADD PRESENT');
                           Get.toNamed(krEdit);
                         },
                         buttonWidth: 108,
                       ),
-                      if (_profileController.cityList.isNotEmpty) kH12sizedBox,
+                      if (_profileController.currentCityData.value!.city != null) kH12sizedBox,
+                      if (_profileController.currentCityData.value!.city != null)
+                        InfoContainer(
+                          prefixIcon: BipHip.location,
+                          suffixIcon: BipHip.edit,
+                          text: checkNullOrStringNull(_profileController.currentCityData.value!.city),
+                          suffixOnPressed: () {
+                            // _profileController.cityList.remove(_profileController.cityList[index]);
+                            _globalController.commonBottomSheet(
+                                context: context,
+                                isScrollControlled: false,
+                                bottomSheetHeight: 160,
+                                onPressCloseButton: () {
+                                  Get.back();
+                                },
+                                onPressRightButton: null,
+                                rightText: '',
+                                rightTextStyle: regular10TextStyle(cBlackColor),
+                                title: ksEdit.tr,
+                                isRightButtonShow: false,
+                                content: EditModalSheet(
+                                  editButtonText: ksEditAddress.tr,
+                                  editOnPressed: () {
+                                    _profileController.presentAddressTextEditingController.text = _profileController.currentCityData.value!.city!;
+                                    _profileController.setEditPageValue(
+                                        ksEditPresentAddress.tr,
+                                        false,
+                                        BipHip.location,
+                                        _profileController.presentAddressTextEditingController,
+                                        false,
+                                        _profileController.presentAddressTextEditingController,
+                                        ksEditLocation.tr,
+                                        true,
+                                        true,
+                                        true,
+                                        _profileController.isCurrentlyLiveHere.value,
+                                        ksCurrentlyLivingHere.tr,
+                                        'EDIT PRESENT');
+                                    Get.toNamed(krEdit);
+                                  },
+                                  deleteButtonText: ksDeleteAddress.tr,
+                                  deleteOnPressed: () {
+                                    //todo: implement delete address api
+                                    // _profileController.cityList.remove(item);
+                                    Get.back();
+                                  },
+                                ));
+                          },
+                        ),
                       if (_profileController.cityList.isNotEmpty)
                         ListView.builder(
                             shrinkWrap: true,
@@ -139,32 +198,41 @@ class EditAboutInfo extends StatelessWidget {
                                   text: item,
                                   suffixOnPressed: () {
                                     // _profileController.cityList.remove(_profileController.cityList[index]);
-                                    _globalController.blankBottomSheet(
+                                    _globalController.commonBottomSheet(
                                         context: context,
                                         isScrollControlled: false,
-                                        bottomSheetHeight: 150,
+                                        bottomSheetHeight: 160,
+                                        onPressCloseButton: () {
+                                          Get.back();
+                                        },
+                                        onPressRightButton: null,
+                                        rightText: '',
+                                        rightTextStyle: regular10TextStyle(cBlackColor),
+                                        title: ksEdit.tr,
+                                        isRightButtonShow: false,
                                         content: EditModalSheet(
-                                          editButtonText: 'Edit Address',
+                                          editButtonText: ksEditAddress.tr,
                                           editOnPressed: () {
                                             _profileController.cityListIndex.value = index;
+                                            _profileController.deleteIndex.value = index;
                                             _profileController.presentAddressTextEditingController.text = item;
                                             _profileController.setEditPageValue(
-                                                'Edit Present Address',
+                                                ksEditPresentAddress.tr,
                                                 false,
                                                 BipHip.location,
                                                 _profileController.presentAddressTextEditingController,
                                                 false,
                                                 _profileController.presentAddressTextEditingController,
-                                                'Edit location',
+                                                ksEditLocation.tr,
                                                 true,
                                                 true,
                                                 true,
                                                 _profileController.isCurrentlyLiveHere.value,
-                                                'Currently living here',
+                                                ksCurrentlyLivingHere.tr,
                                                 'EDIT PRESENT');
                                             Get.toNamed(krEdit);
                                           },
-                                          deleteButtonText: 'Delete Address',
+                                          deleteButtonText: ksDeleteAddress.tr,
                                           deleteOnPressed: () {
                                             _profileController.cityList.remove(item);
                                             Get.back();
@@ -178,7 +246,7 @@ class EditAboutInfo extends StatelessWidget {
                       const CustomDivider(),
                       kH20sizedBox,
                       Text(
-                        'Relationship Status',
+                        ksRelationshipStatus.tr,
                         style: semiBold18TextStyle(cBlackColor),
                       ),
                       kH20sizedBox,
@@ -199,20 +267,20 @@ class EditAboutInfo extends StatelessWidget {
                             onPressRightButton: null,
                             rightText: '',
                             rightTextStyle: regular10TextStyle(cBlackColor),
-                            title: 'Select Relationship Status',
+                            title: ksSelectRelationshipStatus.tr,
                             isRightButtonShow: false,
                           );
                         },
-                        text: _profileController.relationshipStatus.value,
-                        hintText: 'Select Relationship Status',
+                        text: checkNullOrStringNull(_profileController.profileData.value!.user!.relation),
+                        hintText: ksSelectRelationshipStatus.tr,
                       ),
-                      if (_profileController.showEditRelationshipStatus.value) kH20sizedBox,
-                      if (_profileController.showEditRelationshipStatus.value)
+                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH20sizedBox,
+                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
                         OutLinedButton(
                           buttonWidth: 80,
                           buttonHeight: 25,
                           onPress: () {},
-                          buttonText: 'Public',
+                          buttonText: ksPublic.tr,
                           buttonTextStyle: semiBold12TextStyle(cBlackColor),
                           borderColor: cLineColor,
                           suffixWidget: const Padding(
@@ -224,8 +292,8 @@ class EditAboutInfo extends StatelessWidget {
                             ),
                           ),
                         ),
-                      if (_profileController.showEditRelationshipStatus.value) kH20sizedBox,
-                      if (_profileController.showEditRelationshipStatus.value)
+                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH20sizedBox,
+                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
                         CancelSaveButton(
                           onPressedCancel: () {
                             _profileController.showEditRelationshipStatus.value = false;
@@ -239,7 +307,7 @@ class EditAboutInfo extends StatelessWidget {
                       kH16sizedBox,
                       RowTextButton(
                         text: 'Education Background',
-                        buttonText: 'Add School',
+                        buttonText: 'Add',
                         showAddButton: true,
                         onPressedAdd: () {
                           _profileController.setEditPageValue(
@@ -260,53 +328,62 @@ class EditAboutInfo extends StatelessWidget {
                         },
                         buttonWidth: 126,
                       ),
-                      if (_profileController.schoolList.isNotEmpty)
+                      if (_profileController.profileData.value!.school.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: k16Padding),
                           child: Text(
-                            'School',
+                            ksSchool.tr,
                             style: semiBold16TextStyle(cBlackColor),
                           ),
                         ),
                       ListView.builder(
                           shrinkWrap: true,
-                          itemCount: _profileController.schoolList.length,
+                          itemCount: _profileController.profileData.value!.school.length,
                           itemBuilder: (context, index) {
-                            var item = _profileController.schoolList[index];
+                            var item = _profileController.profileData.value!.school[index];
                             return Padding(
                               padding: const EdgeInsets.only(bottom: k10Padding),
                               child: InfoContainer(
                                 prefixIcon: BipHip.schoolNew,
                                 suffixIcon: BipHip.edit,
-                                text: item,
+                                text: checkNullOrStringNull(item.school),
                                 suffixOnPressed: () {
                                   // _profileController.cityList.remove(_profileController.cityList[index]);
-                                  _globalController.blankBottomSheet(
+                                  _globalController.commonBottomSheet(
                                       context: context,
                                       isScrollControlled: false,
-                                      bottomSheetHeight: 150,
+                                      bottomSheetHeight: 160,
+                                      onPressCloseButton: () {
+                                        Get.back();
+                                      },
+                                      onPressRightButton: null,
+                                      rightText: '',
+                                      rightTextStyle: regular10TextStyle(cBlackColor),
+                                      title: ksEdit.tr,
+                                      isRightButtonShow: false,
                                       content: EditModalSheet(
-                                        editButtonText: 'Edit School',
+                                        editButtonText: ksEditSchool.tr,
                                         editOnPressed: () {
                                           _profileController.schoolIndex.value = index;
-                                          _profileController.educationInstituteTextEditingController.text = item;
+                                          _profileController.deleteIndex.value = index;
+                                          _profileController.educationInstituteTextEditingController.text = item.school!;
                                           _profileController.setEditPageValue(
-                                              'Edit School',
+                                              ksEditSchool.tr,
                                               false,
                                               BipHip.schoolNew,
                                               _profileController.educationInstituteTextEditingController,
                                               false,
                                               _profileController.educationInstituteTextEditingController,
-                                              'Edit school',
+                                              ksEditSchool.tr,
                                               true,
                                               true,
                                               true,
                                               _profileController.isCurrentlyStudyingHere.value,
-                                              'Currently studying here',
+                                              ksCurrentlyStudyingHere.tr,
                                               'EDIT SCHOOL');
                                           Get.toNamed(krEdit);
                                         },
-                                        deleteButtonText: 'Delete School',
+                                        deleteButtonText: ksDeleteSchool.tr,
                                         deleteOnPressed: () {
                                           _profileController.schoolList.remove(item);
                                           Get.back();
@@ -316,51 +393,60 @@ class EditAboutInfo extends StatelessWidget {
                               ),
                             );
                           }),
-                      if (_profileController.collegeList.isNotEmpty)
+                      if (_profileController.profileData.value!.college.isNotEmpty)
                         Text(
-                          'College',
+                          ksCollege.tr,
                           style: semiBold16TextStyle(cBlackColor),
                         ),
                       kH16sizedBox,
                       ListView.builder(
                           shrinkWrap: true,
-                          itemCount: _profileController.collegeList.length,
+                          itemCount: _profileController.profileData.value!.college.length,
                           itemBuilder: (context, index) {
-                            var item = _profileController.collegeList[index];
+                            var item = _profileController.profileData.value!.college[index];
                             return Padding(
                               padding: const EdgeInsets.only(bottom: k10Padding),
                               child: InfoContainer(
                                 prefixIcon: BipHip.schoolNew,
                                 suffixIcon: BipHip.edit,
-                                text: item,
+                                text: checkNullOrStringNull(item.school),
                                 suffixOnPressed: () {
                                   // _profileController.cityList.remove(_profileController.cityList[index]);
-                                  _globalController.blankBottomSheet(
+                                  _globalController.commonBottomSheet(
                                       context: context,
                                       isScrollControlled: false,
-                                      bottomSheetHeight: 150,
+                                      bottomSheetHeight: 160,
+                                      onPressCloseButton: () {
+                                        Get.back();
+                                      },
+                                      onPressRightButton: null,
+                                      rightText: '',
+                                      rightTextStyle: regular10TextStyle(cBlackColor),
+                                      title: ksEdit,
+                                      isRightButtonShow: false,
                                       content: EditModalSheet(
-                                        editButtonText: 'Edit College',
+                                        editButtonText: ksEditCollege.tr,
                                         editOnPressed: () {
                                           _profileController.collegeIndex.value = index;
-                                          _profileController.educationInstituteTextEditingController.text = item;
+                                          _profileController.deleteIndex.value = index;
+                                          _profileController.educationInstituteTextEditingController.text = item.school!;
                                           _profileController.setEditPageValue(
-                                              'Edit College',
+                                              ksEditCollege.tr,
                                               false,
                                               BipHip.schoolNew,
                                               _profileController.educationInstituteTextEditingController,
                                               false,
                                               _profileController.educationInstituteTextEditingController,
-                                              'Edit College',
+                                              ksEditCollege.tr,
                                               true,
                                               true,
                                               true,
                                               _profileController.isCurrentlyStudyingHere.value,
-                                              'Currently studying here',
+                                              ksCurrentlyStudyingHere.tr,
                                               'EDIT COLLEGE');
                                           Get.toNamed(krEdit);
                                         },
-                                        deleteButtonText: 'Delete College',
+                                        deleteButtonText: ksDeleteCollege.tr,
                                         deleteOnPressed: () {
                                           _profileController.collegeList.remove(item);
                                           Get.back();
@@ -373,29 +459,151 @@ class EditAboutInfo extends StatelessWidget {
                       const CustomDivider(),
                       kH16sizedBox,
                       RowTextButton(
-                        text: 'Work',
-                        buttonText: 'Add Workplace',
+                        text: ksProfession.tr,
+                        buttonText: ksAdd.tr,
+                        showAddButton: _profileController.profileData.value!.user!.profession.isEmpty,
+                        onPressedAdd: () {
+                          _profileController.isRouteFromAboutInfo.value = true;
+                          Get.toNamed(krSelectProfession);
+                        },
+                        buttonWidth: 149,
+                      ),
+                      if (_profileController.profileData.value!.user!.profession.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: CustomSelectionButton(
+                            prefixIcon: BipHip.work,
+                            onPressed: () {
+                              _profileController.showEditRelationshipStatus.value = true;
+                              _globalController.commonBottomSheet(
+                                  context: context,
+                                  isScrollControlled: false,
+                                  bottomSheetHeight: 160,
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: null,
+                                  rightText: '',
+                                  rightTextStyle: regular10TextStyle(cBlackColor),
+                                  title: ksEdit.tr,
+                                  isRightButtonShow: false,
+                                  content: EditModalSheet(
+                                    editButtonText: ksEditProfession.tr,
+                                    editOnPressed: () {
+                                      _profileController.isRouteFromAboutInfo.value = true;
+                                      Get.back();
+                                      Get.toNamed(krSelectProfession);
+                                    },
+                                    deleteButtonText: ksDeleteProfession.tr,
+                                    deleteOnPressed: () {
+                                      _profileController.selectedProfession.value = '';
+                                      Get.back();
+                                    },
+                                  ));
+                            },
+                            text: _profileController.profileData.value!.user!.profession[0],
+                            hintText: ksSelectProfession.tr,
+                          ),
+                        ),
+                      kH16sizedBox,
+                      const CustomDivider(),
+                      kH16sizedBox,
+                      RowTextButton(
+                        text: ksInterest.tr,
+                        buttonText: ksAdd.tr,
+                        showAddButton: true,
+                        onPressedAdd: () {
+                          _profileController.isRouteFromAboutInfo.value = true;
+                          Get.toNamed(krSelectInterest);
+                        },
+                        buttonWidth: 149,
+                      ),
+                      if (_profileController.profileData.value!.user!.interest.isNotEmpty)
+                        Wrap(
+                          alignment: WrapAlignment.start,
+                          direction: Axis.horizontal,
+                          spacing: 8.0,
+                          children: [
+                            for (int i = 0; i < _profileController.profileData.value!.user!.interest.length; i++)
+                              CustomChoiceChips(
+                                label: _profileController.profileData.value!.user!.interest[i],
+                                isSelected: false,
+                                onSelected: null,
+                              )
+                          ],
+                        ),
+                      kH16sizedBox,
+                      const CustomDivider(),
+                      kH16sizedBox,
+                      RowTextButton(
+                        text: ksWork.tr,
+                        buttonText: ksAdd.tr,
                         showAddButton: true,
                         onPressedAdd: () {
                           _profileController.setEditPageValue(
-                              'Add Workplace',
+                              ksAddWorkplace.tr,
                               false,
                               BipHip.officeFill,
                               _profileController.officeNameTextEditingController,
                               true,
                               _profileController.designationTextEditingController,
-                              'Office name',
+                              ksOfficeName.tr,
                               true,
                               true,
                               true,
                               _profileController.isCurrentlyStudyingHere.value,
-                              'Currently working here',
+                              ksCurrentlyWorkingHere.tr,
                               'ADD WORKPLACE');
                           Get.toNamed(krEdit);
                         },
                         buttonWidth: 149,
                       ),
                       kH16sizedBox,
+                      if (_profileController.profileData.value!.currentWorkplace != null)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: k10Padding),
+                          child: InfoContainer(
+                            prefixIcon: BipHip.officeFill,
+                            suffixIcon: BipHip.edit,
+                            text: checkNullOrStringNull(_profileController.profileData.value!.currentWorkplace!.company),
+                            suffixOnPressed: () {
+                              // _profileController.cityList.remove(_profileController.cityList[index]);
+                              // _globalController.blankBottomSheet(
+                              //     context: context,
+                              //     isScrollControlled: false,
+                              //     bottomSheetHeight: 130,
+                              //     content: EditModalSheet(
+                              //       editButtonText: ksEditWorkplace.tr,
+                              //       editOnPressed: () {
+                              //         _profileController.officeIndex.value = index;
+                              //         _profileController.deleteIndex.value = index;
+                              //         _profileController.officeNameTextEditingController.text = item['office'];
+                              //         _profileController.designationTextEditingController.text = item['designation'];
+                              //         _profileController.setEditPageValue(
+                              //             ksEditWorkplace.tr,
+                              //             false,
+                              //             BipHip.officeFill,
+                              //             _profileController.officeNameTextEditingController,
+                              //             true,
+                              //             _profileController.designationTextEditingController,
+                              //             ksEditWorkplace.tr,
+                              //             true,
+                              //             true,
+                              //             true,
+                              //             _profileController.isCurrentlyWorkingHere.value,
+                              //             ksCurrentlyWorkingHere.tr,
+                              //             'EDIT WORKPLACE');
+                              //         Get.toNamed(krEdit);
+                              //       },
+                              //       deleteButtonText: ksDeleteWorkplace.tr,
+                              //       deleteOnPressed: () {
+                              //         // _profileController.officeList.remove(item);
+                              //         Get.back();
+                              //       },
+                              //     ));
+                            },
+                          ),
+                        ),
                       ListView.builder(
                           shrinkWrap: true,
                           itemCount: _profileController.officeList.length,
@@ -412,30 +620,31 @@ class EditAboutInfo extends StatelessWidget {
                                   _globalController.blankBottomSheet(
                                       context: context,
                                       isScrollControlled: false,
-                                      bottomSheetHeight: 150,
+                                      bottomSheetHeight: 130,
                                       content: EditModalSheet(
-                                        editButtonText: 'Edit Workplace',
+                                        editButtonText: ksEditWorkplace.tr,
                                         editOnPressed: () {
                                           _profileController.officeIndex.value = index;
+                                          _profileController.deleteIndex.value = index;
                                           _profileController.officeNameTextEditingController.text = item['office'];
                                           _profileController.designationTextEditingController.text = item['designation'];
                                           _profileController.setEditPageValue(
-                                              'Edit Workplace',
+                                              ksEditWorkplace.tr,
                                               false,
                                               BipHip.officeFill,
                                               _profileController.officeNameTextEditingController,
                                               true,
                                               _profileController.designationTextEditingController,
-                                              'Edit Workplace',
+                                              ksEditWorkplace.tr,
                                               true,
                                               true,
                                               true,
                                               _profileController.isCurrentlyWorkingHere.value,
-                                              'Currently working here',
+                                              ksCurrentlyWorkingHere.tr,
                                               'EDIT WORKPLACE');
                                           Get.toNamed(krEdit);
                                         },
-                                        deleteButtonText: 'Delete workplace',
+                                        deleteButtonText: ksDeleteWorkplace.tr,
                                         deleteOnPressed: () {
                                           _profileController.officeList.remove(item);
                                           Get.back();
@@ -448,119 +657,126 @@ class EditAboutInfo extends StatelessWidget {
                       const CustomDivider(),
                       kH16sizedBox,
                       Text(
-                        'Contact Details',
+                        ksContactDetails.tr,
                         style: semiBold18TextStyle(cBlackColor),
                       ),
-                      kH8sizedBox,
+                      kH20sizedBox,
                       RowTextButton(
-                        text: 'Phone',
-                        buttonText: 'Add Phone Number',
+                        text: ksPhone.tr,
+                        buttonText: ksAdd.tr,
                         showAddButton: true,
                         onPressedAdd: () {
-                          _profileController.setEditPageValue('Add Phone Number', false, BipHip.phoneFill, _profileController.phoneTextEditingController, false,
-                              _profileController.phoneTextEditingController, 'Phone', false, true, false, false, '', 'ADD PHONE');
+                          _profileController.setEditPageValue(ksAddPhoneNumber.tr, false, BipHip.phoneFill, _profileController.phoneTextEditingController,
+                              false, _profileController.phoneTextEditingController, ksPhone.tr, false, true, false, false, '', 'ADD PHONE');
                           Get.toNamed(krEdit);
                         },
                         buttonWidth: 177,
                       ),
                       kH16sizedBox,
-                      ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _profileController.phoneList.length,
-                          itemBuilder: (context, index) {
-                            var item = _profileController.phoneList[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: k10Padding),
-                              child: InfoContainer(
-                                prefixIcon: BipHip.phoneFill,
-                                suffixIcon: BipHip.edit,
-                                text: item,
-                                suffixOnPressed: () {
-                                  // _profileController.cityList.remove(_profileController.cityList[index]);
-                                  _globalController.blankBottomSheet(
-                                      context: context,
-                                      isScrollControlled: false,
-                                      bottomSheetHeight: 150,
-                                      content: EditModalSheet(
-                                        editButtonText: 'Edit Phone',
-                                        editOnPressed: () {
-                                          _profileController.phoneIndex.value = index;
-                                          _profileController.phoneTextEditingController.text = item;
-                                          _profileController.setEditPageValue(
-                                              'Edit Phone',
-                                              false,
-                                              BipHip.phoneFill,
-                                              _profileController.phoneTextEditingController,
-                                              false,
-                                              _profileController.phoneTextEditingController,
-                                              'Edit Phone',
-                                              false,
-                                              true,
-                                              false,
-                                              false,
-                                              '',
-                                              'EDIT PHONE');
-                                          Get.toNamed(krEdit);
-                                        },
-                                        deleteButtonText: 'Delete phone',
-                                        deleteOnPressed: () {
-                                          _profileController.phoneList.remove(item);
-                                          Get.back();
-                                        },
-                                      ));
-                                },
-                              ),
-                            );
-                          }),
+                      for (int i = 0; i < _profileController.profileData.value!.contacts.length; i++)
+                        if (_profileController.profileData.value!.contacts[i].type == 'phone')
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: k10Padding),
+                            child: InfoContainer(
+                              prefixIcon: BipHip.phoneFill,
+                              suffixIcon: BipHip.edit,
+                              text: checkNullOrStringNull(_profileController.profileData.value!.contacts[i].value),
+                              suffixOnPressed: () {
+                                // _profileController.cityList.remove(_profileController.cityList[index]);
+                                // _globalController.blankBottomSheet(
+                                //     context: context,
+                                //     isScrollControlled: false,
+                                //     bottomSheetHeight: 130,
+                                //     content: EditModalSheet(
+                                //       editButtonText: ksEditPhone.tr,
+                                //       editOnPressed: () {
+                                //         _profileController.phoneIndex.value = index;
+                                //         _profileController.deleteIndex.value = index;
+                                //         _profileController.phoneTextEditingController.text = item;
+                                //         _profileController.setEditPageValue(
+                                //             ksEditPhone.tr,
+                                //             false,
+                                //             BipHip.phoneFill,
+                                //             _profileController.phoneTextEditingController,
+                                //             false,
+                                //             _profileController.phoneTextEditingController,
+                                //             ksEditPhone.tr,
+                                //             false,
+                                //             true,
+                                //             false,
+                                //             false,
+                                //             '',
+                                //             'EDIT PHONE');
+                                //         Get.toNamed(krEdit);
+                                //       },
+                                //       deleteButtonText: ksDeletePhone.tr,
+                                //       deleteOnPressed: () {
+                                //         // _profileController.phoneList.remove(item);
+                                //         Get.back();
+                                //       },
+                                //     ));
+                              },
+                            ),
+                          ),
                       if (_profileController.phoneList.isNotEmpty) kH8sizedBox,
                       RowTextButton(
-                        text: 'Email',
-                        buttonText: 'Add Email',
+                        text: ksEmail.tr,
+                        buttonText: ksAdd.tr,
                         showAddButton: true,
                         onPressedAdd: () {
-                          _profileController.setEditPageValue('Add Email', false, BipHip.mail, _profileController.emailTextEditingController, false,
-                              _profileController.emailTextEditingController, 'Email', false, true, false, false, '', 'ADD EMAIL');
+                          _profileController.setEditPageValue(ksAddEmail.tr, false, BipHip.mail, _profileController.emailTextEditingController, false,
+                              _profileController.emailTextEditingController, ksEmail.tr, false, true, false, false, '', 'ADD EMAIL');
                           Get.toNamed(krEdit);
                         },
                         buttonWidth: 118,
                       ),
                       kH16sizedBox,
-                      ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _profileController.emailList.length,
-                          itemBuilder: (context, index) {
-                            var item = _profileController.emailList[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: k10Padding),
-                              child: InfoContainer(
-                                prefixIcon: BipHip.mail,
-                                suffixIcon: BipHip.edit,
-                                text: item,
-                                suffixOnPressed: () {
-                                  // _profileController.cityList.remove(_profileController.cityList[index]);
-                                  _globalController.blankBottomSheet(
-                                      context: context,
-                                      isScrollControlled: false,
-                                      bottomSheetHeight: 150,
-                                      content: EditModalSheet(
-                                        editButtonText: 'Edit Email',
-                                        editOnPressed: () {
-                                          _profileController.emailIndex.value = index;
-                                          _profileController.emailTextEditingController.text = item;
-                                          _profileController.setEditPageValue('Edit Email', false, BipHip.mail, _profileController.emailTextEditingController,
-                                              false, _profileController.emailTextEditingController, 'Edit Email', false, true, false, false, '', 'EDIT EMAIL');
-                                          Get.toNamed(krEdit);
-                                        },
-                                        deleteButtonText: 'Delete email',
-                                        deleteOnPressed: () {
-                                          _profileController.emailList.remove(item);
-                                          Get.back();
-                                        },
-                                      ));
-                                },
-                              ),
-                            );
-                          }),
+                      for (int i = 0; i < _profileController.profileData.value!.contacts.length; i++)
+                        if (_profileController.profileData.value!.contacts[i].type == 'email')
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: k10Padding),
+                            child: InfoContainer(
+                              prefixIcon: BipHip.mail,
+                              suffixIcon: BipHip.edit,
+                              text: checkNullOrStringNull(_profileController.profileData.value!.contacts[i].value),
+                              suffixOnPressed: () {
+                                // _profileController.cityList.remove(_profileController.cityList[index]);
+                                // _globalController.blankBottomSheet(
+                                //     context: context,
+                                //     isScrollControlled: false,
+                                //     bottomSheetHeight: 130,
+                                //     content: EditModalSheet(
+                                //       editButtonText: ksEditEmail.tr,
+                                //       editOnPressed: () {
+                                //         _profileController.emailIndex.value = index;
+                                //         _profileController.deleteIndex.value = index;
+
+                                //         _profileController.emailTextEditingController.text = item;
+                                //         _profileController.setEditPageValue(
+                                //             ksEditEmail.tr,
+                                //             false,
+                                //             BipHip.mail,
+                                //             _profileController.emailTextEditingController,
+                                //             false,
+                                //             _profileController.emailTextEditingController,
+                                //             ksEditEmail.tr,
+                                //             false,
+                                //             true,
+                                //             false,
+                                //             false,
+                                //             '',
+                                //             'EDIT EMAIL');
+                                //         Get.toNamed(krEdit);
+                                //       },
+                                //       deleteButtonText: ksDeleteEmail.tr,
+                                //       deleteOnPressed: () {
+                                //         _profileController.emailList.remove(item);
+                                //         Get.back();
+                                //       },
+                                //     ));
+                              },
+                            ),
+                          ),
                       kH16sizedBox,
                       // const CustomDivider(),
                       // kH8sizedBox,
@@ -640,7 +856,7 @@ class CancelSaveButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         CustomElevatedButton(
-            label: 'Cancel',
+            label: ksCancel.tr,
             textStyle: semiBold14TextStyle(cRedColor),
             buttonColor: cWhiteColor,
             borderColor: cRedColor,
@@ -648,7 +864,7 @@ class CancelSaveButton extends StatelessWidget {
             buttonWidth: 80,
             onPressed: onPressedCancel),
         kW16sizedBox,
-        CustomElevatedButton(label: 'Save', textStyle: semiBold14TextStyle(cWhiteColor), buttonHeight: h32, buttonWidth: 80, onPressed: onPressedSave),
+        CustomElevatedButton(label: ksSave.tr, textStyle: semiBold14TextStyle(cWhiteColor), buttonHeight: h32, buttonWidth: 80, onPressed: onPressedSave),
       ],
     );
   }

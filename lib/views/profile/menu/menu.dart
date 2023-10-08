@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/profile_controllers/menu_section_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
@@ -8,6 +9,7 @@ class Menu extends StatelessWidget {
   Menu({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
+  final MenuSectionController _menuController = Get.find<MenuSectionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +74,8 @@ class Menu extends StatelessWidget {
                       isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
                       CustomMenuContainer(
                         height: 64,
-                        onPressed: () {
+                        onPressed: () async {
+                          await _profileController.getProfileOverview();
                           Get.toNamed(krProfile);
                         },
                         leading: ClipOval(
@@ -83,7 +86,7 @@ class Menu extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                             child: Image.asset(
-                              'assets/images/profilePic.png',
+                              kiProfilePicImageUrl,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -93,7 +96,7 @@ class Menu extends StatelessWidget {
                       ),
                       kH25sizedBox,
                       Text(
-                        'All shortcuts',
+                        ksAllShortcuts.tr,
                         style: semiBold18TextStyle(cBlackColor),
                       ),
                       kH16sizedBox,
@@ -102,19 +105,21 @@ class Menu extends StatelessWidget {
                         direction: Axis.horizontal,
                         spacing: 17.0,
                         children: [
-                          for (int i = 0; i < shortcutButtonContent.length; i++)
+                          for (int i = 0; i < _menuController.shortcutButtonContent.length; i++)
                             Padding(
                               padding: const EdgeInsets.only(bottom: k16Padding),
                               child: CustomMenuContainer(
                                 height: 64,
                                 width: (width / 2) - (kHorizontalPadding + 9),
                                 leading: Icon(
-                                  shortcutButtonContent[i]['icon'],
+                                  _menuController.shortcutButtonContent[i]['icon'],
                                   color: cPrimaryColor,
                                 ),
-                                text: shortcutButtonContent[i]['text'],
+                                text: _menuController.shortcutButtonContent[i]['text'],
                                 textStyle: semiBold16TextStyle(cBlackColor),
-                                onPressed: shortcutButtonContent[i]['onPressed'],
+                                onPressed: () {
+                                  _menuController.menuPressFunction(i);
+                                },
                               ),
                             ),
                         ],
@@ -127,7 +132,7 @@ class Menu extends StatelessWidget {
                       ),
                       CustomExpandableMenuButton(
                         height: h50,
-                        text: 'Help & support',
+                        text: ksHelpSupport.tr,
                         icon: BipHip.helpFill,
                         onPressed: () {
                           _profileController.isSupportButtonPressed.value = !_profileController.isSupportButtonPressed.value;
@@ -141,7 +146,7 @@ class Menu extends StatelessWidget {
                         ),
                       if (_profileController.isSupportButtonPressed.value)
                         ListOfButtons(
-                          list: supportButtonContent,
+                          list: _menuController.supportButtonContent,
                         ),
                       if (_profileController.isSupportButtonPressed.value) kH10sizedBox,
                       if (_profileController.isSupportButtonPressed.value || !_profileController.isSettingButtonPressed.value)
@@ -155,7 +160,7 @@ class Menu extends StatelessWidget {
                           _profileController.isSettingButtonPressed.value = !_profileController.isSettingButtonPressed.value;
                         },
                         height: h50,
-                        text: 'Settings & privacy',
+                        text: ksSettingsPrivacy.tr,
                         icon: BipHip.setting,
                       ),
                       Container(
@@ -165,17 +170,20 @@ class Menu extends StatelessWidget {
                       ),
                       if (_profileController.isSettingButtonPressed.value)
                         ListOfButtons(
-                          list: settingsButtonContent,
+                          list: _menuController.settingsButtonContent,
                         ),
                       kH20sizedBox,
                       CustomElevatedButton(
-                        label: 'Logout',
+                        label: ksLogout.tr,
                         onPressed: () async {
-                          await Get.find<AuthenticationController>().getSavedUsers();
-                          if (Get.find<AuthenticationController>().users.isNotEmpty) {
+                          var status = await SpController().getRememberMe();
+                          if (status == true) {
+                            await Get.find<AuthenticationController>().getSavedUsers();
                             Get.offAllNamed(krSavedUserLogin);
+                            await SpController().onLogout();
+                            Get.find<AuthenticationController>().resetLoginScreen();
                           } else {
-                            Get.offAllNamed(krLogin);
+                            await Get.find<AuthenticationController>().logout();
                           }
                         },
                         buttonHeight: 42,

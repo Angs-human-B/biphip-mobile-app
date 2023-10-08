@@ -23,6 +23,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     super.onInit();
     tabController = TabController(
       length: 5,
+      animationDuration: Duration.zero,
       vsync: this,
     );
     tabController.addListener(() {

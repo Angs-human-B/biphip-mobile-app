@@ -28,6 +28,7 @@ class AuthenticationController extends GetxController {
     List userList = await _spController.getUserList();
     users.clear();
     users.addAll(userList);
+    ll("user list length : ${users.length}");
   }
 
   void onIntroDone() async {
@@ -46,12 +47,6 @@ class AuthenticationController extends GetxController {
     isProfessionSelected.value = false;
     isInterestSelected.value = false;
   }
-
-  /*
-  |--------------------------------------------------------------------------
-  | //! info:: set device id
-  |--------------------------------------------------------------------------
-  */
 
   /*
   |--------------------------------------------------------------------------
@@ -106,14 +101,16 @@ class AuthenticationController extends GetxController {
 
         await _spController.saveBearerToken(loginData.token);
         await _spController.saveRememberMe(isLoginRememberCheck.value);
-        await _spController.saveUserList({
-          "email": loginData.user.email.toString(),
-          "name": loginData.user.fullName.toString(),
-          "image_url": loginData.user.image,
-          "token": loginData.token.toString(),
-        });
+        if (isLoginRememberCheck.value) {
+          await _spController.saveUserList({
+            "email": loginData.user.email.toString(),
+            "name": loginData.user.fullName.toString(),
+            "image_url": loginData.user.image,
+            "token": loginData.token.toString(),
+          });
+        }
         // await setDeviceID(loginData.user.id);
-        Get.offAllNamed(krMenu);
+        Get.offAllNamed(krHome);
         // final HomeController homeController = Get.find<HomeController>();
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
         // await homeController.getUserHome();
@@ -230,8 +227,10 @@ class AuthenticationController extends GetxController {
         CommonUnVerifyModel commonUnVerifyModel = CommonUnVerifyModel.fromJson(response.data);
         // log('Login_user_data : ${loginData.token}');
         verificationToken.value = commonUnVerifyModel.token.toString();
+        parentRoute.value = "register";
         resetOTPScreen();
         Get.toNamed(krOTP);
+
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -417,7 +416,7 @@ class AuthenticationController extends GetxController {
         // final HomeController homeController = Get.find<HomeController>();
         // await homeController.getUserHome();
         if (parentRoute.value == "login") {
-          Get.offAllNamed(krMenu);
+          Get.offAllNamed(krHome);
         } else if (parentRoute.value == "register") {
           Get.offAllNamed(krSelectProfession);
           resetRegisterScreen();
@@ -500,6 +499,48 @@ class AuthenticationController extends GetxController {
       }
     } catch (e) {
       ll('resendOTP error: $e');
+    }
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | //! info:: logout
+  |--------------------------------------------------------------------------
+  */
+  Future<void> logout() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        "all_devices": 0.toString(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        token: token,
+        url: kuLogOut,
+        body: body,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        // await getSavedUsers();
+        // if (users.isNotEmpty) {
+        //   Get.offAllNamed(krSavedUserLogin);
+        // } else {
+        //   Get.offAllNamed(krLogin);
+        // }
+        Get.offAllNamed(krLogin);
+        await SpController().onLogout();
+        resetLoginScreen();
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('logout error: $e');
     }
   }
 }

@@ -25,15 +25,19 @@ class CustomPostButton extends StatelessWidget {
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                   ),
-                  child: Image.asset(
-                    profilePic,
+                  child: Image.network(
+                    Environment.imageBaseUrl + profilePic.toString(),
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Image.asset(
+                      kiProfilePicImageUrl,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
               kW12sizedBox,
               Text(
-                'What\'s on your mind, $name?',
+                '${ksWhatsOnYourMind.tr}, $name?',
                 style: regular14TextStyle(cIconColor),
               ),
               const Spacer(),

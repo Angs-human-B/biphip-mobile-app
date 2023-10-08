@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
@@ -23,6 +24,14 @@ class ForgotPasswordScreen extends StatelessWidget {
               onBack: () async {
                 Get.back();
               },
+              action: const [
+                Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: CustomCircularProgressBar(
+                    percent: .33,
+                  ),
+                ),
+              ],
             ),
           ),
           backgroundColor: cWhiteColor,
@@ -37,21 +46,21 @@ class ForgotPasswordScreen extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       kH24sizedBox,
-                      const TopTitleAndSubtitle(
-                        title: ksTypeEmailOrPhone,
-                        subTitle: ksSendCodeToConfirm,
+                      TopTitleAndSubtitle(
+                        title: ksTypeEmailOrPhone.tr,
+                        subTitle: ksSendCodeToConfirm.tr,
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.forgotPasswordEmailTextEditingController,
                         errorText: _authenticationController.forgotPasswordEmailError.value,
-                        hint: ksEmail,
+                        hint: ksEmail.tr,
                         onChanged: (text) {
                           _authenticationController.checkCanSendOTP();
                           if (_authenticationController.forgotPasswordEmailTextEditingController.text.trim() == '') {
-                            _authenticationController.forgotPasswordEmailError.value = ksEmptyEmailErrorMessage;
+                            _authenticationController.forgotPasswordEmailError.value = ksEmptyEmailErrorMessage.tr;
                           } else if (!_authenticationController.forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
-                            _authenticationController.forgotPasswordEmailError.value = ksInvalidEmailErrorMessage;
+                            _authenticationController.forgotPasswordEmailError.value = ksInvalidEmailErrorMessage.tr;
                           } else {
                             _authenticationController.forgotPasswordEmailError.value = '';
                           }
@@ -62,7 +71,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
-                        label: ksNext,
+                        label: ksNext.tr,
                         onPressed: _authenticationController.canSendOTP.value
                             ? () async {
                                 await _authenticationController.forgetPassword();

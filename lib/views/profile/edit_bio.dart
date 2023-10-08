@@ -20,7 +20,7 @@ class EditBio extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: _profileController.bio.value == '' ? 'Add bio'.tr : 'Edit bio'.tr,
+              title: _profileController.bio.value == '' ? ksAddBio.tr : ksEditBio.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -35,7 +35,7 @@ class EditBio extends StatelessWidget {
                         Get.back();
                         _profileController.clearBio();
                       },
-                      text: 'Save',
+                      text: ksSave.tr,
                       textStyle: regular14TextStyle(cPrimaryColor)),
                 )
               ],
@@ -57,7 +57,7 @@ class EditBio extends StatelessWidget {
                           kH20sizedBox,
                           CustomModifiedTextField(
                             controller: _profileController.bioEditingController,
-                            hint: "Enter your bio",
+                            hint: ksEnterYourBio.tr,
                             maxLength: 255,
                             maxLines: 5,
                             onChanged: (text) {

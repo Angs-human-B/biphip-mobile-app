@@ -29,11 +29,16 @@ class SplashScreenController extends GetxController {
       duration,
       () async {
         if (rememberStatus) {
-          // Get.offAllNamed(krSavedUserLogin);
-          Get.offAllNamed(krMenu);
+          Get.offAllNamed(krHome);
         } else {
-          Get.find<AuthenticationController>().resetLoginScreen();
-          Get.offAllNamed(krLogin);
+          final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+          await authenticationController.getSavedUsers();
+          if (authenticationController.users.isNotEmpty) {
+            Get.offAllNamed(krSavedUserLogin);
+          } else {
+            Get.find<AuthenticationController>().resetLoginScreen();
+            Get.offAllNamed(krLogin);
+          }
         }
       },
     );

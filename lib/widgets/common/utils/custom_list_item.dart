@@ -27,7 +27,7 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minHeight: height > kSmallDeviceSizeLimit ? 45 : 40),
+      constraints: BoxConstraints(minHeight: isDeviceScreenLarge() ? 45 : 40),
       decoration: BoxDecoration(
         color: itemColor,
         border: Border.all(color: borderColor ?? itemColor),
@@ -84,7 +84,7 @@ class CustomListTile extends StatelessWidget {
                         ? Icon(
                             trailing!,
                             color: itemColor == cPrimaryColor ? cWhiteColor : cBlackColor,
-                            size: height > kSmallDeviceSizeLimit ? kIconSize20 : kIconSize16,
+                            size: isDeviceScreenLarge() ? kIconSize20 : kIconSize16,
                           )
                         : trailing!,
                   ),

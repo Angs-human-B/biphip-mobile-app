@@ -18,7 +18,7 @@ class CommentTextField extends StatelessWidget {
           children: [
             CustomModifiedTextField(
               controller: _postReactionController.commentTextEditingController,
-              hint: 'Write a reply...',
+              hint: ksWriteAReply.tr,
               inputType: TextInputType.multiline,
               minLines: 1,
               maxLines: 4,

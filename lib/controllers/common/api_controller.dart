@@ -15,7 +15,9 @@ class ApiController {
 
   void timeOutFunction() {
     String error = ksConnectionTimeoutMessage.tr;
-    _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+    if (!Get.isSnackbarOpen) {
+      _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+    }
   }
 
   Future<http.Response> methodBasedResponse({
@@ -86,7 +88,7 @@ class ApiController {
     final Uri uri = Uri.parse(Environment.apiUrl + url);
     ll("uri : $uri");
     http.Response response;
-    String error = ksAnErrorOccurred.tr;
+    String error = ksSomethingWentWrong.tr;
 
     try {
       response = await methodBasedResponse(
@@ -98,7 +100,7 @@ class ApiController {
         client: client,
         contentType: contentType,
       );
-      ll("response headers : ${response.statusCode}");
+      ll("response statusCode : ${response.statusCode}");
       if (response.statusCode == 200) {
         ll("response body : ${response.body}");
         CommonDM cm = convertToCommonObject(jsonDecode(response.body));
@@ -107,16 +109,25 @@ class ApiController {
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
         Get.offAllNamed(krLogin);
+        _globalController.showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
+        return null;
       } else {
+        if (!Get.isSnackbarOpen) {
+          _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        }
         return null;
       }
     } on SocketException {
       error = ksNoInternetConnectionMessage.tr;
-      _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+      if (!Get.isSnackbarOpen) {
+        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+      }
       return null;
     } catch (e) {
       log(e.toString());
-      _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+      if (!Get.isSnackbarOpen) {
+        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+      }
       return null;
     } finally {
       client.close();

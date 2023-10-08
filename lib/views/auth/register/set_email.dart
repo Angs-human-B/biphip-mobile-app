@@ -46,21 +46,21 @@ class SetEmail extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       kH24sizedBox,
-                      const TopTitleAndSubtitle(
-                        title: ksWhatEmail,
-                        subTitle: ksSendCodeToConfirm,
+                       TopTitleAndSubtitle(
+                        title: ksWhatEmail.tr,
+                        subTitle: ksSendCodeToConfirm.tr,
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerEmailTextEditingController,
                         errorText: _authenticationController.registerEmailError.value,
-                        hint: ksEmail,
+                        hint: ksEmail.tr,
                         onChanged: (text) {
                           _authenticationController.checkEmail();
                           if (_authenticationController.registerEmailTextEditingController.text.trim() == '') {
-                            _authenticationController.registerEmailError.value = ksEmptyEmailErrorMessage;
+                            _authenticationController.registerEmailError.value = ksEmptyEmailErrorMessage.tr;
                           } else if (!_authenticationController.registerEmailTextEditingController.text.trim().isValidEmail) {
-                            _authenticationController.registerEmailError.value = ksInvalidEmailErrorMessage;
+                            _authenticationController.registerEmailError.value = ksInvalidEmailErrorMessage.tr;
                           } else {
                             _authenticationController.registerEmailError.value = '';
                           }
@@ -71,7 +71,7 @@ class SetEmail extends StatelessWidget {
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
-                        label: ksNext,
+                        label: ksNext.tr,
                         onPressed: _authenticationController.checkValidEmail.value
                             ? () {
                                 Get.toNamed(krSetNewPass);

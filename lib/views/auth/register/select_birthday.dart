@@ -50,9 +50,9 @@ class SelectBirthday extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       kH24sizedBox,
-                      const TopTitleAndSubtitle(
-                        title: ksWhatBirthday,
-                        subTitle: ksChangeBirthday,
+                      TopTitleAndSubtitle(
+                        title: ksWhatBirthday.tr,
+                        subTitle: ksChangeBirthday.tr,
                       ),
                       kH50sizedBox,
                       CustomSelectionButton(
@@ -63,6 +63,8 @@ class SelectBirthday extends StatelessWidget {
                                 return SizedBox(
                                   height: height * 0.4,
                                   child: CupertinoDatePicker(
+                                    maximumDate: DateTime.now().subtract(const Duration(days: 15 * 365)),
+                                    initialDateTime: DateTime.now().subtract(const Duration(days: 16 * 365)),
                                     mode: CupertinoDatePickerMode.date,
                                     onDateTimeChanged: (value) {
                                       _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(value);
@@ -72,11 +74,11 @@ class SelectBirthday extends StatelessWidget {
                               });
                         },
                         text: _authenticationController.birthDay.value,
-                        hintText: ksSelectDOB,
+                        hintText: ksSelectDOB.tr,
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
-                        label: ksNext,
+                        label: ksNext.tr,
                         onPressed: _authenticationController.birthDay.value != ''
                             ? () {
                                 Get.toNamed(krSelectGender);

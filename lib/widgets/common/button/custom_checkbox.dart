@@ -16,8 +16,8 @@ class CustomCheckBox extends StatelessWidget {
 
   Widget _buildCheckBox() {
     return Container(
-      width: height > kSmallDeviceSizeLimit ? h18 : h14,
-      height: height > kSmallDeviceSizeLimit ? h18 : h14,
+      width: isDeviceScreenLarge() ? h18 : h14,
+      height: isDeviceScreenLarge() ? h18 : h14,
       decoration: BoxDecoration(
         border: Border.all(color: value ? cPrimaryColor : cIconColor, width: 1),
         borderRadius: BorderRadius.circular(k4BorderRadius),
@@ -27,7 +27,7 @@ class CustomCheckBox extends StatelessWidget {
           ? Icon(
               Icons.check,
               color: cWhiteColor,
-              size: height > kSmallDeviceSizeLimit ? kIconSize14 : kIconSize12,
+              size: isDeviceScreenLarge() ? kIconSize14 : kIconSize12,
             )
           : null,
     );

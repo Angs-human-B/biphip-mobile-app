@@ -45,8 +45,8 @@ class EditProfile extends StatelessWidget {
                         children: [
                           kH16sizedBox,
                           RowTextEdit(
-                            prefix: 'Profile picture',
-                            suffix: 'Edit',
+                            prefix: ksProfilePicture.tr,
+                            suffix: ksEdit.tr,
                             onEditPressed: () {
                               _profileController.isProfilePicEditor.value = true;
 
@@ -58,7 +58,7 @@ class EditProfile extends StatelessWidget {
                                 onPressRightButton: () {},
                                 rightText: '',
                                 rightTextStyle: regular14TextStyle(cBiddingColor),
-                                title: 'Edit photo',
+                                title: ksEditPhoto.tr,
                                 isRightButtonShow: false,
                                 isScrollControlled: false,
                                 bottomSheetHeight: 180,
@@ -75,19 +75,19 @@ class EditProfile extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                height: height > kSmallDeviceSizeLimit ? kProfileImageSize : (kProfileImageSize - h10),
-                                width: height > kSmallDeviceSizeLimit ? kProfileImageSize : (kProfileImageSize - h10),
+                                height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                                width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
                                 decoration: BoxDecoration(
                                   color: cWhiteColor,
                                   borderRadius: BorderRadius.circular(110),
                                 ),
                                 child: ClipOval(
-                                  child: Image.file(
-                                    _profileController.newProfileImageFile.value,
+                                  child: Image.network(
+                                    Environment.imageBaseUrl + _profileController.profileData.value!.user!.profilePicture.toString(),
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => ClipOval(
                                       child: Image.asset(
-                                        'assets/images/profileDefault.png',
+                                        kiProfileDefaultImageUrl,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -100,8 +100,8 @@ class EditProfile extends StatelessWidget {
                           const CustomDivider(),
                           kH16sizedBox,
                           RowTextEdit(
-                            prefix: 'Cover photo',
-                            suffix: 'Edit',
+                            prefix: ksCoverPhoto.tr,
+                            suffix: ksEdit.tr,
                             onEditPressed: () {
                               _profileController.isProfilePicEditor.value = false;
 
@@ -113,7 +113,7 @@ class EditProfile extends StatelessWidget {
                                   onPressRightButton: () {},
                                   rightText: '',
                                   rightTextStyle: regular14TextStyle(cBiddingColor),
-                                  title: 'Edit photo',
+                                  title: ksEditPhoto.tr,
                                   isRightButtonShow: false,
                                   isScrollControlled: false,
                                   bottomSheetHeight: 180,
@@ -130,11 +130,11 @@ class EditProfile extends StatelessWidget {
                             child: SizedBox(
                               height: 150,
                               width: width,
-                              child: Image.file(
-                                _profileController.newCoverImageFile.value,
+                              child: Image.network(
+                                Environment.imageBaseUrl + _profileController.profileData.value!.user!.coverPhoto.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => Image.asset(
-                                  'assets/images/coverPic.png',
+                                  kiCoverPicImageUrl,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -144,10 +144,10 @@ class EditProfile extends StatelessWidget {
                           const CustomDivider(),
                           kH16sizedBox,
                           RowTextEdit(
-                            prefix: 'Bio',
-                            suffix: _profileController.bio.value == '' ? 'Add' : 'Edit',
+                            prefix: ksBio.tr,
+                            suffix: _profileController.profileData.value!.user!.bio == null ? ksAdd.tr : ksEdit.tr,
                             onEditPressed: () {
-                              if (_profileController.bio.value == '') {
+                              if (_profileController.profileData.value!.user!.bio == null) {
                                 Get.toNamed(krEditBio);
                               } else {
                                 _globalController.commonBottomSheet(
@@ -158,7 +158,7 @@ class EditProfile extends StatelessWidget {
                                     onPressRightButton: () {},
                                     rightText: '',
                                     rightTextStyle: regular14TextStyle(cBiddingColor),
-                                    title: 'Edit Bio',
+                                    title: ksEditBio.tr,
                                     isRightButtonShow: false,
                                     isScrollControlled: false,
                                     bottomSheetHeight: 190,
@@ -166,30 +166,73 @@ class EditProfile extends StatelessWidget {
                               }
                             },
                           ),
-                          if (_profileController.bio.value != '') kH16sizedBox,
+                          if (_profileController.profileData.value!.user!.bio != null) kH16sizedBox,
                           Text(
-                            _profileController.bio.value,
+                            _profileController.profileData.value!.user!.bio ?? '',
                             style: regular14TextStyle(cIconColor),
                           ),
-                          if (_profileController.bio.value != '') kH16sizedBox,
+                          if (_profileController.profileData.value!.user!.bio != null) kH16sizedBox,
                           const CustomDivider(),
                           kH16sizedBox,
                           RowTextEdit(
-                            prefix: 'Intro',
-                            suffix: 'Edit',
+                            prefix: ksIntro.tr,
+                            suffix: ksEdit.tr,
                             onEditPressed: () {},
                           ),
                           kH16sizedBox,
-                          for (int i = 0; i < editProfileInfoContent.length; i++)
+                          // for (int i = 0; i < editProfileInfoContent.length; i++)
+                          //   LinkUpIconTextRow(
+                          //     icon: profileInfoContent[i]['icon'],
+                          //     text: profileInfoContent[i]['text'],
+                          //     isLink: profileInfoContent[i]['isLink'],
+                          //   ),
+                          if (_profileController.profileData.value!.currentCity != null && _profileController.profileData.value!.currentCity!.isCurrent == 1)
                             LinkUpIconTextRow(
-                              icon: profileInfoContent[i]['icon'],
-                              text: profileInfoContent[i]['text'],
-                              isLink: profileInfoContent[i]['isLink'],
+                              icon: BipHip.address,
+                              text: 'Lives in ${_profileController.profileData.value!.currentCity!.city}',
+                              isLink: false,
+                              onPressed: null,
                             ),
+                          if (_profileController.profileData.value!.hometown!.city != null)
+                            LinkUpIconTextRow(
+                              icon: BipHip.location,
+                              text: 'From ${_profileController.profileData.value!.hometown!.city}',
+                              isLink: false,
+                              onPressed: null,
+                            ),
+                          if (_profileController.profileData.value!.user!.relation != null)
+                            LinkUpIconTextRow(
+                              icon: BipHip.love,
+                              text: _profileController.profileData.value!.user!.relation,
+                              isLink: false,
+                              onPressed: null,
+                            ),
+                          if (_profileController.profileData.value!.school.isNotEmpty)
+                            LinkUpIconTextRow(
+                              icon: BipHip.school,
+                              text: checkNullOrStringNull(_profileController.profileData.value!.school[0].school),
+                              isLink: false,
+                              onPressed: null,
+                            ),
+                          if (_profileController.profileData.value!.college.isNotEmpty)
+                            LinkUpIconTextRow(
+                              icon: BipHip.school,
+                              text: checkNullOrStringNull(_profileController.profileData.value!.college[0].school),
+                              isLink: false,
+                              onPressed: null,
+                            ),
+                          if (_profileController.profileData.value!.currentWorkplace != null)
+                            LinkUpIconTextRow(
+                              icon: BipHip.work,
+                              text: checkNullOrStringNull(_profileController.profileData.value!.currentWorkplace!.company),
+                              isLink: false,
+                              onPressed: null,
+                            ),
+
                           const CustomDivider(),
                           kH16sizedBox,
                           CustomElevatedButton(
-                            label: 'Edit your about info',
+                            label: ksEditYouAboutInfo.tr,
                             buttonHeight: h28,
                             buttonWidth: width - 40,
                             buttonColor: cLineColor,
@@ -275,7 +318,7 @@ class EditBioModalSheet extends StatelessWidget {
           onPressed: () {
             Get.toNamed(krEditBio);
           },
-          label: 'Edit bio',
+          label: ksEditBio.tr,
           buttonColor: cWhiteColor,
           borderColor: cBlackColor,
           buttonWidth: width - 40,
@@ -286,7 +329,7 @@ class EditBioModalSheet extends StatelessWidget {
         kH12sizedBox,
         CustomElevatedButton(
           onPressed: () {},
-          label: 'Remove bio',
+          label: ksRemoveBio.tr,
           buttonColor: cWhiteColor,
           borderColor: cBlackColor,
           buttonWidth: width - 40,

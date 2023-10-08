@@ -1,5 +1,4 @@
 import 'package:bip_hip/controllers/create_post_controller.dart';
-import 'package:bip_hip/controllers/home_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
@@ -9,7 +8,6 @@ import 'package:bip_hip/widgets/common/utils/search.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
-  final HomeController _homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +23,7 @@ class HomePage extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: 'BipHip'.tr,
+              title: ksBipHip.tr,
               titleColor: cPrimaryColor,
               hasBackButton: false,
               isCenterTitle: false,
@@ -85,6 +83,7 @@ class HomePage extends StatelessWidget {
             height: height,
             width: width,
             child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
                   kH16sizedBox,
@@ -93,7 +92,7 @@ class HomePage extends StatelessWidget {
                     color: cWhiteColor,
                     child: CustomPostButton(
                       name: 'Monjurul',
-                      profilePic: 'assets/images/profilePic.png',
+                      profilePic: kiProfilePicImageUrl,
                       onPressed: () {
                         ll('post');
                         Get.find<CreatePostController>().resetData();
@@ -120,21 +119,21 @@ class HomePage extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: k8Padding),
                               child: Text(
-                                'Selfie',
+                                ksSelfie.tr,
                                 style: semiBold12TextStyle(cPrimaryColor),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: k8Padding),
                               child: Text(
-                                'Daily Quiz',
+                                ksDailyQuiz.tr,
                                 style: semiBold12TextStyle(cPrimaryColor),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: k8Padding),
                               child: Text(
-                                'Weekly Winner',
+                                ksWeeklyWinner.tr,
                                 style: semiBold12TextStyle(cPrimaryColor),
                               ),
                             ),
@@ -149,32 +148,41 @@ class HomePage extends StatelessWidget {
                     child: const StoriesWidget(),
                   ),
                   kH16sizedBox,
-                  Container(
-                    color: cWhiteColor,
-                    width: width,
-                    child: CommonPostWidget(
-                      isCommented: false,
-                      isLiked: true,
-                      userName: 'Monjurul Sharker',
-                      postTime: '3 hrs ago',
-                      isCategorized: true,
-                      isTextualPost: true,
-                      category: 'Selling',
-                      categoryIcon: _homeController.getCategoryIcon('Selling'),
-                      categoryIconColor: _homeController.getCategoryIconColor('Selling'),
-                      privacy: BipHip.world,
-                      brandName: 'Black Market',
-                      kidName: 'Babu',
-                      kidAge: '5 years',
-                      title: '5 Year old Kid for selling, with functioning organs (Except left kidney)',
-                      price: '1000',
-                      postText:
-                          'Good news for child traffickers and black market organ sellers. A 5 years old kid from Ohio is up for sell. The product has fully functional organs. Unfortunately, his left kidney got malfunctioned few months ago. Hospital documents will also be provided. Otherwise all organs are completely functional and product is refundable',
-                      mediaList: _homeController.imageList,
-                      isSelfPost: true,
-                      isCommentShown: false,
-                    ),
-                  ),
+                  ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      separatorBuilder: (context, index) => kH20sizedBox,
+                      itemCount: homePagePost.length,
+                      itemBuilder: (context, index) {
+                        var item = homePagePost[index];
+                        return Container(
+                          color: cWhiteColor,
+                          width: width,
+                          child: CommonPostWidget(
+                            isCommented: item['isCommented'],
+                            isLiked: item['isLiked'],
+                            isSharedPost: item['isSharedPost'],
+                            showBottomSection: item['showBottomSection'],
+                            userName: item['userName'],
+                            postTime: item['postTime'],
+                            isCategorized: item['isCategorized'],
+                            isTextualPost: item['isTextualPost'],
+                            category: item['category'],
+                            categoryIcon: item['categoryIcon'],
+                            categoryIconColor: item['categoryIconColor'],
+                            privacy: item['privacy'],
+                            brandName: item['brandName'],
+                            kidName: item['kidName'],
+                            kidAge: item['kidAge'],
+                            title: item['item'],
+                            price: item['price'],
+                            postText: item['postText'],
+                            mediaList: item['mediaList'],
+                            isSelfPost: item['isSelfPost'],
+                            isCommentShown: item['isCommentShown'],
+                          ),
+                        );
+                      }),
                   kH20sizedBox,
                 ],
               ),
