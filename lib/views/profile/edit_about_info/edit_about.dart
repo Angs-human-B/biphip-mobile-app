@@ -427,7 +427,7 @@ class EditAboutInfo extends StatelessWidget {
                                       content: EditModalSheet(
                                         editButtonText: ksEditCollege.tr,
                                         editOnPressed: () {
-                                          _profileController.collegeIndex.value = index;
+                                          _profileController.collegeID.value = item.id!;
                                           _profileController.deleteIndex.value = index;
                                           _profileController.educationInstituteTextEditingController.text = item.school!;
                                           _profileController.setEditPageValue(
@@ -448,7 +448,7 @@ class EditAboutInfo extends StatelessWidget {
                                         },
                                         deleteButtonText: ksDeleteCollege.tr,
                                         deleteOnPressed: () {
-                                          _profileController.collegeList.remove(item);
+                                          _profileController.deleteCollege(item.id);
                                           Get.back();
                                         },
                                       ));

@@ -239,7 +239,7 @@ class ProfileController extends GetxController {
   final RxList schoolList = RxList([]);
   final RxInt schoolID = RxInt(-1);
   final RxList collegeList = RxList([]);
-  final RxInt collegeIndex = RxInt(-1);
+  final RxInt collegeID = RxInt(-1);
   final RxList<Map> officeList = RxList<Map>([]);
   final RxInt officeIndex = RxInt(-1);
   final RxList phoneList = RxList([]);
@@ -295,7 +295,7 @@ class ProfileController extends GetxController {
       educationInstituteTextEditingController.clear();
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT COLLEGE') {
-      collegeList[collegeIndex.value] = commonEditTextEditingController.text;
+      await updateCollege(collegeID.value);
       educationInstituteTextEditingController.clear();
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'ADD WORKPLACE') {
@@ -330,7 +330,7 @@ class ProfileController extends GetxController {
       educationInstituteTextEditingController.clear();
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT COLLEGE DELETE') {
-      collegeList.removeAt(index);
+      await deleteCollege(collegeID.value);
       educationInstituteTextEditingController.clear();
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT WORKPLACE DELETE') {
@@ -574,7 +574,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-      ll('deleteCity error: $e');
+      ll('deleteSchool error: $e');
     }
   }
 
@@ -606,6 +606,72 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       ll('storeCollege error: $e');
+    }
+  }
+
+  //* update college API Implement
+  Future<void> updateCollege(id) async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'id': id.toString(),
+        'school': educationInstituteTextEditingController.text.trim(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateCollege,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < collegeDataList.length; i++) {
+          if (collegeDataList[i].id == id) {
+            collegeDataList[i] = College.fromJson(response.data);
+          }
+        }
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('updateCollege error: $e');
+    }
+  }
+
+  //* delete college API Implementation
+  Future<void> deleteCollege(id) async {
+    try {
+      String? token = await _spController.getBearerToken();
+
+      var response = await _apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteCollege/${id.toString()}',
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < collegeDataList.length; i++) {
+          if (collegeDataList[i].id == id) {
+            collegeDataList.removeAt(i);
+          }
+        }
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('deleteSchool error: $e');
     }
   }
 }
