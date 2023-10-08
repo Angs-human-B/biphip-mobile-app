@@ -243,9 +243,9 @@ class ProfileController extends GetxController {
   final RxList<Map> officeList = RxList<Map>([]);
   final RxInt officeIndex = RxInt(-1);
   final RxList phoneList = RxList([]);
-  final RxInt phoneIndex = RxInt(-1);
+  final RxInt phoneID = RxInt(-1);
   final RxList emailList = RxList([]);
-  final RxInt emailIndex = RxInt(-1);
+  final RxInt emailID = RxInt(-1);
   final RxString educationBackground = RxString('');
   final RxInt deleteIndex = RxInt(-1);
 
@@ -309,16 +309,16 @@ class ProfileController extends GetxController {
       commonEditTextEditingController.clear();
       commonEditSecondaryTextEditingController.clear();
     } else if (functionFlag == 'ADD PHONE') {
-      phoneList.add(commonEditTextEditingController.text);
+      await storeContact('phone');
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT PHONE') {
-      phoneList[phoneIndex.value] = commonEditTextEditingController.text;
+      await updateContact(phoneID.value, 'phone');
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'ADD EMAIL') {
-      emailList.add(commonEditTextEditingController.text);
+      await storeContact('email');
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT EMAIL') {
-      emailList[emailIndex.value] = commonEditTextEditingController.text;
+      await updateContact(emailID.value, 'email');
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT HOMETOWN DELETE') {
       homeTown.value = '';
@@ -376,11 +376,13 @@ class ProfileController extends GetxController {
       if (response.success == true) {
         schoolDataList.clear();
         collegeDataList.clear();
+        contactDataList.clear();
         profileData.value = ProfileOverviewModel.fromJson(response.data);
         hometownData.value = profileData.value!.hometown;
         currentCityData.value = profileData.value!.currentCity;
         schoolDataList.addAll(profileData.value!.school);
         collegeDataList.addAll(profileData.value!.college);
+        contactDataList.addAll(profileData.value!.contacts);
         isProfileLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -672,6 +674,74 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       ll('deleteSchool error: $e');
+    }
+  }
+
+  //* store contact API Implementation
+  RxList<Contact> contactDataList = RxList<Contact>([]);
+  Future<void> storeContact(type) async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'type': type,
+        'value': type == 'phone' ? phoneTextEditingController.text.trim() : emailTextEditingController.text.trim(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuStoreContact,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        contactDataList.add(Contact.fromJson(response.data));
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('storeCollege error: $e');
+    }
+  }
+
+  //* update contact API Implementation
+  Future<void> updateContact(id, type) async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'id': id.toString(),
+        'type': type,
+        'value': type == 'phone' ? phoneTextEditingController.text.trim() : emailTextEditingController.text.trim(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateContact,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < contactDataList.length; i++) {
+          if (contactDataList[i].id == id) {
+            contactDataList[i] = Contact.fromJson(response.data);
+          }
+        }
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('storeCollege error: $e');
     }
   }
 }

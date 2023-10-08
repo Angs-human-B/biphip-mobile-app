@@ -673,48 +673,46 @@ class EditAboutInfo extends StatelessWidget {
                         buttonWidth: 177,
                       ),
                       kH16sizedBox,
-                      for (int i = 0; i < _profileController.profileData.value!.contacts.length; i++)
-                        if (_profileController.profileData.value!.contacts[i].type == 'phone')
+                      for (int i = 0; i < _profileController.contactDataList.length; i++)
+                        if (_profileController.contactDataList[i].type == 'phone')
                           Padding(
                             padding: const EdgeInsets.only(bottom: k10Padding),
                             child: InfoContainer(
                               prefixIcon: BipHip.phoneFill,
                               suffixIcon: BipHip.edit,
-                              text: checkNullOrStringNull(_profileController.profileData.value!.contacts[i].value),
+                              text: checkNullOrStringNull(_profileController.contactDataList[i].value),
                               suffixOnPressed: () {
-                                // _profileController.cityList.remove(_profileController.cityList[index]);
-                                // _globalController.blankBottomSheet(
-                                //     context: context,
-                                //     isScrollControlled: false,
-                                //     bottomSheetHeight: 130,
-                                //     content: EditModalSheet(
-                                //       editButtonText: ksEditPhone.tr,
-                                //       editOnPressed: () {
-                                //         _profileController.phoneIndex.value = index;
-                                //         _profileController.deleteIndex.value = index;
-                                //         _profileController.phoneTextEditingController.text = item;
-                                //         _profileController.setEditPageValue(
-                                //             ksEditPhone.tr,
-                                //             false,
-                                //             BipHip.phoneFill,
-                                //             _profileController.phoneTextEditingController,
-                                //             false,
-                                //             _profileController.phoneTextEditingController,
-                                //             ksEditPhone.tr,
-                                //             false,
-                                //             true,
-                                //             false,
-                                //             false,
-                                //             '',
-                                //             'EDIT PHONE');
-                                //         Get.toNamed(krEdit);
-                                //       },
-                                //       deleteButtonText: ksDeletePhone.tr,
-                                //       deleteOnPressed: () {
-                                //         // _profileController.phoneList.remove(item);
-                                //         Get.back();
-                                //       },
-                                //     ));
+                                _globalController.blankBottomSheet(
+                                    context: context,
+                                    isScrollControlled: false,
+                                    bottomSheetHeight: 130,
+                                    content: EditModalSheet(
+                                      editButtonText: ksEditPhone.tr,
+                                      editOnPressed: () {
+                                        _profileController.phoneID.value = _profileController.contactDataList[i].id!;
+                                        _profileController.phoneTextEditingController.text = _profileController.contactDataList[i].value!;
+                                        _profileController.setEditPageValue(
+                                            ksEditPhone.tr,
+                                            false,
+                                            BipHip.phoneFill,
+                                            _profileController.phoneTextEditingController,
+                                            false,
+                                            _profileController.phoneTextEditingController,
+                                            ksEditPhone.tr,
+                                            false,
+                                            true,
+                                            false,
+                                            false,
+                                            '',
+                                            'EDIT PHONE');
+                                        Get.toNamed(krEdit);
+                                      },
+                                      deleteButtonText: ksDeletePhone.tr,
+                                      deleteOnPressed: () {
+                                        // _profileController.phoneList.remove(item);
+                                        Get.back();
+                                      },
+                                    ));
                               },
                             ),
                           ),
@@ -731,49 +729,46 @@ class EditAboutInfo extends StatelessWidget {
                         buttonWidth: 118,
                       ),
                       kH16sizedBox,
-                      for (int i = 0; i < _profileController.profileData.value!.contacts.length; i++)
-                        if (_profileController.profileData.value!.contacts[i].type == 'email')
+                      for (int i = 0; i < _profileController.contactDataList.length; i++)
+                        if (_profileController.contactDataList[i].type == 'email')
                           Padding(
                             padding: const EdgeInsets.only(bottom: k10Padding),
                             child: InfoContainer(
                               prefixIcon: BipHip.mail,
                               suffixIcon: BipHip.edit,
-                              text: checkNullOrStringNull(_profileController.profileData.value!.contacts[i].value),
+                              text: checkNullOrStringNull(_profileController.contactDataList[i].value),
                               suffixOnPressed: () {
-                                // _profileController.cityList.remove(_profileController.cityList[index]);
-                                // _globalController.blankBottomSheet(
-                                //     context: context,
-                                //     isScrollControlled: false,
-                                //     bottomSheetHeight: 130,
-                                //     content: EditModalSheet(
-                                //       editButtonText: ksEditEmail.tr,
-                                //       editOnPressed: () {
-                                //         _profileController.emailIndex.value = index;
-                                //         _profileController.deleteIndex.value = index;
+                                _globalController.blankBottomSheet(
+                                    context: context,
+                                    isScrollControlled: false,
+                                    bottomSheetHeight: 130,
+                                    content: EditModalSheet(
+                                      editButtonText: ksEditEmail.tr,
+                                      editOnPressed: () {
+                                        _profileController.emailID.value = _profileController.contactDataList[i].id!;
+                                        _profileController.emailTextEditingController.text = _profileController.contactDataList[i].value!;
+                                        _profileController.setEditPageValue(
+                                            ksEditEmail.tr,
+                                            false,
+                                            BipHip.mail,
+                                            _profileController.emailTextEditingController,
+                                            false,
+                                            _profileController.emailTextEditingController,
+                                            ksEditEmail.tr,
+                                            false,
+                                            true,
+                                            false,
+                                            false,
+                                            '',
+                                            'EDIT EMAIL');
+                                        Get.toNamed(krEdit);
+                                      },
+                                      deleteButtonText: ksDeleteEmail.tr,
+                                      deleteOnPressed: () {
 
-                                //         _profileController.emailTextEditingController.text = item;
-                                //         _profileController.setEditPageValue(
-                                //             ksEditEmail.tr,
-                                //             false,
-                                //             BipHip.mail,
-                                //             _profileController.emailTextEditingController,
-                                //             false,
-                                //             _profileController.emailTextEditingController,
-                                //             ksEditEmail.tr,
-                                //             false,
-                                //             true,
-                                //             false,
-                                //             false,
-                                //             '',
-                                //             'EDIT EMAIL');
-                                //         Get.toNamed(krEdit);
-                                //       },
-                                //       deleteButtonText: ksDeleteEmail.tr,
-                                //       deleteOnPressed: () {
-                                //         _profileController.emailList.remove(item);
-                                //         Get.back();
-                                //       },
-                                //     ));
+                                        Get.back();
+                                      },
+                                    ));
                               },
                             ),
                           ),
