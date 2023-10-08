@@ -72,7 +72,8 @@ class Menu extends StatelessWidget {
                       isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
                       CustomMenuContainer(
                         height: 64,
-                        onPressed: () {
+                        onPressed: () async {
+                          await _profileController.getProfileOverview();
                           Get.toNamed(krProfile);
                         },
                         leading: ClipOval(
