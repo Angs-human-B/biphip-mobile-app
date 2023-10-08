@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/profile_controllers/menu_section_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
@@ -13,6 +14,7 @@ class Profile extends StatelessWidget {
 
   final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
+  final MenuSectionController _menuController = Get.find<MenuSectionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -436,10 +438,22 @@ class Profile extends StatelessWidget {
                     ),
                     kH12sizedBox,
                     Container(
-                        color: cWhiteColor, child: FriendsFamilyGridView(header: ksFriends.tr, count: friendList.length.toString(), friendList: friendList)),
+                      color: cWhiteColor,
+                      child: FriendsFamilyGridView(
+                        header: ksFriends.tr,
+                        count: _menuController.friendList.length.toString(),
+                        friendList: _menuController.friendList,
+                      ),
+                    ),
                     kH12sizedBox,
                     Container(
-                        color: cWhiteColor, child: FriendsFamilyGridView(header: ksFamily.tr, count: familyList.length.toString(), friendList: familyList)),
+                      color: cWhiteColor,
+                      child: FriendsFamilyGridView(
+                        header: ksFamily.tr,
+                        count: _menuController.familyList.length.toString(),
+                        friendList: _menuController.familyList,
+                      ),
+                    ),
                     kH12sizedBox,
                     Container(
                       color: cWhiteColor,
