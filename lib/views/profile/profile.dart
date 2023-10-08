@@ -27,7 +27,7 @@ class Profile extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: _profileController.profileData.value!.user!.fullName,
+              title: '${_profileController.profileData.value!.user!.firstName} ${_profileController.profileData.value!.user!.lastName}' ,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -221,7 +221,7 @@ class Profile extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                             child: Text(
-                              _profileController.profileData.value!.user!.fullName ?? '',
+                              '${_profileController.profileData.value!.user!.firstName} ${_profileController.profileData.value!.user!.lastName}',
                               style: semiBold20TextStyle(cBlackColor),
                             ),
                           ),

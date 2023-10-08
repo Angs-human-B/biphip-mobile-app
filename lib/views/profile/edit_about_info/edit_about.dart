@@ -461,14 +461,14 @@ class EditAboutInfo extends StatelessWidget {
                       RowTextButton(
                         text: ksProfession.tr,
                         buttonText: ksAdd.tr,
-                        showAddButton: _profileController.profileData.value!.user!.profession[0] == '',
+                        showAddButton: _profileController.profileData.value!.user!.profession.isEmpty,
                         onPressedAdd: () {
                           _profileController.isRouteFromAboutInfo.value = true;
                           Get.toNamed(krSelectProfession);
                         },
                         buttonWidth: 149,
                       ),
-                      if (_profileController.profileData.value!.user!.profession[0] != '')
+                      if (_profileController.profileData.value!.user!.profession.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.only(top: 16),
                           child: CustomSelectionButton(

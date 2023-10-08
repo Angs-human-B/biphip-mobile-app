@@ -215,7 +215,6 @@ class User {
   String? lastName;
   String? email;
   dynamic phone;
-  dynamic phoneVerifiedAt;
   String? gender;
   DateTime? dob;
   List<String> profession;
@@ -228,7 +227,6 @@ class User {
   dynamic relation;
   dynamic relationWithName;
   dynamic relationWithId;
-  String? fullName;
   dynamic profilePicture;
   dynamic coverPhoto;
   int? friendStatus;
@@ -242,7 +240,7 @@ class User {
     required this.lastName,
     required this.email,
     required this.phone,
-    required this.phoneVerifiedAt,
+
     required this.gender,
     required this.dob,
     required this.profession,
@@ -255,7 +253,7 @@ class User {
     required this.relation,
     required this.relationWithName,
     required this.relationWithId,
-    required this.fullName,
+
     required this.profilePicture,
     required this.coverPhoto,
     required this.friendStatus,
@@ -270,7 +268,7 @@ class User {
         lastName: json["last_name"],
         email: json["email"],
         phone: json["phone"],
-        phoneVerifiedAt: json["phone_verified_at"],
+
         gender: json["gender"],
         dob: DateTime.parse(json["dob"]),
         profession: List<String>.from(json["profession"].map((x) => x)),
@@ -283,7 +281,7 @@ class User {
         relation: json["relation"],
         relationWithName: json["relation_with_name"],
         relationWithId: json["relation_with_id"],
-        fullName: json["full_name"],
+
         profilePicture: json["profile_picture"],
         coverPhoto: json["cover_photo"],
         friendStatus: json["friend_status"],
