@@ -237,7 +237,7 @@ class ProfileController extends GetxController {
   final RxString relationshipStatus = RxString('');
   final RxString tempRelationshipStatus = RxString('');
   final RxList schoolList = RxList([]);
-  final RxInt schoolIndex = RxInt(-1);
+  final RxInt schoolID = RxInt(-1);
   final RxList collegeList = RxList([]);
   final RxInt collegeIndex = RxInt(-1);
   final RxList<Map> officeList = RxList<Map>([]);
@@ -285,12 +285,13 @@ class ProfileController extends GetxController {
       if (educationBackground.value == 'School') {
         await storeSchool();
       } else {
-        collegeList.add(commonEditTextEditingController.text);
+        await storeCollege();
       }
       commonEditTextEditingController.clear();
       educationInstituteTextEditingController.clear();
+      educationBackground.value = '';
     } else if (functionFlag == 'EDIT SCHOOL') {
-      schoolList[schoolIndex.value] = commonEditTextEditingController.text;
+      await updateSchool(schoolID.value);
       educationInstituteTextEditingController.clear();
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT COLLEGE') {
@@ -325,7 +326,7 @@ class ProfileController extends GetxController {
     } else if (functionFlag == 'EDIT PRESENT DELETE') {
       cityList.removeAt(index);
     } else if (functionFlag == 'EDIT SCHOOL DELETE') {
-      schoolList.removeAt(index);
+      await deleteSchool(schoolID.value);
       educationInstituteTextEditingController.clear();
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT COLLEGE DELETE') {
@@ -373,10 +374,13 @@ class ProfileController extends GetxController {
         url: kuGetProfileOverView,
       ) as CommonDM;
       if (response.success == true) {
+        schoolDataList.clear();
+        collegeDataList.clear();
         profileData.value = ProfileOverviewModel.fromJson(response.data);
         hometownData.value = profileData.value!.hometown;
         currentCityData.value = profileData.value!.currentCity;
         schoolDataList.addAll(profileData.value!.school);
+        collegeDataList.addAll(profileData.value!.college);
         isProfileLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -457,7 +461,7 @@ class ProfileController extends GetxController {
       String? token = await _spController.getBearerToken();
 
       var response = await _apiController.commonApiCall(
-        requestMethod: kPost,
+        requestMethod: kDelete,
         url: '$kuDeleteCity/$id',
         token: token,
       ) as CommonDM;
@@ -507,7 +511,74 @@ class ProfileController extends GetxController {
       ll('storeSchool error: $e');
     }
   }
-  //* set city API Implementation
+
+  //* update school API Implement
+  Future<void> updateSchool(id) async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'id': id.toString(),
+        'school': educationInstituteTextEditingController.text.trim(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateSchool,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < schoolDataList.length; i++) {
+          if (schoolDataList[i].id == id) {
+            schoolDataList[i] = School.fromJson(response.data);
+          }
+        }
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('updateSchool error: $e');
+    }
+  }
+
+  //* delete school API Implementation
+  Future<void> deleteSchool(id) async {
+    try {
+      String? token = await _spController.getBearerToken();
+
+      var response = await _apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteSchool/${id.toString()}',
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < schoolDataList.length; i++) {
+          if (schoolDataList[i].id == id) {
+            schoolDataList.removeAt(i);
+          }
+        }
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('deleteCity error: $e');
+    }
+  }
+
+  //* store college API Implementation
   RxList<College> collegeDataList = RxList<College>([]);
   Future<void> storeCollege() async {
     try {

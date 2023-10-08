@@ -364,7 +364,7 @@ class EditAboutInfo extends StatelessWidget {
                                       content: EditModalSheet(
                                         editButtonText: ksEditSchool.tr,
                                         editOnPressed: () {
-                                          _profileController.schoolIndex.value = index;
+                                          _profileController.schoolID.value = item.id!;
                                           _profileController.deleteIndex.value = index;
                                           _profileController.educationInstituteTextEditingController.text = item.school!;
                                           _profileController.setEditPageValue(
@@ -384,16 +384,16 @@ class EditAboutInfo extends StatelessWidget {
                                           Get.toNamed(krEdit);
                                         },
                                         deleteButtonText: ksDeleteSchool.tr,
-                                        deleteOnPressed: () {
-                                          _profileController.schoolList.remove(item);
+                                        deleteOnPressed: () async {
                                           Get.back();
+                                          await _profileController.deleteSchool(item.id);
                                         },
                                       ));
                                 },
                               ),
                             );
                           }),
-                      if (_profileController.profileData.value!.college.isNotEmpty)
+                      if (_profileController.collegeDataList.isNotEmpty)
                         Text(
                           ksCollege.tr,
                           style: semiBold16TextStyle(cBlackColor),
@@ -401,9 +401,9 @@ class EditAboutInfo extends StatelessWidget {
                       kH16sizedBox,
                       ListView.builder(
                           shrinkWrap: true,
-                          itemCount: _profileController.profileData.value!.college.length,
+                          itemCount: _profileController.collegeDataList.length,
                           itemBuilder: (context, index) {
-                            var item = _profileController.profileData.value!.college[index];
+                            var item = _profileController.collegeDataList[index];
                             return Padding(
                               padding: const EdgeInsets.only(bottom: k10Padding),
                               child: InfoContainer(
