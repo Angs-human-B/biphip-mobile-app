@@ -339,10 +339,10 @@ class ProfileController extends GetxController {
       commonEditTextEditingController.clear();
       commonEditSecondaryTextEditingController.clear();
     } else if (functionFlag == 'EDIT PHONE DELETE') {
-      phoneList.removeAt(index);
+      await deleteContact(phoneID.value);
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT EMAIL DELETE') {
-      emailList.removeAt(index);
+      await deleteContact(emailID);
       commonEditTextEditingController.clear();
     }
   }
@@ -673,7 +673,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-      ll('deleteSchool error: $e');
+      ll('deleteCollege error: $e');
     }
   }
 
@@ -742,6 +742,37 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       ll('storeCollege error: $e');
+    }
+  }
+
+  //* delete contact API Implementation
+  Future<void> deleteContact(id) async {
+    try {
+      String? token = await _spController.getBearerToken();
+
+      var response = await _apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteContact/${id.toString()}',
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < contactDataList.length; i++) {
+          if (contactDataList[i].id == id) {
+            contactDataList.removeAt(i);
+          }
+        }
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('deleteContact error: $e');
     }
   }
 }

@@ -61,8 +61,8 @@ const String kuDeleteWork = '/mobile/user/delete-work';
 
 //* Contact & Basic Info
 const String kuGetContactAndBasicInfo = '/mobile/user/get-contacts-and-basic-info';
-const String kuStoreContact = '/mobile/user/store-contact';
-const String kuUpdateContact = '/mobile/user/update-contact';
+const String kuStoreContact = '/mobile/user/store-contact'; //DONE
+const String kuUpdateContact = '/mobile/user/update-contact'; //DONE
 const String kuDeleteContact = '/mobile/user/delete-contact';
 const String kuStoreLink = '/mobile/user/store-link';
 const String kuUpdateLink = '/mobile/user/update-link';

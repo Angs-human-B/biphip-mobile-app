@@ -708,8 +708,8 @@ class EditAboutInfo extends StatelessWidget {
                                         Get.toNamed(krEdit);
                                       },
                                       deleteButtonText: ksDeletePhone.tr,
-                                      deleteOnPressed: () {
-                                        // _profileController.phoneList.remove(item);
+                                      deleteOnPressed: () async {
+                                        _profileController.deleteContact(_profileController.contactDataList[i].id);
                                         Get.back();
                                       },
                                     ));
@@ -747,25 +747,13 @@ class EditAboutInfo extends StatelessWidget {
                                       editOnPressed: () {
                                         _profileController.emailID.value = _profileController.contactDataList[i].id!;
                                         _profileController.emailTextEditingController.text = _profileController.contactDataList[i].value!;
-                                        _profileController.setEditPageValue(
-                                            ksEditEmail.tr,
-                                            false,
-                                            BipHip.mail,
-                                            _profileController.emailTextEditingController,
-                                            false,
-                                            _profileController.emailTextEditingController,
-                                            ksEditEmail.tr,
-                                            false,
-                                            true,
-                                            false,
-                                            false,
-                                            '',
-                                            'EDIT EMAIL');
+                                        _profileController.setEditPageValue(ksEditEmail.tr, false, BipHip.mail, _profileController.emailTextEditingController,
+                                            false, _profileController.emailTextEditingController, ksEditEmail.tr, false, true, false, false, '', 'EDIT EMAIL');
                                         Get.toNamed(krEdit);
                                       },
                                       deleteButtonText: ksDeleteEmail.tr,
-                                      deleteOnPressed: () {
-
+                                      deleteOnPressed: () async {
+                                        await _profileController.deleteContact(_profileController.contactDataList[i].id);
                                         Get.back();
                                       },
                                     ));
