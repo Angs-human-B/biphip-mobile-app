@@ -40,27 +40,27 @@ const String kuLogOut = '/mobile/logout';
 const String kuGetProfileOverView = '/mobile/user/get-profile-overview'; //DONE
 
 //* Address/Places
-const String kuGetAllPlaces = '/mobile/user/get-all-places';
+const String kuGetAllPlaces = '/mobile/user/get-all-places'; //? NOT NEEDED
 const String kuSetHomeTown = '/mobile/user/set-hometown'; //DONE
 const String kuSetCurrentCity = '/mobile/user/set-current-city'; //DONE
 const String kuOtherCity = '/mobile/user/store-city'; //DONE
-const String kuUpdateCity = '/mobile/user/update-city';
+const String kuUpdateCity = '/mobile/user/update-city'; //DONE
 const String kuDeleteCity = '/mobile/user/delete-city'; //DONE
 
 //* Work and Education
-const String kuGetWorkAndEducation = '/mobile/user/get-work-and-education';
+const String kuGetWorkAndEducation = '/mobile/user/get-work-and-education'; //? NOT NEEDED
 const String kuStoreSchool = '/mobile/user/store-school'; //DONE
 const String kuUpdateSchool = '/mobile/user/update-school'; //DONE
 const String kuDeleteSchool = '/mobile/user/delete-school'; //DONE
 const String kuStoreCollege = '/mobile/user/store-college'; //DONE
 const String kuUpdateCollege = '/mobile/user/update-college'; //DONE
 const String kuDeleteCollege = '/mobile/user/delete-college'; //DONE
-const String kuStoreWork = '/mobile/user/store-work'; 
-const String kuUpdateWork = '/mobile/user/update-work';
-const String kuDeleteWork = '/mobile/user/delete-work';
+const String kuStoreWork = '/mobile/user/store-work'; //DONE
+const String kuUpdateWork = '/mobile/user/update-work'; //DONE
+const String kuDeleteWork = '/mobile/user/delete-work'; //DONE
 
 //* Contact & Basic Info
-const String kuGetContactAndBasicInfo = '/mobile/user/get-contacts-and-basic-info';
+const String kuGetContactAndBasicInfo = '/mobile/user/get-contacts-and-basic-info'; //? NOT NEEDED
 const String kuStoreContact = '/mobile/user/store-contact'; //DONE
 const String kuUpdateContact = '/mobile/user/update-contact'; //DONE
 const String kuDeleteContact = '/mobile/user/delete-contact'; //DONE

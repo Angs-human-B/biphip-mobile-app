@@ -199,6 +199,8 @@ class ProfileController extends GetxController {
   RxString functionFlag = RxString('');
   final TextEditingController homeTownTextEditingController = TextEditingController();
   final RxString homeTown = RxString('');
+  final RxInt homeID = RxInt(-1);
+  final RxInt cityID = RxInt(-1);
   final TextEditingController presentAddressTextEditingController = TextEditingController();
   final TextEditingController educationInstituteTextEditingController = TextEditingController();
   final TextEditingController companyNameTextEditingController = TextEditingController();
@@ -335,9 +337,10 @@ class ProfileController extends GetxController {
       await updateLink(linkID.value, linkSource.value);
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT HOMETOWN DELETE') {
-      homeTown.value = '';
+      await deleteCity(hometownData.value!.id);
       homeTownTextEditingController.clear();
     } else if (functionFlag == 'EDIT PRESENT DELETE') {
+      await deleteCity(cityID.value);
       cityList.removeAt(index);
     } else if (functionFlag == 'EDIT SCHOOL DELETE') {
       await deleteSchool(schoolID.value);
@@ -377,6 +380,32 @@ class ProfileController extends GetxController {
     }
   }
 
+  void setValue(id) {
+    if (id == 0) {
+      homeID.value = hometownData.value!.id!;
+      homeTownTextEditingController.text = hometownData.value!.city!;
+      setEditPageValue(ksEditHometownAddress.tr, false, BipHip.location, homeTownTextEditingController, false, homeTownTextEditingController,
+          ksEditHometownAddress.tr, false, true, false, false, 'checkBoxText', 'EDIT HOMETOWN');
+      Get.back();
+      Get.toNamed(krEdit);
+    } else if (id == 1) {
+      setEditPageValue(ksAddPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
+          ksAddLocation.tr, true, true, true, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'ADD PRESENT');
+    } else if (id == 2) {
+      presentAddressTextEditingController.text = currentCityData.value!.city!;
+      setEditPageValue(ksEditPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
+          ksEditLocation.tr, true, true, true, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'EDIT PRESENT');
+      Get.back();
+      Get.toNamed(krEdit);
+    } else if (id == 3) {
+      setEditPageValue(ksAddOtherAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
+          ksAddLocation.tr, true, true, true, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'ADD PRESENT');
+    } else if (id == 4) {
+    } else if (id == 5) {
+    } else if (id == 6) {
+    } else if (id == 7) {}
+  }
+
   //* Profile overview API Implementation
   Rx<ProfileOverviewModel?> profileData = Rx<ProfileOverviewModel?>(null);
   Rx<CurrentCity?> hometownData = Rx<CurrentCity?>(null);
@@ -392,6 +421,7 @@ class ProfileController extends GetxController {
         url: kuGetProfileOverView,
       ) as CommonDM;
       if (response.success == true) {
+        otherCityList.clear();
         schoolDataList.clear();
         collegeDataList.clear();
         contactDataList.clear();
@@ -405,6 +435,7 @@ class ProfileController extends GetxController {
         contactDataList.addAll(profileData.value!.contacts);
         linkDataList.addAll(profileData.value!.links);
         workplaceDataList.addAll(profileData.value!.workplaces);
+        otherCityList.addAll(profileData.value!.cities);
         isProfileLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -435,6 +466,7 @@ class ProfileController extends GetxController {
 
       if (response.success == true) {
         hometownData.value = CurrentCity.fromJson(response.data);
+        otherCityList.add(CurrentCity.fromJson(response.data));
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -450,6 +482,7 @@ class ProfileController extends GetxController {
   }
 
   //* set city API Implementation
+  RxList<CurrentCity> otherCityList = RxList<CurrentCity>([]);
   Future<void> setCity() async {
     try {
       String? token = await _spController.getBearerToken();
@@ -464,7 +497,12 @@ class ProfileController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        currentCityData.value = CurrentCity.fromJson(response.data);
+        if (isCommonEditCheckBoxSelected.value) {
+          currentCityData.value = CurrentCity.fromJson(response.data);
+          otherCityList.add(CurrentCity.fromJson(response.data));
+        } else {
+          otherCityList.add(CurrentCity.fromJson(response.data));
+        }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -491,6 +529,11 @@ class ProfileController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
+        for (int i = 0; i < otherCityList.length; i++) {
+          if (otherCityList[i].id == id) {
+            otherCityList.removeAt(i);
+          }
+        }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -799,6 +842,7 @@ class ProfileController extends GetxController {
       ll('deleteWork error: $e');
     }
   }
+
   //* store contact API Implementation
   RxList<Contact> contactDataList = RxList<Contact>([]);
   Future<void> storeContact(type) async {
