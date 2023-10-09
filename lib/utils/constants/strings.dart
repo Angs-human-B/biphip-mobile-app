@@ -244,9 +244,14 @@ const String ksDeleteEmail = 'Delete email';
 const String ksEditPhone = 'Edit phone';
 const String ksDeletePhone = 'Delete phone';
 const String ksSelectEducationInstitute = 'Select educational institute';
+const String ksSelectLinkSource= 'Select link source';
 const String ksDesignation = 'Designation';
 const String ksStartDate = 'Start date';
 const String ksEndDate = 'End date';
+const String ksAddLink = 'Add Link';
+const String ksEditLink = 'Edit Link';
+const String ksDeleteLink = 'Delete Link';
+const String ksWebsiteAndSocialLinks = 'Websites and social links';
 
 //---------------------------------------
 //* Create Post

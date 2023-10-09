@@ -20,7 +20,7 @@ class ProfileOverviewModel {
   });
 
   factory ProfileOverviewModel.fromJson(Map<String, dynamic> json) => ProfileOverviewModel(
-        user: User.fromJson(json["user"]),
+        user: json["user"] == null ? null : User.fromJson(json["user"]),
         hometown: json["hometown"] == null ? null : CurrentCity.fromJson(json["hometown"]),
         currentCity: CurrentCity.fromJson(json["current_city"]),
         school: List<School>.from(json["school"].map((x) => School.fromJson(x))),

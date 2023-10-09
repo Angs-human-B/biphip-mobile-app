@@ -234,6 +234,7 @@ class ProfileController extends GetxController {
     'Widowed'
   ]);
   final RxList educationBackgroundList = RxList(['School', 'College']);
+  final RxList linkSourceList = RxList(['Facebook', 'LinkedIn', 'Twitter', 'Website']);
   final RxString relationshipStatus = RxString('');
   final RxString tempRelationshipStatus = RxString('');
   final RxList schoolList = RxList([]);
@@ -247,6 +248,8 @@ class ProfileController extends GetxController {
   final RxList emailList = RxList([]);
   final RxInt emailID = RxInt(-1);
   final RxString educationBackground = RxString('');
+  final RxString linkSource = RxString('');
+  final RxInt linkID = RxInt(-1);
   final RxInt deleteIndex = RxInt(-1);
 
   void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
@@ -320,6 +323,15 @@ class ProfileController extends GetxController {
     } else if (functionFlag == 'EDIT EMAIL') {
       await updateContact(emailID.value, 'email');
       commonEditTextEditingController.clear();
+    } else if (functionFlag == 'ADD LINK') {
+      await storeLink(linkSource.value);
+      linkTextEditingController.clear();
+      commonEditTextEditingController.clear();
+      linkSource.value = '';
+    } else if (functionFlag == 'EDIT LINK') {
+      ll(linkSource);
+      await updateLink(linkID.value, linkSource.value);
+      commonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT HOMETOWN DELETE') {
       homeTown.value = '';
       homeTownTextEditingController.clear();
@@ -342,7 +354,10 @@ class ProfileController extends GetxController {
       await deleteContact(phoneID.value);
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT EMAIL DELETE') {
-      await deleteContact(emailID);
+      await deleteContact(emailID.value);
+      commonEditTextEditingController.clear();
+    } else if (functionFlag == 'EDIT LINK DELETE') {
+      await deleteLink(linkID.value);
       commonEditTextEditingController.clear();
     }
   }
@@ -377,12 +392,14 @@ class ProfileController extends GetxController {
         schoolDataList.clear();
         collegeDataList.clear();
         contactDataList.clear();
+        linkDataList.clear();
         profileData.value = ProfileOverviewModel.fromJson(response.data);
         hometownData.value = profileData.value!.hometown;
         currentCityData.value = profileData.value!.currentCity;
         schoolDataList.addAll(profileData.value!.school);
         collegeDataList.addAll(profileData.value!.college);
         contactDataList.addAll(profileData.value!.contacts);
+        linkDataList.addAll(profileData.value!.links);
         isProfileLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -705,7 +722,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-      ll('storeCollege error: $e');
+      ll('storeContact error: $e');
     }
   }
 
@@ -741,7 +758,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-      ll('storeCollege error: $e');
+      ll('updateContact error: $e');
     }
   }
 
@@ -760,6 +777,105 @@ class ProfileController extends GetxController {
         for (int i = 0; i < contactDataList.length; i++) {
           if (contactDataList[i].id == id) {
             contactDataList.removeAt(i);
+          }
+        }
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('deleteContact error: $e');
+    }
+  }
+
+  //* store link API Implementation
+  RxList<Link> linkDataList = RxList<Link>([]);
+  Future<void> storeLink(type) async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'type': type,
+        'link': linkTextEditingController.text.trim(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuStoreLink,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        linkDataList.add(Link.fromJson(response.data));
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('storeLink error: $e');
+    }
+  }
+
+  //* update link API Implementation
+  Future<void> updateLink(id, type) async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'id': id.toString(),
+        'type': type.toString(),
+        'link': linkTextEditingController.text.trim(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateLink,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < linkDataList.length; i++) {
+          if (linkDataList[i].id == id) {
+            linkDataList[i] = Link.fromJson(response.data);
+          }
+        }
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('updateLink error: $e');
+    }
+  }
+
+  //* delete link API Implementation
+  Future<void> deleteLink(id) async {
+    try {
+      String? token = await _spController.getBearerToken();
+
+      var response = await _apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteLink/${id.toString()}',
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < linkDataList.length; i++) {
+          if (linkDataList[i].id == id) {
+            linkDataList.removeAt(i);
           }
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);

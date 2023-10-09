@@ -91,6 +91,7 @@ class EditAboutInfo extends StatelessWidget {
                                           false,
                                           'checkBoxText',
                                           'EDIT HOMETOWN');
+                                      Get.back();
                                       Get.toNamed(krEdit);
                                     },
                                     deleteButtonText: ksDeleteAddress.tr,
@@ -173,6 +174,8 @@ class EditAboutInfo extends StatelessWidget {
                                         _profileController.isCurrentlyLiveHere.value,
                                         ksCurrentlyLivingHere.tr,
                                         'EDIT PRESENT');
+                                    Get.back();
+
                                     Get.toNamed(krEdit);
                                   },
                                   deleteButtonText: ksDeleteAddress.tr,
@@ -230,6 +233,8 @@ class EditAboutInfo extends StatelessWidget {
                                                 _profileController.isCurrentlyLiveHere.value,
                                                 ksCurrentlyLivingHere.tr,
                                                 'EDIT PRESENT');
+                                            Get.back();
+
                                             Get.toNamed(krEdit);
                                           },
                                           deleteButtonText: ksDeleteAddress.tr,
@@ -381,6 +386,8 @@ class EditAboutInfo extends StatelessWidget {
                                               _profileController.isCurrentlyStudyingHere.value,
                                               ksCurrentlyStudyingHere.tr,
                                               'EDIT SCHOOL');
+                                          Get.back();
+
                                           Get.toNamed(krEdit);
                                         },
                                         deleteButtonText: ksDeleteSchool.tr,
@@ -444,12 +451,14 @@ class EditAboutInfo extends StatelessWidget {
                                               _profileController.isCurrentlyStudyingHere.value,
                                               ksCurrentlyStudyingHere.tr,
                                               'EDIT COLLEGE');
+                                          Get.back();
+
                                           Get.toNamed(krEdit);
                                         },
                                         deleteButtonText: ksDeleteCollege.tr,
                                         deleteOnPressed: () {
-                                          _profileController.deleteCollege(item.id);
                                           Get.back();
+                                          _profileController.deleteCollege(item.id);
                                         },
                                       ));
                                 },
@@ -761,19 +770,64 @@ class EditAboutInfo extends StatelessWidget {
                             ),
                           ),
                       kH16sizedBox,
-                      // const CustomDivider(),
-                      // kH8sizedBox,
-                      // RowTextButton(
-                      //   text: 'Websites and social links',
-                      //   buttonText: 'Add Link',
-                      //   showAddButton: true,
-                      //   onPressedAdd: () {
-                      //     _profileController.setEditPageValue('Add Link', false, BipHip.webLink, _profileController.linkTextEditingController, false,
-                      //         _profileController.emailTextEditingController, 'Email', false, true, false, false, '', 'ADD EMAIL');
-                      //     Get.toNamed(krEdit);
-                      //   },
-                      //   buttonWidth: 109,
-                      // ),
+                      const CustomDivider(),
+                      kH16sizedBox,
+                      RowTextButton(
+                        text: ksWebsiteAndSocialLinks.tr,
+                        buttonText: ksAdd.tr,
+                        showAddButton: true,
+                        onPressedAdd: () {
+                          _profileController.setEditPageValue(ksAddLink, true, BipHip.webLink, _profileController.linkTextEditingController, false,
+                              _profileController.emailTextEditingController, ksAddLink, false, true, false, false, '', 'ADD LINK');
+                          Get.toNamed(krEdit);
+                        },
+                        buttonWidth: 109,
+                      ),
+                      kH16sizedBox,
+                      for (int i = 0; i < _profileController.linkDataList.length; i++)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: k10Padding),
+                          child: InfoContainer(
+                            prefixIcon: _profileController.getLinkIcon(_profileController.linkDataList[i].type!),
+                            suffixIcon: BipHip.edit,
+                            text: checkNullOrStringNull(_profileController.linkDataList[i].link),
+                            suffixOnPressed: () {
+                              _globalController.blankBottomSheet(
+                                  context: context,
+                                  isScrollControlled: false,
+                                  bottomSheetHeight: 130,
+                                  content: EditModalSheet(
+                                    editButtonText: ksEditLink.tr,
+                                    editOnPressed: () {
+                                      // _profileController.emailID.value = _profileController.contactDataList[i].id!;
+                                      _profileController.linkTextEditingController.text = _profileController.linkDataList[i].link!;
+                                      _profileController.linkID.value = _profileController.linkDataList[i].id!;
+                                      _profileController.linkSource.value = _profileController.linkDataList[i].type!;
+                                      _profileController.setEditPageValue(
+                                          ksEditLink.tr,
+                                          true,
+                                          _profileController.getLinkIcon(_profileController.linkDataList[i].type!),
+                                          _profileController.linkTextEditingController,
+                                          false,
+                                          _profileController.linkTextEditingController,
+                                          ksEditLink.tr,
+                                          false,
+                                          true,
+                                          false,
+                                          false,
+                                          '',
+                                          'EDIT LINK');
+                                      Get.toNamed(krEdit);
+                                    },
+                                    deleteButtonText: ksDeleteLink.tr,
+                                    deleteOnPressed: () async {
+                                      Get.back();
+                                      await _profileController.deleteLink(_profileController.linkDataList[i].id);
+                                    },
+                                  ));
+                            },
+                          ),
+                        ),
                     ],
                   ),
                 ),
