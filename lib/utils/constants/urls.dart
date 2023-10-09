@@ -43,7 +43,7 @@ const String kuGetProfileOverView = '/mobile/user/get-profile-overview'; //DONE
 const String kuGetAllPlaces = '/mobile/user/get-all-places';
 const String kuSetHomeTown = '/mobile/user/set-hometown'; //DONE
 const String kuSetCurrentCity = '/mobile/user/set-current-city'; //DONE
-const String kuOtherCity = '/mobile/user/store-city'; 
+const String kuOtherCity = '/mobile/user/store-city'; //DONE
 const String kuUpdateCity = '/mobile/user/update-city';
 const String kuDeleteCity = '/mobile/user/delete-city'; //DONE
 
@@ -66,7 +66,7 @@ const String kuUpdateContact = '/mobile/user/update-contact'; //DONE
 const String kuDeleteContact = '/mobile/user/delete-contact'; //DONE
 const String kuStoreLink = '/mobile/user/store-link'; //DONE
 const String kuUpdateLink = '/mobile/user/update-link'; //DONE
-const String kuDeleteLink = '/mobile/user/delete-link';
+const String kuDeleteLink = '/mobile/user/delete-link'; //DONE
 const String kuUpdateDateOfBirth = '/mobile/user/update-date-of-birth';
 const String kuUpdateBio = '/mobile/user/update-bio';
 const String kuUpdateLanguages = '/mobile/user/update-languages';

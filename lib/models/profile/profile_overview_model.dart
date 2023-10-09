@@ -1,72 +1,75 @@
 class ProfileOverviewModel {
+  String? relation;
   User? user;
   CurrentCity? hometown;
   CurrentCity? currentCity;
-  List<School> school;
+  List<CurrentCity> cities;
+  List<College> school;
   List<College> college;
-  CurrentWorkplace? currentWorkplace;
+  Workplace? currentWorkplace;
+  List<Workplace> workplaces;
   List<Link> links;
   List<Contact> contacts;
+  String? email;
+  dynamic phone;
 
   ProfileOverviewModel({
+    required this.relation,
     required this.user,
     required this.hometown,
     required this.currentCity,
+    required this.cities,
     required this.school,
     required this.college,
     required this.currentWorkplace,
+    required this.workplaces,
     required this.links,
     required this.contacts,
+    required this.email,
+    required this.phone,
   });
 
   factory ProfileOverviewModel.fromJson(Map<String, dynamic> json) => ProfileOverviewModel(
+        relation: json["relation"],
         user: json["user"] == null ? null : User.fromJson(json["user"]),
         hometown: json["hometown"] == null ? null : CurrentCity.fromJson(json["hometown"]),
-        currentCity: CurrentCity.fromJson(json["current_city"]),
-        school: List<School>.from(json["school"].map((x) => School.fromJson(x))),
+        currentCity: json["current_city"] == null ? null : CurrentCity.fromJson(json["current_city"]),
+        cities: List<CurrentCity>.from(json["cities"].map((x) => CurrentCity.fromJson(x))),
+        school: List<College>.from(json["school"].map((x) => College.fromJson(x))),
         college: List<College>.from(json["college"].map((x) => College.fromJson(x))),
-        currentWorkplace: CurrentWorkplace.fromJson(json["current_workplace"]),
+        currentWorkplace: json["current_workplace"] == null ? null : Workplace.fromJson(json["current_workplace"]),
+        workplaces: List<Workplace>.from(json["workplaces"].map((x) => Workplace.fromJson(x))),
         links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
         contacts: List<Contact>.from(json["contacts"].map((x) => Contact.fromJson(x))),
+        email: json["email"],
+        phone: json["phone"],
       );
 }
 
-class College {
+class CurrentCity {
   int? id;
   int? userId;
-  String? school;
-  dynamic description;
-  dynamic concentrations;
-  dynamic degree;
-  dynamic attendFor;
-  dynamic started;
-  dynamic ended;
-  int? graduated;
+  String? city;
+  DateTime? moved;
+  int? isHometown;
+  int? isCurrent;
 
-  College({
+  CurrentCity({
     required this.id,
     required this.userId,
-    required this.school,
-    required this.description,
-    required this.concentrations,
-    required this.degree,
-    required this.attendFor,
-    required this.started,
-    required this.ended,
-    required this.graduated,
+    required this.city,
+    required this.moved,
+    required this.isHometown,
+    required this.isCurrent,
   });
 
-  factory College.fromJson(Map<String, dynamic> json) => College(
+  factory CurrentCity.fromJson(Map<String, dynamic> json) => CurrentCity(
         id: json["id"],
         userId: json["user_id"],
-        school: json["school"],
-        description: json["description"],
-        concentrations: json["concentrations"],
-        degree: json["degree"],
-        attendFor: json["attend_for"],
-        started: json["started"],
-        ended: json["ended"],
-        graduated: json["graduated"],
+        city: json["city"],
+        moved: json["moved"] == null ? null : DateTime.parse(json["moved"]),
+        isHometown: json["is_hometown"],
+        isCurrent: json["is_current"],
       );
 }
 
@@ -91,34 +94,7 @@ class Contact {
       );
 }
 
-class CurrentCity {
-  int? id;
-  int? userId;
-  String? city;
-  dynamic moved;
-  int? isHometown;
-  int? isCurrent;
-
-  CurrentCity({
-    required this.id,
-    required this.userId,
-    required this.city,
-    required this.moved,
-    required this.isHometown,
-    required this.isCurrent,
-  });
-
-  factory CurrentCity.fromJson(Map<String, dynamic>? json) => CurrentCity(
-        id: json?["id"],
-        userId: json?["user_id"],
-        city: json?["city"],
-        moved: json?["moved"],
-        isHometown: json?["is_hometown"],
-        isCurrent: json?["is_current"],
-      );
-}
-
-class CurrentWorkplace {
+class Workplace {
   int? id;
   int? userId;
   String? company;
@@ -129,7 +105,7 @@ class CurrentWorkplace {
   dynamic ended;
   int? isCurrent;
 
-  CurrentWorkplace({
+  Workplace({
     required this.id,
     required this.userId,
     required this.company,
@@ -141,7 +117,7 @@ class CurrentWorkplace {
     required this.isCurrent,
   });
 
-  factory CurrentWorkplace.fromJson(Map<String, dynamic> json) => CurrentWorkplace(
+  factory Workplace.fromJson(Map<String, dynamic> json) => Workplace(
         id: json["id"],
         userId: json["user_id"],
         company: json["company"],
@@ -151,6 +127,45 @@ class CurrentWorkplace {
         started: json["started"],
         ended: json["ended"],
         isCurrent: json["is_current"],
+      );
+}
+
+class College {
+  int? id;
+  int? userId;
+  String? school;
+  String? description;
+  String? concentrations;
+  String? degree;
+  String? attendFor;
+  DateTime? started;
+  DateTime? ended;
+  int? graduated;
+
+  College({
+    required this.id,
+    required this.userId,
+    required this.school,
+    required this.description,
+    this.concentrations,
+    this.degree,
+    this.attendFor,
+    required this.started,
+    required this.ended,
+    required this.graduated,
+  });
+
+  factory College.fromJson(Map<String, dynamic> json) => College(
+        id: json["id"],
+        userId: json["user_id"],
+        school: json["school"],
+        description: json["description"],
+        concentrations: json["concentrations"],
+        degree: json["degree"],
+        attendFor: json["attend_for"],
+        started: DateTime.parse(json["started"]),
+        ended: DateTime.parse(json["ended"]),
+        graduated: json["graduated"],
       );
 }
 
@@ -178,38 +193,9 @@ class Link {
       );
 }
 
-class School {
-  int? id;
-  int? userId;
-  String? school;
-  dynamic description;
-  dynamic started;
-  dynamic ended;
-  int? graduated;
-
-  School({
-    required this.id,
-    required this.userId,
-    required this.school,
-    required this.description,
-    required this.started,
-    required this.ended,
-    required this.graduated,
-  });
-
-  factory School.fromJson(Map<String, dynamic> json) => School(
-        id: json["id"],
-        userId: json["user_id"],
-        school: json["school"],
-        description: json["description"],
-        started: json["started"],
-        ended: json["ended"],
-        graduated: json["graduated"],
-      );
-}
-
 class User {
   int? id;
+  dynamic image;
   String? userName;
   String? firstName;
   String? lastName;
@@ -223,10 +209,12 @@ class User {
   dynamic languages;
   String? status;
   dynamic blockTill;
+  String? otp;
   dynamic refId;
-  dynamic relation;
+  String? relation;
   dynamic relationWithName;
   dynamic relationWithId;
+  String? fullName;
   dynamic profilePicture;
   dynamic coverPhoto;
   int? friendStatus;
@@ -235,6 +223,7 @@ class User {
 
   User({
     required this.id,
+    required this.image,
     required this.userName,
     required this.firstName,
     required this.lastName,
@@ -248,10 +237,12 @@ class User {
     required this.languages,
     required this.status,
     required this.blockTill,
+    required this.otp,
     required this.refId,
     required this.relation,
     required this.relationWithName,
     required this.relationWithId,
+    required this.fullName,
     required this.profilePicture,
     required this.coverPhoto,
     required this.friendStatus,
@@ -261,6 +252,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
+        image: json["image"],
         userName: json["user_name"],
         firstName: json["first_name"],
         lastName: json["last_name"],
@@ -274,10 +266,12 @@ class User {
         languages: json["languages"],
         status: json["status"],
         blockTill: json["block_till"],
+        otp: json["otp"],
         refId: json["ref_id"],
         relation: json["relation"],
         relationWithName: json["relation_with_name"],
         relationWithId: json["relation_with_id"],
+        fullName: json["full_name"],
         profilePicture: json["profile_picture"],
         coverPhoto: json["cover_photo"],
         friendStatus: json["friend_status"],

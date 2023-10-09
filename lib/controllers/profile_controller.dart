@@ -201,7 +201,7 @@ class ProfileController extends GetxController {
   final RxString homeTown = RxString('');
   final TextEditingController presentAddressTextEditingController = TextEditingController();
   final TextEditingController educationInstituteTextEditingController = TextEditingController();
-  final TextEditingController officeNameTextEditingController = TextEditingController();
+  final TextEditingController companyNameTextEditingController = TextEditingController();
   final TextEditingController designationTextEditingController = TextEditingController();
   final TextEditingController phoneTextEditingController = TextEditingController();
   final TextEditingController emailTextEditingController = TextEditingController();
@@ -242,7 +242,7 @@ class ProfileController extends GetxController {
   final RxList collegeList = RxList([]);
   final RxInt collegeID = RxInt(-1);
   final RxList<Map> officeList = RxList<Map>([]);
-  final RxInt officeIndex = RxInt(-1);
+  final RxInt officeID = RxInt(-1);
   final RxList phoneList = RxList([]);
   final RxInt phoneID = RxInt(-1);
   final RxList emailList = RxList([]);
@@ -302,15 +302,17 @@ class ProfileController extends GetxController {
       educationInstituteTextEditingController.clear();
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'ADD WORKPLACE') {
-      officeList.add({'office': commonEditTextEditingController.text, 'designation': commonEditSecondaryTextEditingController.text});
-      officeNameTextEditingController.clear();
+      await storeWork();
+      companyNameTextEditingController.clear();
       commonEditTextEditingController.clear();
       commonEditSecondaryTextEditingController.clear();
+      isCommonEditCheckBoxSelected.value = false;
     } else if (functionFlag == 'EDIT WORKPLACE') {
-      officeList[officeIndex.value] = {'office': commonEditTextEditingController.text, 'designation': commonEditSecondaryTextEditingController.text};
-      officeNameTextEditingController.clear();
+      await updateWork(officeID.value);
+      companyNameTextEditingController.clear();
       commonEditTextEditingController.clear();
       commonEditSecondaryTextEditingController.clear();
+      isCommonEditCheckBoxSelected.value = false;
     } else if (functionFlag == 'ADD PHONE') {
       await storeContact('phone');
       commonEditTextEditingController.clear();
@@ -346,10 +348,11 @@ class ProfileController extends GetxController {
       educationInstituteTextEditingController.clear();
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT WORKPLACE DELETE') {
-      officeList.removeAt(index);
-      officeNameTextEditingController.clear();
+      await deleteWork(officeID.value);
+      companyNameTextEditingController.clear();
       commonEditTextEditingController.clear();
       commonEditSecondaryTextEditingController.clear();
+      isCommonEditCheckBoxSelected.value = false;
     } else if (functionFlag == 'EDIT PHONE DELETE') {
       await deleteContact(phoneID.value);
       commonEditTextEditingController.clear();
@@ -393,6 +396,7 @@ class ProfileController extends GetxController {
         collegeDataList.clear();
         contactDataList.clear();
         linkDataList.clear();
+        workplaceDataList.clear();
         profileData.value = ProfileOverviewModel.fromJson(response.data);
         hometownData.value = profileData.value!.hometown;
         currentCityData.value = profileData.value!.currentCity;
@@ -400,6 +404,7 @@ class ProfileController extends GetxController {
         collegeDataList.addAll(profileData.value!.college);
         contactDataList.addAll(profileData.value!.contacts);
         linkDataList.addAll(profileData.value!.links);
+        workplaceDataList.addAll(profileData.value!.workplaces);
         isProfileLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -500,8 +505,8 @@ class ProfileController extends GetxController {
     }
   }
 
-  //* set city API Implementation
-  RxList<School> schoolDataList = RxList<School>([]);
+  //* store school API Implementation
+  RxList<College> schoolDataList = RxList<College>([]);
   Future<void> storeSchool() async {
     try {
       String? token = await _spController.getBearerToken();
@@ -516,7 +521,7 @@ class ProfileController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        schoolDataList.add(School.fromJson(response.data));
+        schoolDataList.add(College.fromJson(response.data));
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -549,7 +554,7 @@ class ProfileController extends GetxController {
       if (response.success == true) {
         for (int i = 0; i < schoolDataList.length; i++) {
           if (schoolDataList[i].id == id) {
-            schoolDataList[i] = School.fromJson(response.data);
+            schoolDataList[i] = College.fromJson(response.data);
           }
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -694,6 +699,106 @@ class ProfileController extends GetxController {
     }
   }
 
+  //* store workplace API Implementation
+  RxList<Workplace> workplaceDataList = RxList<Workplace>([]);
+  Future<void> storeWork() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'company': companyNameTextEditingController.text.trim(),
+        'position': designationTextEditingController.text.trim(),
+        'is_current': isCommonEditCheckBoxSelected.value ? '1' : '0'
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuStoreWork,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        workplaceDataList.add(Workplace.fromJson(response.data));
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('storeWork error: $e');
+    }
+  }
+
+  //* update work API Implement
+  Future<void> updateWork(id) async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'id': id.toString(),
+        'company': companyNameTextEditingController.text.trim(),
+        'position': designationTextEditingController.text.trim(),
+        'is_current': isCommonEditCheckBoxSelected.value ? '1' : '0'
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateWork,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < workplaceDataList.length; i++) {
+          if (workplaceDataList[i].id == id) {
+            workplaceDataList[i] = Workplace.fromJson(response.data);
+          }
+        }
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('updateWork error: $e');
+    }
+  }
+
+//* delete college API Implementation
+  Future<void> deleteWork(id) async {
+    try {
+      String? token = await _spController.getBearerToken();
+
+      var response = await _apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteWork/${id.toString()}',
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < workplaceDataList.length; i++) {
+          if (workplaceDataList[i].id == id) {
+            workplaceDataList.removeAt(i);
+          }
+        }
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('deleteWork error: $e');
+    }
+  }
   //* store contact API Implementation
   RxList<Contact> contactDataList = RxList<Contact>([]);
   Future<void> storeContact(type) async {

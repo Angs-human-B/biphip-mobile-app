@@ -203,7 +203,7 @@ class EditProfile extends StatelessWidget {
                           if (_profileController.profileData.value!.user!.relation != null)
                             LinkUpIconTextRow(
                               icon: BipHip.love,
-                              text: _profileController.profileData.value!.user!.relation,
+                              text: checkNullOrStringNull(_profileController.profileData.value!.user!.relation),
                               isLink: false,
                               onPressed: null,
                             ),

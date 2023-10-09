@@ -553,7 +553,7 @@ class EditAboutInfo extends StatelessWidget {
                               ksAddWorkplace.tr,
                               false,
                               BipHip.officeFill,
-                              _profileController.officeNameTextEditingController,
+                              _profileController.companyNameTextEditingController,
                               true,
                               _profileController.designationTextEditingController,
                               ksOfficeName.tr,
@@ -568,62 +568,17 @@ class EditAboutInfo extends StatelessWidget {
                         buttonWidth: 149,
                       ),
                       kH16sizedBox,
-                      if (_profileController.profileData.value!.currentWorkplace != null)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: k10Padding),
-                          child: InfoContainer(
-                            prefixIcon: BipHip.officeFill,
-                            suffixIcon: BipHip.edit,
-                            text: checkNullOrStringNull(_profileController.profileData.value!.currentWorkplace!.company),
-                            suffixOnPressed: () {
-                              // _profileController.cityList.remove(_profileController.cityList[index]);
-                              // _globalController.blankBottomSheet(
-                              //     context: context,
-                              //     isScrollControlled: false,
-                              //     bottomSheetHeight: 130,
-                              //     content: EditModalSheet(
-                              //       editButtonText: ksEditWorkplace.tr,
-                              //       editOnPressed: () {
-                              //         _profileController.officeIndex.value = index;
-                              //         _profileController.deleteIndex.value = index;
-                              //         _profileController.officeNameTextEditingController.text = item['office'];
-                              //         _profileController.designationTextEditingController.text = item['designation'];
-                              //         _profileController.setEditPageValue(
-                              //             ksEditWorkplace.tr,
-                              //             false,
-                              //             BipHip.officeFill,
-                              //             _profileController.officeNameTextEditingController,
-                              //             true,
-                              //             _profileController.designationTextEditingController,
-                              //             ksEditWorkplace.tr,
-                              //             true,
-                              //             true,
-                              //             true,
-                              //             _profileController.isCurrentlyWorkingHere.value,
-                              //             ksCurrentlyWorkingHere.tr,
-                              //             'EDIT WORKPLACE');
-                              //         Get.toNamed(krEdit);
-                              //       },
-                              //       deleteButtonText: ksDeleteWorkplace.tr,
-                              //       deleteOnPressed: () {
-                              //         // _profileController.officeList.remove(item);
-                              //         Get.back();
-                              //       },
-                              //     ));
-                            },
-                          ),
-                        ),
                       ListView.builder(
                           shrinkWrap: true,
-                          itemCount: _profileController.officeList.length,
+                          itemCount: _profileController.workplaceDataList.length,
                           itemBuilder: (context, index) {
-                            var item = _profileController.officeList[index];
+                            var item = _profileController.workplaceDataList[index];
                             return Padding(
                               padding: const EdgeInsets.only(bottom: k10Padding),
                               child: InfoContainer(
                                 prefixIcon: BipHip.officeFill,
                                 suffixIcon: BipHip.edit,
-                                text: item['office'],
+                                text: item.company!,
                                 suffixOnPressed: () {
                                   // _profileController.cityList.remove(_profileController.cityList[index]);
                                   _globalController.blankBottomSheet(
@@ -633,30 +588,30 @@ class EditAboutInfo extends StatelessWidget {
                                       content: EditModalSheet(
                                         editButtonText: ksEditWorkplace.tr,
                                         editOnPressed: () {
-                                          _profileController.officeIndex.value = index;
-                                          _profileController.deleteIndex.value = index;
-                                          _profileController.officeNameTextEditingController.text = item['office'];
-                                          _profileController.designationTextEditingController.text = item['designation'];
+                                          _profileController.officeID.value = item.id!;
+                                          _profileController.companyNameTextEditingController.text = item.company!;
+                                          _profileController.designationTextEditingController.text = item.position ?? '';
                                           _profileController.setEditPageValue(
                                               ksEditWorkplace.tr,
                                               false,
                                               BipHip.officeFill,
-                                              _profileController.officeNameTextEditingController,
+                                              _profileController.companyNameTextEditingController,
                                               true,
                                               _profileController.designationTextEditingController,
                                               ksEditWorkplace.tr,
                                               true,
                                               true,
                                               true,
-                                              _profileController.isCurrentlyWorkingHere.value,
+                                              item.isCurrent == 1 ? true : false,
                                               ksCurrentlyWorkingHere.tr,
                                               'EDIT WORKPLACE');
+                                          Get.back();
                                           Get.toNamed(krEdit);
                                         },
                                         deleteButtonText: ksDeleteWorkplace.tr,
-                                        deleteOnPressed: () {
-                                          _profileController.officeList.remove(item);
+                                        deleteOnPressed: () async {
                                           Get.back();
+                                          await _profileController.deleteWork(item.id);
                                         },
                                       ));
                                 },
