@@ -211,6 +211,7 @@ class AuthenticationController extends GetxController {
       checkValidPassword.value = false;
     }
   }
+
   final RxBool isRegisterLoading = RxBool(false);
   Future<void> userRegister() async {
     try {
@@ -279,8 +280,10 @@ class AuthenticationController extends GetxController {
     }
   }
 
+  final RxBool isForgetPasswordLoading = RxBool(false);
   Future<void> forgetPassword() async {
     try {
+      isForgetPasswordLoading.value = true;
       Map<String, dynamic> body = {
         'email': forgotPasswordEmailTextEditingController.text.toString(),
       };
@@ -293,10 +296,12 @@ class AuthenticationController extends GetxController {
       if (response.success == true) {
         parentRoute.value = "forget-password";
         resetOTPScreen();
+        isForgetPasswordLoading.value = false;
         Get.toNamed(krOTP);
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isForgetPasswordLoading.value = false;
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
@@ -304,6 +309,7 @@ class AuthenticationController extends GetxController {
         }
       }
     } catch (e) {
+      isForgetPasswordLoading.value = false;
       ll('forgetPassword error: $e');
     }
   }
@@ -341,8 +347,10 @@ class AuthenticationController extends GetxController {
     }
   }
 
+  final RxBool isResetPasswordLoading = RxBool(false);
   Future<void> resetPassword() async {
     try {
+      isResetPasswordLoading.value = true;
       Map<String, dynamic> body = {
         "password": resetNewPasswordTextEditingController.text,
         "password_confirmation": resetConfirmPasswordTextEditingController.text,
@@ -356,10 +364,12 @@ class AuthenticationController extends GetxController {
 
       if (response.success == true) {
         resetLoginScreen();
+        isResetPasswordLoading.value = false;
         Get.offAllNamed(krLogin);
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isResetPasswordLoading.value = false;
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
@@ -367,6 +377,7 @@ class AuthenticationController extends GetxController {
         }
       }
     } catch (e) {
+      isResetPasswordLoading.value = false;
       ll('resetPassword error: $e');
     }
   }

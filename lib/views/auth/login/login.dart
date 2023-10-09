@@ -3,7 +3,6 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/checkbox_and_container.dart';
 import 'package:bip_hip/widgets/common/button/linkup_text.dart';
 import 'package:bip_hip/widgets/common/button/logo_and_text_widget.dart';
-import 'package:bip_hip/widgets/common/utils/common_loading_animation.dart';
 import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 
 class Login extends StatelessWidget {
