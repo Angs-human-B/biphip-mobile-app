@@ -145,9 +145,9 @@ class EditProfile extends StatelessWidget {
                           kH16sizedBox,
                           RowTextEdit(
                             prefix: ksBio.tr,
-                            suffix: _profileController.profileData.value!.user!.bio == null ? ksAdd.tr : ksEdit.tr,
+                            suffix: _profileController.userData.value!.bio == null ? ksAdd.tr : ksEdit.tr,
                             onEditPressed: () {
-                              if (_profileController.profileData.value!.user!.bio == null) {
+                              if (_profileController.userData.value!.bio == null) {
                                 Get.toNamed(krEditBio);
                               } else {
                                 _globalController.commonBottomSheet(
@@ -166,12 +166,12 @@ class EditProfile extends StatelessWidget {
                               }
                             },
                           ),
-                          if (_profileController.profileData.value!.user!.bio != null) kH16sizedBox,
+                          if (_profileController.userData.value!.bio != null) kH16sizedBox,
                           Text(
-                            _profileController.profileData.value!.user!.bio ?? '',
+                            _profileController.userData.value!.bio ?? '',
                             style: regular14TextStyle(cIconColor),
                           ),
-                          if (_profileController.profileData.value!.user!.bio != null) kH16sizedBox,
+                          if (_profileController.userData.value!.bio != null) kH16sizedBox,
                           const CustomDivider(),
                           kH16sizedBox,
                           RowTextEdit(
@@ -316,6 +316,7 @@ class EditBioModalSheet extends StatelessWidget {
       children: [
         CustomElevatedButton(
           onPressed: () {
+            Get.find<ProfileController>().bioEditingController.text = Get.find<ProfileController>().userData.value!.bio!;
             Get.toNamed(krEditBio);
           },
           label: ksEditBio.tr,

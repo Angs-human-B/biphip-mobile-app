@@ -203,8 +203,8 @@ class User {
   dynamic phone;
   String? gender;
   DateTime? dob;
-  List<String> profession;
-  List<String> interest;
+  dynamic profession;
+  dynamic interest;
   dynamic bio;
   dynamic languages;
   String? status;
@@ -260,8 +260,8 @@ class User {
         phone: json["phone"],
         gender: json["gender"],
         dob: DateTime.parse(json["dob"]),
-        profession: List<String>.from(json["profession"].map((x) => x)),
-        interest: List<String>.from(json["interest"].map((x) => x)),
+        profession: json["profession"],
+        interest: json["interest"],
         bio: json["bio"],
         languages: json["languages"],
         status: json["status"],

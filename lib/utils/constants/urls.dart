@@ -68,7 +68,7 @@ const String kuStoreLink = '/mobile/user/store-link'; //DONE
 const String kuUpdateLink = '/mobile/user/update-link'; //DONE
 const String kuDeleteLink = '/mobile/user/delete-link'; //DONE
 const String kuUpdateDateOfBirth = '/mobile/user/update-date-of-birth';
-const String kuUpdateBio = '/mobile/user/update-bio';
+const String kuUpdateBio = '/mobile/user/update-bio'; //DONE
 const String kuUpdateLanguages = '/mobile/user/update-languages';
 
 //* About Section

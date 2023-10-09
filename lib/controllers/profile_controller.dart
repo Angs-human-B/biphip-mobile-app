@@ -408,6 +408,7 @@ class ProfileController extends GetxController {
 
   //* Profile overview API Implementation
   Rx<ProfileOverviewModel?> profileData = Rx<ProfileOverviewModel?>(null);
+  Rx<User?> userData = Rx<User?>(null);
   Rx<CurrentCity?> hometownData = Rx<CurrentCity?>(null);
   Rx<CurrentCity?> currentCityData = Rx<CurrentCity?>(null);
   RxBool isProfileLoading = RxBool(false);
@@ -428,6 +429,7 @@ class ProfileController extends GetxController {
         linkDataList.clear();
         workplaceDataList.clear();
         profileData.value = ProfileOverviewModel.fromJson(response.data);
+        userData.value = profileData.value!.user;
         hometownData.value = profileData.value!.hometown;
         currentCityData.value = profileData.value!.currentCity;
         schoolDataList.addAll(profileData.value!.school);
@@ -1038,6 +1040,39 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       ll('deleteContact error: $e');
+    }
+  }
+
+  //* update bio API Implementation
+  Future<void> updateBio() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'bio': bioEditingController.text.trim(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateBio,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        userData.value = User.fromJson(response.data);
+        Get.back();
+        Get.back();
+        clearBio();
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('updateBio error: $e');
     }
   }
 }
