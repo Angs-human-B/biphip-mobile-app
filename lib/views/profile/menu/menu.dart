@@ -15,197 +15,214 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: cWhiteColor,
-      child: SafeArea(
-        top: false,
-        child: Scaffold(
-          backgroundColor: cGreyBoxColor,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(kAppBarSize),
-            //* info:: appBar
-            child: CustomAppBar(
-              appBarColor: cGreyBoxColor,
-              title: ksMenu.tr,
-              hasBackButton: false,
-              isCenterTitle: false,
-              onBack: () {
-                Get.back();
-              },
-              action: [
-                Padding(
-                  padding: const EdgeInsets.only(right: h20),
-                  child: TextButton(
-                    style: kTextButtonStyle,
-                    onPressed: () async {
-                      final spController = SpController();
-                      Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
-                      // FirebaseCrashlytics.instance.crash();
-                      Get.find<GlobalController>().searchController.clear();
-                      Get.to(
-                        () => Search(
-                          searchController: Get.find<GlobalController>().searchController,
-                          recentSearchList: Get.find<GlobalController>().recentSearch,
-                          onSubmit: () {},
-                        ),
-                        transition: Transition.rightToLeft,
-                      );
+      child: Obx(
+        () => Stack(
+          children: [
+            SafeArea(
+              top: false,
+              child: Scaffold(
+                backgroundColor: cGreyBoxColor,
+                appBar: PreferredSize(
+                  preferredSize: const Size.fromHeight(kAppBarSize),
+                  //* info:: appBar
+                  child: CustomAppBar(
+                    appBarColor: cGreyBoxColor,
+                    title: ksMenu.tr,
+                    hasBackButton: false,
+                    isCenterTitle: false,
+                    onBack: () {
+                      Get.back();
                     },
-                    child: Icon(
-                      BipHip.search,
-                      color: cIconColor,
-                      size: isDeviceScreenLarge() ? 24 : 20,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          body: SizedBox(
-            height: height,
-            width: width,
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: Obx(
-                  () => Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
-                      CustomMenuContainer(
-                        height: 64,
-                        onPressed: () async {
-                          await _profileController.getProfileOverview();
-                          Get.toNamed(krProfile);
-                        },
-                        leading: ClipOval(
-                          child: Container(
-                            height: h40,
-                            width: h40,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: Image.asset(
-                              kiProfilePicImageUrl,
-                              fit: BoxFit.cover,
-                            ),
+                    action: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: h20),
+                        child: TextButton(
+                          style: kTextButtonStyle,
+                          onPressed: () async {
+                            final spController = SpController();
+                            Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
+                            // FirebaseCrashlytics.instance.crash();
+                            Get.find<GlobalController>().searchController.clear();
+                            Get.to(
+                              () => Search(
+                                searchController: Get.find<GlobalController>().searchController,
+                                recentSearchList: Get.find<GlobalController>().recentSearch,
+                                onSubmit: () {},
+                              ),
+                              transition: Transition.rightToLeft,
+                            );
+                          },
+                          child: Icon(
+                            BipHip.search,
+                            color: cIconColor,
+                            size: isDeviceScreenLarge() ? 24 : 20,
                           ),
                         ),
-                        text: 'Aminul Islam Rana',
-                        textStyle: semiBold18TextStyle(cBlackColor),
                       ),
-                      kH25sizedBox,
-                      Text(
-                        ksAllShortcuts.tr,
-                        style: semiBold18TextStyle(cBlackColor),
-                      ),
-                      kH16sizedBox,
-                      Wrap(
-                        alignment: WrapAlignment.start,
-                        direction: Axis.horizontal,
-                        spacing: 17.0,
-                        children: [
-                          for (int i = 0; i < _menuController.shortcutButtonContent.length; i++)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: k16Padding),
-                              child: CustomMenuContainer(
-                                height: 64,
-                                width: (width / 2) - (kHorizontalPadding + 9),
-                                leading: Icon(
-                                  _menuController.shortcutButtonContent[i]['icon'],
-                                  color: cPrimaryColor,
-                                ),
-                                text: _menuController.shortcutButtonContent[i]['text'],
-                                textStyle: semiBold16TextStyle(cBlackColor),
-                                onPressed: () {
-                                  _menuController.menuPressFunction(i);
-                                },
-                              ),
-                            ),
-                        ],
-                      ),
-                      kH4sizedBox,
-                      Container(
-                        width: width,
-                        height: 1,
-                        color: cLineColor,
-                      ),
-                      CustomExpandableMenuButton(
-                        height: h50,
-                        text: ksHelpSupport.tr,
-                        icon: BipHip.helpFill,
-                        onPressed: () {
-                          _profileController.isSupportButtonPressed.value = !_profileController.isSupportButtonPressed.value;
-                        },
-                      ),
-                      if (_profileController.isSupportButtonPressed.value || _profileController.isSettingButtonPressed.value)
-                        Container(
-                          width: width,
-                          height: 1,
-                          color: cLineColor,
-                        ),
-                      if (_profileController.isSupportButtonPressed.value)
-                        ListOfButtons(
-                          list: _menuController.supportButtonContent,
-                        ),
-                      if (_profileController.isSupportButtonPressed.value) kH10sizedBox,
-                      if (_profileController.isSupportButtonPressed.value || !_profileController.isSettingButtonPressed.value)
-                        Container(
-                          width: width,
-                          height: 1,
-                          color: cLineColor,
-                        ),
-                      CustomExpandableMenuButton(
-                        onPressed: () {
-                          _profileController.isSettingButtonPressed.value = !_profileController.isSettingButtonPressed.value;
-                        },
-                        height: h50,
-                        text: ksSettingsPrivacy.tr,
-                        icon: BipHip.setting,
-                      ),
-                      Container(
-                        width: width,
-                        height: 1,
-                        color: cLineColor,
-                      ),
-                      if (_profileController.isSettingButtonPressed.value)
-                        ListOfButtons(
-                          list: _menuController.settingsButtonContent,
-                        ),
-                      kH20sizedBox,
-                      CustomElevatedButton(
-                        label: ksLogout.tr,
-                        onPressed: () async {
-                          var status = await SpController().getRememberMe();
-                          if (status == true) {
-                            await Get.find<AuthenticationController>().getSavedUsers();
-                            Get.offAllNamed(krSavedUserLogin);
-                            await SpController().onLogout();
-                            Get.find<AuthenticationController>().resetLoginScreen();
-                          } else {
-                            await Get.find<AuthenticationController>().logout();
-                          }
-                        },
-                        buttonHeight: 42,
-                        buttonWidth: width - 40,
-                        buttonColor: cWhiteColor,
-                        textStyle: semiBold14TextStyle(cPrimaryColor),
-                      ),
-                      kHBottomSizedBox
                     ],
                   ),
                 ),
+                body: Obx(
+                  () => SizedBox(
+                    height: height,
+                    width: width,
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
+                            CustomMenuContainer(
+                              height: 64,
+                              onPressed: () async {
+                                await _profileController.getProfileOverview();
+                                Get.toNamed(krProfile);
+                              },
+                              leading: ClipOval(
+                                child: Container(
+                                  height: h40,
+                                  width: h40,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Image.asset(
+                                    kiProfilePicImageUrl,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              text: 'Aminul Islam Rana',
+                              textStyle: semiBold18TextStyle(cBlackColor),
+                            ),
+                            kH25sizedBox,
+                            Text(
+                              ksAllShortcuts.tr,
+                              style: semiBold18TextStyle(cBlackColor),
+                            ),
+                            kH16sizedBox,
+                            Wrap(
+                              alignment: WrapAlignment.start,
+                              direction: Axis.horizontal,
+                              spacing: 17.0,
+                              children: [
+                                for (int i = 0; i < _menuController.shortcutButtonContent.length; i++)
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: k16Padding),
+                                    child: CustomMenuContainer(
+                                      height: 64,
+                                      width: (width / 2) - (kHorizontalPadding + 9),
+                                      leading: Icon(
+                                        _menuController.shortcutButtonContent[i]['icon'],
+                                        color: cPrimaryColor,
+                                      ),
+                                      text: _menuController.shortcutButtonContent[i]['text'],
+                                      textStyle: semiBold16TextStyle(cBlackColor),
+                                      onPressed: () {
+                                        _menuController.menuPressFunction(i);
+                                      },
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            kH4sizedBox,
+                            Container(
+                              width: width,
+                              height: 1,
+                              color: cLineColor,
+                            ),
+                            CustomExpandableMenuButton(
+                              height: h50,
+                              text: ksHelpSupport.tr,
+                              icon: BipHip.helpFill,
+                              onPressed: () {
+                                _profileController.isSupportButtonPressed.value = !_profileController.isSupportButtonPressed.value;
+                              },
+                            ),
+                            if (_profileController.isSupportButtonPressed.value || _profileController.isSettingButtonPressed.value)
+                              Container(
+                                width: width,
+                                height: 1,
+                                color: cLineColor,
+                              ),
+                            if (_profileController.isSupportButtonPressed.value)
+                              ListOfButtons(
+                                list: _menuController.supportButtonContent,
+                              ),
+                            if (_profileController.isSupportButtonPressed.value) kH10sizedBox,
+                            if (_profileController.isSupportButtonPressed.value || !_profileController.isSettingButtonPressed.value)
+                              Container(
+                                width: width,
+                                height: 1,
+                                color: cLineColor,
+                              ),
+                            CustomExpandableMenuButton(
+                              onPressed: () {
+                                _profileController.isSettingButtonPressed.value = !_profileController.isSettingButtonPressed.value;
+                              },
+                              height: h50,
+                              text: ksSettingsPrivacy.tr,
+                              icon: BipHip.setting,
+                            ),
+                            Container(
+                              width: width,
+                              height: 1,
+                              color: cLineColor,
+                            ),
+                            if (_profileController.isSettingButtonPressed.value)
+                              ListOfButtons(
+                                list: _menuController.settingsButtonContent,
+                              ),
+                            kH20sizedBox,
+                            CustomElevatedButton(
+                              label: ksLogout.tr,
+                              onPressed: () async {
+                                var status = await SpController().getRememberMe();
+                                if (status == true) {
+                                  await Get.find<AuthenticationController>().getSavedUsers();
+                                  Get.offAllNamed(krSavedUserLogin);
+                                  await SpController().onLogout();
+                                  Get.find<AuthenticationController>().resetLoginScreen();
+                                } else {
+                                  await Get.find<AuthenticationController>().logout();
+                                }
+                              },
+                              buttonHeight: 42,
+                              buttonWidth: width - 40,
+                              buttonColor: cWhiteColor,
+                              textStyle: semiBold14TextStyle(cPrimaryColor),
+                            ),
+                            kHBottomSizedBox
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                bottomNavigationBar: CustomBottomNavBar(
+                  width: width,
+                  isFirstButtonClicked: false,
+                  isSecondButtonClicked: false,
+                  isThirdButtonClicked: false,
+                  isFourthButtonClicked: false,
+                  isFifthButtonClicked: true,
+                ),
               ),
             ),
-          ),
-          bottomNavigationBar: CustomBottomNavBar(
-            width: width,
-            isFirstButtonClicked: false,
-            isSecondButtonClicked: false,
-            isThirdButtonClicked: false,
-            isFourthButtonClicked: false,
-            isFifthButtonClicked: true,
-          ),
+            if (Get.find<AuthenticationController>().isLogoutLoading.value == true)
+              Positioned(
+                child: CommonLoadingAnimation(
+                  onWillPop: () async {
+                    if (Get.find<AuthenticationController>().isLogoutLoading.value) {
+                      return false;
+                    }
+                    return true;
+                  },
+                ),
+              ),
+          ],
         ),
       ),
     );
