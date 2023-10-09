@@ -83,8 +83,10 @@ class AuthenticationController extends GetxController {
     }
   }
 
+  final RxBool isLoginLoading = RxBool(false);
   Future<void> userLogin() async {
     try {
+      isLoginLoading.value = true;
       Map<String, dynamic> body = {
         'email': loginEmailTextEditingController.text.toString(),
         "password": loginPasswordTextEditingController.text.toString(),
@@ -110,6 +112,7 @@ class AuthenticationController extends GetxController {
           });
         }
         // await setDeviceID(loginData.user.id);
+        isLoginLoading.value = false;
         Get.offAllNamed(krHome);
         // final HomeController homeController = Get.find<HomeController>();
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -120,10 +123,12 @@ class AuthenticationController extends GetxController {
           verificationToken.value = commonUnVerifyModel.token.toString();
           parentRoute.value = "login";
           resetOTPScreen();
+          isLoginLoading.value = false;
           Get.toNamed(krOTP);
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
           ErrorModel errorModel = ErrorModel.fromJson(response.data);
+          isLoginLoading.value = false;
           if (errorModel.errors.isEmpty) {
             _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
           } else {
@@ -132,6 +137,7 @@ class AuthenticationController extends GetxController {
         }
       }
     } catch (e) {
+      isLoginLoading.value = false;
       ll('userLogin error: $e');
     }
   }
@@ -205,9 +211,10 @@ class AuthenticationController extends GetxController {
       checkValidPassword.value = false;
     }
   }
-
+  final RxBool isRegisterLoading = RxBool(false);
   Future<void> userRegister() async {
     try {
+      isRegisterLoading.value = true;
       Map<String, dynamic> body = {
         "first_name": registerFirstNameTextEditingController.text,
         "last_name": registerLastNameTextEditingController.text,
@@ -229,11 +236,13 @@ class AuthenticationController extends GetxController {
         verificationToken.value = commonUnVerifyModel.token.toString();
         parentRoute.value = "register";
         resetOTPScreen();
+        isRegisterLoading.value = false;
         Get.toNamed(krOTP);
 
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isRegisterLoading.value = false;
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
@@ -241,6 +250,7 @@ class AuthenticationController extends GetxController {
         }
       }
     } catch (e) {
+      isRegisterLoading.value = false;
       ll('userRegister error: $e');
     }
   }
