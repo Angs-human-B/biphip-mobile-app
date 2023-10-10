@@ -1154,21 +1154,21 @@ class ProfileController extends GetxController {
   }
 
   //* upload profile photo
-  Future<void> updloadProfilePicture(imageFile) async {
+  Future<void> uploadProfilePicture(imageFile) async {
     try {
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
-        'image': imageFile,
+        'image': imageFile.toString(),
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
-        url: kuUpdateLink,
+        url: kuSetProfilePicture,
         body: body,
         token: token,
       ) as CommonDM;
 
       if (response.success == true) {
-       
+        userData.value = User.fromJson(response.data);
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -1179,7 +1179,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-      ll('updateLink error: $e');
+      ll('uploadProfilePicture error: $e');
     }
   }
 }
