@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/controllers/home_controller.dart';
 import 'package:bip_hip/controllers/post_reaction_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/profile_controllers/menu_section_controller.dart';
 import 'package:bip_hip/controllers/splash_screen_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -16,5 +17,6 @@ class BinderController implements Bindings {
     Get.put<ProfileController>(ProfileController());
     Get.put<CreatePostController>(CreatePostController());
     Get.put<PostReactionController>(PostReactionController());
+    Get.put<MenuSectionController>(MenuSectionController());
   }
 }
