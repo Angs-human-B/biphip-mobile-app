@@ -218,6 +218,7 @@ class ProfileController extends GetxController {
   final RxBool isCurrentlyStudyingHere = RxBool(false);
   final RxBool isCurrentlyWorkingHere = RxBool(false);
   final RxList cityList = RxList([]);
+  final RxString birthday = RxString('');
   // final RxBool showEditAddress = RxBool(false);
   final RxBool showEditRelationshipStatus = RxBool(false);
   // final RxBool showAddSchool = RxBool(false);
@@ -1116,6 +1117,36 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       ll('updateBio error: $e');
+    }
+  }
+
+  //* update bio API Implementation
+  Future<void> updateDOB() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'dob':birthday.value,
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateDateOfBirth,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        userData.value = User.fromJson(response.data);
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('updateDOB error: $e');
     }
   }
 }

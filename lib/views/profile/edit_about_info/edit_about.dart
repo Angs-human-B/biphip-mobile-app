@@ -5,6 +5,7 @@ import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+import 'package:intl/intl.dart';
 
 class EditAboutInfo extends StatelessWidget {
   EditAboutInfo({super.key});
@@ -194,66 +195,6 @@ class EditAboutInfo extends StatelessWidget {
                             ),
                           ),
                       const CustomDivider(),
-                      kH20sizedBox,
-                      Text(
-                        ksRelationshipStatus.tr,
-                        style: semiBold18TextStyle(cBlackColor),
-                      ),
-                      kH20sizedBox,
-                      CustomSelectionButton(
-                        prefixIcon: BipHip.love,
-                        onPressed: () {
-                          _profileController.showEditRelationshipStatus.value = true;
-                          _globalController.commonBottomSheet(
-                            context: context,
-                            content: _RelationshipStatusListContent(
-                              profileController: _profileController,
-                            ),
-                            isScrollControlled: true,
-                            bottomSheetHeight: height * 0.6,
-                            onPressCloseButton: () {
-                              Get.back();
-                            },
-                            onPressRightButton: null,
-                            rightText: '',
-                            rightTextStyle: regular10TextStyle(cBlackColor),
-                            title: ksSelectRelationshipStatus.tr,
-                            isRightButtonShow: false,
-                          );
-                        },
-                        text: checkNullOrStringNull(_profileController.profileData.value!.user!.relation),
-                        hintText: ksSelectRelationshipStatus.tr,
-                      ),
-                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH20sizedBox,
-                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
-                        OutLinedButton(
-                          buttonWidth: 80,
-                          buttonHeight: 25,
-                          onPress: () {},
-                          buttonText: ksPublic.tr,
-                          buttonTextStyle: semiBold12TextStyle(cBlackColor),
-                          borderColor: cLineColor,
-                          suffixWidget: const Padding(
-                            padding: EdgeInsets.only(right: k8Padding),
-                            child: Icon(
-                              BipHip.world,
-                              color: cIconColor,
-                              size: kIconSize16,
-                            ),
-                          ),
-                        ),
-                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH20sizedBox,
-                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
-                        CancelSaveButton(
-                          onPressedCancel: () {
-                            _profileController.showEditRelationshipStatus.value = false;
-                          },
-                          onPressedSave: () {
-                            _profileController.showEditRelationshipStatus.value = false;
-                          },
-                        ),
-                      kH20sizedBox,
-                      const CustomDivider(),
                       kH16sizedBox,
                       RowTextButton(
                         text: 'Education Background',
@@ -365,6 +306,92 @@ class EditAboutInfo extends StatelessWidget {
                         ),
                       const CustomDivider(),
                       kH16sizedBox,
+                      Text(
+                        ksRelationshipStatus.tr,
+                        style: semiBold18TextStyle(cBlackColor),
+                      ),
+                      kH20sizedBox,
+                      CustomSelectionButton(
+                        prefixIcon: BipHip.love,
+                        onPressed: () {
+                          _profileController.showEditRelationshipStatus.value = true;
+                          _globalController.commonBottomSheet(
+                            context: context,
+                            content: _RelationshipStatusListContent(
+                              profileController: _profileController,
+                            ),
+                            isScrollControlled: true,
+                            bottomSheetHeight: height * 0.6,
+                            onPressCloseButton: () {
+                              Get.back();
+                            },
+                            onPressRightButton: null,
+                            rightText: '',
+                            rightTextStyle: regular10TextStyle(cBlackColor),
+                            title: ksSelectRelationshipStatus.tr,
+                            isRightButtonShow: false,
+                          );
+                        },
+                        text: checkNullOrStringNull(_profileController.profileData.value!.user!.relation),
+                        hintText: ksSelectRelationshipStatus.tr,
+                      ),
+                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH20sizedBox,
+                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
+                        OutLinedButton(
+                          buttonWidth: 80,
+                          buttonHeight: 25,
+                          onPress: () {},
+                          buttonText: ksPublic.tr,
+                          buttonTextStyle: semiBold12TextStyle(cBlackColor),
+                          borderColor: cLineColor,
+                          suffixWidget: const Padding(
+                            padding: EdgeInsets.only(right: k8Padding),
+                            child: Icon(
+                              BipHip.world,
+                              color: cIconColor,
+                              size: kIconSize16,
+                            ),
+                          ),
+                        ),
+                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH20sizedBox,
+                      if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
+                        CancelSaveButton(
+                          onPressedCancel: () {
+                            _profileController.showEditRelationshipStatus.value = false;
+                          },
+                          onPressedSave: () {
+                            _profileController.showEditRelationshipStatus.value = false;
+                          },
+                        ),
+                      kH16sizedBox,
+                      const CustomDivider(),
+                      kH16sizedBox,
+                      RowTextButton(
+                        text: ksDateOfBirth.tr,
+                        buttonText: ksAdd.tr,
+                        showAddButton: false,
+                        onPressedAdd: () {
+                          _profileController.isRouteFromAboutInfo.value = true;
+                          Get.toNamed(krSelectProfession);
+                        },
+                        buttonWidth: 149,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: CustomSelectionButton(
+                          prefixIcon: BipHip.calendarFill,
+                          onPressed: () {
+                            _profileController.isRouteFromAboutInfo.value = true;
+
+                            Get.toNamed(krSelectBirthday);
+                          },
+                          text: DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!),
+                          hintText: ksSelectDOB.tr,
+                        ),
+                      ),
+                      kH16sizedBox,
+                      const CustomDivider(),
+                      kH16sizedBox,
                       RowTextButton(
                         text: ksProfession.tr,
                         buttonText: ksAdd.tr,
@@ -381,7 +408,7 @@ class EditAboutInfo extends StatelessWidget {
                           child: CustomSelectionButton(
                             prefixIcon: BipHip.work,
                             onPressed: () {
-                              _profileController.showEditRelationshipStatus.value = true;
+                              // _profileController.showEditRelationshipStatus.value = true;
                               _globalController.commonBottomSheet(
                                   context: context,
                                   isScrollControlled: false,
