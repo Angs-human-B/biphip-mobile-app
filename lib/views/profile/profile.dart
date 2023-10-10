@@ -407,7 +407,7 @@ class Profile extends StatelessWidget {
                                       onPressed: null,
                                     ),
                                   ),
-                                if (_profileController.profileData.value!.hometown!.city != null)
+                                if (_profileController.profileData.value!.hometown != null)
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                     child: LinkUpIconTextRow(

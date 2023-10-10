@@ -193,7 +193,7 @@ class EditProfile extends StatelessWidget {
                               isLink: false,
                               onPressed: null,
                             ),
-                          if (_profileController.profileData.value!.hometown!.city != null)
+                          if (_profileController.profileData.value!.hometown != null)
                             LinkUpIconTextRow(
                               icon: BipHip.location,
                               text: 'From ${_profileController.profileData.value!.hometown!.city}',

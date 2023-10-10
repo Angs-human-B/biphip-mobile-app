@@ -63,13 +63,13 @@ class CurrentCity {
     required this.isCurrent,
   });
 
-  factory CurrentCity.fromJson(Map<String, dynamic> json) => CurrentCity(
-        id: json["id"],
-        userId: json["user_id"],
-        city: json["city"],
-        moved: json["moved"] == null ? null : DateTime.parse(json["moved"]),
-        isHometown: json["is_hometown"],
-        isCurrent: json["is_current"],
+  factory CurrentCity.fromJson(Map<String, dynamic>? json) => CurrentCity(
+        id: json?["id"],
+        userId: json?["user_id"],
+        city: json?["city"],
+        moved: json?["moved"] == null ? null : DateTime.parse(json?["moved"]),
+        isHometown: json?["is_hometown"],
+        isCurrent: json?["is_current"],
       );
 }
 
