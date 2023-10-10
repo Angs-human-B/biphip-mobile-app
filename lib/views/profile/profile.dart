@@ -30,7 +30,7 @@ class Profile extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              // title: '${(_profileController.profileData.value!.user!.firstName)} ${_profileController.profileData.value!.user!.lastName}',
+              title: '${(_profileController.userData.value?.firstName)} ${_profileController.userData.value?.lastName}',
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
