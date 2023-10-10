@@ -65,7 +65,7 @@ class Profile extends StatelessWidget {
                                   ),
                                 )
                               : Image.network(
-                                  Environment.imageBaseUrl + _profileController.profileData.value!.user!.coverPhoto.toString(),
+                                  _profileController.profileData.value!.user!.coverPhoto.toString(),
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) => Image.asset(
                                     kiCoverPicImageUrl,
@@ -96,7 +96,7 @@ class Profile extends StatelessWidget {
                                           ),
                                         )
                                       : Image.network(
-                                          Environment.imageBaseUrl + _profileController.profileData.value!.user!.profilePicture.toString(),
+                                          _profileController.profileData.value!.user!.profilePicture.toString(),
                                           fit: BoxFit.cover,
                                           errorBuilder: (context, error, stackTrace) => ClipOval(
                                             child: Image.asset(
@@ -256,23 +256,29 @@ class Profile extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    CustomElevatedButton(
-                                      label: ksAddSelfie.tr,
-                                      buttonHeight: 44,
-                                      buttonWidth: (width / 2) - 28,
-                                      prefixIcon: BipHip.camera,
-                                      textStyle: semiBold18TextStyle(cWhiteColor),
-                                      onPressed: () {},
+                                    Shimmer.fromColors(
+                                      baseColor: cWhiteColor,
+                                      highlightColor: Colors.grey,
+                                      child: Container(
+                                        height: 44,
+                                        width: (width / 2) - 28,
+                                        decoration: BoxDecoration(
+                                          borderRadius: k8CircularBorderRadius,
+                                          color: cWhiteColor,
+                                        ),
+                                      ),
                                     ),
-                                    CustomElevatedButton(
-                                      label: ksEditProfile.tr,
-                                      onPressed: () {},
-                                      prefixIcon: BipHip.edit,
-                                      prefixIconColor: cBlackColor,
-                                      buttonHeight: 44,
-                                      buttonWidth: (width / 2) - 28,
-                                      buttonColor: cWhiteColor,
-                                      textStyle: semiBold18TextStyle(cBlackColor),
+                                    Shimmer.fromColors(
+                                      baseColor: cWhiteColor,
+                                      highlightColor: Colors.grey,
+                                      child: Container(
+                                        height: 44,
+                                        width: (width / 2) - 28,
+                                        decoration: BoxDecoration(
+                                          borderRadius: k8CircularBorderRadius,
+                                          color: cWhiteColor,
+                                        ),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -497,16 +503,49 @@ class Profile extends StatelessWidget {
                     kH12sizedBox,
                     Container(
                       color: cWhiteColor,
-                      child: CustomPostButton(
-                        name: checkNullOrStringNull(_profileController.profileData.value!.user!.firstName) ??
-                            _profileController.profileData.value!.user!.firstName,
-                        profilePic: _profileController.profileData.value!.user!.profilePicture.toString(),
-                        onPressed: () {
-                          ll('post');
-                          Get.find<CreatePostController>().resetData();
-                          Get.toNamed(krCreatePost);
-                        },
-                      ),
+                      child: _profileController.isProfileLoading.value
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(vertical: k12Padding),
+                              child: Row(
+                                children: [
+                                  kW20sizedBox,
+                                  Shimmer.fromColors(
+                                    baseColor: cWhiteColor,
+                                    highlightColor: Colors.grey,
+                                    child: ClipOval(
+                                      child: Container(
+                                        height: h40,
+                                        width: h40,
+                                        decoration: const BoxDecoration(
+                                          color: cWhiteColor,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  kW12sizedBox,
+                                  Shimmer.fromColors(
+                                    baseColor: cWhiteColor,
+                                    highlightColor: Colors.grey,
+                                    child: Container(
+                                      height: h20,
+                                      width: width * 0.6,
+                                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : CustomPostButton(
+                              name: checkNullOrStringNull(_profileController.profileData.value!.user!.firstName) ??
+                                  _profileController.profileData.value!.user!.firstName,
+                              profilePic: _profileController.profileData.value!.user!.profilePicture.toString(),
+                              onPressed: () {
+                                ll('post');
+                                Get.find<CreatePostController>().resetData();
+                                Get.toNamed(krCreatePost);
+                              },
+                            ),
                     ),
                     kH12sizedBox,
                     Container(

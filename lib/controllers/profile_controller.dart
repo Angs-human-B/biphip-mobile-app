@@ -406,6 +406,14 @@ class ProfileController extends GetxController {
     } else if (id == 7) {}
   }
 
+  void clearDataList() {
+    otherCityList.clear();
+    schoolDataList.clear();
+    collegeDataList.clear();
+    contactDataList.clear();
+    linkDataList.clear();
+  }
+
   //* Profile overview API Implementation
   Rx<ProfileOverviewModel?> profileData = Rx<ProfileOverviewModel?>(null);
   Rx<User?> userData = Rx<User?>(null);
@@ -422,11 +430,7 @@ class ProfileController extends GetxController {
         url: kuGetProfileOverView,
       ) as CommonDM;
       if (response.success == true) {
-        otherCityList.clear();
-        schoolDataList.clear();
-        collegeDataList.clear();
-        contactDataList.clear();
-        linkDataList.clear();
+        clearDataList();
         workplaceDataList.clear();
         profileData.value = ProfileOverviewModel.fromJson(response.data);
         userData.value = profileData.value!.user;

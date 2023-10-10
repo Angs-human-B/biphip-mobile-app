@@ -163,8 +163,8 @@ class College {
         concentrations: json["concentrations"],
         degree: json["degree"],
         attendFor: json["attend_for"],
-        started: DateTime.parse(json["started"]),
-        ended: DateTime.parse(json["ended"]),
+        started: json["started"] == null ? null : DateTime.parse(json["started"]),
+        ended: json["ended"] == null ? null : DateTime.parse(json["ended"]),
         graduated: json["graduated"],
       );
 }
