@@ -1152,4 +1152,34 @@ class ProfileController extends GetxController {
       ll('updateDOB error: $e');
     }
   }
+
+  //* upload profile photo
+  Future<void> updloadProfilePicture(imageFile) async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'image': imageFile,
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateLink,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+       
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('updateLink error: $e');
+    }
+  }
 }
