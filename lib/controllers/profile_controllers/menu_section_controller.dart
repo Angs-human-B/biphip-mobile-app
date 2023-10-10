@@ -36,7 +36,7 @@ class MenuSectionController extends GetxController {
       Get.toNamed(krFamily);
     } else if (index == 2) {
       ll('Image');
-      Get.toNamed(krPhotos);
+      Get.toNamed(krGalleryPhotos);//*new changes for gallery photos
     } else if (index == 3) {
       ll('Videos');
       Get.toNamed(krVideos);
