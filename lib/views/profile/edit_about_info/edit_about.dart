@@ -72,7 +72,7 @@ class EditAboutInfo extends StatelessWidget {
                                 _globalController.commonBottomSheet(
                                     context: context,
                                     isScrollControlled: false,
-                                    bottomSheetHeight: 160,
+                                    bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
                                     content: EditModalSheet(
                                       editButtonText: ksEditAddress.tr,
                                       editOnPressed: () {
@@ -119,7 +119,7 @@ class EditAboutInfo extends StatelessWidget {
                                 _globalController.commonBottomSheet(
                                     context: context,
                                     isScrollControlled: false,
-                                    bottomSheetHeight: 160,
+                                    bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
                                     onPressCloseButton: () {
                                       Get.back();
                                     },
@@ -169,7 +169,7 @@ class EditAboutInfo extends StatelessWidget {
                                 _globalController.commonBottomSheet(
                                     context: context,
                                     isScrollControlled: false,
-                                    bottomSheetHeight: 160,
+                                    bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
                                     onPressCloseButton: () {
                                       Get.back();
                                     },
@@ -225,7 +225,7 @@ class EditAboutInfo extends StatelessWidget {
                               _globalController.commonBottomSheet(
                                   context: context,
                                   isScrollControlled: false,
-                                  bottomSheetHeight: 160,
+                                  bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
                                   onPressCloseButton: () {
                                     Get.back();
                                   },
@@ -273,7 +273,7 @@ class EditAboutInfo extends StatelessWidget {
                               _globalController.commonBottomSheet(
                                   context: context,
                                   isScrollControlled: false,
-                                  bottomSheetHeight: 160,
+                                  bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
                                   onPressCloseButton: () {
                                     Get.back();
                                   },
@@ -332,7 +332,7 @@ class EditAboutInfo extends StatelessWidget {
                             isRightButtonShow: false,
                           );
                         },
-                        text: checkNullOrStringNull(_profileController.profileData.value!.user!.relation),
+                        text: checkNullOrStringNull(_profileController.profileData.value!.user!.relation) ?? ksSelectRelationshipStatus,
                         hintText: ksSelectRelationshipStatus.tr,
                       ),
                       if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH20sizedBox,
@@ -412,7 +412,7 @@ class EditAboutInfo extends StatelessWidget {
                               _globalController.commonBottomSheet(
                                   context: context,
                                   isScrollControlled: false,
-                                  bottomSheetHeight: 160,
+                                  bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
                                   onPressCloseButton: () {
                                     Get.back();
                                   },
@@ -488,10 +488,18 @@ class EditAboutInfo extends StatelessWidget {
                             text: _profileController.workplaceDataList[i].company!,
                             suffixOnPressed: () {
                               // _profileController.cityList.remove(_profileController.cityList[index]);
-                              _globalController.blankBottomSheet(
-                                  context: context,
+                              _globalController.commonBottomSheet(
                                   isScrollControlled: false,
-                                  bottomSheetHeight: 130,
+                                  bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: null,
+                                  rightText: '',
+                                  rightTextStyle: regular10TextStyle(cBlackColor),
+                                  title: ksEdit.tr,
+                                  isRightButtonShow: false,
+                                  context: context,
                                   content: EditModalSheet(
                                     editButtonText: ksEditWorkplace.tr,
                                     editOnPressed: () {
@@ -540,10 +548,18 @@ class EditAboutInfo extends StatelessWidget {
                               suffixIcon: BipHip.edit,
                               text: checkNullOrStringNull(_profileController.contactDataList[i].value),
                               suffixOnPressed: () {
-                                _globalController.blankBottomSheet(
+                                _globalController.commonBottomSheet(
                                     context: context,
                                     isScrollControlled: false,
-                                    bottomSheetHeight: 130,
+                                    bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
+                                    onPressCloseButton: () {
+                                      Get.back();
+                                    },
+                                    onPressRightButton: null,
+                                    rightText: '',
+                                    rightTextStyle: regular10TextStyle(cBlackColor),
+                                    title: ksEdit.tr,
+                                    isRightButtonShow: false,
                                     content: EditModalSheet(
                                       editButtonText: ksEditPhone.tr,
                                       editOnPressed: () {
@@ -580,10 +596,18 @@ class EditAboutInfo extends StatelessWidget {
                               suffixIcon: BipHip.edit,
                               text: checkNullOrStringNull(_profileController.contactDataList[i].value),
                               suffixOnPressed: () {
-                                _globalController.blankBottomSheet(
+                                _globalController.commonBottomSheet(
                                     context: context,
                                     isScrollControlled: false,
-                                    bottomSheetHeight: 130,
+                                    bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
+                                    onPressCloseButton: () {
+                                      Get.back();
+                                    },
+                                    onPressRightButton: null,
+                                    rightText: '',
+                                    rightTextStyle: regular10TextStyle(cBlackColor),
+                                    title: ksEdit.tr,
+                                    isRightButtonShow: false,
                                     content: EditModalSheet(
                                       editButtonText: ksEditEmail.tr,
                                       editOnPressed: () {
@@ -621,10 +645,18 @@ class EditAboutInfo extends StatelessWidget {
                             suffixIcon: BipHip.edit,
                             text: checkNullOrStringNull(_profileController.linkDataList[i].link),
                             suffixOnPressed: () {
-                              _globalController.blankBottomSheet(
+                              _globalController.commonBottomSheet(
                                   context: context,
                                   isScrollControlled: false,
-                                  bottomSheetHeight: 130,
+                                  bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: null,
+                                  rightText: '',
+                                  rightTextStyle: regular10TextStyle(cBlackColor),
+                                  title: ksEdit.tr,
+                                  isRightButtonShow: false,
                                   content: EditModalSheet(
                                     editButtonText: ksEditLink.tr,
                                     editOnPressed: () {

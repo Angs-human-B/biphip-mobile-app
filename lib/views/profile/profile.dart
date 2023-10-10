@@ -396,23 +396,22 @@ class Profile extends StatelessWidget {
                                   ),
                                 ),
                                 kH16sizedBox,
-                                if (_profileController.profileData.value!.currentCity != null &&
-                                    _profileController.profileData.value!.currentCity!.isCurrent == 1)
+                                if (_profileController.currentCityData.value?.city != null && _profileController.currentCityData.value?.isCurrent == 1)
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                     child: LinkUpIconTextRow(
                                       icon: BipHip.address,
-                                      text: 'Lives in ${_profileController.profileData.value!.currentCity!.city}',
+                                      text: 'Lives in ${_profileController.currentCityData.value?.city}',
                                       isLink: false,
                                       onPressed: null,
                                     ),
                                   ),
-                                if (_profileController.profileData.value!.hometown != null)
+                                if (_profileController.hometownData.value != null)
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                     child: LinkUpIconTextRow(
                                       icon: BipHip.location,
-                                      text: 'From ${_profileController.profileData.value!.hometown!.city}',
+                                      text: 'From ${_profileController.hometownData.value?.city}',
                                       isLink: false,
                                       onPressed: null,
                                     ),
@@ -427,54 +426,54 @@ class Profile extends StatelessWidget {
                                       onPressed: null,
                                     ),
                                   ),
-                                if (_profileController.profileData.value!.school.isNotEmpty)
+                                if (_profileController.schoolDataList.isNotEmpty)
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                     child: LinkUpIconTextRow(
                                       icon: BipHip.school,
-                                      text: checkNullOrStringNull(_profileController.profileData.value!.school[0].school),
+                                      text: checkNullOrStringNull(_profileController.schoolDataList[0].school),
                                       isLink: false,
                                       onPressed: null,
                                     ),
                                   ),
-                                if (_profileController.profileData.value!.college.isNotEmpty)
+                                if (_profileController.collegeDataList.isNotEmpty)
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                     child: LinkUpIconTextRow(
                                       icon: BipHip.school,
-                                      text: checkNullOrStringNull(_profileController.profileData.value!.college[0].school),
+                                      text: checkNullOrStringNull(_profileController.collegeDataList[0].school),
                                       isLink: false,
                                       onPressed: null,
                                     ),
                                   ),
-                                if (_profileController.profileData.value!.currentWorkplace != null)
+                                if (_profileController.workplaceDataList.isNotEmpty)
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                     child: LinkUpIconTextRow(
                                       icon: BipHip.work,
-                                      text: checkNullOrStringNull(_profileController.profileData.value!.currentWorkplace!.company),
+                                      text: checkNullOrStringNull(_profileController.workplaceDataList[0].company),
                                       isLink: false,
                                       onPressed: null,
                                     ),
                                   ),
-                                if (_profileController.profileData.value!.contacts.isNotEmpty)
-                                  for (int i = 0; i < _profileController.profileData.value!.contacts.length; i++)
+                                if (_profileController.contactDataList.isNotEmpty)
+                                  for (int i = 0; i < _profileController.contactDataList.length; i++)
                                     Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                       child: LinkUpIconTextRow(
-                                        icon: _profileController.profileData.value!.contacts[i].type == 'email' ? BipHip.mail : BipHip.phoneFill,
-                                        text: checkNullOrStringNull(_profileController.profileData.value!.contacts[i].value),
+                                        icon: _profileController.contactDataList[i].type == 'email' ? BipHip.mail : BipHip.phoneFill,
+                                        text: checkNullOrStringNull(_profileController.contactDataList[i].value),
                                         isLink: true,
                                         onPressed: null,
                                       ),
                                     ),
-                                if (_profileController.profileData.value!.links.isNotEmpty)
-                                  for (int i = 0; i < _profileController.profileData.value!.links.length; i++)
+                                if (_profileController.linkDataList.isNotEmpty)
+                                  for (int i = 0; i < _profileController.linkDataList.length; i++)
                                     Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                       child: LinkUpIconTextRow(
-                                        icon: _profileController.getLinkIcon(_profileController.profileData.value!.links[i].type.toString()),
-                                        text: checkNullOrStringNull(_profileController.profileData.value!.links[i].link),
+                                        icon: _profileController.getLinkIcon(_profileController.linkDataList[i].type.toString()),
+                                        text: checkNullOrStringNull(_profileController.linkDataList[i].link),
                                         isLink: true,
                                         onPressed: null,
                                       ),

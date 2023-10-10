@@ -259,7 +259,7 @@ class User {
         email: json["email"],
         phone: json["phone"],
         gender: json["gender"],
-        dob: DateTime.parse(json["dob"]),
+        dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
         profession: json["profession"],
         interest: json["interest"],
         bio: json["bio"],

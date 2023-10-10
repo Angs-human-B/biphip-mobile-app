@@ -69,7 +69,7 @@ class SelectBirthday extends StatelessWidget {
                                   height: height * 0.4,
                                   child: CupertinoDatePicker(
                                     maximumDate: DateTime.now().subtract(const Duration(days: 15 * 365)),
-                                    initialDateTime: _profileController.userData.value!.dob ?? DateTime.now().subtract(const Duration(days: 16 * 365)),
+                                    initialDateTime: _profileController.userData.value?.dob ?? DateTime.now().subtract(const Duration(days: 16 * 365)),
                                     mode: CupertinoDatePickerMode.date,
                                     onDateTimeChanged: (value) {
                                       _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(value);

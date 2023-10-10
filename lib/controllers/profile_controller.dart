@@ -430,18 +430,21 @@ class ProfileController extends GetxController {
     } else if (methodID == 12) {
       setEditPageValue(ksEditPhone.tr, false, BipHip.phoneFill, phoneTextEditingController, false, phoneTextEditingController, ksEditPhone.tr, false, true,
           false, false, '', 'EDIT PHONE');
+      Get.back();
     } else if (methodID == 13) {
       setEditPageValue(ksAddEmail.tr, false, BipHip.mail, emailTextEditingController, false, emailTextEditingController, ksEmail.tr, false, true, false, false,
           '', 'ADD EMAIL');
     } else if (methodID == 14) {
       setEditPageValue(ksEditEmail.tr, false, BipHip.mail, emailTextEditingController, false, emailTextEditingController, ksEditEmail.tr, false, true, false,
           false, '', 'EDIT EMAIL');
+      Get.back();
     } else if (methodID == 15) {
       setEditPageValue(
           ksAddLink, true, BipHip.webLink, linkTextEditingController, false, emailTextEditingController, ksAddLink, false, true, false, false, '', 'ADD LINK');
     } else if (methodID == 16) {
       setEditPageValue(ksEditLink.tr, true, getLinkIcon(linkSource.value), linkTextEditingController, false, linkTextEditingController, ksEditLink.tr, false,
           true, false, false, '', 'EDIT LINK');
+      Get.back();
     }
     Get.toNamed(krEdit);
   }
@@ -1125,7 +1128,7 @@ class ProfileController extends GetxController {
     try {
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
-        'dob':birthday.value,
+        'dob': birthday.value,
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,

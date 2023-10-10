@@ -186,17 +186,17 @@ class EditProfile extends StatelessWidget {
                           //     text: profileInfoContent[i]['text'],
                           //     isLink: profileInfoContent[i]['isLink'],
                           //   ),
-                          if (_profileController.profileData.value!.currentCity != null && _profileController.profileData.value!.currentCity!.isCurrent == 1)
+                          if (_profileController.currentCityData.value?.city != null && _profileController.currentCityData.value?.isCurrent == 1)
                             LinkUpIconTextRow(
                               icon: BipHip.address,
-                              text: 'Lives in ${_profileController.profileData.value!.currentCity!.city}',
+                              text: 'Lives in ${_profileController.currentCityData.value?.city}',
                               isLink: false,
                               onPressed: null,
                             ),
-                          if (_profileController.profileData.value!.hometown != null)
+                          if (_profileController.hometownData.value != null)
                             LinkUpIconTextRow(
                               icon: BipHip.location,
-                              text: 'From ${_profileController.profileData.value!.hometown!.city}',
+                              text: 'From ${_profileController.hometownData.value?.city}',
                               isLink: false,
                               onPressed: null,
                             ),
@@ -207,28 +207,27 @@ class EditProfile extends StatelessWidget {
                               isLink: false,
                               onPressed: null,
                             ),
-                          if (_profileController.profileData.value!.school.isNotEmpty)
+                          if (_profileController.schoolDataList.isNotEmpty)
                             LinkUpIconTextRow(
                               icon: BipHip.school,
-                              text: checkNullOrStringNull(_profileController.profileData.value!.school[0].school),
+                              text: checkNullOrStringNull(_profileController.schoolDataList[0].school),
                               isLink: false,
                               onPressed: null,
                             ),
-                          if (_profileController.profileData.value!.college.isNotEmpty)
+                          if (_profileController.collegeDataList.isNotEmpty)
                             LinkUpIconTextRow(
                               icon: BipHip.school,
-                              text: checkNullOrStringNull(_profileController.profileData.value!.college[0].school),
+                              text: checkNullOrStringNull(_profileController.collegeDataList[0].school),
                               isLink: false,
                               onPressed: null,
                             ),
-                          if (_profileController.profileData.value!.currentWorkplace != null)
+                          if (_profileController.workplaceDataList.isNotEmpty)
                             LinkUpIconTextRow(
                               icon: BipHip.work,
-                              text: checkNullOrStringNull(_profileController.profileData.value!.currentWorkplace!.company),
+                              text: checkNullOrStringNull(_profileController.workplaceDataList[0].company),
                               isLink: false,
                               onPressed: null,
                             ),
-
                           const CustomDivider(),
                           kH16sizedBox,
                           CustomElevatedButton(
