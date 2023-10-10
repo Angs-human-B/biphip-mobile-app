@@ -30,10 +30,10 @@ class EditBio extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: k8Padding),
                   child: CustomTextButton(
-                      onPressed: () {
+                      onPressed: () async {
                         _profileController.bio.value = _profileController.bioEditingController.text.trim();
-                        Get.back();
-                        _profileController.clearBio();
+                        await _profileController.updateBio();
+                        
                       },
                       text: ksSave.tr,
                       textStyle: regular14TextStyle(cPrimaryColor)),

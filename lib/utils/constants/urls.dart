@@ -37,38 +37,38 @@ const String kuLogOut = '/mobile/logout';
 //* profile story
 //---------------------------------------
 
-const String kuGetProfileOverView = '/mobile/user/get-profile-overview';
+const String kuGetProfileOverView = '/mobile/user/get-profile-overview'; //DONE
 
 //* Address/Places
-const String kuGetAllPlaces = '/mobile/user/get-all-places';
-const String kuSetHomeTown = '/mobile/user/set-hometown';
-const String kuSetCurrentCity = '/mobile/user/set-current-city';
-const String kuOtherCity = '/mobile/user/store-city';
-const String kuUpdateCity = '/mobile/user/update-city';
-const String kuDeleteCity = '/mobile/user/delete-city';
+const String kuGetAllPlaces = '/mobile/user/get-all-places'; //? NOT NEEDED
+const String kuSetHomeTown = '/mobile/user/set-hometown'; //DONE
+const String kuSetCurrentCity = '/mobile/user/set-current-city'; //DONE
+const String kuOtherCity = '/mobile/user/store-city'; //DONE
+const String kuUpdateCity = '/mobile/user/update-city'; //DONE
+const String kuDeleteCity = '/mobile/user/delete-city'; //DONE
 
 //* Work and Education
-const String kuGetWorkAndEducation = '/mobile/user/get-work-and-education';
-const String kuStoreSchool = '/mobile/user/store-school';
-const String kuUpdateSchool = '/mobile/user/update-school';
-const String kuDeleteSchool = '/mobile/user/delete-school';
-const String kuStoreCollege = '/mobile/user/store-college';
-const String kuUpdateCollege = '/mobile/user/update-college';
-const String kuDeleteCollege = '/mobile/user/delete-college';
-const String kuStoreWork = '/mobile/user/store-work';
-const String kuUpdateWork = '/mobile/user/update-work';
-const String kuDeleteWork = '/mobile/user/delete-work';
+const String kuGetWorkAndEducation = '/mobile/user/get-work-and-education'; //? NOT NEEDED
+const String kuStoreSchool = '/mobile/user/store-school'; //DONE
+const String kuUpdateSchool = '/mobile/user/update-school'; //DONE
+const String kuDeleteSchool = '/mobile/user/delete-school'; //DONE
+const String kuStoreCollege = '/mobile/user/store-college'; //DONE
+const String kuUpdateCollege = '/mobile/user/update-college'; //DONE
+const String kuDeleteCollege = '/mobile/user/delete-college'; //DONE
+const String kuStoreWork = '/mobile/user/store-work'; //DONE
+const String kuUpdateWork = '/mobile/user/update-work'; //DONE
+const String kuDeleteWork = '/mobile/user/delete-work'; //DONE
 
 //* Contact & Basic Info
-const String kuGetContactAndBasicInfo = '/mobile/user/get-contacts-and-basic-info';
-const String kuStoreContact = '/mobile/user/store-contact';
-const String kuUpdateContact = '/mobile/user/update-contact';
-const String kuDeleteContact = '/mobile/user/delete-contact';
-const String kuStoreLink = '/mobile/user/store-link';
-const String kuUpdateLink = '/mobile/user/update-link';
-const String kuDeleteLink = '/mobile/user/delete-link';
+const String kuGetContactAndBasicInfo = '/mobile/user/get-contacts-and-basic-info'; //? NOT NEEDED
+const String kuStoreContact = '/mobile/user/store-contact'; //DONE
+const String kuUpdateContact = '/mobile/user/update-contact'; //DONE
+const String kuDeleteContact = '/mobile/user/delete-contact'; //DONE
+const String kuStoreLink = '/mobile/user/store-link'; //DONE
+const String kuUpdateLink = '/mobile/user/update-link'; //DONE
+const String kuDeleteLink = '/mobile/user/delete-link'; //DONE
 const String kuUpdateDateOfBirth = '/mobile/user/update-date-of-birth';
-const String kuUpdateBio = '/mobile/user/update-bio';
+const String kuUpdateBio = '/mobile/user/update-bio'; //DONE
 const String kuUpdateLanguages = '/mobile/user/update-languages';
 
 //* About Section
