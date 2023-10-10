@@ -1,4 +1,5 @@
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class CommonLoadingAnimation extends StatelessWidget {
   const CommonLoadingAnimation({super.key, required this.onWillPop});
@@ -10,9 +11,9 @@ class CommonLoadingAnimation extends StatelessWidget {
       child: Container(
         color: Colors.black.withOpacity(.3),
         child: const Center(
-          child: CircularProgressIndicator(
+          child: SpinKitThreeBounce(
             color: cPrimaryColor,
-            strokeWidth: 3,
+            size: 30,
           ),
         ),
       ),

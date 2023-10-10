@@ -564,10 +564,10 @@ class AuthenticationController extends GetxController {
         // } else {
         //   Get.offAllNamed(krLogin);
         // }
-        isLogoutLoading.value = false;
-        Get.offAllNamed(krLogin);
         await SpController().onLogout();
         resetLoginScreen();
+        isLogoutLoading.value = false;
+        Get.offAllNamed(krLogin);
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
