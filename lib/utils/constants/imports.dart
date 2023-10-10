@@ -24,3 +24,4 @@ export 'package:bip_hip/widgets/common/button/custom_radio.dart';
 export 'package:bip_hip/widgets/common/utils/custom_app_bar.dart';
 export 'package:bip_hip/widgets/common/button/custom_button.dart';
 export 'package:bip_hip/widgets/common/textfields/custom_textfield.dart';
+export 'package:bip_hip/widgets/common/utils/common_loading_animation.dart';
