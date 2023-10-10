@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
+import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
@@ -10,6 +11,7 @@ class SelectBirthday extends StatelessWidget {
   SelectBirthday({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final ProfileController _profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +26,20 @@ class SelectBirthday extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksRegistration.tr,
+              isCenterTitle: _profileController.isRouteFromAboutInfo.value,
+              hasBackButton: _profileController.isRouteFromAboutInfo.value,
+              title: _profileController.isRouteFromAboutInfo.value ? ksEditYourBirthday.tr : ksRegistration.tr,
               onBack: () async {
                 Get.back();
               },
-              action: const [
-                Padding(
-                  padding: EdgeInsets.only(right: 8.0),
-                  child: CustomCircularProgressBar(
-                    percent: 0.32,
+              action: [
+                if (!_profileController.isRouteFromAboutInfo.value)
+                  const Padding(
+                    padding: EdgeInsets.only(right: 8.0),
+                    child: CustomCircularProgressBar(
+                      percent: 0.32,
+                    ),
                   ),
-                ),
               ],
             ),
           ),
@@ -48,10 +53,10 @@ class SelectBirthday extends StatelessWidget {
                 child: Obx(
                   () => Column(
                     children: [
-                      kH24sizedBox,
-                      kH24sizedBox,
+                      if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                      if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
                       TopTitleAndSubtitle(
-                        title: ksWhatBirthday.tr,
+                        title: !_profileController.isRouteFromAboutInfo.value ? ksWhatBirthday.tr : '',
                         subTitle: ksChangeBirthday.tr,
                       ),
                       kH50sizedBox,
@@ -64,7 +69,7 @@ class SelectBirthday extends StatelessWidget {
                                   height: height * 0.4,
                                   child: CupertinoDatePicker(
                                     maximumDate: DateTime.now().subtract(const Duration(days: 15 * 365)),
-                                    initialDateTime: DateTime.now().subtract(const Duration(days: 16 * 365)),
+                                    initialDateTime: _profileController.userData.value?.dob ?? DateTime.now().subtract(const Duration(days: 16 * 365)),
                                     mode: CupertinoDatePickerMode.date,
                                     onDateTimeChanged: (value) {
                                       _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(value);
@@ -78,10 +83,17 @@ class SelectBirthday extends StatelessWidget {
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
-                        label: ksNext.tr,
+                        label: _profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
                         onPressed: _authenticationController.birthDay.value != ''
-                            ? () {
-                                Get.toNamed(krSelectGender);
+                            ? () async {
+                                if (!_profileController.isRouteFromAboutInfo.value) {
+                                  Get.toNamed(krSelectGender);
+                                } else {
+                                  _profileController.birthday.value = _authenticationController.birthDay.value;
+                                  Get.back();
+                                  await _profileController.updateDOB();
+                                  _profileController.isRouteFromAboutInfo.value = false;
+                                }
                               }
                             : null,
                         buttonWidth: width - 40,
