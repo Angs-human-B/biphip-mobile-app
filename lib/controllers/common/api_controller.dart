@@ -113,7 +113,7 @@ class ApiController {
         return null;
       } else {
         if (!Get.isSnackbarOpen) {
-          _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+          _globalController.showSnackBar(title: "${ksError.tr}${response.statusCode}", message: error, color: cRedColor);
         }
         return null;
       }

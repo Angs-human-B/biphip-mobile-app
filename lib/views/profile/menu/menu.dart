@@ -78,8 +78,8 @@ class Menu extends StatelessWidget {
                             CustomMenuContainer(
                               height: 64,
                               onPressed: () async {
-                                await _profileController.getProfileOverview();
                                 Get.toNamed(krProfile);
+                                await _profileController.getProfileOverview();
                               },
                               leading: ClipOval(
                                 child: Container(
