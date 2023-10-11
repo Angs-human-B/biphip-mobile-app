@@ -275,6 +275,12 @@ class ProfileController extends GetxController {
     functionFlag.value = function;
   }
 
+  void clearCommonEditPageData() {
+    commonEditTextEditingController.clear();
+    commonEditSecondaryTextEditingController.clear();
+    isCommonEditCheckBoxSelected.value = false;
+  }
+
   void selectFunction(functionFlag, [index]) async {
     if (functionFlag == 'HOMETOWN') {
       await setHometown();
@@ -285,9 +291,10 @@ class ProfileController extends GetxController {
     } else if (functionFlag == 'ADD PRESENT') {
       await setCity();
       commonEditTextEditingController.clear();
+
       presentAddressTextEditingController.clear();
     } else if (functionFlag == 'EDIT PRESENT') {
-      cityList[cityListIndex.value] = commonEditTextEditingController.text;
+      await updateCity(cityID.value);
       presentAddressTextEditingController.clear();
       commonEditTextEditingController.clear();
     } else if (functionFlag == 'ADD SCHOOL') {
@@ -395,7 +402,7 @@ class ProfileController extends GetxController {
       Get.back();
     } else if (methodID == 1) {
       setEditPageValue(ksAddPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksAddLocation.tr, true, true, true, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'ADD PRESENT');
+          ksAddLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'ADD PRESENT');
     } else if (methodID == 2) {
       presentAddressTextEditingController.text = currentCityData.value!.city!;
       setEditPageValue(ksEditPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
@@ -403,10 +410,10 @@ class ProfileController extends GetxController {
       Get.back();
     } else if (methodID == 3) {
       setEditPageValue(ksAddOtherAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksAddLocation.tr, true, true, true, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'ADD PRESENT');
+          ksAddLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'ADD PRESENT');
     } else if (methodID == 4) {
       setEditPageValue(ksEditPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksEditLocation.tr, true, true, true, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'EDIT PRESENT');
+          ksEditLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'EDIT PRESENT');
       Get.back();
     } else if (methodID == 5) {
       setEditPageValue('Add Educational Event', true, BipHip.schoolNew, educationInstituteTextEditingController, false, educationInstituteTextEditingController,
@@ -467,6 +474,7 @@ class ProfileController extends GetxController {
   Rx<User?> userData = Rx<User?>(null);
   Rx<CurrentCity?> hometownData = Rx<CurrentCity?>(null);
   Rx<CurrentCity?> currentCityData = Rx<CurrentCity?>(null);
+  Rx<Workplace?> currentWorkplace = Rx<Workplace?>(null);
   RxBool isProfileLoading = RxBool(false);
   Future<void> getProfileOverview() async {
     try {
@@ -484,6 +492,7 @@ class ProfileController extends GetxController {
         userData.value = profileData.value!.user;
         hometownData.value = profileData.value!.hometown;
         currentCityData.value = profileData.value!.currentCity;
+        currentWorkplace.value = profileData.value!.currentWorkplace;
         schoolDataList.addAll(profileData.value!.school);
         collegeDataList.addAll(profileData.value!.college);
         contactDataList.addAll(profileData.value!.contacts);
@@ -568,6 +577,45 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       ll('setCity error: $e');
+    }
+  }
+
+  //* update city API Implementation
+  Future<void> updateCity(id) async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'id': id.toString(),
+        'city': presentAddressTextEditingController.text.trim(),
+        'is_current': isCommonEditCheckBoxSelected.value ? '1' : '0'
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateCity,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < otherCityList.length; i++) {
+          if (otherCityList[i].id == id) {
+            otherCityList[i] = CurrentCity.fromJson(response.data);
+          }
+          if (currentCityData.value!.id == id) {
+            currentCityData.value = CurrentCity.fromJson(response.data);
+          }
+        }
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('updateCity error: $e');
     }
   }
 
@@ -818,6 +866,9 @@ class ProfileController extends GetxController {
 
       if (response.success == true) {
         workplaceDataList.add(Workplace.fromJson(response.data));
+        if (isCommonEditCheckBoxSelected.value) {
+          currentWorkplace.value = Workplace.fromJson(response.data);
+        }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -854,6 +905,9 @@ class ProfileController extends GetxController {
           if (workplaceDataList[i].id == id) {
             workplaceDataList[i] = Workplace.fromJson(response.data);
           }
+          if (isCommonEditCheckBoxSelected.value) {
+            currentWorkplace.value = Workplace.fromJson(response.data);
+          }
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -884,6 +938,9 @@ class ProfileController extends GetxController {
         for (int i = 0; i < workplaceDataList.length; i++) {
           if (workplaceDataList[i].id == id) {
             workplaceDataList.removeAt(i);
+          }
+          if (currentWorkplace.value?.id == id) {
+            currentWorkplace.value = null;
           }
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);

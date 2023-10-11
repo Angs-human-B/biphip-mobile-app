@@ -249,6 +249,7 @@ class EditPage extends StatelessWidget {
                                 ll(_profileController.functionFlag.value);
                                 _profileController.selectFunction(_profileController.functionFlag.value);
                                 Get.back();
+                                //_profileController.clearCommonEditPageData();
                               }),
                         ],
                       ),

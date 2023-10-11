@@ -131,6 +131,7 @@ class EditAboutInfo extends StatelessWidget {
                                     editButtonText: ksEditAddress.tr,
                                     editOnPressed: () {
                                       _profileController.cityID.value = _profileController.currentCityData.value!.id!;
+                                      _profileController.isCurrentlyLiveHere.value = true;
                                       _profileController.getMethod(2);
                                     },
                                     deleteButtonText: ksDeleteAddress.tr,
@@ -476,49 +477,102 @@ class EditAboutInfo extends StatelessWidget {
                         buttonWidth: 149,
                       ),
                       kH16sizedBox,
-                      for (int i = 0; i < _profileController.workplaceDataList.length; i++)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: k10Padding),
-                          child: InfoContainer(
-                            prefixIcon: BipHip.officeFill,
-                            suffixIcon: BipHip.edit,
-                            text: _profileController.workplaceDataList[i].company!,
-                            suffixOnPressed: () {
-                              // _profileController.cityList.remove(_profileController.cityList[index]);
-                              _globalController.commonBottomSheet(
-                                  isScrollControlled: false,
-                                  bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                  onPressCloseButton: () {
-                                    Get.back();
+                      if (_profileController.currentWorkplace.value != null)
+                        InfoContainer(
+                          prefixIcon: BipHip.officeFill,
+                          suffixIcon: BipHip.edit,
+                          text: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
+                          suffixOnPressed: () {
+                            // _profileController.cityList.remove(_profileController.cityList[index]);
+                            _globalController.commonBottomSheet(
+                                isScrollControlled: false,
+                                bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
+                                onPressCloseButton: () {
+                                  Get.back();
+                                },
+                                onPressRightButton: null,
+                                rightText: '',
+                                rightTextStyle: regular10TextStyle(cBlackColor),
+                                title: ksEdit.tr,
+                                isRightButtonShow: false,
+                                context: context,
+                                content: EditModalSheet(
+                                  editButtonText: ksEditWorkplace.tr,
+                                  editOnPressed: () {
+                                    _profileController.officeID.value = _profileController.currentWorkplace.value!.id!;
+                                    _profileController.companyNameTextEditingController.text = _profileController.currentWorkplace.value!.company!;
+                                    _profileController.designationTextEditingController.text = _profileController.currentWorkplace.value!.position ?? '';
+                                    if (_profileController.currentWorkplace.value!.isCurrent == 1) {
+                                      _profileController.isCurrentlyWorkingHere.value = true;
+                                    } else {
+                                      _profileController.isCurrentlyWorkingHere.value = false;
+                                    }
+                                    _profileController.getMethod(10);
                                   },
-                                  onPressRightButton: null,
-                                  rightText: '',
-                                  rightTextStyle: regular10TextStyle(cBlackColor),
-                                  title: ksEdit.tr,
-                                  isRightButtonShow: false,
-                                  context: context,
-                                  content: EditModalSheet(
-                                    editButtonText: ksEditWorkplace.tr,
-                                    editOnPressed: () {
-                                      _profileController.officeID.value = _profileController.workplaceDataList[i].id!;
-                                      _profileController.companyNameTextEditingController.text = _profileController.workplaceDataList[i].company!;
-                                      _profileController.designationTextEditingController.text = _profileController.workplaceDataList[i].position ?? '';
-                                      if (_profileController.workplaceDataList[i].isCurrent == 1) {
-                                        _profileController.isCurrentlyWorkingHere.value = true;
-                                      } else {
-                                        _profileController.isCurrentlyWorkingHere.value = false;
-                                      }
-                                      _profileController.getMethod(10);
-                                    },
-                                    deleteButtonText: ksDeleteWorkplace.tr,
-                                    deleteOnPressed: () async {
-                                      Get.back();
-                                      await _profileController.deleteWork(_profileController.workplaceDataList[i].id);
-                                    },
-                                  ));
-                            },
-                          ),
+                                  deleteButtonText: ksDeleteWorkplace.tr,
+                                  deleteOnPressed: () async {
+                                    Get.back();
+                                    await _profileController.deleteWork(_profileController.currentWorkplace.value!.id);
+                                  },
+                                ));
+                          },
                         ),
+                      kH16sizedBox,
+                      RowTextButton(
+                        text: ksOther.tr,
+                        buttonText: ksAdd.tr,
+                        showAddButton: true,
+                        onPressedAdd: () {
+                          _profileController.getMethod(8);
+                        },
+                        buttonWidth: 149,
+                      ),
+                      kH16sizedBox,
+
+                      for (int i = 0; i < _profileController.workplaceDataList.length; i++)
+                        if (_profileController.workplaceDataList[i].isCurrent != 1)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: k10Padding),
+                            child: InfoContainer(
+                              prefixIcon: BipHip.officeFill,
+                              suffixIcon: BipHip.edit,
+                              text: _profileController.workplaceDataList[i].company!,
+                              suffixOnPressed: () {
+                                // _profileController.cityList.remove(_profileController.cityList[index]);
+                                _globalController.commonBottomSheet(
+                                    isScrollControlled: false,
+                                    bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
+                                    onPressCloseButton: () {
+                                      Get.back();
+                                    },
+                                    onPressRightButton: null,
+                                    rightText: '',
+                                    rightTextStyle: regular10TextStyle(cBlackColor),
+                                    title: ksEdit.tr,
+                                    isRightButtonShow: false,
+                                    context: context,
+                                    content: EditModalSheet(
+                                      editButtonText: ksEditWorkplace.tr,
+                                      editOnPressed: () {
+                                        _profileController.officeID.value = _profileController.workplaceDataList[i].id!;
+                                        _profileController.companyNameTextEditingController.text = _profileController.workplaceDataList[i].company!;
+                                        _profileController.designationTextEditingController.text = _profileController.workplaceDataList[i].position ?? '';
+                                        if (_profileController.workplaceDataList[i].isCurrent == 1) {
+                                          _profileController.isCurrentlyWorkingHere.value = true;
+                                        } else {
+                                          _profileController.isCurrentlyWorkingHere.value = false;
+                                        }
+                                        _profileController.getMethod(10);
+                                      },
+                                      deleteButtonText: ksDeleteWorkplace.tr,
+                                      deleteOnPressed: () async {
+                                        Get.back();
+                                        await _profileController.deleteWork(_profileController.workplaceDataList[i].id);
+                                      },
+                                    ));
+                              },
+                            ),
+                          ),
                       const CustomDivider(),
                       kH16sizedBox,
                       Text(
