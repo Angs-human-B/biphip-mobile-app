@@ -587,6 +587,9 @@ class ProfileController extends GetxController {
           if (otherCityList[i].id == id) {
             otherCityList.removeAt(i);
           }
+          if (currentCityData.value?.id == id) {
+            currentCityData.value = null;
+          }
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {

@@ -105,44 +105,44 @@ class EditAboutInfo extends StatelessWidget {
                         },
                         buttonWidth: 108,
                       ),
-                      for (int i = 0; i < _profileController.otherCityList.length; i++)
-                        if (_profileController.otherCityList[i].isCurrent == 1)
-                          Padding(
-                            padding: const EdgeInsets.only(top: h16),
-                            child: InfoContainer(
-                              prefixIcon: BipHip.location,
-                              suffixIcon: BipHip.edit,
-                              text: checkNullOrStringNull(_profileController.currentCityData.value!.city),
-                              suffixOnPressed: () {
-                                // _profileController.cityList.remove(_profileController.cityList[index]);
-                                _globalController.commonBottomSheet(
-                                    context: context,
-                                    isScrollControlled: false,
-                                    bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                    onPressCloseButton: () {
+                      // for (int i = 0; i < _profileController.otherCityList.length; i++)
+                      if (_profileController.currentCityData.value != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: h16),
+                          child: InfoContainer(
+                            prefixIcon: BipHip.location,
+                            suffixIcon: BipHip.edit,
+                            text: checkNullOrStringNull(_profileController.currentCityData.value!.city),
+                            suffixOnPressed: () {
+                              // _profileController.cityList.remove(_profileController.cityList[index]);
+                              _globalController.commonBottomSheet(
+                                  context: context,
+                                  isScrollControlled: false,
+                                  bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: null,
+                                  rightText: '',
+                                  rightTextStyle: regular10TextStyle(cBlackColor),
+                                  title: ksEdit.tr,
+                                  isRightButtonShow: false,
+                                  content: EditModalSheet(
+                                    editButtonText: ksEditAddress.tr,
+                                    editOnPressed: () {
+                                      _profileController.cityID.value = _profileController.currentCityData.value!.id!;
+                                      _profileController.getMethod(2);
+                                    },
+                                    deleteButtonText: ksDeleteAddress.tr,
+                                    deleteOnPressed: () async {
+                                      _profileController.deleteCity(_profileController.currentCityData.value!.id!);
+
                                       Get.back();
                                     },
-                                    onPressRightButton: null,
-                                    rightText: '',
-                                    rightTextStyle: regular10TextStyle(cBlackColor),
-                                    title: ksEdit.tr,
-                                    isRightButtonShow: false,
-                                    content: EditModalSheet(
-                                      editButtonText: ksEditAddress.tr,
-                                      editOnPressed: () {
-                                        _profileController.cityID.value = _profileController.currentCityData.value!.id!;
-                                        _profileController.getMethod(2);
-                                      },
-                                      deleteButtonText: ksDeleteAddress.tr,
-                                      deleteOnPressed: () async {
-                                        _profileController.deleteCity(_profileController.currentCityData.value!.id!);
-
-                                        Get.back();
-                                      },
-                                    ));
-                              },
-                            ),
+                                  ));
+                            },
                           ),
+                        ),
                       kH16sizedBox,
                       RowTextButton(
                         text: ksOther.tr,
