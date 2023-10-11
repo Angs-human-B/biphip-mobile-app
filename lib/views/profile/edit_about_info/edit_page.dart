@@ -69,6 +69,7 @@ class EditPage extends StatelessWidget {
                                 onPressRightButton: () {
                                   if (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink) {
                                     _profileController.linkSource.value = _profileController.tempLinkSource.value;
+                                    _profileController.commonEditPageIcon.value = _profileController.getLinkIcon(_profileController.linkSource.value);
                                   }
                                   Get.back();
                                 },
@@ -96,7 +97,7 @@ class EditPage extends StatelessWidget {
                             ? 15
                             : 255,
                         hint: _profileController.commonEditTextfieldHintText.value,
-                        prefixIcon: _profileController.commonEditIconData.value,
+                        prefixIcon: _profileController.commonEditPageIcon.value ?? _profileController.commonEditIconData.value,
                         suffixIcon: _profileController.showCommonEditSuffixIcon.value ? BipHip.circleCrossNew : null,
                         inputType: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
                                 _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)

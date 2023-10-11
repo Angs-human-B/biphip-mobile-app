@@ -32,7 +32,7 @@ class ProfileController extends GetxController {
   final RxString videoUrl = RxString('');
   final RxBool isSharedToNewFeed = RxBool(false);
   final RxBool isProfilePicEditor = RxBool(true);
-
+  final Rx<IconData?> commonEditPageIcon = Rx<IconData?>(null);
   final RxList tapAbleButtonState = RxList([true, false, false]);
   final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
 
@@ -1247,6 +1247,37 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       ll('uploadProfilePicture error: $e');
+    }
+  }
+
+  //* store user settings API Implementation
+  Future<void> storeUserSetting(key, value) async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'key': key.toString(),
+        'value': value.toString()
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuSetProfilePicture,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        userData.value = User.fromJson(response.data);
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('storeUserSetting error: $e');
     }
   }
 }
