@@ -27,7 +27,7 @@ class GalleryVideos extends StatelessWidget {
           ),
           body: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.only(left: kHorizontalPadding),
+              padding: const EdgeInsets.only(left: kHorizontalPadding, top: k12Padding, bottom: k12Padding),
               child: Column(
                 children: [
                   GridView.builder(
