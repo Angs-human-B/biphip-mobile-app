@@ -25,6 +25,8 @@ class ProfileController extends GetxController {
   final Rx<File> newCoverImageFile = File('').obs;
   final RxBool isCoverImageChanged = RxBool(false);
   final TextEditingController bioEditingController = TextEditingController();
+  final TextEditingController firstNameEditingController = TextEditingController();
+  final TextEditingController lastNameEditingController = TextEditingController();
   final RxInt bioCount = 0.obs;
   final RxString bio = RxString('');
   final RxString photoLink = RxString('');
@@ -1278,6 +1280,37 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       ll('storeUserSetting error: $e');
+    }
+  }
+
+  //* name change API Implementation
+  Future<void> changeName() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'first_name': firstNameEditingController.text.trim(),
+        'last_name': lastNameEditingController.text.trim()
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateUserFullName,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        userData.value = User.fromJson(response.data);
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('changeName error: $e');
     }
   }
 }

@@ -23,6 +23,7 @@ import 'package:bip_hip/views/create_post/select_category.dart';
 import 'package:bip_hip/views/profile/menu/family.dart';
 import 'package:bip_hip/views/profile/menu/friends.dart';
 import 'package:bip_hip/views/profile/menu/menu.dart';
+import 'package:bip_hip/views/profile/menu/settings/settings.dart';
 import 'package:bip_hip/views/profile/photo_details.dart';
 import 'package:bip_hip/views/profile/photo_preview.dart';
 import 'package:bip_hip/views/profile/photos.dart';
@@ -65,6 +66,7 @@ const String krPhotoDetails = '/photo-details';
 const String krVideos = '/videos';
 const String krVideoDetails = '/video-details';
 const String krPhotoPreview = '/photo-preview';
+const String krSettings = '/settings';
 const String krEditAboutInfo = '/edit-about-info';
 const String krEdit = '/edit';
 
@@ -105,6 +107,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krVideoDetails, page: () => VideoDetails(), transition: Transition.noTransition),
   GetPage(name: krPhotoPreview, page: () => PhotoPreview(), transition: Transition.noTransition),
   GetPage(name: krEditAboutInfo, page: () => EditAboutInfo(), transition: Transition.noTransition),
+  GetPage(name: krSettings, page: () => Settings(), transition: Transition.noTransition),
   GetPage(name: krEdit, page: () => EditPage(), transition: Transition.noTransition),
 
   //* info:: other screens

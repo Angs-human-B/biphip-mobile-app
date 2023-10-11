@@ -67,9 +67,10 @@ const String kuDeleteContact = '/mobile/user/delete-contact'; //DONE
 const String kuStoreLink = '/mobile/user/store-link'; //DONE
 const String kuUpdateLink = '/mobile/user/update-link'; //DONE
 const String kuDeleteLink = '/mobile/user/delete-link'; //DONE
-const String kuUpdateDateOfBirth = '/mobile/user/update-date-of-birth';
+const String kuUpdateDateOfBirth = '/mobile/user/update-date-of-birth'; //DONE
 const String kuUpdateBio = '/mobile/user/update-bio'; //DONE
 const String kuUpdateLanguages = '/mobile/user/update-languages';
+const String kuUpdateUserFullName = '/mobile/user/update-full-name'; //DONE
 
 //* About Section
 const String kuSetGeneralSetting = '/mobile/user/store-user-setting';

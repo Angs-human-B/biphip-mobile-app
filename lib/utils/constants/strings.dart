@@ -141,6 +141,7 @@ const String ksTermsCondition = 'terms & condition';
 const String ksBuy = 'Buy';
 const String ksGive = 'Give';
 const String ksPostedOn = 'posted on';
+const String ksChangeName = 'Change name';
 
 //---------------------------------------
 //* Menu
@@ -148,6 +149,8 @@ const String ksPostedOn = 'posted on';
 const String ksAllShortcuts = 'All shortcuts';
 const String ksHelpSupport = 'Help & support';
 const String ksSettingsPrivacy = 'Settings & privacy';
+const String ksSettings = 'Settings';
+const String ksNameChangeWarning = 'If you change your name, You can’t change it again for 60 days.';
 
 //---------------------------------------
 //* Post widgets
