@@ -29,7 +29,7 @@ class GalleryPhotos extends StatelessWidget {
           body: Obx(
             () => SizedBox(
               width: width,
-              height: height,
+              height: height - kAppBarSize,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -169,67 +169,62 @@ class GalleryPhotos extends StatelessWidget {
 }
 
 class CommonGalleryPhotoContainer extends StatelessWidget {
-  const CommonGalleryPhotoContainer({super.key, required this.title, required this.subTitle, required this.image1, required this.image2, required this.image3});
+  const CommonGalleryPhotoContainer({super.key, required this.title, required this.subTitle, required this.image1, this.image2, this.image3});
   final String title;
   final String subTitle;
   final String image1;
-  final String image2;
-  final String image3;
+  final String? image2;
+  final String? image3;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          width: (width - 50) / 2,
-          child: Row(children: [
-            SizedBox(
+        Row(children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(k8BorderRadius),
+            child: SizedBox(
               height: 100,
               width: (width - 50) / 2,
               child: Row(
                 children: [
                   SizedBox(
                     height: 100,
-                    width: (width - 50) / 4,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(k8BorderRadius), topLeft: Radius.circular(k8BorderRadius)),
-                      child: Image.asset(
-                        image1,
-                        fit: BoxFit.cover,
-                      ),
+                    width: (image2 == null && image3 == null) ? (width - 50) / 2 : (width - 50) / 4,
+                    child: Image.asset(
+                      image1,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   Column(
                     children: [
-                      SizedBox(
-                        height: 50,
-                        width: (width - 50) / 4,
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.only(topRight: Radius.circular(k8BorderRadius)),
-                          child: Image.asset(
-                            image2,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                        width: (width - 50) / 4,
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.only(bottomRight: Radius.circular(k8BorderRadius)),
-                          child: Image.asset(
-                            image3,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                      image2 != null
+                          ? SizedBox(
+                              height: image3 == null ? 100 : 50,
+                              width: (width - 50) / 4,
+                              child: Image.asset(
+                                image2!,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : const SizedBox(),
+                      image3 != null
+                          ? SizedBox(
+                              height: image2 == null ? 100 : 50,
+                              width: (width - 50) / 4,
+                              child: Image.asset(
+                                image3!,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : const SizedBox(),
                     ],
                   ),
                 ],
               ),
             ),
-          ]),
-        ),
+          ),
+        ]),
         kH4sizedBox,
         SizedBox(
           width: (width - 50) / 2,
