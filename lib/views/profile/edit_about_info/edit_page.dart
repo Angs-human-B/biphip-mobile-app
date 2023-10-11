@@ -49,6 +49,7 @@ class EditPage extends StatelessWidget {
                             borderColor: cLineColor,
                             contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding),
                             onPressed: () {
+                              _profileController.tempLinkSource.value = _profileController.linkSource.value;
                               _globalController.commonBottomSheet(
                                 context: context,
                                 content:
@@ -60,12 +61,15 @@ class EditPage extends StatelessWidget {
                                 isScrollControlled: true,
                                 bottomSheetHeight:
                                     (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
-                                        ? height * 0.45
+                                        ? height * 0.4
                                         : height * 0.3,
                                 onPressCloseButton: () {
                                   Get.back();
                                 },
                                 onPressRightButton: () {
+                                  if (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink) {
+                                    _profileController.linkSource.value = _profileController.tempLinkSource.value;
+                                  }
                                   Get.back();
                                 },
                                 rightText: ksDone.tr,
@@ -321,15 +325,17 @@ class _LinkListContent extends StatelessWidget {
           itemCount: profileController.linkSourceList.length,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
-              () => RadioListTile(
+              () => CustomListTile(
                 title: Text(profileController.linkSourceList[index]),
-                value: profileController.linkSourceList[index],
-                activeColor: cPrimaryColor,
-                contentPadding: EdgeInsets.zero,
-                groupValue: profileController.linkSource.value,
-                controlAffinity: ListTileControlAffinity.trailing,
-                onChanged: (value) {
-                  profileController.linkSource.value = value;
+                trailing: CustomRadioButton(
+                  onChanged: () {
+                    profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                  },
+                  isSelected: profileController.tempLinkSource.value == profileController.linkSourceList[index],
+                ),
+                itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
+                onPressed: () {
+                  profileController.tempLinkSource.value = profileController.linkSourceList[index];
                 },
               ),
             );

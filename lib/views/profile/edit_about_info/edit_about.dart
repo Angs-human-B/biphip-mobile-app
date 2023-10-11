@@ -683,6 +683,8 @@ class EditAboutInfo extends StatelessWidget {
                         buttonText: ksAdd.tr,
                         showAddButton: true,
                         onPressedAdd: () {
+                          _profileController.linkSource.value = '';
+                          _profileController.linkTextEditingController.clear();
                           _profileController.getMethod(15);
                         },
                         buttonWidth: 109,

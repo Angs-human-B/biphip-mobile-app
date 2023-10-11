@@ -254,7 +254,9 @@ class ProfileController extends GetxController {
   final RxList emailList = RxList([]);
   final RxInt emailID = RxInt(-1);
   final RxString educationBackground = RxString('');
+  final RxString tempEducationBackground = RxString('');
   final RxString linkSource = RxString('');
+  final RxString tempLinkSource = RxString('');
   final RxInt linkID = RxInt(-1);
   final RxInt deleteIndex = RxInt(-1);
 
