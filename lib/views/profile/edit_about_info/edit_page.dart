@@ -49,14 +49,19 @@ class EditPage extends StatelessWidget {
                             borderColor: cLineColor,
                             contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding),
                             onPressed: () {
-                              // _profileController.showEditRelationshipStatus.value = true;
                               _globalController.commonBottomSheet(
                                 context: context,
-                                content: _EducationBackgroundContent(
-                                  profileController: _profileController,
-                                ),
+                                content:
+                                    (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
+                                        ? _LinkListContent(profileController: _profileController)
+                                        : _EducationBackgroundContent(
+                                            profileController: _profileController,
+                                          ),
                                 isScrollControlled: true,
-                                bottomSheetHeight: height * 0.3,
+                                bottomSheetHeight:
+                                    (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
+                                        ? height * 0.45
+                                        : height * 0.3,
                                 onPressCloseButton: () {
                                   Get.back();
                                 },
@@ -65,12 +70,18 @@ class EditPage extends StatelessWidget {
                                 },
                                 rightText: ksDone.tr,
                                 rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                title: ksSelectEducationInstitute.tr,
+                                title: (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
+                                    ? ksSelectLinkSource.tr
+                                    : ksSelectEducationInstitute.tr,
                                 isRightButtonShow: true,
                               );
                             },
-                            text: _profileController.educationBackground.value,
-                            hintText: ksSelectEducationInstitute.tr,
+                            text: (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
+                                ? _profileController.linkSource.value
+                                : _profileController.educationBackground.value,
+                            hintText: (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
+                                ? ksSelectLinkSource.tr
+                                : ksSelectEducationInstitute.tr,
                           ),
                         ),
                       CustomModifiedTextField(
@@ -183,6 +194,7 @@ class EditPage extends StatelessWidget {
                                     label: _profileController.commonEditCheckBoxText.value,
                                     onChanged: (v) {
                                       _profileController.isCommonEditCheckBoxSelected.value = !_profileController.isCommonEditCheckBoxSelected.value;
+                                      ll(_profileController.isCommonEditCheckBoxSelected.value);
                                     },
                                     textStyle: regular14TextStyle(cBlackColor)),
                               )
@@ -246,17 +258,56 @@ class _EducationBackgroundContent extends StatelessWidget {
           shrinkWrap: true,
           itemCount: profileController.educationBackgroundList.length,
           itemBuilder: (BuildContext context, int index) {
-            return Obx(() => RadioListTile(
-                  title: Text(profileController.educationBackgroundList[index]),
-                  value: profileController.educationBackgroundList[index],
-                  activeColor: cPrimaryColor,
-                  contentPadding: EdgeInsets.zero,
-                  groupValue: profileController.educationBackground.value,
-                  controlAffinity: ListTileControlAffinity.trailing,
-                  onChanged: (value) {
-                    profileController.educationBackground.value = value;
-                  },
-                ));
+            return Obx(
+              () => RadioListTile(
+                title: Text(profileController.educationBackgroundList[index]),
+                value: profileController.educationBackgroundList[index],
+                activeColor: cPrimaryColor,
+                contentPadding: EdgeInsets.zero,
+                groupValue: profileController.educationBackground.value,
+                controlAffinity: ListTileControlAffinity.trailing,
+                onChanged: (value) {
+                  profileController.educationBackground.value = value;
+                },
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _LinkListContent extends StatelessWidget {
+  const _LinkListContent({
+    Key? key,
+    required this.profileController,
+  }) : super(key: key);
+
+  final ProfileController profileController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: profileController.linkSourceList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Obx(
+              () => RadioListTile(
+                title: Text(profileController.linkSourceList[index]),
+                value: profileController.linkSourceList[index],
+                activeColor: cPrimaryColor,
+                contentPadding: EdgeInsets.zero,
+                groupValue: profileController.linkSource.value,
+                controlAffinity: ListTileControlAffinity.trailing,
+                onChanged: (value) {
+                  profileController.linkSource.value = value;
+                },
+              ),
+            );
           },
         ),
       ],

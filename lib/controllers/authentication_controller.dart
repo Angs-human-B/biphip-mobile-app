@@ -83,8 +83,10 @@ class AuthenticationController extends GetxController {
     }
   }
 
+  final RxBool isLoginLoading = RxBool(false);
   Future<void> userLogin() async {
     try {
+      isLoginLoading.value = true;
       Map<String, dynamic> body = {
         'email': loginEmailTextEditingController.text.toString(),
         "password": loginPasswordTextEditingController.text.toString(),
@@ -110,6 +112,7 @@ class AuthenticationController extends GetxController {
           });
         }
         // await setDeviceID(loginData.user.id);
+        isLoginLoading.value = false;
         Get.offAllNamed(krHome);
         // final HomeController homeController = Get.find<HomeController>();
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -120,10 +123,12 @@ class AuthenticationController extends GetxController {
           verificationToken.value = commonUnVerifyModel.token.toString();
           parentRoute.value = "login";
           resetOTPScreen();
+          isLoginLoading.value = false;
           Get.toNamed(krOTP);
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
           ErrorModel errorModel = ErrorModel.fromJson(response.data);
+          isLoginLoading.value = false;
           if (errorModel.errors.isEmpty) {
             _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
           } else {
@@ -132,6 +137,7 @@ class AuthenticationController extends GetxController {
         }
       }
     } catch (e) {
+      isLoginLoading.value = false;
       ll('userLogin error: $e');
     }
   }
@@ -206,8 +212,10 @@ class AuthenticationController extends GetxController {
     }
   }
 
+  final RxBool isRegisterLoading = RxBool(false);
   Future<void> userRegister() async {
     try {
+      isRegisterLoading.value = true;
       Map<String, dynamic> body = {
         "first_name": registerFirstNameTextEditingController.text,
         "last_name": registerLastNameTextEditingController.text,
@@ -229,11 +237,13 @@ class AuthenticationController extends GetxController {
         verificationToken.value = commonUnVerifyModel.token.toString();
         parentRoute.value = "register";
         resetOTPScreen();
+        isRegisterLoading.value = false;
         Get.toNamed(krOTP);
 
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isRegisterLoading.value = false;
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
@@ -241,6 +251,7 @@ class AuthenticationController extends GetxController {
         }
       }
     } catch (e) {
+      isRegisterLoading.value = false;
       ll('userRegister error: $e');
     }
   }
@@ -269,8 +280,10 @@ class AuthenticationController extends GetxController {
     }
   }
 
+  final RxBool isForgetPasswordLoading = RxBool(false);
   Future<void> forgetPassword() async {
     try {
+      isForgetPasswordLoading.value = true;
       Map<String, dynamic> body = {
         'email': forgotPasswordEmailTextEditingController.text.toString(),
       };
@@ -283,10 +296,12 @@ class AuthenticationController extends GetxController {
       if (response.success == true) {
         parentRoute.value = "forget-password";
         resetOTPScreen();
+        isForgetPasswordLoading.value = false;
         Get.toNamed(krOTP);
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isForgetPasswordLoading.value = false;
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
@@ -294,6 +309,7 @@ class AuthenticationController extends GetxController {
         }
       }
     } catch (e) {
+      isForgetPasswordLoading.value = false;
       ll('forgetPassword error: $e');
     }
   }
@@ -331,8 +347,10 @@ class AuthenticationController extends GetxController {
     }
   }
 
+  final RxBool isResetPasswordLoading = RxBool(false);
   Future<void> resetPassword() async {
     try {
+      isResetPasswordLoading.value = true;
       Map<String, dynamic> body = {
         "password": resetNewPasswordTextEditingController.text,
         "password_confirmation": resetConfirmPasswordTextEditingController.text,
@@ -346,10 +364,12 @@ class AuthenticationController extends GetxController {
 
       if (response.success == true) {
         resetLoginScreen();
+        isResetPasswordLoading.value = false;
         Get.offAllNamed(krLogin);
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isResetPasswordLoading.value = false;
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
@@ -357,6 +377,7 @@ class AuthenticationController extends GetxController {
         }
       }
     } catch (e) {
+      isResetPasswordLoading.value = false;
       ll('resetPassword error: $e');
     }
   }
@@ -369,6 +390,7 @@ class AuthenticationController extends GetxController {
   final TextEditingController otpTextEditingController = TextEditingController();
   final RxBool isOTPResendClick = RxBool(false);
   final RxBool canOTPVerifyNow = RxBool(false);
+  final RxBool isOTPLoading = RxBool(false);
 
   void resetOTPScreen() {
     otpTextEditingController.clear();
@@ -386,6 +408,7 @@ class AuthenticationController extends GetxController {
 
   Future<void> signUpVerify() async {
     try {
+      isOTPLoading.value = true;
       String? token = verificationToken.value;
       // log("token : $token");
 
@@ -416,8 +439,10 @@ class AuthenticationController extends GetxController {
         // final HomeController homeController = Get.find<HomeController>();
         // await homeController.getUserHome();
         if (parentRoute.value == "login") {
+          isOTPLoading.value = false;
           Get.offAllNamed(krHome);
         } else if (parentRoute.value == "register") {
+          isOTPLoading.value = false;
           Get.offAllNamed(krSelectProfession);
           resetRegisterScreen();
           resetOTPScreen();
@@ -425,6 +450,7 @@ class AuthenticationController extends GetxController {
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isOTPLoading.value = false;
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
@@ -432,12 +458,14 @@ class AuthenticationController extends GetxController {
         }
       }
     } catch (e) {
+      isOTPLoading.value = false;
       ll('signUpVerify error: $e');
     }
   }
 
   Future<void> forgetPasswordVerify() async {
     try {
+      isOTPLoading.value = true;
       Map<String, dynamic> body = {
         "email": forgotPasswordEmailTextEditingController.text,
         'otp': otpTextEditingController.text.toString(),
@@ -453,10 +481,12 @@ class AuthenticationController extends GetxController {
         verificationToken.value = forgetPassOtpVerify.token.toString();
         ll(verificationToken.value);
         resetResetPasswordScreen();
+        isOTPLoading.value = false;
         Get.toNamed(krResetPass);
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isOTPLoading.value = false;
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
@@ -464,12 +494,14 @@ class AuthenticationController extends GetxController {
         }
       }
     } catch (e) {
+      isOTPLoading.value = false;
       ll('forgetPasswordVerify error: $e');
     }
   }
 
   Future<void> resendOTP() async {
     try {
+      isOTPLoading.value = true;
       Map<String, dynamic> body = {
         if (parentRoute.value == "forget-password") "email": forgotPasswordEmailTextEditingController.text.trim(),
       };
@@ -488,9 +520,11 @@ class AuthenticationController extends GetxController {
         resetOTPScreen();
         isOTPResendClick.value = false;
         // log('data : ${response.data}');
+        isOTPLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isOTPLoading.value = false;
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
@@ -498,6 +532,7 @@ class AuthenticationController extends GetxController {
         }
       }
     } catch (e) {
+      isOTPLoading.value = false;
       ll('resendOTP error: $e');
     }
   }
@@ -507,8 +542,10 @@ class AuthenticationController extends GetxController {
   | //! info:: logout
   |--------------------------------------------------------------------------
   */
+  final RxBool isLogoutLoading = RxBool(false);
   Future<void> logout() async {
     try {
+      isLogoutLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
         "all_devices": 0.toString(),
@@ -527,12 +564,14 @@ class AuthenticationController extends GetxController {
         // } else {
         //   Get.offAllNamed(krLogin);
         // }
-        Get.offAllNamed(krLogin);
         await SpController().onLogout();
         resetLoginScreen();
+        isLogoutLoading.value = false;
+        Get.offAllNamed(krLogin);
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isLogoutLoading.value = false;
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
@@ -540,6 +579,7 @@ class AuthenticationController extends GetxController {
         }
       }
     } catch (e) {
+      isLogoutLoading.value = false;
       ll('logout error: $e');
     }
   }
