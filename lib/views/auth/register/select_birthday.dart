@@ -78,7 +78,9 @@ class SelectBirthday extends StatelessWidget {
                                 );
                               });
                         },
-                        text: _authenticationController.birthDay.value,
+                        text: _authenticationController.birthDay.value == ''
+                            ? DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!)
+                            : _authenticationController.birthDay.value,
                         hintText: ksSelectDOB.tr,
                       ),
                       kH24sizedBox,
