@@ -89,8 +89,15 @@ class EditPage extends StatelessWidget {
                         hint: _profileController.commonEditTextfieldHintText.value,
                         prefixIcon: _profileController.commonEditIconData.value,
                         suffixIcon: BipHip.circleCrossNew,
-                        inputType: _profileController.commonEditTextfieldHintText.value == 'Phone' ? TextInputType.number : TextInputType.text,
+                        inputType: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                            ? TextInputType.number
+                            : TextInputType.text,
                         borderRadius: k8BorderRadius,
+                        inputFormatters: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                            ? [FilteringTextInputFormatter.digitsOnly]
+                            : null,
                         onSuffixPress: () {
                           _profileController.commonEditTextEditingController.clear();
                         },
