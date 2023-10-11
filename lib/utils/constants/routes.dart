@@ -28,6 +28,7 @@ import 'package:bip_hip/views/profile/photo_preview.dart';
 import 'package:bip_hip/views/profile/photos.dart';
 import 'package:bip_hip/views/profile/profile.dart';
 import 'package:bip_hip/views/profile/profile_widgets/gallery_photos.dart';
+import 'package:bip_hip/views/profile/profile_widgets/gallery_videos.dart';
 import 'package:bip_hip/views/profile/video_details.dart';
 import 'package:bip_hip/views/profile/videos.dart';
 import 'package:bip_hip/views/splash_and_intro/splash_screen.dart';
@@ -74,6 +75,7 @@ const String krSelectCategory = '/create-post/select-category';
 const String krUploadedImageListPage = '/create-post/uploaded-image-list';
 //*newly Added for gallery photos and videos
 const String krGalleryPhotos = '/gallery-photos';
+const String krGalleryVideos = '/gallery-videos';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -121,5 +123,6 @@ List<GetPage<dynamic>>? routes = [
   //* home
   GetPage(name: krHome, page: () => HomePage(), transition: Transition.noTransition),
   //*newly added for galler image and videos
-  GetPage(name: krGalleryPhotos, page: () => GalleryPhotos(), transition: Transition.noTransition)
+  GetPage(name: krGalleryPhotos, page: () => GalleryPhotos(), transition: Transition.noTransition),
+  GetPage(name: krGalleryVideos, page: () => GalleryVideos(), transition: Transition.noTransition)
 ];

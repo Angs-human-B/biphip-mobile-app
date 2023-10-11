@@ -1,9 +1,9 @@
+import 'package:bip_hip/controllers/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:flutter/material.dart';
 
 class GalleryVideos extends StatelessWidget {
-  const GalleryVideos({super.key});
-
+  GalleryVideos({super.key});
+  final GalleryController _galleryController = Get.find<GalleryController>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,7 +11,7 @@ class GalleryVideos extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Scaffold(
-           backgroundColor: cWhiteColor,
+          backgroundColor: cWhiteColor,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
@@ -25,13 +25,169 @@ class GalleryVideos extends StatelessWidget {
               },
             ),
           ),
-          body: Column(
-            children: [
-              
-            ],
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(left: kHorizontalPadding),
+              child: Column(
+                children: [
+                  GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _galleryController.galleryVideos.length,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        // childAspectRatio: .8,
+                        crossAxisCount: 2,
+                        // crossAxisSpacing: k10Padding,
+                        // mainAxisSpacing: k4Padding,
+                      ),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            Row(children: [
+                              CommonGalleryVideoContainer(
+                                title: _galleryController.galleryVideos[index]['title'],
+                                subTitle: _galleryController.galleryVideos[index]['items'],
+                                video1: _galleryController.galleryVideos[index]['video1'],
+                                video2: _galleryController.galleryVideos[index]['video2'],
+                                video3: _galleryController.galleryVideos[index]['video3'],
+                                onPressed: () {
+                                  Get.toNamed(krVideos);
+                                },
+                              ),
+                            ]),
+                          ],
+                        );
+                      }),
+                ],
+              ),
+            ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class CommonGalleryVideoContainer extends StatelessWidget {
+  const CommonGalleryVideoContainer({super.key, required this.title, required this.subTitle, required this.video1, this.video2, this.video3, this.onPressed});
+  final String title;
+  final String subTitle;
+  final String video1;
+  final String? video2;
+  final String? video3;
+  final VoidCallback? onPressed;
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Theme(
+          data: ThemeData(
+            splashColor: cTransparentColor,
+            highlightColor: cTransparentColor,
+          ),
+          child: InkWell(
+            onTap: onPressed,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(k8BorderRadius),
+                    child: SizedBox(
+                      height: 101,
+                      width: (width - 50) / 2,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            height: 102,
+                            width: (video2 == null && video3 == null) ? (width - 52) / 2 : (width - 52) / 4,
+                            child: Image.network(
+                              video1,
+                              fit: BoxFit.cover,
+                              color: cBlackColor.withOpacity(0.5),
+                              colorBlendMode: BlendMode.multiply,
+                            ),
+                          ),
+                          (video2 != null || video3 != null)
+                              ? const SizedBox(
+                                  width: 1,
+                                )
+                              : const SizedBox(),
+                          Column(
+                            children: [
+                              video2 != null
+                                  ? SizedBox(
+                                      height: video3 == null ? 100 : 50,
+                                      width: (width - 52) / 4,
+                                      child: Image.network(
+                                        video2!,
+                                        fit: BoxFit.cover,
+                                        color: cBlackColor.withOpacity(0.5),
+                                        colorBlendMode: BlendMode.multiply,
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                              (video2 != null && video3 != null)
+                                  ? const SizedBox(
+                                      height: 1,
+                                    )
+                                  : const SizedBox(),
+                              video3 != null
+                                  ? SizedBox(
+                                      height: video2 == null ? 100 : 50,
+                                      width: (width - 52) / 4,
+                                      child: Image.network(
+                                        video3!,
+                                        fit: BoxFit.cover,
+                                        color: cBlackColor.withOpacity(0.5),
+                                        colorBlendMode: BlendMode.multiply,
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ]),
+                kH4sizedBox,
+                SizedBox(
+                  width: (width - 52) / 2,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        title,
+                        style: semiBold14TextStyle(cBlackColor),
+                      ),
+                      const Icon(
+                        BipHip.system,
+                        size: kIconSize14,
+                        color: cIconColor,
+                      ),
+                    ],
+                  ),
+                ),
+                kH4sizedBox,
+                Text(
+                  subTitle,
+                  style: regular12TextStyle(cSmallBodyTextColor),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 30,
+          left: (width - 52) / 6,
+          child: const Icon(
+            BipHip.play,
+            color: cWhiteColor,
+            size: kIconSize40,
+          ),
+        ),
+      ],
     );
   }
 }

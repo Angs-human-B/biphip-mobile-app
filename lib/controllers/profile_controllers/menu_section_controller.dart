@@ -36,10 +36,10 @@ class MenuSectionController extends GetxController {
       Get.toNamed(krFamily);
     } else if (index == 2) {
       ll('Image');
-      Get.toNamed(krGalleryPhotos);//*new changes for gallery photos
+      Get.toNamed(krGalleryPhotos); //*new changes for gallery photos
     } else if (index == 3) {
       ll('Videos');
-      Get.toNamed(krVideos);
+      Get.toNamed(krGalleryVideos); //*new changes for gallery Videos
     } else if (index == 4) {
       ll('Stars');
     } else if (index == 5) {
@@ -160,7 +160,6 @@ class MenuSectionController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-       
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
