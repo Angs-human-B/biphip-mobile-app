@@ -429,34 +429,10 @@ class EditAboutInfo extends StatelessWidget {
                           child: InfoContainer(
                             prefixIcon: BipHip.work,
                             suffixIcon: BipHip.edit,
-                            //text: _profileController.profileData.value!.user!.profession[0] ?? ksSelectProfession.tr,
                             text: ksSelectProfession.tr,
                             suffixOnPressed: () {
-                              _globalController.commonBottomSheet(
-                                  context: context,
-                                  isScrollControlled: false,
-                                  bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                  onPressCloseButton: () {
-                                    Get.back();
-                                  },
-                                  onPressRightButton: null,
-                                  rightText: '',
-                                  rightTextStyle: regular10TextStyle(cBlackColor),
-                                  title: ksEdit.tr,
-                                  isRightButtonShow: false,
-                                  content: EditModalSheet(
-                                    editButtonText: ksEditProfession.tr,
-                                    editOnPressed: () {
-                                      _profileController.isRouteFromAboutInfo.value = true;
-                                      Get.back();
-                                      Get.toNamed(krSelectProfession);
-                                    },
-                                    deleteButtonText: ksDeleteProfession.tr,
-                                    deleteOnPressed: () {
-                                      _profileController.selectedProfession.value = '';
-                                      Get.back();
-                                    },
-                                  ));
+                              _profileController.isRouteFromAboutInfo.value = true;
+                              Get.toNamed(krSelectProfession);
                             },
                           ),
                         ),
