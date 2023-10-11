@@ -24,17 +24,21 @@ class SplashScreenController extends GetxController {
   }
 
   Timer startSplashScreen() {
-    final GlobalController globalController = Get.find<GlobalController>();
-    globalController.parentRoute.value = "splash-screen";
     var duration = const Duration(seconds: 3);
     return Timer(
       duration,
       () async {
         if (rememberStatus) {
-          Get.offAllNamed(krSavedUserLogin);
+          Get.offAllNamed(krHome);
         } else {
-          Get.find<AuthenticationController>().resetLoginScreen();
-          Get.offAllNamed(krLogin);
+          final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+          await authenticationController.getSavedUsers();
+          if (authenticationController.users.isNotEmpty) {
+            Get.offAllNamed(krSavedUserLogin);
+          } else {
+            Get.find<AuthenticationController>().resetLoginScreen();
+            Get.offAllNamed(krLogin);
+          }
         }
       },
     );

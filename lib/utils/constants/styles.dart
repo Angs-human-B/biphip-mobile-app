@@ -2,7 +2,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 dynamic screenWiseSize(size, difference) {
-  return height > kSmallDeviceSizeLimit ? size : size - difference;
+  return isDeviceScreenLarge() ? size : size - difference;
 }
 
 TextStyle medium24TextStyle(Color color) {
@@ -11,6 +11,12 @@ TextStyle medium24TextStyle(Color color) {
 
 TextStyle medium12TextStyle(Color color) {
   return TextStyle(fontWeight: FontWeight.w500, fontSize: screenWiseSize(h12, 2), color: color);
+}
+TextStyle medium14TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w500, fontSize: screenWiseSize(h14, 2), color: color);
+}
+TextStyle medium16TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w500, fontSize: screenWiseSize(h16, 2), color: color);
 }
 
 TextStyle regular20TextStyle(Color color) {
@@ -79,6 +85,7 @@ ButtonStyle? kTextButtonStyle = TextButton.styleFrom(
 
 //* info:: box border
 BoxBorder? kIconColorBoxBorder = Border.all(color: cIconColor, width: 1);
+BoxBorder? kLineBorder = Border.all(color: cLineColor.withOpacity(.8), width: 1);
 
 ButtonStyle? kElevatedButtonStyle = ButtonStyle(
   alignment: Alignment.center,
