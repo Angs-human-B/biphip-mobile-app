@@ -83,7 +83,7 @@ class EditProfile extends StatelessWidget {
                                 ),
                                 child: ClipOval(
                                   child: Image.network(
-                                    Environment.imageBaseUrl + _profileController.profileData.value!.user!.profilePicture.toString(),
+                                    _profileController.profileData.value!.user!.profilePicture.toString(),
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => ClipOval(
                                       child: Image.asset(
@@ -131,7 +131,7 @@ class EditProfile extends StatelessWidget {
                               height: 150,
                               width: width,
                               child: Image.network(
-                                Environment.imageBaseUrl + _profileController.profileData.value!.user!.coverPhoto.toString(),
+                                _profileController.profileData.value!.user!.coverPhoto.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => Image.asset(
                                   kiCoverPicImageUrl,
