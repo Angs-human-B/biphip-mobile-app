@@ -85,7 +85,12 @@ class EditPage extends StatelessWidget {
                           ),
                         ),
                       CustomModifiedTextField(
+                        errorText: _profileController.commonEditTextFieldErrorText.value,
                         controller: _profileController.commonEditTextEditingController,
+                        maxLength: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                            ? 15
+                            : 255,
                         hint: _profileController.commonEditTextfieldHintText.value,
                         prefixIcon: _profileController.commonEditIconData.value,
                         suffixIcon: BipHip.circleCrossNew,
@@ -101,10 +106,19 @@ class EditPage extends StatelessWidget {
                         onSuffixPress: () {
                           _profileController.commonEditTextEditingController.clear();
                         },
+                        onChanged: (value) {
+                          if (_profileController.commonEditTextfieldHintText.value == ksEmail.tr ||
+                              _profileController.commonEditTextfieldHintText.value == ksEditEmail.tr &&
+                                  !_profileController.commonEditTextEditingController.text.isValidEmail) {
+                            _profileController.commonEditTextFieldErrorText.value = ksInvalidEmailErrorMessage.tr;
+                          } else {
+                            _profileController.commonEditTextFieldErrorText.value = '';
+                          }
+                        },
                       ),
                       if (_profileController.isSecondaryTextfieldShown.value)
                         Padding(
-                          padding: const EdgeInsets.only(top: k16Padding),
+                          padding: const EdgeInsets.only(bottom: k16Padding),
                           child: CustomModifiedTextField(
                             controller: _profileController.commonEditSecondaryTextEditingController,
                             hint: ksDesignation.tr,
@@ -171,7 +185,6 @@ class EditPage extends StatelessWidget {
                       //       ],
                       //     ),
                       //   ),
-                      kH16sizedBox,
                       if (_profileController.isCommonEditPrivacyShown.value || _profileController.isCommonEditCheckBoxShown.value)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,

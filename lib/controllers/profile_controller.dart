@@ -221,6 +221,7 @@ class ProfileController extends GetxController {
   final RxString birthday = RxString('');
   // final RxBool showEditAddress = RxBool(false);
   final RxBool showEditRelationshipStatus = RxBool(false);
+  final RxString commonEditTextFieldErrorText = RxString('');
   // final RxBool showAddSchool = RxBool(false);
   final RxInt cityListIndex = RxInt(-1);
   final RxList relationshipStatusList = RxList([
