@@ -115,9 +115,11 @@ class PhotoPreview extends StatelessWidget {
                         buttonWidth: width - 40,
                         buttonHeight: h32,
                         label: ksSave.tr,
-                        onPressed: () {
+                        onPressed: () async {
                           if (_profileController.isProfilePicEditor.value) {
                             _profileController.newProfileImageFile.value = _profileController.profileImageFile.value;
+                            ll(_profileController.newProfileImageFile.value);
+                            await _profileController.uploadProfilePicture(_profileController.newProfileImageFile.value);
                           } else {
                             _profileController.newCoverImageFile.value = _profileController.coverImageFile.value;
                           }
