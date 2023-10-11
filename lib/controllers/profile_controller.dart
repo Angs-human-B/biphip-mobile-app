@@ -222,6 +222,8 @@ class ProfileController extends GetxController {
   // final RxBool showEditAddress = RxBool(false);
   final RxBool showEditRelationshipStatus = RxBool(false);
   final RxString commonEditTextFieldErrorText = RxString('');
+  final RxBool showCommonEditSuffixIcon = RxBool(false);
+  final RxBool showCommonSecondaryEditSuffixIcon = RxBool(false);
   // final RxBool showAddSchool = RxBool(false);
   final RxInt cityListIndex = RxInt(-1);
   final RxList relationshipStatusList = RxList([
@@ -383,6 +385,8 @@ class ProfileController extends GetxController {
   }
 
   void getMethod(methodID) {
+    showCommonEditSuffixIcon.value = false;
+    showCommonSecondaryEditSuffixIcon.value = false;
     if (methodID == 0) {
       homeID.value = hometownData.value!.id!;
       homeTownTextEditingController.text = hometownData.value!.city!;

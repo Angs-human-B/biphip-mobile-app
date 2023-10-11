@@ -93,7 +93,7 @@ class EditPage extends StatelessWidget {
                             : 255,
                         hint: _profileController.commonEditTextfieldHintText.value,
                         prefixIcon: _profileController.commonEditIconData.value,
-                        suffixIcon: BipHip.circleCrossNew,
+                        suffixIcon: _profileController.showCommonEditSuffixIcon.value ? BipHip.circleCrossNew : null,
                         inputType: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
                                 _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
                             ? TextInputType.number
@@ -107,6 +107,7 @@ class EditPage extends StatelessWidget {
                           _profileController.commonEditTextEditingController.clear();
                         },
                         onChanged: (value) {
+                          _profileController.showCommonEditSuffixIcon.value = true;
                           if (_profileController.commonEditTextfieldHintText.value == ksEmail.tr ||
                               _profileController.commonEditTextfieldHintText.value == ksEditEmail.tr &&
                                   !_profileController.commonEditTextEditingController.text.isValidEmail) {
@@ -123,10 +124,13 @@ class EditPage extends StatelessWidget {
                             controller: _profileController.commonEditSecondaryTextEditingController,
                             hint: ksDesignation.tr,
                             prefixIcon: BipHip.work,
-                            suffixIcon: BipHip.circleCrossNew,
+                            suffixIcon: _profileController.showCommonSecondaryEditSuffixIcon.value ? BipHip.circleCrossNew : null,
                             borderRadius: k8BorderRadius,
                             onSuffixPress: () {
                               _profileController.commonEditSecondaryTextEditingController.clear();
+                            },
+                            onChanged: (value) {
+                              _profileController.showCommonSecondaryEditSuffixIcon.value = true;
                             },
                           ),
                         ),
