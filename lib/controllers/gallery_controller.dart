@@ -71,9 +71,6 @@ class GalleryController extends GetxController {
     },
   ];
   final List galleryAlbumPhotos = [
-//     const String kiDummyImage1ImageUrl = 'assets/images/pic4.jpeg';
-// const String kiDummyImage2ImageUrl = 'assets/images/pic5.jpeg';
-// const String kiDummyImage3ImageUrl = 'assets/images/pic12.jpeg';
     {'title': 'Untitled', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
     {'title': 'Poetery', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
     {
@@ -84,9 +81,20 @@ class GalleryController extends GetxController {
       'image3': 'assets/images/pic12.jpeg'
     },
     {'title': 'Painting', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
-    {'title': 'Storytelling', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
+    {
+      'title': 'Storytelling',
+      'items': '18 Items',
+      'image1': 'assets/images/pic4.jpeg',
+      'image2': 'assets/images/pic5.jpeg',
+      'image3': 'assets/images/pic12.jpeg'
+    },
     {'title': 'Kids', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
     {'title': 'Selling', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
     {'title': 'News', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
   ];
+  final List galleryYourPhotos = [
+    {'title': 'Profile', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
+    {'title': 'Covers', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
+  ];
+
 }

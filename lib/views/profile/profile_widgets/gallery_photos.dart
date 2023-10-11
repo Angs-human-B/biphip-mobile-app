@@ -44,150 +44,78 @@ class GalleryPhotos extends StatelessWidget {
                     ]),
                   ),
                 ),
+                //*First Tapable Container view
                 if (_galleryController.tapAbleButtonState[0])
                   Padding(
-                    padding: const EdgeInsets.only(top: k12Padding),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    padding: const EdgeInsets.only(left: kHorizontalPadding, top: k12Padding, bottom: k12Padding),
+                    child: Column(
                       children: [
-                        CommonGalleryPhotoContainer(
-                          title: ksProfile,
-                          subTitle: ks18Items,
-                          image1: kiDummyImage1ImageUrl,
-                          image2: kiDummyImage2ImageUrl,
-                          image3: kiDummyImage3ImageUrl,
-                          onPressed: () {
-                            Get.toNamed(krPhotos);
-                          },
-                        ),
-                        CommonGalleryPhotoContainer(
-                          title: ksCovers,
-                          subTitle: ks18Items,
-                          image1: kiDummyImage1ImageUrl,
-                          image2: kiDummyImage2ImageUrl,
-                          image3: kiDummyImage3ImageUrl,
-                          onPressed: () {
-                            Get.toNamed(krPhotos);
-                          },
-                        ),
+                        GridView.builder(
+                            shrinkWrap: true,
+                            // physics: const NeverScrollableScrollPhysics(),
+                            itemCount: _galleryController.galleryYourPhotos.length,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: 1.15,
+                              mainAxisSpacing: k12Padding,
+                              crossAxisCount: 2,
+                            ),
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  Row(children: [
+                                    CommonGalleryPhotoContainer(
+                                      title: _galleryController.galleryYourPhotos[index]['title'],
+                                      subTitle: _galleryController.galleryYourPhotos[index]['items'],
+                                      image1: _galleryController.galleryYourPhotos[index]['image1'],
+                                      image2: _galleryController.galleryYourPhotos[index]['image2'],
+                                      image3: _galleryController.galleryYourPhotos[index]['image3'],
+                                      onPressed: () {
+                                        Get.toNamed(krPhotos);
+                                      },
+                                    ),
+                                  ]),
+                                ],
+                              );
+                            }),
                       ],
                     ),
                   ),
+                //*Second Tapable Container view
                 if (_galleryController.tapAbleButtonState[1])
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: k12Padding),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  SizedBox(
+                    height: height - (kAppBarSize + MediaQuery.of(context).padding.top + 30), //* (height- 30) because tapable container height is 30
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: kHorizontalPadding, top: k12Padding, bottom: k12Padding),
+                        child: GridView.builder(
+                            shrinkWrap: true,
+                            primary: false,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: _galleryController.galleryAlbumPhotos.length,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: 1.25,
+                              mainAxisSpacing: k12Padding,
+                              crossAxisCount: 2,
+                            ),
+                            itemBuilder: (context, index) {
+                              return Column(
                                 children: [
-                                  CommonGalleryPhotoContainer(
-                                    title: ksUntitled,
-                                    subTitle: ks18Items,
-                                    image1: kiDummyImage1ImageUrl,
-                                    image2: kiDummyImage2ImageUrl,
-                                    image3: kiDummyImage3ImageUrl,
-                                    onPressed: () {
-                                      Get.toNamed(krPhotos);
-                                    },
-                                  ),
-                                  CommonGalleryPhotoContainer(
-                                    title: ksPoetry,
-                                    subTitle: ks18Items,
-                                    image1: kiDummyImage1ImageUrl,
-                                    image2: kiDummyImage2ImageUrl,
-                                    image3: kiDummyImage3ImageUrl,
-                                    onPressed: () {
-                                      Get.toNamed(krPhotos);
-                                    },
-                                  ),
+                                  Row(children: [
+                                    CommonGalleryPhotoContainer(
+                                      title: _galleryController.galleryAlbumPhotos[index]['title'],
+                                      subTitle: _galleryController.galleryAlbumPhotos[index]['items'],
+                                      image1: _galleryController.galleryAlbumPhotos[index]['image1'],
+                                      image2: _galleryController.galleryAlbumPhotos[index]['image2'],
+                                      image3: _galleryController.galleryAlbumPhotos[index]['image3'],
+                                      onPressed: () {
+                                        Get.toNamed(krPhotos);
+                                      },
+                                    ),
+                                  ]),
                                 ],
-                              ),
-                              kH12sizedBox,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  CommonGalleryPhotoContainer(
-                                    title: ksPhotography,
-                                    subTitle: ks18Items,
-                                    image1: kiDummyImage1ImageUrl,
-                                    image2: kiDummyImage2ImageUrl,
-                                    image3: kiDummyImage3ImageUrl,
-                                    onPressed: () {
-                                      Get.toNamed(krPhotos);
-                                    },
-                                  ),
-                                  CommonGalleryPhotoContainer(
-                                    title: ksPainting,
-                                    subTitle: ks18Items,
-                                    image1: kiDummyImage1ImageUrl,
-                                    image2: kiDummyImage2ImageUrl,
-                                    image3: kiDummyImage3ImageUrl,
-                                    onPressed: () {
-                                      Get.toNamed(krPhotos);
-                                    },
-                                  ),
-                                ],
-                              ),
-                              kH12sizedBox,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  CommonGalleryPhotoContainer(
-                                    title: ksStoryTelling,
-                                    subTitle: ks18Items,
-                                    image1: kiDummyImage1ImageUrl,
-                                    image2: kiDummyImage2ImageUrl,
-                                    image3: kiDummyImage3ImageUrl,
-                                    onPressed: () {
-                                      Get.toNamed(krPhotos);
-                                    },
-                                  ),
-                                  CommonGalleryPhotoContainer(
-                                    title: ksKids,
-                                    subTitle: ks18Items,
-                                    image1: kiDummyImage1ImageUrl,
-                                    image2: kiDummyImage2ImageUrl,
-                                    image3: kiDummyImage3ImageUrl,
-                                    onPressed: () {
-                                      Get.toNamed(krPhotos);
-                                    },
-                                  ),
-                                ],
-                              ),
-                              kH12sizedBox,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  CommonGalleryPhotoContainer(
-                                    title: ksSelling,
-                                    subTitle: ks18Items,
-                                    image1: kiDummyImage1ImageUrl,
-                                    image2: kiDummyImage2ImageUrl,
-                                    image3: kiDummyImage3ImageUrl,
-                                    onPressed: () {
-                                      Get.toNamed(krPhotos);
-                                    },
-                                  ),
-                                  CommonGalleryPhotoContainer(
-                                    title: ksNews,
-                                    subTitle: ks18Items,
-                                    image1: kiDummyImage1ImageUrl,
-                                    image2: kiDummyImage2ImageUrl,
-                                    image3: kiDummyImage3ImageUrl,
-                                    onPressed: () {
-                                      Get.toNamed(krPhotos);
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                              );
+                            }),
+                      ),
                     ),
                   ),
               ],
@@ -223,34 +151,44 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(k8BorderRadius),
                 child: SizedBox(
-                  height: 100,
+                  height: 101,
                   width: (width - 50) / 2,
                   child: Row(
                     children: [
                       SizedBox(
-                        height: 100,
-                        width: (image2 == null && image3 == null) ? (width - 50) / 2 : (width - 50) / 4,
+                        height: 101,
+                        width: (image2 == null && image3 == null) ? (width - 52) / 2 : (width - 52) / 4,
                         child: Image.asset(
                           image1,
                           fit: BoxFit.cover,
                         ),
                       ),
+                      (image2 != null || image3 != null)
+                          ? const SizedBox(
+                              width: 1,
+                            )
+                          : const SizedBox(),
                       Column(
                         children: [
                           image2 != null
                               ? SizedBox(
                                   height: image3 == null ? 100 : 50,
-                                  width: (width - 50) / 4,
+                                  width: (width - 52) / 4,
                                   child: Image.asset(
                                     image2!,
                                     fit: BoxFit.cover,
                                   ),
                                 )
                               : const SizedBox(),
+                          (image2 != null && image3 != null)
+                              ? const SizedBox(
+                                  height: 1,
+                                )
+                              : const SizedBox(),
                           image3 != null
                               ? SizedBox(
                                   height: image2 == null ? 100 : 50,
-                                  width: (width - 50) / 4,
+                                  width: (width - 52) / 4,
                                   child: Image.asset(
                                     image3!,
                                     fit: BoxFit.cover,
@@ -266,7 +204,7 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
             ]),
             kH4sizedBox,
             SizedBox(
-              width: (width - 50) / 2,
+              width: (width - 52) / 2,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
