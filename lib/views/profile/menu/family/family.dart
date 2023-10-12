@@ -1,7 +1,7 @@
 import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/profile/menu/friends.dart';
+import 'package:bip_hip/views/profile/menu/friends/friends.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 

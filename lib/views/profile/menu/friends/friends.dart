@@ -6,7 +6,8 @@ import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 class Friends extends StatelessWidget {
   Friends({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,21 +30,22 @@ class Friends extends StatelessWidget {
                 onPressed: () {
                   //*Common bottom sheet for add friend
                   _profileController.searchController.clear();
-                  _globalController.commonBottomSheet(
-                    context: context,
-                    isSearchShow: true,
-                    isScrollControlled: true,
-                    content: BottomSheetContent(),
-                    onPressCloseButton: () {
-                      Get.back();
-                    },
-                    onPressRightButton: null,
-                    rightText: '',
-                    rightTextStyle: semiBold10TextStyle(cWhiteColor),
-                    title: ksAddFriend.tr,
-                    isRightButtonShow: false,
-                    bottomSheetHeight: height * .9,
-                  );
+                  Get.toNamed(krAddFriend);
+                  // _globalController.commonBottomSheet(
+                  //   context: context,
+                  //   isSearchShow: true,
+                  //   isScrollControlled: true,
+                  //   content: BottomSheetContent(),
+                  //   onPressCloseButton: () {
+                  //     Get.back();
+                  //   },
+                  //   onPressRightButton: null,
+                  //   rightText: '',
+                  //   rightTextStyle: semiBold10TextStyle(cWhiteColor),
+                  //   title: ksAddFriend.tr,
+                  //   isRightButtonShow: false,
+                  //   bottomSheetHeight: height * .9,
+                  // );
                 },
                 child: Text(
                   ksAdd.tr,
@@ -291,6 +293,7 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
 class AllFriendList extends StatelessWidget {
   AllFriendList({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -310,14 +313,43 @@ class AllFriendList extends StatelessWidget {
                 onPressed: () async {
                   // ll(index);
                 },
-                child: CustomListViewItem(
-                  backgroundImage: AssetImage(_profileController.allFriendsLists[index]['image']),
-                  name: _profileController.allFriendsLists[index]['name'],
-                  firstButtonText: ksMessage.tr,
-                  secondButtonText: ksRemove.tr,
-                  firstButtonOnPressed: () {},
-                  secondButtonOnPressed: () {},
+                child: CustomListTile(
+                  borderColor: cLineColor,
+                  leading: CircleAvatar(
+                    radius: 20,
+                    backgroundImage: AssetImage(_profileController.allFriendsLists[index]['image']),
+                  ),
+                  title: Text(
+                    _profileController.allFriendsLists[index]['name'],
+                    style: semiBold14TextStyle(cBlackColor),
+                  ),
+                  trailing: CustomIconButton(onPress: () {
+                    _globalController.commonBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    content: _FriendActionContent(
+                      profileController: _profileController,
+                    ),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: null,
+                    rightText: ksDone.tr,
+                    rightTextStyle: regular14TextStyle(cPrimaryColor),
+                    title: ksAddFriend.tr,
+                    isRightButtonShow: true,
+                    bottomSheetHeight: height * .4,
+                  );
+                  }, icon: BipHip.system),
                 ),
+                // child: CustomListViewItem(
+                //   backgroundImage: AssetImage(_profileController.allFriendsLists[index]['image']),
+                //   name: _profileController.allFriendsLists[index]['name'],
+                //   firstButtonText: ksMessage.tr,
+                //   secondButtonText: ksRemove.tr,
+                //   firstButtonOnPressed: () {},
+                //   secondButtonOnPressed: () {},
+                // ),
               ),
             ),
           );
@@ -441,6 +473,47 @@ class BottomSheetContent extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+
+
+class _FriendActionContent extends StatelessWidget {
+  const _FriendActionContent({
+    Key? key,
+    required this.profileController,
+  }) : super(key: key);
+
+  final ProfileController profileController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: profileController.linkSourceList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Obx(
+              () => CustomListTile(
+                title: Text(profileController.linkSourceList[index]),
+                trailing: CustomRadioButton(
+                  onChanged: () {
+                    profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                  },
+                  isSelected: profileController.tempLinkSource.value == profileController.linkSourceList[index],
+                ),
+                itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
+                onPressed: () {
+                  profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                },
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

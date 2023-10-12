@@ -5,7 +5,7 @@ import 'package:bip_hip/models/profile/profile_overview_model.dart';
 // import 'package:bip_hip/models/profile/profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/menu/family/family.dart';
-import 'package:bip_hip/views/profile/menu/friends.dart';
+import 'package:bip_hip/views/profile/menu/friends/friends.dart';
 import 'package:video_player/video_player.dart';
 
 class ProfileController extends GetxController {
@@ -242,6 +242,24 @@ class ProfileController extends GetxController {
     'Separated',
     'Divorced',
     'Widowed'
+  ]);
+
+  final RxList friendActionList = RxList([
+    {
+      'icon':BipHip.unfriend,
+      'action': 'Unfriend',
+      'actionSubtitle': 'Remove your friend'
+    },
+    {
+      'icon':BipHip.unFollow,
+      'action': 'Unfollow',
+      'actionSubtitle': 'Unfollow your friend'
+    },
+    {
+      'icon':BipHip.removeFamily,
+      'action': 'Add Family',
+      'actionSubtitle': 'Add your family'
+    }
   ]);
   final RxList educationBackgroundList = RxList(['School', 'College']);
   final RxList linkSourceList = RxList(['Facebook', 'LinkedIn', 'Twitter', 'Website']);
@@ -542,7 +560,6 @@ class ProfileController extends GetxController {
         body: body,
         token: token,
       ) as CommonDM;
-
       if (response.success == true) {
         hometownData.value = CurrentCity.fromJson(response.data);
         otherCityList.add(CurrentCity.fromJson(response.data));
