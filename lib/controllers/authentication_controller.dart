@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/models/auth/common_unverify_model.dart';
 import 'package:bip_hip/models/auth/forget_pass_model.dart';
 import 'package:bip_hip/models/auth/login_model.dart';
@@ -8,6 +9,7 @@ import 'package:bip_hip/models/common/common_error_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class AuthenticationController extends GetxController {
+  final ProfileController _profileController = Get.find<ProfileController>();
   final RxBool isProfessionSelected = RxBool(false);
   final RxBool isInterestSelected = RxBool(false);
   final RxInt professionIndex = RxInt(-1);
@@ -100,7 +102,7 @@ class AuthenticationController extends GetxController {
 
       if (response.success == true) {
         LoginModel loginData = LoginModel.fromJson(response.data);
-
+        _profileController.userData.value = loginData.user;
         await _spController.saveBearerToken(loginData.token);
         await _spController.saveRememberMe(isLoginRememberCheck.value);
         if (isLoginRememberCheck.value) {
