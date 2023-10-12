@@ -322,13 +322,52 @@ class Profile extends StatelessWidget {
                                         onPressed: null,
                                       ),
                                     ),
-                                  if (_profileController.contactDataList.isNotEmpty)
-                                    for (int i = 0; i < _profileController.contactDataList.length; i++)
+                                  if (_profileController.emailDataList.isNotEmpty)
+                                    // for (int i = 0; i < _profileController.contactDataList.length; i++)
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                      child: LinkUpIconTextRow(
+                                        icon: BipHip.mail,
+                                        text: checkNullOrStringNull(_profileController.emailDataList[0].value),
+                                        isLink: true,
+                                        onPressed: null,
+                                      ),
+                                    ),
+                                  if (_profileController.phoneDataList.isNotEmpty)
+                                    // for (int i = 0; i < _profileController.contactDataList.length; i++)
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                      child: LinkUpIconTextRow(
+                                        icon: BipHip.phoneFill,
+                                        text: checkNullOrStringNull(_profileController.phoneDataList[0].value),
+                                        isLink: true,
+                                        onPressed: null,
+                                      ),
+                                    ),
+                                  //! see more
+                                  if (_profileController.emailDataList.isNotEmpty &&
+                                      _profileController.contactDataList.length > 1 &&
+                                      _profileController.isProfileSeeMore.value)
+                                    for (int i = 1; i < _profileController.emailDataList.length - 1; i++)
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                         child: LinkUpIconTextRow(
-                                          icon: _profileController.contactDataList[i].type == 'email' ? BipHip.mail : BipHip.phoneFill,
-                                          text: checkNullOrStringNull(_profileController.contactDataList[i].value),
+                                          icon: BipHip.mail,
+                                          text: checkNullOrStringNull(_profileController.emailDataList[i].value),
+                                          isLink: true,
+                                          onPressed: null,
+                                        ),
+                                      ),
+                                  //! see more
+                                  if (_profileController.phoneDataList.isNotEmpty &&
+                                      _profileController.contactDataList.length > 1 &&
+                                      _profileController.isProfileSeeMore.value)
+                                    for (int i = 1; i < _profileController.phoneDataList.length - 1; i++)
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                        child: LinkUpIconTextRow(
+                                          icon: BipHip.phoneFill,
+                                          text: checkNullOrStringNull(_profileController.phoneDataList[i].value),
                                           isLink: true,
                                           onPressed: null,
                                         ),
@@ -344,6 +383,18 @@ class Profile extends StatelessWidget {
                                           onPressed: null,
                                         ),
                                       ),
+                                  CustomElevatedButton(
+                                      label: _profileController.isProfileSeeMore.value ? ksShowLess : ksSeeMore,
+                                      suffixIcon: _profileController.isProfileSeeMore.value ? BipHip.upArrow : BipHip.downArrow,
+                                      suffixIconColor: cBlackColor,
+                                      buttonHeight: h28,
+                                      buttonWidth: width - 40,
+                                      buttonColor: cLineColor,
+                                      textStyle: semiBold12TextStyle(cBlackColor),
+                                      onPressed: () {
+                                        _profileController.isProfileSeeMore.value = !_profileController.isProfileSeeMore.value;
+                                      }),
+                                  kH12sizedBox
                                 ],
                               ),
                             ),

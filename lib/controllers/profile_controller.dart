@@ -38,6 +38,7 @@ class ProfileController extends GetxController {
   final RxList tapAbleButtonState = RxList([true, false, false]);
   final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
   final RxBool isEditProfileLoading = RxBool(false);
+  final RxBool isProfileSeeMore = RxBool(false);
 
   void playVideo(
     String videoUrl, {
@@ -501,6 +502,13 @@ class ProfileController extends GetxController {
         schoolDataList.addAll(profileData.value!.school);
         collegeDataList.addAll(profileData.value!.college);
         contactDataList.addAll(profileData.value!.contacts);
+        for (int i = 0; i < contactDataList.length; i++) {
+          if (contactDataList[i].type == 'email') {
+            emailDataList.add(contactDataList[i]);
+          } else {
+            phoneDataList.add(contactDataList[i]);
+          }
+        }
         linkDataList.addAll(profileData.value!.links);
         workplaceDataList.addAll(profileData.value!.workplaces);
         otherCityList.addAll(profileData.value!.cities);
@@ -1012,6 +1020,8 @@ class ProfileController extends GetxController {
 
   //* store contact API Implementation
   RxList<Contact> contactDataList = RxList<Contact>([]);
+  RxList<Contact> emailDataList = RxList<Contact>([]);
+  RxList<Contact> phoneDataList = RxList<Contact>([]);
   Future<void> storeContact(type) async {
     try {
       isEditProfileLoading.value = true;
@@ -1029,6 +1039,13 @@ class ProfileController extends GetxController {
 
       if (response.success == true) {
         contactDataList.add(Contact.fromJson(response.data));
+        for (int i = 0; i < contactDataList.length; i++) {
+          if (contactDataList[i].type == 'email') {
+            emailDataList.add(contactDataList[i]);
+          } else {
+            phoneDataList.add(contactDataList[i]);
+          }
+        }
         isEditProfileLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
