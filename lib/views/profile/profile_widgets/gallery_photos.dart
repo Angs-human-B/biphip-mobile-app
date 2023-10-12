@@ -52,11 +52,10 @@ class GalleryPhotos extends StatelessWidget {
                       children: [
                         GridView.builder(
                             shrinkWrap: true,
-                            // physics: const NeverScrollableScrollPhysics(),
                             itemCount: _galleryController.galleryYourPhotos.length,
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 1.15,
-                              mainAxisSpacing: k12Padding,
+                              // childAspectRatio: 1.15,
+                              // mainAxisSpacing: k12Padding,
                               crossAxisCount: 2,
                             ),
                             itemBuilder: (context, index) {
@@ -93,7 +92,7 @@ class GalleryPhotos extends StatelessWidget {
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: _galleryController.galleryAlbumPhotos.length,
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 1.25,
+                              childAspectRatio: 1.2,
                               mainAxisSpacing: k12Padding,
                               crossAxisCount: 2,
                             ),
@@ -149,14 +148,13 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
           children: [
             Row(children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(k8BorderRadius),
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), topRight: Radius.circular(k8BorderRadius)),
                 child: SizedBox(
-                  height: 101,
                   width: (width - 50) / 2,
                   child: Row(
                     children: [
                       SizedBox(
-                        height: 101,
+                        height: 94,
                         width: (image2 == null && image3 == null) ? (width - 52) / 2 : (width - 52) / 4,
                         child: Image.asset(
                           image1,
@@ -172,7 +170,7 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                         children: [
                           image2 != null
                               ? SizedBox(
-                                  height: image3 == null ? 100 : 50,
+                                  height: image3 == null ? 94 : 46.5,
                                   width: (width - 52) / 4,
                                   child: Image.asset(
                                     image2!,
@@ -187,7 +185,7 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                               : const SizedBox(),
                           image3 != null
                               ? SizedBox(
-                                  height: image2 == null ? 100 : 50,
+                                  height: image2 == null ? 94 : 46.5,
                                   width: (width - 52) / 4,
                                   child: Image.asset(
                                     image3!,
@@ -202,28 +200,62 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                 ),
               ),
             ]),
-            kH4sizedBox,
-            SizedBox(
-              width: (width - 52) / 2,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Container(
+              width: (width - 50) / 2,
+              decoration: BoxDecoration(
+                color: cWhiteColor,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(5),
+                  bottomRight: Radius.circular(5),
+                ),
+                border: Border.all(width: 1, color: cLineColor),
+                // border: Border(
+                //   left: BorderSide(
+                //   width: 1,
+                //   color: cLineColor,
+                // ),
+                //   right: BorderSide(
+                //   width: 1,
+                //   color: cLineColor,
+                // ),
+                //   bottom:BorderSide(
+                //   width: 1,
+                //   color: cLineColor,
+                // ),
+                // ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: semiBold14TextStyle(cBlackColor),
+                  kH8sizedBox,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: k4Padding),
+                        child: Text(
+                          title,
+                          style: semiBold14TextStyle(cBlackColor),
+                        ),
+                      ),
+                      const Icon(
+                        BipHip.system,
+                        size: kIconSize14,
+                        color: cIconColor,
+                      ),
+                    ],
                   ),
-                  const Icon(
-                    BipHip.system,
-                    size: kIconSize14,
-                    color: cIconColor,
+                  kH4sizedBox,
+                  Padding(
+                    padding: const EdgeInsets.only(left: k4Padding),
+                    child: Text(
+                      subTitle,
+                      style: regular12TextStyle(cSmallBodyTextColor),
+                    ),
                   ),
+                  kH4sizedBox,
                 ],
               ),
-            ),
-            kH4sizedBox,
-            Text(
-              subTitle,
-              style: regular12TextStyle(cSmallBodyTextColor),
             ),
           ],
         ),
