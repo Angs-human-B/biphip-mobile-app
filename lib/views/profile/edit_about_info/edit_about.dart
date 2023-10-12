@@ -61,42 +61,42 @@ class EditAboutInfo extends StatelessWidget {
                               _profileController.getMethod(9);
                             },
                           ),
-                          for (int i = 0; i < _profileController.otherCityList.length; i++)
-                            if (_profileController.otherCityList[i].isHometown == 1)
-                              Padding(
-                                padding: const EdgeInsets.only(top: k10Padding),
-                                child: InfoContainer(
-                                  prefixIcon: BipHip.location,
-                                  suffixIcon: BipHip.edit,
-                                  text: checkNullOrStringNull(_profileController.otherCityList[i].city),
-                                  suffixOnPressed: () {
-                                    _profileController.getMethod(0);
-                                    // _globalController.commonBottomSheet(
-                                    //     context: context,
-                                    //     isScrollControlled: false,
-                                    //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                    //     content: EditModalSheet(
-                                    //       editButtonText: ksEditAddress.tr,
-                                    //       editOnPressed: () {
-                                    //         _profileController.getMethod(0);
-                                    //       },
-                                    //       deleteButtonText: ksDeleteAddress.tr,
-                                    //       deleteOnPressed: () async {
-                                    //         Get.back();
-                                    //         await _profileController.deleteCity(_profileController.hometownData.value!.id);
-                                    //       },
-                                    //     ),
-                                    //     onPressCloseButton: () {
-                                    //       Get.back();
-                                    //     },
-                                    //     onPressRightButton: null,
-                                    //     rightText: '',
-                                    //     rightTextStyle: regular10TextStyle(cBlackColor),
-                                    //     title: ksEdit.tr,
-                                    //     isRightButtonShow: false);
-                                  },
-                                ),
+                          // for (int i = 0; i < _profileController.otherCityList.length; i++)
+                          if (_profileController.hometownData.value != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: k10Padding),
+                              child: InfoContainer(
+                                prefixIcon: BipHip.location,
+                                suffixIcon: BipHip.edit,
+                                text: checkNullOrStringNull(_profileController.hometownData.value?.city),
+                                suffixOnPressed: () {
+                                  _profileController.getMethod(0);
+                                  // _globalController.commonBottomSheet(
+                                  //     context: context,
+                                  //     isScrollControlled: false,
+                                  //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
+                                  //     content: EditModalSheet(
+                                  //       editButtonText: ksEditAddress.tr,
+                                  //       editOnPressed: () {
+                                  //         _profileController.getMethod(0);
+                                  //       },
+                                  //       deleteButtonText: ksDeleteAddress.tr,
+                                  //       deleteOnPressed: () async {
+                                  //         Get.back();
+                                  //         await _profileController.deleteCity(_profileController.hometownData.value!.id);
+                                  //       },
+                                  //     ),
+                                  //     onPressCloseButton: () {
+                                  //       Get.back();
+                                  //     },
+                                  //     onPressRightButton: null,
+                                  //     rightText: '',
+                                  //     rightTextStyle: regular10TextStyle(cBlackColor),
+                                  //     title: ksEdit.tr,
+                                  //     isRightButtonShow: false);
+                                },
                               ),
+                            ),
                           kH16sizedBox,
                           RowTextButton(
                             text: ksPresentAddress.tr,

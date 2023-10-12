@@ -472,6 +472,8 @@ class ProfileController extends GetxController {
     schoolDataList.clear();
     collegeDataList.clear();
     contactDataList.clear();
+    emailDataList.clear();
+    phoneDataList.clear();
     linkDataList.clear();
   }
 
@@ -1038,6 +1040,8 @@ class ProfileController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
+        emailDataList.clear();
+        phoneDataList.clear();
         contactDataList.add(Contact.fromJson(response.data));
         for (int i = 0; i < contactDataList.length; i++) {
           if (contactDataList[i].type == 'email') {
