@@ -54,8 +54,8 @@ class GalleryPhotos extends StatelessWidget {
                             shrinkWrap: true,
                             itemCount: _galleryController.galleryYourPhotos.length,
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              // childAspectRatio: 1.15,
-                              // mainAxisSpacing: k12Padding,
+                              childAspectRatio: 1.2,
+                              mainAxisSpacing: k12Padding,
                               crossAxisCount: 2,
                             ),
                             itemBuilder: (context, index) {

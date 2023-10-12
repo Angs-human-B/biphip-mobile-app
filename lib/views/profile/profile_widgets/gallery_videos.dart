@@ -35,10 +35,9 @@ class GalleryVideos extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: _galleryController.galleryVideos.length,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: 1.25,
+                        childAspectRatio: 1.2,
                         crossAxisCount: 2,
                         mainAxisSpacing: k12Padding,
-                        // crossAxisSpacing: k10Padding,
                       ),
                       itemBuilder: (context, index) {
                         return Column(
@@ -159,20 +158,7 @@ class CommonGalleryVideoContainer extends StatelessWidget {
                       bottomRight: Radius.circular(5),
                     ),
                     border: Border.all(width: 1, color: cLineColor),
-                    // border: Border(
-                    //   left: BorderSide(
-                    //   width: 1,
-                    //   color: cLineColor,
-                    // ),
-                    //   right: BorderSide(
-                    //   width: 1,
-                    //   color: cLineColor,
-                    // ),
-                    //   bottom:BorderSide(
-                    //   width: 1,
-                    //   color: cLineColor,
-                    // ),
-                    // ),
+             
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
