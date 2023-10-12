@@ -56,15 +56,17 @@ class Profile extends StatelessWidget {
                                   height: 225,
                                   color: cWhiteColor,
                                 ),
-                                SizedBox(
+                                Container(
+                                  color: cBlackColor,
                                   height: 150,
                                   width: width,
                                   child: Image.network(
                                     _profileController.profileData.value!.user!.coverPhoto.toString(),
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => Image.asset(
-                                      kiCoverPicImageUrl,
-                                      fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) => const Icon(
+                                      BipHip.imageFile,
+                                      size: kIconSize120,
+                                      color: cIconColor,
                                     ),
                                   ),
                                 ),

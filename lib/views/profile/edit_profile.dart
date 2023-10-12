@@ -127,15 +127,17 @@ class EditProfile extends StatelessWidget {
                           kH16sizedBox,
                           ClipRRect(
                             borderRadius: k12CircularBorderRadius,
-                            child: SizedBox(
+                            child: Container(
                               height: 150,
+                              color: cBlackColor,
                               width: width,
                               child: Image.network(
                                 _profileController.profileData.value!.user!.coverPhoto.toString(),
                                 fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => Image.asset(
-                                  kiCoverPicImageUrl,
-                                  fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  BipHip.imageFile,
+                                  size: kIconSize120,
+                                  color: cIconColor,
                                 ),
                               ),
                             ),
