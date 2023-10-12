@@ -4,7 +4,7 @@ import 'package:bip_hip/models/common/common_error_model.dart';
 import 'package:bip_hip/models/profile/profile_overview_model.dart';
 // import 'package:bip_hip/models/profile/profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/profile/menu/family.dart';
+import 'package:bip_hip/views/profile/menu/family/family.dart';
 import 'package:bip_hip/views/profile/menu/friends.dart';
 import 'package:video_player/video_player.dart';
 
