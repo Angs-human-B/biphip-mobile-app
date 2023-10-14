@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/models/common/common_error_model.dart';
+import 'package:bip_hip/models/common/common_list_models.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/profile/common_user_layer_model.dart';
 import 'package:bip_hip/models/profile/profile_overview_model.dart';
@@ -371,7 +372,6 @@ class ProfileController extends GetxController {
       homeTownTextEditingController.clear();
     } else if (functionFlag == 'EDIT PRESENT DELETE') {
       await deleteCity(cityID.value);
-      cityList.removeAt(index);
     } else if (functionFlag == 'EDIT SCHOOL DELETE') {
       await deleteSchool(schoolID.value);
       educationInstituteTextEditingController.clear();
@@ -1345,7 +1345,7 @@ class ProfileController extends GetxController {
       isEditProfileLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
-        'image': imageFile.toString(),
+        'image': imageFile,
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -1438,6 +1438,97 @@ class ProfileController extends GetxController {
     } catch (e) {
       isEditProfileLoading.value = false;
       ll('changeName error: $e');
+    }
+  }
+
+  //* get profession list API
+  Rx<ProfessionListModel?> professionListData = Rx<ProfessionListModel?>(null);
+  Future<void> getProfessionList() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllProfessions,
+      ) as CommonDM;
+      if (response.success == true) {
+        _globalController.professionList.clear();
+        professionListData.value = ProfessionListModel.fromJson(response.data);
+        _globalController.professionList.addAll(professionListData.value!.professions);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getProfessionList error: $e');
+    }
+  }
+
+  //* get interest list API
+  Rx<InterestListModel?> interestListData = Rx<InterestListModel?>(null);
+  Future<void> getInterestList() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllInterests,
+      ) as CommonDM;
+      if (response.success == true) {
+        _globalController.interestList.clear();
+        interestListData.value = InterestListModel.fromJson(response.data);
+        _globalController.interestList.addAll(interestListData.value!.interests);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getInterestList error: $e');
+    }
+  }
+
+  //* set profession API implementation
+  Future<void> setProfession(profession) async {
+    List professionList = [];
+    professionList.add(profession);
+    ll(professionList);
+    try {
+      isEditProfileLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {'key': 'profession', 'value': professionList};
+      ll(body);
+      var response = await _apiController.commonPostDio(
+        url: kuSetGeneralSetting,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        ll(response.data);
+        commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
+        userData.value = commonUserLayeredData.value!.user;
+        isEditProfileLoading.value = false;
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isEditProfileLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isEditProfileLoading.value = false;
+      ll('setProfession error: $e');
     }
   }
 }

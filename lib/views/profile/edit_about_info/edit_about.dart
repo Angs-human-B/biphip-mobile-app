@@ -512,13 +512,13 @@ class EditAboutInfo extends StatelessWidget {
                             },
                             buttonWidth: 149,
                           ),
-                          if (_profileController.profileData.value!.user!.profession.isNotEmpty)
+                          if (_profileController.userData.value!.profession.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(top: 16),
                               child: InfoContainer(
                                 prefixIcon: BipHip.work,
                                 suffixIcon: BipHip.edit,
-                                text: ksSelectProfession.tr,
+                                text: checkNullOrStringNull(_profileController.userData.value!.profession[0]) ?? ksSelectProfession.tr,
                                 suffixOnPressed: () {
                                   _profileController.isRouteFromAboutInfo.value = true;
                                   Get.toNamed(krSelectProfession);

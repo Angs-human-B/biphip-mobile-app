@@ -238,7 +238,8 @@ class EditProfile extends StatelessWidget {
                             buttonWidth: width - 40,
                             buttonColor: cLineColor,
                             textStyle: semiBold12TextStyle(cBlackColor),
-                            onPressed: () {
+                            onPressed: () async {
+                              await _profileController.getProfessionList();
                               Get.toNamed(krEditAboutInfo);
                             },
                           ),

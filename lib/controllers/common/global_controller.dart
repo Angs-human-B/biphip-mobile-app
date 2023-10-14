@@ -12,6 +12,8 @@ class GlobalController extends GetxController {
   final RxMap appLang = RxMap({'langCode': 'en', 'countryCode': 'US'});
 
   final Rx<String?> bearerToken = Rx<String?>(null);
+  final RxList professionList = RxList([]);
+  final RxList interestList = RxList([]);
   final RxList languages = RxList([
     {'langCode': 'bn', 'countryCode': 'BD', 'langName': 'Bengali'},
     {'langCode': 'en', 'countryCode': 'US', 'langName': 'English'},
