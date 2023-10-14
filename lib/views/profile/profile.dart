@@ -61,7 +61,7 @@ class Profile extends StatelessWidget {
                                   height: 150,
                                   width: width,
                                   child: Image.network(
-                                    _profileController.profileData.value!.user!.coverPhoto.toString(),
+                                    Environment.imageBaseUrl + _profileController.profileData.value!.user!.coverPhoto.toString(),
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => const Icon(
                                       BipHip.imageFile,
@@ -85,7 +85,7 @@ class Profile extends StatelessWidget {
                                         ),
                                         child: ClipOval(
                                           child: Image.network(
-                                            _profileController.profileData.value!.user!.profilePicture.toString(),
+                                            Environment.imageBaseUrl + _profileController.profileData.value!.user!.profilePicture.toString(),
                                             fit: BoxFit.cover,
                                             errorBuilder: (context, error, stackTrace) => ClipOval(
                                               child: Image.asset(

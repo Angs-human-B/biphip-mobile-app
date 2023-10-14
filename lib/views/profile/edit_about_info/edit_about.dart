@@ -420,24 +420,82 @@ class EditAboutInfo extends StatelessWidget {
                           const CustomDivider(),
                           kH16sizedBox,
                           RowTextButton(
+                            text: ksGender.tr,
+                            buttonText: ksAdd.tr,
+                            showAddButton: false,
+                            onPressedAdd: null,
+                            buttonWidth: 149,
+                          ),
+                          kH16sizedBox,
+                          CustomSelectionButton(
+                            prefixIcon: Icons.male,
+                            onPressed: () {
+                              _profileController.tempSelectedGender.value = checkNullOrStringNull(_profileController.userData.value!.gender);
+                              _globalController.commonBottomSheet(
+                                context: context,
+                                content: _GenderListContent(
+                                  profileController: _profileController,
+                                ),
+                                isScrollControlled: true,
+                                bottomSheetHeight: height * 0.4,
+                                onPressCloseButton: () {
+                                  Get.back();
+                                },
+                                onPressRightButton: () {
+                                  if (_profileController.tempSelectedGender.value != '') {
+                                    _profileController.selectedGender.value = _profileController.tempSelectedGender.value;
+                                    ll(_profileController.selectedGender.value);
+                                    _profileController.isGenderSelected.value = true;
+                                  }
+                                  Get.back();
+                                },
+                                rightText: ksDone.tr,
+                                rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                title: ksSelectGender.tr,
+                                isRightButtonShow: true,
+                              );
+                            },
+                            text: _profileController.selectedGender.value != ''
+                                ? _profileController.selectedGender.value
+                                : checkNullOrStringNull(_profileController.userData.value!.gender) ?? ksSelectGender.tr,
+                            hintText: ksSelectGender.tr,
+                          ),
+                          if (_profileController.isGenderSelected.value) kH20sizedBox,
+                          if (_profileController.isGenderSelected.value)
+                            CancelSaveButton(
+                              onPressedCancel: () {
+                                _profileController.selectedGender.value = '';
+                                _profileController.isGenderSelected.value = false;
+                              },
+                              onPressedSave: () async {
+                                await _profileController.storeUserSetting('gender', _profileController.selectedGender.value);
+                                _profileController.selectedGender.value = '';
+                                _profileController.isGenderSelected.value = false;
+                              },
+                            ),
+                          kH16sizedBox,
+                          const CustomDivider(),
+                          kH16sizedBox,
+                          RowTextButton(
                             text: ksDateOfBirth.tr,
                             buttonText: ksAdd.tr,
                             showAddButton: false,
                             onPressedAdd: null,
                             buttonWidth: 149,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16),
-                            child: InfoContainer(
-                              prefixIcon: BipHip.calendarFill,
-                              suffixIcon: BipHip.edit,
-                              text: DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!),
-                              suffixOnPressed: () {
-                                _profileController.isRouteFromAboutInfo.value = true;
-                                Get.toNamed(krSelectBirthday);
-                              },
+                          if (_profileController.userData.value!.dob != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16),
+                              child: InfoContainer(
+                                prefixIcon: BipHip.calendarFill,
+                                suffixIcon: BipHip.edit,
+                                text: DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!),
+                                suffixOnPressed: () {
+                                  _profileController.isRouteFromAboutInfo.value = true;
+                                  Get.toNamed(krSelectBirthday);
+                                },
+                              ),
                             ),
-                          ),
                           kH16sizedBox,
                           const CustomDivider(),
                           kH16sizedBox,
@@ -905,6 +963,43 @@ class _RelationshipStatusListContent extends StatelessWidget {
                     profileController.relationshipStatus.value = value;
                   },
                 ));
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _GenderListContent extends StatelessWidget {
+  const _GenderListContent({
+    Key? key,
+    required this.profileController,
+  }) : super(key: key);
+
+  final ProfileController profileController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: profileController.genderList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Obx(
+              () => RadioListTile(
+                title: Text(profileController.genderList[index]),
+                value: profileController.genderList[index],
+                activeColor: cPrimaryColor,
+                contentPadding: EdgeInsets.zero,
+                groupValue: profileController.tempSelectedGender.value,
+                controlAffinity: ListTileControlAffinity.trailing,
+                onChanged: (value) {
+                  profileController.tempSelectedGender.value = value;
+                },
+              ),
+            );
           },
         ),
       ],

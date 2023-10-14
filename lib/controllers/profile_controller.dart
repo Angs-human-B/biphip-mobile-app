@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/models/common/common_error_model.dart';
+import 'package:bip_hip/models/common/common_user_model.dart';
+import 'package:bip_hip/models/profile/common_user_layer_model.dart';
 import 'package:bip_hip/models/profile/profile_overview_model.dart';
 // import 'package:bip_hip/models/profile/profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -243,28 +245,20 @@ class ProfileController extends GetxController {
     'Divorced',
     'Widowed'
   ]);
+  final RxList genderList = RxList(['Male', 'Female', 'Other']);
 
   final RxList friendActionList = RxList([
-    {
-      'icon':BipHip.unfriend,
-      'action': 'Unfriend',
-      'actionSubtitle': 'Remove your friend'
-    },
-    {
-      'icon':BipHip.unFollow,
-      'action': 'Unfollow',
-      'actionSubtitle': 'Unfollow your friend'
-    },
-    {
-      'icon':BipHip.removeFamily,
-      'action': 'Add Family',
-      'actionSubtitle': 'Add your family'
-    }
+    {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
+    {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow your friend'},
+    {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
   ]);
   final RxString friendActionSelect = RxString('');
   final RxList educationBackgroundList = RxList(['School', 'College']);
   final RxList linkSourceList = RxList(['Facebook', 'LinkedIn', 'Twitter', 'Website']);
   final RxString relationshipStatus = RxString('');
+  final RxString selectedGender = RxString('');
+  final RxString tempSelectedGender = RxString('');
+  final RxBool isGenderSelected = RxBool(false);
   final RxString tempRelationshipStatus = RxString('');
   final RxList schoolList = RxList([]);
   final RxInt schoolID = RxInt(-1);
@@ -1270,6 +1264,7 @@ class ProfileController extends GetxController {
   }
 
   //* update bio API Implementation
+  Rx<CommonUserDataModel?> commonUserLayeredData = Rx<CommonUserDataModel?>(null);
   Future<void> updateBio() async {
     try {
       isEditProfileLoading.value = true;
@@ -1285,7 +1280,9 @@ class ProfileController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        userData.value = User.fromJson(response.data);
+        commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
+        userData.value = commonUserLayeredData.value!.user;
+        ll(userData.value!.bio);
         Get.back();
         Get.back();
         clearBio();
@@ -1323,7 +1320,9 @@ class ProfileController extends GetxController {
 
       if (response.success == true) {
         isEditProfileLoading.value = false;
-        userData.value = User.fromJson(response.data);
+        commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
+        userData.value = commonUserLayeredData.value!.user;
+        ll(userData.value!.dob);
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
@@ -1382,13 +1381,15 @@ class ProfileController extends GetxController {
       Map<String, dynamic> body = {'key': key.toString(), 'value': value.toString()};
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
-        url: kuSetProfilePicture,
+        url: kuSetGeneralSetting,
         body: body,
         token: token,
       ) as CommonDM;
 
       if (response.success == true) {
-        userData.value = User.fromJson(response.data);
+        commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
+        userData.value = commonUserLayeredData.value!.user;
+
         isEditProfileLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -1420,7 +1421,9 @@ class ProfileController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        userData.value = User.fromJson(response.data);
+        ll(response.data);
+        commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
+        userData.value = commonUserLayeredData.value!.user;
         isEditProfileLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {

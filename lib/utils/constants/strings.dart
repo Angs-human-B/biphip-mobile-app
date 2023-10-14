@@ -88,6 +88,7 @@ const String ksChangeBirthday = 'You can change your birthday from your profile 
 const String ksChangeGender = 'You can change your gender from your profile settings.';
 const String ksSelectDOB = "Select date of birth";
 const String ksSelectGender = 'Select Gender';
+const String ksGender = 'Gender';
 const String ksChooseInterest = 'Choose your interest';
 const String ksChooseProfession = 'Let us know your profession!';
 const String ksEditYourProfession = 'Edit your profession';

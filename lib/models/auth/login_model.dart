@@ -1,4 +1,6 @@
-import 'package:bip_hip/models/profile/profile_overview_model.dart';
+
+
+import 'package:bip_hip/models/common/common_user_model.dart';
 
 class LoginModel {
   User user;

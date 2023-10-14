@@ -83,7 +83,7 @@ class EditProfile extends StatelessWidget {
                                 ),
                                 child: ClipOval(
                                   child: Image.network(
-                                    _profileController.profileData.value!.user!.profilePicture.toString(),
+                                    Environment.imageBaseUrl + _profileController.profileData.value!.user!.profilePicture.toString(),
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => ClipOval(
                                       child: Image.asset(
@@ -132,7 +132,7 @@ class EditProfile extends StatelessWidget {
                               color: cBlackColor,
                               width: width,
                               child: Image.network(
-                                _profileController.profileData.value!.user!.coverPhoto.toString(),
+                                Environment.imageBaseUrl + _profileController.profileData.value!.user!.coverPhoto.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
