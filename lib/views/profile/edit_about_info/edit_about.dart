@@ -332,7 +332,7 @@ class EditAboutInfo extends StatelessWidget {
                           CustomSelectionButton(
                             prefixIcon: BipHip.love,
                             onPressed: () {
-                              _profileController.showEditRelationshipStatus.value = true;
+                              _profileController.tempRelationshipStatus.value = checkNullOrStringNull(_profileController.userData.value!.relation);
                               _globalController.commonBottomSheet(
                                 context: context,
                                 content: _RelationshipStatusListContent(
@@ -344,7 +344,8 @@ class EditAboutInfo extends StatelessWidget {
                                   Get.back();
                                 },
                                 onPressRightButton: () {
-                                  if (_profileController.relationshipStatus.value != '') {
+                                  if (_profileController.tempRelationshipStatus.value != '') {
+                                    _profileController.relationshipStatus.value = _profileController.tempRelationshipStatus.value;
                                     _profileController.showEditRelationshipStatus.value = true;
                                   }
                                   Get.back();
@@ -357,7 +358,7 @@ class EditAboutInfo extends StatelessWidget {
                             },
                             text: _profileController.relationshipStatus.value != ''
                                 ? _profileController.relationshipStatus.value
-                                : checkNullOrStringNull(_profileController.profileData.value!.user!.relation) ?? ksSelectRelationshipStatus,
+                                : checkNullOrStringNull(_profileController.userData.value!.relation) ?? ksSelectRelationshipStatus,
                             hintText: ksSelectRelationshipStatus.tr,
                           ),
                           // InfoContainer(
@@ -410,10 +411,13 @@ class EditAboutInfo extends StatelessWidget {
                           if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
                             CancelSaveButton(
                               onPressedCancel: () {
+                                _profileController.relationshipStatus.value = '';
                                 _profileController.showEditRelationshipStatus.value = false;
                               },
-                              onPressedSave: () {
+                              onPressedSave: () async {
+                                _profileController.storeUserSetting('relationship', _profileController.relationshipStatus.value);
                                 _profileController.showEditRelationshipStatus.value = false;
+                                _profileController.relationshipStatus.value = '';
                               },
                             ),
                           kH16sizedBox,
@@ -444,7 +448,6 @@ class EditAboutInfo extends StatelessWidget {
                                 onPressRightButton: () {
                                   if (_profileController.tempSelectedGender.value != '') {
                                     _profileController.selectedGender.value = _profileController.tempSelectedGender.value;
-                                    ll(_profileController.selectedGender.value);
                                     _profileController.isGenderSelected.value = true;
                                   }
                                   Get.back();
@@ -957,10 +960,10 @@ class _RelationshipStatusListContent extends StatelessWidget {
                   value: profileController.relationshipStatusList[index],
                   activeColor: cPrimaryColor,
                   contentPadding: EdgeInsets.zero,
-                  groupValue: profileController.relationshipStatus.value,
+                  groupValue: profileController.tempRelationshipStatus.value,
                   controlAffinity: ListTileControlAffinity.trailing,
                   onChanged: (value) {
-                    profileController.relationshipStatus.value = value;
+                    profileController.tempRelationshipStatus.value = value;
                   },
                 ));
           },
