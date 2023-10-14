@@ -151,6 +151,7 @@ const String ksHelpSupport = 'Help & support';
 const String ksSettingsPrivacy = 'Settings & privacy';
 const String ksSettings = 'Settings';
 const String ksNameChangeWarning = 'If you change your name, You can’t change it again for 60 days.';
+const String ksAction = 'Action';
 
 //---------------------------------------
 //* Post widgets

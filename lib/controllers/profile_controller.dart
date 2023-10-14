@@ -261,6 +261,7 @@ class ProfileController extends GetxController {
       'actionSubtitle': 'Add your family'
     }
   ]);
+  final RxString friendActionSelect = RxString('');
   final RxList educationBackgroundList = RxList(['School', 'College']);
   final RxList linkSourceList = RxList(['Facebook', 'LinkedIn', 'Twitter', 'Website']);
   final RxString relationshipStatus = RxString('');

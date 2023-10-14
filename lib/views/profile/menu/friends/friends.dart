@@ -7,7 +7,6 @@ class Friends extends StatelessWidget {
   Friends({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -323,33 +322,30 @@ class AllFriendList extends StatelessWidget {
                     _profileController.allFriendsLists[index]['name'],
                     style: semiBold14TextStyle(cBlackColor),
                   ),
-                  trailing: CustomIconButton(onPress: () {
-                    _globalController.commonBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    content: _FriendActionContent(
-                      profileController: _profileController,
-                    ),
-                    onPressCloseButton: () {
-                      Get.back();
-                    },
-                    onPressRightButton: null,
-                    rightText: ksDone.tr,
-                    rightTextStyle: regular14TextStyle(cPrimaryColor),
-                    title: ksAddFriend.tr,
-                    isRightButtonShow: true,
-                    bottomSheetHeight: height * .4,
-                  );
-                  }, icon: BipHip.system),
+                  trailing: CustomIconButton(
+                      onPress: () {
+                        _globalController.commonBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          content: _FriendActionContent(
+                            profileController: _profileController,
+                          ),
+                          onPressCloseButton: () {
+                            Get.back();
+                          },
+                          onPressRightButton: () {
+                            Get.back();
+                            _profileController.friendActionSelect.value = '';
+                          },
+                          rightText: ksDone.tr,
+                          rightTextStyle: regular14TextStyle(cPrimaryColor),
+                          title: ksAction.tr,
+                          isRightButtonShow: true,
+                          bottomSheetHeight: height * .33,
+                        );
+                      },
+                      icon: BipHip.system),
                 ),
-                // child: CustomListViewItem(
-                //   backgroundImage: AssetImage(_profileController.allFriendsLists[index]['image']),
-                //   name: _profileController.allFriendsLists[index]['name'],
-                //   firstButtonText: ksMessage.tr,
-                //   secondButtonText: ksRemove.tr,
-                //   firstButtonOnPressed: () {},
-                //   secondButtonOnPressed: () {},
-                // ),
               ),
             ),
           );
@@ -477,8 +473,6 @@ class BottomSheetContent extends StatelessWidget {
   }
 }
 
-
-
 class _FriendActionContent extends StatelessWidget {
   const _FriendActionContent({
     Key? key,
@@ -494,20 +488,34 @@ class _FriendActionContent extends StatelessWidget {
         ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: profileController.linkSourceList.length,
+          itemCount: profileController.friendActionList.length,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
               () => CustomListTile(
-                title: Text(profileController.linkSourceList[index]),
+                leading: Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: cNeutralColor,
+                  ),
+                  height: h28,
+                  width: h28,
+                  child: Icon(
+                    profileController.friendActionList[index]['icon'],
+                    color: cBlackColor,
+                    size: isDeviceScreenLarge() ? h18 : h14,
+                  ),
+                ),
+                title: profileController.friendActionList[index]['action'],
+                subtitle: profileController.friendActionList[index]['actionSubtitle'],
                 trailing: CustomRadioButton(
                   onChanged: () {
-                    profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                    profileController.friendActionSelect.value = profileController.friendActionList[index]['action'];
                   },
-                  isSelected: profileController.tempLinkSource.value == profileController.linkSourceList[index],
+                  isSelected: profileController.friendActionSelect.value == profileController.friendActionList[index]['action'],
                 ),
-                itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
+                itemColor: profileController.friendActionSelect.value == profileController.friendActionList[index]['action'] ? cPrimaryTint3Color : cWhiteColor,
                 onPressed: () {
-                  profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                  profileController.friendActionSelect.value = profileController.friendActionList[index]['action'];
                 },
               ),
             );
