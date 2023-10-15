@@ -185,4 +185,102 @@ class ApiController {
       dio.close();
     }
   }
+
+  Future<dynamic> mediaUpload({
+    String? token,
+    required String url,
+    required dynamic key,
+    required dynamic value,
+    int? timer,
+  }) async {
+    final Uri uri = Uri.parse(Environment.apiUrl + url);
+    http.MultipartRequest request = http.MultipartRequest(kPost, uri);
+    String error = ksSomethingWentWrong.tr;
+    try {
+      request.headers.addAll(
+        {
+          'Authorization': 'Bearer $token',
+          'content-Type': 'multipart/form-data',
+        },
+      );
+      // If image is a file on disk, use fromPath instead of fromBytes
+      request.files.add(await http.MultipartFile.fromPath(key, value));
+
+      var response = await request.send();
+      ll("response statusCode : ${response.statusCode}");
+      if (response.statusCode == 200) {
+        var res = (await response.stream.transform(utf8.decoder).first);
+        Map<String, dynamic> de = jsonDecode(res);
+        ll(de.toString());
+        CommonDM cm = convertToCommonObject(de);
+        return cm;
+      } else if (response.statusCode == 401 || response.statusCode == 403) {
+        await SpController().onLogout();
+        Get.offAllNamed(krLogin);
+        _globalController.showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
+        return null;
+      } else {
+        if (!Get.isSnackbarOpen) {
+          _globalController.showSnackBar(title: "${ksError.tr}${response.statusCode}", message: error, color: cRedColor);
+        }
+        return null;
+      }
+    } catch (e) {
+      log(e.toString());
+      if (!Get.isSnackbarOpen) {
+        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+      }
+      return null;
+    }
+  }
+
+  Future<dynamic> multiMediaUpload({
+    String? token,
+    required String url,
+    required dynamic key,
+    required dynamic values,
+    int? timer,
+  }) async {
+    final Uri uri = Uri.parse(Environment.apiUrl + url);
+    http.MultipartRequest request = http.MultipartRequest(kPost, uri);
+    String error = ksSomethingWentWrong.tr;
+    try {
+      request.headers.addAll(
+        {
+          'Authorization': 'Bearer $token',
+          'content-Type': 'multipart/form-data',
+        },
+      );
+      // If image is a file on disk, use fromPath instead of fromBytes
+      for (var value in values) {
+        request.files.add(await http.MultipartFile.fromPath(key, value));
+      }
+
+      var response = await request.send();
+      ll("response statusCode : ${response.statusCode}");
+      if (response.statusCode == 200) {
+        var res = (await response.stream.transform(utf8.decoder).first);
+        Map<String, dynamic> de = jsonDecode(res);
+        ll(de['data']);
+        CommonDM cm = convertToCommonObject(de);
+        return cm;
+      } else if (response.statusCode == 401 || response.statusCode == 403) {
+        await SpController().onLogout();
+        Get.offAllNamed(krLogin);
+        _globalController.showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
+        return null;
+      } else {
+        if (!Get.isSnackbarOpen) {
+          _globalController.showSnackBar(title: "${ksError.tr}${response.statusCode}", message: error, color: cRedColor);
+        }
+        return null;
+      }
+    } catch (e) {
+      log(e.toString());
+      if (!Get.isSnackbarOpen) {
+        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+      }
+      return null;
+    }
+  }
 }
