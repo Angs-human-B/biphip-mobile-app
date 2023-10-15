@@ -18,7 +18,7 @@ class BinderController implements Bindings {
     Get.put<ProfileController>(ProfileController());
     Get.put<CreatePostController>(CreatePostController());
     Get.put<PostReactionController>(PostReactionController());
-    Get.put<MenuSectionController>(MenuSectionController());
     Get.put<GalleryController>(GalleryController());
+    Get.put<MenuSectionController>(MenuSectionController());
   }
 }

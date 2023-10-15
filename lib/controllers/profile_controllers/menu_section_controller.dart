@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/gallery_controller.dart';
 import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/models/common/common_error_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -5,6 +6,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 class MenuSectionController extends GetxController {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
+  final GalleryController _galleryController = Get.find<GalleryController>();
   final GlobalController _globalController = Get.find<GlobalController>();
   final RxList tapAbleButtonState = RxList([true, false, false]);
   final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
@@ -25,7 +27,7 @@ class MenuSectionController extends GetxController {
     {'text': 'Shop', 'icon': BipHip.shopFill},
   ];
 
-  void menuPressFunction(index) {
+  void menuPressFunction(index) async {
     if (index == 0) {
       ll('Friend');
       resetTapButtonData();
@@ -36,7 +38,12 @@ class MenuSectionController extends GetxController {
       Get.toNamed(krFamily);
     } else if (index == 2) {
       ll('Image');
-      Get.toNamed(krGalleryPhotos); //*new changes for gallery photos
+
+      _galleryController.resetTapButtonData();
+      Get.toNamed(krGalleryPhotos);
+      await _galleryController.getGalleryAlbumList();
+      // ll(_galleryController.imageDataList[0].title);
+      //*new changes for gallery photos
     } else if (index == 3) {
       ll('Videos');
       Get.toNamed(krGalleryVideos); //*new changes for gallery Videos
