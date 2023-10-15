@@ -45,3 +45,15 @@ class GenderListModel {
         genders: List<String>.from(json["genders"].map((x) => x)),
     );
 }
+
+class PositionListModel {
+    List<String> positions;
+
+    PositionListModel({
+        required this.positions,
+    });
+
+    factory PositionListModel.fromJson(Map<String, dynamic> json) => PositionListModel(
+        positions: List<String>.from(json["positions"].map((x) => x)),
+    );
+}

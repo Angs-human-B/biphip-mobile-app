@@ -190,6 +190,7 @@ class ProfileController extends GetxController {
   //-----------------
   TextEditingController commonEditTextEditingController = TextEditingController();
   TextEditingController commonEditSecondaryTextEditingController = TextEditingController();
+  TextEditingController tempCommonEditSecondaryTextEditingController = TextEditingController();
   RxString commonEditTextfieldHintText = RxString('');
   RxBool isCommonEditDatePickerShown = RxBool(false);
   RxBool isCommonEditPrivacyShown = RxBool(false);
@@ -209,7 +210,7 @@ class ProfileController extends GetxController {
   final TextEditingController presentAddressTextEditingController = TextEditingController();
   final TextEditingController educationInstituteTextEditingController = TextEditingController();
   final TextEditingController companyNameTextEditingController = TextEditingController();
-  final TextEditingController designationTextEditingController = TextEditingController();
+  TextEditingController designationTextEditingController = TextEditingController();
   final TextEditingController phoneTextEditingController = TextEditingController();
   final TextEditingController emailTextEditingController = TextEditingController();
   final TextEditingController linkTextEditingController = TextEditingController();
@@ -233,6 +234,7 @@ class ProfileController extends GetxController {
   final RxInt cityListIndex = RxInt(-1);
   final RxList relationshipStatusList = RxList([]);
   final RxList genderList = RxList([]);
+  final List<String> positionList = [];
 
   final RxList friendActionList = RxList([
     {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
@@ -948,6 +950,7 @@ class ProfileController extends GetxController {
         'position': designationTextEditingController.text.trim(),
         'is_current': isCommonEditCheckBoxSelected.value ? '1' : '0'
       };
+      ll(body);
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
         url: kuUpdateWork,
@@ -1578,8 +1581,9 @@ class ProfileController extends GetxController {
     } catch (e) {
       ll('getGenderList error: $e');
     }
-  } //* get relationship list API
+  }
 
+  //* get relationship list API
   Rx<RelationshipListModel?> relationshipListData = Rx<RelationshipListModel?>(null);
   Future<void> getRelationshipList() async {
     try {
@@ -1603,6 +1607,35 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       ll('getRelationshipList error: $e');
+    }
+  }
+
+  //* get position list API
+  Rx<PositionListModel?> positionListData = Rx<PositionListModel?>(null);
+  RxList<String> temp = RxList<String>();
+  Future<void> getPositionList() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllPositions,
+      ) as CommonDM;
+      if (response.success == true) {
+        positionList.clear();
+        positionListData.value = PositionListModel.fromJson(response.data);
+        positionList.addAll(positionListData.value!.positions);
+        temp.addAll(positionList);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getPositionList error: $e');
     }
   }
 }

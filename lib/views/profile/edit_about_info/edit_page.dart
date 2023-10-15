@@ -1,8 +1,6 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-// import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
-// import 'package:flutter/cupertino.dart';
 
 class EditPage extends StatelessWidget {
   EditPage({super.key});
@@ -110,6 +108,7 @@ class EditPage extends StatelessWidget {
                             : null,
                         onSuffixPress: () {
                           _profileController.commonEditTextEditingController.clear();
+                          _profileController.showCommonEditSuffixIcon.value = false;
                         },
                         onChanged: (value) {
                           _profileController.showCommonEditSuffixIcon.value = true;
@@ -125,20 +124,52 @@ class EditPage extends StatelessWidget {
                       if (_profileController.isSecondaryTextfieldShown.value)
                         Padding(
                           padding: const EdgeInsets.only(bottom: k16Padding),
-                          child: CustomModifiedTextField(
-                            controller: _profileController.commonEditSecondaryTextEditingController,
-                            hint: ksDesignation.tr,
-                            prefixIcon: BipHip.work,
-                            suffixIcon: _profileController.showCommonSecondaryEditSuffixIcon.value ? BipHip.circleCrossNew : null,
-                            borderRadius: k8BorderRadius,
-                            onSuffixPress: () {
-                              _profileController.commonEditSecondaryTextEditingController.clear();
+                          child: Autocomplete(
+                            // initialValue: _profileController.commonEditSecondaryTextEditingController.,
+                            optionsBuilder: (TextEditingValue textEditingValue) {
+                              return _profileController.temp.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
                             },
-                            onChanged: (value) {
-                              _profileController.showCommonSecondaryEditSuffixIcon.value = true;
+                            onSelected: (option) {
+                              _profileController.designationTextEditingController.text = option;
+
+                              ll(option);
+                            },
+                            fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                              // _profileController.commonEditSecondaryTextEditingController = textEditingController;
+                              return CustomModifiedTextField(
+                                controller: _profileController.commonEditSecondaryTextEditingController,
+                                focusNode: focusNode,
+                                hint: ksDesignation.tr,
+                                prefixIcon: BipHip.work,
+                                suffixIcon: _profileController.showCommonSecondaryEditSuffixIcon.value ? BipHip.circleCrossNew : null,
+                                borderRadius: k8BorderRadius,
+                                onSuffixPress: () {
+                                  _profileController.commonEditSecondaryTextEditingController.clear();
+                                  _profileController.showCommonSecondaryEditSuffixIcon.value = false;
+                                },
+                                onChanged: (value) {
+                                  _profileController.showCommonSecondaryEditSuffixIcon.value = true;
+                                },
+                              );
                             },
                           ),
                         ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(bottom: k16Padding),
+                      //   child: CustomModifiedTextField(
+                      //     controller: _profileController.commonEditSecondaryTextEditingController,
+                      //     hint: ksDesignation.tr,
+                      //     prefixIcon: BipHip.work,
+                      //     suffixIcon: _profileController.showCommonSecondaryEditSuffixIcon.value ? BipHip.circleCrossNew : null,
+                      //     borderRadius: k8BorderRadius,
+                      //     onSuffixPress: () {
+                      //       _profileController.commonEditSecondaryTextEditingController.clear();
+                      //     },
+                      //     onChanged: (value) {
+                      //       _profileController.showCommonSecondaryEditSuffixIcon.value = true;
+                      //     },
+                      //   ),
+                      // ),
                       // if (_profileController.isCommonEditDatePickerShown.value)
                       //   Padding(
                       //     padding: const EdgeInsets.symmetric(vertical: k16Padding),
@@ -253,7 +284,7 @@ class EditPage extends StatelessWidget {
                               onPressed: () {
                                 ll(_profileController.functionFlag.value);
                                 _profileController.selectFunction(_profileController.functionFlag.value);
-                                Get.back();
+                                // Get.back();
                                 //_profileController.clearCommonEditPageData();
                               }),
                         ],

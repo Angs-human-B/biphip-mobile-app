@@ -244,6 +244,7 @@ class EditProfile extends StatelessWidget {
                               await _profileController.getInterestList();
                               await _profileController.getGenderList();
                               await _profileController.getRelationshipList();
+                              await _profileController.getPositionList();
                             },
                           ),
                           kH20sizedBox

@@ -11,8 +11,8 @@
 const String kuGetAllProfessions = '/mobile/get-all-professions'; //DONE
 const String kuGetAllInterests = '/mobile/get-all-interests'; //DONE
 const String kuGetAllLinkTypes = '/mobile/get-all-link-types';
-const String kuGetAllRelationShips = '/mobile/get-all-relationships';
-const String kuGetAllGenders = '/mobile/get-all-genders';
+const String kuGetAllRelationShips = '/mobile/get-all-relationships'; //DONE
+const String kuGetAllGenders = '/mobile/get-all-genders'; //DONE
 const String kuGetAllCities = '/mobile/get-all-cities';
 const String kuGetAllSchools = '/mobile/get-all-schools';
 const String kuGetAllCompanies = '/mobile/get-all-companies';
