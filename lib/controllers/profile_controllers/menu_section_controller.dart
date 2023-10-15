@@ -90,6 +90,7 @@ class MenuSectionController extends GetxController {
       'icon': BipHip.setting,
       'onPressed': () {
         ll('Setting');
+        Get.toNamed(krSettings);
       }
     },
     {
@@ -160,7 +161,6 @@ class MenuSectionController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-       
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);

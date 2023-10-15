@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 class ApiController {
@@ -131,6 +132,57 @@ class ApiController {
       return null;
     } finally {
       client.close();
+    }
+  }
+
+  // dio post type of request
+  Future<dynamic> commonPostDio({
+    required String url,
+    required String? token,
+    required body,
+    int? timer,
+  }) async {
+    ll("Url : $url");
+    Dio dio = Dio();
+    dio.options.headers['content-Type'] = 'application/json';
+    dio.options.headers["authorization"] = "Bearer $token";
+    String error = ksSomethingWentWrong.tr;
+    try {
+      var response = await dio.post(Environment.apiUrl + url, data: body).timeout(Duration(seconds: timer ?? 60), onTimeout: () {
+        error = ksConnectionTimeoutMessage.tr;
+        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        throw TimeoutException(ksConnectionTimeoutMessage.tr);
+      });
+      ll("response statusCode : ${response.statusCode}");
+      if (response.statusCode == 200) {
+        ll("response body : ${response.data}");
+        CommonDM cm = convertToCommonObject(response.data);
+        return cm;
+        // return jsonDecode(response.body);
+      } else if (response.statusCode == 401 || response.statusCode == 403) {
+        await SpController().onLogout();
+        Get.offAllNamed(krLogin);
+        _globalController.showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
+        return null;
+      } else {
+        if (!Get.isSnackbarOpen) {
+          _globalController.showSnackBar(title: "${ksError.tr}${response.statusCode}", message: error, color: cRedColor);
+        }
+        return null;
+      }
+    } on DioException catch (e) {
+      if (e.error is SocketException) {
+        error = ksNoInternetConnectionMessage.tr;
+        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+
+        return null;
+      } else {
+        log(e.toString());
+        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        return null;
+      }
+    } finally {
+      dio.close();
     }
   }
 }

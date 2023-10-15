@@ -1,14 +1,14 @@
 import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/profile/menu/friends.dart';
+import 'package:bip_hip/views/profile/menu/friends/friends.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 
 class Family extends StatelessWidget {
   Family({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,23 +30,24 @@ class Family extends StatelessWidget {
                 style: kTextButtonStyle,
                 onPressed: () {
                   _profileController.initializeRelationText();
-                  _globalController.commonBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    isSearchShow: true,
-                    bottomSheetHeight: height * .6,
-                    content: AddFamilyMemberBottomSheetContent(),
-                    onPressCloseButton: () {
-                      Get.back();
-                    },
-                    onPressRightButton: () {
-                      Get.back();
-                    },
-                    rightText: ksSend.tr,
-                    rightTextStyle: medium14TextStyle(cPrimaryColor),
-                    title: ksAddFamilyMember.tr,
-                    isRightButtonShow: true,
-                  );
+                  Get.toNamed(krAddFamily);
+                  // _globalController.commonBottomSheet(
+                  //   context: context,
+                  //   isScrollControlled: true,
+                  //   isSearchShow: true,
+                  //   bottomSheetHeight: height * .6,
+                  //   content: AddFamilyMemberBottomSheetContent(),
+                  //   onPressCloseButton: () {
+                  //     Get.back();
+                  //   },
+                  //   onPressRightButton: () {
+                  //     Get.back();
+                  //   },
+                  //   rightText: ksSend.tr,
+                  //   rightTextStyle: medium14TextStyle(cPrimaryColor),
+                  //   title: ksAddFamilyMember.tr,
+                  //   isRightButtonShow: true,
+                  // );
                 },
                 child: Text(
                   ksAdd.tr,

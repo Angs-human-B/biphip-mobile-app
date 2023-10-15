@@ -1,4 +1,3 @@
-import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
@@ -7,8 +6,8 @@ import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 class SelectProfessionScreen extends StatelessWidget {
   SelectProfessionScreen({super.key});
 
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
   final ProfileController _profileController = Get.find<ProfileController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,56 +44,60 @@ class SelectProfessionScreen extends StatelessWidget {
           ),
           backgroundColor: cWhiteColor,
           body: SizedBox(
-            height: height,
             width: width,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: Obx(
-                () => Column(
-                  children: [
-                    if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
-                    if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
-                    TopTitleAndSubtitle(
-                      title: !_profileController.isRouteFromAboutInfo.value ? ksChooseProfession.tr : '',
-                      subTitle: ksChooseProfessionSubtitle.tr,
-                    ),
-                    kH16sizedBox,
-                    Wrap(
-                      alignment: WrapAlignment.start,
-                      direction: Axis.horizontal,
-                      spacing: 8.0,
-                      children: [
-                        for (int i = 0; i < profession.length; i++)
-                          CustomChoiceChips(
-                            label: profession[i],
-                            isSelected: (_authenticationController.professionIndex.value == i && _authenticationController.isProfessionSelected.value),
-                            onSelected: (value) {
-                              _authenticationController.professionIndex.value = i;
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                child: Obx(
+                  () => Column(
+                    children: [
+                      if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                      if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                      TopTitleAndSubtitle(
+                        title: !_profileController.isRouteFromAboutInfo.value ? ksChooseProfession.tr : '',
+                        subTitle: ksChooseProfessionSubtitle.tr,
+                      ),
+                      kH16sizedBox,
+                      Wrap(
+                        alignment: WrapAlignment.start,
+                        direction: Axis.horizontal,
+                        spacing: 8.0,
+                        children: [
+                          for (int i = 0; i < _globalController.professionList.length; i++)
+                            CustomChoiceChips(
+                              label: _globalController.professionList[i],
+                              isSelected: (_globalController.professionIndex.value == i),
+                              onSelected: (value) {
+                                _globalController.professionIndex.value = i;
+                                // _globalController.isProfessionSelected.value = value;
+                              },
+                            )
+                        ],
+                      ),
+                      kH16sizedBox,
+                      CustomElevatedButton(
+                        label: _profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
+                        onPressed: _globalController.professionIndex.value != -1
+                            ? () async {
+                                if (!_profileController.isRouteFromAboutInfo.value) {
+                                  _globalController.selectedProfession.value = _globalController.professionList[_globalController.professionIndex.value];
+                                  Get.toNamed(krSelectInterest);
+                                } else {
+                                  _globalController.selectedProfession.value = _globalController.professionList[_globalController.professionIndex.value];
+                                  Get.back();
 
-                              _authenticationController.isProfessionSelected.value = value;
-                            },
-                          )
-                      ],
-                    ),
-                    const Spacer(),
-                    CustomElevatedButton(
-                      label: _profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
-                      onPressed: _authenticationController.isProfessionSelected.value
-                          ? () {
-                              if (!_profileController.isRouteFromAboutInfo.value) {
-                                Get.toNamed(krSelectInterest);
-                              } else {
-                                _profileController.selectedProfession.value = profession[_authenticationController.professionIndex.value];
-                                Get.back();
-                                _profileController.isRouteFromAboutInfo.value = false;
+                                  _profileController.isRouteFromAboutInfo.value = false;
+                                }
+                                await _profileController.setProfession(_globalController.selectedProfession.value);
                               }
-                            }
-                          : null,
-                      buttonWidth: width - 40,
-                      textStyle: semiBold16TextStyle(cWhiteColor),
-                    ),
-                    kHBottomSizedBox
-                  ],
+                            : null,
+                        buttonWidth: width - 40,
+                        textStyle: semiBold16TextStyle(cWhiteColor),
+                      ),
+                      kHBottomSizedBox
+                    ],
+                  ),
                 ),
               ),
             ),
