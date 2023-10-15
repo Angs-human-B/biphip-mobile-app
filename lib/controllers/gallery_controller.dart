@@ -96,34 +96,10 @@ class GalleryController extends GetxController {
     },
   ];
 
-  // final List galleryAlbumPhotos = [
-  //   {'title': 'Untitled', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
-  //   {'title': 'Poetery', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
-  //   {
-  //     'title': 'Photography',
-  //     'items': '18 Items',
-  //     'image1': 'assets/images/pic4.jpeg',
-  //     'image2': 'assets/images/pic5.jpeg',
-  //     'image3': 'assets/images/pic12.jpeg'
-  //   },
-  //   {'title': 'Painting', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
-  //   {
-  //     'title': 'Storytelling',
-  //     'items': '18 Items',
-  //     'image1': 'assets/images/pic4.jpeg',
-  //     'image2': 'assets/images/pic5.jpeg',
-  //     'image3': 'assets/images/pic12.jpeg'
-  //   },
-  //   {'title': 'Kids', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
-  //   {'title': 'Selling', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
-  //   {'title': 'News', 'items': '18 Items', 'image1': 'assets/images/pic4.jpeg', 'image2': 'assets/images/pic5.jpeg', 'image3': 'assets/images/pic12.jpeg'},
-  // ];
-
+ 
 //*Album List Data
   Rx<AlbumListModel?> albumData = Rx<AlbumListModel?>(null);
   RxList<ImageData> imageDataList = RxList<ImageData>([]);
-  // RxList<ImageData> yourPhotosImageDataList = RxList<ImageData>([]);
-  // RxList<ImageData> galleryImageDataList = RxList<ImageData>([]);
   final RxBool isAlbumListLoading = RxBool(false);
   Future<void> getGalleryAlbumList() async {
     try {
@@ -147,34 +123,7 @@ class GalleryController extends GetxController {
         }
 
         toggleType(0);
-        // for (int index = 0; index < imageDataList.length; index++) {
-        //   if (tapAbleButtonState[0] &&
-        //       (imageDataList[index].title.toString().toLowerCase() == 'profile picture' ||
-        //           imageDataList[index].title.toString().toLowerCase() == 'cover photo')) {
-        //     imageDataList.clear();
-        //     imageDataList.add(imageDataList[index]);
-        //     ll('Hi');
-        //   } else if (tapAbleButtonState[1] &&
-        //       (imageDataList[index].title.toString().toLowerCase() != 'profile picture' ||
-        //           imageDataList[index].title.toString().toLowerCase() != 'cover photo')) {
-        //     imageDataList.clear();
-        //     imageDataList.add(imageDataList[index]);
-        //     ll('Hlw');
-        //   }
-        // }
-
-        // imageList.addAll(albumData.value!);
-
-        // ll(imageDataList[3].title);
-        // for (int index = 0; index < imageDataList.length; index++) {
-        //   if (tapAbleButtonState[0] &&
-        //       (imageDataList[index].title.toString().toLowerCase() == 'profile picture' ||
-        //           imageDataList[index].title.toString().toLowerCase() == 'cover photo')) {
-        //     imageDataList.clear();
-        //     imageDataList.add(imageDataList[index]);
-        //     ll('Hi');
-        //   }
-        // }
+        
         isAlbumListLoading.value = false;
       } else {
         isAlbumListLoading.value = false;

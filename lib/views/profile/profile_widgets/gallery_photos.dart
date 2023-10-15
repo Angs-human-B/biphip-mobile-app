@@ -61,82 +61,37 @@ class GalleryPhotos extends StatelessWidget {
                           ]),
                         ),
                       ),
-                      //*First Tapable Container view
-                      if (_galleryController.tapAbleButtonState[0])
-                        //    for(int index= 0; index< _galleryController.imageDataList.length;index++)
-                        //   if(_galleryController.imageDataList[index].title.toString().toLowerCase() == 'profile picture' ||
-                        // _galleryController.imageDataList[index].title.toString().toLowerCase() == 'cover photo')
-                        //                   final filteredData = _galleryController.imageDataList.where((item) =>
-                        //     item.title.toString().toLowerCase() == 'profile picture' ||
-                        //     item.title.toString().toLowerCase() == 'cover photo'
-                        // ).toList();
-
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: kHorizontalPadding, top: k12Padding, bottom: k12Padding),
-                              child: GridView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: _galleryController.imageDataList.length,
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                    childAspectRatio: 1.2,
-                                    mainAxisSpacing: k12Padding,
-                                    crossAxisCount: 2,
-                                  ),
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      children: [
-                                        Row(children: [
-                                          CommonGalleryPhotoContainer(
-                                            title: _galleryController.imageDataList[index].title,
-                                            subTitle: _galleryController.imageDataList[index].totalImage.toString(),
-                                            image: _galleryController.imageDataList[index].preview,
-                                            onPressed: () {
-                                              Get.toNamed(krPhotos);
-                                            },
-                                          ),
-                                        ]),
-                                      ],
-                                    );
-                                  }),
-                            ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: kHorizontalPadding, top: k12Padding, bottom: k12Padding),
+                            child: GridView.builder(
+                                shrinkWrap: true,
+                                itemCount: _galleryController.imageDataList.length,
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 1.2,
+                                  mainAxisSpacing: k12Padding,
+                                  crossAxisCount: 2,
+                                ),
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      Row(children: [
+                                        CommonGalleryPhotoContainer(
+                                          title: _galleryController.imageDataList[index].title,
+                                          subTitle: _galleryController.imageDataList[index].totalImage.toString(),
+                                          image: _galleryController.imageDataList[index].preview,
+                                          onPressed: () {
+                                            Get.toNamed(krPhotos);
+                                          },
+                                        ),
+                                      ]),
+                                    ],
+                                  );
+                                }),
                           ),
                         ),
-
-                      //*Second Tapable Container view
-                      if (_galleryController.tapAbleButtonState[1])
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: kHorizontalPadding, top: k12Padding, bottom: k12Padding),
-                              child: GridView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: _galleryController.imageDataList.length,
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                    childAspectRatio: 1.2,
-                                    mainAxisSpacing: k12Padding,
-                                    crossAxisCount: 2,
-                                  ),
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      children: [
-                                        Row(children: [
-                                          CommonGalleryPhotoContainer(
-                                            title: _galleryController.imageDataList[index].title,
-                                            subTitle: _galleryController.imageDataList[index].totalImage.toString(),
-                                            image: _galleryController.imageDataList[index].preview,
-                                            onPressed: () {
-                                              Get.toNamed(krPhotos);
-                                            },
-                                          ),
-                                        ]),
-                                      ],
-                                    );
-                                  }),
-                            ),
-                          ),
-                        ),
+                      ),
                     ],
                   ),
                 ),
