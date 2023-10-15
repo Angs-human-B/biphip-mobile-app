@@ -1329,26 +1329,23 @@ class ProfileController extends GetxController {
   }
 
   //* upload profile photo
-  Future<void> uploadProfilePicture(imageFile) async {
+  Future<void> uploadProfileAndCover(File imageFile, String type) async {
     try {
-      isEditProfileLoading.value = true;
       String? token = await _spController.getBearerToken();
-      Map<String, dynamic> body = {
-        'image': imageFile,
-      };
-      var response = await _apiController.commonApiCall(
-        requestMethod: kPost,
-        url: kuSetProfilePicture,
-        body: body,
+      var response = await _apiController.mediaUpload(
+        url: type == 'profile' ? kuSetProfilePicture : kuSetCoverPhoto,
         token: token,
+        key: 'image',
+        value: imageFile.path,
       ) as CommonDM;
 
       if (response.success == true) {
-        userData.value = User.fromJson(response.data);
-        isEditProfileLoading.value = false;
+        ll(response.data.toString());
+        // userData.value = User.fromJson(response.data);
+        resetImage();
+        Get.back();
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1357,7 +1354,6 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-      isEditProfileLoading.value = false;
       ll('uploadProfilePicture error: $e');
     }
   }

@@ -112,20 +112,19 @@ class PhotoPreview extends StatelessWidget {
                     ),
                     const Spacer(),
                     CustomElevatedButton(
-                        buttonWidth: width - 40,
-                        buttonHeight: h32,
-                        label: ksSave.tr,
-                        onPressed: () async {
-                          if (_profileController.isProfilePicEditor.value) {
-                            _profileController.newProfileImageFile.value = _profileController.profileImageFile.value;
-                            ll(_profileController.newProfileImageFile.value);
-                            await _profileController.uploadProfilePicture(_profileController.newProfileImageFile.value);
-                          } else {
-                            _profileController.newCoverImageFile.value = _profileController.coverImageFile.value;
-                          }
-                          _profileController.resetImage();
-                          Get.back();
-                        }),
+                      buttonWidth: width - 40,
+                      buttonHeight: h32,
+                      label: ksSave.tr,
+                      onPressed: () async {
+                        if (_profileController.isProfilePicEditor.value) {
+                          _profileController.newProfileImageFile.value = _profileController.profileImageFile.value;
+                          await _profileController.uploadProfileAndCover(_profileController.newProfileImageFile.value, 'profile');
+                        } else {
+                          _profileController.newCoverImageFile.value = _profileController.coverImageFile.value;
+                          await _profileController.uploadProfileAndCover(_profileController.newCoverImageFile.value, 'cover');
+                        }
+                      },
+                    ),
                     kHBottomSizedBox
                   ],
                 ),
