@@ -77,10 +77,10 @@ class OTPVerifyScreen extends StatelessWidget {
                                       await _authenticationController.signUpVerify();
                                     } else if (_authenticationController.parentRoute.value == "register") {
                                       await _authenticationController.signUpVerify();
+                                      await _profileController.getInterestList();
                                     } else {
                                       await _authenticationController.forgetPasswordVerify();
                                     }
-                                    await _profileController.getInterestList();
                                   }
                                 : null,
                             buttonWidth: width - 40,

@@ -8,8 +8,8 @@
 //* common api
 //---------------------------------------
 
-const String kuGetAllProfessions = '/mobile/get-all-professions';
-const String kuGetAllInterests = '/mobile/get-all-interests';
+const String kuGetAllProfessions = '/mobile/get-all-professions'; //DONE
+const String kuGetAllInterests = '/mobile/get-all-interests'; //DONE
 const String kuGetAllLinkTypes = '/mobile/get-all-link-types';
 const String kuGetAllRelationShips = '/mobile/get-all-relationships';
 const String kuGetAllGenders = '/mobile/get-all-genders';

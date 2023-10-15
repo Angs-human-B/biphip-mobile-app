@@ -231,20 +231,8 @@ class ProfileController extends GetxController {
   final RxBool showCommonSecondaryEditSuffixIcon = RxBool(false);
   // final RxBool showAddSchool = RxBool(false);
   final RxInt cityListIndex = RxInt(-1);
-  final RxList relationshipStatusList = RxList([
-    'Single',
-    'In a relationship',
-    'Engaged',
-    'Married',
-    'In a civil partnership',
-    'In a domestic partnership',
-    'In an open relationship',
-    'It\'s complicated',
-    'Separated',
-    'Divorced',
-    'Widowed'
-  ]);
-  final RxList genderList = RxList(['Male', 'Female', 'Other']);
+  final RxList relationshipStatusList = RxList([]);
+  final RxList genderList = RxList([]);
 
   final RxList friendActionList = RxList([
     {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
@@ -1562,6 +1550,59 @@ class ProfileController extends GetxController {
     } catch (e) {
       isEditProfileLoading.value = false;
       ll('setInterest error: $e');
+    }
+  }
+
+  //* get gender list API
+  Rx<GenderListModel?> genderListData = Rx<GenderListModel?>(null);
+  Future<void> getGenderList() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllGenders,
+      ) as CommonDM;
+      if (response.success == true) {
+        genderList.clear();
+        genderListData.value = GenderListModel.fromJson(response.data);
+        genderList.addAll(genderListData.value!.genders);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getGenderList error: $e');
+    }
+  } //* get relationship list API
+
+  Rx<RelationshipListModel?> relationshipListData = Rx<RelationshipListModel?>(null);
+  Future<void> getRelationshipList() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllRelationShips,
+      ) as CommonDM;
+      if (response.success == true) {
+        relationshipStatusList.clear();
+        relationshipListData.value = RelationshipListModel.fromJson(response.data);
+        relationshipStatusList.addAll(relationshipListData.value!.relationships);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getRelationshipList error: $e');
     }
   }
 }

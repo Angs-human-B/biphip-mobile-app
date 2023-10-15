@@ -239,9 +239,11 @@ class EditProfile extends StatelessWidget {
                             buttonColor: cLineColor,
                             textStyle: semiBold12TextStyle(cBlackColor),
                             onPressed: () async {
+                              Get.toNamed(krEditAboutInfo);
                               await _profileController.getProfessionList();
                               await _profileController.getInterestList();
-                              Get.toNamed(krEditAboutInfo);
+                              await _profileController.getGenderList();
+                              await _profileController.getRelationshipList();
                             },
                           ),
                           kH20sizedBox
