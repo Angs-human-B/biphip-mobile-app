@@ -88,6 +88,7 @@ const String ksChangeBirthday = 'You can change your birthday from your profile 
 const String ksChangeGender = 'You can change your gender from your profile settings.';
 const String ksSelectDOB = "Select date of birth";
 const String ksSelectGender = 'Select Gender';
+const String ksGender = 'Gender';
 const String ksChooseInterest = 'Choose your interest';
 const String ksChooseProfession = 'Let us know your profession!';
 const String ksEditYourProfession = 'Edit your profession';
@@ -141,6 +142,7 @@ const String ksTermsCondition = 'terms & condition';
 const String ksBuy = 'Buy';
 const String ksGive = 'Give';
 const String ksPostedOn = 'posted on';
+const String ksChangeName = 'Change name';
 
 //---------------------------------------
 //* Menu
@@ -148,6 +150,9 @@ const String ksPostedOn = 'posted on';
 const String ksAllShortcuts = 'All shortcuts';
 const String ksHelpSupport = 'Help & support';
 const String ksSettingsPrivacy = 'Settings & privacy';
+const String ksSettings = 'Settings';
+const String ksNameChangeWarning = 'If you change your name, You can’t change it again for 60 days.';
+const String ksAction = 'Action';
 
 //---------------------------------------
 //* Post widgets
@@ -306,3 +311,14 @@ const String ksCustomAddInstruction = "If you don’t have any kid added in syst
 const String ksSellInformation = "You can sell all kind of product here. Including your brand on that will boost your selling.";
 const String ksAddKidInstructions = "To add kid category, you need to follow the further steps.";
 const String ksBiddingPostDescription = "Selecting bidding post will let the user write their preferred bidding price.";
+//*Newly Added
+const String ksProfile = "Profile";
+const String ksCovers = "Covers";
+const String ks18Items = "18 Items";
+const String ksUntitled = "Untitled";
+const String ksPoetry = "Poetry";
+const String ksPhotography = "Photography";
+const String ksPainting = "Painting";
+const String ksStoryTelling = "StoryTelling";
+const String ksSelling = "Selling";
+const String ksNews = "News";

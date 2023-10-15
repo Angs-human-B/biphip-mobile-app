@@ -8,11 +8,11 @@
 //* common api
 //---------------------------------------
 
-const String kuGetAllProfessions = '/mobile/get-all-professions';
-const String kuGetAllInterests = '/mobile/get-all-interests';
+const String kuGetAllProfessions = '/mobile/get-all-professions'; //DONE
+const String kuGetAllInterests = '/mobile/get-all-interests'; //DONE
 const String kuGetAllLinkTypes = '/mobile/get-all-link-types';
-const String kuGetAllRelationShips = '/mobile/get-all-relationships';
-const String kuGetAllGenders = '/mobile/get-all-genders';
+const String kuGetAllRelationShips = '/mobile/get-all-relationships'; //DONE
+const String kuGetAllGenders = '/mobile/get-all-genders'; //DONE
 const String kuGetAllCities = '/mobile/get-all-cities';
 const String kuGetAllSchools = '/mobile/get-all-schools';
 const String kuGetAllCompanies = '/mobile/get-all-companies';
@@ -67,9 +67,10 @@ const String kuDeleteContact = '/mobile/user/delete-contact'; //DONE
 const String kuStoreLink = '/mobile/user/store-link'; //DONE
 const String kuUpdateLink = '/mobile/user/update-link'; //DONE
 const String kuDeleteLink = '/mobile/user/delete-link'; //DONE
-const String kuUpdateDateOfBirth = '/mobile/user/update-date-of-birth';
+const String kuUpdateDateOfBirth = '/mobile/user/update-date-of-birth'; //DONE
 const String kuUpdateBio = '/mobile/user/update-bio'; //DONE
 const String kuUpdateLanguages = '/mobile/user/update-languages';
+const String kuUpdateUserFullName = '/mobile/user/update-full-name'; //DONE
 
 //* About Section
 const String kuSetGeneralSetting = '/mobile/user/store-user-setting';
@@ -78,6 +79,8 @@ const String kuGetGeneralSetting = '/mobile/user/get-user-setting';
 //* Profile and Cover Photo
 const String kuSetProfilePicture = '/mobile/user/store-profile-picture';
 const String kuSetCoverPhoto = '/user/store-cover-photo';
+//*Photos & Albums
+const String kuAlbumList = '/mobile/user/get-my-albums';
 
 //---------------------------------------
 //* Friends and Family

@@ -20,7 +20,7 @@ class LikeSectionWidget extends StatelessWidget {
           onTap: likeOnTap,
           onLongPress: likeOnLongPressed,
           child: SizedBox(
-            width: 83,
+            width: isGiftShown ? (width - 40) / 4 : (width - 40) / 3,
             height: 44,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -42,7 +42,7 @@ class LikeSectionWidget extends StatelessWidget {
         InkWell(
           onTap: commentOnPressed,
           child: SizedBox(
-            width: 94,
+            width: isGiftShown ? (width - 40) / 4 : (width - 40) / 3,
             height: 44,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +64,7 @@ class LikeSectionWidget extends StatelessWidget {
         InkWell(
           onTap: shareOnPressed,
           child: SizedBox(
-            width: 86,
+            width: isGiftShown ? (width - 40) / 4 : (width - 40) / 3,
             height: 44,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +87,7 @@ class LikeSectionWidget extends StatelessWidget {
           InkWell(
             onTap: giftOnPressed,
             child: SizedBox(
-              width: 72,
+              width: (width - 40) / 4,
               height: 44,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
