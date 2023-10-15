@@ -127,15 +127,17 @@ class EditProfile extends StatelessWidget {
                           kH16sizedBox,
                           ClipRRect(
                             borderRadius: k12CircularBorderRadius,
-                            child: SizedBox(
+                            child: Container(
                               height: 150,
+                              color: cBlackColor,
                               width: width,
                               child: Image.network(
                                 Environment.imageBaseUrl + _profileController.profileData.value!.user!.coverPhoto.toString(),
                                 fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => Image.asset(
-                                  kiCoverPicImageUrl,
-                                  fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  BipHip.imageFile,
+                                  size: kIconSize120,
+                                  color: cIconColor,
                                 ),
                               ),
                             ),
@@ -236,8 +238,13 @@ class EditProfile extends StatelessWidget {
                             buttonWidth: width - 40,
                             buttonColor: cLineColor,
                             textStyle: semiBold12TextStyle(cBlackColor),
-                            onPressed: () {
+                            onPressed: () async {
                               Get.toNamed(krEditAboutInfo);
+                              await _profileController.getProfessionList();
+                              await _profileController.getInterestList();
+                              await _profileController.getGenderList();
+                              await _profileController.getRelationshipList();
+                              await _profileController.getPositionList();
                             },
                           ),
                           kH20sizedBox

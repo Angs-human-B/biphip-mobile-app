@@ -20,13 +20,18 @@ import 'package:bip_hip/views/profile/edit_about_info/edit_page.dart';
 import 'package:bip_hip/views/profile/edit_bio.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
 import 'package:bip_hip/views/create_post/select_category.dart';
-import 'package:bip_hip/views/profile/menu/family.dart';
-import 'package:bip_hip/views/profile/menu/friends.dart';
+import 'package:bip_hip/views/profile/menu/family/add_family.dart';
+import 'package:bip_hip/views/profile/menu/family/family.dart';
+import 'package:bip_hip/views/profile/menu/friends/add_friend.dart';
+import 'package:bip_hip/views/profile/menu/friends/friends.dart';
 import 'package:bip_hip/views/profile/menu/menu.dart';
+import 'package:bip_hip/views/profile/menu/settings/settings.dart';
 import 'package:bip_hip/views/profile/photo_details.dart';
 import 'package:bip_hip/views/profile/photo_preview.dart';
 import 'package:bip_hip/views/profile/photos.dart';
 import 'package:bip_hip/views/profile/profile.dart';
+import 'package:bip_hip/views/profile/profile_widgets/gallery_photos.dart';
+import 'package:bip_hip/views/profile/profile_widgets/gallery_videos.dart';
 import 'package:bip_hip/views/profile/video_details.dart';
 import 'package:bip_hip/views/profile/videos.dart';
 import 'package:bip_hip/views/splash_and_intro/splash_screen.dart';
@@ -65,12 +70,18 @@ const String krPhotoDetails = '/photo-details';
 const String krVideos = '/videos';
 const String krVideoDetails = '/video-details';
 const String krPhotoPreview = '/photo-preview';
+const String krSettings = '/settings';
 const String krEditAboutInfo = '/edit-about-info';
 const String krEdit = '/edit';
+const String krAddFamily = '/add-family';
+const String krAddFriend = '/add-friend';
 
 const String krCreatePost = '/create-post';
 const String krSelectCategory = '/create-post/select-category';
 const String krUploadedImageListPage = '/create-post/uploaded-image-list';
+//*newly Added for gallery photos and videos
+const String krGalleryPhotos = '/gallery-photos';
+const String krGalleryVideos = '/gallery-videos';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -105,7 +116,10 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krVideoDetails, page: () => VideoDetails(), transition: Transition.noTransition),
   GetPage(name: krPhotoPreview, page: () => PhotoPreview(), transition: Transition.noTransition),
   GetPage(name: krEditAboutInfo, page: () => EditAboutInfo(), transition: Transition.noTransition),
+  GetPage(name: krSettings, page: () => Settings(), transition: Transition.noTransition),
   GetPage(name: krEdit, page: () => EditPage(), transition: Transition.noTransition),
+  GetPage(name: krAddFamily, page: () => AddFamily(), transition: Transition.noTransition),
+  GetPage(name: krAddFriend, page: () => AddFriend(), transition: Transition.noTransition),
 
   //* info:: other screens
   GetPage(name: krSplashScreen, page: () => const SplashScreen(), transition: Transition.noTransition),
@@ -116,5 +130,8 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krUploadedImageListPage, page: () => UploadImageListPage(), transition: Transition.rightToLeft),
 
   //* home
-  GetPage(name: krHome, page: () => HomePage(), transition: Transition.noTransition)
+  GetPage(name: krHome, page: () => HomePage(), transition: Transition.noTransition),
+  //*newly added for galler image and videos
+  GetPage(name: krGalleryPhotos, page: () => GalleryPhotos(), transition: Transition.noTransition),
+  GetPage(name: krGalleryVideos, page: () => GalleryVideos(), transition: Transition.noTransition)
 ];

@@ -45,6 +45,7 @@ const double kIconSize60 = 60.0;
 const double kIconSize70 = 70.0;
 const double kIconSize100 = 100.0;
 const double kIconSize150 = 150.0;
+const double kIconSize120 = 120.0;
 const double kIconSize200 = 200.0;
 
 //* size limit comparison constant
@@ -164,7 +165,6 @@ List interest = [
 ];
 
 List genders = ['Male', 'Female', 'Others'];
-
 
 const String kPost = "POST";
 const String kGet = "GET";

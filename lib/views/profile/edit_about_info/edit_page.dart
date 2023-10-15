@@ -1,8 +1,6 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
-import 'package:flutter/cupertino.dart';
 
 class EditPage extends StatelessWidget {
   EditPage({super.key});
@@ -49,6 +47,7 @@ class EditPage extends StatelessWidget {
                             borderColor: cLineColor,
                             contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding),
                             onPressed: () {
+                              _profileController.tempLinkSource.value = _profileController.linkSource.value;
                               _globalController.commonBottomSheet(
                                 context: context,
                                 content:
@@ -60,12 +59,16 @@ class EditPage extends StatelessWidget {
                                 isScrollControlled: true,
                                 bottomSheetHeight:
                                     (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
-                                        ? height * 0.45
+                                        ? height * 0.4
                                         : height * 0.3,
                                 onPressCloseButton: () {
                                   Get.back();
                                 },
                                 onPressRightButton: () {
+                                  if (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink) {
+                                    _profileController.linkSource.value = _profileController.tempLinkSource.value;
+                                    _profileController.commonEditPageIcon.value = _profileController.getLinkIcon(_profileController.linkSource.value);
+                                  }
                                   Get.back();
                                 },
                                 rightText: ksDone.tr,
@@ -85,110 +88,167 @@ class EditPage extends StatelessWidget {
                           ),
                         ),
                       CustomModifiedTextField(
+                        errorText: _profileController.commonEditTextFieldErrorText.value,
                         controller: _profileController.commonEditTextEditingController,
+                        maxLength: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                            ? 15
+                            : 255,
                         hint: _profileController.commonEditTextfieldHintText.value,
-                        prefixIcon: _profileController.commonEditIconData.value,
-                        suffixIcon: BipHip.circleCrossNew,
-                        inputType: _profileController.commonEditTextfieldHintText.value == 'Phone' ? TextInputType.number : TextInputType.text,
+                        prefixIcon: _profileController.commonEditPageIcon.value ?? _profileController.commonEditIconData.value,
+                        suffixIcon: _profileController.showCommonEditSuffixIcon.value ? BipHip.circleCrossNew : null,
+                        inputType: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                            ? TextInputType.number
+                            : TextInputType.text,
                         borderRadius: k8BorderRadius,
+                        inputFormatters: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                            ? [FilteringTextInputFormatter.digitsOnly]
+                            : null,
                         onSuffixPress: () {
                           _profileController.commonEditTextEditingController.clear();
+                          _profileController.showCommonEditSuffixIcon.value = false;
+                        },
+                        onChanged: (value) {
+                          _profileController.showCommonEditSuffixIcon.value = true;
+                          if (_profileController.commonEditTextfieldHintText.value == ksEmail.tr ||
+                              _profileController.commonEditTextfieldHintText.value == ksEditEmail.tr &&
+                                  !_profileController.commonEditTextEditingController.text.isValidEmail) {
+                            _profileController.commonEditTextFieldErrorText.value = ksInvalidEmailErrorMessage.tr;
+                          } else {
+                            _profileController.commonEditTextFieldErrorText.value = '';
+                          }
                         },
                       ),
                       if (_profileController.isSecondaryTextfieldShown.value)
                         Padding(
-                          padding: const EdgeInsets.only(top: k16Padding),
-                          child: CustomModifiedTextField(
-                            controller: _profileController.commonEditSecondaryTextEditingController,
-                            hint: ksDesignation.tr,
-                            prefixIcon: BipHip.work,
-                            suffixIcon: BipHip.circleCrossNew,
-                            borderRadius: k8BorderRadius,
-                            onSuffixPress: () {
-                              _profileController.commonEditSecondaryTextEditingController.clear();
+                          padding: const EdgeInsets.only(bottom: k16Padding),
+                          child: Autocomplete(
+                            // initialValue: _profileController.commonEditSecondaryTextEditingController.,
+                            optionsBuilder: (TextEditingValue textEditingValue) {
+                              return _profileController.temp.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
+                            },
+                            onSelected: (option) {
+                              _profileController.designationTextEditingController.text = option;
+
+                              ll(option);
+                            },
+                            fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                              // _profileController.commonEditSecondaryTextEditingController = textEditingController;
+                              return CustomModifiedTextField(
+                                controller: _profileController.commonEditSecondaryTextEditingController,
+                                focusNode: focusNode,
+                                hint: ksDesignation.tr,
+                                prefixIcon: BipHip.work,
+                                suffixIcon: _profileController.showCommonSecondaryEditSuffixIcon.value ? BipHip.circleCrossNew : null,
+                                borderRadius: k8BorderRadius,
+                                onSuffixPress: () {
+                                  _profileController.commonEditSecondaryTextEditingController.clear();
+                                  _profileController.showCommonSecondaryEditSuffixIcon.value = false;
+                                },
+                                onChanged: (value) {
+                                  _profileController.showCommonSecondaryEditSuffixIcon.value = true;
+                                },
+                              );
                             },
                           ),
                         ),
-                      if (_profileController.isCommonEditDatePickerShown.value)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: k16Padding),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: (width / 2) - 30,
-                                child: CustomSelectionButton(
-                                  prefixIcon: BipHip.calendarFill,
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return SizedBox(
-                                            height: height * 0.4,
-                                            child: CupertinoDatePicker(
-                                              mode: CupertinoDatePickerMode.monthYear,
-                                              onDateTimeChanged: (value) {
-                                                // _profileController.startDateAddress.value = value.year.toString();
-                                              },
-                                            ),
-                                          );
-                                        });
-                                  },
-                                  text: _profileController.startDateAddress.value,
-                                  hintText: ksStartDate.tr,
-                                ),
-                              ),
-                              SizedBox(
-                                width: (width / 2) - 30,
-                                child: CustomSelectionButton(
-                                  prefixIcon: BipHip.calendarFill,
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return SizedBox(
-                                            height: height * 0.4,
-                                            child: CupertinoDatePicker(
-                                              mode: CupertinoDatePickerMode.monthYear,
-                                              onDateTimeChanged: (value) {
-                                                // _profileController.endDateAddress.value = value.year.toString();
-                                              },
-                                            ),
-                                          );
-                                        });
-                                  },
-                                  text: _profileController.endDateAddress.value,
-                                  hintText: ksEndDate.tr,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      kH16sizedBox,
+                      // Padding(
+                      //   padding: const EdgeInsets.only(bottom: k16Padding),
+                      //   child: CustomModifiedTextField(
+                      //     controller: _profileController.commonEditSecondaryTextEditingController,
+                      //     hint: ksDesignation.tr,
+                      //     prefixIcon: BipHip.work,
+                      //     suffixIcon: _profileController.showCommonSecondaryEditSuffixIcon.value ? BipHip.circleCrossNew : null,
+                      //     borderRadius: k8BorderRadius,
+                      //     onSuffixPress: () {
+                      //       _profileController.commonEditSecondaryTextEditingController.clear();
+                      //     },
+                      //     onChanged: (value) {
+                      //       _profileController.showCommonSecondaryEditSuffixIcon.value = true;
+                      //     },
+                      //   ),
+                      // ),
+                      // if (_profileController.isCommonEditDatePickerShown.value)
+                      //   Padding(
+                      //     padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: [
+                      //         SizedBox(
+                      //           width: (width / 2) - 30,
+                      //           child: CustomSelectionButton(
+                      //             prefixIcon: BipHip.calendarFill,
+                      //             onPressed: () {
+                      //               showModalBottomSheet(
+                      //                   context: context,
+                      //                   builder: (context) {
+                      //                     return SizedBox(
+                      //                       height: height * 0.4,
+                      //                       child: CupertinoDatePicker(
+                      //                         mode: CupertinoDatePickerMode.monthYear,
+                      //                         onDateTimeChanged: (value) {
+                      //                           // _profileController.startDateAddress.value = value.year.toString();
+                      //                         },
+                      //                       ),
+                      //                     );
+                      //                   });
+                      //             },
+                      //             text: _profileController.startDateAddress.value,
+                      //             hintText: ksStartDate.tr,
+                      //           ),
+                      //         ),
+                      //         SizedBox(
+                      //           width: (width / 2) - 30,
+                      //           child: CustomSelectionButton(
+                      //             prefixIcon: BipHip.calendarFill,
+                      //             onPressed: () {
+                      //               showModalBottomSheet(
+                      //                   context: context,
+                      //                   builder: (context) {
+                      //                     return SizedBox(
+                      //                       height: height * 0.4,
+                      //                       child: CupertinoDatePicker(
+                      //                         mode: CupertinoDatePickerMode.monthYear,
+                      //                         onDateTimeChanged: (value) {
+                      //                           // _profileController.endDateAddress.value = value.year.toString();
+                      //                         },
+                      //                       ),
+                      //                     );
+                      //                   });
+                      //             },
+                      //             text: _profileController.endDateAddress.value,
+                      //             hintText: ksEndDate.tr,
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
                       if (_profileController.isCommonEditPrivacyShown.value || _profileController.isCommonEditCheckBoxShown.value)
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            if (_profileController.isCommonEditPrivacyShown.value)
-                              OutLinedButton(
-                                buttonWidth: 80,
-                                buttonHeight: 25,
-                                onPress: () {},
-                                buttonText: ksPublic.tr,
-                                buttonTextStyle: semiBold12TextStyle(cBlackColor),
-                                borderColor: cLineColor,
-                                suffixWidget: const Padding(
-                                  padding: EdgeInsets.only(right: k8Padding),
-                                  child: Icon(
-                                    BipHip.world,
-                                    color: cIconColor,
-                                    size: kIconSize16,
-                                  ),
-                                ),
-                              ),
+                            // if (_profileController.isCommonEditPrivacyShown.value)
+                            //   OutLinedButton(
+                            //     buttonWidth: 80,
+                            //     buttonHeight: 25,
+                            //     onPress: () {},
+                            //     buttonText: ksPublic.tr,
+                            //     buttonTextStyle: semiBold12TextStyle(cBlackColor),
+                            //     borderColor: cLineColor,
+                            //     suffixWidget: const Padding(
+                            //       padding: EdgeInsets.only(right: k8Padding),
+                            //       child: Icon(
+                            //         BipHip.world,
+                            //         color: cIconColor,
+                            //         size: kIconSize16,
+                            //       ),
+                            //     ),
+                            //   ),
                             if (_profileController.isCommonEditCheckBoxShown.value)
                               SizedBox(
-                                width: _profileController.commonEditCheckBoxText.value == 'Currently living here' ? 155 : 175,
+                                width: _profileController.commonEditCheckBoxText.value == 'Currently living here' ? 155 : 155,
                                 child: CustomCheckBox(
                                     value: _profileController.isCommonEditCheckBoxSelected.value,
                                     label: _profileController.commonEditCheckBoxText.value,
@@ -224,7 +284,8 @@ class EditPage extends StatelessWidget {
                               onPressed: () {
                                 ll(_profileController.functionFlag.value);
                                 _profileController.selectFunction(_profileController.functionFlag.value);
-                                Get.back();
+                                // Get.back();
+                                //_profileController.clearCommonEditPageData();
                               }),
                         ],
                       ),
@@ -296,15 +357,17 @@ class _LinkListContent extends StatelessWidget {
           itemCount: profileController.linkSourceList.length,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
-              () => RadioListTile(
+              () => CustomListTile(
                 title: Text(profileController.linkSourceList[index]),
-                value: profileController.linkSourceList[index],
-                activeColor: cPrimaryColor,
-                contentPadding: EdgeInsets.zero,
-                groupValue: profileController.linkSource.value,
-                controlAffinity: ListTileControlAffinity.trailing,
-                onChanged: (value) {
-                  profileController.linkSource.value = value;
+                trailing: CustomRadioButton(
+                  onChanged: () {
+                    profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                  },
+                  isSelected: profileController.tempLinkSource.value == profileController.linkSourceList[index],
+                ),
+                itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
+                onPressed: () {
+                  profileController.tempLinkSource.value = profileController.linkSourceList[index];
                 },
               ),
             );
