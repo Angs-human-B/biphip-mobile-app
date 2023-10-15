@@ -14,10 +14,18 @@ class GlobalController extends GetxController {
   final Rx<String?> bearerToken = Rx<String?>(null);
   final RxList professionList = RxList([]);
   final RxList interestList = RxList([]);
+  final RxList<int> interestIndex = RxList<int>([]);
+  final RxInt professionIndex = RxInt(-1);
+  RxString selectedProfession = RxString('');
+  RxList selectedInterests = RxList([]);
   final RxList languages = RxList([
     {'langCode': 'bn', 'countryCode': 'BD', 'langName': 'Bengali'},
     {'langCode': 'en', 'countryCode': 'US', 'langName': 'English'},
   ]);
+  void resetChipSelection() {
+    professionIndex.value = -1;
+    interestIndex.clear();
+  }
 
   //* info:: show loading
   final isLoading = RxBool(false);

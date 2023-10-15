@@ -198,8 +198,6 @@ class ProfileController extends GetxController {
   RxBool isDropdownShown = RxBool(false);
   RxBool isSecondaryTextfieldShown = RxBool(false);
   RxBool isRouteFromAboutInfo = RxBool(false);
-  RxString selectedProfession = RxString('');
-  RxList selectedInterests = RxList([]);
   RxString commonEditCheckBoxText = RxString('');
   RxString commonEditPageTitle = RxString('');
   Rx<IconData> commonEditIconData = Rx<IconData>(BipHip.add);
@@ -1529,6 +1527,41 @@ class ProfileController extends GetxController {
     } catch (e) {
       isEditProfileLoading.value = false;
       ll('setProfession error: $e');
+    }
+  }
+
+  //* set profession API implementation
+  Future<void> setInterest(interest) async {
+    ll(interest);
+    try {
+      isEditProfileLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {'key': 'interest', 'value': interest};
+      ll(body);
+      var response = await _apiController.commonPostDio(
+        url: kuSetGeneralSetting,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        ll(response.data);
+        commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
+        userData.value = commonUserLayeredData.value!.user;
+        isEditProfileLoading.value = false;
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isEditProfileLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isEditProfileLoading.value = false;
+      ll('setInterest error: $e');
     }
   }
 }

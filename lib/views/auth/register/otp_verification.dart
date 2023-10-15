@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
+import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/count_down.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
@@ -10,6 +11,7 @@ class OTPVerifyScreen extends StatelessWidget {
   OTPVerifyScreen({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final ProfileController _profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +80,7 @@ class OTPVerifyScreen extends StatelessWidget {
                                     } else {
                                       await _authenticationController.forgetPasswordVerify();
                                     }
+                                    await _profileController.getInterestList();
                                   }
                                 : null,
                             buttonWidth: width - 40,

@@ -240,6 +240,7 @@ class EditProfile extends StatelessWidget {
                             textStyle: semiBold12TextStyle(cBlackColor),
                             onPressed: () async {
                               await _profileController.getProfessionList();
+                              await _profileController.getInterestList();
                               Get.toNamed(krEditAboutInfo);
                             },
                           ),

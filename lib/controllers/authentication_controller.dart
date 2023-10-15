@@ -9,10 +9,6 @@ import 'package:bip_hip/models/common/common_error_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class AuthenticationController extends GetxController {
-  final RxBool isProfessionSelected = RxBool(false);
-  final RxBool isInterestSelected = RxBool(false);
-  final RxInt professionIndex = RxInt(-1);
-  final RxList<int> interestIndex = RxList<int>([]);
   final RxString profileLink = RxString('');
   final Rx<File?> profileFile = File('').obs;
   final RxBool isProfileImageChanged = RxBool(false);
@@ -40,13 +36,6 @@ class AuthenticationController extends GetxController {
     profileLink.value = '';
     profileFile.value = File('');
     isProfileImageChanged.value = false;
-  }
-
-  void resetChipSelection() {
-    professionIndex.value = -1;
-    interestIndex.clear();
-    isProfessionSelected.value = false;
-    isInterestSelected.value = false;
   }
 
   /*

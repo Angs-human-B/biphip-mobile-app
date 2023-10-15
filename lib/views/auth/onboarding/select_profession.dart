@@ -1,4 +1,3 @@
-import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
@@ -7,7 +6,6 @@ import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
 class SelectProfessionScreen extends StatelessWidget {
   SelectProfessionScreen({super.key});
 
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
   final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
 
@@ -69,11 +67,10 @@ class SelectProfessionScreen extends StatelessWidget {
                           for (int i = 0; i < _globalController.professionList.length; i++)
                             CustomChoiceChips(
                               label: _globalController.professionList[i],
-                              isSelected: (_authenticationController.professionIndex.value == i && _authenticationController.isProfessionSelected.value),
+                              isSelected: (_globalController.professionIndex.value == i),
                               onSelected: (value) {
-                                _authenticationController.professionIndex.value = i;
-
-                                _authenticationController.isProfessionSelected.value = value;
+                                _globalController.professionIndex.value = i;
+                                // _globalController.isProfessionSelected.value = value;
                               },
                             )
                         ],
@@ -81,18 +78,18 @@ class SelectProfessionScreen extends StatelessWidget {
                       kH16sizedBox,
                       CustomElevatedButton(
                         label: _profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
-                        onPressed: _authenticationController.isProfessionSelected.value
+                        onPressed: _globalController.professionIndex.value != -1
                             ? () async {
                                 if (!_profileController.isRouteFromAboutInfo.value) {
+                                  _globalController.selectedProfession.value = _globalController.professionList[_globalController.professionIndex.value];
                                   Get.toNamed(krSelectInterest);
                                 } else {
-                                  _profileController.selectedProfession.value =
-                                      _globalController.professionList[_authenticationController.professionIndex.value];
+                                  _globalController.selectedProfession.value = _globalController.professionList[_globalController.professionIndex.value];
                                   Get.back();
-                                  await _profileController.setProfession(_profileController.selectedProfession.value);
 
                                   _profileController.isRouteFromAboutInfo.value = false;
                                 }
+                                await _profileController.setProfession(_globalController.selectedProfession.value);
                               }
                             : null,
                         buttonWidth: width - 40,

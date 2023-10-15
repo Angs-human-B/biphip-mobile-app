@@ -505,7 +505,7 @@ class EditAboutInfo extends StatelessWidget {
                           RowTextButton(
                             text: ksProfession.tr,
                             buttonText: ksAdd.tr,
-                            showAddButton: _profileController.profileData.value!.user!.profession.isEmpty,
+                            showAddButton: false,
                             onPressedAdd: () {
                               _profileController.isRouteFromAboutInfo.value = true;
                               Get.toNamed(krSelectProfession);
@@ -520,6 +520,12 @@ class EditAboutInfo extends StatelessWidget {
                                 suffixIcon: BipHip.edit,
                                 text: checkNullOrStringNull(_profileController.userData.value!.profession[0]) ?? ksSelectProfession.tr,
                                 suffixOnPressed: () {
+                                  for (int i = 0; i < _globalController.professionList.length; i++) {
+                                    if (_globalController.professionList[i] == _profileController.userData.value!.profession[0]) {
+                                      _globalController.professionIndex.value = i;
+                                    }
+                                  }
+                                  ll(_globalController.professionIndex.value);
                                   _profileController.isRouteFromAboutInfo.value = true;
                                   Get.toNamed(krSelectProfession);
                                 },
@@ -533,20 +539,27 @@ class EditAboutInfo extends StatelessWidget {
                             buttonText: ksAdd.tr,
                             showAddButton: true,
                             onPressedAdd: () {
+                              for (int j = 0; j < _profileController.userData.value!.interest.length; j++) {
+                                for (int i = 0; i < _globalController.interestList.length; i++) {
+                                  if (_globalController.interestList[i] == _profileController.userData.value!.interest[j]) {
+                                    _globalController.interestIndex.add(i);
+                                  }
+                                }
+                              }
                               _profileController.isRouteFromAboutInfo.value = true;
                               Get.toNamed(krSelectInterest);
                             },
                             buttonWidth: 149,
                           ),
-                          if (_profileController.profileData.value!.user!.interest.isNotEmpty)
+                          if (_profileController.userData.value!.interest.isNotEmpty)
                             Wrap(
                               alignment: WrapAlignment.start,
                               direction: Axis.horizontal,
                               spacing: 8.0,
                               children: [
-                                for (int i = 0; i < _profileController.profileData.value!.user!.interest.length; i++)
+                                for (int i = 0; i < _profileController.userData.value!.interest.length; i++)
                                   CustomChoiceChips(
-                                    label: _profileController.profileData.value!.user!.interest[i],
+                                    label: _profileController.userData.value!.interest[i],
                                     isSelected: false,
                                     onSelected: null,
                                   )
