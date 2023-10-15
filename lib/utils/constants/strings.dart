@@ -311,3 +311,14 @@ const String ksCustomAddInstruction = "If you don’t have any kid added in syst
 const String ksSellInformation = "You can sell all kind of product here. Including your brand on that will boost your selling.";
 const String ksAddKidInstructions = "To add kid category, you need to follow the further steps.";
 const String ksBiddingPostDescription = "Selecting bidding post will let the user write their preferred bidding price.";
+//*Newly Added
+const String ksProfile = "Profile";
+const String ksCovers = "Covers";
+const String ks18Items = "18 Items";
+const String ksUntitled = "Untitled";
+const String ksPoetry = "Poetry";
+const String ksPhotography = "Photography";
+const String ksPainting = "Painting";
+const String ksStoryTelling = "StoryTelling";
+const String ksSelling = "Selling";
+const String ksNews = "News";

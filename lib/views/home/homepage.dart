@@ -92,7 +92,7 @@ class HomePage extends StatelessWidget {
                     color: cWhiteColor,
                     child: CustomPostButton(
                       name: 'Monjurul',
-                      profilePic: kiProfilePicImageUrl,
+                      profilePic: '',
                       onPressed: () {
                         ll('post');
                         Get.find<CreatePostController>().resetData();
