@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
@@ -10,6 +11,7 @@ class EditAboutInfo extends StatelessWidget {
   EditAboutInfo({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
+  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
   final GlobalController _globalController = Get.find<GlobalController>();
 
   @override
@@ -494,7 +496,9 @@ class EditAboutInfo extends StatelessWidget {
                                 suffixIcon: BipHip.edit,
                                 text: DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!),
                                 suffixOnPressed: () {
+                                  _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!);
                                   _profileController.isRouteFromAboutInfo.value = true;
+
                                   Get.toNamed(krSelectBirthday);
                                 },
                               ),

@@ -1554,8 +1554,10 @@ class ProfileController extends GetxController {
 
   //* get gender list API
   Rx<GenderListModel?> genderListData = Rx<GenderListModel?>(null);
+  RxBool isGenderListLoading = RxBool(false);
   Future<void> getGenderList() async {
     try {
+      isGenderListLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -1566,7 +1568,9 @@ class ProfileController extends GetxController {
         genderList.clear();
         genderListData.value = GenderListModel.fromJson(response.data);
         genderList.addAll(genderListData.value!.genders);
+        isGenderListLoading.value = false;
       } else {
+        isGenderListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1575,6 +1579,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
+      isGenderListLoading.value = false;
       ll('getGenderList error: $e');
     }
   }

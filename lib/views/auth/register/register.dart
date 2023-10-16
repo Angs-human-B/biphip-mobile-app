@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
+import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/utils/custom_container.dart';
@@ -121,6 +122,8 @@ class Register extends StatelessWidget {
                         label: ksNext.tr,
                         onPressed: _authenticationController.checkValidName.value
                             ? () {
+                                Get.find<ProfileController>().isRouteFromAboutInfo.value = false;
+                                _authenticationController.birthDay.value = '';
                                 Get.toNamed(krSelectBirthday);
                               }
                             : null,

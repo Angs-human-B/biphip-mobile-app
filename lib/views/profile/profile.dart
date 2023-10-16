@@ -739,7 +739,7 @@ class ProfilePageShimmer extends StatelessWidget {
               highlightColor: Colors.grey,
               child: Container(decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius), height: h20, width: width * 0.6),
             ),
-            hasBackButton: false,
+            hasBackButton: true,
             onBack: () {
               Get.back();
             },

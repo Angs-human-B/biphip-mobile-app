@@ -4,6 +4,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SelectGender extends StatelessWidget {
   SelectGender({super.key});
@@ -56,11 +57,16 @@ class SelectGender extends StatelessWidget {
                       ),
                       kH50sizedBox,
                       CustomSelectionButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          _profileController.isGenderListLoading.value = true;
                           _globalController.commonBottomSheet(
                             context: context,
-                            content: _GenderListContent(
-                              profileController: _profileController,
+                            content: Obx(
+                              () => _profileController.isGenderListLoading.value
+                                  ? const _GenderListShimmer()
+                                  : _GenderListContent(
+                                      profileController: _profileController,
+                                    ),
                             ),
                             onPressCloseButton: () {
                               Get.back();
@@ -79,6 +85,7 @@ class SelectGender extends StatelessWidget {
                             isScrollControlled: true,
                             bottomSheetHeight: height * 0.4,
                           );
+                          await _profileController.getGenderList();
                         },
                         text: _authenticationController.gender.value,
                         hintText: ksSelectGender.tr,
@@ -106,57 +113,6 @@ class SelectGender extends StatelessWidget {
     );
   }
 }
-
-// class _GenderListContent extends StatelessWidget {
-//   const _GenderListContent({
-//     Key? key,
-//     required this.authenticationController,
-//   }) : super(key: key);
-
-//   final AuthenticationController authenticationController;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Obx(() => Column(
-//           // mainAxisSize: MainAxisSize.min,
-//           children: [
-//             RadioListTile(
-//               title: Text(genders[0]),
-//               value: genders[0],
-//               activeColor: cPrimaryColor,
-//               contentPadding: EdgeInsets.zero,
-//               groupValue: authenticationController.gender.value,
-//               controlAffinity: ListTileControlAffinity.trailing,
-//               onChanged: (value) {
-//                 authenticationController.gender.value = value;
-//               },
-//             ),
-//             RadioListTile(
-//               title: Text(genders[1]),
-//               value: genders[1],
-//               activeColor: cPrimaryColor,
-//               contentPadding: EdgeInsets.zero,
-//               groupValue: authenticationController.gender.value,
-//               controlAffinity: ListTileControlAffinity.trailing,
-//               onChanged: (value) {
-//                 authenticationController.gender.value = value;
-//               },
-//             ),
-//             RadioListTile(
-//               title: Text(genders[2]),
-//               value: genders[2],
-//               activeColor: cPrimaryColor,
-//               contentPadding: EdgeInsets.zero,
-//               groupValue: authenticationController.gender.value,
-//               controlAffinity: ListTileControlAffinity.trailing,
-//               onChanged: (value) {
-//                 authenticationController.gender.value = value;
-//               },
-//             ),
-//           ],
-//         ));
-//   }
-// }
 
 class _GenderListContent extends StatelessWidget {
   const _GenderListContent({
@@ -187,6 +143,42 @@ class _GenderListContent extends StatelessWidget {
                   profileController.tempSelectedGender.value = value;
                 },
               ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _GenderListShimmer extends StatelessWidget {
+  const _GenderListShimmer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: 3,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Shimmer.fromColors(
+                baseColor: cWhiteColor,
+                highlightColor: Colors.grey,
+                child: Container(
+                  height: 44,
+                  width: (width / 2) - 40,
+                  decoration: BoxDecoration(
+                    borderRadius: k8CircularBorderRadius,
+                    color: cWhiteColor,
+                  ),
+                ),
+              ),
+              contentPadding: EdgeInsets.zero,
             );
           },
         ),
