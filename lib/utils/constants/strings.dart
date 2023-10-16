@@ -322,3 +322,5 @@ const String ksPainting = "Painting";
 const String ksStoryTelling = "StoryTelling";
 const String ksSelling = "Selling";
 const String ksNews = "News";
+const String ksNoAlbumAvailable = "No Album Available";
+const String ksNoImageAvailable = "No Image Available";
