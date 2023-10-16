@@ -32,6 +32,7 @@ class AddKidPage extends StatelessWidget {
                   child: TextButton(
                     style: kTextButtonStyle,
                     onPressed: () {
+                      unfocus(context);
                       Get.back();
                     },
                     child: Text(
@@ -91,7 +92,7 @@ class AddKidPage extends StatelessWidget {
                         kH8sizedBox,
                         CustomModifiedTextField(
                           controller: TextEditingController(),
-                          hint:ksWriteAge.tr,
+                          hint: ksWriteAge.tr,
                           onChanged: (text) {},
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,

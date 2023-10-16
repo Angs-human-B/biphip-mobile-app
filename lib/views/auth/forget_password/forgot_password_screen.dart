@@ -76,6 +76,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                             label: ksNext.tr,
                             onPressed: _authenticationController.canSendOTP.value
                                 ? () async {
+                                    unfocus(context);
                                     await _authenticationController.forgetPassword();
                                   }
                                 : null,
@@ -91,19 +92,17 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ),
               ),
             ),
-         
-          if (_authenticationController.isForgetPasswordLoading.value == true)
-                      Positioned(
-                        child: CommonLoadingAnimation(
-                          onWillPop: () async {
-                            if (_authenticationController.isForgetPasswordLoading.value) {
-                              return false;
-                            }
-                            return true;
-                          },
-                        ),
-                      ),
-
+            if (_authenticationController.isForgetPasswordLoading.value == true)
+              Positioned(
+                child: CommonLoadingAnimation(
+                  onWillPop: () async {
+                    if (_authenticationController.isForgetPasswordLoading.value) {
+                      return false;
+                    }
+                    return true;
+                  },
+                ),
+              ),
           ],
         ),
       ),

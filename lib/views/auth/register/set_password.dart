@@ -114,6 +114,7 @@ class SetPassword extends StatelessWidget {
                             label: ksNext.tr,
                             onPressed: _authenticationController.checkValidPassword.value
                                 ? () async {
+                                    unfocus(context);
                                     await _authenticationController.userRegister();
                                   }
                                 : null,

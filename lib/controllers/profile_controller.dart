@@ -1344,15 +1344,18 @@ class ProfileController extends GetxController {
         ll(response.data.toString());
         CommonUserDataModel commonUserDataModel = CommonUserDataModel.fromJson(response.data);
         userData.value = commonUserDataModel.user;
-        await _spController.saveUserList({
-          "email": userData.value!.email.toString(),
-          "name": userData.value!.fullName.toString(),
-          "image_url": userData.value!.profilePicture.toString(),
-          "token": token.toString(),
-        });
+        var rememberMe = await _spController.getRememberMe();
+        if (rememberMe == true) {
+          await _spController.saveUserList({
+            "email": userData.value!.email.toString(),
+            "name": userData.value!.fullName.toString(),
+            "image_url": userData.value!.profilePicture.toString(),
+            "token": token.toString(),
+          });
+        }
         await _globalController.getUserInfo();
         Get.back();
-        resetImage();
+        // resetImage();
         isImageUploadPageLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {

@@ -226,7 +226,7 @@ class GlobalController extends GetxController {
 
   Future<bool> selectMultiMediaSource(RxBool isMediaChanged, RxList<RxString> mediaLinkList, RxList<Rx<File?>> mediaFileList) async {
     try {
-      final List<XFile> mediaList = await _picker.pickMultipleMedia(
+      final List<XFile> mediaList = await _picker.pickMultiImage(
         maxHeight: 480,
         maxWidth: 720,
       );

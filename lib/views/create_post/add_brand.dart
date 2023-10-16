@@ -33,6 +33,7 @@ class AddBrandPage extends StatelessWidget {
                   child: TextButton(
                     style: kTextButtonStyle,
                     onPressed: () {
+                      unfocus(context);
                       Get.back();
                     },
                     child: Text(

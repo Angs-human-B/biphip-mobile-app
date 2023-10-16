@@ -613,6 +613,9 @@ class CreatePostController extends GetxController {
   void removeMedia(index) {
     allMediaList.removeAt(index);
     allMediaFileList.removeAt(index);
+    if (allMediaFileList.isEmpty || allMediaList.isEmpty) {
+      Get.back();
+    }
   }
 
   void resetData() {
@@ -656,13 +659,13 @@ class CreatePostController extends GetxController {
         createPostImageFile.clear();
       }
     } else if (index == 3) {
-      var status = await _globalController.selectVideoSource(isCreatePostVideoChanged, createPostVideoLink, createPostVideoFile, 'camera', true);
-      if (status) {
-        insertMedia([createPostVideoLink], createPostVideoFile);
-        isCreatePostVideoChanged.value = false;
-        createPostVideoLink.value = "";
-        createPostVideoFile.clear();
-      }
+      // var status = await _globalController.selectVideoSource(isCreatePostVideoChanged, createPostVideoLink, createPostVideoFile, 'camera', true);
+      // if (status) {
+      //   insertMedia([createPostVideoLink], createPostVideoFile);
+      //   isCreatePostVideoChanged.value = false;
+      //   createPostVideoLink.value = "";
+      //   createPostVideoFile.clear();
+      // }
     } else {
       _globalController.commonBottomSheet(
         isScrollControlled: true,

@@ -46,9 +46,8 @@ class PhotoPreview extends StatelessWidget {
                   ),
                 ),
                 body: SingleChildScrollView(
-                  physics: const NeverScrollableScrollPhysics(),
                   child: SizedBox(
-                    height: height - kAppBarSize,
+                    height: height - kAppBarSize - MediaQuery.of(context).padding.top,
                     width: width,
                     child: Obx(
                       () => Column(
@@ -83,16 +82,18 @@ class PhotoPreview extends StatelessWidget {
                                   color: cBlackColor,
                                   child: Center(
                                     child: SizedBox(
-                                        height: 150,
-                                        width: width,
-                                        child: Image.file(
-                                          _profileController.coverImageFile.value,
-                                          fit: BoxFit.cover,
-                                          errorBuilder: (context, error, stackTrace) => Image.asset(
-                                            kiCoverPicImageUrl,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        )),
+                                      height: 150,
+                                      width: width,
+                                      child: Image.file(
+                                        _profileController.coverImageFile.value,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (context, error, stackTrace) => const Icon(
+                                          BipHip.imageFile,
+                                          size: kIconSize120,
+                                          color: cIconColor,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                           kH24sizedBox,

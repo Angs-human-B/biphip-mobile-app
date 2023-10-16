@@ -48,7 +48,7 @@ class SetEmail extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       kH24sizedBox,
-                       TopTitleAndSubtitle(
+                      TopTitleAndSubtitle(
                         title: ksWhatEmail.tr,
                         subTitle: ksSendCodeToConfirm.tr,
                       ),
@@ -75,7 +75,8 @@ class SetEmail extends StatelessWidget {
                       CustomElevatedButton(
                         label: ksNext.tr,
                         onPressed: _authenticationController.checkValidEmail.value
-                            ? () async{
+                            ? () async {
+                                unfocus(context);
                                 Get.toNamed(krSetNewPass);
                                 await _profileController.getProfessionList();
                               }

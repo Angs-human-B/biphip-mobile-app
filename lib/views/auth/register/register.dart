@@ -121,6 +121,7 @@ class Register extends StatelessWidget {
                         label: ksNext.tr,
                         onPressed: _authenticationController.checkValidName.value
                             ? () {
+                               unfocus(context);
                                 Get.toNamed(krSelectBirthday);
                               }
                             : null,
@@ -134,6 +135,7 @@ class Register extends StatelessWidget {
                         prefix: ksAlreadyHaveAccount.tr,
                         suffix: ksLogin.tr,
                         onPressed: () {
+                           unfocus(context);
                           Get.toNamed(krLogin);
                         },
                       )

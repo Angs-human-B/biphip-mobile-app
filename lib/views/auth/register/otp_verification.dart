@@ -94,7 +94,7 @@ class OTPVerifyScreen extends StatelessWidget {
                                   prefix: ksResendCode.tr,
                                   suffix: ksResend.tr,
                                   onPressed: () async {
-                                    FocusScope.of(context).unfocus();
+                                    unfocus(context);
                                     await _authenticationController.resendOTP();
                                   },
                                 )

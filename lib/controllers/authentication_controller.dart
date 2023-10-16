@@ -104,7 +104,6 @@ class AuthenticationController extends GetxController {
             "token": loginData.token.toString(),
           });
         }
-
         await _globalController.getUserInfo();
         // await setDeviceID(loginData.user.id);
         isLoginLoading.value = false;
