@@ -114,11 +114,12 @@ class EditPage extends StatelessWidget {
                         onChanged: (value) {
                           _profileController.showCommonEditSuffixIcon.value = true;
                           if (_profileController.commonEditTextfieldHintText.value == ksEmail.tr ||
-                              _profileController.commonEditTextfieldHintText.value == ksEditEmail.tr &&
-                                  !_profileController.commonEditTextEditingController.text.isValidEmail) {
-                            _profileController.commonEditTextFieldErrorText.value = ksInvalidEmailErrorMessage.tr;
-                          } else {
-                            _profileController.commonEditTextFieldErrorText.value = '';
+                              _profileController.commonEditTextfieldHintText.value == ksEditEmail.tr) {
+                            if (!_profileController.commonEditTextEditingController.text.isValidEmail) {
+                              _profileController.commonEditTextFieldErrorText.value = ksInvalidEmailErrorMessage.tr;
+                            } else {
+                              _profileController.commonEditTextFieldErrorText.value = '';
+                            }
                           }
                         },
                       ),

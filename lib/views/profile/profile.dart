@@ -6,7 +6,6 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Profile extends StatelessWidget {
@@ -149,19 +148,20 @@ class Profile extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      Positioned(
-                                        right: 6,
-                                        top: 10,
-                                        child: Container(
-                                            height: h28,
-                                            width: h28,
-                                            decoration: BoxDecoration(
-                                              color: cGreyBoxColor,
-                                              borderRadius: BorderRadius.circular(26),
-                                              border: Border.all(color: cPrimaryColor, width: 1),
-                                            ),
-                                            child: SvgPicture.asset(kiBadge1SvgImageUrl)),
-                                      ),
+                                      //todo: badge
+                                      // Positioned(
+                                      //   right: 6,
+                                      //   top: 10,
+                                      //   child: Container(
+                                      //       height: h28,
+                                      //       width: h28,
+                                      //       decoration: BoxDecoration(
+                                      //         color: cGreyBoxColor,
+                                      //         borderRadius: BorderRadius.circular(26),
+                                      //         border: Border.all(color: cPrimaryColor, width: 1),
+                                      //       ),
+                                      //       child: SvgPicture.asset(kiBadge1SvgImageUrl)),
+                                      // ),
                                     ],
                                   ),
                                 ),
@@ -333,6 +333,21 @@ class Profile extends StatelessWidget {
                                         onPressed: null,
                                       ),
                                     ),
+
+                                  //! see more
+                                  if (_profileController.emailDataList.isNotEmpty &&
+                                      _profileController.contactDataList.length > 1 &&
+                                      _profileController.isProfileSeeMore.value)
+                                    for (int i = 1; i < _profileController.emailDataList.length; i++)
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                        child: LinkUpIconTextRow(
+                                          icon: BipHip.mail,
+                                          text: checkNullOrStringNull(_profileController.emailDataList[i].value),
+                                          isLink: true,
+                                          onPressed: null,
+                                        ),
+                                      ),
                                   if (_profileController.phoneDataList.isNotEmpty)
                                     // for (int i = 0; i < _profileController.contactDataList.length; i++)
                                     Padding(
@@ -345,24 +360,10 @@ class Profile extends StatelessWidget {
                                       ),
                                     ),
                                   //! see more
-                                  if (_profileController.emailDataList.isNotEmpty &&
-                                      _profileController.contactDataList.length > 1 &&
-                                      _profileController.isProfileSeeMore.value)
-                                    for (int i = 1; i < _profileController.emailDataList.length - 1; i++)
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                        child: LinkUpIconTextRow(
-                                          icon: BipHip.mail,
-                                          text: checkNullOrStringNull(_profileController.emailDataList[i].value),
-                                          isLink: true,
-                                          onPressed: null,
-                                        ),
-                                      ),
-                                  //! see more
                                   if (_profileController.phoneDataList.isNotEmpty &&
                                       _profileController.contactDataList.length > 1 &&
                                       _profileController.isProfileSeeMore.value)
-                                    for (int i = 1; i < _profileController.phoneDataList.length - 1; i++)
+                                    for (int i = 1; i < _profileController.phoneDataList.length; i++)
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                         child: LinkUpIconTextRow(
@@ -372,8 +373,18 @@ class Profile extends StatelessWidget {
                                           onPressed: null,
                                         ),
                                       ),
-                                  if (_profileController.linkDataList.isNotEmpty)
-                                    for (int i = 0; i < _profileController.linkDataList.length; i++)
+                                  if (_profileController.linkDataList.isNotEmpty )
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                        child: LinkUpIconTextRow(
+                                          icon: _profileController.getLinkIcon(_profileController.linkDataList[0].type.toString()),
+                                          text: checkNullOrStringNull(_profileController.linkDataList[0].link),
+                                          isLink: true,
+                                          onPressed: null,
+                                        ),
+                                      ),
+                                  if (_profileController.linkDataList.isNotEmpty && _profileController.isProfileSeeMore.value)
+                                    for (int i = 1; i < _profileController.linkDataList.length; i++)
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                         child: LinkUpIconTextRow(
@@ -383,18 +394,25 @@ class Profile extends StatelessWidget {
                                           onPressed: null,
                                         ),
                                       ),
-                                  CustomElevatedButton(
-                                      label: _profileController.isProfileSeeMore.value ? ksShowLess : ksSeeMore,
-                                      suffixIcon: _profileController.isProfileSeeMore.value ? BipHip.upArrow : BipHip.downArrow,
-                                      suffixIconColor: cBlackColor,
-                                      buttonHeight: h28,
-                                      buttonWidth: width - 40,
-                                      buttonColor: cLineColor,
-                                      textStyle: semiBold12TextStyle(cBlackColor),
-                                      onPressed: () {
-                                        _profileController.isProfileSeeMore.value = !_profileController.isProfileSeeMore.value;
-                                      }),
-                                  kH12sizedBox
+                                  if (_profileController.showSeeMore())
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: k12Padding),
+                                      child: CustomElevatedButton(
+                                          label: _profileController.isProfileSeeMore.value ? ksShowLess : ksSeeMore,
+                                          suffixIcon: _profileController.isProfileSeeMore.value ? BipHip.upArrow : BipHip.downArrow,
+                                          suffixIconColor: cBlackColor,
+                                          buttonHeight: h28,
+                                          buttonWidth: width - 40,
+                                          buttonColor: cLineColor,
+                                          textStyle: semiBold12TextStyle(cBlackColor),
+                                          onPressed: () {
+                                            ll(_profileController.phoneDataList.length);
+                                            ll(_profileController.contactDataList.length);
+                                            ll(_profileController.isProfileSeeMore.value);
+                                            _profileController.isProfileSeeMore.value = !_profileController.isProfileSeeMore.value;
+                                          }),
+                                    ),
+                                  // kH12sizedBox
                                 ],
                               ),
                             ),

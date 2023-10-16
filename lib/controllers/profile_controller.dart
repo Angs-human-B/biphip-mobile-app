@@ -1120,9 +1120,18 @@ class ProfileController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
+        emailDataList.clear();
+        phoneDataList.clear();
         for (int i = 0; i < contactDataList.length; i++) {
           if (contactDataList[i].id == id) {
             contactDataList.removeAt(i);
+          }
+        }
+        for (int i = 0; i < contactDataList.length; i++) {
+          if (contactDataList[i].type == 'email') {
+            emailDataList.add(contactDataList[i]);
+          } else {
+            phoneDataList.add(contactDataList[i]);
           }
         }
         isEditProfileLoading.value = false;
@@ -1254,9 +1263,10 @@ class ProfileController extends GetxController {
 
   //* update bio API Implementation
   Rx<CommonUserDataModel?> commonUserLayeredData = Rx<CommonUserDataModel?>(null);
+  RxBool isBioLoading = RxBool(false);
   Future<void> updateBio() async {
     try {
-      isEditProfileLoading.value = true;
+      isBioLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
         'bio': bioEditingController.text.trim(),
@@ -1275,11 +1285,11 @@ class ProfileController extends GetxController {
         Get.back();
         Get.back();
         clearBio();
-        isEditProfileLoading.value = false;
+        isBioLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        isEditProfileLoading.value = false;
+        isBioLoading.value = false;
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
@@ -1287,7 +1297,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-      isEditProfileLoading.value = false;
+      isBioLoading.value = false;
       ll('updateBio error: $e');
     }
   }
@@ -1442,9 +1452,9 @@ class ProfileController extends GetxController {
         _globalController.professionList.clear();
         professionListData.value = ProfessionListModel.fromJson(response.data);
         _globalController.professionList.addAll(professionListData.value!.professions);
-      isProfessionListLoading.value = false;
+        isProfessionListLoading.value = false;
       } else {
-      isProfessionListLoading.value = false;
+        isProfessionListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1610,9 +1620,9 @@ class ProfileController extends GetxController {
         relationshipStatusList.clear();
         relationshipListData.value = RelationshipListModel.fromJson(response.data);
         relationshipStatusList.addAll(relationshipListData.value!.relationships);
-        isRelationListLoading.value= false;
+        isRelationListLoading.value = false;
       } else {
-        isRelationListLoading.value= false;
+        isRelationListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1621,7 +1631,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-        isRelationListLoading.value= false;
+      isRelationListLoading.value = false;
       ll('getRelationshipList error: $e');
     }
   }
@@ -1652,6 +1662,14 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       ll('getPositionList error: $e');
+    }
+  }
+
+  bool showSeeMore() {
+    if (emailDataList.length + phoneDataList.length + linkDataList.length > 3) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
