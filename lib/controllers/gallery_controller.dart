@@ -139,4 +139,6 @@ class GalleryController extends GetxController {
       ll('getAlbumListData error: $e');
     }
   }
+ List selectedImageList = [];
+ final RxString selectedTitle = RxString('');
 }

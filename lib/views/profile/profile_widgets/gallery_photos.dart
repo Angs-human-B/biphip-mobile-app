@@ -10,106 +10,112 @@ class GalleryPhotos extends StatelessWidget {
     return Container(
       color: cWhiteColor,
       child: Obx(
-        () => Stack(
-          children: [
-            SafeArea(
-              top: false,
-              child: Scaffold(
-                backgroundColor: cWhiteColor,
-                appBar: PreferredSize(
-                  preferredSize: const Size.fromHeight(kAppBarSize),
-                  //* info:: appBar
-                  child: CustomAppBar(
-                    appBarColor: cWhiteColor,
-                    title: ksPhotos.tr,
-                    hasBackButton: true,
-                    isCenterTitle: true,
-                    onBack: () {
-                      Get.back();
-                    },
-                  ),
-                ),
-                body: Obx(
-                  () => Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                        child: TapAbleButtonContainer(
-                          buttonText: _galleryController.tapAbleButtonText,
-                          buttonState: _galleryController.tapAbleButtonState,
-                          buttonPress: RxList([
-                            () {
-                              _galleryController.imageDataList.clear();
-                              for (var album in _galleryController.albumData.value!.imageAlbums!.data) {
-                                if (album.title.toLowerCase() == 'profile picture' || album.title.toLowerCase() == 'cover photo') {
-                                  _galleryController.imageDataList.add(album);
-                                }
-                              }
-
-                              _galleryController.toggleType(0);
-                            },
-                            () {
-                              _galleryController.imageDataList.clear();
-                              for (var album in _galleryController.albumData.value!.imageAlbums!.data) {
-                                if (album.title.toLowerCase() != 'profile picture' && album.title.toLowerCase() != 'cover photo') {
-                                  _galleryController.imageDataList.add(album);
-                                }
-                              }
-
-                              _galleryController.toggleType(1);
-                            },
-                          ]),
+        () => 
+            Stack(
+              children: [
+                SafeArea(
+                    top: false,
+                    child: Scaffold(
+                      backgroundColor: cWhiteColor,
+                      appBar: PreferredSize(
+                        preferredSize: const Size.fromHeight(kAppBarSize),
+                        //* info:: appBar
+                        child: CustomAppBar(
+                          appBarColor: cWhiteColor,
+                          title: ksPhotos.tr,
+                          hasBackButton: true,
+                          isCenterTitle: true,
+                          onBack: () {
+                            Get.back();
+                          },
                         ),
                       ),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: kHorizontalPadding, top: k12Padding, bottom: k12Padding),
-                            child: GridView.builder(
-                                shrinkWrap: true,
-                                itemCount: _galleryController.imageDataList.length,
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: 1.2,
-                                  mainAxisSpacing: k12Padding,
-                                  crossAxisCount: 2,
+                      body: Obx(
+                        () => Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: TapAbleButtonContainer(
+                                buttonText: _galleryController.tapAbleButtonText,
+                                buttonState: _galleryController.tapAbleButtonState,
+                                buttonPress: RxList([
+                                  () {
+                                    _galleryController.imageDataList.clear();
+                                    for (var album in _galleryController.albumData.value!.imageAlbums!.data) {
+                                      if (album.title.toLowerCase() == 'profile picture' || album.title.toLowerCase() == 'cover photo') {
+                                        _galleryController.imageDataList.add(album);
+                                      }
+                                    }
+
+                                    _galleryController.toggleType(0);
+                                  },
+                                  () {
+                                    _galleryController.imageDataList.clear();
+                                    for (var album in _galleryController.albumData.value!.imageAlbums!.data) {
+                                      if (album.title.toLowerCase() != 'profile picture' && album.title.toLowerCase() != 'cover photo') {
+                                        _galleryController.imageDataList.add(album);
+                                      }
+                                    }
+
+                                    _galleryController.toggleType(1);
+                                  },
+                                ]),
+                              ),
+                            ),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: kHorizontalPadding, top: k12Padding, bottom: k12Padding),
+                                  child: GridView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: _galleryController.imageDataList.length,
+                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                        childAspectRatio: 1.2,
+                                        mainAxisSpacing: k12Padding,
+                                        crossAxisCount: 2,
+                                      ),
+                                      itemBuilder: (context, index) {
+                                        return Column(
+                                          children: [
+                                            Row(children: [
+                                              CommonGalleryPhotoContainer(
+                                                title: _galleryController.imageDataList[index].title,
+                                                subTitle: _galleryController.imageDataList[index].totalImage.toString(),
+                                                image: _galleryController.imageDataList[index].preview,
+                                                onPressed: () {
+                                                  _galleryController.selectedImageList = _galleryController.imageDataList[index].imageList;
+                                                  _galleryController.selectedTitle.value = _galleryController.imageDataList[index].title;
+                                                  // _galleryController.imageList = _galleryController.imageDataList[index].imageList as RxList<ImageData>;
+                                                  // _galleryController.imageDataList[index].imageList;
+                                                  Get.toNamed(krPhotos);
+                                                },
+                                              ),
+                                            ]),
+                                          ],
+                                        );
+                                      }),
                                 ),
-                                itemBuilder: (context, index) {
-                                  return Column(
-                                    children: [
-                                      Row(children: [
-                                        CommonGalleryPhotoContainer(
-                                          title: _galleryController.imageDataList[index].title,
-                                          subTitle: _galleryController.imageDataList[index].totalImage.toString(),
-                                          image: _galleryController.imageDataList[index].preview,
-                                          onPressed: () {
-                                            Get.toNamed(krPhotos);
-                                          },
-                                        ),
-                                      ]),
-                                    ],
-                                  );
-                                }),
-                          ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
+                   if (_galleryController.isAlbumListLoading.value == true)
+                      Positioned(
+                        child: CommonLoadingAnimation(
+                          onWillPop: () async {
+                            if (_galleryController.isAlbumListLoading.value) {
+                              return false;
+                            }
+                            return true;
+                          },
+                        ),
+                      ),
+
+              ],
             ),
-            if (_galleryController.isAlbumListLoading.value == true)
-              Positioned(
-                child: CommonLoadingAnimation(
-                  onWillPop: () async {
-                    if (_galleryController.isAlbumListLoading.value) {
-                      return false;
-                    }
-                    return true;
-                  },
-                ),
-              ),
-          ],
-        ),
       ),
     );
   }
@@ -144,7 +150,7 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                         height: 94,
                         width: (image.length < 2) ? (width - 52) / 2 : (width - 52) / 4,
                         child: Image.network(
-                          Environment.imageBaseUrl + image[0], //image1
+                          Environment.imageBaseUrl + image[0],
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return SizedBox(
@@ -170,7 +176,7 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                               height: image.length > 2 ? 46.5 : 94,
                               width: (width - 52) / 4,
                               child: Image.network(
-                                Environment.imageBaseUrl + image[1], //image2!,
+                                Environment.imageBaseUrl + image[1],
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -183,7 +189,7 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                               height: image.length > 2 ? 46.5 : 94,
                               width: (width - 52) / 4,
                               child: Image.network(
-                                Environment.imageBaseUrl + image[2], //image3!,
+                                Environment.imageBaseUrl + image[2],
                                 fit: BoxFit.cover,
                               ),
                             ),

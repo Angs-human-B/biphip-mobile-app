@@ -1,12 +1,13 @@
+import 'package:bip_hip/controllers/gallery_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class Photos extends StatelessWidget {
-   Photos({super.key});
+  Photos({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
-
+  final GalleryController _galleryController = Get.find<GalleryController>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class Photos extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: ksPhotos.tr,
+              title: _galleryController.selectedTitle.value,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -58,18 +59,20 @@ class Photos extends StatelessWidget {
                   ],
                 ),
                 childrenDelegate: SliverChildBuilderDelegate(
-                  childCount: photos.length,
+                  childCount: _galleryController.selectedImageList.length,
                   (context, index) {
-                    var item = photos[index];
+                    // var item = _galleryController.selectedImageList[index];
+                    String imageUrl = _galleryController.selectedImageList[index].fullPath;
                     return InkWell(
-                      onTap: () {
-                        _profileController.photoLink.value = item;
-                        Get.toNamed(krPhotoDetails);
-                      },
+                      // onTap: () {
+                      //   _profileController.photoLink.value = item;
+                      //   Get.toNamed(krPhotoDetails);
+                      // },
+                      onTap: null,
                       child: ClipRRect(
                         borderRadius: k8CircularBorderRadius,
-                        child: Image.asset(
-                          item,
+                        child: Image.network(
+                          Environment.imageBaseUrl + imageUrl,
                           fit: BoxFit.cover,
                         ),
                       ),
