@@ -348,6 +348,8 @@ class GlobalController extends GetxController {
   final recentSearch = RxList();
 
   final Rx<String?> userName = Rx<String?>(null);
+  final Rx<String?> userFirstName = Rx<String?>(null);
+  final Rx<String?> userLastName = Rx<String?>(null);
   final Rx<String?> userImage = Rx<String?>(null);
   final Rx<String?> userEmail = Rx<String?>(null);
   final Rx<String?> userToken = Rx<String?>(null);
@@ -355,6 +357,8 @@ class GlobalController extends GetxController {
   Future<void> getUserInfo() async {
     SpController spController = SpController();
     userName.value = await spController.getUserName();
+    userFirstName.value = await spController.getUserFirstName();
+    userLastName.value = await spController.getUserLastName();
     userImage.value = await spController.getUserImage();
     userEmail.value = await spController.getUserEmail();
     userToken.value = await spController.getBearerToken();
@@ -362,6 +366,8 @@ class GlobalController extends GetxController {
     ll("--- : $userData");
     if (userData != null) {
       userName.value = userData['name'];
+      userFirstName.value = userData['first_name'];
+      userLastName.value = userData['last_name'];
       userImage.value = userData['image_url'];
       userEmail.value = userData['email'];
       userToken.value = userData['token'];

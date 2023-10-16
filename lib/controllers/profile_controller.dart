@@ -1359,6 +1359,8 @@ class ProfileController extends GetxController {
           await _spController.saveUserList({
             "email": userData.value!.email.toString(),
             "name": userData.value!.fullName.toString(),
+            "first_name": userData.value!.firstName.toString(),
+            "last_name": userData.value!.lastName.toString(),
             "image_url": userData.value!.profilePicture.toString(),
             "token": token.toString(),
           });
@@ -1439,6 +1441,8 @@ class ProfileController extends GetxController {
           await _spController.saveUserList({
             "email": userData.value!.email.toString(),
             "name": userData.value!.fullName.toString(),
+            "first_name": userData.value!.firstName.toString(),
+            "last_name": userData.value!.lastName.toString(),
             "image_url": userData.value!.profilePicture.toString(),
             "token": token.toString(),
           });

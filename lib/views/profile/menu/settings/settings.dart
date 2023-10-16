@@ -37,8 +37,8 @@ class Settings extends StatelessWidget {
                 CustomMenuContainer(
                   height: 48,
                   onPressed: () {
-                    _profileController.firstNameEditingController.text = _profileController.userData.value!.firstName!;
-                    _profileController.lastNameEditingController.text = _profileController.userData.value!.lastName!;
+                    _profileController.firstNameEditingController.text = _globalController.userFirstName.value ?? '';
+                    _profileController.lastNameEditingController.text = _globalController.userLastName.value ?? '';
                     _globalController.commonBottomSheet(
                         context: context,
                         isScrollControlled: true,

@@ -936,11 +936,14 @@ class InfoContainer extends StatelessWidget {
                 ),
               ),
               kW8sizedBox,
-              Text(
-                text,
-                style: regular16TextStyle(cIconColor),
+              Expanded(
+                child: Text(
+                  text,
+                  style: regular16TextStyle(cIconColor),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
               ),
-              const Spacer(),
               Icon(
                 suffixIcon,
                 size: screenWiseSize(kIconSize22, 4),

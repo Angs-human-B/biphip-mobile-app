@@ -192,6 +192,8 @@ class Menu extends StatelessWidget {
                                   Get.offAllNamed(krSavedUserLogin);
                                   await SpController().onLogout();
                                   Get.find<AuthenticationController>().resetLoginScreen();
+                                  _profileController.isSupportButtonPressed.value = false;
+                                  _profileController.isSettingButtonPressed.value = false;
                                 } else {
                                   await Get.find<AuthenticationController>().logout();
                                 }
@@ -262,9 +264,13 @@ class CustomMenuContainer extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: k12Padding),
               child: leading,
             ),
-            Text(
-              text,
-              style: textStyle,
+            Expanded(
+              child: Text(
+                text,
+                style: textStyle,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             )
           ],
         ),

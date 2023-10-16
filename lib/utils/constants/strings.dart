@@ -38,7 +38,7 @@ const String ksOk = 'Ok';
 //* authentication story
 //---------------------------------------
 const String ksPleaseLoginToContinue = "Please login to continue";
-const String ksEmailOrPhone = "Email or Phone number";
+const String ksEmailOrPhone = "Email";
 const String ksPassword = 'Password';
 const String ksRememberMe = 'Remember me';
 const String ksLogin = 'Login';
@@ -61,7 +61,7 @@ const String ksUnmatchedPasswordErrorMessage = 'Password doesn\'t match';
 const String ksInvalidEmailErrorMessage = 'Invalid email address';
 const String ksPasswordLengthErrorMessage = 'Password can\'t be less then 8 characters';
 const String ksEmail = 'Email';
-const String ksTypeEmailOrPhone = 'Type your email or Phone Number';
+const String ksTypeEmailOrPhone = 'Type your email';
 const String ksSendCodeToConfirm = 'We will send code to your mail to confirm your account.';
 const String ksOTPVerification = 'OTP Verification';
 const String ksEnterCode = 'Enter the verification code we just sent to your email';

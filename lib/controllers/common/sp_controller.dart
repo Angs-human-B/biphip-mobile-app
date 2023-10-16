@@ -7,6 +7,8 @@ const kRememberMe = "kRememberMe";
 const kUserName = "kUserName";
 const kUserImage = "kUserImage";
 const kUserEmail = "kUserEmail";
+const kUserFirstName = "kUserFirstName";
+const kUserLastName = "kUserLastName";
 const kRecentSearchList = "kRecentSearchList";
 const kUserList = "kUserList";
 
@@ -90,6 +92,28 @@ class SpController {
     return preferences.getString(kUserName);
   }
 
+  //* save user name
+  Future<void> saveUserFirstName(name) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(kUserFirstName, name.toString());
+  }
+
+  Future<String?> getUserFirstName() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(kUserFirstName);
+  }
+
+  //* save user name
+  Future<void> saveUserLastName(name) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(kUserLastName, name.toString());
+  }
+
+  Future<String?> getUserLastName() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(kUserLastName);
+  }
+
   //* save user Image
   Future<void> saveUserImage(imageUrl) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -135,5 +159,7 @@ class SpController {
     await preferences.remove(kUserName);
     await preferences.remove(kUserImage);
     await preferences.remove(kUserEmail);
+    await preferences.remove(kUserFirstName);
+    await preferences.remove(kUserLastName);
   }
 }

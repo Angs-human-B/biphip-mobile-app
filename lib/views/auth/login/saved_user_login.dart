@@ -108,6 +108,8 @@ class CustomUserListContainer extends StatelessWidget {
         await spController.saveBearerToken(_item['token']);
         await spController.saveRememberMe(true);
         await spController.saveUserName(_item['name'].toString());
+        await spController.saveUserFirstName(_item['first_name'].toString());
+        await spController.saveUserLastName(_item['last_name'].toString());
         await spController.saveUserImage(_item['image_url'].toString());
         await spController.saveUserEmail(_item['email'].toString());
         await Get.find<GlobalController>().getUserInfo();
@@ -133,6 +135,8 @@ class CustomUserListContainer extends StatelessWidget {
       title: Text(
         '${_item['name'] ?? ''}',
         style: medium16TextStyle(cBlackColor),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
       trailing: ClipOval(
         child: TextButton(

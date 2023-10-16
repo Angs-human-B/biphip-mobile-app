@@ -375,16 +375,16 @@ class Profile extends StatelessWidget {
                                           onPressed: null,
                                         ),
                                       ),
-                                  if (_profileController.linkDataList.isNotEmpty )
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                        child: LinkUpIconTextRow(
-                                          icon: _profileController.getLinkIcon(_profileController.linkDataList[0].type.toString()),
-                                          text: checkNullOrStringNull(_profileController.linkDataList[0].link),
-                                          isLink: true,
-                                          onPressed: null,
-                                        ),
+                                  if (_profileController.linkDataList.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                      child: LinkUpIconTextRow(
+                                        icon: _profileController.getLinkIcon(_profileController.linkDataList[0].type.toString()),
+                                        text: checkNullOrStringNull(_profileController.linkDataList[0].link),
+                                        isLink: true,
+                                        onPressed: null,
                                       ),
+                                    ),
                                   if (_profileController.linkDataList.isNotEmpty && _profileController.isProfileSeeMore.value)
                                     for (int i = 1; i < _profileController.linkDataList.length; i++)
                                       Padding(
@@ -572,9 +572,11 @@ class LinkUpIconTextRow extends StatelessWidget {
               color: cIconColor,
             ),
             kW12sizedBox,
-            Text(
-              text,
-              style: regular14TextStyle(isLink ? cPrimaryColor : cBlackColor),
+            Expanded(
+              child: Text(
+                text,
+                style: regular14TextStyle(isLink ? cPrimaryColor : cBlackColor),
+              ),
             )
           ],
         ),
