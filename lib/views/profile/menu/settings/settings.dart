@@ -12,57 +12,75 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: cWhiteColor,
-      child: SafeArea(
-        top: false,
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          backgroundColor: cWhiteColor,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(kAppBarSize),
-            //* info:: appBar
-            child: CustomAppBar(
-              appBarColor: cWhiteColor,
-              title: ksSettings.tr,
-              hasBackButton: true,
-              isCenterTitle: true,
-              onBack: () {
-                Get.back();
-              },
+      child: Obx(
+        () => Stack(
+          children: [
+            SafeArea(
+              top: false,
+              child: Scaffold(
+                resizeToAvoidBottomInset: true,
+                backgroundColor: cWhiteColor,
+                appBar: PreferredSize(
+                  preferredSize: const Size.fromHeight(kAppBarSize),
+                  //* info:: appBar
+                  child: CustomAppBar(
+                    appBarColor: cWhiteColor,
+                    title: ksSettings.tr,
+                    hasBackButton: true,
+                    isCenterTitle: true,
+                    onBack: () {
+                      Get.back();
+                    },
+                  ),
+                ),
+                body: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                  child: Column(
+                    children: [
+                      CustomMenuContainer(
+                        height: 48,
+                        onPressed: () {
+                          _profileController.firstNameEditingController.text = _profileController.userData.value!.firstName!;
+                          _profileController.lastNameEditingController.text = _profileController.userData.value!.lastName!;
+                          _globalController.commonBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              content: _ChangeNameBottomSheetContent(
+                                profileController: _profileController,
+                              ),
+                              onPressCloseButton: () {
+                                Get.back();
+                              },
+                              onPressRightButton: () async {
+                                unfocus(context);
+                                Get.back();
+                                await _profileController.changeName();
+                              },
+                              rightText: ksDone.tr,
+                              rightTextStyle: medium14TextStyle(cPrimaryColor),
+                              title: ksChangeName.tr,
+                              isRightButtonShow: true);
+                        },
+                        text: 'Change Name',
+                        textStyle: semiBold16TextStyle(cBlackColor),
+                      )
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: Column(
-              children: [
-                CustomMenuContainer(
-                  height: 48,
-                  onPressed: () {
-                    _profileController.firstNameEditingController.text = _profileController.userData.value!.firstName!;
-                    _profileController.lastNameEditingController.text = _profileController.userData.value!.lastName!;
-                    _globalController.commonBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        content: _ChangeNameBottomSheetContent(
-                          profileController: _profileController,
-                        ),
-                        onPressCloseButton: () {
-                          Get.back();
-                        },
-                        onPressRightButton: () async {
-                          Get.back();
-                          await _profileController.changeName();
-                        },
-                        rightText: ksDone.tr,
-                        rightTextStyle: medium14TextStyle(cPrimaryColor),
-                        title: ksChangeName.tr,
-                        isRightButtonShow: true);
+            if (_profileController.isChangeNameLoading.value == true)
+              Positioned(
+                child: CommonLoadingAnimation(
+                  onWillPop: () async {
+                    if (_profileController.isChangeNameLoading.value) {
+                      return false;
+                    }
+                    return true;
                   },
-                  text: 'Change Name',
-                  textStyle: semiBold16TextStyle(cBlackColor),
-                )
-              ],
-            ),
-          ),
+                ),
+              ),
+          ],
         ),
       ),
     );

@@ -60,7 +60,7 @@ class EditPage extends StatelessWidget {
                                 isScrollControlled: true,
                                 bottomSheetHeight:
                                     (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
-                                        ? height * 0.4
+                                        ? height * 0.3
                                         : height * 0.3,
                                 onPressCloseButton: () {
                                   Get.back();

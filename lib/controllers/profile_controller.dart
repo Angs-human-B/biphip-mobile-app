@@ -15,6 +15,7 @@ class ProfileController extends GetxController {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
+  final RxBool showAllEditOption = RxBool(true);
   final RxBool isSupportButtonPressed = RxBool(false);
   final RxBool isSettingButtonPressed = RxBool(false);
   final RxInt interestCatagoriesIndex = RxInt(0);
@@ -243,7 +244,7 @@ class ProfileController extends GetxController {
   ]);
   final RxString friendActionSelect = RxString('');
   final RxList educationBackgroundList = RxList(['School', 'College']);
-  final RxList linkSourceList = RxList(['Facebook', 'LinkedIn', 'Twitter', 'Website']);
+  final RxList linkSourceList = RxList(['Facebook', 'Twitter', 'Website']);
   final RxString relationshipStatus = RxString('');
   final RxString selectedGender = RxString('');
   final RxString tempSelectedGender = RxString('');
@@ -1418,9 +1419,10 @@ class ProfileController extends GetxController {
   }
 
   //* name change API Implementation
+  RxBool isChangeNameLoading = RxBool(false);
   Future<void> changeName() async {
     try {
-      isEditProfileLoading.value = true;
+      isChangeNameLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {'first_name': firstNameEditingController.text.trim(), 'last_name': lastNameEditingController.text.trim()};
       var response = await _apiController.commonApiCall(
@@ -1444,10 +1446,10 @@ class ProfileController extends GetxController {
           });
         }
         await _globalController.getUserInfo();
-        isEditProfileLoading.value = false;
+        isChangeNameLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isEditProfileLoading.value = false;
+        isChangeNameLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1456,7 +1458,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-      isEditProfileLoading.value = false;
+      isChangeNameLoading.value = false;
       ll('changeName error: $e');
     }
   }
