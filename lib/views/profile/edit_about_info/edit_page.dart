@@ -6,6 +6,7 @@ class EditPage extends StatelessWidget {
   EditPage({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
+  final FocusNode _commonSecondaryFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -124,8 +125,9 @@ class EditPage extends StatelessWidget {
                       if (_profileController.isSecondaryTextfieldShown.value)
                         Padding(
                           padding: const EdgeInsets.only(bottom: k16Padding),
-                          child: Autocomplete(
-                            // initialValue: _profileController.commonEditSecondaryTextEditingController.,
+                          child: RawAutocomplete(
+                            textEditingController: _profileController.commonEditSecondaryTextEditingController,
+                            focusNode: _commonSecondaryFocusNode,
                             optionsBuilder: (TextEditingValue textEditingValue) {
                               return _profileController.temp.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
                             },
@@ -134,10 +136,29 @@ class EditPage extends StatelessWidget {
 
                               ll(option);
                             },
+                            optionsViewBuilder: (context, Function(String) onSelected, options) {
+                              return Material(
+                                elevation: 4,
+                                child: ListView.separated(
+                                  padding: EdgeInsets.zero,
+                                  itemBuilder: (context, index) {
+                                    final option = options.elementAt(index);
+
+                                    return ListTile(
+                                      title: Text(option.toString()),
+                                      onTap: () {
+                                        onSelected(option.toString());
+                                      },
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) => const Divider(),
+                                  itemCount: options.length,
+                                ),
+                              );
+                            },
                             fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
-                              // _profileController.commonEditSecondaryTextEditingController = textEditingController;
                               return CustomModifiedTextField(
-                                controller: _profileController.commonEditSecondaryTextEditingController,
+                                controller: textEditingController,
                                 focusNode: focusNode,
                                 hint: ksDesignation.tr,
                                 prefixIcon: BipHip.work,
@@ -284,7 +305,7 @@ class EditPage extends StatelessWidget {
                               onPressed: () {
                                 ll(_profileController.functionFlag.value);
                                 _profileController.selectFunction(_profileController.functionFlag.value);
-                                // Get.back();
+                                Get.back();
                                 //_profileController.clearCommonEditPageData();
                               }),
                         ],
