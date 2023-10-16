@@ -63,7 +63,7 @@ class SelectGender extends StatelessWidget {
                             context: context,
                             content: Obx(
                               () => _profileController.isGenderListLoading.value
-                                  ? const _GenderListShimmer()
+                                  ? const GenderListShimmer()
                                   : _GenderListContent(
                                       profileController: _profileController,
                                     ),
@@ -151,8 +151,8 @@ class _GenderListContent extends StatelessWidget {
   }
 }
 
-class _GenderListShimmer extends StatelessWidget {
-  const _GenderListShimmer({
+class GenderListShimmer extends StatelessWidget {
+  const GenderListShimmer({
     Key? key,
   }) : super(key: key);
 
@@ -170,8 +170,7 @@ class _GenderListShimmer extends StatelessWidget {
                 baseColor: cWhiteColor,
                 highlightColor: Colors.grey,
                 child: Container(
-                  height: 44,
-                  width: (width / 2) - 40,
+                  height: 20,
                   decoration: BoxDecoration(
                     borderRadius: k8CircularBorderRadius,
                     color: cWhiteColor,

@@ -1428,8 +1428,10 @@ class ProfileController extends GetxController {
 
   //* get profession list API
   Rx<ProfessionListModel?> professionListData = Rx<ProfessionListModel?>(null);
+  RxBool isProfessionListLoading = RxBool(false);
   Future<void> getProfessionList() async {
     try {
+      isProfessionListLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -1440,7 +1442,9 @@ class ProfileController extends GetxController {
         _globalController.professionList.clear();
         professionListData.value = ProfessionListModel.fromJson(response.data);
         _globalController.professionList.addAll(professionListData.value!.professions);
+      isProfessionListLoading.value = false;
       } else {
+      isProfessionListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1449,14 +1453,17 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
+      isProfessionListLoading.value = false;
       ll('getProfessionList error: $e');
     }
   }
 
   //* get interest list API
   Rx<InterestListModel?> interestListData = Rx<InterestListModel?>(null);
+  RxBool isInterestListLoading = RxBool(false);
   Future<void> getInterestList() async {
     try {
+      isInterestListLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -1467,7 +1474,9 @@ class ProfileController extends GetxController {
         _globalController.interestList.clear();
         interestListData.value = InterestListModel.fromJson(response.data);
         _globalController.interestList.addAll(interestListData.value!.interests);
+        isInterestListLoading.value = false;
       } else {
+        isInterestListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1476,6 +1485,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
+      isInterestListLoading.value = false;
       ll('getInterestList error: $e');
     }
   }
@@ -1586,8 +1596,10 @@ class ProfileController extends GetxController {
 
   //* get relationship list API
   Rx<RelationshipListModel?> relationshipListData = Rx<RelationshipListModel?>(null);
+  RxBool isRelationListLoading = RxBool(false);
   Future<void> getRelationshipList() async {
     try {
+      isRelationListLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -1598,7 +1610,9 @@ class ProfileController extends GetxController {
         relationshipStatusList.clear();
         relationshipListData.value = RelationshipListModel.fromJson(response.data);
         relationshipStatusList.addAll(relationshipListData.value!.relationships);
+        isRelationListLoading.value= false;
       } else {
+        isRelationListLoading.value= false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1607,6 +1621,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
+        isRelationListLoading.value= false;
       ll('getRelationshipList error: $e');
     }
   }

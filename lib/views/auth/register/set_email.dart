@@ -1,5 +1,4 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
-import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
@@ -8,7 +7,7 @@ class SetEmail extends StatelessWidget {
   SetEmail({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final ProfileController _profileController = Get.find<ProfileController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +76,6 @@ class SetEmail extends StatelessWidget {
                         onPressed: _authenticationController.checkValidEmail.value
                             ? () async{
                                 Get.toNamed(krSetNewPass);
-                                await _profileController.getProfessionList();
                               }
                             : null,
                         buttonWidth: width - 40,

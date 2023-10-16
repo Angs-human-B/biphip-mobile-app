@@ -31,7 +31,7 @@ class EditPage extends StatelessWidget {
           ),
           body: SingleChildScrollView(
             child: SizedBox(
-              height: height - kAppBarSize,
+              height: height - kAppBarSize - MediaQuery.of(context).padding.top,
               width: width,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
