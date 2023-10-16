@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/friends_family_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
@@ -29,6 +30,7 @@ class Friends extends StatelessWidget {
                 onPressed: () {
                   //*Common bottom sheet for add friend
                   _profileController.searchController.clear();
+                  FocusScope.of(context).unfocus();
                   Get.toNamed(krAddFriend);
                   // _globalController.commonBottomSheet(
                   //   context: context,
@@ -393,11 +395,12 @@ class ReceivedFriendList extends StatelessWidget {
     );
   }
 }
-
-//*Pending friend request list
+//*Pending Friend Request
 class PendingFriendList extends StatelessWidget {
   PendingFriendList({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
+  final FriendFamilyController _friendFamilyController = Get.find<FriendFamilyController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -407,25 +410,51 @@ class PendingFriendList extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
+          // var _item = _profileController.allFriendsList[index];
           return Padding(
             padding: const EdgeInsets.only(bottom: k16Padding),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(k8BorderRadius),
               child: TextButton(
-                  style: kTextButtonStyle,
-                  onPressed: () async {
-                    // ll(index);
-                  },
-                  child: CustomSingleButtonListViewItem(
+                style: kTextButtonStyle,
+                onPressed: () async {
+                  // ll(index);
+                },
+                child: CustomListTile(
+                  borderColor: cLineColor,
+                  leading: CircleAvatar(
+                    radius: 20,
                     backgroundImage: AssetImage(_profileController.pendingFriendLists[index]['image']),
-                    name: _profileController.pendingFriendLists[index]['name'],
-                    buttonText: ksCancelRequest.tr,
-                    buttonOnPressed: () {},
-                    buttonColor: cWhiteColor,
-                    borderColor: cRedColor,
-                    textStyle: semiBold14TextStyle(cRedColor),
-                    buttonWidth: 147,
-                  )),
+                  ),
+                  title: Text(
+                    _profileController.pendingFriendLists[index]['name'],
+                    style: semiBold14TextStyle(cBlackColor),
+                  ),
+                  trailing: CustomIconButton(
+                      onPress: () {
+                        _globalController.commonBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          content: _PendingFriendActionContent(
+                            friendFamilyController: _friendFamilyController,
+                          ),
+                          onPressCloseButton: () {
+                            Get.back();
+                          },
+                          onPressRightButton: () {
+                            Get.back();
+                            _friendFamilyController.pendingFriendActionSelect.value = '';
+                          },
+                          rightText: ksDone.tr,
+                          rightTextStyle: regular14TextStyle(cPrimaryColor),
+                          title: ksAction.tr,
+                          isRightButtonShow: true,
+                          bottomSheetHeight: height * .22,
+                        );
+                      },
+                      icon: BipHip.system),
+                ),
+              ),
             ),
           );
         },
@@ -491,32 +520,94 @@ class _FriendActionContent extends StatelessWidget {
           itemCount: profileController.friendActionList.length,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
-              () => CustomListTile(
-                leading: Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: cNeutralColor,
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: k8Padding),
+                child: CustomListTile(
+                  leading: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: cNeutralColor,
+                    ),
+                    height: h28,
+                    width: h28,
+                    child: Icon(
+                      profileController.friendActionList[index]['icon'],
+                      color: cBlackColor,
+                      size: isDeviceScreenLarge() ? h18 : h14,
+                    ),
                   ),
-                  height: h28,
-                  width: h28,
-                  child: Icon(
-                    profileController.friendActionList[index]['icon'],
-                    color: cBlackColor,
-                    size: isDeviceScreenLarge() ? h18 : h14,
+                  title: profileController.friendActionList[index]['action'],
+                  subtitle: profileController.friendActionList[index]['actionSubtitle'],
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      profileController.friendActionSelect.value = profileController.friendActionList[index]['action'];
+                    },
+                    isSelected: profileController.friendActionSelect.value == profileController.friendActionList[index]['action'],
                   ),
-                ),
-                title: profileController.friendActionList[index]['action'],
-                subtitle: profileController.friendActionList[index]['actionSubtitle'],
-                trailing: CustomRadioButton(
-                  onChanged: () {
+                  itemColor:
+                      profileController.friendActionSelect.value == profileController.friendActionList[index]['action'] ? cPrimaryTint3Color : cWhiteColor,
+                  onPressed: () {
                     profileController.friendActionSelect.value = profileController.friendActionList[index]['action'];
                   },
-                  isSelected: profileController.friendActionSelect.value == profileController.friendActionList[index]['action'],
                 ),
-                itemColor: profileController.friendActionSelect.value == profileController.friendActionList[index]['action'] ? cPrimaryTint3Color : cWhiteColor,
-                onPressed: () {
-                  profileController.friendActionSelect.value = profileController.friendActionList[index]['action'];
-                },
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _PendingFriendActionContent extends StatelessWidget {
+  const _PendingFriendActionContent({
+    Key? key,
+    required this.friendFamilyController,
+  }) : super(key: key);
+
+  final FriendFamilyController friendFamilyController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: friendFamilyController.pendingFriendActionList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Obx(
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: k8Padding),
+                child: CustomListTile(
+                  leading: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: cNeutralColor,
+                    ),
+                    height: h28,
+                    width: h28,
+                    child: Icon(
+                      friendFamilyController.pendingFriendActionList[index]['icon'],
+                      color: cBlackColor,
+                      size: isDeviceScreenLarge() ? h18 : h14,
+                    ),
+                  ),
+                  title: friendFamilyController.pendingFriendActionList[index]['action'],
+                  subtitle: friendFamilyController.pendingFriendActionList[index]['actionSubtitle'],
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      friendFamilyController.pendingFriendActionSelect.value = friendFamilyController.pendingFriendActionList[index]['action'];
+                    },
+                    isSelected: friendFamilyController.pendingFriendActionSelect.value == friendFamilyController.pendingFriendActionList[index]['action'],
+                  ),
+                  itemColor: friendFamilyController.pendingFriendActionSelect.value == friendFamilyController.pendingFriendActionList[index]['action']
+                      ? cPrimaryTint3Color
+                      : cWhiteColor,
+                  onPressed: () {
+                    friendFamilyController.pendingFriendActionSelect.value = friendFamilyController.pendingFriendActionList[index]['action'];
+                  },
+                ),
               ),
             );
           },
