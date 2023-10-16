@@ -182,7 +182,10 @@ class EditProfile extends StatelessWidget {
                           RowTextEdit(
                             prefix: ksIntro.tr,
                             suffix: ksEdit.tr,
-                            onEditPressed: () {},
+                            onEditPressed: () {
+                              _profileController.showAllEditOption.value = false;
+                              Get.toNamed(krEditAboutInfo);
+                            },
                           ),
                           kH16sizedBox,
                           // for (int i = 0; i < editProfileInfoContent.length; i++)
@@ -242,6 +245,7 @@ class EditProfile extends StatelessWidget {
                             buttonColor: cLineColor,
                             textStyle: semiBold12TextStyle(cBlackColor),
                             onPressed: () async {
+                              _profileController.showAllEditOption.value = true;
                               Get.toNamed(krEditAboutInfo);
                               await _profileController.getPositionList();
                             },

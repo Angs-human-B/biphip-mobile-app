@@ -327,12 +327,15 @@ class EditAboutInfo extends StatelessWidget {
                               ),
                             ),
                           const CustomDivider(),
-                          kH16sizedBox,
-                          Text(
-                            ksRelationshipStatus.tr,
-                            style: semiBold18TextStyle(cBlackColor),
+
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                            child: Text(
+                              ksRelationshipStatus.tr,
+                              style: semiBold18TextStyle(cBlackColor),
+                            ),
                           ),
-                          kH20sizedBox,
+
                           CustomSelectionButton(
                             prefixIcon: BipHip.love,
                             onPressed: () async {
@@ -434,80 +437,90 @@ class EditAboutInfo extends StatelessWidget {
                             ),
                           kH16sizedBox,
                           const CustomDivider(),
-                          kH16sizedBox,
-                          RowTextButton(
-                            text: ksGender.tr,
-                            buttonText: ksAdd.tr,
-                            showAddButton: false,
-                            onPressedAdd: null,
-                            buttonWidth: 149,
-                          ),
-                          kH16sizedBox,
-                          CustomSelectionButton(
-                            prefixIcon: Icons.male,
-                            onPressed: () async {
-                              _profileController.isGenderListLoading.value = true;
-
-                              _profileController.tempSelectedGender.value = checkNullOrStringNull(_profileController.userData.value!.gender);
-                              _globalController.commonBottomSheet(
-                                context: context,
-                                content: Obx(
-                                  () => _profileController.isGenderListLoading.value
-                                      ? const GenderListShimmer()
-                                      : _GenderListContent(
-                                          profileController: _profileController,
-                                        ),
-                                ),
-                                isScrollControlled: true,
-                                bottomSheetHeight: height * 0.4,
-                                onPressCloseButton: () {
-                                  Get.back();
-                                },
-                                onPressRightButton: () {
-                                  if (_profileController.tempSelectedGender.value != '') {
-                                    _profileController.selectedGender.value = _profileController.tempSelectedGender.value;
-                                    _profileController.isGenderSelected.value = true;
-                                  }
-                                  Get.back();
-                                },
-                                rightText: ksDone.tr,
-                                rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                title: ksSelectGender.tr,
-                                isRightButtonShow: true,
-                              );
-                              await _profileController.getGenderList();
-                            },
-                            text: _profileController.selectedGender.value != ''
-                                ? _profileController.selectedGender.value
-                                : checkNullOrStringNull(_profileController.userData.value!.gender) ?? ksSelectGender.tr,
-                            hintText: ksSelectGender.tr,
-                          ),
-                          if (_profileController.isGenderSelected.value) kH20sizedBox,
-                          if (_profileController.isGenderSelected.value)
-                            CancelSaveButton(
-                              onPressedCancel: () {
-                                _profileController.selectedGender.value = '';
-                                _profileController.isGenderSelected.value = false;
-                              },
-                              onPressedSave: () async {
-                                await _profileController.storeUserSetting('gender', _profileController.selectedGender.value);
-                                _profileController.selectedGender.value = '';
-                                _profileController.isGenderSelected.value = false;
-                              },
-                            ),
-                          kH16sizedBox,
-                          const CustomDivider(),
-                          kH16sizedBox,
-                          RowTextButton(
-                            text: ksDateOfBirth.tr,
-                            buttonText: ksAdd.tr,
-                            showAddButton: false,
-                            onPressedAdd: null,
-                            buttonWidth: 149,
-                          ),
-                          if (_profileController.userData.value!.dob != null)
+                          if (_profileController.showAllEditOption.value)
                             Padding(
-                              padding: const EdgeInsets.only(top: 16),
+                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                              child: RowTextButton(
+                                text: ksGender.tr,
+                                buttonText: ksAdd.tr,
+                                showAddButton: false,
+                                onPressedAdd: null,
+                                buttonWidth: 149,
+                              ),
+                            ),
+                          if (_profileController.showAllEditOption.value)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: k16Padding),
+                              child: CustomSelectionButton(
+                                prefixIcon: Icons.male,
+                                onPressed: () async {
+                                  _profileController.isGenderListLoading.value = true;
+
+                                  _profileController.tempSelectedGender.value = checkNullOrStringNull(_profileController.userData.value!.gender);
+                                  _globalController.commonBottomSheet(
+                                    context: context,
+                                    content: Obx(
+                                      () => _profileController.isGenderListLoading.value
+                                          ? const GenderListShimmer()
+                                          : _GenderListContent(
+                                              profileController: _profileController,
+                                            ),
+                                    ),
+                                    isScrollControlled: true,
+                                    bottomSheetHeight: height * 0.4,
+                                    onPressCloseButton: () {
+                                      Get.back();
+                                    },
+                                    onPressRightButton: () {
+                                      if (_profileController.tempSelectedGender.value != '') {
+                                        _profileController.selectedGender.value = _profileController.tempSelectedGender.value;
+                                        _profileController.isGenderSelected.value = true;
+                                      }
+                                      Get.back();
+                                    },
+                                    rightText: ksDone.tr,
+                                    rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                    title: ksSelectGender.tr,
+                                    isRightButtonShow: true,
+                                  );
+                                  await _profileController.getGenderList();
+                                },
+                                text: _profileController.selectedGender.value != ''
+                                    ? _profileController.selectedGender.value
+                                    : checkNullOrStringNull(_profileController.userData.value!.gender) ?? ksSelectGender.tr,
+                                hintText: ksSelectGender.tr,
+                              ),
+                            ),
+                          if (_profileController.isGenderSelected.value)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: k16Padding),
+                              child: CancelSaveButton(
+                                onPressedCancel: () {
+                                  _profileController.selectedGender.value = '';
+                                  _profileController.isGenderSelected.value = false;
+                                },
+                                onPressedSave: () async {
+                                  await _profileController.storeUserSetting('gender', _profileController.selectedGender.value);
+                                  _profileController.selectedGender.value = '';
+                                  _profileController.isGenderSelected.value = false;
+                                },
+                              ),
+                            ),
+                          if (_profileController.showAllEditOption.value) const CustomDivider(),
+                          if (_profileController.showAllEditOption.value)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                              child: RowTextButton(
+                                text: ksDateOfBirth.tr,
+                                buttonText: ksAdd.tr,
+                                showAddButton: false,
+                                onPressedAdd: null,
+                                buttonWidth: 149,
+                              ),
+                            ),
+                          if (_profileController.userData.value!.dob != null && _profileController.showAllEditOption.value)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
                               child: InfoContainer(
                                 prefixIcon: BipHip.calendarFill,
                                 suffixIcon: BipHip.edit,
@@ -520,24 +533,26 @@ class EditAboutInfo extends StatelessWidget {
                                 },
                               ),
                             ),
-                          kH16sizedBox,
-                          const CustomDivider(),
-                          kH16sizedBox,
-                          RowTextButton(
-                            text: ksProfession.tr,
-                            buttonText: ksAdd.tr,
-                            showAddButton: _profileController.userData.value!.profession.isEmpty ? true : false,
-                            onPressedAdd: () async {
-                              _profileController.isRouteFromAboutInfo.value = true;
-                              _globalController.professionIndex.value = -1;
-                              Get.toNamed(krSelectProfession);
-                              await _profileController.getProfessionList();
-                            },
-                            buttonWidth: 149,
-                          ),
-                          if (_profileController.userData.value!.profession.isNotEmpty)
+                          if (_profileController.showAllEditOption.value) const CustomDivider(),
+                          if (_profileController.showAllEditOption.value)
                             Padding(
-                              padding: const EdgeInsets.only(top: 16),
+                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                              child: RowTextButton(
+                                text: ksProfession.tr,
+                                buttonText: ksAdd.tr,
+                                showAddButton: _profileController.userData.value!.profession.isEmpty ? true : false,
+                                onPressedAdd: () async {
+                                  _profileController.isRouteFromAboutInfo.value = true;
+                                  _globalController.professionIndex.value = -1;
+                                  Get.toNamed(krSelectProfession);
+                                  await _profileController.getProfessionList();
+                                },
+                                buttonWidth: 149,
+                              ),
+                            ),
+                          if (_profileController.userData.value!.profession.isNotEmpty && _profileController.showAllEditOption.value)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
                               child: InfoContainer(
                                 prefixIcon: BipHip.work,
                                 suffixIcon: BipHip.edit,
@@ -556,29 +571,31 @@ class EditAboutInfo extends StatelessWidget {
                                 },
                               ),
                             ),
-                          kH16sizedBox,
-                          const CustomDivider(),
-                          kH16sizedBox,
-                          RowTextButton(
-                            text: ksInterest.tr,
-                            buttonText: ksAdd.tr,
-                            showAddButton: true,
-                            onPressedAdd: () async {
-                              _globalController.interestIndex.clear();
-                              _profileController.isRouteFromAboutInfo.value = true;
-                              Get.toNamed(krSelectInterest);
-                              await _profileController.getInterestList();
-                              for (int j = 0; j < _profileController.userData.value!.interest.length; j++) {
-                                for (int i = 0; i < _globalController.interestList.length; i++) {
-                                  if (_globalController.interestList[i] == _profileController.userData.value!.interest[j]) {
-                                    _globalController.interestIndex.add(i);
+                          if (_profileController.showAllEditOption.value) const CustomDivider(),
+                          if (_profileController.showAllEditOption.value)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                              child: RowTextButton(
+                                text: ksInterest.tr,
+                                buttonText: ksAdd.tr,
+                                showAddButton: true,
+                                onPressedAdd: () async {
+                                  _globalController.interestIndex.clear();
+                                  _profileController.isRouteFromAboutInfo.value = true;
+                                  Get.toNamed(krSelectInterest);
+                                  await _profileController.getInterestList();
+                                  for (int j = 0; j < _profileController.userData.value!.interest.length; j++) {
+                                    for (int i = 0; i < _globalController.interestList.length; i++) {
+                                      if (_globalController.interestList[i] == _profileController.userData.value!.interest[j]) {
+                                        _globalController.interestIndex.add(i);
+                                      }
+                                    }
                                   }
-                                }
-                              }
-                            },
-                            buttonWidth: 149,
-                          ),
-                          if (_profileController.userData.value!.interest.isNotEmpty)
+                                },
+                                buttonWidth: 149,
+                              ),
+                            ),
+                          if (_profileController.userData.value!.interest.isNotEmpty && _profileController.showAllEditOption.value)
                             Wrap(
                               alignment: WrapAlignment.start,
                               direction: Axis.horizontal,
@@ -592,19 +609,20 @@ class EditAboutInfo extends StatelessWidget {
                                   )
                               ],
                             ),
-                          kH16sizedBox,
-                          const CustomDivider(),
-                          kH16sizedBox,
-                          RowTextButton(
-                            text: ksWork.tr,
-                            buttonText: ksAdd.tr,
-                            showAddButton: true,
-                            onPressedAdd: () {
-                              _profileController.getMethod(8);
-                            },
-                            buttonWidth: 149,
+                          if (_profileController.showAllEditOption.value) kH16sizedBox,
+                          if (_profileController.showAllEditOption.value) const CustomDivider(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                            child: RowTextButton(
+                              text: ksWork.tr,
+                              buttonText: ksAdd.tr,
+                              showAddButton: true,
+                              onPressedAdd: () {
+                                _profileController.getMethod(8);
+                              },
+                              buttonWidth: 149,
+                            ),
                           ),
-                          kH16sizedBox,
                           if (_profileController.currentWorkplace.value != null)
                             InfoContainer(
                               prefixIcon: BipHip.officeFill,
@@ -653,18 +671,18 @@ class EditAboutInfo extends StatelessWidget {
                                 //     ));
                               },
                             ),
-                          kH16sizedBox,
-                          RowTextButton(
-                            text: ksOther.tr,
-                            buttonText: ksAdd.tr,
-                            showAddButton: true,
-                            onPressedAdd: () {
-                              _profileController.getMethod(8);
-                            },
-                            buttonWidth: 149,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                            child: RowTextButton(
+                              text: ksOther.tr,
+                              buttonText: ksAdd.tr,
+                              showAddButton: true,
+                              onPressedAdd: () {
+                                _profileController.getMethod(8);
+                              },
+                              buttonWidth: 149,
+                            ),
                           ),
-                          kH16sizedBox,
-
                           for (int i = 0; i < _profileController.workplaceDataList.length; i++)
                             if (_profileController.workplaceDataList[i].isCurrent != 1)
                               Padding(
@@ -717,25 +735,28 @@ class EditAboutInfo extends StatelessWidget {
                                   },
                                 ),
                               ),
-                          const CustomDivider(),
-                          kH16sizedBox,
-                          Text(
-                            ksContactDetails.tr,
-                            style: semiBold18TextStyle(cBlackColor),
-                          ),
-                          kH20sizedBox,
-                          RowTextButton(
-                            text: ksPhone.tr,
-                            buttonText: ksAdd.tr,
-                            showAddButton: true,
-                            onPressedAdd: () {
-                              _profileController.getMethod(11);
-                            },
-                            buttonWidth: 177,
-                          ),
-                          kH16sizedBox,
+                          if (_profileController.showAllEditOption.value) const CustomDivider(),
+                          if (_profileController.showAllEditOption.value) kH16sizedBox,
+                          if (_profileController.showAllEditOption.value)
+                            Text(
+                              ksContactDetails.tr,
+                              style: semiBold18TextStyle(cBlackColor),
+                            ),
+                          if (_profileController.showAllEditOption.value)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                              child: RowTextButton(
+                                text: ksPhone.tr,
+                                buttonText: ksAdd.tr,
+                                showAddButton: true,
+                                onPressedAdd: () {
+                                  _profileController.getMethod(11);
+                                },
+                                buttonWidth: 177,
+                              ),
+                            ),
                           for (int i = 0; i < _profileController.contactDataList.length; i++)
-                            if (_profileController.contactDataList[i].type == 'phone')
+                            if (_profileController.contactDataList[i].type == 'phone' && _profileController.showAllEditOption.value)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: k10Padding),
                                 child: InfoContainer(
@@ -774,19 +795,21 @@ class EditAboutInfo extends StatelessWidget {
                                   },
                                 ),
                               ),
-                          if (_profileController.phoneList.isNotEmpty) kH8sizedBox,
-                          RowTextButton(
-                            text: ksEmail.tr,
-                            buttonText: ksAdd.tr,
-                            showAddButton: true,
-                            onPressedAdd: () {
-                              _profileController.getMethod(13);
-                            },
-                            buttonWidth: 118,
-                          ),
-                          kH16sizedBox,
+                          if (_profileController.showAllEditOption.value)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                              child: RowTextButton(
+                                text: ksEmail.tr,
+                                buttonText: ksAdd.tr,
+                                showAddButton: true,
+                                onPressedAdd: () {
+                                  _profileController.getMethod(13);
+                                },
+                                buttonWidth: 118,
+                              ),
+                            ),
                           for (int i = 0; i < _profileController.contactDataList.length; i++)
-                            if (_profileController.contactDataList[i].type == 'email')
+                            if (_profileController.contactDataList[i].type == 'email' && _profileController.showAllEditOption.value)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: k10Padding),
                                 child: InfoContainer(
@@ -825,64 +848,67 @@ class EditAboutInfo extends StatelessWidget {
                                   },
                                 ),
                               ),
-                          kH16sizedBox,
-                          const CustomDivider(),
-                          kH16sizedBox,
-                          RowTextButton(
-                            text: ksWebsiteAndSocialLinks.tr,
-                            buttonText: ksAdd.tr,
-                            showAddButton: true,
-                            onPressedAdd: () {
-                              _profileController.linkSource.value = '';
-                              _profileController.linkTextEditingController.clear();
-                              _profileController.commonEditPageIcon.value = null;
-                              _profileController.getMethod(15);
-                            },
-                            buttonWidth: 109,
-                          ),
-                          kH16sizedBox,
-                          for (int i = 0; i < _profileController.linkDataList.length; i++)
+                          if (_profileController.showAllEditOption.value) kH16sizedBox,
+                          if (_profileController.showAllEditOption.value) const CustomDivider(),
+                          if (_profileController.showAllEditOption.value)
                             Padding(
-                              padding: const EdgeInsets.only(bottom: k10Padding),
-                              child: InfoContainer(
-                                prefixIcon: _profileController.getLinkIcon(_profileController.linkDataList[i].type!),
-                                suffixIcon: BipHip.edit,
-                                text: checkNullOrStringNull(_profileController.linkDataList[i].link),
-                                suffixOnPressed: () {
+                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                              child: RowTextButton(
+                                text: ksWebsiteAndSocialLinks.tr,
+                                buttonText: ksAdd.tr,
+                                showAddButton: true,
+                                onPressedAdd: () {
+                                  _profileController.linkSource.value = '';
+                                  _profileController.linkTextEditingController.clear();
                                   _profileController.commonEditPageIcon.value = null;
-                                  _profileController.linkTextEditingController.text = _profileController.linkDataList[i].link!;
-                                  _profileController.linkID.value = _profileController.linkDataList[i].id!;
-                                  _profileController.linkSource.value = _profileController.linkDataList[i].type!;
-                                  _profileController.getMethod(16);
-                                  // _globalController.commonBottomSheet(
-                                  //     context: context,
-                                  //     isScrollControlled: false,
-                                  //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                  //     onPressCloseButton: () {
-                                  //       Get.back();
-                                  //     },
-                                  //     onPressRightButton: null,
-                                  //     rightText: '',
-                                  //     rightTextStyle: regular10TextStyle(cBlackColor),
-                                  //     title: ksEdit.tr,
-                                  //     isRightButtonShow: false,
-                                  //     content: EditModalSheet(
-                                  //       editButtonText: ksEditLink.tr,
-                                  //       editOnPressed: () {
-                                  //         _profileController.linkTextEditingController.text = _profileController.linkDataList[i].link!;
-                                  //         _profileController.linkID.value = _profileController.linkDataList[i].id!;
-                                  //         _profileController.linkSource.value = _profileController.linkDataList[i].type!;
-                                  //         _profileController.getMethod(16);
-                                  //       },
-                                  //       deleteButtonText: ksDeleteLink.tr,
-                                  //       deleteOnPressed: () async {
-                                  //         Get.back();
-                                  //         await _profileController.deleteLink(_profileController.linkDataList[i].id);
-                                  //       },
-                                  //     ));
+                                  _profileController.getMethod(15);
                                 },
+                                buttonWidth: 109,
                               ),
                             ),
+                          for (int i = 0; i < _profileController.linkDataList.length; i++)
+                            if (_profileController.showAllEditOption.value)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: k10Padding),
+                                child: InfoContainer(
+                                  prefixIcon: _profileController.getLinkIcon(_profileController.linkDataList[i].type!),
+                                  suffixIcon: BipHip.edit,
+                                  text: checkNullOrStringNull(_profileController.linkDataList[i].link),
+                                  suffixOnPressed: () {
+                                    _profileController.commonEditPageIcon.value = null;
+                                    _profileController.linkTextEditingController.text = _profileController.linkDataList[i].link!;
+                                    _profileController.linkID.value = _profileController.linkDataList[i].id!;
+                                    _profileController.linkSource.value = _profileController.linkDataList[i].type!;
+                                    _profileController.getMethod(16);
+                                    // _globalController.commonBottomSheet(
+                                    //     context: context,
+                                    //     isScrollControlled: false,
+                                    //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
+                                    //     onPressCloseButton: () {
+                                    //       Get.back();
+                                    //     },
+                                    //     onPressRightButton: null,
+                                    //     rightText: '',
+                                    //     rightTextStyle: regular10TextStyle(cBlackColor),
+                                    //     title: ksEdit.tr,
+                                    //     isRightButtonShow: false,
+                                    //     content: EditModalSheet(
+                                    //       editButtonText: ksEditLink.tr,
+                                    //       editOnPressed: () {
+                                    //         _profileController.linkTextEditingController.text = _profileController.linkDataList[i].link!;
+                                    //         _profileController.linkID.value = _profileController.linkDataList[i].id!;
+                                    //         _profileController.linkSource.value = _profileController.linkDataList[i].type!;
+                                    //         _profileController.getMethod(16);
+                                    //       },
+                                    //       deleteButtonText: ksDeleteLink.tr,
+                                    //       deleteOnPressed: () async {
+                                    //         Get.back();
+                                    //         await _profileController.deleteLink(_profileController.linkDataList[i].id);
+                                    //       },
+                                    //     ));
+                                  },
+                                ),
+                              ),
                           kH12sizedBox
                         ],
                       ),
