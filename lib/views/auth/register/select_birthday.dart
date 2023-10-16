@@ -90,6 +90,7 @@ class SelectBirthday extends StatelessWidget {
                             ? () async {
                                 if (!_profileController.isRouteFromAboutInfo.value) {
                                   Get.toNamed(krSelectGender);
+                                  await _profileController.getGenderList();
                                 } else {
                                   _profileController.birthday.value = _authenticationController.birthDay.value;
                                   Get.back();

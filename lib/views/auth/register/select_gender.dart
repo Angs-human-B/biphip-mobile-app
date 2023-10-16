@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
+import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
@@ -8,6 +9,7 @@ class SelectGender extends StatelessWidget {
   SelectGender({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
 
   @override
@@ -58,18 +60,24 @@ class SelectGender extends StatelessWidget {
                           _globalController.commonBottomSheet(
                             context: context,
                             content: _GenderListContent(
-                              authenticationController: _authenticationController,
+                              profileController: _profileController,
                             ),
                             onPressCloseButton: () {
                               Get.back();
                             },
-                            onPressRightButton: null,
-                            rightText: '',
-                            rightTextStyle: regular10TextStyle(cBlackColor),
+                            onPressRightButton: () {
+                              if (_profileController.tempSelectedGender.value != '') {
+                                _authenticationController.gender.value = _profileController.tempSelectedGender.value;
+                                _profileController.isGenderSelected.value = true;
+                              }
+                              Get.back();
+                            },
+                            rightText: ksDone.tr,
+                            rightTextStyle: medium14TextStyle(cPrimaryColor),
                             title: ksSelectGender.tr,
-                            isRightButtonShow: false,
+                            isRightButtonShow: true,
                             isScrollControlled: true,
-                            bottomSheetHeight: 260,
+                            bottomSheetHeight: height * 0.4,
                           );
                         },
                         text: _authenticationController.gender.value,
@@ -99,53 +107,90 @@ class SelectGender extends StatelessWidget {
   }
 }
 
+// class _GenderListContent extends StatelessWidget {
+//   const _GenderListContent({
+//     Key? key,
+//     required this.authenticationController,
+//   }) : super(key: key);
+
+//   final AuthenticationController authenticationController;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Obx(() => Column(
+//           // mainAxisSize: MainAxisSize.min,
+//           children: [
+//             RadioListTile(
+//               title: Text(genders[0]),
+//               value: genders[0],
+//               activeColor: cPrimaryColor,
+//               contentPadding: EdgeInsets.zero,
+//               groupValue: authenticationController.gender.value,
+//               controlAffinity: ListTileControlAffinity.trailing,
+//               onChanged: (value) {
+//                 authenticationController.gender.value = value;
+//               },
+//             ),
+//             RadioListTile(
+//               title: Text(genders[1]),
+//               value: genders[1],
+//               activeColor: cPrimaryColor,
+//               contentPadding: EdgeInsets.zero,
+//               groupValue: authenticationController.gender.value,
+//               controlAffinity: ListTileControlAffinity.trailing,
+//               onChanged: (value) {
+//                 authenticationController.gender.value = value;
+//               },
+//             ),
+//             RadioListTile(
+//               title: Text(genders[2]),
+//               value: genders[2],
+//               activeColor: cPrimaryColor,
+//               contentPadding: EdgeInsets.zero,
+//               groupValue: authenticationController.gender.value,
+//               controlAffinity: ListTileControlAffinity.trailing,
+//               onChanged: (value) {
+//                 authenticationController.gender.value = value;
+//               },
+//             ),
+//           ],
+//         ));
+//   }
+// }
+
 class _GenderListContent extends StatelessWidget {
   const _GenderListContent({
     Key? key,
-    required this.authenticationController,
+    required this.profileController,
   }) : super(key: key);
 
-  final AuthenticationController authenticationController;
+  final ProfileController profileController;
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Column(
-          // mainAxisSize: MainAxisSize.min,
-          children: [
-            RadioListTile(
-              title: Text(genders[0]),
-              value: genders[0],
-              activeColor: cPrimaryColor,
-              contentPadding: EdgeInsets.zero,
-              groupValue: authenticationController.gender.value,
-              controlAffinity: ListTileControlAffinity.trailing,
-              onChanged: (value) {
-                authenticationController.gender.value = value;
-              },
-            ),
-            RadioListTile(
-              title: Text(genders[1]),
-              value: genders[1],
-              activeColor: cPrimaryColor,
-              contentPadding: EdgeInsets.zero,
-              groupValue: authenticationController.gender.value,
-              controlAffinity: ListTileControlAffinity.trailing,
-              onChanged: (value) {
-                authenticationController.gender.value = value;
-              },
-            ),
-            RadioListTile(
-              title: Text(genders[2]),
-              value: genders[2],
-              activeColor: cPrimaryColor,
-              contentPadding: EdgeInsets.zero,
-              groupValue: authenticationController.gender.value,
-              controlAffinity: ListTileControlAffinity.trailing,
-              onChanged: (value) {
-                authenticationController.gender.value = value;
-              },
-            ),
-          ],
-        ));
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: profileController.genderList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Obx(
+              () => RadioListTile(
+                title: Text(profileController.genderList[index]),
+                value: profileController.genderList[index],
+                activeColor: cPrimaryColor,
+                contentPadding: EdgeInsets.zero,
+                groupValue: profileController.tempSelectedGender.value,
+                controlAffinity: ListTileControlAffinity.trailing,
+                onChanged: (value) {
+                  profileController.tempSelectedGender.value = value;
+                },
+              ),
+            );
+          },
+        ),
+      ],
+    );
   }
 }
