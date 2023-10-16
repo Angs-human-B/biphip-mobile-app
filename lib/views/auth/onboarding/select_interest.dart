@@ -43,72 +43,79 @@ class SelectInterestScreen extends StatelessWidget {
             ),
           ),
           backgroundColor: cWhiteColor,
-          body: SizedBox(
-            width: width,
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: Obx(
-                  () => Column(
-                    children: [
-                      if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
-                      if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
-                      TopTitleAndSubtitle(
-                        title: _profileController.isRouteFromAboutInfo.value ? "" : ksChooseInterest.tr,
-                        subTitle: ksCHooseInterestSubtitle.tr,
+          body: Obx(
+            () => _profileController.isInterestListLoading.value
+                ? CommonLoadingAnimation(
+                    backgroundColor: cWhiteColor,
+                    onWillPop: () async {
+                      return true;
+                    },
+                  )
+                : SizedBox(
+                    width: width,
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                        child: Column(
+                          children: [
+                            if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                            if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                            TopTitleAndSubtitle(
+                              title: _profileController.isRouteFromAboutInfo.value ? "" : ksChooseInterest.tr,
+                              subTitle: ksCHooseInterestSubtitle.tr,
+                            ),
+                            kH16sizedBox,
+                            Wrap(
+                              alignment: WrapAlignment.start,
+                              direction: Axis.horizontal,
+                              spacing: 8.0,
+                              children: [
+                                for (int i = 0; i < _globalController.interestList.length; i++)
+                                  CustomChoiceChips(
+                                    label: _globalController.interestList[i],
+                                    isSelected: (_globalController.interestIndex.contains(i)),
+                                    onSelected: (value) {
+                                      if (!_globalController.interestIndex.contains(i)) {
+                                        _globalController.interestIndex.add(i);
+                                      } else {
+                                        _globalController.interestIndex.remove(i);
+                                      }
+                                      ll(_globalController.interestIndex);
+                                    },
+                                  )
+                              ],
+                            ),
+                            CustomElevatedButton(
+                              label: _profileController.isRouteFromAboutInfo.value ? ksSave : ksNext.tr,
+                              onPressed: _globalController.interestIndex.isNotEmpty
+                                  ? () async {
+                                      if (!_profileController.isRouteFromAboutInfo.value) {
+                                        for (int i = 0; i < _globalController.interestIndex.length; i++) {
+                                          _globalController.selectedInterests.add(_globalController.interestList[_globalController.interestIndex[i]]);
+                                        }
+                                        Get.toNamed(krUploadPicture);
+                                        _globalController.resetChipSelection();
+                                      } else {
+                                        _globalController.selectedInterests.clear();
+                                        for (int i = 0; i < _globalController.interestIndex.length; i++) {
+                                          _globalController.selectedInterests.add(_globalController.interestList[_globalController.interestIndex[i]]);
+                                        }
+                                        Get.back();
+                                        _profileController.isRouteFromAboutInfo.value = false;
+                                      }
+                                      await _profileController.setInterest(_globalController.selectedInterests);
+                                    }
+                                  : null,
+                              buttonWidth: width - 40,
+                              textStyle: semiBold16TextStyle(cWhiteColor),
+                            ),
+                            kHBottomSizedBox
+                          ],
+                        ),
                       ),
-                      kH16sizedBox,
-                      Wrap(
-                        alignment: WrapAlignment.start,
-                        direction: Axis.horizontal,
-                        spacing: 8.0,
-                        children: [
-                          for (int i = 0; i < _globalController.interestList.length; i++)
-                            CustomChoiceChips(
-                              label: _globalController.interestList[i],
-                              isSelected: (_globalController.interestIndex.contains(i)),
-                              onSelected: (value) {
-                                if (!_globalController.interestIndex.contains(i)) {
-                                  _globalController.interestIndex.add(i);
-                                } else {
-                                  _globalController.interestIndex.remove(i);
-                                }
-                                ll(_globalController.interestIndex);
-                              },
-                            )
-                        ],
-                      ),
-                      CustomElevatedButton(
-                        label: _profileController.isRouteFromAboutInfo.value ? ksSave : ksNext.tr,
-                        onPressed: _globalController.interestIndex.isNotEmpty
-                            ? () async {
-                                if (!_profileController.isRouteFromAboutInfo.value) {
-                                  for (int i = 0; i < _globalController.interestIndex.length; i++) {
-                                    _globalController.selectedInterests.add(_globalController.interestList[_globalController.interestIndex[i]]);
-                                  }
-                                  Get.toNamed(krUploadPicture);
-                                  _globalController.resetChipSelection();
-                                } else {
-                                  _globalController.selectedInterests.clear();
-                                  for (int i = 0; i < _globalController.interestIndex.length; i++) {
-                                    _globalController.selectedInterests.add(_globalController.interestList[_globalController.interestIndex[i]]);
-                                  }
-                                  Get.back();
-                                  _profileController.isRouteFromAboutInfo.value = false;
-                                }
-                                await _profileController.setInterest(_globalController.selectedInterests);
-                              }
-                            : null,
-                        buttonWidth: width - 40,
-                        textStyle: semiBold16TextStyle(cWhiteColor),
-                      ),
-                      kHBottomSizedBox
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ),
           ),
         ),
       ),

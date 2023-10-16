@@ -1120,9 +1120,18 @@ class ProfileController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
+        emailDataList.clear();
+        phoneDataList.clear();
         for (int i = 0; i < contactDataList.length; i++) {
           if (contactDataList[i].id == id) {
             contactDataList.removeAt(i);
+          }
+        }
+        for (int i = 0; i < contactDataList.length; i++) {
+          if (contactDataList[i].type == 'email') {
+            emailDataList.add(contactDataList[i]);
+          } else {
+            phoneDataList.add(contactDataList[i]);
           }
         }
         isEditProfileLoading.value = false;
@@ -1254,9 +1263,10 @@ class ProfileController extends GetxController {
 
   //* update bio API Implementation
   Rx<CommonUserDataModel?> commonUserLayeredData = Rx<CommonUserDataModel?>(null);
+  RxBool isBioLoading = RxBool(false);
   Future<void> updateBio() async {
     try {
-      isEditProfileLoading.value = true;
+      isBioLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
         'bio': bioEditingController.text.trim(),
@@ -1275,11 +1285,11 @@ class ProfileController extends GetxController {
         Get.back();
         Get.back();
         clearBio();
-        isEditProfileLoading.value = false;
+        isBioLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        isEditProfileLoading.value = false;
+        isBioLoading.value = false;
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
@@ -1287,7 +1297,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-      isEditProfileLoading.value = false;
+      isBioLoading.value = false;
       ll('updateBio error: $e');
     }
   }
@@ -1424,6 +1434,16 @@ class ProfileController extends GetxController {
         ll(response.data);
         commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
         userData.value = commonUserLayeredData.value!.user;
+        var rememberMe = await _spController.getRememberMe();
+        if (rememberMe == true) {
+          await _spController.saveUserList({
+            "email": userData.value!.email.toString(),
+            "name": userData.value!.fullName.toString(),
+            "image_url": userData.value!.profilePicture.toString(),
+            "token": token.toString(),
+          });
+        }
+        await _globalController.getUserInfo();
         isEditProfileLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -1443,8 +1463,10 @@ class ProfileController extends GetxController {
 
   //* get profession list API
   Rx<ProfessionListModel?> professionListData = Rx<ProfessionListModel?>(null);
+  RxBool isProfessionListLoading = RxBool(false);
   Future<void> getProfessionList() async {
     try {
+      isProfessionListLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -1455,7 +1477,9 @@ class ProfileController extends GetxController {
         _globalController.professionList.clear();
         professionListData.value = ProfessionListModel.fromJson(response.data);
         _globalController.professionList.addAll(professionListData.value!.professions);
+        isProfessionListLoading.value = false;
       } else {
+        isProfessionListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1464,14 +1488,17 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
+      isProfessionListLoading.value = false;
       ll('getProfessionList error: $e');
     }
   }
 
   //* get interest list API
   Rx<InterestListModel?> interestListData = Rx<InterestListModel?>(null);
+  RxBool isInterestListLoading = RxBool(false);
   Future<void> getInterestList() async {
     try {
+      isInterestListLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -1482,7 +1509,9 @@ class ProfileController extends GetxController {
         _globalController.interestList.clear();
         interestListData.value = InterestListModel.fromJson(response.data);
         _globalController.interestList.addAll(interestListData.value!.interests);
+        isInterestListLoading.value = false;
       } else {
+        isInterestListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1491,6 +1520,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
+      isInterestListLoading.value = false;
       ll('getInterestList error: $e');
     }
   }
@@ -1569,8 +1599,10 @@ class ProfileController extends GetxController {
 
   //* get gender list API
   Rx<GenderListModel?> genderListData = Rx<GenderListModel?>(null);
+  RxBool isGenderListLoading = RxBool(false);
   Future<void> getGenderList() async {
     try {
+      isGenderListLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -1581,7 +1613,9 @@ class ProfileController extends GetxController {
         genderList.clear();
         genderListData.value = GenderListModel.fromJson(response.data);
         genderList.addAll(genderListData.value!.genders);
+        isGenderListLoading.value = false;
       } else {
+        isGenderListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1590,14 +1624,17 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
+      isGenderListLoading.value = false;
       ll('getGenderList error: $e');
     }
   }
 
   //* get relationship list API
   Rx<RelationshipListModel?> relationshipListData = Rx<RelationshipListModel?>(null);
+  RxBool isRelationListLoading = RxBool(false);
   Future<void> getRelationshipList() async {
     try {
+      isRelationListLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -1608,7 +1645,9 @@ class ProfileController extends GetxController {
         relationshipStatusList.clear();
         relationshipListData.value = RelationshipListModel.fromJson(response.data);
         relationshipStatusList.addAll(relationshipListData.value!.relationships);
+        isRelationListLoading.value = false;
       } else {
+        isRelationListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1617,6 +1656,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
+      isRelationListLoading.value = false;
       ll('getRelationshipList error: $e');
     }
   }
@@ -1651,4 +1691,11 @@ class ProfileController extends GetxController {
   }
 
   final RxBool isImageUploadPageLoading = RxBool(false);
+  bool showSeeMore() {
+    if (emailDataList.length + phoneDataList.length + linkDataList.length > 3) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

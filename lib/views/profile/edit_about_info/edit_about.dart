@@ -1,15 +1,19 @@
+import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
 class EditAboutInfo extends StatelessWidget {
   EditAboutInfo({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
+  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
   final GlobalController _globalController = Get.find<GlobalController>();
 
   @override
@@ -331,12 +335,19 @@ class EditAboutInfo extends StatelessWidget {
                           kH20sizedBox,
                           CustomSelectionButton(
                             prefixIcon: BipHip.love,
-                            onPressed: () {
-                              _profileController.tempRelationshipStatus.value = checkNullOrStringNull(_profileController.userData.value!.relation);
+                            onPressed: () async {
+                              _profileController.isRelationListLoading.value = true;
+                              if (_profileController.userData.value!.relation != null) {
+                                _profileController.tempRelationshipStatus.value = checkNullOrStringNull(_profileController.userData.value!.relation);
+                              }
                               _globalController.commonBottomSheet(
                                 context: context,
-                                content: _RelationshipStatusListContent(
-                                  profileController: _profileController,
+                                content: Obx(
+                                  () => _profileController.isRelationListLoading.value
+                                      ? const _RelationshipStatusListShimmer()
+                                      : _RelationshipStatusListContent(
+                                          profileController: _profileController,
+                                        ),
                                 ),
                                 isScrollControlled: true,
                                 bottomSheetHeight: height * 0.6,
@@ -355,6 +366,7 @@ class EditAboutInfo extends StatelessWidget {
                                 title: ksSelectRelationshipStatus.tr,
                                 isRightButtonShow: true,
                               );
+                              await _profileController.getRelationshipList();
                             },
                             text: _profileController.relationshipStatus.value != ''
                                 ? _profileController.relationshipStatus.value
@@ -433,12 +445,18 @@ class EditAboutInfo extends StatelessWidget {
                           kH16sizedBox,
                           CustomSelectionButton(
                             prefixIcon: Icons.male,
-                            onPressed: () {
+                            onPressed: () async {
+                              _profileController.isGenderListLoading.value = true;
+
                               _profileController.tempSelectedGender.value = checkNullOrStringNull(_profileController.userData.value!.gender);
                               _globalController.commonBottomSheet(
                                 context: context,
-                                content: _GenderListContent(
-                                  profileController: _profileController,
+                                content: Obx(
+                                  () => _profileController.isGenderListLoading.value
+                                      ? const GenderListShimmer()
+                                      : _GenderListContent(
+                                          profileController: _profileController,
+                                        ),
                                 ),
                                 isScrollControlled: true,
                                 bottomSheetHeight: height * 0.4,
@@ -457,6 +475,7 @@ class EditAboutInfo extends StatelessWidget {
                                 title: ksSelectGender.tr,
                                 isRightButtonShow: true,
                               );
+                              await _profileController.getGenderList();
                             },
                             text: _profileController.selectedGender.value != ''
                                 ? _profileController.selectedGender.value
@@ -494,7 +513,9 @@ class EditAboutInfo extends StatelessWidget {
                                 suffixIcon: BipHip.edit,
                                 text: DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!),
                                 suffixOnPressed: () {
+                                  _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!);
                                   _profileController.isRouteFromAboutInfo.value = true;
+
                                   Get.toNamed(krSelectBirthday);
                                 },
                               ),
@@ -505,10 +526,12 @@ class EditAboutInfo extends StatelessWidget {
                           RowTextButton(
                             text: ksProfession.tr,
                             buttonText: ksAdd.tr,
-                            showAddButton: false,
-                            onPressedAdd: () {
+                            showAddButton: _profileController.userData.value!.profession.isEmpty ? true : false,
+                            onPressedAdd: () async {
                               _profileController.isRouteFromAboutInfo.value = true;
+                              _globalController.professionIndex.value = -1;
                               Get.toNamed(krSelectProfession);
+                              await _profileController.getProfessionList();
                             },
                             buttonWidth: 149,
                           ),
@@ -519,15 +542,17 @@ class EditAboutInfo extends StatelessWidget {
                                 prefixIcon: BipHip.work,
                                 suffixIcon: BipHip.edit,
                                 text: checkNullOrStringNull(_profileController.userData.value!.profession[0]) ?? ksSelectProfession.tr,
-                                suffixOnPressed: () {
+                                suffixOnPressed: () async {
+                                  _globalController.professionIndex.value = -1;
+                                  _profileController.isRouteFromAboutInfo.value = true;
+                                  Get.toNamed(krSelectProfession);
+                                  await _profileController.getProfessionList();
                                   for (int i = 0; i < _globalController.professionList.length; i++) {
                                     if (_globalController.professionList[i] == _profileController.userData.value!.profession[0]) {
                                       _globalController.professionIndex.value = i;
                                     }
                                   }
                                   ll(_globalController.professionIndex.value);
-                                  _profileController.isRouteFromAboutInfo.value = true;
-                                  Get.toNamed(krSelectProfession);
                                 },
                               ),
                             ),
@@ -538,7 +563,11 @@ class EditAboutInfo extends StatelessWidget {
                             text: ksInterest.tr,
                             buttonText: ksAdd.tr,
                             showAddButton: true,
-                            onPressedAdd: () {
+                            onPressedAdd: () async {
+                              _globalController.interestIndex.clear();
+                              _profileController.isRouteFromAboutInfo.value = true;
+                              Get.toNamed(krSelectInterest);
+                              await _profileController.getInterestList();
                               for (int j = 0; j < _profileController.userData.value!.interest.length; j++) {
                                 for (int i = 0; i < _globalController.interestList.length; i++) {
                                   if (_globalController.interestList[i] == _profileController.userData.value!.interest[j]) {
@@ -546,8 +575,6 @@ class EditAboutInfo extends StatelessWidget {
                                   }
                                 }
                               }
-                              _profileController.isRouteFromAboutInfo.value = true;
-                              Get.toNamed(krSelectInterest);
                             },
                             buttonWidth: 149,
                           ),
@@ -979,6 +1006,41 @@ class _RelationshipStatusListContent extends StatelessWidget {
                     profileController.tempRelationshipStatus.value = value;
                   },
                 ));
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _RelationshipStatusListShimmer extends StatelessWidget {
+  const _RelationshipStatusListShimmer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: 5,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Shimmer.fromColors(
+                baseColor: cWhiteColor,
+                highlightColor: Colors.grey,
+                child: Container(
+                  height: 20,
+                  decoration: BoxDecoration(
+                    borderRadius: k8CircularBorderRadius,
+                    color: cWhiteColor,
+                  ),
+                ),
+              ),
+              contentPadding: EdgeInsets.zero,
+            );
           },
         ),
       ],
