@@ -93,6 +93,9 @@ class AuthenticationController extends GetxController {
         Get.find<ProfileController>().userData.value = loginData.user;
         await _spController.saveBearerToken(loginData.token);
         await _spController.saveRememberMe(isLoginRememberCheck.value);
+        await _spController.saveUserName(loginData.user.fullName.toString());
+        await _spController.saveUserImage(loginData.user.image.toString());
+        await _spController.saveUserEmail(loginData.user.email.toString());
         if (isLoginRememberCheck.value) {
           await _spController.saveUserList({
             "email": loginData.user.email.toString(),
@@ -101,6 +104,8 @@ class AuthenticationController extends GetxController {
             "token": loginData.token.toString(),
           });
         }
+
+        await _globalController.getUserInfo();
         // await setDeviceID(loginData.user.id);
         isLoginLoading.value = false;
         Get.offAllNamed(krHome);
@@ -418,12 +423,16 @@ class AuthenticationController extends GetxController {
 
         await _spController.saveBearerToken(otpData.token);
         await _spController.saveRememberMe(true);
+        await _spController.saveUserName(otpData.user.fullName.toString());
+        await _spController.saveUserImage(otpData.user.image.toString());
+        await _spController.saveUserEmail(otpData.user.email.toString());
         await _spController.saveUserList({
           "email": otpData.user.email.toString(),
           "name": otpData.user.fullName.toString(),
           "image_url": otpData.user.image,
           "token": otpData.token.toString(),
         });
+        await _globalController.getUserInfo();
         // await setDeviceID(otpData.user.id);
         // Get.offAllNamed(krHome);
         // final HomeController homeController = Get.find<HomeController>();

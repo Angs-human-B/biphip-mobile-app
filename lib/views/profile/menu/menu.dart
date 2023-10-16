@@ -88,13 +88,20 @@ class Menu extends StatelessWidget {
                                   decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Image.asset(
-                                    kiProfilePicImageUrl,
+                                  child: Image.network(
+                                    Environment.imageBaseUrl + Get.find<GlobalController>().userImage.value.toString(),
                                     fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) => ClipOval(
+                                      child: Image.asset(
+                                        kiProfileDefaultImageUrl,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    loadingBuilder: imageLoadingBuilder,
                                   ),
                                 ),
                               ),
-                              text: 'Aminul Islam Rana',
+                              text: Get.find<GlobalController>().userName.value.toString(),
                               textStyle: semiBold18TextStyle(cBlackColor),
                             ),
                             kH25sizedBox,

@@ -77,13 +77,13 @@ class EditProfile extends StatelessWidget {
                               Container(
                                 height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
                                 width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: cWhiteColor,
-                                  borderRadius: BorderRadius.circular(110),
+                                  shape: BoxShape.circle,
                                 ),
                                 child: ClipOval(
                                   child: Image.network(
-                                    Environment.imageBaseUrl + _profileController.profileData.value!.user!.profilePicture.toString(),
+                                    Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => ClipOval(
                                       child: Image.asset(
@@ -91,6 +91,7 @@ class EditProfile extends StatelessWidget {
                                         fit: BoxFit.cover,
                                       ),
                                     ),
+                                    loadingBuilder: imageLoadingBuilder,
                                   ),
                                 ),
                               ),
@@ -106,39 +107,41 @@ class EditProfile extends StatelessWidget {
                               _profileController.isProfilePicEditor.value = false;
 
                               _globalController.commonBottomSheet(
-                                  context: context,
-                                  onPressCloseButton: () {
-                                    Get.back();
-                                  },
-                                  onPressRightButton: () {},
-                                  rightText: '',
-                                  rightTextStyle: regular14TextStyle(cBiddingColor),
-                                  title: ksEditPhoto.tr,
-                                  isRightButtonShow: false,
-                                  isScrollControlled: false,
-                                  bottomSheetHeight: 180,
-                                  content: PictureUploadContent(
-                                    isImageChanged: _profileController.isCoverImageChanged,
-                                    imagePath: _profileController.coverImageLink,
-                                    imageFile: _profileController.coverImageFile,
-                                  ));
+                                context: context,
+                                onPressCloseButton: () {
+                                  Get.back();
+                                },
+                                onPressRightButton: () {},
+                                rightText: '',
+                                rightTextStyle: regular14TextStyle(cBiddingColor),
+                                title: ksEditPhoto.tr,
+                                isRightButtonShow: false,
+                                isScrollControlled: false,
+                                bottomSheetHeight: 180,
+                                content: PictureUploadContent(
+                                  isImageChanged: _profileController.isCoverImageChanged,
+                                  imagePath: _profileController.coverImageLink,
+                                  imageFile: _profileController.coverImageFile,
+                                ),
+                              );
                             },
                           ),
                           kH16sizedBox,
                           ClipRRect(
-                            borderRadius: k12CircularBorderRadius,
+                            borderRadius: k8CircularBorderRadius,
                             child: Container(
                               height: 150,
                               color: cBlackColor,
                               width: width,
                               child: Image.network(
-                                Environment.imageBaseUrl + _profileController.profileData.value!.user!.coverPhoto.toString(),
+                                Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
                                   size: kIconSize120,
                                   color: cIconColor,
                                 ),
+                                loadingBuilder: imageLoadingBuilder,
                               ),
                             ),
                           ),

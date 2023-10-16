@@ -347,5 +347,26 @@ class GlobalController extends GetxController {
   final searchController = TextEditingController();
   final recentSearch = RxList();
 
+  final Rx<String?> userName = Rx<String?>(null);
+  final Rx<String?> userImage = Rx<String?>(null);
+  final Rx<String?> userEmail = Rx<String?>(null);
+  final Rx<String?> userToken = Rx<String?>(null);
+
+  Future<void> getUserInfo() async {
+    SpController spController = SpController();
+    userName.value = await spController.getUserName();
+    userImage.value = await spController.getUserImage();
+    userEmail.value = await spController.getUserEmail();
+    userToken.value = await spController.getBearerToken();
+    var userData = await spController.getUserData(userToken.value);
+    ll("--- : $userData");
+    if (userData != null) {
+      userName.value = userData['name'];
+      userImage.value = userData['image_url'];
+      userEmail.value = userData['email'];
+      userToken.value = userData['token'];
+    }
+  }
+
   //! end
 }

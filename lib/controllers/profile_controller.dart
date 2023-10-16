@@ -1331,6 +1331,7 @@ class ProfileController extends GetxController {
   //* upload profile photo
   Future<void> uploadProfileAndCover(File imageFile, String type) async {
     try {
+      isImageUploadPageLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.mediaUpload(
         url: type == 'profile' ? kuSetProfilePicture : kuSetCoverPhoto,
@@ -1341,11 +1342,21 @@ class ProfileController extends GetxController {
 
       if (response.success == true) {
         ll(response.data.toString());
-        // userData.value = User.fromJson(response.data);
-        resetImage();
+        CommonUserDataModel commonUserDataModel = CommonUserDataModel.fromJson(response.data);
+        userData.value = commonUserDataModel.user;
+        await _spController.saveUserList({
+          "email": userData.value!.email.toString(),
+          "name": userData.value!.fullName.toString(),
+          "image_url": userData.value!.profilePicture.toString(),
+          "token": token.toString(),
+        });
+        await _globalController.getUserInfo();
         Get.back();
+        resetImage();
+        isImageUploadPageLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
+        isImageUploadPageLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1354,6 +1365,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
+      isImageUploadPageLoading.value = false;
       ll('uploadProfilePicture error: $e');
     }
   }
@@ -1634,4 +1646,6 @@ class ProfileController extends GetxController {
       ll('getPositionList error: $e');
     }
   }
+
+  final RxBool isImageUploadPageLoading = RxBool(false);
 }

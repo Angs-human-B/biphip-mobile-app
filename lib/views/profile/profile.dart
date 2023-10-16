@@ -61,13 +61,14 @@ class Profile extends StatelessWidget {
                                   height: 150,
                                   width: width,
                                   child: Image.network(
-                                    Environment.imageBaseUrl + _profileController.profileData.value!.user!.coverPhoto.toString(),
+                                    Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => const Icon(
                                       BipHip.imageFile,
                                       size: kIconSize120,
                                       color: cIconColor,
                                     ),
+                                    loadingBuilder: imageLoadingBuilder,
                                   ),
                                 ),
                                 Positioned(
@@ -79,13 +80,13 @@ class Profile extends StatelessWidget {
                                         height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
                                         width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
                                         decoration: BoxDecoration(
-                                          color: cGreyBoxColor,
-                                          borderRadius: BorderRadius.circular(90),
-                                          border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
+                                          color: cBlackColor,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(color: cWhiteColor.withAlpha(500), width: 2),
                                         ),
                                         child: ClipOval(
                                           child: Image.network(
-                                            Environment.imageBaseUrl + _profileController.profileData.value!.user!.profilePicture.toString(),
+                                            Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
                                             fit: BoxFit.cover,
                                             errorBuilder: (context, error, stackTrace) => ClipOval(
                                               child: Image.asset(
@@ -93,6 +94,7 @@ class Profile extends StatelessWidget {
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
+                                            loadingBuilder: imageLoadingBuilder,
                                           ),
                                         ),
                                       ),
@@ -685,8 +687,8 @@ class PictureUploadContent extends StatelessWidget {
           prefixIconColor: cIconColor,
           suffixIconColor: cIconColor,
           onPressed: () async {
-            await _globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'camera');
-            if (isImageChanged.value) {
+            var status = await _globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'camera');
+            if (status) {
               Get.toNamed(krPhotoPreview);
             }
           },
@@ -703,8 +705,8 @@ class PictureUploadContent extends StatelessWidget {
           prefixIconColor: cIconColor,
           suffixIconColor: cIconColor,
           onPressed: () async {
-            await _globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'gallery');
-            if (isImageChanged.value) {
+            var status = await _globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'gallery');
+            if (status) {
               Get.toNamed(krPhotoPreview);
             }
           },

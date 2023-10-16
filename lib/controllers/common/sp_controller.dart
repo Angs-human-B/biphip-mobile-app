@@ -4,6 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const kBearerToken = 'kBearerToken';
 const kRememberMe = "kRememberMe";
+const kUserName = "kUserName";
+const kUserImage = "kUserImage";
+const kUserEmail = "kUserEmail";
 const kRecentSearchList = "kRecentSearchList";
 const kUserList = "kUserList";
 
@@ -23,18 +26,15 @@ class SpController {
   Future<void> saveUserList(userInfo) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     List userList = await getUserList();
-    bool isUserAlreadySaved = false;
     for (int i = 0; i < userList.length; i++) {
       if (userList[i]['email'] == userInfo['email']) {
-        isUserAlreadySaved = true;
+        userList.removeAt(i);
         break;
       }
     }
-    if (!isUserAlreadySaved) {
-      userList.add(userInfo);
-      String encodeData = json.encode(userList);
-      await preferences.setString(kUserList, encodeData);
-    }
+    userList.add(userInfo);
+    String encodeData = json.encode(userList);
+    await preferences.setString(kUserList, encodeData);
   }
 
   Future<dynamic> getUserList() async {
@@ -42,6 +42,16 @@ class SpController {
     String? data = preferences.getString(kUserList);
     List userList = (data == null) ? [] : json.decode(data);
     return userList;
+  }
+
+  Future<dynamic> getUserData(token) async {
+    List userList = await getUserList();
+    for (int i = 0; i < userList.length; i++) {
+      if (userList[i]['token'] == token) {
+        return userList[i];
+      }
+    }
+    return null;
   }
 
   Future<void> removeUser(userInfo) async {
@@ -69,6 +79,39 @@ class SpController {
     return preferences.getBool(kRememberMe);
   }
 
+  //* save user name
+  Future<void> saveUserName(name) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(kUserName, name.toString());
+  }
+
+  Future<String?> getUserName() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(kUserName);
+  }
+
+  //* save user Image
+  Future<void> saveUserImage(imageUrl) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(kUserImage, imageUrl.toString());
+  }
+
+  Future<String?> getUserImage() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(kUserImage);
+  }
+
+  //* save user email
+  Future<void> saveUserEmail(email) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(kUserEmail, email.toString());
+  }
+
+  Future<String?> getUserEmail() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(kUserEmail);
+  }
+
   //* recent  search list
   Future<void> saveRecentSearchList(recentSearchList) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -89,5 +132,8 @@ class SpController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.remove(kBearerToken);
     await preferences.remove(kRememberMe);
+    await preferences.remove(kUserName);
+    await preferences.remove(kUserImage);
+    await preferences.remove(kUserEmail);
   }
 }

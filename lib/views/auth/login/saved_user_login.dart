@@ -103,10 +103,14 @@ class CustomUserListContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomListTile(
       itemColor: cGreyBoxColor,
-      onPressed: () {
+      onPressed: () async {
         final SpController spController = SpController();
-        spController.saveBearerToken(_item['token']);
-        spController.saveRememberMe(true);
+        await spController.saveBearerToken(_item['token']);
+        await spController.saveRememberMe(true);
+        await spController.saveUserName(_item['name'].toString());
+        await spController.saveUserImage(_item['image_url'].toString());
+        await spController.saveUserEmail(_item['email'].toString());
+        await Get.find<GlobalController>().getUserInfo();
         Get.offAllNamed(krHome);
       },
       leading: Container(
@@ -116,16 +120,19 @@ class CustomUserListContainer extends StatelessWidget {
           color: cWhiteColor,
           shape: BoxShape.circle,
         ),
-        child: Image.network(
-          Environment.baseUrl + _item['image_url'].toString(),
-          errorBuilder: (context, error, stackTrace) {
-            return Image.asset(kiProfileDefaultImageUrl);
-          },
+        child: ClipOval(
+          child: Image.network(
+            Environment.imageBaseUrl + _item['image_url'].toString(),
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Image.asset(kiProfileDefaultImageUrl);
+            },
+          ),
         ),
       ),
       title: Text(
         '${_item['name'] ?? ''}',
-        style: regular16TextStyle(cBlackColor),
+        style: medium16TextStyle(cBlackColor),
       ),
       trailing: ClipOval(
         child: TextButton(
