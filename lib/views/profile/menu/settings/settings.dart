@@ -39,6 +39,10 @@ class Settings extends StatelessWidget {
                     children: [
                       CustomMenuContainer(
                         height: 48,
+                        trailing: const Icon(
+                          BipHip.downArrow,
+                          color: cIconColor,
+                        ),
                         onPressed: () {
                           _profileController.firstNameEditingController.text = _globalController.userFirstName.value ?? '';
                           _profileController.lastNameEditingController.text = _globalController.userLastName.value ?? '';

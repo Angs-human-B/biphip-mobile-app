@@ -239,9 +239,9 @@ class Menu extends StatelessWidget {
 }
 
 class CustomMenuContainer extends StatelessWidget {
-  const CustomMenuContainer({super.key, this.leading, required this.text, required this.textStyle, this.height, this.width, this.onPressed});
+  const CustomMenuContainer({super.key, this.leading, required this.text, required this.textStyle, this.height, this.width, this.onPressed, this.trailing});
 
-  final Widget? leading;
+  final Widget? leading, trailing;
   final double? height, width;
   final VoidCallback? onPressed;
   final String text;
@@ -271,7 +271,12 @@ class CustomMenuContainer extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),
-            )
+            ),
+            if (trailing != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: k12Padding),
+                child: trailing,
+              ),
           ],
         ),
       ),
