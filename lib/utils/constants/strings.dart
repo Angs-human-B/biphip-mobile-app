@@ -85,6 +85,7 @@ const String ksWhatBirthday = 'What\'s your birthday?';
 const String ksWhatEmail = 'What\'s your email?';
 const String ksWhatGender = 'What\'s your gender?';
 const String ksChangeBirthday = 'You can change your birthday from your profile settings.';
+const String ksChangeYourBirthdayFromHere = 'You can change your birthday from here';
 const String ksChangeGender = 'You can change your gender from your profile settings.';
 const String ksSelectDOB = "Select date of birth";
 const String ksSelectGender = 'Select Gender';

@@ -55,9 +55,9 @@ class SelectBirthday extends StatelessWidget {
                       if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
                       TopTitleAndSubtitle(
                         title: !_profileController.isRouteFromAboutInfo.value ? ksWhatBirthday.tr : '',
-                        subTitle: ksChangeBirthday.tr,
+                        subTitle: !_profileController.isRouteFromAboutInfo.value ? ksChangeBirthday.tr : ksChangeYourBirthdayFromHere.tr,
                       ),
-                      kH50sizedBox,
+                      _profileController.isRouteFromAboutInfo.value ? kH20sizedBox : kH50sizedBox,
                       CustomSelectionButton(
                         onPressed: () {
                           showModalBottomSheet(
