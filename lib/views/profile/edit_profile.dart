@@ -80,7 +80,7 @@ class EditProfile extends StatelessWidget {
                                       height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
                                       width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
                                       decoration: const BoxDecoration(
-                                        color: cWhiteColor,
+                                        color: cBlackColor,
                                         shape: BoxShape.circle,
                                       ),
                                       child: ClipOval(
