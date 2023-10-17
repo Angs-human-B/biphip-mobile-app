@@ -63,7 +63,7 @@ class SelectInterestScreen extends StatelessWidget {
                             if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
                             TopTitleAndSubtitle(
                               title: _profileController.isRouteFromAboutInfo.value ? "" : ksChooseInterest.tr,
-                              subTitle: ksCHooseInterestSubtitle.tr,
+                              subTitle: _profileController.isRouteFromAboutInfo.value ? ksEditInterestSubtitle : ksCHooseInterestSubtitle.tr,
                             ),
                             kH16sizedBox,
                             Wrap(
@@ -86,6 +86,7 @@ class SelectInterestScreen extends StatelessWidget {
                                   )
                               ],
                             ),
+                            kH16sizedBox,
                             CustomElevatedButton(
                               label: _profileController.isRouteFromAboutInfo.value ? ksSave : ksNext.tr,
                               onPressed: _globalController.interestIndex.isNotEmpty

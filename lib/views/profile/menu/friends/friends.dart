@@ -1,12 +1,16 @@
+import 'package:bip_hip/controllers/friend_controller.dart';
 import 'package:bip_hip/controllers/friends_family_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
+import 'package:flutter/rendering.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Friends extends StatelessWidget {
   Friends({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
+  final FriendController _friendController = Get.find<FriendController>();
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +75,9 @@ class Friends extends StatelessWidget {
                   () {
                     _profileController.toggleType(0);
                   },
-                  () {
+                  () async {
                     _profileController.toggleType(1);
+                    await _friendController.getReceivedFriendList();
                   },
                   () {
                     _profileController.toggleType(2);
@@ -294,66 +299,98 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
 class AllFriendList extends StatelessWidget {
   AllFriendList({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
+  final FriendController _friendController = Get.find<FriendController>();
   final GlobalController _globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-      child: ListView.builder(
-        itemCount: _profileController.allFriendsLists.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          // var _item = _profileController.allFriendsList[index];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: k16Padding),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(k8BorderRadius),
-              child: TextButton(
-                style: kTextButtonStyle,
-                onPressed: () async {
-                  // ll(index);
-                },
-                child: CustomListTile(
-                  borderColor: cLineColor,
-                  leading: CircleAvatar(
-                    radius: 20,
-                    backgroundImage: AssetImage(_profileController.allFriendsLists[index]['image']),
-                  ),
-                  title: Text(
-                    _profileController.allFriendsLists[index]['name'],
-                    style: semiBold14TextStyle(cBlackColor),
-                  ),
-                  trailing: CustomIconButton(
-                    onPress: () {
-                      _globalController.commonBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        content: _FriendActionContent(
-                          profileController: _profileController,
+    return Obx(
+      () => _friendController.isFriendListLoading.value
+          ? const AllPendingFriendShimmer()
+          : NotificationListener<ScrollNotification>(
+              onNotification: (scrollNotification) {
+                if (_friendController.friendListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                    scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
+                    !_friendController.friendListScrolled.value) {
+                  _friendController.friendListScrolled.value = true;
+                  if (_friendController.friendList.isNotEmpty) {
+                    _friendController.getMoreFriendList(null);
+                  }
+                  return true;
+                }
+                return false;
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                child: ListView.builder(
+                  itemCount: _friendController.friendList.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    // var _item = _profileController.allFriendsList[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: k16Padding),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(k8BorderRadius),
+                        child: TextButton(
+                          style: kTextButtonStyle,
+                          onPressed: () async {
+                            // ll(index);
+                          },
+                          child: CustomListTile(
+                            borderColor: cLineColor,
+                            leading: Container(
+                              height: h40,
+                              width: h40,
+                              decoration: const BoxDecoration(
+                                color: cWhiteColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: ClipOval(
+                                child: Image.network(
+                                  Environment.imageBaseUrl + _friendController.friendList[index].profilePicture.toString(),
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Image.asset(kiProfileDefaultImageUrl);
+                                  },
+                                  loadingBuilder: imageLoadingBuilder,
+                                ),
+                              ),
+                            ),
+                            title: Text(
+                              _friendController.friendList[index].fullName ?? 'NA',
+                              style: semiBold14TextStyle(cBlackColor),
+                            ),
+                            trailing: CustomIconButton(
+                                onPress: () {
+                                  _globalController.commonBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    content: _FriendActionContent(
+                                      profileController: _profileController,
+                                    ),
+                                    onPressCloseButton: () {
+                                      Get.back();
+                                    },
+                                    onPressRightButton: () {
+                                      Get.back();
+                                      _profileController.friendActionSelect.value = '';
+                                    },
+                                    rightText: ksDone.tr,
+                                    rightTextStyle: regular14TextStyle(cPrimaryColor),
+                                    title: ksAction.tr,
+                                    isRightButtonShow: true,
+                                    bottomSheetHeight: 250,
+                                  );
+                                },
+                                icon: BipHip.system),
+                          ),
                         ),
-                        onPressCloseButton: () {
-                          Get.back();
-                        },
-                        onPressRightButton: () {
-                          Get.back();
-                          _profileController.friendActionSelect.value = '';
-                        },
-                        rightText: ksDone.tr,
-                        rightTextStyle: regular14TextStyle(cPrimaryColor),
-                        title: ksAction.tr,
-                        isRightButtonShow: true,
-                        bottomSheetHeight: 250,
-                      );
-                    },
-                    icon: BipHip.system,
-                  ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
-          );
-        },
-      ),
     );
   }
 }
@@ -615,6 +652,75 @@ class _PendingFriendActionContent extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+}
+
+//*All and Pending Friend Shimmer
+class AllPendingFriendShimmer extends StatelessWidget {
+  const AllPendingFriendShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+      child: ListView.builder(
+        itemCount: 10,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: k16Padding),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(k8BorderRadius),
+              child: TextButton(
+                style: kTextButtonStyle,
+                onPressed: () async {
+                  // ll(index);
+                },
+                child: CustomListTile(
+                  borderColor: cLineColor,
+                  leading: Container(
+                    height: h40,
+                    width: h40,
+                    decoration: const BoxDecoration(
+                      color: cWhiteColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Shimmer.fromColors(
+                      baseColor: cWhiteColor,
+                      highlightColor: Colors.grey,
+                      child: Container(
+                        decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                        height: 40,
+                        width: 40,
+                      ),
+                    ),
+                  ),
+                  title: Shimmer.fromColors(
+                    baseColor: cWhiteColor,
+                    highlightColor: Colors.grey,
+                    child: Container(
+                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                      height: 12,
+                      width: 80,
+                    ),
+                  ),
+                  trailing: Shimmer.fromColors(
+                    baseColor: cWhiteColor,
+                    highlightColor: Colors.grey,
+                    child: Container(
+                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                      height: 12,
+                      width: 12,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

@@ -30,16 +30,22 @@ class EditBio extends StatelessWidget {
                         Get.back();
                       },
                       action: [
+                        // if (_profileController.bioEditingController.text != _profileController.bio.value)
                         Padding(
                           padding: const EdgeInsets.only(right: k8Padding),
                           child: CustomTextButton(
-                              onPressed: () async {
-                                _profileController.bio.value = _profileController.bioEditingController.text.trim();
-                                unfocus(context);
-                                await _profileController.updateBio();
-                              },
+                              onPressed: _profileController.bioEditingController.text != _profileController.bio.value
+                                  ? () async {
+                                      _profileController.bio.value = _profileController.bioEditingController.text.trim();
+                                      unfocus(context);
+                                      await _profileController.updateBio();
+                                      // Get.back();
+                                    }
+                                  : null,
                               text: ksSave.tr,
-                              textStyle: regular14TextStyle(cPrimaryColor)),
+                              textStyle: _profileController.bioEditingController.text != _profileController.bio.value
+                                  ? regular14TextStyle(cPrimaryColor)
+                                  : regular14TextStyle(cIconColor)),
                         )
                       ],
                     ),
@@ -69,7 +75,6 @@ class EditBio extends StatelessWidget {
                                   inputAction: TextInputAction.newline,
                                   inputType: TextInputType.name,
                                 ),
-                                kH12sizedBox,
                                 Text(
                                   '${_profileController.bioCount}/255',
                                   style: regular14TextStyle(cIconColor),

@@ -96,7 +96,6 @@ class GalleryController extends GetxController {
     },
   ];
 
- 
 //*Album List Data
   Rx<AlbumListModel?> albumData = Rx<AlbumListModel?>(null);
   RxList<ImageData> imageDataList = RxList<ImageData>([]);
@@ -123,7 +122,7 @@ class GalleryController extends GetxController {
         }
 
         toggleType(0);
-        
+
         isAlbumListLoading.value = false;
       } else {
         isAlbumListLoading.value = false;
@@ -139,6 +138,7 @@ class GalleryController extends GetxController {
       ll('getAlbumListData error: $e');
     }
   }
- List selectedImageList = [];
- final RxString selectedTitle = RxString('');
+
+  List selectedImageList = [];
+  final RxString selectedTitle = RxString('');
 }

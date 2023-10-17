@@ -98,7 +98,7 @@ const String ksLogout = 'Logout';
 const String ksAddBio = 'Add bio';
 const String ksBio = 'Bio';
 const String ksEditBio = 'Edit bio';
-const String ksRemoveBio = 'RemoveBio bio';
+const String ksRemoveBio = 'Remove bio';
 const String ksEditPhoto = 'Edit photo';
 const String ksEnterYourBio = 'Enter your bio';
 const String ksProfilePicture = 'Profile picture';
@@ -209,6 +209,7 @@ const String ksChooseProfessionSubtitle =
     'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.';
 const String ksCHooseInterestSubtitle =
     'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.';
+const String ksEditInterestSubtitle = 'This will help us to provide you a nice experience while you will use our system.';
 const String ksAddress = 'Address';
 const String ksHomeTown = 'Hometown';
 const String ksAddHomeTownAddress = 'Add hometown address';

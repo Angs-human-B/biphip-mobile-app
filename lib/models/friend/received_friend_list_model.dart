@@ -1,18 +1,18 @@
-class FriendListModel {
-    Friends friends;
+class ReceivedFriendListModel {
+    Users? users;
 
-    FriendListModel({
-        required this.friends,
+    ReceivedFriendListModel({
+        required this.users,
     });
 
-    factory FriendListModel.fromJson(Map<String, dynamic> json) => FriendListModel(
-        friends: Friends.fromJson(json["friends"]),
+    factory ReceivedFriendListModel.fromJson(Map<String, dynamic> json) => ReceivedFriendListModel(
+        users: json["users"] == null ? null : Users.fromJson(json["users"]),
     );
 }
 
-class Friends {
+class Users {
     int currentPage;
-    List<FriendListData> data;
+    List<ReceivedFriendData> data;
     String firstPageUrl;
     int from;
     int lastPage;
@@ -25,7 +25,7 @@ class Friends {
     int to;
     int total;
 
-    Friends({
+    Users({
         required this.currentPage,
         required this.data,
         required this.firstPageUrl,
@@ -41,9 +41,9 @@ class Friends {
         required this.total,
     });
 
-    factory Friends.fromJson(Map<String, dynamic> json) => Friends(
+    factory Users.fromJson(Map<String, dynamic> json) => Users(
         currentPage: json["current_page"],
-        data: List<FriendListData>.from(json["data"].map((x) => FriendListData.fromJson(x))),
+        data: List<ReceivedFriendData>.from(json["data"].map((x) => ReceivedFriendData.fromJson(x))),
         firstPageUrl: json["first_page_url"],
         from: json["from"],
         lastPage: json["last_page"],
@@ -57,38 +57,50 @@ class Friends {
         total: json["total"],
     );
 
+    
 }
 
-class FriendListData {
+class ReceivedFriendData {
     int id;
+    String image;
     String userName;
+    String firstName;
+    String lastName;
     String email;
+    DateTime emailVerifiedAt;
     dynamic phone;
+    dynamic phoneVerifiedAt;
     String gender;
     DateTime dob;
-    String? profession;
-    String? interest;
-    String? bio;
+    List<String> profession;
+    List<String> interest;
+    String bio;
     String? languages;
     String status;
     dynamic blockTill;
     String? otp;
-    int? refId;
+    dynamic refId;
     String? relation;
     dynamic relationWithName;
     dynamic relationWithId;
+    String cover;
     String fullName;
-    dynamic profilePicture;
-    String? coverPhoto;
+    String profilePicture;
+    String coverPhoto;
     int friendStatus;
     int followStatus;
     String familyRelationStatus;
 
-    FriendListData({
+    ReceivedFriendData({
         required this.id,
+        required this.image,
         required this.userName,
+        required this.firstName,
+        required this.lastName,
         required this.email,
+        required this.emailVerifiedAt,
         required this.phone,
+        required this.phoneVerifiedAt,
         required this.gender,
         required this.dob,
         required this.profession,
@@ -102,6 +114,7 @@ class FriendListData {
         required this.relation,
         required this.relationWithName,
         required this.relationWithId,
+        required this.cover,
         required this.fullName,
         required this.profilePicture,
         required this.coverPhoto,
@@ -110,15 +123,20 @@ class FriendListData {
         required this.familyRelationStatus,
     });
 
-    factory FriendListData.fromJson(Map<String, dynamic> json) => FriendListData(
+    factory ReceivedFriendData.fromJson(Map<String, dynamic> json) => ReceivedFriendData(
         id: json["id"],
+        image: json["image"],
         userName: json["user_name"],
+        firstName: json["first_name"],
+        lastName: json["last_name"],
         email: json["email"],
+        emailVerifiedAt: DateTime.parse(json["email_verified_at"]),
         phone: json["phone"],
+        phoneVerifiedAt: json["phone_verified_at"],
         gender: json["gender"],
         dob: DateTime.parse(json["dob"]),
-        profession: json["profession"],
-        interest: json["interest"],
+        profession: List<String>.from(json["profession"].map((x) => x)),
+        interest: List<String>.from(json["interest"].map((x) => x)),
         bio: json["bio"],
         languages: json["languages"],
         status: json["status"],
@@ -128,6 +146,7 @@ class FriendListData {
         relation: json["relation"],
         relationWithName: json["relation_with_name"],
         relationWithId: json["relation_with_id"],
+        cover: json["cover"],
         fullName: json["full_name"],
         profilePicture: json["profile_picture"],
         coverPhoto: json["cover_photo"],
@@ -135,11 +154,12 @@ class FriendListData {
         followStatus: json["follow_status"],
         familyRelationStatus: json["family_relation_status"],
     );
+
 }
 
 class Link {
     String? url;
-    String label;
+    String ? label;
     bool active;
 
     Link({
@@ -153,4 +173,5 @@ class Link {
         label: json["label"],
         active: json["active"],
     );
+
 }

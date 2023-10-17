@@ -65,7 +65,7 @@ class SelectProfessionScreen extends StatelessWidget {
                             if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
                             TopTitleAndSubtitle(
                               title: !_profileController.isRouteFromAboutInfo.value ? ksChooseProfession.tr : '',
-                              subTitle: ksChooseProfessionSubtitle.tr,
+                              subTitle: _profileController.isRouteFromAboutInfo.value ? ksEditInterestSubtitle : ksChooseProfessionSubtitle.tr,
                             ),
                             kH16sizedBox,
                             Wrap(
