@@ -62,6 +62,7 @@ class EditAboutInfo extends StatelessWidget {
                             showAddButton: true,
                             buttonWidth: 151,
                             onPressedAdd: () {
+                              _profileController.resetTextEditor();
                               _profileController.getMethod(9);
                             },
                           ),
@@ -101,26 +102,32 @@ class EditAboutInfo extends StatelessWidget {
                                 },
                               ),
                             ),
-                          kH16sizedBox,
-                          RowTextButton(
-                            text: ksPresentAddress.tr,
-                            buttonText: ksAdd.tr,
-                            showAddButton: true,
-                            onPressedAdd: () {
-                              _profileController.getMethod(1);
-                              Get.toNamed(krEdit);
-                            },
-                            buttonWidth: 108,
+
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                            child: RowTextButton(
+                              text: ksPresentAddress.tr,
+                              buttonText: ksAdd.tr,
+                              showAddButton: true,
+                              onPressedAdd: () {
+                                _profileController.resetTextEditor();
+                                _profileController.getMethod(1);
+                                Get.toNamed(krEdit);
+                              },
+                              buttonWidth: 108,
+                            ),
                           ),
                           // for (int i = 0; i < _profileController.otherCityList.length; i++)
                           if (_profileController.currentCityData.value != null)
                             Padding(
-                              padding: const EdgeInsets.only(top: h16),
+                              padding: const EdgeInsets.only(bottom: h16),
                               child: InfoContainer(
                                 prefixIcon: BipHip.location,
                                 suffixIcon: BipHip.edit,
                                 text: checkNullOrStringNull(_profileController.currentCityData.value!.city),
                                 suffixOnPressed: () {
+                                  _profileController.isCurrentlyLiveHere.value = true;
+                                  _profileController.cityID.value = _profileController.currentCityData.value!.id!;
                                   _profileController.getMethod(2);
                                   // _globalController.commonBottomSheet(
                                   //     context: context,
@@ -151,18 +158,20 @@ class EditAboutInfo extends StatelessWidget {
                                 },
                               ),
                             ),
-                          kH16sizedBox,
-                          RowTextButton(
-                            text: ksOther.tr,
-                            buttonText: ksAdd.tr,
-                            showAddButton: true,
-                            onPressedAdd: () {
-                              _profileController.getMethod(3);
-                              Get.toNamed(krEdit);
-                            },
-                            buttonWidth: 108,
-                          ),
-                          kH16sizedBox,
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: k16Padding),
+                              child: RowTextButton(
+                                text: ksOther.tr,
+                                buttonText: ksAdd.tr,
+                                showAddButton: true,
+                                onPressedAdd: () {
+                                  _profileController.resetTextEditor();
+                                  _profileController.getMethod(3);
+                                  Get.toNamed(krEdit);
+                                },
+                                buttonWidth: 108,
+                              ),
+                            ),
                           for (int i = 0; i < _profileController.otherCityList.length; i++)
                             if (_profileController.otherCityList[i].isCurrent == 0 && _profileController.otherCityList[i].isHometown == 0)
                               Padding(
@@ -629,6 +638,7 @@ class EditAboutInfo extends StatelessWidget {
                               buttonText: ksAdd.tr,
                               showAddButton: true,
                               onPressedAdd: () {
+                                _profileController.resetTextEditor();
                                 _profileController.getMethod(8);
                               },
                               buttonWidth: 149,
@@ -682,18 +692,19 @@ class EditAboutInfo extends StatelessWidget {
                                 //     ));
                               },
                             ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: k16Padding),
-                            child: RowTextButton(
-                              text: ksOther.tr,
-                              buttonText: ksAdd.tr,
-                              showAddButton: true,
-                              onPressedAdd: () {
-                                _profileController.getMethod(8);
-                              },
-                              buttonWidth: 149,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                              child: RowTextButton(
+                                text: ksOther.tr,
+                                buttonText: ksAdd.tr,
+                                showAddButton: true,
+                                onPressedAdd: () {
+                                  _profileController.resetTextEditor();
+                                  _profileController.getMethod(8);
+                                },
+                                buttonWidth: 149,
+                              ),
                             ),
-                          ),
                           for (int i = 0; i < _profileController.workplaceDataList.length; i++)
                             if (_profileController.workplaceDataList[i].isCurrent != 1)
                               Padding(
@@ -761,6 +772,7 @@ class EditAboutInfo extends StatelessWidget {
                                 buttonText: ksAdd.tr,
                                 showAddButton: true,
                                 onPressedAdd: () {
+                                  _profileController.resetTextEditor();
                                   _profileController.getMethod(11);
                                 },
                                 buttonWidth: 177,
@@ -814,6 +826,7 @@ class EditAboutInfo extends StatelessWidget {
                                 buttonText: ksAdd.tr,
                                 showAddButton: true,
                                 onPressedAdd: () {
+                                  _profileController.resetTextEditor();
                                   _profileController.getMethod(13);
                                 },
                                 buttonWidth: 118,
@@ -869,8 +882,8 @@ class EditAboutInfo extends StatelessWidget {
                                 buttonText: ksAdd.tr,
                                 showAddButton: true,
                                 onPressedAdd: () {
+                                  _profileController.resetTextEditor();
                                   _profileController.linkSource.value = '';
-                                  _profileController.linkTextEditingController.clear();
                                   _profileController.commonEditPageIcon.value = null;
                                   _profileController.getMethod(15);
                                 },

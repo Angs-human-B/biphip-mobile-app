@@ -38,20 +38,20 @@ class EditPage extends StatelessWidget {
                           Get.back();
                         },
                         text: ksDelete,
-                        textStyle: semiBold14TextStyle(cRedColor)),
+                        textStyle: regular14TextStyle(cRedColor)),
                   )
               ],
             ),
           ),
-          body: Stack(
-            children: [
-              SizedBox(
-                height: height - kAppBarSize - MediaQuery.of(context).padding.top,
-                width: width,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                  child: Obx(
-                    () => Column(
+          body: Obx(
+            () => Stack(
+              children: [
+                SizedBox(
+                  height: height - kAppBarSize - MediaQuery.of(context).padding.top,
+                  width: width,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                    child: Column(
                       children: [
                         kH16sizedBox,
                         if (_profileController.isDropdownShown.value)
@@ -130,7 +130,11 @@ class EditPage extends StatelessWidget {
                             _profileController.showCommonEditSuffixIcon.value = false;
                           },
                           onChanged: (value) {
-                            _profileController.showCommonEditSuffixIcon.value = true;
+                            if (_profileController.commonEditTextEditingController.text != '') {
+                              _profileController.showCommonEditSuffixIcon.value = true;
+                            } else {
+                              _profileController.showCommonEditSuffixIcon.value = false;
+                            }
                             if (_profileController.commonEditTextfieldHintText.value == ksEmail.tr ||
                                 _profileController.commonEditTextfieldHintText.value == ksEditEmail.tr) {
                               if (!_profileController.commonEditTextEditingController.text.isValidEmail) {
@@ -167,6 +171,8 @@ class EditPage extends StatelessWidget {
                                         title: Text(option.toString()),
                                         onTap: () {
                                           onSelected(option.toString());
+                                          _profileController.commonEditSecondaryTextEditingController.text = option.toString();
+                                          unfocus(context);
                                         },
                                       );
                                     },
@@ -176,20 +182,26 @@ class EditPage extends StatelessWidget {
                                 );
                               },
                               fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
-                                return CustomModifiedTextField(
-                                  controller: textEditingController,
-                                  focusNode: focusNode,
-                                  hint: ksDesignation.tr,
-                                  prefixIcon: BipHip.work,
-                                  suffixIcon: _profileController.showCommonSecondaryEditSuffixIcon.value ? BipHip.circleCrossNew : null,
-                                  borderRadius: k8BorderRadius,
-                                  onSuffixPress: () {
-                                    _profileController.commonEditSecondaryTextEditingController.clear();
-                                    _profileController.showCommonSecondaryEditSuffixIcon.value = false;
-                                  },
-                                  onChanged: (value) {
-                                    _profileController.showCommonSecondaryEditSuffixIcon.value = true;
-                                  },
+                                return Obx(
+                                  () => CustomModifiedTextField(
+                                    controller: textEditingController,
+                                    focusNode: focusNode,
+                                    hint: ksDesignation.tr,
+                                    prefixIcon: BipHip.work,
+                                    suffixIcon: _profileController.showCommonSecondaryEditSuffixIcon.value ? BipHip.circleCrossNew : null,
+                                    borderRadius: k8BorderRadius,
+                                    onSuffixPress: () {
+                                      _profileController.commonEditSecondaryTextEditingController.clear();
+                                      _profileController.showCommonSecondaryEditSuffixIcon.value = false;
+                                    },
+                                    onChanged: (value) {
+                                      if (_profileController.commonEditSecondaryTextEditingController.text.isNotEmpty) {
+                                        _profileController.showCommonSecondaryEditSuffixIcon.value = true;
+                                      } else {
+                                        _profileController.showCommonSecondaryEditSuffixIcon.value = false;
+                                      }
+                                    },
+                                  ),
                                 );
                               },
                             ),
@@ -333,23 +345,25 @@ class EditPage extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                bottom: 20,
-                left: 20,
-                child: CustomElevatedButton(
-                    label: ksSave,
-                    textStyle: semiBold14TextStyle(cWhiteColor),
-                    buttonHeight: h32,
-                    buttonWidth: width - 40,
-                    onPressed: () {
-                      ll(_profileController.functionFlag.value);
-                      _profileController.selectFunction(_profileController.functionFlag.value);
-                      Get.back();
-                      //_profileController.clearCommonEditPageData();
-                    }),
-              )
-            ],
+                Positioned(
+                  bottom: 20,
+                  left: 20,
+                  child: CustomElevatedButton(
+                      label: ksSave,
+                      textStyle: semiBold14TextStyle(cWhiteColor),
+                      buttonHeight: h32,
+                      buttonWidth: width - 40,
+                      onPressed: _profileController.buttonActivation(_profileController.functionFlag.value)
+                          ? () {
+                              ll(_profileController.functionFlag.value);
+                              _profileController.selectFunction(_profileController.functionFlag.value);
+                              Get.back();
+                              //_profileController.clearCommonEditPageData();
+                            }
+                          : null),
+                )
+              ],
+            ),
           ),
         ),
       ),

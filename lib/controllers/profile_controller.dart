@@ -290,6 +290,17 @@ class ProfileController extends GetxController {
     isCommonEditCheckBoxSelected.value = false;
   }
 
+  void resetTextEditor() {
+    homeTownTextEditingController.clear();
+    presentAddressTextEditingController.clear();
+    educationInstituteTextEditingController.clear();
+    companyNameTextEditingController.clear();
+    designationTextEditingController.clear();
+    phoneTextEditingController.clear();
+    emailTextEditingController.clear();
+    linkTextEditingController.clear();
+  }
+
   void selectFunction(functionFlag, [index]) async {
     if (functionFlag == 'HOMETOWN') {
       await setHometown();
@@ -300,9 +311,9 @@ class ProfileController extends GetxController {
     } else if (functionFlag == 'ADD PRESENT') {
       await setCity();
       commonEditTextEditingController.clear();
-
       presentAddressTextEditingController.clear();
     } else if (functionFlag == 'EDIT PRESENT') {
+      ll(cityID.value);
       await updateCity(cityID.value);
       presentAddressTextEditingController.clear();
       commonEditTextEditingController.clear();
@@ -361,6 +372,8 @@ class ProfileController extends GetxController {
       homeTownTextEditingController.clear();
     } else if (functionFlag == 'EDIT PRESENT DELETE') {
       await deleteCity(cityID.value);
+      commonEditTextEditingController.clear();
+      presentAddressTextEditingController.clear();
     } else if (functionFlag == 'EDIT SCHOOL DELETE') {
       await deleteSchool(schoolID.value);
       educationInstituteTextEditingController.clear();
@@ -418,11 +431,11 @@ class ProfileController extends GetxController {
       // Get.back();
     } else if (methodID == 1) {
       setEditPageValue(ksAddPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksAddLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'ADD PRESENT');
+          ksAddLocation.tr, true, true, false, true, ksCurrentlyLivingHere.tr, 'ADD PRESENT');
     } else if (methodID == 2) {
       presentAddressTextEditingController.text = currentCityData.value!.city!;
       setEditPageValue(ksEditPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksEditLocation.tr, true, true, true, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'EDIT PRESENT');
+          ksEditLocation.tr, true, true, false, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'EDIT PRESENT');
       // Get.back();
     } else if (methodID == 3) {
       setEditPageValue(ksAddOtherAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
@@ -485,6 +498,34 @@ class ProfileController extends GetxController {
     emailDataList.clear();
     phoneDataList.clear();
     linkDataList.clear();
+  }
+
+  bool buttonActivation(String functionFlag) {
+    if (functionFlag.contains('LINK')) {
+      if (commonEditTextEditingController.text != '' && linkSource.value != '') {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (functionFlag == 'ADD SCHOOL') {
+      if (commonEditTextEditingController.text != '' && educationBackground.value != '') {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (functionFlag.contains('EMAIL')) {
+      if (commonEditTextEditingController.text != '' && commonEditTextEditingController.text.isValidEmail) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (commonEditTextEditingController.text != '') {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 
   //* Profile overview API Implementation
@@ -620,7 +661,7 @@ class ProfileController extends GetxController {
       Map<String, dynamic> body = {
         'id': id.toString(),
         'city': presentAddressTextEditingController.text.trim(),
-        'is_current': isCommonEditCheckBoxSelected.value ? '1' : '0'
+        // 'is_current': isCommonEditCheckBoxSelected.value ? '1' : '0'
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -673,6 +714,9 @@ class ProfileController extends GetxController {
           }
           if (currentCityData.value?.id == id) {
             currentCityData.value = null;
+          }
+          if (hometownData.value?.id == id) {
+            hometownData.value = null;
           }
         }
         isEditProfileLoading.value = false;
@@ -1273,7 +1317,7 @@ class ProfileController extends GetxController {
   //* update bio API Implementation
   Rx<CommonUserDataModel?> commonUserLayeredData = Rx<CommonUserDataModel?>(null);
   RxBool isBioLoading = RxBool(false);
-  Future<void> updateBio([isUpdate=true]) async {
+  Future<void> updateBio([isUpdate = true]) async {
     try {
       isBioLoading.value = true;
       String? token = await _spController.getBearerToken();
@@ -1291,8 +1335,8 @@ class ProfileController extends GetxController {
         commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
         userData.value = commonUserLayeredData.value!.user;
         ll(userData.value!.bio);
-        if(isUpdate){
-        Get.back();
+        if (isUpdate) {
+          Get.back();
         }
         clearBio();
         isBioLoading.value = false;

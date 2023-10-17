@@ -88,6 +88,7 @@ class ApiController {
     final http.Client client = http.Client();
     final Uri uri = Uri.parse(Environment.apiUrl + url);
     ll("uri : $uri");
+    ll('body: $body');
     http.Response response;
     String error = ksSomethingWentWrong.tr;
 
