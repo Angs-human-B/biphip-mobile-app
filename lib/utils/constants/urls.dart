@@ -85,6 +85,7 @@ const String kuAlbumList = '/mobile/user/get-my-albums';
 //---------------------------------------
 //* Friends and Family
 const String kuFriendList = '/mobile/user/friends';
+const String kuReceivedFriendList = '/mobile/user/my-friend-requests';
 //---------------------------------------
 
 const String kuCommonUserSearch = '/mobile/user/search-users';

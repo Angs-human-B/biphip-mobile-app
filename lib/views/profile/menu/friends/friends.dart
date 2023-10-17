@@ -10,7 +10,7 @@ import 'package:shimmer/shimmer.dart';
 class Friends extends StatelessWidget {
   Friends({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
-  // final FriendController _friendController = Get.find<FriendController>();
+  final FriendController _friendController = Get.find<FriendController>();
 
   @override
   Widget build(BuildContext context) {
@@ -75,8 +75,9 @@ class Friends extends StatelessWidget {
                   () {
                     _profileController.toggleType(0);
                   },
-                  () {
+                  () async {
                     _profileController.toggleType(1);
+                    await _friendController.getReceivedFriendList();
                   },
                   () {
                     _profileController.toggleType(2);
