@@ -399,6 +399,14 @@ class ProfileController extends GetxController {
     }
   }
 
+  void resetEditAboutPage() {
+    isGenderSelected.value = false;
+    showEditRelationshipStatus.value = false;
+    relationshipStatus.value = '';
+    tempSelectedGender.value = '';
+    selectedGender.value = '';
+  }
+
   void getMethod(methodID) {
     showCommonEditSuffixIcon.value = false;
     showCommonSecondaryEditSuffixIcon.value = false;

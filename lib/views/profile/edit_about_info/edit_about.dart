@@ -204,19 +204,21 @@ class EditAboutInfo extends StatelessWidget {
                                 ),
                               ),
                           const CustomDivider(),
-                          kH16sizedBox,
-                          RowTextButton(
-                            text: 'Education Background',
-                            buttonText: 'Add',
-                            showAddButton: true,
-                            onPressedAdd: () {
-                              _profileController.getMethod(5);
-                            },
-                            buttonWidth: 126,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                            child: RowTextButton(
+                              text: 'Education Background',
+                              buttonText: 'Add',
+                              showAddButton: true,
+                              onPressedAdd: () {
+                                _profileController.getMethod(5);
+                              },
+                              buttonWidth: 126,
+                            ),
                           ),
                           if (_profileController.schoolDataList.isNotEmpty)
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                              padding: const EdgeInsets.only(bottom: k16Padding),
                               child: Text(
                                 ksSchool.tr,
                                 style: semiBold16TextStyle(cBlackColor),
@@ -272,11 +274,13 @@ class EditAboutInfo extends StatelessWidget {
                               ),
                             ),
                           if (_profileController.collegeDataList.isNotEmpty)
-                            Text(
-                              ksCollege.tr,
-                              style: semiBold16TextStyle(cBlackColor),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: k16Padding),
+                              child: Text(
+                                ksCollege.tr,
+                                style: semiBold16TextStyle(cBlackColor),
+                              ),
                             ),
-                          kH16sizedBox,
                           for (int i = 0; i < _profileController.collegeDataList.length; i++)
                             Padding(
                               padding: const EdgeInsets.only(bottom: k10Padding),
@@ -327,7 +331,6 @@ class EditAboutInfo extends StatelessWidget {
                               ),
                             ),
                           const CustomDivider(),
-
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: k16Padding),
                             child: Text(
@@ -335,7 +338,6 @@ class EditAboutInfo extends StatelessWidget {
                               style: semiBold18TextStyle(cBlackColor),
                             ),
                           ),
-
                           CustomSelectionButton(
                             prefixIcon: BipHip.love,
                             onPressed: () async {
@@ -455,7 +457,6 @@ class EditAboutInfo extends StatelessWidget {
                                 prefixIcon: Icons.male,
                                 onPressed: () async {
                                   _profileController.isGenderListLoading.value = true;
-
                                   _profileController.tempSelectedGender.value = checkNullOrStringNull(_profileController.userData.value!.gender);
                                   _globalController.commonBottomSheet(
                                     context: context,
@@ -578,6 +579,16 @@ class EditAboutInfo extends StatelessWidget {
                               child: RowTextButton(
                                 text: ksInterest.tr,
                                 buttonText: ksAdd.tr,
+                                suffixWidget: _profileController.userData.value!.interest.isNotEmpty
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(right: 8.0),
+                                        child: Icon(
+                                          BipHip.edit,
+                                          color: cIconColor,
+                                          size: screenWiseSize(kIconSize22, 4),
+                                        ),
+                                      )
+                                    : null,
                                 showAddButton: true,
                                 onPressedAdd: () async {
                                   _globalController.interestIndex.clear();
@@ -1115,11 +1126,13 @@ class _GenderListContent extends StatelessWidget {
 }
 
 class RowTextButton extends StatelessWidget {
-  const RowTextButton({super.key, required this.text, required this.buttonText, required this.showAddButton, this.onPressedAdd, required this.buttonWidth});
+  const RowTextButton(
+      {super.key, required this.text, required this.buttonText, required this.showAddButton, this.onPressedAdd, required this.buttonWidth, this.suffixWidget});
   final String text, buttonText;
   final bool showAddButton;
   final VoidCallback? onPressedAdd;
   final double buttonWidth;
+  final Widget? suffixWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -1130,7 +1143,7 @@ class RowTextButton extends StatelessWidget {
           text,
           style: semiBold16TextStyle(cBlackColor),
         ),
-        if (showAddButton)
+        if (showAddButton && suffixWidget == null)
           CustomTextButtonV2(
             onPressed: onPressedAdd,
             text: buttonText,
@@ -1140,6 +1153,12 @@ class RowTextButton extends StatelessWidget {
               color: cPrimaryColor,
               size: isDeviceScreenLarge() ? h20 : h16,
             ),
+          ),
+        if (suffixWidget != null)
+          TextButton(
+            onPressed: onPressedAdd,
+            style: kTextButtonStyle,
+            child: suffixWidget!,
           ),
       ],
     );

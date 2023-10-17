@@ -249,7 +249,7 @@ class EditPage extends StatelessWidget {
                       //   ),
                       if (_profileController.isCommonEditPrivacyShown.value || _profileController.isCommonEditCheckBoxShown.value)
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             // if (_profileController.isCommonEditPrivacyShown.value)
                             //   OutLinedButton(
