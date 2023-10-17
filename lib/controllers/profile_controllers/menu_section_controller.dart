@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/friend_controller.dart';
 import 'package:bip_hip/controllers/gallery_controller.dart';
 import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/models/common/common_error_model.dart';
@@ -6,6 +7,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 class MenuSectionController extends GetxController {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
+  final FriendController _friendController = Get.find<FriendController>();
   final GalleryController _galleryController = Get.find<GalleryController>();
   final GlobalController _globalController = Get.find<GlobalController>();
   final RxList tapAbleButtonState = RxList([true, false, false]);
@@ -32,6 +34,7 @@ class MenuSectionController extends GetxController {
       ll('Friend');
       resetTapButtonData();
       Get.toNamed(krFriends);
+      await _friendController.getFriendList();
     } else if (index == 1) {
       ll('Family');
       resetTapButtonData();
