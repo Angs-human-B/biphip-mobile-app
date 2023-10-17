@@ -148,7 +148,7 @@ class CustomListViewItem extends StatelessWidget {
     this.icon,
     this.subTitle,
   });
-  final ImageProvider backgroundImage;
+  final String backgroundImage;
   final String name;
   final String firstButtonText;
   final String secondButtonText;
@@ -161,9 +161,23 @@ class CustomListViewItem extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        CircleAvatar(
-          radius: 25,
-          backgroundImage: backgroundImage,
+        Container(
+          height: h40,
+          width: h40,
+          decoration: const BoxDecoration(
+            color: cWhiteColor,
+            shape: BoxShape.circle,
+          ),
+          child: ClipOval(
+            child: Image.network(
+              backgroundImage,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(kiProfileDefaultImageUrl);
+              },
+              loadingBuilder: imageLoadingBuilder,
+            ),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(left: k12Padding),
@@ -203,7 +217,7 @@ class CustomListViewItem extends StatelessWidget {
                       buttonHeight: 30,
                       label: firstButtonText,
                       textStyle: semiBold16TextStyle(cWhiteColor),
-                      onPressed: () {},
+                      onPressed: firstButtonOnPressed,
                     ),
                     CustomElevatedButton(
                       buttonWidth: (width / 2) - h60,
@@ -398,38 +412,48 @@ class AllFriendList extends StatelessWidget {
 //*Received friend list
 class ReceivedFriendList extends StatelessWidget {
   ReceivedFriendList({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
+  final FriendController _friendController = Get.find<FriendController>();
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-      child: ListView.builder(
-        itemCount: _profileController.receivedFriendLists.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: k16Padding),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(k8BorderRadius),
-              child: TextButton(
-                style: kTextButtonStyle,
-                onPressed: () async {
-                  // ll(index);
+    return Obx(
+      () => _friendController.isReceivedFriendListLoading.value
+          ? const ReceivedFriendShimmer()
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: ListView.builder(
+                itemCount: _friendController.receivedFriendList.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: k16Padding),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(k8BorderRadius),
+                      child: TextButton(
+                        style: kTextButtonStyle,
+                        onPressed: () async {
+                          // ll(index);
+                        },
+                        child: CustomListViewItem(
+                          backgroundImage: Environment.imageBaseUrl + _friendController.receivedFriendList[index].profilePicture.toString(),
+                          name: _friendController.receivedFriendList[index].fullName ?? ksNA.tr,
+                          firstButtonText: ksConfirm.tr,
+                          secondButtonText: ksCancel.tr,
+                          firstButtonOnPressed: () async {
+                            _friendController.userId.value = _friendController.receivedFriendList[index].id!;
+                            await _friendController.acceptFriendRequest();
+                          },
+                          secondButtonOnPressed: () async {
+                            _friendController.userId.value = _friendController.receivedFriendList[index].id!;
+                            await _friendController.rejectFriendRequest();
+                          },
+                        ),
+                      ),
+                    ),
+                  );
                 },
-                child: CustomListViewItem(
-                  backgroundImage: AssetImage(_profileController.allFriendsLists[index]['image']),
-                  name: _profileController.allFriendsLists[index]['name'],
-                  firstButtonText: ksConfirm.tr,
-                  secondButtonText: ksCancel.tr,
-                  firstButtonOnPressed: () {},
-                  secondButtonOnPressed: () {},
-                ),
               ),
             ),
-          );
-        },
-      ),
     );
   }
 }
@@ -711,10 +735,107 @@ class AllPendingFriendShimmer extends StatelessWidget {
                     highlightColor: Colors.grey,
                     child: Container(
                       decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                      height: 12,
+                      height: 20,
                       width: 12,
                     ),
                   ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+//*Received Friend Shimmer
+class ReceivedFriendShimmer extends StatelessWidget {
+  const ReceivedFriendShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+      child: ListView.builder(
+        itemCount: 10,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: k16Padding),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(k8BorderRadius),
+              child: TextButton(
+                style: kTextButtonStyle,
+                onPressed: () async {
+                  // ll(index);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: h40,
+                      width: h40,
+                      decoration: const BoxDecoration(
+                        color: cWhiteColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Shimmer.fromColors(
+                        baseColor: cWhiteColor,
+                        highlightColor: Colors.grey,
+                        child: Container(
+                          decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                          height: 40,
+                          width: 40,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: k12Padding),
+                      child: SizedBox(
+                        width: width - 105,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Shimmer.fromColors(
+                              baseColor: cWhiteColor,
+                              highlightColor: Colors.grey,
+                              child: Container(
+                                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                height: 16,
+                                width: 200,
+                              ),
+                            ),
+                            kH4sizedBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Shimmer.fromColors(
+                                  baseColor: cWhiteColor,
+                                  highlightColor: Colors.grey,
+                                  child: Container(
+                                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
+                                    height: 30,
+                                    width: 120,
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: cWhiteColor,
+                                  highlightColor: Colors.grey,
+                                  child: Container(
+                                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
+                                    height: 30,
+                                    width: 120,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

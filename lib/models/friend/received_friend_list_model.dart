@@ -11,19 +11,19 @@ class ReceivedFriendListModel {
 }
 
 class Users {
-    int currentPage;
+    int? currentPage;
     List<ReceivedFriendData> data;
-    String firstPageUrl;
-    int from;
-    int lastPage;
-    String lastPageUrl;
+    String? firstPageUrl;
+    int? from;
+    int? lastPage;
+    String? lastPageUrl;
     List<Link> links;
     dynamic nextPageUrl;
-    String path;
-    int perPage;
+    String? path;
+    int? perPage;
     dynamic prevPageUrl;
-    int to;
-    int total;
+    int? to;
+    int? total;
 
     Users({
         required this.currentPage,
@@ -61,35 +61,33 @@ class Users {
 }
 
 class ReceivedFriendData {
-    int id;
-    String image;
-    String userName;
-    String firstName;
-    String lastName;
-    String email;
-    DateTime emailVerifiedAt;
+    int? id;
+    String? image;
+    String? userName;
+    String? firstName;
+    String? lastName;
+    String? email;
     dynamic phone;
-    dynamic phoneVerifiedAt;
-    String gender;
-    DateTime dob;
+    String? gender;
+    DateTime? dob;
     List<String> profession;
     List<String> interest;
-    String bio;
+    String? bio;
     String? languages;
-    String status;
+    String? status;
     dynamic blockTill;
     String? otp;
     dynamic refId;
     String? relation;
     dynamic relationWithName;
     dynamic relationWithId;
-    String cover;
-    String fullName;
-    String profilePicture;
-    String coverPhoto;
-    int friendStatus;
-    int followStatus;
-    String familyRelationStatus;
+    String? cover;
+    String? fullName;
+    String? profilePicture;
+    String? coverPhoto;
+    int? friendStatus;
+    int? followStatus;
+    String? familyRelationStatus;
 
     ReceivedFriendData({
         required this.id,
@@ -98,9 +96,7 @@ class ReceivedFriendData {
         required this.firstName,
         required this.lastName,
         required this.email,
-        required this.emailVerifiedAt,
         required this.phone,
-        required this.phoneVerifiedAt,
         required this.gender,
         required this.dob,
         required this.profession,
@@ -130,9 +126,7 @@ class ReceivedFriendData {
         firstName: json["first_name"],
         lastName: json["last_name"],
         email: json["email"],
-        emailVerifiedAt: DateTime.parse(json["email_verified_at"]),
         phone: json["phone"],
-        phoneVerifiedAt: json["phone_verified_at"],
         gender: json["gender"],
         dob: DateTime.parse(json["dob"]),
         profession: List<String>.from(json["profession"].map((x) => x)),

@@ -326,3 +326,5 @@ const String ksSelling = "Selling";
 const String ksNews = "News";
 const String ksNoAlbumAvailable = "No album available";
 const String ksNoImageAvailable = "No image available";
+const String ksNA = "NA";
+
