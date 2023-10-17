@@ -1273,7 +1273,7 @@ class ProfileController extends GetxController {
   //* update bio API Implementation
   Rx<CommonUserDataModel?> commonUserLayeredData = Rx<CommonUserDataModel?>(null);
   RxBool isBioLoading = RxBool(false);
-  Future<void> updateBio() async {
+  Future<void> updateBio([isUpdate=true]) async {
     try {
       isBioLoading.value = true;
       String? token = await _spController.getBearerToken();
@@ -1291,8 +1291,9 @@ class ProfileController extends GetxController {
         commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
         userData.value = commonUserLayeredData.value!.user;
         ll(userData.value!.bio);
+        if(isUpdate){
         Get.back();
-        Get.back();
+        }
         clearBio();
         isBioLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
