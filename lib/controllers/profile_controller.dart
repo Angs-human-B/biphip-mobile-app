@@ -1427,6 +1427,7 @@ class ProfileController extends GetxController {
             "token": token.toString(),
           });
         }
+        await _spController.saveUserImage(userData.value!.profilePicture.toString());
         await _globalController.getUserInfo();
         if (isFromProfile == true) {
           Get.back();
@@ -1520,6 +1521,9 @@ class ProfileController extends GetxController {
             "token": token.toString(),
           });
         }
+        await _spController.saveUserFirstName(userData.value!.firstName.toString());
+        await _spController.saveUserLastName(userData.value!.lastName.toString());
+        await _spController.saveUserName(userData.value!.fullName.toString());
         await _globalController.getUserInfo();
         isChangeNameLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
