@@ -70,8 +70,8 @@ class GalleryPhotos extends StatelessWidget {
                             child: Center(
                               child: Container(
                                 alignment: Alignment.center,
-                                child: const EmptyView(
-                                  title: ksNoAlbumAvailable,
+                                child: EmptyView(
+                                  title: ksNoAlbumAvailable.tr,
                                 ),
                               ),
                             ),
@@ -350,7 +350,7 @@ class EmptyView extends StatelessWidget {
         width: width,
         child: Text(
           title,
-          style: semiBold16TextStyle(cBlackColor),
+          style: semiBold16TextStyle(cPlaceHolderColor),
           textAlign: TextAlign.center,
         ),
       ),

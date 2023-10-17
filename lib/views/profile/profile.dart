@@ -88,11 +88,10 @@ class Profile extends StatelessWidget {
                                           child: Image.network(
                                             Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
                                             fit: BoxFit.cover,
-                                            errorBuilder: (context, error, stackTrace) => ClipOval(
-                                              child: Image.asset(
-                                                kiProfileDefaultImageUrl,
-                                                fit: BoxFit.cover,
-                                              ),
+                                            errorBuilder: (context, error, stackTrace) => const Icon(
+                                              BipHip.user,
+                                              size: kIconSize70,
+                                              color: cIconColor,
                                             ),
                                             loadingBuilder: imageLoadingBuilder,
                                           ),
@@ -245,7 +244,7 @@ class Profile extends StatelessWidget {
                                           label: ksAddSelfie.tr,
                                           buttonHeight: 44,
                                           buttonWidth: (width / 2) - 28,
-                                          prefixIcon: BipHip.camera,
+                                          prefixIcon: BipHip.selfieFill,
                                           textStyle: semiBold18TextStyle(cWhiteColor),
                                           onPressed: () {},
                                         ),

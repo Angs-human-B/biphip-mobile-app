@@ -69,8 +69,13 @@ class SetPassword extends StatelessWidget {
                                 _authenticationController.registerPasswordError.value = ksEmptyPasswordErrorMessage.tr;
                               } else if (_authenticationController.registerPasswordTextEditingController.text.length < kMinPasswordLength) {
                                 _authenticationController.registerPasswordError.value = ksPasswordLengthErrorMessage.tr;
+                              } else if ((_authenticationController.registerConfirmPasswordTextEditingController.text !=
+                                      _authenticationController.registerPasswordTextEditingController.text) &&
+                                  _authenticationController.registerConfirmPasswordTextEditingController.text.isNotEmpty) {
+                                _authenticationController.registerConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
                               } else {
                                 _authenticationController.registerPasswordError.value = '';
+                                _authenticationController.registerConfirmPasswordError.value = '';
                               }
                             },
                             onSubmit: (text) {

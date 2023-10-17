@@ -9,6 +9,8 @@ class BipHip {
   static const String? _kBipHip2FontPkg = null;
   static const _kBipHip3FontFam = 'BipHip3';
   static const String? _kBipHip3FontPkg = null;
+  static const _kBipHip5FontFam = 'BipHip5';
+  static const String? _kBipHip5FontPkg = null;
 
   static const IconData add = IconData(0xe800, fontFamily: _kBipHipFontFam, fontPackage: _kBipHipFontPkg);
   static const IconData addImage = IconData(0xe801, fontFamily: _kBipHipFontFam, fontPackage: _kBipHipFontPkg);
@@ -166,4 +168,18 @@ class BipHip {
   static const IconData heartOutline = IconData(0xe80c, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
   static const IconData shareOutline = IconData(0xe80d, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
   static const IconData friendsFill = IconData(0xe80e, fontFamily: _kBipHip3FontFam, fontPackage: _kBipHip3FontPkg);
+
+  static const IconData withdraw = IconData(0xe801, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
+  static const IconData spend = IconData(0xe802, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
+  static const IconData addFamily = IconData(0xe803, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
+  static const IconData rio = IconData(0xe804, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
+  static const IconData filter = IconData(0xe805, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
+  static const IconData gender = IconData(0xe806, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
+  static const IconData cancelRequest = IconData(0xe80d, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
+  static const IconData selfieNew = IconData(0xe80f, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
+  static const IconData referred = IconData(0xe810, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
+  static const IconData relation = IconData(0xe811, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
+  static const IconData profession = IconData(0xe812, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
+  static const IconData warningOutline = IconData(0xe814, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
+  static const IconData warningFill = IconData(0xe816, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
 }

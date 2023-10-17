@@ -45,14 +45,14 @@ class PhotoPreview extends StatelessWidget {
                     ],
                   ),
                 ),
-                body: SingleChildScrollView(
-                  child: SizedBox(
-                    height: height - kAppBarSize - MediaQuery.of(context).padding.top,
-                    width: width,
+                body: SizedBox(
+                  height: height - kAppBarSize - MediaQuery.of(context).padding.top,
+                  width: width,
+                  child: SingleChildScrollView(
                     child: Obx(
                       () => Column(
                         children: [
-                          kH20sizedBox,
+                          kH10sizedBox,
                           _profileController.isProfilePicEditor.value
                               ? Container(
                                   width: width,
@@ -107,14 +107,16 @@ class PhotoPreview extends StatelessWidget {
                                   style: regular18TextStyle(cBlackColor),
                                 ),
                                 Checkbox(
-                                    value: _profileController.isSharedToNewFeed.value,
-                                    onChanged: (value) {
-                                      _profileController.isSharedToNewFeed.value = !_profileController.isSharedToNewFeed.value;
-                                    })
+                                  value: _profileController.isSharedToNewFeed.value,
+                                  onChanged: (value) {
+                                    _profileController.isSharedToNewFeed.value = !_profileController.isSharedToNewFeed.value;
+                                  },
+                                )
                               ],
                             ),
                           ),
-                          const Spacer(),
+                          // const Spacer(),
+                          kH24sizedBox,
                           CustomElevatedButton(
                             buttonWidth: width - 40,
                             buttonHeight: h32,

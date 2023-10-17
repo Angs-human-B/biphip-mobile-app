@@ -87,11 +87,10 @@ class EditProfile extends StatelessWidget {
                                         child: Image.network(
                                           Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
                                           fit: BoxFit.cover,
-                                          errorBuilder: (context, error, stackTrace) => ClipOval(
-                                            child: Image.asset(
-                                              kiProfileDefaultImageUrl,
-                                              fit: BoxFit.cover,
-                                            ),
+                                          errorBuilder: (context, error, stackTrace) => const Icon(
+                                            BipHip.imageFile,
+                                            size: kIconSize120,
+                                            color: cIconColor,
                                           ),
                                           loadingBuilder: imageLoadingBuilder,
                                         ),
