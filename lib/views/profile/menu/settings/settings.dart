@@ -102,7 +102,7 @@ class _ChangeNameBottomSheetContent extends StatelessWidget {
       children: [
         Text(
           ksFirstName.tr,
-          style: regular16TextStyle(cBlackColor),
+          style: medium16TextStyle(cBlackColor),
         ),
         kH8sizedBox,
         CustomModifiedTextField(
@@ -111,7 +111,7 @@ class _ChangeNameBottomSheetContent extends StatelessWidget {
         ),
         Text(
           ksLastName.tr,
-          style: regular16TextStyle(cBlackColor),
+          style: medium16TextStyle(cBlackColor),
         ),
         kH8sizedBox,
         CustomModifiedTextField(

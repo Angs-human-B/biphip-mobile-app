@@ -10,8 +10,9 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class AuthenticationController extends GetxController {
   final RxString profileLink = RxString('');
-  final Rx<File?> profileFile = File('').obs;
+  final Rx<File> profileFile = File('').obs;
   final RxBool isProfileImageChanged = RxBool(false);
+  final RxBool isImageUploadLoading = RxBool(false);
   final RxList users = RxList([]);
 
   final ApiController _apiController = ApiController();

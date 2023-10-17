@@ -1340,9 +1340,11 @@ class ProfileController extends GetxController {
   }
 
   //* upload profile photo
-  Future<void> uploadProfileAndCover(File imageFile, String type) async {
+  Future<void> uploadProfileAndCover(File imageFile, String type, [isFromProfile = true]) async {
     try {
-      isImageUploadPageLoading.value = true;
+      if (isFromProfile == true) {
+        isImageUploadPageLoading.value = true;
+      }
       String? token = await _spController.getBearerToken();
       var response = await _apiController.mediaUpload(
         url: type == 'profile' ? kuSetProfilePicture : kuSetCoverPhoto,
@@ -1367,12 +1369,17 @@ class ProfileController extends GetxController {
           });
         }
         await _globalController.getUserInfo();
-        Get.back();
-        // resetImage();
-        isImageUploadPageLoading.value = false;
+        if (isFromProfile == true) {
+          Get.back();
+          isImageUploadPageLoading.value = false;
+        } else {
+          Get.offAllNamed(krHome);
+        }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isImageUploadPageLoading.value = false;
+        if (isFromProfile == true) {
+          isImageUploadPageLoading.value = false;
+        }
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1381,7 +1388,9 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-      isImageUploadPageLoading.value = false;
+      if (isFromProfile == true) {
+        isImageUploadPageLoading.value = false;
+      }
       ll('uploadProfilePicture error: $e');
     }
   }
