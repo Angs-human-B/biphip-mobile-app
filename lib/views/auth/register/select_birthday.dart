@@ -26,8 +26,6 @@ class SelectBirthday extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              isCenterTitle: _profileController.isRouteFromAboutInfo.value,
-              hasBackButton: _profileController.isRouteFromAboutInfo.value,
               title: _profileController.isRouteFromAboutInfo.value ? ksEditYourBirthday.tr : ksRegistration.tr,
               onBack: () async {
                 Get.back();
@@ -57,9 +55,9 @@ class SelectBirthday extends StatelessWidget {
                       if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
                       TopTitleAndSubtitle(
                         title: !_profileController.isRouteFromAboutInfo.value ? ksWhatBirthday.tr : '',
-                        subTitle: ksChangeBirthday.tr,
+                        subTitle: !_profileController.isRouteFromAboutInfo.value ? ksChangeBirthday.tr : ksChangeYourBirthdayFromHere.tr,
                       ),
-                      kH50sizedBox,
+                      _profileController.isRouteFromAboutInfo.value ? kH20sizedBox : kH50sizedBox,
                       CustomSelectionButton(
                         onPressed: () {
                           showModalBottomSheet(
@@ -69,7 +67,9 @@ class SelectBirthday extends StatelessWidget {
                                   height: height * 0.4,
                                   child: CupertinoDatePicker(
                                     maximumDate: DateTime.now().subtract(const Duration(days: 15 * 365)),
-                                    initialDateTime: _profileController.userData.value?.dob ?? DateTime.now().subtract(const Duration(days: 16 * 365)),
+                                    initialDateTime: _authenticationController.birthDay.value != ''
+                                        ? DateTime.parse(_authenticationController.birthDay.value)
+                                        : DateTime.now().subtract(const Duration(days: 16 * 365)),
                                     mode: CupertinoDatePickerMode.date,
                                     onDateTimeChanged: (value) {
                                       _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(value);
@@ -78,9 +78,7 @@ class SelectBirthday extends StatelessWidget {
                                 );
                               });
                         },
-                        text: _authenticationController.birthDay.value == ''
-                            ? DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!)
-                            : _authenticationController.birthDay.value,
+                        text: _authenticationController.birthDay.value != '' ? _authenticationController.birthDay.value : '',
                         hintText: ksSelectDOB.tr,
                       ),
                       kH24sizedBox,

@@ -76,8 +76,10 @@ class OTPVerifyScreen extends StatelessWidget {
                                     if (_authenticationController.parentRoute.value == "login") {
                                       await _authenticationController.signUpVerify();
                                     } else if (_authenticationController.parentRoute.value == "register") {
+                                      _profileController.isRouteFromAboutInfo.value = false;
+                                      Get.find<GlobalController>().professionIndex.value = -1;
                                       await _authenticationController.signUpVerify();
-                                      await _profileController.getInterestList();
+                                      await _profileController.getProfessionList();
                                     } else {
                                       await _authenticationController.forgetPasswordVerify();
                                     }
@@ -94,7 +96,7 @@ class OTPVerifyScreen extends StatelessWidget {
                                   prefix: ksResendCode.tr,
                                   suffix: ksResend.tr,
                                   onPressed: () async {
-                                    FocusScope.of(context).unfocus();
+                                    unfocus(context);
                                     await _authenticationController.resendOTP();
                                   },
                                 )

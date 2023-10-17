@@ -93,14 +93,22 @@ class AuthenticationController extends GetxController {
         Get.find<ProfileController>().userData.value = loginData.user;
         await _spController.saveBearerToken(loginData.token);
         await _spController.saveRememberMe(isLoginRememberCheck.value);
+        await _spController.saveUserName(loginData.user.fullName.toString());
+        await _spController.saveUserFirstName(loginData.user.firstName.toString());
+        await _spController.saveUserLastName(loginData.user.lastName.toString());
+        await _spController.saveUserImage(loginData.user.image.toString());
+        await _spController.saveUserEmail(loginData.user.email.toString());
         if (isLoginRememberCheck.value) {
           await _spController.saveUserList({
             "email": loginData.user.email.toString(),
             "name": loginData.user.fullName.toString(),
+            "first_name": loginData.user.firstName.toString(),
+            "last_name": loginData.user.lastName.toString(),
             "image_url": loginData.user.image,
             "token": loginData.token.toString(),
           });
         }
+        await _globalController.getUserInfo();
         // await setDeviceID(loginData.user.id);
         isLoginLoading.value = false;
         Get.offAllNamed(krHome);
@@ -418,12 +426,20 @@ class AuthenticationController extends GetxController {
 
         await _spController.saveBearerToken(otpData.token);
         await _spController.saveRememberMe(true);
+        await _spController.saveUserName(otpData.user.fullName.toString());
+        await _spController.saveUserFirstName(otpData.user.firstName.toString());
+        await _spController.saveUserLastName(otpData.user.lastName.toString());
+        await _spController.saveUserImage(otpData.user.image.toString());
+        await _spController.saveUserEmail(otpData.user.email.toString());
         await _spController.saveUserList({
           "email": otpData.user.email.toString(),
           "name": otpData.user.fullName.toString(),
+          "first_name": otpData.user.firstName.toString(),
+          "last_name": otpData.user.lastName.toString(),
           "image_url": otpData.user.image,
           "token": otpData.token.toString(),
         });
+        await _globalController.getUserInfo();
         // await setDeviceID(otpData.user.id);
         // Get.offAllNamed(krHome);
         // final HomeController homeController = Get.find<HomeController>();
@@ -548,15 +564,11 @@ class AuthenticationController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        // await getSavedUsers();
-        // if (users.isNotEmpty) {
-        //   Get.offAllNamed(krSavedUserLogin);
-        // } else {
-        //   Get.offAllNamed(krLogin);
-        // }
         await SpController().onLogout();
         resetLoginScreen();
         isLogoutLoading.value = false;
+        Get.find<ProfileController>().isSupportButtonPressed.value = false;
+        Get.find<ProfileController>().isSettingButtonPressed.value = false;
         Get.offAllNamed(krLogin);
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {

@@ -11,79 +11,98 @@ class EditBio extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: cWhiteColor,
-      child: SafeArea(
-        top: false,
-        child: Scaffold(
-          backgroundColor: cWhiteColor,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(kAppBarSize),
-            //* info:: appBar
-            child: CustomAppBar(
-              appBarColor: cWhiteColor,
-              title: _profileController.bio.value == '' ? ksAddBio.tr : ksEditBio.tr,
-              hasBackButton: true,
-              isCenterTitle: true,
-              onBack: () {
-                Get.back();
-              },
-              action: [
-                Padding(
-                  padding: const EdgeInsets.only(right: k8Padding),
-                  child: CustomTextButton(
-                      onPressed: () async {
-                        _profileController.bio.value = _profileController.bioEditingController.text.trim();
-                        await _profileController.updateBio();
-                        
+      child: Obx(
+        () => Stack(
+          children: [
+            SafeArea(
+              top: false,
+              child: Scaffold(
+                  backgroundColor: cWhiteColor,
+                  appBar: PreferredSize(
+                    preferredSize: const Size.fromHeight(kAppBarSize),
+                    //* info:: appBar
+                    child: CustomAppBar(
+                      appBarColor: cWhiteColor,
+                      title: _profileController.bio.value == '' ? ksAddBio.tr : ksEditBio.tr,
+                      hasBackButton: true,
+                      isCenterTitle: true,
+                      onBack: () {
+                        Get.back();
                       },
-                      text: ksSave.tr,
-                      textStyle: regular14TextStyle(cPrimaryColor)),
-                )
-              ],
-            ),
-          ),
-          body: Stack(
-            children: [
-              SizedBox(
-                height: height,
-                width: width,
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                    child: Obx(
-                      () => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          kH20sizedBox,
-                          CustomModifiedTextField(
-                            controller: _profileController.bioEditingController,
-                            hint: ksEnterYourBio.tr,
-                            maxLength: 255,
-                            maxLines: 5,
-                            onChanged: (text) {
-                              _profileController.bioCount.value = text.length;
-                            },
-                            onSubmit: (text) {},
-                            inputAction: TextInputAction.newline,
-                            inputType: TextInputType.name,
-                          ),
-                          kH12sizedBox,
-                          Text(
-                            '${_profileController.bioCount}/255',
-                            style: regular14TextStyle(cIconColor),
-                          )
-                        ],
-                      ),
+                      action: [
+                        // if (_profileController.bioEditingController.text != _profileController.bio.value)
+                        Padding(
+                          padding: const EdgeInsets.only(right: k8Padding),
+                          child: CustomTextButton(
+                              onPressed: _profileController.bioEditingController.text != _profileController.bio.value
+                                  ? () async {
+                                      _profileController.bio.value = _profileController.bioEditingController.text.trim();
+                                      unfocus(context);
+                                      await _profileController.updateBio();
+                                      // Get.back();
+                                    }
+                                  : null,
+                              text: ksSave.tr,
+                              textStyle: _profileController.bioEditingController.text != _profileController.bio.value
+                                  ? regular14TextStyle(cPrimaryColor)
+                                  : regular14TextStyle(cIconColor)),
+                        )
+                      ],
                     ),
                   ),
+                  body: Stack(
+                    children: [
+                      SizedBox(
+                        height: height,
+                        width: width,
+                        child: SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                kH20sizedBox,
+                                CustomModifiedTextField(
+                                  controller: _profileController.bioEditingController,
+                                  hint: ksEnterYourBio.tr,
+                                  maxLength: 255,
+                                  maxLines: 5,
+                                  onChanged: (text) {
+                                    _profileController.bioCount.value = text.length;
+                                  },
+                                  onSubmit: (text) {},
+                                  inputAction: TextInputAction.newline,
+                                  inputType: TextInputType.name,
+                                ),
+                                Text(
+                                  '${_profileController.bioCount}/255',
+                                  style: regular14TextStyle(cIconColor),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Positioned(
+                        top: 0,
+                        child: CustomDivider(),
+                      ),
+                    ],
+                  )),
+            ),
+            if (_profileController.isBioLoading.value == true)
+              Positioned(
+                child: CommonLoadingAnimation(
+                  onWillPop: () async {
+                    if (_profileController.isBioLoading.value) {
+                      return false;
+                    }
+                    return true;
+                  },
                 ),
               ),
-              const Positioned(
-                top: 0,
-                child: CustomDivider(),
-              ),
-            ],
-          ),
+          ],
         ),
       ),
     );

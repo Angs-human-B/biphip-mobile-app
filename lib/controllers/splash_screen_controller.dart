@@ -29,6 +29,7 @@ class SplashScreenController extends GetxController {
       duration,
       () async {
         if (rememberStatus) {
+          await Get.find<GlobalController>().getUserInfo();
           Get.offAllNamed(krHome);
         } else {
           final AuthenticationController authenticationController = Get.find<AuthenticationController>();

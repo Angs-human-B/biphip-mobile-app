@@ -117,6 +117,7 @@ class Login extends StatelessWidget {
                             label: ksLogin.tr,
                             onPressed: _authenticationController.canLogin.value
                                 ? () async {
+                                    unFocus(context);
                                     await _authenticationController.userLogin();
                                   }
                                 : null,

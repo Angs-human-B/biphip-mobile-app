@@ -88,13 +88,20 @@ class Menu extends StatelessWidget {
                                   decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Image.asset(
-                                    kiProfilePicImageUrl,
+                                  child: Image.network(
+                                    Environment.imageBaseUrl + Get.find<GlobalController>().userImage.value.toString(),
                                     fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) => ClipOval(
+                                      child: Image.asset(
+                                        kiProfileDefaultImageUrl,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    loadingBuilder: imageLoadingBuilder,
                                   ),
                                 ),
                               ),
-                              text: 'Aminul Islam Rana',
+                              text: Get.find<GlobalController>().userName.value.toString(),
                               textStyle: semiBold18TextStyle(cBlackColor),
                             ),
                             kH25sizedBox,
@@ -185,6 +192,8 @@ class Menu extends StatelessWidget {
                                   Get.offAllNamed(krSavedUserLogin);
                                   await SpController().onLogout();
                                   Get.find<AuthenticationController>().resetLoginScreen();
+                                  _profileController.isSupportButtonPressed.value = false;
+                                  _profileController.isSettingButtonPressed.value = false;
                                 } else {
                                   await Get.find<AuthenticationController>().logout();
                                 }
@@ -230,9 +239,9 @@ class Menu extends StatelessWidget {
 }
 
 class CustomMenuContainer extends StatelessWidget {
-  const CustomMenuContainer({super.key, this.leading, required this.text, required this.textStyle, this.height, this.width, this.onPressed});
+  const CustomMenuContainer({super.key, this.leading, required this.text, required this.textStyle, this.height, this.width, this.onPressed, this.trailing});
 
-  final Widget? leading;
+  final Widget? leading, trailing;
   final double? height, width;
   final VoidCallback? onPressed;
   final String text;
@@ -255,10 +264,19 @@ class CustomMenuContainer extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: k12Padding),
               child: leading,
             ),
-            Text(
-              text,
-              style: textStyle,
-            )
+            Expanded(
+              child: Text(
+                text,
+                style: textStyle,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ),
+            if (trailing != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: k12Padding),
+                child: trailing,
+              ),
           ],
         ),
       ),

@@ -61,13 +61,14 @@ class Profile extends StatelessWidget {
                                   height: 150,
                                   width: width,
                                   child: Image.network(
-                                    Environment.imageBaseUrl + _profileController.profileData.value!.user!.coverPhoto.toString(),
+                                    Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => const Icon(
                                       BipHip.imageFile,
                                       size: kIconSize120,
                                       color: cIconColor,
                                     ),
+                                    loadingBuilder: imageLoadingBuilder,
                                   ),
                                 ),
                                 Positioned(
@@ -79,13 +80,13 @@ class Profile extends StatelessWidget {
                                         height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
                                         width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
                                         decoration: BoxDecoration(
-                                          color: cGreyBoxColor,
-                                          borderRadius: BorderRadius.circular(90),
-                                          border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
+                                          color: cBlackColor,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(color: cWhiteColor.withAlpha(500), width: 2),
                                         ),
                                         child: ClipOval(
                                           child: Image.network(
-                                            Environment.imageBaseUrl + _profileController.profileData.value!.user!.profilePicture.toString(),
+                                            Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
                                             fit: BoxFit.cover,
                                             errorBuilder: (context, error, stackTrace) => ClipOval(
                                               child: Image.asset(
@@ -93,6 +94,7 @@ class Profile extends StatelessWidget {
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
+                                            loadingBuilder: imageLoadingBuilder,
                                           ),
                                         ),
                                       ),
@@ -149,6 +151,7 @@ class Profile extends StatelessWidget {
                                           ),
                                         ),
                                       ),
+                                      //todo: badge
                                       Positioned(
                                         right: 6,
                                         top: 10,
@@ -333,6 +336,21 @@ class Profile extends StatelessWidget {
                                         onPressed: null,
                                       ),
                                     ),
+
+                                  //! see more
+                                  if (_profileController.emailDataList.isNotEmpty &&
+                                      _profileController.contactDataList.length > 1 &&
+                                      _profileController.isProfileSeeMore.value)
+                                    for (int i = 1; i < _profileController.emailDataList.length; i++)
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                        child: LinkUpIconTextRow(
+                                          icon: BipHip.mail,
+                                          text: checkNullOrStringNull(_profileController.emailDataList[i].value),
+                                          isLink: true,
+                                          onPressed: null,
+                                        ),
+                                      ),
                                   if (_profileController.phoneDataList.isNotEmpty)
                                     // for (int i = 0; i < _profileController.contactDataList.length; i++)
                                     Padding(
@@ -345,24 +363,10 @@ class Profile extends StatelessWidget {
                                       ),
                                     ),
                                   //! see more
-                                  if (_profileController.emailDataList.isNotEmpty &&
-                                      _profileController.contactDataList.length > 1 &&
-                                      _profileController.isProfileSeeMore.value)
-                                    for (int i = 1; i < _profileController.emailDataList.length - 1; i++)
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                        child: LinkUpIconTextRow(
-                                          icon: BipHip.mail,
-                                          text: checkNullOrStringNull(_profileController.emailDataList[i].value),
-                                          isLink: true,
-                                          onPressed: null,
-                                        ),
-                                      ),
-                                  //! see more
                                   if (_profileController.phoneDataList.isNotEmpty &&
                                       _profileController.contactDataList.length > 1 &&
                                       _profileController.isProfileSeeMore.value)
-                                    for (int i = 1; i < _profileController.phoneDataList.length - 1; i++)
+                                    for (int i = 1; i < _profileController.phoneDataList.length; i++)
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                         child: LinkUpIconTextRow(
@@ -373,7 +377,17 @@ class Profile extends StatelessWidget {
                                         ),
                                       ),
                                   if (_profileController.linkDataList.isNotEmpty)
-                                    for (int i = 0; i < _profileController.linkDataList.length; i++)
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                      child: LinkUpIconTextRow(
+                                        icon: _profileController.getLinkIcon(_profileController.linkDataList[0].type.toString()),
+                                        text: checkNullOrStringNull(_profileController.linkDataList[0].link),
+                                        isLink: true,
+                                        onPressed: null,
+                                      ),
+                                    ),
+                                  if (_profileController.linkDataList.isNotEmpty && _profileController.isProfileSeeMore.value)
+                                    for (int i = 1; i < _profileController.linkDataList.length; i++)
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                         child: LinkUpIconTextRow(
@@ -383,18 +397,25 @@ class Profile extends StatelessWidget {
                                           onPressed: null,
                                         ),
                                       ),
-                                  CustomElevatedButton(
-                                      label: _profileController.isProfileSeeMore.value ? ksShowLess : ksSeeMore,
-                                      suffixIcon: _profileController.isProfileSeeMore.value ? BipHip.upArrow : BipHip.downArrow,
-                                      suffixIconColor: cBlackColor,
-                                      buttonHeight: h28,
-                                      buttonWidth: width - 40,
-                                      buttonColor: cLineColor,
-                                      textStyle: semiBold12TextStyle(cBlackColor),
-                                      onPressed: () {
-                                        _profileController.isProfileSeeMore.value = !_profileController.isProfileSeeMore.value;
-                                      }),
-                                  kH12sizedBox
+                                  if (_profileController.showSeeMore())
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: k12Padding),
+                                      child: CustomElevatedButton(
+                                          label: _profileController.isProfileSeeMore.value ? ksShowLess : ksSeeMore,
+                                          suffixIcon: _profileController.isProfileSeeMore.value ? BipHip.upArrow : BipHip.downArrow,
+                                          suffixIconColor: cBlackColor,
+                                          buttonHeight: h28,
+                                          buttonWidth: width - 40,
+                                          buttonColor: cLineColor,
+                                          textStyle: semiBold12TextStyle(cBlackColor),
+                                          onPressed: () {
+                                            ll(_profileController.phoneDataList.length);
+                                            ll(_profileController.contactDataList.length);
+                                            ll(_profileController.isProfileSeeMore.value);
+                                            _profileController.isProfileSeeMore.value = !_profileController.isProfileSeeMore.value;
+                                          }),
+                                    ),
+                                  // kH12sizedBox
                                 ],
                               ),
                             ),
@@ -552,9 +573,11 @@ class LinkUpIconTextRow extends StatelessWidget {
               color: cIconColor,
             ),
             kW12sizedBox,
-            Text(
-              text,
-              style: regular14TextStyle(isLink ? cPrimaryColor : cBlackColor),
+            Expanded(
+              child: Text(
+                text,
+                style: regular14TextStyle(isLink ? cPrimaryColor : cBlackColor),
+              ),
             )
           ],
         ),
@@ -685,8 +708,8 @@ class PictureUploadContent extends StatelessWidget {
           prefixIconColor: cIconColor,
           suffixIconColor: cIconColor,
           onPressed: () async {
-            await _globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'camera');
-            if (isImageChanged.value) {
+            var status = await _globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'camera');
+            if (status) {
               Get.toNamed(krPhotoPreview);
             }
           },
@@ -703,8 +726,8 @@ class PictureUploadContent extends StatelessWidget {
           prefixIconColor: cIconColor,
           suffixIconColor: cIconColor,
           onPressed: () async {
-            await _globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'gallery');
-            if (isImageChanged.value) {
+            var status = await _globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'gallery');
+            if (status) {
               Get.toNamed(krPhotoPreview);
             }
           },
@@ -739,7 +762,7 @@ class ProfilePageShimmer extends StatelessWidget {
               highlightColor: Colors.grey,
               child: Container(decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius), height: h20, width: width * 0.6),
             ),
-            hasBackButton: false,
+            hasBackButton: true,
             onBack: () {
               Get.back();
             },

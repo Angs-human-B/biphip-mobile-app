@@ -33,7 +33,11 @@ class CreatePost extends StatelessWidget {
                   child: Obx(
                     () => CustomElevatedButton(
                       label: ksPost.tr,
-                      onPressed: _createPostController.isPostButtonActive.value ? () {} : null,
+                      onPressed: _createPostController.isPostButtonActive.value
+                          ? () {
+                              unfocus(context);
+                            }
+                          : null,
                       buttonWidth: 60,
                       buttonHeight: 32,
                     ),

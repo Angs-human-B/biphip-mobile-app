@@ -36,11 +36,14 @@ class CustomPostButton extends StatelessWidget {
                 ),
               ),
               kW12sizedBox,
-              Text(
-                '${ksWhatsOnYourMind.tr}, $name?',
-                style: regular14TextStyle(cIconColor),
+              Expanded(
+                child: Text(
+                  '${ksWhatsOnYourMind.tr}, $name?',
+                  style: regular14TextStyle(cIconColor),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
               ),
-              const Spacer(),
               prefixWidget ?? const SizedBox(),
               kW20sizedBox
             ],

@@ -15,6 +15,7 @@ class ProfileController extends GetxController {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
+  final RxBool showAllEditOption = RxBool(true);
   final RxBool isSupportButtonPressed = RxBool(false);
   final RxBool isSettingButtonPressed = RxBool(false);
   final RxInt interestCatagoriesIndex = RxInt(0);
@@ -243,7 +244,7 @@ class ProfileController extends GetxController {
   ]);
   final RxString friendActionSelect = RxString('');
   final RxList educationBackgroundList = RxList(['School', 'College']);
-  final RxList linkSourceList = RxList(['Facebook', 'LinkedIn', 'Twitter', 'Website']);
+  final RxList linkSourceList = RxList(['Facebook', 'Twitter', 'Website']);
   final RxString relationshipStatus = RxString('');
   final RxString selectedGender = RxString('');
   final RxString tempSelectedGender = RxString('');
@@ -289,6 +290,17 @@ class ProfileController extends GetxController {
     isCommonEditCheckBoxSelected.value = false;
   }
 
+  void resetTextEditor() {
+    homeTownTextEditingController.clear();
+    presentAddressTextEditingController.clear();
+    educationInstituteTextEditingController.clear();
+    companyNameTextEditingController.clear();
+    designationTextEditingController.clear();
+    phoneTextEditingController.clear();
+    emailTextEditingController.clear();
+    linkTextEditingController.clear();
+  }
+
   void selectFunction(functionFlag, [index]) async {
     if (functionFlag == 'HOMETOWN') {
       await setHometown();
@@ -299,9 +311,9 @@ class ProfileController extends GetxController {
     } else if (functionFlag == 'ADD PRESENT') {
       await setCity();
       commonEditTextEditingController.clear();
-
       presentAddressTextEditingController.clear();
     } else if (functionFlag == 'EDIT PRESENT') {
+      ll(cityID.value);
       await updateCity(cityID.value);
       presentAddressTextEditingController.clear();
       commonEditTextEditingController.clear();
@@ -360,6 +372,8 @@ class ProfileController extends GetxController {
       homeTownTextEditingController.clear();
     } else if (functionFlag == 'EDIT PRESENT DELETE') {
       await deleteCity(cityID.value);
+      commonEditTextEditingController.clear();
+      presentAddressTextEditingController.clear();
     } else if (functionFlag == 'EDIT SCHOOL DELETE') {
       await deleteSchool(schoolID.value);
       educationInstituteTextEditingController.clear();
@@ -398,6 +412,14 @@ class ProfileController extends GetxController {
     }
   }
 
+  void resetEditAboutPage() {
+    isGenderSelected.value = false;
+    showEditRelationshipStatus.value = false;
+    relationshipStatus.value = '';
+    tempSelectedGender.value = '';
+    selectedGender.value = '';
+  }
+
   void getMethod(methodID) {
     showCommonEditSuffixIcon.value = false;
     showCommonSecondaryEditSuffixIcon.value = false;
@@ -409,11 +431,11 @@ class ProfileController extends GetxController {
       // Get.back();
     } else if (methodID == 1) {
       setEditPageValue(ksAddPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksAddLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'ADD PRESENT');
+          ksAddLocation.tr, true, true, false, true, ksCurrentlyLivingHere.tr, 'ADD PRESENT');
     } else if (methodID == 2) {
       presentAddressTextEditingController.text = currentCityData.value!.city!;
       setEditPageValue(ksEditPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksEditLocation.tr, true, true, true, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'EDIT PRESENT');
+          ksEditLocation.tr, true, true, false, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'EDIT PRESENT');
       // Get.back();
     } else if (methodID == 3) {
       setEditPageValue(ksAddOtherAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
@@ -476,6 +498,34 @@ class ProfileController extends GetxController {
     emailDataList.clear();
     phoneDataList.clear();
     linkDataList.clear();
+  }
+
+  bool buttonActivation(String functionFlag) {
+    if (functionFlag.contains('LINK')) {
+      if (commonEditTextEditingController.text != '' && linkSource.value != '') {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (functionFlag == 'ADD SCHOOL') {
+      if (commonEditTextEditingController.text != '' && educationBackground.value != '') {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (functionFlag.contains('EMAIL')) {
+      if (commonEditTextEditingController.text != '' && commonEditTextEditingController.text.isValidEmail) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (commonEditTextEditingController.text != '') {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 
   //* Profile overview API Implementation
@@ -611,7 +661,7 @@ class ProfileController extends GetxController {
       Map<String, dynamic> body = {
         'id': id.toString(),
         'city': presentAddressTextEditingController.text.trim(),
-        'is_current': isCommonEditCheckBoxSelected.value ? '1' : '0'
+        // 'is_current': isCommonEditCheckBoxSelected.value ? '1' : '0'
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -664,6 +714,9 @@ class ProfileController extends GetxController {
           }
           if (currentCityData.value?.id == id) {
             currentCityData.value = null;
+          }
+          if (hometownData.value?.id == id) {
+            hometownData.value = null;
           }
         }
         isEditProfileLoading.value = false;
@@ -1120,9 +1173,18 @@ class ProfileController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
+        emailDataList.clear();
+        phoneDataList.clear();
         for (int i = 0; i < contactDataList.length; i++) {
           if (contactDataList[i].id == id) {
             contactDataList.removeAt(i);
+          }
+        }
+        for (int i = 0; i < contactDataList.length; i++) {
+          if (contactDataList[i].type == 'email') {
+            emailDataList.add(contactDataList[i]);
+          } else {
+            phoneDataList.add(contactDataList[i]);
           }
         }
         isEditProfileLoading.value = false;
@@ -1254,9 +1316,10 @@ class ProfileController extends GetxController {
 
   //* update bio API Implementation
   Rx<CommonUserDataModel?> commonUserLayeredData = Rx<CommonUserDataModel?>(null);
-  Future<void> updateBio() async {
+  RxBool isBioLoading = RxBool(false);
+  Future<void> updateBio([isUpdate = true]) async {
     try {
-      isEditProfileLoading.value = true;
+      isBioLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
         'bio': bioEditingController.text.trim(),
@@ -1272,14 +1335,15 @@ class ProfileController extends GetxController {
         commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
         userData.value = commonUserLayeredData.value!.user;
         ll(userData.value!.bio);
-        Get.back();
-        Get.back();
+        if (isUpdate) {
+          Get.back();
+        }
         clearBio();
-        isEditProfileLoading.value = false;
+        isBioLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        isEditProfileLoading.value = false;
+        isBioLoading.value = false;
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
@@ -1287,7 +1351,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-      isEditProfileLoading.value = false;
+      isBioLoading.value = false;
       ll('updateBio error: $e');
     }
   }
@@ -1331,6 +1395,7 @@ class ProfileController extends GetxController {
   //* upload profile photo
   Future<void> uploadProfileAndCover(File imageFile, String type) async {
     try {
+      isImageUploadPageLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.mediaUpload(
         url: type == 'profile' ? kuSetProfilePicture : kuSetCoverPhoto,
@@ -1341,11 +1406,26 @@ class ProfileController extends GetxController {
 
       if (response.success == true) {
         ll(response.data.toString());
-        // userData.value = User.fromJson(response.data);
-        resetImage();
+        CommonUserDataModel commonUserDataModel = CommonUserDataModel.fromJson(response.data);
+        userData.value = commonUserDataModel.user;
+        var rememberMe = await _spController.getRememberMe();
+        if (rememberMe == true) {
+          await _spController.saveUserList({
+            "email": userData.value!.email.toString(),
+            "name": userData.value!.fullName.toString(),
+            "first_name": userData.value!.firstName.toString(),
+            "last_name": userData.value!.lastName.toString(),
+            "image_url": userData.value!.profilePicture.toString(),
+            "token": token.toString(),
+          });
+        }
+        await _globalController.getUserInfo();
         Get.back();
+        // resetImage();
+        isImageUploadPageLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
+        isImageUploadPageLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1354,6 +1434,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
+      isImageUploadPageLoading.value = false;
       ll('uploadProfilePicture error: $e');
     }
   }
@@ -1393,9 +1474,10 @@ class ProfileController extends GetxController {
   }
 
   //* name change API Implementation
+  RxBool isChangeNameLoading = RxBool(false);
   Future<void> changeName() async {
     try {
-      isEditProfileLoading.value = true;
+      isChangeNameLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {'first_name': firstNameEditingController.text.trim(), 'last_name': lastNameEditingController.text.trim()};
       var response = await _apiController.commonApiCall(
@@ -1409,10 +1491,22 @@ class ProfileController extends GetxController {
         ll(response.data);
         commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
         userData.value = commonUserLayeredData.value!.user;
-        isEditProfileLoading.value = false;
+        var rememberMe = await _spController.getRememberMe();
+        if (rememberMe == true) {
+          await _spController.saveUserList({
+            "email": userData.value!.email.toString(),
+            "name": userData.value!.fullName.toString(),
+            "first_name": userData.value!.firstName.toString(),
+            "last_name": userData.value!.lastName.toString(),
+            "image_url": userData.value!.profilePicture.toString(),
+            "token": token.toString(),
+          });
+        }
+        await _globalController.getUserInfo();
+        isChangeNameLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isEditProfileLoading.value = false;
+        isChangeNameLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1421,15 +1515,17 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-      isEditProfileLoading.value = false;
+      isChangeNameLoading.value = false;
       ll('changeName error: $e');
     }
   }
 
   //* get profession list API
   Rx<ProfessionListModel?> professionListData = Rx<ProfessionListModel?>(null);
+  RxBool isProfessionListLoading = RxBool(false);
   Future<void> getProfessionList() async {
     try {
+      isProfessionListLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -1440,7 +1536,9 @@ class ProfileController extends GetxController {
         _globalController.professionList.clear();
         professionListData.value = ProfessionListModel.fromJson(response.data);
         _globalController.professionList.addAll(professionListData.value!.professions);
+        isProfessionListLoading.value = false;
       } else {
+        isProfessionListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1449,14 +1547,17 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
+      isProfessionListLoading.value = false;
       ll('getProfessionList error: $e');
     }
   }
 
   //* get interest list API
   Rx<InterestListModel?> interestListData = Rx<InterestListModel?>(null);
+  RxBool isInterestListLoading = RxBool(false);
   Future<void> getInterestList() async {
     try {
+      isInterestListLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -1467,7 +1568,9 @@ class ProfileController extends GetxController {
         _globalController.interestList.clear();
         interestListData.value = InterestListModel.fromJson(response.data);
         _globalController.interestList.addAll(interestListData.value!.interests);
+        isInterestListLoading.value = false;
       } else {
+        isInterestListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1476,6 +1579,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
+      isInterestListLoading.value = false;
       ll('getInterestList error: $e');
     }
   }
@@ -1554,8 +1658,10 @@ class ProfileController extends GetxController {
 
   //* get gender list API
   Rx<GenderListModel?> genderListData = Rx<GenderListModel?>(null);
+  RxBool isGenderListLoading = RxBool(false);
   Future<void> getGenderList() async {
     try {
+      isGenderListLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -1566,7 +1672,9 @@ class ProfileController extends GetxController {
         genderList.clear();
         genderListData.value = GenderListModel.fromJson(response.data);
         genderList.addAll(genderListData.value!.genders);
+        isGenderListLoading.value = false;
       } else {
+        isGenderListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1575,14 +1683,17 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
+      isGenderListLoading.value = false;
       ll('getGenderList error: $e');
     }
   }
 
   //* get relationship list API
   Rx<RelationshipListModel?> relationshipListData = Rx<RelationshipListModel?>(null);
+  RxBool isRelationListLoading = RxBool(false);
   Future<void> getRelationshipList() async {
     try {
+      isRelationListLoading.value = true;
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -1593,7 +1704,9 @@ class ProfileController extends GetxController {
         relationshipStatusList.clear();
         relationshipListData.value = RelationshipListModel.fromJson(response.data);
         relationshipStatusList.addAll(relationshipListData.value!.relationships);
+        isRelationListLoading.value = false;
       } else {
+        isRelationListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1602,6 +1715,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
+      isRelationListLoading.value = false;
       ll('getRelationshipList error: $e');
     }
   }
@@ -1632,6 +1746,15 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       ll('getPositionList error: $e');
+    }
+  }
+
+  final RxBool isImageUploadPageLoading = RxBool(false);
+  bool showSeeMore() {
+    if (emailDataList.length + phoneDataList.length + linkDataList.length > 3) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

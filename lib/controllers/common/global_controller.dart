@@ -226,7 +226,7 @@ class GlobalController extends GetxController {
 
   Future<bool> selectMultiMediaSource(RxBool isMediaChanged, RxList<RxString> mediaLinkList, RxList<Rx<File?>> mediaFileList) async {
     try {
-      final List<XFile> mediaList = await _picker.pickMultipleMedia(
+      final List<XFile> mediaList = await _picker.pickMultiImage(
         maxHeight: 480,
         maxWidth: 720,
       );
@@ -346,6 +346,33 @@ class GlobalController extends GetxController {
 
   final searchController = TextEditingController();
   final recentSearch = RxList();
+
+  final Rx<String?> userName = Rx<String?>(null);
+  final Rx<String?> userFirstName = Rx<String?>(null);
+  final Rx<String?> userLastName = Rx<String?>(null);
+  final Rx<String?> userImage = Rx<String?>(null);
+  final Rx<String?> userEmail = Rx<String?>(null);
+  final Rx<String?> userToken = Rx<String?>(null);
+
+  Future<void> getUserInfo() async {
+    SpController spController = SpController();
+    userName.value = await spController.getUserName();
+    userFirstName.value = await spController.getUserFirstName();
+    userLastName.value = await spController.getUserLastName();
+    userImage.value = await spController.getUserImage();
+    userEmail.value = await spController.getUserEmail();
+    userToken.value = await spController.getBearerToken();
+    var userData = await spController.getUserData(userToken.value);
+    ll("--- : $userData");
+    if (userData != null) {
+      userName.value = userData['name'];
+      userFirstName.value = userData['first_name'];
+      userLastName.value = userData['last_name'];
+      userImage.value = userData['image_url'];
+      userEmail.value = userData['email'];
+      userToken.value = userData['token'];
+    }
+  }
 
   //! end
 }
