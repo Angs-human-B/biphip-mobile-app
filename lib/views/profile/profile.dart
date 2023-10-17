@@ -6,6 +6,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Profile extends StatelessWidget {
@@ -151,19 +152,19 @@ class Profile extends StatelessWidget {
                                         ),
                                       ),
                                       //todo: badge
-                                      // Positioned(
-                                      //   right: 6,
-                                      //   top: 10,
-                                      //   child: Container(
-                                      //       height: h28,
-                                      //       width: h28,
-                                      //       decoration: BoxDecoration(
-                                      //         color: cGreyBoxColor,
-                                      //         borderRadius: BorderRadius.circular(26),
-                                      //         border: Border.all(color: cPrimaryColor, width: 1),
-                                      //       ),
-                                      //       child: SvgPicture.asset(kiBadge1SvgImageUrl)),
-                                      // ),
+                                      Positioned(
+                                        right: 6,
+                                        top: 10,
+                                        child: Container(
+                                            height: h28,
+                                            width: h28,
+                                            decoration: BoxDecoration(
+                                              color: cGreyBoxColor,
+                                              borderRadius: BorderRadius.circular(26),
+                                              border: Border.all(color: cPrimaryColor, width: 1),
+                                            ),
+                                            child: SvgPicture.asset(kiBadge1SvgImageUrl)),
+                                      ),
                                     ],
                                   ),
                                 ),
