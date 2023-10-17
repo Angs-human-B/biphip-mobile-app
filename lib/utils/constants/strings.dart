@@ -209,6 +209,7 @@ const String ksChooseProfessionSubtitle =
     'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.';
 const String ksCHooseInterestSubtitle =
     'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.';
+const String ksEditInterestSubtitle ='This will help us to provide you a nice experience while you will use our system.';
 const String ksAddress = 'Address';
 const String ksHomeTown = 'Hometown';
 const String ksAddHomeTownAddress = 'Add hometown address';
