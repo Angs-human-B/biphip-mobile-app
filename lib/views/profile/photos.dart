@@ -1,5 +1,4 @@
 import 'package:bip_hip/controllers/gallery_controller.dart';
-import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/profile_widgets/gallery_photos.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 class Photos extends StatelessWidget {
   Photos({super.key});
 
-  final ProfileController _profileController = Get.find<ProfileController>();
   final GalleryController _galleryController = Get.find<GalleryController>();
 
   @override
@@ -41,8 +39,8 @@ class Photos extends StatelessWidget {
                       child: Center(
                         child: Container(
                           alignment: Alignment.center,
-                          child: const EmptyView(
-                            title: ksNoImageAvailable,
+                          child:  EmptyView(
+                            title: ksNoImageAvailable.tr,
                           ),
                         ),
                       ),

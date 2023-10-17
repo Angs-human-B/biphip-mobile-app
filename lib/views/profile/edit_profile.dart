@@ -78,18 +78,17 @@ class EditProfile extends StatelessWidget {
                                 height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
                                 width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
                                 decoration: const BoxDecoration(
-                                  color: cWhiteColor,
+                                  color: cBlackColor,
                                   shape: BoxShape.circle,
                                 ),
                                 child: ClipOval(
                                   child: Image.network(
                                     Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => ClipOval(
-                                      child: Image.asset(
-                                        kiProfileDefaultImageUrl,
-                                        fit: BoxFit.cover,
-                                      ),
+                                    errorBuilder: (context, error, stackTrace) => const Icon(
+                                      BipHip.user,
+                                      size: kIconSize70,
+                                      color: cIconColor,
                                     ),
                                     loadingBuilder: imageLoadingBuilder,
                                   ),

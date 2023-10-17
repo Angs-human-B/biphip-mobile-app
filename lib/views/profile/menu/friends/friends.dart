@@ -325,28 +325,29 @@ class AllFriendList extends StatelessWidget {
                     style: semiBold14TextStyle(cBlackColor),
                   ),
                   trailing: CustomIconButton(
-                      onPress: () {
-                        _globalController.commonBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          content: _FriendActionContent(
-                            profileController: _profileController,
-                          ),
-                          onPressCloseButton: () {
-                            Get.back();
-                          },
-                          onPressRightButton: () {
-                            Get.back();
-                            _profileController.friendActionSelect.value = '';
-                          },
-                          rightText: ksDone.tr,
-                          rightTextStyle: regular14TextStyle(cPrimaryColor),
-                          title: ksAction.tr,
-                          isRightButtonShow: true,
-                          bottomSheetHeight: height * .33,
-                        );
-                      },
-                      icon: BipHip.system),
+                    onPress: () {
+                      _globalController.commonBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        content: _FriendActionContent(
+                          profileController: _profileController,
+                        ),
+                        onPressCloseButton: () {
+                          Get.back();
+                        },
+                        onPressRightButton: () {
+                          Get.back();
+                          _profileController.friendActionSelect.value = '';
+                        },
+                        rightText: ksDone.tr,
+                        rightTextStyle: regular14TextStyle(cPrimaryColor),
+                        title: ksAction.tr,
+                        isRightButtonShow: true,
+                        bottomSheetHeight: 250,
+                      );
+                    },
+                    icon: BipHip.system,
+                  ),
                 ),
               ),
             ),
@@ -395,6 +396,7 @@ class ReceivedFriendList extends StatelessWidget {
     );
   }
 }
+
 //*Pending Friend Request
 class PendingFriendList extends StatelessWidget {
   PendingFriendList({super.key});
@@ -449,7 +451,7 @@ class PendingFriendList extends StatelessWidget {
                           rightTextStyle: regular14TextStyle(cPrimaryColor),
                           title: ksAction.tr,
                           isRightButtonShow: true,
-                          bottomSheetHeight: height * .22,
+                          bottomSheetHeight: 200,
                         );
                       },
                       icon: BipHip.system),
