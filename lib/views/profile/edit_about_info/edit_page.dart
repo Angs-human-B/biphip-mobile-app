@@ -64,6 +64,7 @@ class EditPage extends StatelessWidget {
                               contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding),
                               onPressed: () {
                                 _profileController.tempLinkSource.value = _profileController.linkSource.value;
+                                _profileController.tempEducationBackground.value = _profileController.educationBackground.value;
                                 _globalController.commonBottomSheet(
                                   context: context,
                                   content:
@@ -75,8 +76,8 @@ class EditPage extends StatelessWidget {
                                   isScrollControlled: true,
                                   bottomSheetHeight:
                                       (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
-                                          ? height * 0.3
-                                          : height * 0.3,
+                                          ? 220
+                                          : 200,
                                   onPressCloseButton: () {
                                     Get.back();
                                   },
@@ -85,6 +86,8 @@ class EditPage extends StatelessWidget {
                                         _profileController.commonEditPageTitle.value == ksEditLink) {
                                       _profileController.linkSource.value = _profileController.tempLinkSource.value;
                                       _profileController.commonEditPageIcon.value = _profileController.getLinkIcon(_profileController.linkSource.value);
+                                    } else {
+                                      _profileController.educationBackground.value = _profileController.tempEducationBackground.value;
                                     }
                                     Get.back();
                                   },
@@ -394,10 +397,10 @@ class _EducationBackgroundContent extends StatelessWidget {
                 value: profileController.educationBackgroundList[index],
                 activeColor: cPrimaryColor,
                 contentPadding: EdgeInsets.zero,
-                groupValue: profileController.educationBackground.value,
+                groupValue: profileController.tempEducationBackground.value,
                 controlAffinity: ListTileControlAffinity.trailing,
                 onChanged: (value) {
-                  profileController.educationBackground.value = value;
+                  profileController.tempEducationBackground.value = value;
                 },
               ),
             );

@@ -51,12 +51,15 @@ class PictureUploadScreen extends StatelessWidget {
                                   width: h134,
                                   decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
+                                    color: cBlackColor,
                                   ),
                                   child: Image.file(
                                     _authenticationController.profileFile.value,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => ClipOval(
-                                      child: Image.asset(kiProfileDefaultImageUrl),
+                                    errorBuilder: (context, error, stackTrace) => const Icon(
+                                      BipHip.user,
+                                      size: kIconSize70,
+                                      color: cIconColor,
                                     ),
                                   ),
                                 ),

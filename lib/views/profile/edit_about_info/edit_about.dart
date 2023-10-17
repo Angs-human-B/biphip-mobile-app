@@ -158,20 +158,20 @@ class EditAboutInfo extends StatelessWidget {
                                 },
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: k16Padding),
-                              child: RowTextButton(
-                                text: ksOther.tr,
-                                buttonText: ksAdd.tr,
-                                showAddButton: true,
-                                onPressedAdd: () {
-                                  _profileController.resetTextEditor();
-                                  _profileController.getMethod(3);
-                                  Get.toNamed(krEdit);
-                                },
-                                buttonWidth: 108,
-                              ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: k16Padding),
+                            child: RowTextButton(
+                              text: ksOther.tr,
+                              buttonText: ksAdd.tr,
+                              showAddButton: true,
+                              onPressedAdd: () {
+                                _profileController.resetTextEditor();
+                                _profileController.getMethod(3);
+                                Get.toNamed(krEdit);
+                              },
+                              buttonWidth: 108,
                             ),
+                          ),
                           for (int i = 0; i < _profileController.otherCityList.length; i++)
                             if (_profileController.otherCityList[i].isCurrent == 0 && _profileController.otherCityList[i].isHometown == 0)
                               Padding(
@@ -220,6 +220,7 @@ class EditAboutInfo extends StatelessWidget {
                               buttonText: 'Add',
                               showAddButton: true,
                               onPressedAdd: () {
+                                _profileController.resetTextEditor();
                                 _profileController.getMethod(5);
                               },
                               buttonWidth: 126,
@@ -243,11 +244,13 @@ class EditAboutInfo extends StatelessWidget {
                                 suffixOnPressed: () {
                                   _profileController.schoolID.value = _profileController.schoolDataList[i].id!;
                                   _profileController.educationInstituteTextEditingController.text = _profileController.schoolDataList[i].school!;
-                                  if (_profileController.schoolDataList[i].graduated == 1) {
+                                  if (_profileController.schoolDataList[i].graduated == 0) {
                                     _profileController.isCurrentlyStudyingHere.value = true;
                                   } else {
                                     _profileController.isCurrentlyStudyingHere.value = false;
                                   }
+                                  ll("grad : ${_profileController.schoolDataList[i].graduated}");
+                                  ll("current : ${_profileController.isCurrentlyStudyingHere.value}");
                                   _profileController.getMethod(6);
                                   // _globalController.commonBottomSheet(
                                   //     context: context,
@@ -300,7 +303,7 @@ class EditAboutInfo extends StatelessWidget {
                                 suffixOnPressed: () {
                                   _profileController.collegeID.value = _profileController.collegeDataList[i].id!;
                                   _profileController.educationInstituteTextEditingController.text = _profileController.collegeDataList[i].school!;
-                                  if (_profileController.collegeDataList[i].graduated == 1) {
+                                  if (_profileController.collegeDataList[i].graduated == 0) {
                                     _profileController.isCurrentlyStudyingHere.value = true;
                                   } else {
                                     _profileController.isCurrentlyStudyingHere.value = false;
@@ -351,9 +354,12 @@ class EditAboutInfo extends StatelessWidget {
                             prefixIcon: BipHip.love,
                             onPressed: () async {
                               _profileController.isRelationListLoading.value = true;
-                              if (_profileController.userData.value!.relation != null) {
+                              if (_profileController.relationshipStatus.value != '') {
+                                _profileController.tempRelationshipStatus.value = _profileController.relationshipStatus.value;
+                              } else if (_profileController.userData.value!.relation != null) {
                                 _profileController.tempRelationshipStatus.value = checkNullOrStringNull(_profileController.userData.value!.relation);
                               }
+                              ll("value : ${_profileController.tempRelationshipStatus.value}");
                               _globalController.commonBottomSheet(
                                 context: context,
                                 content: Obx(
@@ -463,10 +469,14 @@ class EditAboutInfo extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom: k16Padding),
                               child: CustomSelectionButton(
-                                prefixIcon: Icons.male,
+                                prefixIcon: BipHip.gender,
                                 onPressed: () async {
                                   _profileController.isGenderListLoading.value = true;
                                   _profileController.tempSelectedGender.value = checkNullOrStringNull(_profileController.userData.value!.gender);
+                                  if (_profileController.selectedGender.value != '') {
+                                    _profileController.tempSelectedGender.value = _profileController.selectedGender.value;
+                                  }
+
                                   _globalController.commonBottomSheet(
                                     context: context,
                                     content: Obx(
@@ -477,7 +487,7 @@ class EditAboutInfo extends StatelessWidget {
                                             ),
                                     ),
                                     isScrollControlled: true,
-                                    bottomSheetHeight: height * 0.4,
+                                    bottomSheetHeight: height * 0.45,
                                     onPressCloseButton: () {
                                       Get.back();
                                     },
@@ -532,7 +542,7 @@ class EditAboutInfo extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 16),
                               child: InfoContainer(
-                                prefixIcon: BipHip.calendarFill,
+                                prefixIcon: BipHip.birthday,
                                 suffixIcon: BipHip.edit,
                                 text: DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!),
                                 suffixOnPressed: () {
@@ -564,7 +574,7 @@ class EditAboutInfo extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 16),
                               child: InfoContainer(
-                                prefixIcon: BipHip.work,
+                                prefixIcon: BipHip.profession,
                                 suffixIcon: BipHip.edit,
                                 text: checkNullOrStringNull(_profileController.userData.value!.profession[0]) ?? ksSelectProfession.tr,
                                 suffixOnPressed: () async {
@@ -645,66 +655,69 @@ class EditAboutInfo extends StatelessWidget {
                             ),
                           ),
                           if (_profileController.currentWorkplace.value != null)
-                            InfoContainer(
-                              prefixIcon: BipHip.officeFill,
-                              suffixIcon: BipHip.edit,
-                              text: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
-                              suffixOnPressed: () {
-                                _profileController.officeID.value = _profileController.currentWorkplace.value!.id!;
-                                _profileController.companyNameTextEditingController.text = _profileController.currentWorkplace.value!.company!;
-                                _profileController.designationTextEditingController.text = _profileController.currentWorkplace.value!.position ?? '';
-                                if (_profileController.currentWorkplace.value!.isCurrent == 1) {
-                                  _profileController.isCurrentlyWorkingHere.value = true;
-                                } else {
-                                  _profileController.isCurrentlyWorkingHere.value = false;
-                                }
-                                _profileController.getMethod(10);
-                                // _globalController.commonBottomSheet(
-                                //     isScrollControlled: false,
-                                //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                //     onPressCloseButton: () {
-                                //       Get.back();
-                                //     },
-                                //     onPressRightButton: null,
-                                //     rightText: '',
-                                //     rightTextStyle: regular10TextStyle(cBlackColor),
-                                //     title: ksEdit.tr,
-                                //     isRightButtonShow: false,
-                                //     context: context,
-                                //     content: EditModalSheet(
-                                //       editButtonText: ksEditWorkplace.tr,
-                                //       editOnPressed: () {
-                                //         _profileController.officeID.value = _profileController.currentWorkplace.value!.id!;
-                                //         _profileController.companyNameTextEditingController.text = _profileController.currentWorkplace.value!.company!;
-                                //         _profileController.designationTextEditingController.text = _profileController.currentWorkplace.value!.position ?? '';
-                                //         if (_profileController.currentWorkplace.value!.isCurrent == 1) {
-                                //           _profileController.isCurrentlyWorkingHere.value = true;
-                                //         } else {
-                                //           _profileController.isCurrentlyWorkingHere.value = false;
-                                //         }
-                                //         _profileController.getMethod(10);
-                                //       },
-                                //       deleteButtonText: ksDeleteWorkplace.tr,
-                                //       deleteOnPressed: () async {
-                                //         Get.back();
-                                //         await _profileController.deleteWork(_profileController.currentWorkplace.value!.id);
-                                //       },
-                                //     ));
-                              },
-                            ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
-                              child: RowTextButton(
-                                text: ksOther.tr,
-                                buttonText: ksAdd.tr,
-                                showAddButton: true,
-                                onPressedAdd: () {
-                                  _profileController.resetTextEditor();
-                                  _profileController.getMethod(8);
+                              padding: const EdgeInsets.only(bottom: k16Padding),
+                              child: InfoContainer(
+                                prefixIcon: BipHip.officeFill,
+                                suffixIcon: BipHip.edit,
+                                text: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
+                                suffixOnPressed: () {
+                                  _profileController.officeID.value = _profileController.currentWorkplace.value!.id!;
+                                  _profileController.companyNameTextEditingController.text = _profileController.currentWorkplace.value!.company!;
+                                  _profileController.designationTextEditingController.text = _profileController.currentWorkplace.value!.position ?? '';
+                                  if (_profileController.currentWorkplace.value!.isCurrent == 1) {
+                                    _profileController.isCurrentlyWorkingHere.value = true;
+                                  } else {
+                                    _profileController.isCurrentlyWorkingHere.value = false;
+                                  }
+                                  _profileController.getMethod(10);
+                                  // _globalController.commonBottomSheet(
+                                  //     isScrollControlled: false,
+                                  //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
+                                  //     onPressCloseButton: () {
+                                  //       Get.back();
+                                  //     },
+                                  //     onPressRightButton: null,
+                                  //     rightText: '',
+                                  //     rightTextStyle: regular10TextStyle(cBlackColor),
+                                  //     title: ksEdit.tr,
+                                  //     isRightButtonShow: false,
+                                  //     context: context,
+                                  //     content: EditModalSheet(
+                                  //       editButtonText: ksEditWorkplace.tr,
+                                  //       editOnPressed: () {
+                                  //         _profileController.officeID.value = _profileController.currentWorkplace.value!.id!;
+                                  //         _profileController.companyNameTextEditingController.text = _profileController.currentWorkplace.value!.company!;
+                                  //         _profileController.designationTextEditingController.text = _profileController.currentWorkplace.value!.position ?? '';
+                                  //         if (_profileController.currentWorkplace.value!.isCurrent == 1) {
+                                  //           _profileController.isCurrentlyWorkingHere.value = true;
+                                  //         } else {
+                                  //           _profileController.isCurrentlyWorkingHere.value = false;
+                                  //         }
+                                  //         _profileController.getMethod(10);
+                                  //       },
+                                  //       deleteButtonText: ksDeleteWorkplace.tr,
+                                  //       deleteOnPressed: () async {
+                                  //         Get.back();
+                                  //         await _profileController.deleteWork(_profileController.currentWorkplace.value!.id);
+                                  //       },
+                                  //     ));
                                 },
-                                buttonWidth: 149,
                               ),
                             ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: k16Padding),
+                            child: RowTextButton(
+                              text: ksOther.tr,
+                              buttonText: ksAdd.tr,
+                              showAddButton: true,
+                              onPressedAdd: () {
+                                _profileController.resetTextEditor();
+                                _profileController.getMethod(8);
+                              },
+                              buttonWidth: 149,
+                            ),
+                          ),
                           for (int i = 0; i < _profileController.workplaceDataList.length; i++)
                             if (_profileController.workplaceDataList[i].isCurrent != 1)
                               Padding(
@@ -760,13 +773,16 @@ class EditAboutInfo extends StatelessWidget {
                           if (_profileController.showAllEditOption.value) const CustomDivider(),
                           if (_profileController.showAllEditOption.value) kH16sizedBox,
                           if (_profileController.showAllEditOption.value)
-                            Text(
-                              ksContactDetails.tr,
-                              style: semiBold18TextStyle(cBlackColor),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: k16Padding),
+                              child: Text(
+                                ksContactDetails.tr,
+                                style: semiBold18TextStyle(cBlackColor),
+                              ),
                             ),
                           if (_profileController.showAllEditOption.value)
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                              padding: const EdgeInsets.only(bottom: k16Padding),
                               child: RowTextButton(
                                 text: ksPhone.tr,
                                 buttonText: ksAdd.tr,
@@ -820,7 +836,7 @@ class EditAboutInfo extends StatelessWidget {
                               ),
                           if (_profileController.showAllEditOption.value)
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                              padding: const EdgeInsets.only(bottom: k16Padding),
                               child: RowTextButton(
                                 text: ksEmail.tr,
                                 buttonText: ksAdd.tr,
@@ -872,7 +888,7 @@ class EditAboutInfo extends StatelessWidget {
                                   },
                                 ),
                               ),
-                          if (_profileController.showAllEditOption.value) kH16sizedBox,
+                          // if (_profileController.showAllEditOption.value) kH16sizedBox,
                           if (_profileController.showAllEditOption.value) const CustomDivider(),
                           if (_profileController.showAllEditOption.value)
                             Padding(
