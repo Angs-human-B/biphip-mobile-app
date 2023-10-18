@@ -435,18 +435,21 @@ class _LinkListContent extends StatelessWidget {
           itemCount: profileController.linkSourceList.length,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
-              () => CustomListTile(
-                title: Text(profileController.linkSourceList[index]),
-                trailing: CustomRadioButton(
-                  onChanged: () {
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: k8Padding),
+                child: CustomListTile(
+                  title: profileController.linkSourceList[index],
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                    },
+                    isSelected: profileController.tempLinkSource.value == profileController.linkSourceList[index],
+                  ),
+                  itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
+                  onPressed: () {
                     profileController.tempLinkSource.value = profileController.linkSourceList[index];
                   },
-                  isSelected: profileController.tempLinkSource.value == profileController.linkSourceList[index],
                 ),
-                itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
-                onPressed: () {
-                  profileController.tempLinkSource.value = profileController.linkSourceList[index];
-                },
               ),
             );
           },
