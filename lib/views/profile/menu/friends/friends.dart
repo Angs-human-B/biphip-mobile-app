@@ -92,20 +92,6 @@ class Friends extends StatelessWidget {
                 ]),
               ),
             ),
-            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
-            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                child: _profileController.tapAbleButtonState[0]
-                    ? Text(
-                        '${ksTotalFriends.tr}: ${_friendController.friendListData.value!.friends!.total}',
-                        style: semiBold14TextStyle(cBlackColor),
-                      )
-                    : Text(
-                        '${ksFriendRequests.tr}: ${_friendController.receivedFriendListData.value!.users!.total}',
-                        style: semiBold14TextStyle(cBlackColor),
-                      ),
-              ),
             kH12sizedBox,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: k20Padding),
@@ -120,7 +106,22 @@ class Friends extends StatelessWidget {
                 textInputStyle: regular16TextStyle(cBlackColor),
               ),
             ),
-            kH12sizedBox,
+            // if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
+            // if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
+            //   Padding(
+            //     padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+            //     child: _profileController.tapAbleButtonState[0]
+            //         ? Text(
+            //             '${ksTotalFriends.tr}: ${_friendController.friendListData.value!.friends!.total}',
+            //             style: semiBold14TextStyle(cBlackColor),
+            //           )
+            //         : Text(
+            //             '${ksFriendRequests.tr}: ${_friendController.receivedFriendListData.value!.users!.total}',
+            //             style: semiBold14TextStyle(cBlackColor),
+            //           ),
+            //   ),
+
+            // kH12sizedBox,
             //*All friend, Receive friend request and Pending friend request ui
             Expanded(
               child: SingleChildScrollView(
@@ -340,80 +341,97 @@ class AllFriendList extends StatelessWidget {
                 }
                 return false;
               },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                child: ListView.builder(
-                  itemCount: _friendController.friendList.length,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    // var _item = _profileController.allFriendsList[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: k16Padding),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(k8BorderRadius),
-                        child: TextButton(
-                          style: kTextButtonStyle,
-                          onPressed: () async {
-                            // ll(index);
-                          },
-                          child: CustomListTile(
-                            borderColor: cLineColor,
-                            leading: Container(
-                              height: h40,
-                              width: h40,
-                              decoration: const BoxDecoration(
-                                color: cWhiteColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: ClipOval(
-                                child: Image.network(
-                                  Environment.imageBaseUrl + _friendController.friendList[index].profilePicture.toString(),
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Image.asset(kiProfileDefaultImageUrl);
-                                  },
-                                  loadingBuilder: imageLoadingBuilder,
-                                ),
-                              ),
-                            ),
-                            title: Text(
-                              _friendController.friendList[index].fullName ?? 'NA',
-                              style: semiBold14TextStyle(cBlackColor),
-                            ),
-                            trailing: CustomIconButton(
-                                onPress: () {
-                                  _friendController.userId.value = _friendController.friendList[index].id!;
-                                  _globalController.commonBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    content: _FriendActionContent(
-                                      profileController: _profileController,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: kHorizontalPadding, top: k4Padding, bottom: k12Padding),
+                    child: Text(
+                      '${ksTotalFriends.tr}: ${_friendController.friendListData.value!.friends!.total}',
+                      style: semiBold14TextStyle(cBlackColor),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                    child: ListView.builder(
+                      itemCount: _friendController.friendList.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        // var _item = _profileController.allFriendsList[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: k16Padding),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(k8BorderRadius),
+                            child: TextButton(
+                              style: kTextButtonStyle,
+                              onPressed: () async {
+                                // ll(index);
+                              },
+                              child: CustomListTile(
+                                borderColor: cLineColor,
+                                leading: Container(
+                                  height: h40,
+                                  width: h40,
+                                  decoration: const BoxDecoration(
+                                    color: cWhiteColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: ClipOval(
+                                    child: Image.network(
+                                      Environment.imageBaseUrl + _friendController.friendList[index].profilePicture.toString(),
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Image.asset(kiProfileDefaultImageUrl);
+                                      },
+                                      loadingBuilder: imageLoadingBuilder,
                                     ),
-                                    onPressCloseButton: () {
-                                      Get.back();
-                                    },
-                                    onPressRightButton: () async {
-                                      Get.back();
-                                      if (_profileController.friendActionSelect.value == 'Unfriend') {
-                                        await _friendController.unfriendRequest();
-                                      }
+                                  ),
+                                ),
+                                title: Text(
+                                  _friendController.friendList[index].fullName ?? 'NA',
+                                  style: semiBold14TextStyle(cBlackColor),
+                                ),
+                                trailing: CustomIconButton(
+                                    onPress: () {
+                                      _friendController.userId.value = _friendController.friendList[index].id!;
                                       _profileController.friendActionSelect.value = '';
+                                      _globalController.commonBottomSheet(
+                                        context: context,
+                                        isScrollControlled: true,
+                                        content: _FriendActionContent(
+                                          profileController: _profileController,
+                                          friendController: _friendController,
+                                        ),
+                                        onPressCloseButton: () {
+                                          Get.back();
+                                        },
+                                        onPressRightButton: () async {
+                                          Get.back();
+                                          if (_profileController.friendActionSelect.value == 'Unfriend') {
+                                            await _friendController.unfriendUserRequest();
+                                          }
+                                          if (_profileController.friendActionSelect.value == 'Unfollow') {
+                                            await _friendController.unfollowUser();
+                                          }
+                                          _profileController.friendActionSelect.value = '';
+                                        },
+                                        rightText: ksDone.tr,
+                                        rightTextStyle: regular14TextStyle(cPrimaryColor),
+                                        title: ksAction.tr,
+                                        isRightButtonShow: true,
+                                        bottomSheetHeight: 250,
+                                      );
                                     },
-                                    rightText: ksDone.tr,
-                                    rightTextStyle: regular14TextStyle(cPrimaryColor),
-                                    title: ksAction.tr,
-                                    isRightButtonShow: true,
-                                    bottomSheetHeight: 250,
-                                  );
-                                },
-                                icon: BipHip.system),
+                                    icon: BipHip.system),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
     );
@@ -429,41 +447,53 @@ class ReceivedFriendList extends StatelessWidget {
     return Obx(
       () => _friendController.isReceivedFriendListLoading.value
           ? const ReceivedFriendShimmer()
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-              child: ListView.builder(
-                itemCount: _friendController.receivedFriendList.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: k16Padding),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                      child: TextButton(
-                        style: kTextButtonStyle,
-                        onPressed: () async {
-                          // ll(index);
-                        },
-                        child: CustomListViewItem(
-                          backgroundImage: Environment.imageBaseUrl + _friendController.receivedFriendList[index].profilePicture.toString(),
-                          name: _friendController.receivedFriendList[index].fullName ?? ksNA.tr,
-                          firstButtonText: ksConfirm.tr,
-                          secondButtonText: ksCancel.tr,
-                          firstButtonOnPressed: () async {
-                            _friendController.userId.value = _friendController.receivedFriendList[index].id!;
-                            await _friendController.acceptFriendRequest();
-                          },
-                          secondButtonOnPressed: () async {
-                            _friendController.userId.value = _friendController.receivedFriendList[index].id!;
-                            await _friendController.rejectFriendRequest();
-                          },
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: kHorizontalPadding, top: k4Padding, bottom: k12Padding),
+                  child: Text(
+                    '${ksFriendRequests.tr}: ${_friendController.receivedRequestCount.value}',
+                    style: semiBold14TextStyle(cBlackColor),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                  child: ListView.builder(
+                    itemCount: _friendController.receivedFriendList.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: k16Padding),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                          child: TextButton(
+                            style: kTextButtonStyle,
+                            onPressed: () async {
+                              // ll(index);
+                            },
+                            child: CustomListViewItem(
+                              backgroundImage: Environment.imageBaseUrl + _friendController.receivedFriendList[index].profilePicture.toString(),
+                              name: _friendController.receivedFriendList[index].fullName ?? ksNA.tr,
+                              firstButtonText: ksConfirm.tr,
+                              secondButtonText: ksCancel.tr,
+                              firstButtonOnPressed: () async {
+                                _friendController.userId.value = _friendController.receivedFriendList[index].id!;
+                                await _friendController.acceptFriendRequest();
+                              },
+                              secondButtonOnPressed: () async {
+                                _friendController.userId.value = _friendController.receivedFriendList[index].id!;
+                                await _friendController.rejectFriendRequest();
+                              },
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
     );
   }
@@ -478,7 +508,7 @@ class PendingFriendList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+      padding: const EdgeInsets.symmetric(horizontal: k20Padding, vertical: k4Padding).copyWith(bottom: k0Padding),
       child: ListView.builder(
         itemCount: _profileController.pendingFriendLists.length,
         shrinkWrap: true,
@@ -506,6 +536,7 @@ class PendingFriendList extends StatelessWidget {
                   ),
                   trailing: CustomIconButton(
                       onPress: () {
+                        _friendFamilyController.pendingFriendActionSelect.value = '';
                         _globalController.commonBottomSheet(
                           context: context,
                           isScrollControlled: true,
@@ -580,9 +611,11 @@ class _FriendActionContent extends StatelessWidget {
   const _FriendActionContent({
     Key? key,
     required this.profileController,
+    required this.friendController,
   }) : super(key: key);
 
   final ProfileController profileController;
+  final FriendController friendController;
 
   @override
   Widget build(BuildContext context) {
@@ -697,65 +730,82 @@ class AllPendingFriendShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-      child: ListView.builder(
-        itemCount: 10,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: k16Padding),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(k8BorderRadius),
-              child: TextButton(
-                style: kTextButtonStyle,
-                onPressed: () async {
-                  // ll(index);
-                },
-                child: CustomListTile(
-                  borderColor: cLineColor,
-                  leading: Container(
-                    height: h40,
-                    width: h40,
-                    decoration: const BoxDecoration(
-                      color: cWhiteColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Shimmer.fromColors(
-                      baseColor: cWhiteColor,
-                      highlightColor: Colors.grey,
-                      child: Container(
-                        decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
-                        height: 40,
-                        width: 40,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: kHorizontalPadding, top: k4Padding, bottom: k12Padding),
+          child: Shimmer.fromColors(
+            baseColor: cWhiteColor,
+            highlightColor: Colors.grey,
+            child: Container(
+              decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+              height: 16,
+              width: 120,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+          child: ListView.builder(
+            itemCount: 10,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: k16Padding),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                  child: TextButton(
+                    style: kTextButtonStyle,
+                    onPressed: () async {
+                      // ll(index);
+                    },
+                    child: CustomListTile(
+                      borderColor: cLineColor,
+                      leading: Container(
+                        height: h40,
+                        width: h40,
+                        decoration: const BoxDecoration(
+                          color: cWhiteColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Shimmer.fromColors(
+                          baseColor: cWhiteColor,
+                          highlightColor: Colors.grey,
+                          child: Container(
+                            decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                            height: 40,
+                            width: 40,
+                          ),
+                        ),
+                      ),
+                      title: Shimmer.fromColors(
+                        baseColor: cWhiteColor,
+                        highlightColor: Colors.grey,
+                        child: Container(
+                          decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                          height: 12,
+                          width: 80,
+                        ),
+                      ),
+                      trailing: Shimmer.fromColors(
+                        baseColor: cWhiteColor,
+                        highlightColor: Colors.grey,
+                        child: Container(
+                          decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                          height: 20,
+                          width: 12,
+                        ),
                       ),
                     ),
                   ),
-                  title: Shimmer.fromColors(
-                    baseColor: cWhiteColor,
-                    highlightColor: Colors.grey,
-                    child: Container(
-                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                      height: 12,
-                      width: 80,
-                    ),
-                  ),
-                  trailing: Shimmer.fromColors(
-                    baseColor: cWhiteColor,
-                    highlightColor: Colors.grey,
-                    child: Container(
-                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                      height: 20,
-                      width: 12,
-                    ),
-                  ),
                 ),
-              ),
-            ),
-          );
-        },
-      ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
@@ -766,93 +816,110 @@ class ReceivedFriendShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-      child: ListView.builder(
-        itemCount: 10,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: k16Padding),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(k8BorderRadius),
-              child: TextButton(
-                style: kTextButtonStyle,
-                onPressed: () async {
-                  // ll(index);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: h40,
-                      width: h40,
-                      decoration: const BoxDecoration(
-                        color: cWhiteColor,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Shimmer.fromColors(
-                        baseColor: cWhiteColor,
-                        highlightColor: Colors.grey,
-                        child: Container(
-                          decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
-                          height: 40,
-                          width: 40,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: k12Padding),
-                      child: SizedBox(
-                        width: width - 105,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Shimmer.fromColors(
-                              baseColor: cWhiteColor,
-                              highlightColor: Colors.grey,
-                              child: Container(
-                                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                                height: 16,
-                                width: 200,
-                              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: kHorizontalPadding, top: k4Padding, bottom: k12Padding),
+          child: Shimmer.fromColors(
+            baseColor: cWhiteColor,
+            highlightColor: Colors.grey,
+            child: Container(
+              decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+              height: 16,
+              width: 120,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+          child: ListView.builder(
+            itemCount: 10,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: k16Padding),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                  child: TextButton(
+                    style: kTextButtonStyle,
+                    onPressed: () async {
+                      // ll(index);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: h40,
+                          width: h40,
+                          decoration: const BoxDecoration(
+                            color: cWhiteColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Shimmer.fromColors(
+                            baseColor: cWhiteColor,
+                            highlightColor: Colors.grey,
+                            child: Container(
+                              decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                              height: 40,
+                              width: 40,
                             ),
-                            kH4sizedBox,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: k12Padding),
+                          child: SizedBox(
+                            width: width - 105,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Shimmer.fromColors(
                                   baseColor: cWhiteColor,
                                   highlightColor: Colors.grey,
                                   child: Container(
-                                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
-                                    height: 30,
-                                    width: 120,
+                                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                    height: 16,
+                                    width: 200,
                                   ),
                                 ),
-                                Shimmer.fromColors(
-                                  baseColor: cWhiteColor,
-                                  highlightColor: Colors.grey,
-                                  child: Container(
-                                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
-                                    height: 30,
-                                    width: 120,
-                                  ),
+                                kH4sizedBox,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Shimmer.fromColors(
+                                      baseColor: cWhiteColor,
+                                      highlightColor: Colors.grey,
+                                      child: Container(
+                                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
+                                        height: 30,
+                                        width: 120,
+                                      ),
+                                    ),
+                                    Shimmer.fromColors(
+                                      baseColor: cWhiteColor,
+                                      highlightColor: Colors.grey,
+                                      child: Container(
+                                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
+                                        height: 30,
+                                        width: 120,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          );
-        },
-      ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

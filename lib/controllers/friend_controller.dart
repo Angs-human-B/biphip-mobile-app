@@ -124,7 +124,7 @@ class FriendController extends GetxController {
 
         receivedFriendListData.value = ReceivedFriendListModel.fromJson(response.data);
         receivedFriendList.addAll(receivedFriendListData.value!.users!.data);
-
+        receivedRequestCount.value = receivedFriendList.length;
         isReceivedFriendListLoading.value = false;
       } else {
         isReceivedFriendListLoading.value = false;
@@ -178,7 +178,9 @@ class FriendController extends GetxController {
     }
   }
 
+  //*Reject Friend Request
   final RxBool isRejectFriendRequestLoading = RxBool(false);
+  final RxInt receivedRequestCount = RxInt(0);
   Future<void> rejectFriendRequest() async {
     try {
       isRejectFriendRequestLoading.value = true;
@@ -192,10 +194,12 @@ class FriendController extends GetxController {
         body: body,
         token: token,
       ) as CommonDM;
+
       if (response.success == true) {
         isRejectFriendRequestLoading.value = false;
         for (int index = 0; index <= receivedFriendList.length; index++) {
           receivedFriendList.removeAt(index);
+          receivedRequestCount.value--;
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -213,10 +217,11 @@ class FriendController extends GetxController {
     }
   }
 
-  final RxBool isUnfriendRequestLoading = RxBool(false);
-  Future<void> unfriendRequest() async {
+  //*Unfriend User
+  final RxBool isUnfriendUserRequestLoading = RxBool(false);
+  Future<void> unfriendUserRequest() async {
     try {
-      isUnfriendRequestLoading.value = true;
+      isUnfriendUserRequestLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
         'user_id': userId.value.toString(),
@@ -228,13 +233,13 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        isUnfriendRequestLoading.value = false;
+        isUnfriendUserRequestLoading.value = false;
         for (int index = 0; index <= receivedFriendList.length; index++) {
           friendList.removeAt(index);
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isUnfriendRequestLoading.value = false;
+        isUnfriendUserRequestLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -243,8 +248,43 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isUnfriendRequestLoading.value = false;
+      isUnfriendUserRequestLoading.value = false;
       ll('unfriendRequest error: $e');
+    }
+  }
+
+  //*Unfollow User
+  final RxBool isUnfollowUserLoading = RxBool(false);
+  final RxString followStatus = RxString('');
+  Future<void> unfollowUser() async {
+    try {
+      isUnfollowUserLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'user_id': userId.value.toString(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUnFollowUser,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        isUnfollowUserLoading.value = false;
+        followStatus.value = response.message.toString();
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isUnfollowUserLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isUnfollowUserLoading.value = false;
+      ll('unfollowUser error: $e');
     }
   }
 }
