@@ -240,7 +240,7 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
     this.buttonHeight,
     this.subTitle,
   });
-  final ImageProvider backgroundImage;
+  final String backgroundImage;
   final String name;
   final String buttonText;
   final VoidCallback buttonOnPressed;
@@ -259,10 +259,10 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CircleAvatar(
-              radius: 25,
-              backgroundImage: backgroundImage,
-            ),
+            // CircleAvatar(
+            //   radius: 25,
+            //   backgroundImage: backgroundImage,
+            // ),
             kW12sizedBox,
             Column(
               children: [
@@ -525,7 +525,7 @@ class BottomSheetContent extends StatelessWidget {
                     // ll(index);
                   },
                   child: CustomSingleButtonListViewItem(
-                    backgroundImage: AssetImage(_profileController.addFriendLists[index]['image']),
+                    backgroundImage: _profileController.addFriendLists[index]['image'],
                     name: _profileController.addFriendLists[index]['name'],
                     buttonText: ksSendRequest.tr,
                     buttonColor: cPrimaryColor,

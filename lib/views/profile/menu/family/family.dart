@@ -1,8 +1,8 @@
-import 'package:bip_hip/controllers/create_post_controller.dart';
+// import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/menu/friends/friends.dart';
-import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+// import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 
 class Family extends StatelessWidget {
@@ -81,20 +81,6 @@ class Family extends StatelessWidget {
                 ]),
               ),
             ),
-            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
-            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                child: _profileController.tapAbleButtonState[0]
-                    ? Text(
-                        '${ksTotalFamilyMembers.tr}: 55',
-                        style: semiBold14TextStyle(cBlackColor),
-                      )
-                    : Text(
-                        '${ksFamilyRequests.tr}: 33',
-                        style: semiBold14TextStyle(cBlackColor),
-                      ),
-              ),
             kH12sizedBox,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: k20Padding),
@@ -108,6 +94,20 @@ class Family extends StatelessWidget {
                 textInputStyle: regular16TextStyle(cBlackColor),
               ),
             ),
+            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
+            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                child: _profileController.tapAbleButtonState[0]
+                    ? Text(
+                        '${ksTotalFamilyMembers.tr}: 55',
+                        style: semiBold14TextStyle(cBlackColor),
+                      )
+                    : Text(
+                        '${ksFamilyRequests.tr}: 33',
+                        style: semiBold14TextStyle(cBlackColor),
+                      ),
+              ),
             kH12sizedBox,
             Expanded(
               child: SingleChildScrollView(
@@ -226,7 +226,7 @@ class PendingFamilyList extends StatelessWidget {
                   // ll(index);
                 },
                 child: CustomSingleButtonListViewItem(
-                  backgroundImage: AssetImage(_profileController.pendingFriendLists[index]['image']),
+                  backgroundImage: _profileController.pendingFriendLists[index]['image'].toString(),
                   name: _profileController.pendingFriendLists[index]['name'],
                   subTitle: ksBrotherPending.tr,
                   buttonText: ksCancelRequest.tr,
@@ -246,72 +246,72 @@ class PendingFamilyList extends StatelessWidget {
 }
 
 //*add friend request list in bottom sheet
-class AddFamilyMemberBottomSheetContent extends StatelessWidget {
-  const AddFamilyMemberBottomSheetContent({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Obx(
-            () => CustomSelectionButton(
-              hintText: ksSelectRelation.tr,
-              text: Get.find<ProfileController>().relation.value == "" ? '' : Get.find<ProfileController>().relation.value,
-              onPressed: () {
-                unFocus(context);
-                Get.find<ProfileController>().initializeSelectedRelationText();
-                Get.find<GlobalController>().commonBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  isSearchShow: false,
-                  bottomSheetHeight: height * .9,
-                  content: RelationContent(),
-                  onPressCloseButton: () {
-                    Get.back();
-                  },
-                  onPressRightButton: () {
-                    Get.find<ProfileController>().selectRelationTextChange();
-                    Get.back();
-                  },
-                  rightText: ksOk.tr,
-                  rightTextStyle: medium14TextStyle(cPrimaryColor),
-                  title: ksSelectRelation.tr,
-                  isRightButtonShow: true,
-                );
-              },
-            ),
-          ),
-          kH20sizedBox,
-          Row(
-            children: [
-              Obx(
-                () => CustomElevatedButton(
-                  isCustomButton: true,
-                  label: Get.find<CreatePostController>().postType.value,
-                  prefixIcon: Get.find<CreatePostController>().postTypeIcon.value,
-                  onPressed: () {
-                    unFocus(context);
-                    Get.find<CreatePostController>().initializeAudienceText();
-                    Get.find<CreatePostController>().showAudienceSheet(context);
-                  },
-                  buttonHeight: 40,
-                  buttonWidth: width * .5,
-                  suffixIcon: BipHip.downArrow,
-                  buttonColor: cGreyBoxColor,
-                  prefixIconColor: cBlackColor,
-                  suffixIconColor: cBlackColor,
-                  textStyle: medium14TextStyle(cBlackColor),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class AddFamilyMemberBottomSheetContent extends StatelessWidget {
+//   const AddFamilyMemberBottomSheetContent({super.key});
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Obx(
+//             () => CustomSelectionButton(
+//               hintText: ksSelectRelation.tr,
+//               text: Get.find<ProfileController>().relation.value == "" ? '' : Get.find<ProfileController>().relation.value,
+//               onPressed: () {
+//                 unFocus(context);
+//                 Get.find<ProfileController>().initializeSelectedRelationText();
+//                 Get.find<GlobalController>().commonBottomSheet(
+//                   context: context,
+//                   isScrollControlled: true,
+//                   isSearchShow: false,
+//                   bottomSheetHeight: height * .9,
+//                   content: RelationContent(),
+//                   onPressCloseButton: () {
+//                     Get.back();
+//                   },
+//                   onPressRightButton: () {
+//                     Get.find<ProfileController>().selectRelationTextChange();
+//                     Get.back();
+//                   },
+//                   rightText: ksOk.tr,
+//                   rightTextStyle: medium14TextStyle(cPrimaryColor),
+//                   title: ksSelectRelation.tr,
+//                   isRightButtonShow: true,
+//                 );
+//               },
+//             ),
+//           ),
+//           kH20sizedBox,
+//           Row(
+//             children: [
+//               Obx(
+//                 () => CustomElevatedButton(
+//                   isCustomButton: true,
+//                   label: Get.find<CreatePostController>().postType.value,
+//                   prefixIcon: Get.find<CreatePostController>().postTypeIcon.value,
+//                   onPressed: () {
+//                     unFocus(context);
+//                     Get.find<CreatePostController>().initializeAudienceText();
+//                     Get.find<CreatePostController>().showAudienceSheet(context);
+//                   },
+//                   buttonHeight: 40,
+//                   buttonWidth: width * .5,
+//                   suffixIcon: BipHip.downArrow,
+//                   buttonColor: cGreyBoxColor,
+//                   prefixIconColor: cBlackColor,
+//                   suffixIconColor: cBlackColor,
+//                   textStyle: medium14TextStyle(cBlackColor),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class RelationContent extends StatelessWidget {
   RelationContent({super.key});

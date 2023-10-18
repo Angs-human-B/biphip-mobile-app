@@ -57,7 +57,7 @@ class AddFriend extends StatelessWidget {
                                   // ll(index);
                                 },
                                 child: CustomSingleButtonListViewItem(
-                                  backgroundImage: AssetImage(_profileController.addFriendLists[index]['image']),
+                                  backgroundImage: _profileController.addFriendLists[index]['image'].toString(),
                                   name: _profileController.addFriendLists[index]['name'],
                                   buttonText: ksSendRequest.tr,
                                   buttonColor: cPrimaryColor,
