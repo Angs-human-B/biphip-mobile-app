@@ -459,7 +459,7 @@ class EditAboutInfo extends StatelessWidget {
                                             ),
                                     ),
                                     isScrollControlled: true,
-                                    bottomSheetHeight: height * 0.45,
+                                    bottomSheetHeight: isDeviceScreenLarge() ? 255 : 240,
                                     onPressCloseButton: () {
                                       Get.back();
                                     },
@@ -1107,16 +1107,21 @@ class _GenderListContent extends StatelessWidget {
           itemCount: profileController.genderList.length,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
-              () => RadioListTile(
-                title: Text(profileController.genderList[index]),
-                value: profileController.genderList[index],
-                activeColor: cPrimaryColor,
-                contentPadding: EdgeInsets.zero,
-                groupValue: profileController.tempSelectedGender.value,
-                controlAffinity: ListTileControlAffinity.trailing,
-                onChanged: (value) {
-                  profileController.tempSelectedGender.value = value;
-                },
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: k8Padding),
+                child: CustomListTile(
+                  title: profileController.genderList[index],
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      profileController.tempSelectedGender.value = profileController.genderList[index];
+                    },
+                    isSelected: profileController.tempSelectedGender.value == profileController.genderList[index],
+                  ),
+                  itemColor: profileController.tempSelectedGender.value == profileController.genderList[index] ? cPrimaryTint3Color : cWhiteColor,
+                  onPressed: () {
+                    profileController.tempSelectedGender.value = profileController.genderList[index];
+                  },
+                ),
               ),
             );
           },
