@@ -1,8 +1,6 @@
 import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/models/common/common_error_model.dart';
-import 'package:bip_hip/models/friend/friend_list_model.dart';
-import 'package:bip_hip/models/friend/received_friend_list_model.dart';
-import 'package:bip_hip/models/friend/send_friend_request_model.dart';
+import 'package:bip_hip/models/friend/common_friend_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class FriendController extends GetxController {
@@ -12,8 +10,8 @@ class FriendController extends GetxController {
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
   //*Friend List Api Call
-  Rx<FriendListModel?> friendListData = Rx<FriendListModel?>(null);
-  RxList<FriendData> friendList = RxList<FriendData>([]);
+  Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
+  RxList<CommonFriendData> friendList = RxList<CommonFriendData>([]);
   final Rx<String?> friendListSubLink = Rx<String?>(null);
   final RxBool friendListScrolled = RxBool(false);
   final RxBool isFriendListLoading = RxBool(false);
@@ -30,7 +28,7 @@ class FriendController extends GetxController {
       if (response.success == true) {
         friendList.clear();
         friendListScrolled.value = false;
-        friendListData.value = FriendListModel.fromJson(response.data);
+        friendListData.value = CommonFriendModel.fromJson(response.data);
         friendList.addAll(friendListData.value!.friends!.data);
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
@@ -78,7 +76,7 @@ class FriendController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        friendListData.value = FriendListModel.fromJson(response.data);
+        friendListData.value = CommonFriendModel.fromJson(response.data);
         ll(friendListData.value);
         friendList.addAll(friendListData.value!.friends!.data);
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
@@ -105,8 +103,8 @@ class FriendController extends GetxController {
   }
 
   //*Received Friend List Api Call
-  Rx<ReceivedFriendListModel?> receivedFriendListData = Rx<ReceivedFriendListModel?>(null);
-  RxList<ReceivedFriendData> receivedFriendList = RxList<ReceivedFriendData>([]);
+  Rx<CommonSendReceiveModel?> receivedFriendListData = Rx<CommonSendReceiveModel?>(null);
+  RxList<CommonFriendData> receivedFriendList = RxList<CommonFriendData>([]);
   // final Rx<String?> friendListSubLink = Rx<String?>(null);
   // final RxBool friendListScrolled = RxBool(false);
   final RxBool isReceivedFriendListLoading = RxBool(false);
@@ -123,7 +121,7 @@ class FriendController extends GetxController {
       if (response.success == true) {
         receivedFriendList.clear();
 
-        receivedFriendListData.value = ReceivedFriendListModel.fromJson(response.data);
+        receivedFriendListData.value = CommonSendReceiveModel.fromJson(response.data);
         receivedFriendList.addAll(receivedFriendListData.value!.users!.data);
         receivedRequestCount.value = receivedFriendList.length;
         isReceivedFriendListLoading.value = false;
@@ -288,9 +286,10 @@ class FriendController extends GetxController {
       ll('unfollowUser error: $e');
     }
   }
+
   //* Friend Request Send List(Pending)
-  Rx<SendFriendRequestModel?> sendFriendRequestData = Rx<SendFriendRequestModel?>(null);
-  RxList<SendRequestData> sendFriendRequestList = RxList<SendRequestData>([]);
+  Rx<CommonSendReceiveModel?> sendFriendRequestData = Rx<CommonSendReceiveModel?>(null);
+  RxList<CommonFriendData> sendFriendRequestList = RxList<CommonFriendData>([]);
   final RxBool isSendFriendRequestListLoading = RxBool(false);
   Future<void> getSendFriendRequestList() async {
     try {
@@ -303,7 +302,7 @@ class FriendController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         sendFriendRequestList.clear();
-        sendFriendRequestData.value = SendFriendRequestModel.fromJson(response.data);
+        sendFriendRequestData.value = CommonSendReceiveModel.fromJson(response.data);
         sendFriendRequestList.addAll(sendFriendRequestData.value!.users!.data);
         isSendFriendRequestListLoading.value = false;
       } else {
@@ -321,4 +320,39 @@ class FriendController extends GetxController {
     }
   }
 
+  // //*Cancel Friend Request
+  // final RxBool isCancelFriendRequestLoading = RxBool(false);
+  // Future<void> cancelFriendRequest() async {
+  //   try {
+  //     isCancelFriendRequestLoading.value = true;
+  //     String? token = await _spController.getBearerToken();
+  //     Map<String, dynamic> body = {
+  //       'user_id': userId.value.toString(),
+  //     };
+  //     var response = await _apiController.commonApiCall(
+  //       requestMethod: kPost,
+  //       url: kuCancelFriendRequest,
+  //       body: body,
+  //       token: token,
+  //     ) as CommonDM;
+  //     if (response.success == true) {
+  //       for (int index = 0; index <= sendFriendRequestList.length; index++) {
+  //         sendFriendRequestList.removeAt(index);
+  //       }
+  //       isCancelFriendRequestLoading.value = false;
+  //       _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+  //     } else {
+  //       isCancelFriendRequestLoading.value = false;
+  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+  //       if (errorModel.errors.isEmpty) {
+  //         _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+  //       } else {
+  //         _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isCancelFriendRequestLoading.value = false;
+  //     ll('cancelFriendRequest error: $e');
+  //   }
+  // }
 }

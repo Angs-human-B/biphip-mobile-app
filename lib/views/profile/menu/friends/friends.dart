@@ -554,6 +554,7 @@ class PendingFriendList extends StatelessWidget {
                           ),
                           trailing: CustomIconButton(
                               onPress: () {
+                                _friendController.userId.value = _friendController.friendList[index].id!;
                                 _friendFamilyController.pendingFriendActionSelect.value = '';
                                 _globalController.commonBottomSheet(
                                   context: context,
@@ -564,8 +565,14 @@ class PendingFriendList extends StatelessWidget {
                                   onPressCloseButton: () {
                                     Get.back();
                                   },
-                                  onPressRightButton: () {
+                                  onPressRightButton: () async {
                                     Get.back();
+                                    // if (_friendFamilyController.pendingFriendActionSelect.value == 'Cancel Request') {
+                                    //   // await _friendController.cancelFriendRequest();
+                                    // }
+                                    // if (_friendFamilyController.pendingFriendActionSelect.value == 'Unfollow') {
+                                    //   await _friendController.unfollowUser();
+                                    // }
                                     _friendFamilyController.pendingFriendActionSelect.value = '';
                                   },
                                   rightText: ksDone.tr,
