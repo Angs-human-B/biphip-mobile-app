@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/friend_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/menu/friends/friends.dart';
@@ -5,6 +6,7 @@ import 'package:bip_hip/views/profile/menu/friends/friends.dart';
 class AddFriend extends StatelessWidget {
   AddFriend({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
+  final FriendController _friendController = Get.find<FriendController>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,39 +40,48 @@ class AddFriend extends StatelessWidget {
                 hint: ksSearch.tr,
                 contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
                 textInputStyle: regular16TextStyle(cBlackColor),
+                onChanged: (v) async {
+                  // _profileController.searchController.text = v.toString().trim();
+                  if (_profileController.searchController.text.trim() != '') {
+                    await _friendController.getAddFriendRequestList();
+                  }
+                  if (_profileController.searchController.text == '') {
+                    _friendController.addFriendRequestList.clear();
+                  }
+                },
               ),
-              SizedBox(
-                height: height - kAppBarSize - MediaQuery.of(context).padding.top - 44,
+              kH8sizedBox,
+              Expanded(
                 child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: _profileController.addFriendLists.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: k10Padding),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(k8BorderRadius),
-                            child: TextButton(
-                                style: kTextButtonStyle,
-                                onPressed: () async {
-                                  // ll(index);
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _friendController.addFriendRequestList.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: k10Padding),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                          child: TextButton(
+                              style: kTextButtonStyle,
+                              onPressed: () async {
+                                // ll(index);
+                              },
+                              child: CustomSingleButtonListViewItem(
+                                backgroundImage: Environment.imageBaseUrl + _friendController.addFriendRequestList[index].profilePicture.toString(),
+                                name: _friendController.addFriendRequestList[index].fullName ?? ksNA.tr,
+                                buttonText: ksSendRequest.tr,
+                                buttonColor: cPrimaryColor,
+                                buttonOnPressed: () async {
+                                  // _friendController.userId.value = _friendController.addFriendRequestList[index].id!;
+                                  // await _friendController.sendFriendRequest();
                                 },
-                                child: CustomSingleButtonListViewItem(
-                                  backgroundImage: _profileController.addFriendLists[index]['image'].toString(),
-                                  name: _profileController.addFriendLists[index]['name'],
-                                  buttonText: ksSendRequest.tr,
-                                  buttonColor: cPrimaryColor,
-                                  buttonOnPressed: () {},
-                                  textStyle: semiBold14TextStyle(cWhiteColor),
-                                  buttonWidth: 147,
-                                )),
-                          ),
-                        );
-                      },
-                    ),
+                                textStyle: semiBold14TextStyle(cWhiteColor),
+                                buttonWidth: 147,
+                              )),
+                        ),
+                      );
+                    },
                   ),
                 ),
               )
