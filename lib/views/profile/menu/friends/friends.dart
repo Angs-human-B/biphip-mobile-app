@@ -84,10 +84,11 @@ class Friends extends StatelessWidget {
                     _profileController.toggleType(1);
                     await _friendController.getReceivedFriendList();
                   },
-                  () {
+                  () async {
                     _profileController.searchController.clear();
                     FocusScope.of(context).unfocus();
                     _profileController.toggleType(2);
+                    await _friendController.getSendFriendRequestList();
                   },
                 ]),
               ),
@@ -389,7 +390,7 @@ class AllFriendList extends StatelessWidget {
                                   ),
                                 ),
                                 title: Text(
-                                  _friendController.friendList[index].fullName ?? 'NA',
+                                  _friendController.friendList[index].fullName ?? ksNA.tr,
                                   style: semiBold14TextStyle(cBlackColor),
                                 ),
                                 trailing: CustomIconButton(
@@ -502,68 +503,86 @@ class ReceivedFriendList extends StatelessWidget {
 //*Pending Friend Request
 class PendingFriendList extends StatelessWidget {
   PendingFriendList({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
   final FriendFamilyController _friendFamilyController = Get.find<FriendFamilyController>();
+  final FriendController _friendController = Get.find<FriendController>();
   final GlobalController _globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: k20Padding, vertical: k4Padding).copyWith(bottom: k0Padding),
-      child: ListView.builder(
-        itemCount: _profileController.pendingFriendLists.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          // var _item = _profileController.allFriendsList[index];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: k16Padding),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(k8BorderRadius),
-              child: TextButton(
-                style: kTextButtonStyle,
-                onPressed: () async {
-                  // ll(index);
-                },
-                child: CustomListTile(
-                  borderColor: cLineColor,
-                  leading: CircleAvatar(
-                    radius: 20,
-                    backgroundImage: AssetImage(_profileController.pendingFriendLists[index]['image']),
-                  ),
-                  title: Text(
-                    _profileController.pendingFriendLists[index]['name'],
-                    style: semiBold14TextStyle(cBlackColor),
-                  ),
-                  trailing: CustomIconButton(
-                      onPress: () {
-                        _friendFamilyController.pendingFriendActionSelect.value = '';
-                        _globalController.commonBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          content: _PendingFriendActionContent(
-                            friendFamilyController: _friendFamilyController,
+    return Obx(
+      () => _friendController.isSendFriendRequestListLoading.value
+          ? const AllPendingFriendShimmer()
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding, vertical: k4Padding).copyWith(bottom: k0Padding),
+              child: ListView.builder(
+                itemCount: _friendController.sendFriendRequestList.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  // var _item = _profileController.allFriendsList[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: k16Padding),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(k8BorderRadius),
+                      child: TextButton(
+                        style: kTextButtonStyle,
+                        onPressed: () async {
+                          // ll(index);
+                        },
+                        child: CustomListTile(
+                          borderColor: cLineColor,
+                          leading: Container(
+                            height: h40,
+                            width: h40,
+                            decoration: const BoxDecoration(
+                              color: cWhiteColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: ClipOval(
+                              child: Image.network(
+                                Environment.imageBaseUrl + _friendController.sendFriendRequestList[index].profilePicture.toString(),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.asset(kiProfileDefaultImageUrl);
+                                },
+                                loadingBuilder: imageLoadingBuilder,
+                              ),
+                            ),
                           ),
-                          onPressCloseButton: () {
-                            Get.back();
-                          },
-                          onPressRightButton: () {
-                            Get.back();
-                            _friendFamilyController.pendingFriendActionSelect.value = '';
-                          },
-                          rightText: ksDone.tr,
-                          rightTextStyle: regular14TextStyle(cPrimaryColor),
-                          title: ksAction.tr,
-                          isRightButtonShow: true,
-                          bottomSheetHeight: 200,
-                        );
-                      },
-                      icon: BipHip.system),
-                ),
+                          title: Text(
+                            _friendController.sendFriendRequestList[index].fullName ?? ksNA.tr,
+                            style: semiBold14TextStyle(cBlackColor),
+                          ),
+                          trailing: CustomIconButton(
+                              onPress: () {
+                                _friendFamilyController.pendingFriendActionSelect.value = '';
+                                _globalController.commonBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  content: _PendingFriendActionContent(
+                                    friendFamilyController: _friendFamilyController,
+                                  ),
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: () {
+                                    Get.back();
+                                    _friendFamilyController.pendingFriendActionSelect.value = '';
+                                  },
+                                  rightText: ksDone.tr,
+                                  rightTextStyle: regular14TextStyle(cPrimaryColor),
+                                  title: ksAction.tr,
+                                  isRightButtonShow: true,
+                                  bottomSheetHeight: 200,
+                                );
+                              },
+                              icon: BipHip.system),
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
-          );
-        },
-      ),
     );
   }
 }
