@@ -162,7 +162,7 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                             children: [
                               SizedBox(
                                 height: 101,
-                                width: (image.length < 2) ? (width - 52) / 2 : (width - 52) / 4,
+                                width: (image.length < 2) ? (width - 50) / 2 : (width - 52) / 4,
                                 child: Image.network(
                                   Environment.imageBaseUrl + image[0],
                                   fit: BoxFit.cover,
@@ -188,6 +188,12 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                                       child: Image.network(
                                         Environment.imageBaseUrl + image[1],
                                         fit: BoxFit.cover,
+                                        errorBuilder: (context, error, stackTrace) => const Icon(
+                                          BipHip.imageFile,
+                                          size: kIconSize70,
+                                          color: cIconColor,
+                                        ),
+                                        loadingBuilder: imageLoadingBuilder,
                                       ),
                                     ),
                                   if (image.length > 2)
@@ -201,6 +207,12 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                                       child: Image.network(
                                         Environment.imageBaseUrl + image[2],
                                         fit: BoxFit.cover,
+                                        errorBuilder: (context, error, stackTrace) => const Icon(
+                                          BipHip.imageFile,
+                                          size: kIconSize70,
+                                          color: cIconColor,
+                                        ),
+                                        loadingBuilder: imageLoadingBuilder,
                                       ),
                                     ),
                                 ],
