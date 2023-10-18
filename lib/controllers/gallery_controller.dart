@@ -33,7 +33,7 @@ class GalleryController extends GetxController {
       imageDataList.clear();
 
       for (var album in albumData.value!.imageAlbums!.data) {
-        if (album.title.toLowerCase() == 'profile picture' || album.title.toLowerCase() == 'cover photo') {
+        if (album.title!.toLowerCase() == 'profile picture' || album.title!.toLowerCase() == 'cover photo') {
           imageDataList.add(album);
         }
       }
@@ -116,7 +116,7 @@ class GalleryController extends GetxController {
         // imageDataList.addAll(albumData.value!.imageAlbums!.data);
         imageDataList.clear();
         for (var album in albumData.value!.imageAlbums!.data) {
-          if (album.title.toLowerCase() == 'profile picture' || album.title.toLowerCase() == 'cover photo') {
+          if (album.title!.toLowerCase() == 'profile picture' || album.title!.toLowerCase() == 'cover photo') {
             imageDataList.add(album);
           }
         }

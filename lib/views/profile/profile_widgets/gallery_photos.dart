@@ -41,7 +41,7 @@ class GalleryPhotos extends StatelessWidget {
                           : () {
                               _galleryController.imageDataList.clear();
                               for (var album in _galleryController.albumData.value!.imageAlbums!.data) {
-                                if (album.title.toLowerCase() == 'profile picture' || album.title.toLowerCase() == 'cover photo') {
+                                if (album.title!.toLowerCase() == 'profile picture' || album.title!.toLowerCase() == 'cover photo') {
                                   _galleryController.imageDataList.add(album);
                                 }
                               }
@@ -53,7 +53,7 @@ class GalleryPhotos extends StatelessWidget {
                           : () {
                               _galleryController.imageDataList.clear();
                               for (var album in _galleryController.albumData.value!.imageAlbums!.data) {
-                                if (album.title.toLowerCase() != 'profile picture' && album.title.toLowerCase() != 'cover photo') {
+                                if (album.title!.toLowerCase() != 'profile picture' && album.title!.toLowerCase() != 'cover photo') {
                                   _galleryController.imageDataList.add(album);
                                 }
                               }
@@ -86,7 +86,7 @@ class GalleryPhotos extends StatelessWidget {
                                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                       // childAspectRatio: 1.1,
                                       mainAxisSpacing: k12Padding,
-                                      crossAxisSpacing: k12Padding,
+                                      crossAxisSpacing: k4Padding + k2Padding,
                                       crossAxisCount: 2,
                                     ),
                                     itemBuilder: (context, index) {
@@ -100,7 +100,7 @@ class GalleryPhotos extends StatelessWidget {
                                               onPressed: () {
                                                 // _galleryController.selectedImageList = [];
                                                 _galleryController.selectedImageList = _galleryController.imageDataList[index].imageList;
-                                                _galleryController.selectedTitle.value = _galleryController.imageDataList[index].title;
+                                                _galleryController.selectedTitle.value = _galleryController.imageDataList[index].title ?? ksNA;
                                                 Get.toNamed(krPhotos);
                                               },
                                             ),
@@ -157,12 +157,12 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                       ClipRRect(
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), topRight: Radius.circular(k8BorderRadius)),
                         child: SizedBox(
-                          width: (width - 60) / 2,
+                          width: (width - 50) / 2,
                           child: Row(
                             children: [
                               SizedBox(
                                 height: 101,
-                                width: (image.length < 2) ? (width - 62) / 2 : (width - 62) / 4,
+                                width: (image.length < 2) ? (width - 52) / 2 : (width - 52) / 4,
                                 child: Image.network(
                                   Environment.imageBaseUrl + image[0],
                                   fit: BoxFit.cover,
@@ -184,7 +184,7 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                                   if (image.length > 1)
                                     SizedBox(
                                       height: image.length > 2 ? 50 : 101,
-                                      width: (width - 62) / 4,
+                                      width: (width - 52) / 4,
                                       child: Image.network(
                                         Environment.imageBaseUrl + image[1],
                                         fit: BoxFit.cover,
@@ -197,7 +197,7 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                                   if (image.length > 2)
                                     SizedBox(
                                       height: image.length > 2 ? 50 : 101,
-                                      width: (width - 62) / 4,
+                                      width: (width - 52) / 4,
                                       child: Image.network(
                                         Environment.imageBaseUrl + image[2],
                                         fit: BoxFit.cover,
@@ -211,7 +211,7 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                       ),
                     ]),
               SizedBox(
-                width: (width - 60) / 2,
+                width: (width - 50) / 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

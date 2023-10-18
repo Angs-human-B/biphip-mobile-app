@@ -6,24 +6,24 @@ class AlbumListModel {
   });
 
   factory AlbumListModel.fromJson(Map<String, dynamic> json) => AlbumListModel(
-        imageAlbums:json["image_albums"]== null ? null :ImageAlbums.fromJson(json["image_albums"]),
+        imageAlbums: json["image_albums"] == null ? null : ImageAlbums.fromJson(json["image_albums"]),
       );
 }
 
 class ImageAlbums {
-  int ? currentPage;
+  int? currentPage;
   List<ImageData> data;
-  String ? firstPageUrl;
-  int ? from;
-  int ? lastPage;
-  String ? lastPageUrl;
+  String? firstPageUrl;
+  int? from;
+  int? lastPage;
+  String? lastPageUrl;
   List<Link> links;
-  dynamic  nextPageUrl;
-  String ? path;
-  int ? perPage;
+  dynamic nextPageUrl;
+  String? path;
+  int? perPage;
   dynamic prevPageUrl;
-  int ? to;
-  int ? total;
+  int? to;
+  int? total;
 
   ImageAlbums({
     required this.currentPage,
@@ -59,13 +59,13 @@ class ImageAlbums {
 }
 
 class ImageData {
-  int id;
-  int userId;
-  int postCategoryId;
-  String title;
-  String description;
-  String images;
-  int totalImage;
+  int? id;
+  int? userId;
+  int? postCategoryId;
+  String? title;
+  String? description;
+  String? images;
+  int? totalImage;
   List<String> preview;
   List<ImageList> imageList;
 
@@ -92,22 +92,21 @@ class ImageData {
         preview: List<String>.from(json["preview"].map((x) => x)),
         imageList: List<ImageList>.from(json["image_list"].map((x) => ImageList.fromJson(x))),
       );
-
 }
 
 class ImageList {
-  int id;
-  int userId;
+  int? id;
+  int? userId;
   dynamic postId;
-  int imageAlbumId;
-  String imageType;
-  String storageType;
+  int? imageAlbumId;
+  String? imageType;
+  String? storageType;
   dynamic mimeType;
-  String title;
-  String storagePath;
-  String path;
-  int filesize;
-  String fullPath;
+  String? title;
+  String? storagePath;
+  String? path;
+  int? filesize;
+  String? fullPath;
 
   ImageList({
     required this.id,
