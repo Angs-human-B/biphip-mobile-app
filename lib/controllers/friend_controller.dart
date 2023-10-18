@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/models/common/common_error_model.dart';
 import 'package:bip_hip/models/friend/common_friend_model.dart';
@@ -6,6 +7,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 class FriendController extends GetxController {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
+  final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
@@ -234,7 +236,7 @@ class FriendController extends GetxController {
       if (response.success == true) {
         ll(receivedFriendList.length);
         isUnfriendUserRequestLoading.value = false;
-        for (int index = 0; index < receivedFriendList.length; index++) {
+        for (int index = 0; index <= receivedFriendList.length; index++) {
           friendList.removeAt(index);
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -337,7 +339,7 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        for (int index = 0; index < sendFriendRequestList.length; index++) {
+        for (int index = 1; index <= sendFriendRequestList.length; index++) {
           sendFriendRequestList.removeAt(index);
         }
         isCancelFriendRequestLoading.value = false;
@@ -354,6 +356,75 @@ class FriendController extends GetxController {
     } catch (e) {
       isCancelFriendRequestLoading.value = false;
       ll('cancelFriendRequest error: $e');
+    }
+  }
+
+  //* Add Friend
+  Rx<CommonPaginaton?> addFriendRequestData = Rx<CommonPaginaton?>(null);
+  RxList<CommonFriendData> addFriendRequestList = RxList<CommonFriendData>([]);
+  final RxBool isAddFriendRequestListLoading = RxBool(false);
+  Future<void> getAddFriendRequestList() async {
+    try {
+      isAddFriendRequestListLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}',
+      ) as CommonDM;
+      if (response.success == true) {
+        addFriendRequestList.clear();
+        addFriendRequestData.value = CommonPaginaton.fromJson(response.data);
+        addFriendRequestList.addAll(addFriendRequestData.value!.data);
+        isAddFriendRequestListLoading.value = false;
+      } else {
+        isAddFriendRequestListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isAddFriendRequestListLoading.value = false;
+      ll('getAddFriendRequestList error: $e');
+    }
+  }
+
+  //*Send Friend Request
+  final RxBool isSendFriendRequestLoading = RxBool(false);
+  Future<void> sendFriendRequest() async {
+    try {
+      isSendFriendRequestLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'friend_id': userId.value.toString(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuSendFriendRequest,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        for (int index = 0; index <= addFriendRequestList.length; index++) {
+          sendFriendRequestList.removeAt(index);
+        }
+        isSendFriendRequestLoading.value = false;
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isSendFriendRequestLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isSendFriendRequestLoading.value = false;
+      ll('sendFriendRequest error: $e');
     }
   }
 }
