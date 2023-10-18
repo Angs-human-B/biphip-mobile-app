@@ -392,16 +392,22 @@ class _EducationBackgroundContent extends StatelessWidget {
           itemCount: profileController.educationBackgroundList.length,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
-              () => RadioListTile(
-                title: Text(profileController.educationBackgroundList[index]),
-                value: profileController.educationBackgroundList[index],
-                activeColor: cPrimaryColor,
-                contentPadding: EdgeInsets.zero,
-                groupValue: profileController.tempEducationBackground.value,
-                controlAffinity: ListTileControlAffinity.trailing,
-                onChanged: (value) {
-                  profileController.tempEducationBackground.value = value;
-                },
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: k8Padding),
+                child: CustomListTile(
+                  title: profileController.educationBackgroundList[index],
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
+                    },
+                    isSelected: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index],
+                  ),
+                  itemColor:
+                      profileController.tempEducationBackground.value == profileController.educationBackgroundList[index] ? cPrimaryTint3Color : cWhiteColor,
+                  onPressed: () {
+                    profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
+                  },
+                ),
               ),
             );
           },
