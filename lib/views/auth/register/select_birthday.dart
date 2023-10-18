@@ -26,7 +26,7 @@ class SelectBirthday extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: _profileController.isRouteFromAboutInfo.value ? ksEditYourBirthday.tr : ksRegistration.tr,
+              title: _profileController.isRouteFromAboutInfo.value ? ksEditBirthday.tr : ksRegistration.tr,
               onBack: () async {
                 Get.back();
               },

@@ -57,9 +57,9 @@ class Profile extends StatelessWidget {
                                   color: cWhiteColor,
                                 ),
                                 Container(
-                                  color: cBlackColor,
                                   height: 150,
                                   width: width,
+                                  // decoration: BoxDecoration(color: cBlackColor, border: Border),
                                   child: Image.network(
                                     Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
                                     fit: BoxFit.cover,

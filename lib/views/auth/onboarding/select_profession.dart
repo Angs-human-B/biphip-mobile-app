@@ -24,7 +24,7 @@ class SelectProfessionScreen extends StatelessWidget {
             child: CustomAppBar(
               isCenterTitle: _profileController.isRouteFromAboutInfo.value,
               hasBackButton: _profileController.isRouteFromAboutInfo.value,
-              title: _profileController.isRouteFromAboutInfo.value ? ksEditYourProfession.tr : '',
+              title: _profileController.isRouteFromAboutInfo.value ? ksEditProfession.tr : '',
               onBack: () {
                 Get.back();
               },

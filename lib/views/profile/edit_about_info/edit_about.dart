@@ -216,8 +216,9 @@ class EditAboutInfo extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: k16Padding),
                             child: RowTextButton(
-                              text: 'Education Background',
-                              buttonText: 'Add',
+                              text: ksEducationalBackground.tr,
+                              textStyle: semiBold18TextStyle(cBlackColor),
+                              buttonText: ksAdd.tr,
                               showAddButton: true,
                               onPressedAdd: () {
                                 _profileController.resetTextEditor();
@@ -432,6 +433,7 @@ class EditAboutInfo extends StatelessWidget {
                               child: RowTextButton(
                                 text: ksGender.tr,
                                 buttonText: ksAdd.tr,
+                                textStyle: semiBold18TextStyle(cBlackColor),
                                 showAddButton: false,
                                 onPressedAdd: null,
                                 buttonWidth: 149,
@@ -505,6 +507,7 @@ class EditAboutInfo extends StatelessWidget {
                               child: RowTextButton(
                                 text: ksDateOfBirth.tr,
                                 buttonText: ksAdd.tr,
+                                textStyle: semiBold18TextStyle(cBlackColor),
                                 showAddButton: false,
                                 onPressedAdd: null,
                                 buttonWidth: 149,
@@ -532,6 +535,7 @@ class EditAboutInfo extends StatelessWidget {
                               child: RowTextButton(
                                 text: ksProfession.tr,
                                 buttonText: ksAdd.tr,
+                                textStyle: semiBold18TextStyle(cBlackColor),
                                 showAddButton: _profileController.userData.value!.profession.isEmpty ? true : false,
                                 onPressedAdd: () async {
                                   _profileController.isRouteFromAboutInfo.value = true;
@@ -570,6 +574,7 @@ class EditAboutInfo extends StatelessWidget {
                               child: RowTextButton(
                                 text: ksInterest.tr,
                                 buttonText: ksAdd.tr,
+                                textStyle: semiBold18TextStyle(cBlackColor),
                                 suffixWidget: _profileController.userData.value!.interest.isNotEmpty
                                     ? Padding(
                                         padding: const EdgeInsets.only(right: 8.0),
@@ -613,10 +618,15 @@ class EditAboutInfo extends StatelessWidget {
                             ),
                           if (_profileController.showAllEditOption.value) kH16sizedBox,
                           if (_profileController.showAllEditOption.value) const CustomDivider(),
+                          kH16sizedBox,
+                          Text(
+                            ksWork.tr,
+                            style: semiBold18TextStyle(cBlackColor),
+                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: k16Padding),
                             child: RowTextButton(
-                              text: ksWork.tr,
+                              text: ksCurrentWorkplace.tr,
                               buttonText: ksAdd.tr,
                               showAddButton: true,
                               onPressedAdd: () {
@@ -868,6 +878,7 @@ class EditAboutInfo extends StatelessWidget {
                               child: RowTextButton(
                                 text: ksWebsiteAndSocialLinks.tr,
                                 buttonText: ksAdd.tr,
+                                textStyle: semiBold18TextStyle(cBlackColor),
                                 showAddButton: true,
                                 onPressedAdd: () {
                                   _profileController.resetTextEditor();
@@ -1141,12 +1152,20 @@ class _GenderListContent extends StatelessWidget {
 
 class RowTextButton extends StatelessWidget {
   const RowTextButton(
-      {super.key, required this.text, required this.buttonText, required this.showAddButton, this.onPressedAdd, required this.buttonWidth, this.suffixWidget});
+      {super.key,
+      required this.text,
+      required this.buttonText,
+      required this.showAddButton,
+      this.onPressedAdd,
+      required this.buttonWidth,
+      this.suffixWidget,
+      this.textStyle});
   final String text, buttonText;
   final bool showAddButton;
   final VoidCallback? onPressedAdd;
   final double buttonWidth;
   final Widget? suffixWidget;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -1155,7 +1174,7 @@ class RowTextButton extends StatelessWidget {
       children: [
         Text(
           text,
-          style: semiBold16TextStyle(cBlackColor),
+          style: textStyle ?? semiBold16TextStyle(cBlackColor),
         ),
         if (showAddButton && suffixWidget == null)
           CustomTextButtonV2(

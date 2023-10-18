@@ -80,7 +80,7 @@ class EditPage extends StatelessWidget {
                                   isScrollControlled: true,
                                   bottomSheetHeight:
                                       (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
-                                          ? 320
+                                          ? height * 0.9
                                           : 200,
                                   onPressCloseButton: () {
                                     Get.back();
@@ -308,7 +308,7 @@ class EditPage extends StatelessWidget {
                               //   ),
                               if (_profileController.isCommonEditCheckBoxShown.value)
                                 SizedBox(
-                                  width: _profileController.commonEditCheckBoxText.value == 'Currently living here' ? 155 : 155,
+                                  width: _profileController.commonEditCheckBoxText.value == 'Currently living here' ? width / 2 : width / 2,
                                   child: CustomCheckBox(
                                       value: _profileController.isCommonEditCheckBoxSelected.value,
                                       label: _profileController.commonEditCheckBoxText.value,
@@ -476,7 +476,7 @@ class _LinkListContentShimmer extends StatelessWidget {
         ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: 7,
+          itemCount: 20,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: k8Padding),

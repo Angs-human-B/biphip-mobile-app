@@ -92,8 +92,7 @@ const String ksSelectGender = 'Select Gender';
 const String ksGender = 'Gender';
 const String ksChooseInterest = 'Choose your interest';
 const String ksChooseProfession = 'Let us know your profession!';
-const String ksEditYourProfession = 'Edit your profession';
-const String ksEditYourBirthday = 'Edit your birthday';
+const String ksEditBirthday = 'Edit birthday';
 const String ksLogout = 'Logout';
 const String ksAddBio = 'Add bio';
 const String ksBio = 'Bio';
@@ -242,6 +241,7 @@ const String ksDeleteProfession = 'Delete profession';
 const String ksSelectProfession = 'Select profession';
 const String ksInterest = 'Interest';
 const String ksWork = 'Work';
+const String ksCurrentWorkplace = 'Current workplace';
 const String ksAddWorkplace = 'Add workplace';
 const String ksEditWorkplace = 'Edit workplace';
 const String ksDeleteWorkplace = 'Delete workplace';
@@ -263,6 +263,7 @@ const String ksAddLink = 'Add Link';
 const String ksEditLink = 'Edit Link';
 const String ksDeleteLink = 'Delete Link';
 const String ksWebsiteAndSocialLinks = 'Websites and social links';
+const String ksEducationalBackground = 'Education Background';
 
 //---------------------------------------
 //* Create Post
