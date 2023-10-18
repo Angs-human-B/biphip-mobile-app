@@ -1,18 +1,30 @@
-class FriendListModel {
-  Friends? friends;
+class CommonFamilySendReceiveModel {
+  CommonFamilies? users;
 
-  FriendListModel({
-    required this.friends,
+  CommonFamilySendReceiveModel({
+    required this.users,
   });
 
-  factory FriendListModel.fromJson(Map<String, dynamic> json) => FriendListModel(
-        friends: json["friends"] == null ? null : Friends.fromJson(json["friends"]),
+  factory CommonFamilySendReceiveModel.fromJson(Map<String, dynamic> json) => CommonFamilySendReceiveModel(
+        users: CommonFamilies.fromJson(json["users"]),
       );
 }
 
-class Friends {
+class CommonFamilyModel {
+  CommonFamilies? families;
+
+  CommonFamilyModel({
+    required this.families,
+  });
+
+  factory CommonFamilyModel.fromJson(Map<String, dynamic> json) => CommonFamilyModel(
+        families: CommonFamilies.fromJson(json["families"]),
+      );
+}
+
+class CommonFamilies {
   int? currentPage;
-  List<FriendData> data;
+  List<FamilyData> data;
   String? firstPageUrl;
   int? from;
   int? lastPage;
@@ -25,7 +37,7 @@ class Friends {
   int? to;
   int? total;
 
-  Friends({
+  CommonFamilies({
     required this.currentPage,
     required this.data,
     required this.firstPageUrl,
@@ -41,9 +53,9 @@ class Friends {
     required this.total,
   });
 
-  factory Friends.fromJson(Map<String, dynamic> json) => Friends(
+  factory CommonFamilies.fromJson(Map<String, dynamic> json) => CommonFamilies(
         currentPage: json["current_page"],
-        data: List<FriendData>.from(json["data"].map((x) => FriendData.fromJson(x))),
+        data: List<FamilyData>.from(json["data"].map((x) => FamilyData.fromJson(x))),
         firstPageUrl: json["first_page_url"],
         from: json["from"],
         lastPage: json["last_page"],
@@ -58,9 +70,8 @@ class Friends {
       );
 }
 
-class FriendData {
+class FamilyData {
   int? id;
-  String? image;
   String? userName;
   String? firstName;
   String? lastName;
@@ -68,28 +79,24 @@ class FriendData {
   dynamic phone;
   String? gender;
   DateTime? dob;
-  List<String> profession;
-  List<String> interest;
-  String? bio;
+  List<dynamic> profession;
+  List<dynamic> interest;
+  dynamic bio;
   String? languages;
   String? status;
-  dynamic blockTill;
-  dynamic otp;
   dynamic refId;
   String? relation;
   dynamic relationWithName;
   dynamic relationWithId;
-  String? cover;
   String? fullName;
-  String? profilePicture;
+  dynamic profilePicture;
   String? coverPhoto;
   int? friendStatus;
   int? followStatus;
   String? familyRelationStatus;
 
-  FriendData({
+  FamilyData({
     required this.id,
-    required this.image,
     required this.userName,
     required this.firstName,
     required this.lastName,
@@ -102,13 +109,10 @@ class FriendData {
     required this.bio,
     required this.languages,
     required this.status,
-    required this.blockTill,
-    required this.otp,
     required this.refId,
     required this.relation,
     required this.relationWithName,
     required this.relationWithId,
-    required this.cover,
     required this.fullName,
     required this.profilePicture,
     required this.coverPhoto,
@@ -117,9 +121,8 @@ class FriendData {
     required this.familyRelationStatus,
   });
 
-  factory FriendData.fromJson(Map<String, dynamic> json) => FriendData(
+  factory FamilyData.fromJson(Map<String, dynamic> json) => FamilyData(
         id: json["id"],
-        image: json["image"],
         userName: json["user_name"],
         firstName: json["first_name"],
         lastName: json["last_name"],
@@ -127,18 +130,15 @@ class FriendData {
         phone: json["phone"],
         gender: json["gender"],
         dob: DateTime.parse(json["dob"]),
-        profession: List<String>.from(json["profession"].map((x) => x)),
-        interest: List<String>.from(json["interest"].map((x) => x)),
+        profession: List<dynamic>.from(json["profession"].map((x) => x)),
+        interest: List<dynamic>.from(json["interest"].map((x) => x)),
         bio: json["bio"],
         languages: json["languages"],
         status: json["status"],
-        blockTill: json["block_till"],
-        otp: json["otp"],
         refId: json["ref_id"],
         relation: json["relation"],
         relationWithName: json["relation_with_name"],
         relationWithId: json["relation_with_id"],
-        cover: json["cover"],
         fullName: json["full_name"],
         profilePicture: json["profile_picture"],
         coverPhoto: json["cover_photo"],
@@ -151,7 +151,7 @@ class FriendData {
 class Link {
   String? url;
   String? label;
-  bool active;
+  bool? active;
 
   Link({
     required this.url,
