@@ -1036,17 +1036,25 @@ class _RelationshipStatusListContent extends StatelessWidget {
           shrinkWrap: true,
           itemCount: profileController.relationshipStatusList.length,
           itemBuilder: (BuildContext context, int index) {
-            return Obx(() => RadioListTile(
-                  title: Text(profileController.relationshipStatusList[index]),
-                  value: profileController.relationshipStatusList[index],
-                  activeColor: cPrimaryColor,
-                  contentPadding: EdgeInsets.zero,
-                  groupValue: profileController.tempRelationshipStatus.value,
-                  controlAffinity: ListTileControlAffinity.trailing,
-                  onChanged: (value) {
-                    profileController.tempRelationshipStatus.value = value;
+            return Obx(
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: k8Padding),
+                child: CustomListTile(
+                  title: profileController.relationshipStatusList[index],
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
+                    },
+                    isSelected: profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index],
+                  ),
+                  itemColor:
+                      profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index] ? cPrimaryTint3Color : cWhiteColor,
+                  onPressed: () {
+                    profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
                   },
-                ));
+                ),
+              ),
+            );
           },
         ),
       ],
