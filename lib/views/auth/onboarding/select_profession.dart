@@ -24,7 +24,7 @@ class SelectProfessionScreen extends StatelessWidget {
             child: CustomAppBar(
               isCenterTitle: _profileController.isRouteFromAboutInfo.value,
               hasBackButton: _profileController.isRouteFromAboutInfo.value,
-              title: _profileController.isRouteFromAboutInfo.value ? ksEditYourProfession.tr : '',
+              title: _profileController.isRouteFromAboutInfo.value ? ksEditProfession.tr : '',
               onBack: () {
                 Get.back();
               },
@@ -90,17 +90,19 @@ class SelectProfessionScreen extends StatelessWidget {
                               onPressed: _globalController.professionIndex.value != -1
                                   ? () async {
                                       if (!_profileController.isRouteFromAboutInfo.value) {
+                                        _profileController.isInterestListLoading.value = true;
                                         Get.find<GlobalController>().interestIndex.clear();
                                         _globalController.selectedProfession.value = _globalController.professionList[_globalController.professionIndex.value];
+                                        _profileController.setProfession(_globalController.selectedProfession.value);
                                         Get.toNamed(krSelectInterest);
                                         await _profileController.getInterestList();
                                       } else {
                                         _globalController.selectedProfession.value = _globalController.professionList[_globalController.professionIndex.value];
-                                        Get.back();
 
+                                        Get.back();
+                                        await _profileController.setProfession(_globalController.selectedProfession.value);
                                         _profileController.isRouteFromAboutInfo.value = false;
                                       }
-                                      await _profileController.setProfession(_globalController.selectedProfession.value);
                                     }
                                   : null,
                               buttonWidth: width - 40,

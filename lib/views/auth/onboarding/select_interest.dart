@@ -96,6 +96,8 @@ class SelectInterestScreen extends StatelessWidget {
                                           _globalController.selectedInterests.add(_globalController.interestList[_globalController.interestIndex[i]]);
                                         }
                                         Get.toNamed(krUploadPicture);
+                                        await _profileController.setInterest(_globalController.selectedInterests);
+
                                         _globalController.resetChipSelection();
                                       } else {
                                         _globalController.selectedInterests.clear();
@@ -103,9 +105,10 @@ class SelectInterestScreen extends StatelessWidget {
                                           _globalController.selectedInterests.add(_globalController.interestList[_globalController.interestIndex[i]]);
                                         }
                                         Get.back();
+                                        await _profileController.setInterest(_globalController.selectedInterests);
+
                                         _profileController.isRouteFromAboutInfo.value = false;
                                       }
-                                      await _profileController.setInterest(_globalController.selectedInterests);
                                     }
                                   : null,
                               buttonWidth: width - 40,

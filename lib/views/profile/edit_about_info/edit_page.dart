@@ -1,12 +1,14 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+import 'package:shimmer/shimmer.dart';
 
 class EditPage extends StatelessWidget {
   EditPage({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
   final FocusNode _commonSecondaryFocusNode = FocusNode();
+  final FocusNode _commonFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -62,21 +64,24 @@ class EditPage extends StatelessWidget {
                               buttonHeight: 32,
                               borderColor: cLineColor,
                               contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding),
-                              onPressed: () {
+                              onPressed: () async {
+                                _profileController.isLinkListLoading.value = true;
                                 _profileController.tempLinkSource.value = _profileController.linkSource.value;
                                 _profileController.tempEducationBackground.value = _profileController.educationBackground.value;
                                 _globalController.commonBottomSheet(
                                   context: context,
-                                  content:
+                                  content: Obx(() =>
                                       (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
-                                          ? _LinkListContent(profileController: _profileController)
+                                          ? (_profileController.isLinkListLoading.value
+                                              ? const _LinkListContentShimmer()
+                                              : _LinkListContent(profileController: _profileController))
                                           : _EducationBackgroundContent(
                                               profileController: _profileController,
-                                            ),
+                                            )),
                                   isScrollControlled: true,
                                   bottomSheetHeight:
                                       (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
-                                          ? 220
+                                          ? height * 0.9
                                           : 200,
                                   onPressCloseButton: () {
                                     Get.back();
@@ -99,6 +104,7 @@ class EditPage extends StatelessWidget {
                                           : ksSelectEducationInstitute.tr,
                                   isRightButtonShow: true,
                                 );
+                                _profileController.getLinkList();
                               },
                               text: (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
                                   ? _profileController.linkSource.value
@@ -109,43 +115,119 @@ class EditPage extends StatelessWidget {
                                       : ksSelectEducationInstitute.tr,
                             ),
                           ),
-                        CustomModifiedTextField(
-                          errorText: _profileController.commonEditTextFieldErrorText.value,
-                          controller: _profileController.commonEditTextEditingController,
-                          maxLength: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
-                                  _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
-                              ? 15
-                              : 255,
-                          hint: _profileController.commonEditTextfieldHintText.value,
-                          prefixIcon: _profileController.commonEditPageIcon.value ?? _profileController.commonEditIconData.value,
-                          suffixIcon: _profileController.showCommonEditSuffixIcon.value ? BipHip.circleCrossNew : null,
-                          inputType: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
-                                  _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
-                              ? TextInputType.number
-                              : TextInputType.text,
-                          borderRadius: k8BorderRadius,
-                          inputFormatters: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
-                                  _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
-                              ? [FilteringTextInputFormatter.digitsOnly]
-                              : null,
-                          onSuffixPress: () {
-                            _profileController.commonEditTextEditingController.clear();
-                            _profileController.showCommonEditSuffixIcon.value = false;
+                        // CustomModifiedTextField(
+                        //   errorText: _profileController.commonEditTextFieldErrorText.value,
+                        //   controller: _profileController.commonEditTextEditingController,
+                        //   maxLength: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                        //           _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                        //       ? 15
+                        //       : 255,
+                        //   hint: _profileController.commonEditTextfieldHintText.value,
+                        //   prefixIcon: _profileController.commonEditPageIcon.value ?? _profileController.commonEditIconData.value,
+                        //   suffixIcon: _profileController.showCommonEditSuffixIcon.value ? BipHip.circleCrossNew : null,
+                        //   inputType: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                        //           _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                        //       ? TextInputType.number
+                        //       : TextInputType.text,
+                        //   borderRadius: k8BorderRadius,
+                        //   inputFormatters: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                        //           _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                        //       ? [FilteringTextInputFormatter.digitsOnly]
+                        //       : null,
+                        //   onSuffixPress: () {
+                        //     _profileController.commonEditTextEditingController.clear();
+                        //     _profileController.showCommonEditSuffixIcon.value = false;
+                        //   },
+                        //   onChanged: (value) {
+                        //     if (_profileController.commonEditTextEditingController.text != '') {
+                        //       _profileController.showCommonEditSuffixIcon.value = true;
+                        //     } else {
+                        //       _profileController.showCommonEditSuffixIcon.value = false;
+                        //     }
+                        //     if (_profileController.commonEditTextfieldHintText.value == ksEmail.tr ||
+                        //         _profileController.commonEditTextfieldHintText.value == ksEditEmail.tr) {
+                        //       if (!_profileController.commonEditTextEditingController.text.isValidEmail) {
+                        //         _profileController.commonEditTextFieldErrorText.value = ksInvalidEmailErrorMessage.tr;
+                        //       } else {
+                        //         _profileController.commonEditTextFieldErrorText.value = '';
+                        //       }
+                        //     }
+                        //   },
+                        // ),
+                        RawAutocomplete(
+                          textEditingController: _profileController.commonEditTextEditingController,
+                          focusNode: _commonFocusNode,
+                          optionsBuilder: (TextEditingValue textEditingValue) {
+                            return _profileController.tempListCommon.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
                           },
-                          onChanged: (value) {
-                            if (_profileController.commonEditTextEditingController.text != '') {
-                              _profileController.showCommonEditSuffixIcon.value = true;
-                            } else {
-                              _profileController.showCommonEditSuffixIcon.value = false;
-                            }
-                            if (_profileController.commonEditTextfieldHintText.value == ksEmail.tr ||
-                                _profileController.commonEditTextfieldHintText.value == ksEditEmail.tr) {
-                              if (!_profileController.commonEditTextEditingController.text.isValidEmail) {
-                                _profileController.commonEditTextFieldErrorText.value = ksInvalidEmailErrorMessage.tr;
-                              } else {
-                                _profileController.commonEditTextFieldErrorText.value = '';
-                              }
-                            }
+                          onSelected: (option) {
+                            _profileController.commonEditTextEditingController.text = option;
+                          },
+                          optionsViewBuilder: (context, Function(String) onSelected, options) {
+                            return Material(
+                              elevation: 4,
+                              child: ListView.separated(
+                                padding: EdgeInsets.zero,
+                                itemBuilder: (context, index) {
+                                  final option = options.elementAt(index);
+
+                                  return ListTile(
+                                    title: Text(option.toString()),
+                                    onTap: () {
+                                      onSelected(option.toString());
+                                      _profileController.commonEditTextEditingController.text = option.toString();
+                                      unfocus(context);
+                                    },
+                                  );
+                                },
+                                separatorBuilder: (context, index) => const Divider(),
+                                itemCount: options.length,
+                              ),
+                            );
+                          },
+                          fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                            return Obx(
+                              () => CustomModifiedTextField(
+                                focusNode: focusNode,
+                                errorText: _profileController.commonEditTextFieldErrorText.value,
+                                controller: _profileController.commonEditTextEditingController,
+                                maxLength: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                        _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                                    ? 15
+                                    : 255,
+                                hint: _profileController.commonEditTextfieldHintText.value,
+                                prefixIcon: _profileController.commonEditPageIcon.value ?? _profileController.commonEditIconData.value,
+                                suffixIcon: _profileController.showCommonEditSuffixIcon.value ? BipHip.circleCrossNew : null,
+                                inputType: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                        _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                                    ? TextInputType.number
+                                    : TextInputType.text,
+                                borderRadius: k8BorderRadius,
+                                inputFormatters: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                        _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                                    ? [FilteringTextInputFormatter.digitsOnly]
+                                    : null,
+                                onSuffixPress: () {
+                                  _profileController.commonEditTextEditingController.clear();
+                                  _profileController.showCommonEditSuffixIcon.value = false;
+                                },
+                                onChanged: (value) {
+                                  if (_profileController.commonEditTextEditingController.text != '') {
+                                    _profileController.showCommonEditSuffixIcon.value = true;
+                                  } else {
+                                    _profileController.showCommonEditSuffixIcon.value = false;
+                                  }
+                                  if (_profileController.commonEditTextfieldHintText.value == ksEmail.tr ||
+                                      _profileController.commonEditTextfieldHintText.value == ksEditEmail.tr) {
+                                    if (!_profileController.commonEditTextEditingController.text.isValidEmail) {
+                                      _profileController.commonEditTextFieldErrorText.value = ksInvalidEmailErrorMessage.tr;
+                                    } else {
+                                      _profileController.commonEditTextFieldErrorText.value = '';
+                                    }
+                                  }
+                                },
+                              ),
+                            );
                           },
                         ),
                         if (_profileController.isSecondaryTextfieldShown.value)
@@ -303,7 +385,7 @@ class EditPage extends StatelessWidget {
                               //   ),
                               if (_profileController.isCommonEditCheckBoxShown.value)
                                 SizedBox(
-                                  width: _profileController.commonEditCheckBoxText.value == 'Currently living here' ? 155 : 155,
+                                  width: _profileController.commonEditCheckBoxText.value == 'Currently living here' ? width / 2 : width / 2,
                                   child: CustomCheckBox(
                                       value: _profileController.isCommonEditCheckBoxSelected.value,
                                       label: _profileController.commonEditCheckBoxText.value,
@@ -392,16 +474,22 @@ class _EducationBackgroundContent extends StatelessWidget {
           itemCount: profileController.educationBackgroundList.length,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
-              () => RadioListTile(
-                title: Text(profileController.educationBackgroundList[index]),
-                value: profileController.educationBackgroundList[index],
-                activeColor: cPrimaryColor,
-                contentPadding: EdgeInsets.zero,
-                groupValue: profileController.tempEducationBackground.value,
-                controlAffinity: ListTileControlAffinity.trailing,
-                onChanged: (value) {
-                  profileController.tempEducationBackground.value = value;
-                },
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: k8Padding),
+                child: CustomListTile(
+                  title: profileController.educationBackgroundList[index],
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
+                    },
+                    isSelected: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index],
+                  ),
+                  itemColor:
+                      profileController.tempEducationBackground.value == profileController.educationBackgroundList[index] ? cPrimaryTint3Color : cWhiteColor,
+                  onPressed: () {
+                    profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
+                  },
+                ),
               ),
             );
           },
@@ -429,18 +517,62 @@ class _LinkListContent extends StatelessWidget {
           itemCount: profileController.linkSourceList.length,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
-              () => CustomListTile(
-                title: Text(profileController.linkSourceList[index]),
-                trailing: CustomRadioButton(
-                  onChanged: () {
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: k8Padding),
+                child: CustomListTile(
+                  title: profileController.linkSourceList[index],
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                    },
+                    isSelected: profileController.tempLinkSource.value == profileController.linkSourceList[index],
+                  ),
+                  itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
+                  onPressed: () {
                     profileController.tempLinkSource.value = profileController.linkSourceList[index];
                   },
-                  isSelected: profileController.tempLinkSource.value == profileController.linkSourceList[index],
                 ),
-                itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
-                onPressed: () {
-                  profileController.tempLinkSource.value = profileController.linkSourceList[index];
-                },
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _LinkListContentShimmer extends StatelessWidget {
+  const _LinkListContentShimmer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: 20,
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: k8Padding),
+              child: CustomListTile(
+                title: Shimmer.fromColors(
+                  baseColor: cWhiteColor,
+                  highlightColor: Colors.grey,
+                  child: Container(
+                    height: 20,
+                    decoration: BoxDecoration(
+                      borderRadius: k8CircularBorderRadius,
+                      color: cWhiteColor,
+                    ),
+                  ),
+                ),
+                trailing: const CustomRadioButton(
+                  onChanged: null,
+                ),
+                itemColor: cWhiteColor,
               ),
             );
           },

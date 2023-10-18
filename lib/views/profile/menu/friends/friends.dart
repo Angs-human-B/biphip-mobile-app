@@ -31,10 +31,11 @@ class Friends extends StatelessWidget {
               padding: const EdgeInsets.only(right: k20Padding),
               child: TextButton(
                 style: kTextButtonStyle,
-                onPressed: () {
+                onPressed: () async {
                   //*Common bottom sheet for add friend
                   _profileController.searchController.clear();
                   FocusScope.of(context).unfocus();
+                  _friendController.addFriendRequestList.clear();
                   Get.toNamed(krAddFriend);
                   // _globalController.commonBottomSheet(
                   //   context: context,
@@ -301,21 +302,24 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
               ),
             ),
             kW12sizedBox,
-            Column(
-              children: [
-                Text(
-                  name,
-                  style: medium16TextStyle(cBlackColor),
-                ),
-                subTitle == null
-                    ? const SizedBox()
-                    : Text(
-                        subTitle ?? '',
-                        style: regular10TextStyle(cSmallBodyTextColor),
-                      ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    overflow: TextOverflow.ellipsis,
+                    style: semiBold16TextStyle(cBlackColor),
+                  ),
+                  subTitle == null
+                      ? const SizedBox()
+                      : Text(
+                          subTitle ?? '',
+                          style: regular10TextStyle(cSmallBodyTextColor),
+                        ),
+                ],
+              ),
             ),
-            const Spacer(),
             CustomElevatedButton(
               label: buttonText,
               onPressed: buttonOnPressed,
@@ -405,7 +409,7 @@ class AllFriendList extends StatelessWidget {
                                 ),
                                 title: Text(
                                   _friendController.friendList[index].fullName ?? ksNA.tr,
-                                  style: semiBold14TextStyle(cBlackColor),
+                                  style: semiBold16TextStyle(cBlackColor),
                                 ),
                                 trailing: CustomIconButton(
                                     onPress: () {
@@ -564,7 +568,7 @@ class PendingFriendList extends StatelessWidget {
                           ),
                           title: Text(
                             _friendController.sendFriendRequestList[index].fullName ?? ksNA.tr,
-                            style: semiBold14TextStyle(cBlackColor),
+                            style: semiBold16TextStyle(cBlackColor),
                           ),
                           trailing: CustomIconButton(
                               onPress: () {

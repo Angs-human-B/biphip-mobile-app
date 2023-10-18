@@ -61,8 +61,9 @@ class EditAboutInfo extends StatelessWidget {
                             buttonText: ksAdd.tr,
                             showAddButton: true,
                             buttonWidth: 151,
-                            onPressedAdd: () {
+                            onPressedAdd: () async {
                               _profileController.resetTextEditor();
+                              await _profileController.getCityList();
                               _profileController.getMethod(9);
                             },
                           ),
@@ -74,7 +75,9 @@ class EditAboutInfo extends StatelessWidget {
                                 prefixIcon: BipHip.location,
                                 suffixIcon: BipHip.edit,
                                 text: checkNullOrStringNull(_profileController.hometownData.value?.city),
-                                suffixOnPressed: () {
+                                suffixOnPressed: () async {
+                                  await _profileController.getCityList();
+
                                   _profileController.getMethod(0);
                                   // _globalController.commonBottomSheet(
                                   //     context: context,
@@ -109,8 +112,10 @@ class EditAboutInfo extends StatelessWidget {
                               text: ksPresentAddress.tr,
                               buttonText: ksAdd.tr,
                               showAddButton: true,
-                              onPressedAdd: () {
+                              onPressedAdd: () async {
                                 _profileController.resetTextEditor();
+                                await _profileController.getCityList();
+
                                 _profileController.getMethod(1);
                                 Get.toNamed(krEdit);
                               },
@@ -125,7 +130,9 @@ class EditAboutInfo extends StatelessWidget {
                                 prefixIcon: BipHip.location,
                                 suffixIcon: BipHip.edit,
                                 text: checkNullOrStringNull(_profileController.currentCityData.value!.city),
-                                suffixOnPressed: () {
+                                suffixOnPressed: () async {
+                                  await _profileController.getCityList();
+
                                   _profileController.isCurrentlyLiveHere.value = true;
                                   _profileController.cityID.value = _profileController.currentCityData.value!.id!;
                                   _profileController.getMethod(2);
@@ -164,8 +171,10 @@ class EditAboutInfo extends StatelessWidget {
                               text: ksOther.tr,
                               buttonText: ksAdd.tr,
                               showAddButton: true,
-                              onPressedAdd: () {
+                              onPressedAdd: () async {
                                 _profileController.resetTextEditor();
+                                await _profileController.getCityList();
+
                                 _profileController.getMethod(3);
                                 Get.toNamed(krEdit);
                               },
@@ -180,9 +189,11 @@ class EditAboutInfo extends StatelessWidget {
                                   prefixIcon: BipHip.location,
                                   suffixIcon: BipHip.edit,
                                   text: _profileController.otherCityList[i].city!,
-                                  suffixOnPressed: () {
+                                  suffixOnPressed: () async {
                                     _profileController.cityID.value = _profileController.otherCityList[i].id!;
                                     _profileController.presentAddressTextEditingController.text = _profileController.otherCityList[i].city!;
+                                    await _profileController.getCityList();
+
                                     _profileController.getMethod(4);
                                     // _globalController.commonBottomSheet(
                                     //     context: context,
@@ -216,8 +227,9 @@ class EditAboutInfo extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: k16Padding),
                             child: RowTextButton(
-                              text: 'Education Background',
-                              buttonText: 'Add',
+                              text: ksEducationalBackground.tr,
+                              textStyle: semiBold18TextStyle(cBlackColor),
+                              buttonText: ksAdd.tr,
                               showAddButton: true,
                               onPressedAdd: () {
                                 _profileController.resetTextEditor();
@@ -242,6 +254,7 @@ class EditAboutInfo extends StatelessWidget {
                                 suffixIcon: BipHip.edit,
                                 text: checkNullOrStringNull(_profileController.schoolDataList[i].school),
                                 suffixOnPressed: () {
+                                  _profileController.resetTextEditor();
                                   _profileController.schoolID.value = _profileController.schoolDataList[i].id!;
                                   _profileController.educationInstituteTextEditingController.text = _profileController.schoolDataList[i].school!;
                                   if (_profileController.schoolDataList[i].graduated == 0) {
@@ -301,6 +314,7 @@ class EditAboutInfo extends StatelessWidget {
                                 suffixIcon: BipHip.edit,
                                 text: checkNullOrStringNull(_profileController.collegeDataList[i].school),
                                 suffixOnPressed: () {
+                                  _profileController.resetTextEditor();
                                   _profileController.collegeID.value = _profileController.collegeDataList[i].id!;
                                   _profileController.educationInstituteTextEditingController.text = _profileController.collegeDataList[i].school!;
                                   if (_profileController.collegeDataList[i].graduated == 0) {
@@ -393,34 +407,6 @@ class EditAboutInfo extends StatelessWidget {
                                 : checkNullOrStringNull(_profileController.userData.value!.relation) ?? ksSelectRelationshipStatus,
                             hintText: ksSelectRelationshipStatus.tr,
                           ),
-                          // InfoContainer(
-                          //   prefixIcon: BipHip.love,
-                          //   suffixIcon: BipHip.downArrow,
-                          //   text: _profileController.relationshipStatus.value??checkNullOrStringNull(_profileController.profileData.value!.user!.relation) ?? ksSelectRelationshipStatus,
-                          //   suffixOnPressed: () {
-                          //     _globalController.commonBottomSheet(
-                          //       context: context,
-                          //       content: _RelationshipStatusListContent(
-                          //         profileController: _profileController,
-                          //       ),
-                          //       isScrollControlled: true,
-                          //       bottomSheetHeight: height * 0.6,
-                          //       onPressCloseButton: () {
-                          //         Get.back();
-                          //       },
-                          //       onPressRightButton: () {
-                          //         if (_profileController.relationshipStatus.value != '') {
-                          //           _profileController.showEditRelationshipStatus.value = true;
-                          //         }
-                          //         Get.back();
-                          //       },
-                          //       rightText: ksDone.tr,
-                          //       rightTextStyle: medium14TextStyle(cPrimaryColor),
-                          //       title: ksSelectRelationshipStatus.tr,
-                          //       isRightButtonShow: true,
-                          //     );
-                          //   },
-                          // ),
                           // if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH20sizedBox,
                           // if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
                           //   OutLinedButton(
@@ -460,6 +446,7 @@ class EditAboutInfo extends StatelessWidget {
                               child: RowTextButton(
                                 text: ksGender.tr,
                                 buttonText: ksAdd.tr,
+                                textStyle: semiBold18TextStyle(cBlackColor),
                                 showAddButton: false,
                                 onPressedAdd: null,
                                 buttonWidth: 149,
@@ -487,7 +474,7 @@ class EditAboutInfo extends StatelessWidget {
                                             ),
                                     ),
                                     isScrollControlled: true,
-                                    bottomSheetHeight: height * 0.45,
+                                    bottomSheetHeight: isDeviceScreenLarge() ? 255 : 240,
                                     onPressCloseButton: () {
                                       Get.back();
                                     },
@@ -533,6 +520,7 @@ class EditAboutInfo extends StatelessWidget {
                               child: RowTextButton(
                                 text: ksDateOfBirth.tr,
                                 buttonText: ksAdd.tr,
+                                textStyle: semiBold18TextStyle(cBlackColor),
                                 showAddButton: false,
                                 onPressedAdd: null,
                                 buttonWidth: 149,
@@ -560,6 +548,7 @@ class EditAboutInfo extends StatelessWidget {
                               child: RowTextButton(
                                 text: ksProfession.tr,
                                 buttonText: ksAdd.tr,
+                                textStyle: semiBold18TextStyle(cBlackColor),
                                 showAddButton: _profileController.userData.value!.profession.isEmpty ? true : false,
                                 onPressedAdd: () async {
                                   _profileController.isRouteFromAboutInfo.value = true;
@@ -598,6 +587,7 @@ class EditAboutInfo extends StatelessWidget {
                               child: RowTextButton(
                                 text: ksInterest.tr,
                                 buttonText: ksAdd.tr,
+                                textStyle: semiBold18TextStyle(cBlackColor),
                                 suffixWidget: _profileController.userData.value!.interest.isNotEmpty
                                     ? Padding(
                                         padding: const EdgeInsets.only(right: 8.0),
@@ -641,14 +631,20 @@ class EditAboutInfo extends StatelessWidget {
                             ),
                           if (_profileController.showAllEditOption.value) kH16sizedBox,
                           if (_profileController.showAllEditOption.value) const CustomDivider(),
+                          kH16sizedBox,
+                          Text(
+                            ksWork.tr,
+                            style: semiBold18TextStyle(cBlackColor),
+                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: k16Padding),
                             child: RowTextButton(
-                              text: ksWork.tr,
+                              text: ksCurrentWorkplace.tr,
                               buttonText: ksAdd.tr,
                               showAddButton: true,
-                              onPressedAdd: () {
+                              onPressedAdd: () async {
                                 _profileController.resetTextEditor();
+                                await _profileController.getCompanyList();
                                 _profileController.getMethod(8);
                               },
                               buttonWidth: 149,
@@ -661,7 +657,11 @@ class EditAboutInfo extends StatelessWidget {
                                 prefixIcon: BipHip.officeFill,
                                 suffixIcon: BipHip.edit,
                                 text: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
-                                suffixOnPressed: () {
+                                suffixOnPressed: () async {
+                                  _profileController.resetTextEditor();
+
+                                  await _profileController.getCompanyList();
+
                                   _profileController.officeID.value = _profileController.currentWorkplace.value!.id!;
                                   _profileController.companyNameTextEditingController.text = _profileController.currentWorkplace.value!.company!;
                                   _profileController.designationTextEditingController.text = _profileController.currentWorkplace.value!.position ?? '';
@@ -711,8 +711,10 @@ class EditAboutInfo extends StatelessWidget {
                               text: ksOther.tr,
                               buttonText: ksAdd.tr,
                               showAddButton: true,
-                              onPressedAdd: () {
+                              onPressedAdd: () async {
                                 _profileController.resetTextEditor();
+                                await _profileController.getCompanyList();
+
                                 _profileController.getMethod(8);
                               },
                               buttonWidth: 149,
@@ -726,7 +728,9 @@ class EditAboutInfo extends StatelessWidget {
                                   prefixIcon: BipHip.officeFill,
                                   suffixIcon: BipHip.edit,
                                   text: _profileController.workplaceDataList[i].company!,
-                                  suffixOnPressed: () {
+                                  suffixOnPressed: () async {
+                                    await _profileController.getCompanyList();
+
                                     _profileController.officeID.value = _profileController.workplaceDataList[i].id!;
                                     _profileController.companyNameTextEditingController.text = _profileController.workplaceDataList[i].company!;
                                     _profileController.designationTextEditingController.text = _profileController.workplaceDataList[i].position ?? '';
@@ -803,6 +807,7 @@ class EditAboutInfo extends StatelessWidget {
                                   suffixIcon: BipHip.edit,
                                   text: checkNullOrStringNull(_profileController.contactDataList[i].value),
                                   suffixOnPressed: () {
+                                    _profileController.resetTextEditor();
                                     _profileController.phoneID.value = _profileController.contactDataList[i].id!;
                                     _profileController.phoneTextEditingController.text = _profileController.contactDataList[i].value!;
                                     _profileController.getMethod(12);
@@ -857,6 +862,8 @@ class EditAboutInfo extends StatelessWidget {
                                   suffixIcon: BipHip.edit,
                                   text: checkNullOrStringNull(_profileController.contactDataList[i].value),
                                   suffixOnPressed: () {
+                                    _profileController.resetTextEditor();
+
                                     _profileController.emailID.value = _profileController.contactDataList[i].id!;
                                     _profileController.emailTextEditingController.text = _profileController.contactDataList[i].value!;
                                     _profileController.getMethod(14);
@@ -896,6 +903,7 @@ class EditAboutInfo extends StatelessWidget {
                               child: RowTextButton(
                                 text: ksWebsiteAndSocialLinks.tr,
                                 buttonText: ksAdd.tr,
+                                textStyle: semiBold18TextStyle(cBlackColor),
                                 showAddButton: true,
                                 onPressedAdd: () {
                                   _profileController.resetTextEditor();
@@ -915,6 +923,8 @@ class EditAboutInfo extends StatelessWidget {
                                   suffixIcon: BipHip.edit,
                                   text: checkNullOrStringNull(_profileController.linkDataList[i].link),
                                   suffixOnPressed: () {
+                                    _profileController.resetTextEditor();
+
                                     _profileController.commonEditPageIcon.value = null;
                                     _profileController.linkTextEditingController.text = _profileController.linkDataList[i].link!;
                                     _profileController.linkID.value = _profileController.linkDataList[i].id!;
@@ -1064,17 +1074,25 @@ class _RelationshipStatusListContent extends StatelessWidget {
           shrinkWrap: true,
           itemCount: profileController.relationshipStatusList.length,
           itemBuilder: (BuildContext context, int index) {
-            return Obx(() => RadioListTile(
-                  title: Text(profileController.relationshipStatusList[index]),
-                  value: profileController.relationshipStatusList[index],
-                  activeColor: cPrimaryColor,
-                  contentPadding: EdgeInsets.zero,
-                  groupValue: profileController.tempRelationshipStatus.value,
-                  controlAffinity: ListTileControlAffinity.trailing,
-                  onChanged: (value) {
-                    profileController.tempRelationshipStatus.value = value;
+            return Obx(
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: k8Padding),
+                child: CustomListTile(
+                  title: profileController.relationshipStatusList[index],
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
+                    },
+                    isSelected: profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index],
+                  ),
+                  itemColor:
+                      profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index] ? cPrimaryTint3Color : cWhiteColor,
+                  onPressed: () {
+                    profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
                   },
-                ));
+                ),
+              ),
+            );
           },
         ),
       ],
@@ -1135,16 +1153,21 @@ class _GenderListContent extends StatelessWidget {
           itemCount: profileController.genderList.length,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
-              () => RadioListTile(
-                title: Text(profileController.genderList[index]),
-                value: profileController.genderList[index],
-                activeColor: cPrimaryColor,
-                contentPadding: EdgeInsets.zero,
-                groupValue: profileController.tempSelectedGender.value,
-                controlAffinity: ListTileControlAffinity.trailing,
-                onChanged: (value) {
-                  profileController.tempSelectedGender.value = value;
-                },
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: k8Padding),
+                child: CustomListTile(
+                  title: profileController.genderList[index],
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      profileController.tempSelectedGender.value = profileController.genderList[index];
+                    },
+                    isSelected: profileController.tempSelectedGender.value == profileController.genderList[index],
+                  ),
+                  itemColor: profileController.tempSelectedGender.value == profileController.genderList[index] ? cPrimaryTint3Color : cWhiteColor,
+                  onPressed: () {
+                    profileController.tempSelectedGender.value = profileController.genderList[index];
+                  },
+                ),
               ),
             );
           },
@@ -1156,12 +1179,20 @@ class _GenderListContent extends StatelessWidget {
 
 class RowTextButton extends StatelessWidget {
   const RowTextButton(
-      {super.key, required this.text, required this.buttonText, required this.showAddButton, this.onPressedAdd, required this.buttonWidth, this.suffixWidget});
+      {super.key,
+      required this.text,
+      required this.buttonText,
+      required this.showAddButton,
+      this.onPressedAdd,
+      required this.buttonWidth,
+      this.suffixWidget,
+      this.textStyle});
   final String text, buttonText;
   final bool showAddButton;
   final VoidCallback? onPressedAdd;
   final double buttonWidth;
   final Widget? suffixWidget;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -1170,7 +1201,7 @@ class RowTextButton extends StatelessWidget {
       children: [
         Text(
           text,
-          style: semiBold16TextStyle(cBlackColor),
+          style: textStyle ?? semiBold16TextStyle(cBlackColor),
         ),
         if (showAddButton && suffixWidget == null)
           CustomTextButtonV2(

@@ -2,14 +2,18 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class LikeSectionWidget extends StatelessWidget {
   const LikeSectionWidget(
-      {super.key, this.likeOnLongPressed, this.commentOnPressed, this.shareOnPressed, this.giftOnPressed, this.likeOnTap, required this.isGiftShown});
+      {super.key,
+      this.likeOnLongPressed,
+      this.commentOnPressed,
+      this.shareOnPressed,
+      this.giftOnPressed,
+      this.likeOnTap,
+      required this.isGiftShown,
+      this.sectionColor});
 
-  final VoidCallback? likeOnTap;
-  final VoidCallback? likeOnLongPressed;
-  final VoidCallback? commentOnPressed;
-  final VoidCallback? shareOnPressed;
+  final VoidCallback? likeOnTap, likeOnLongPressed, commentOnPressed, shareOnPressed, giftOnPressed;
+  final Color? sectionColor;
   final bool isGiftShown;
-  final VoidCallback? giftOnPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +31,12 @@ class LikeSectionWidget extends StatelessWidget {
               children: [
                 Text(
                   ksLove.tr,
-                  style: semiBold12TextStyle(cIconColor),
+                  style: semiBold12TextStyle(sectionColor ?? cIconColor),
                 ),
                 kW4sizedBox,
-                const Icon(
+                Icon(
                   BipHip.love,
-                  color: cIconColor,
+                  color: sectionColor ?? cIconColor,
                   size: kIconSize20,
                 ),
               ],
@@ -49,12 +53,12 @@ class LikeSectionWidget extends StatelessWidget {
               children: [
                 Text(
                   ksComment.tr,
-                  style: semiBold12TextStyle(cIconColor),
+                  style: semiBold12TextStyle(sectionColor ?? cIconColor),
                 ),
                 kW4sizedBox,
-                const Icon(
+                Icon(
                   BipHip.commentOutline,
-                  color: cIconColor,
+                  color: sectionColor ?? cIconColor,
                   size: kIconSize20,
                 ),
               ],
@@ -71,12 +75,12 @@ class LikeSectionWidget extends StatelessWidget {
               children: [
                 Text(
                   ksShare.tr,
-                  style: semiBold12TextStyle(cIconColor),
+                  style: semiBold12TextStyle(sectionColor ?? cIconColor),
                 ),
                 kW4sizedBox,
-                const Icon(
+                Icon(
                   BipHip.shareOutline,
-                  color: cIconColor,
+                  color: sectionColor ?? cIconColor,
                   size: kIconSize20,
                 ),
               ],
