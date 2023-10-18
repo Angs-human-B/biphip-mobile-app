@@ -32,6 +32,7 @@ class SplashScreenController extends GetxController {
           await Get.find<GlobalController>().getUserInfo();
           Get.offAllNamed(krHome);
         } else {
+           await Get.find<GlobalController>().getUserInfo();
           final AuthenticationController authenticationController = Get.find<AuthenticationController>();
           await authenticationController.getSavedUsers();
           if (authenticationController.users.isNotEmpty) {

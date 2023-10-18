@@ -175,6 +175,7 @@ class FriendController extends GetxController {
       ll('acceptFriendRequest error: $e');
     }
   }
+
   final RxBool isRejectFriendRequestLoading = RxBool(false);
   Future<void> rejectFriendRequest() async {
     try {

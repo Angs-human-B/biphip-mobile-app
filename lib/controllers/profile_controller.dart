@@ -294,11 +294,13 @@ class ProfileController extends GetxController {
     homeTownTextEditingController.clear();
     presentAddressTextEditingController.clear();
     educationInstituteTextEditingController.clear();
+    educationBackground.value = '';
     companyNameTextEditingController.clear();
     designationTextEditingController.clear();
     phoneTextEditingController.clear();
     emailTextEditingController.clear();
     linkTextEditingController.clear();
+    commonEditPageIcon.value = null;
   }
 
   void selectFunction(functionFlag, [index]) async {
@@ -502,25 +504,25 @@ class ProfileController extends GetxController {
 
   bool buttonActivation(String functionFlag) {
     if (functionFlag.contains('LINK')) {
-      if (commonEditTextEditingController.text != '' && linkSource.value != '') {
+      if (commonEditTextEditingController.text.trim() != '' && linkSource.value != '') {
         return true;
       } else {
         return false;
       }
     } else if (functionFlag == 'ADD SCHOOL') {
-      if (commonEditTextEditingController.text != '' && educationBackground.value != '') {
+      if (commonEditTextEditingController.text.trim() != '' && educationBackground.value != '') {
         return true;
       } else {
         return false;
       }
     } else if (functionFlag.contains('EMAIL')) {
-      if (commonEditTextEditingController.text != '' && commonEditTextEditingController.text.isValidEmail) {
+      if (commonEditTextEditingController.text.trim() != '' && commonEditTextEditingController.text.isValidEmail) {
         return true;
       } else {
         return false;
       }
     } else {
-      if (commonEditTextEditingController.text != '') {
+      if (commonEditTextEditingController.text.trim() != '') {
         return true;
       } else {
         return false;
@@ -744,6 +746,7 @@ class ProfileController extends GetxController {
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
         'school': educationInstituteTextEditingController.text.trim(),
+        'graduated': isCommonEditCheckBoxSelected.value ? '0' : '1',
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -779,6 +782,7 @@ class ProfileController extends GetxController {
       Map<String, dynamic> body = {
         'id': id.toString(),
         'school': educationInstituteTextEditingController.text.trim(),
+        'graduated': isCommonEditCheckBoxSelected.value ? '0' : '1',
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -852,6 +856,7 @@ class ProfileController extends GetxController {
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
         'school': educationInstituteTextEditingController.text.trim(),
+        'graduated': isCommonEditCheckBoxSelected.value ? '0' : '1',
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -887,6 +892,7 @@ class ProfileController extends GetxController {
       Map<String, dynamic> body = {
         'id': id.toString(),
         'school': educationInstituteTextEditingController.text.trim(),
+        'graduated': isCommonEditCheckBoxSelected.value ? '0' : '1',
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -1421,6 +1427,7 @@ class ProfileController extends GetxController {
             "token": token.toString(),
           });
         }
+        await _spController.saveUserImage(userData.value!.profilePicture.toString());
         await _globalController.getUserInfo();
         if (isFromProfile == true) {
           Get.back();
@@ -1488,7 +1495,10 @@ class ProfileController extends GetxController {
     try {
       isChangeNameLoading.value = true;
       String? token = await _spController.getBearerToken();
-      Map<String, dynamic> body = {'first_name': firstNameEditingController.text.trim(), 'last_name': lastNameEditingController.text.trim()};
+      Map<String, dynamic> body = {
+        'first_name': firstNameEditingController.text.trim(),
+        'last_name': lastNameEditingController.text.trim(),
+      };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
         url: kuUpdateUserFullName,
@@ -1511,6 +1521,9 @@ class ProfileController extends GetxController {
             "token": token.toString(),
           });
         }
+        await _spController.saveUserFirstName(userData.value!.firstName.toString());
+        await _spController.saveUserLastName(userData.value!.lastName.toString());
+        await _spController.saveUserName(userData.value!.fullName.toString());
         await _globalController.getUserInfo();
         isChangeNameLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);

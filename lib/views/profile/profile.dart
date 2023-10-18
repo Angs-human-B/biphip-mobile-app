@@ -244,7 +244,7 @@ class Profile extends StatelessWidget {
                                           label: ksAddSelfie.tr,
                                           buttonHeight: 44,
                                           buttonWidth: (width / 2) - 28,
-                                          prefixIcon: BipHip.selfieFill,
+                                          prefixIcon: BipHip.selfieNew,
                                           textStyle: semiBold18TextStyle(cWhiteColor),
                                           onPressed: () {},
                                         ),
