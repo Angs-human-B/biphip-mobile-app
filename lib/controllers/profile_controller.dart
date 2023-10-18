@@ -266,6 +266,9 @@ class ProfileController extends GetxController {
   final RxString tempLinkSource = RxString('');
   final RxInt linkID = RxInt(-1);
   final RxInt deleteIndex = RxInt(-1);
+  final RxBool viewOptionEnabled = RxBool(false);
+  final RxString previewPhoto = RxString('');
+  final RxBool isProfilePhoto = RxBool(true);
 
   void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
       showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function) {
@@ -1592,14 +1595,11 @@ class ProfileController extends GetxController {
         _globalController.interestList.clear();
         interestListData.value = InterestListModel.fromJson(response.data);
         tempInterestList.addAll(interestListData.value!.interests);
-        ll(tempInterestList.length);
         for (int i = 0; i < tempInterestList.length; i++) {
           if (!_globalController.interestList.contains(tempInterestList[i])) {
             _globalController.interestList.add(tempInterestList[i]);
           }
         }
-        ll(_globalController.interestList.length);
-        // _globalController.interestList.addAll(interestListData.value!.interests);
         isInterestListLoading.value = false;
       } else {
         isInterestListLoading.value = false;

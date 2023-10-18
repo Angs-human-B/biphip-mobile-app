@@ -598,7 +598,6 @@ class EditAboutInfo extends StatelessWidget {
                                       }
                                     }
                                   }
-                                  ll(_globalController.interestIndex.length);
                                 },
                                 buttonWidth: 149,
                               ),
