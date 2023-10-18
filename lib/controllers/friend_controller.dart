@@ -321,7 +321,7 @@ class FriendController extends GetxController {
     }
   }
 
-  // //*Cancel Friend Request
+  //*Cancel Friend Request
   final RxBool isCancelFriendRequestLoading = RxBool(false);
   Future<void> cancelFriendRequest() async {
     try {
