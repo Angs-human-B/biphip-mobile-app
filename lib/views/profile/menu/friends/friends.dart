@@ -72,14 +72,21 @@ class Friends extends StatelessWidget {
                 buttonText: _profileController.tapAbleButtonText,
                 buttonState: _profileController.tapAbleButtonState,
                 buttonPress: RxList([
-                  () {
+                  () async {
+                    _profileController.searchController.clear();
+                    FocusScope.of(context).unfocus();
                     _profileController.toggleType(0);
+                    await _friendController.getFriendList();
                   },
                   () async {
+                    _profileController.searchController.clear();
+                    FocusScope.of(context).unfocus();
                     _profileController.toggleType(1);
                     await _friendController.getReceivedFriendList();
                   },
                   () {
+                    _profileController.searchController.clear();
+                    FocusScope.of(context).unfocus();
                     _profileController.toggleType(2);
                   },
                 ]),
@@ -91,11 +98,11 @@ class Friends extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                 child: _profileController.tapAbleButtonState[0]
                     ? Text(
-                        '${ksTotalFriends.tr}: 557',
+                        '${ksTotalFriends.tr}: ${_friendController.friendListData.value!.friends!.total}',
                         style: semiBold14TextStyle(cBlackColor),
                       )
                     : Text(
-                        '${ksFriendRequests.tr}: 33',
+                        '${ksFriendRequests.tr}: ${_friendController.receivedFriendListData.value!.users!.total}',
                         style: semiBold14TextStyle(cBlackColor),
                       ),
               ),
@@ -376,6 +383,7 @@ class AllFriendList extends StatelessWidget {
                             ),
                             trailing: CustomIconButton(
                                 onPress: () {
+                                  _friendController.userId.value = _friendController.friendList[index].id!;
                                   _globalController.commonBottomSheet(
                                     context: context,
                                     isScrollControlled: true,
@@ -385,8 +393,11 @@ class AllFriendList extends StatelessWidget {
                                     onPressCloseButton: () {
                                       Get.back();
                                     },
-                                    onPressRightButton: () {
+                                    onPressRightButton: () async {
                                       Get.back();
+                                      if (_profileController.friendActionSelect.value == 'Unfriend') {
+                                        await _friendController.unfriendRequest();
+                                      }
                                       _profileController.friendActionSelect.value = '';
                                     },
                                     rightText: ksDone.tr,

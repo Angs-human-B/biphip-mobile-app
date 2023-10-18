@@ -141,6 +141,7 @@ class FriendController extends GetxController {
     }
   }
 
+  //*Accept Friend Request
   final RxBool isAcceptFriendRequestLoading = RxBool(false);
   final RxInt userId = RxInt(-1);
   Future<void> acceptFriendRequest() async {
@@ -157,8 +158,9 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        getFriendList();
-        getReceivedFriendList();
+        for (int index = 0; index <= receivedFriendList.length; index++) {
+          receivedFriendList.removeAt(index);
+        }
         isAcceptFriendRequestLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -191,8 +193,10 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        getReceivedFriendList();
         isRejectFriendRequestLoading.value = false;
+        for (int index = 0; index <= receivedFriendList.length; index++) {
+          receivedFriendList.removeAt(index);
+        }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isRejectFriendRequestLoading.value = false;
@@ -206,6 +210,41 @@ class FriendController extends GetxController {
     } catch (e) {
       isRejectFriendRequestLoading.value = false;
       ll('rejectFriendRequest error: $e');
+    }
+  }
+
+  final RxBool isUnfriendRequestLoading = RxBool(false);
+  Future<void> unfriendRequest() async {
+    try {
+      isUnfriendRequestLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'user_id': userId.value.toString(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUnFriendUser,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        isUnfriendRequestLoading.value = false;
+        for (int index = 0; index <= receivedFriendList.length; index++) {
+          friendList.removeAt(index);
+        }
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isUnfriendRequestLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isUnfriendRequestLoading.value = false;
+      ll('unfriendRequest error: $e');
     }
   }
 }
