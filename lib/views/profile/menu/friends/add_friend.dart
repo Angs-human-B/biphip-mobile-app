@@ -18,6 +18,8 @@ class AddFriend extends StatelessWidget {
           hasBackButton: true,
           isCenterTitle: true,
           onBack: () {
+            _profileController.searchController.clear();
+            FocusScope.of(context).unfocus();
             Get.back();
           },
         ),

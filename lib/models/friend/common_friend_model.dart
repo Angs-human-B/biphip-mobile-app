@@ -1,18 +1,33 @@
-class FriendListModel {
-  Friends? friends;
+class CommonSendReceiveModel {
+  CommonPaginaton? users;
 
-  FriendListModel({
-    required this.friends,
+  CommonSendReceiveModel({
+    required this.users,
   });
 
-  factory FriendListModel.fromJson(Map<String, dynamic> json) => FriendListModel(
-        friends: json["friends"] == null ? null : Friends.fromJson(json["friends"]),
+  factory CommonSendReceiveModel.fromJson(Map<String, dynamic> json) => CommonSendReceiveModel(
+        users: json["users"] == null ? null : CommonPaginaton.fromJson(json["users"]),
       );
 }
 
-class Friends {
+
+class CommonFriendModel {
+ CommonPaginaton? friends;
+
+  CommonFriendModel({
+    required this.friends,
+  });
+
+  factory CommonFriendModel.fromJson(Map<String, dynamic> json) => CommonFriendModel(
+        friends: json["friends"] == null ? null : CommonPaginaton.fromJson(json["friends"]),
+      );
+}
+
+
+
+class CommonPaginaton {
   int? currentPage;
-  List<FriendData> data;
+  List<CommonFriendData> data;
   String? firstPageUrl;
   int? from;
   int? lastPage;
@@ -25,7 +40,7 @@ class Friends {
   int? to;
   int? total;
 
-  Friends({
+  CommonPaginaton({
     required this.currentPage,
     required this.data,
     required this.firstPageUrl,
@@ -41,9 +56,9 @@ class Friends {
     required this.total,
   });
 
-  factory Friends.fromJson(Map<String, dynamic> json) => Friends(
+  factory CommonPaginaton.fromJson(Map<String, dynamic> json) => CommonPaginaton(
         currentPage: json["current_page"],
-        data: List<FriendData>.from(json["data"].map((x) => FriendData.fromJson(x))),
+        data: List<CommonFriendData>.from(json["data"].map((x) => CommonFriendData.fromJson(x))),
         firstPageUrl: json["first_page_url"],
         from: json["from"],
         lastPage: json["last_page"],
@@ -57,8 +72,7 @@ class Friends {
         total: json["total"],
       );
 }
-
-class FriendData {
+class CommonFriendData {
   int? id;
   String? image;
   String? userName;
@@ -70,24 +84,24 @@ class FriendData {
   DateTime? dob;
   List<String> profession;
   List<String> interest;
-  String? bio;
-  String? languages;
+  dynamic bio;
+  dynamic languages;
   String? status;
   dynamic blockTill;
-  dynamic otp;
+  String? otp;
   dynamic refId;
-  String? relation;
+  dynamic relation;
   dynamic relationWithName;
   dynamic relationWithId;
-  String? cover;
+  dynamic cover;
   String? fullName;
   String? profilePicture;
-  String? coverPhoto;
+  dynamic coverPhoto;
   int? friendStatus;
   int? followStatus;
   String? familyRelationStatus;
 
-  FriendData({
+  CommonFriendData({
     required this.id,
     required this.image,
     required this.userName,
@@ -117,7 +131,7 @@ class FriendData {
     required this.familyRelationStatus,
   });
 
-  factory FriendData.fromJson(Map<String, dynamic> json) => FriendData(
+  factory CommonFriendData.fromJson(Map<String, dynamic> json) => CommonFriendData(
         id: json["id"],
         image: json["image"],
         userName: json["user_name"],
@@ -151,7 +165,7 @@ class FriendData {
 class Link {
   String? url;
   String? label;
-  bool active;
+  bool? active;
 
   Link({
     required this.url,

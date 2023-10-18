@@ -145,7 +145,7 @@ class AllFamilyList extends StatelessWidget {
                   // ll(index);
                 },
                 child: CustomListViewItem(
-                  backgroundImage: AssetImage(_profileController.allFriendsLists[index]['image']),
+                  backgroundImage: _profileController.allFriendsLists[index]['image'].toString(),
                   name: _profileController.allFriendsLists[index]['name'],
                   icon: BipHip.love,
                   subTitle: ksBrother.tr,
@@ -186,7 +186,7 @@ class ReceivedFamilyList extends StatelessWidget {
                   // ll(index);
                 },
                 child: CustomListViewItem(
-                  backgroundImage: AssetImage(_profileController.allFriendsLists[index]['image']),
+                  backgroundImage: _profileController.allFriendsLists[index]['image'].toString(),
                   name: _profileController.allFriendsLists[index]['name'],
                   subTitle: ksGotRequestToBeABrother.tr,
                   firstButtonText: ksConfirm.tr,
