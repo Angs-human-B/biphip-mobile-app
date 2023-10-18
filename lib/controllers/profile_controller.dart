@@ -224,7 +224,8 @@ class ProfileController extends GetxController {
   final RxBool isCurrentlyLiveHere = RxBool(false);
   final RxBool isCurrentlyStudyingHere = RxBool(false);
   final RxBool isCurrentlyWorkingHere = RxBool(false);
-  final RxList cityList = RxList([]);
+  final List<String> cityList = [];
+  final List<String> companyList = [];
   final RxString birthday = RxString('');
   // final RxBool showEditAddress = RxBool(false);
   final RxBool showEditRelationshipStatus = RxBool(false);
@@ -269,6 +270,7 @@ class ProfileController extends GetxController {
   final RxBool viewOptionEnabled = RxBool(false);
   final RxString previewPhoto = RxString('');
   final RxBool isProfilePhoto = RxBool(true);
+  final RxList<String> tempListCommon = RxList<String>([]);
 
   void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
       showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function) {
@@ -294,6 +296,7 @@ class ProfileController extends GetxController {
   }
 
   void resetTextEditor() {
+    tempListCommon.clear();
     homeTownTextEditingController.clear();
     presentAddressTextEditingController.clear();
     educationInstituteTextEditingController.clear();
@@ -304,6 +307,9 @@ class ProfileController extends GetxController {
     emailTextEditingController.clear();
     linkTextEditingController.clear();
     commonEditPageIcon.value = null;
+    isCurrentlyLiveHere.value = false;
+    isCurrentlyStudyingHere.value = false;
+    isCurrentlyWorkingHere.value = false;
   }
 
   void selectFunction(functionFlag, [index]) async {
@@ -1819,7 +1825,71 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       isLinkListLoading.value = false;
-      ll('getPositionList error: $e');
+      ll('getLinkList error: $e');
+    }
+  }
+
+  //* Get city list api implementation
+  Rx<CityListModel?> cityListData = Rx<CityListModel?>(null);
+  Future<void> getCityList() async {
+    try {
+      isLinkListLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllCities,
+      ) as CommonDM;
+      if (response.success == true) {
+        cityList.clear();
+        cityListData.value = CityListModel.fromJson(response.data);
+        cityList.addAll(cityListData.value!.cities);
+        tempListCommon.addAll(cityList);
+        isLinkListLoading.value = false;
+      } else {
+        isLinkListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isLinkListLoading.value = false;
+      ll('getCityList error: $e');
+    }
+  }
+
+  //* Get city list api implementation
+  Rx<CompanyListModel?> companyListData = Rx<CompanyListModel?>(null);
+  Future<void> getCompanyList() async {
+    try {
+      isLinkListLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllCompanies,
+      ) as CommonDM;
+      if (response.success == true) {
+        companyList.clear();
+        companyListData.value = CompanyListModel.fromJson(response.data);
+        companyList.addAll(companyListData.value!.companies);
+        tempListCommon.addAll(companyList);
+        isLinkListLoading.value = false;
+      } else {
+        isLinkListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isLinkListLoading.value = false;
+      ll('getCompanyList error: $e');
     }
   }
 }

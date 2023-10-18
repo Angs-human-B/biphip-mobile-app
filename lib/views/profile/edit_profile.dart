@@ -88,8 +88,8 @@ class EditProfile extends StatelessWidget {
                                           Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
                                           fit: BoxFit.cover,
                                           errorBuilder: (context, error, stackTrace) => const Icon(
-                                            BipHip.imageFile,
-                                            size: kIconSize120,
+                                            BipHip.user,
+                                            size: kIconSize70,
                                             color: cIconColor,
                                           ),
                                           loadingBuilder: imageLoadingBuilder,

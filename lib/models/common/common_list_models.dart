@@ -69,3 +69,27 @@ class LinkListModel {
         linkTypes: List<String>.from(json["linkTypes"].map((x) => x)),
     );
 }
+
+class CityListModel {
+    List<String> cities;
+
+    CityListModel({
+        required this.cities,
+    });
+
+    factory CityListModel.fromJson(Map<String, dynamic> json) => CityListModel(
+        cities: List<String>.from(json["cities"].map((x) => x)),
+    );
+}
+
+class CompanyListModel {
+    List<String> companies;
+
+    CompanyListModel({
+        required this.companies,
+    });
+
+    factory CompanyListModel.fromJson(Map<String, dynamic> json) => CompanyListModel(
+        companies: List<String>.from(json["companies"].map((x) => x)),
+    );
+}

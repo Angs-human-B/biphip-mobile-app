@@ -8,6 +8,7 @@ class EditPage extends StatelessWidget {
   final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
   final FocusNode _commonSecondaryFocusNode = FocusNode();
+  final FocusNode _commonFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -114,43 +115,119 @@ class EditPage extends StatelessWidget {
                                       : ksSelectEducationInstitute.tr,
                             ),
                           ),
-                        CustomModifiedTextField(
-                          errorText: _profileController.commonEditTextFieldErrorText.value,
-                          controller: _profileController.commonEditTextEditingController,
-                          maxLength: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
-                                  _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
-                              ? 15
-                              : 255,
-                          hint: _profileController.commonEditTextfieldHintText.value,
-                          prefixIcon: _profileController.commonEditPageIcon.value ?? _profileController.commonEditIconData.value,
-                          suffixIcon: _profileController.showCommonEditSuffixIcon.value ? BipHip.circleCrossNew : null,
-                          inputType: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
-                                  _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
-                              ? TextInputType.number
-                              : TextInputType.text,
-                          borderRadius: k8BorderRadius,
-                          inputFormatters: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
-                                  _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
-                              ? [FilteringTextInputFormatter.digitsOnly]
-                              : null,
-                          onSuffixPress: () {
-                            _profileController.commonEditTextEditingController.clear();
-                            _profileController.showCommonEditSuffixIcon.value = false;
+                        // CustomModifiedTextField(
+                        //   errorText: _profileController.commonEditTextFieldErrorText.value,
+                        //   controller: _profileController.commonEditTextEditingController,
+                        //   maxLength: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                        //           _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                        //       ? 15
+                        //       : 255,
+                        //   hint: _profileController.commonEditTextfieldHintText.value,
+                        //   prefixIcon: _profileController.commonEditPageIcon.value ?? _profileController.commonEditIconData.value,
+                        //   suffixIcon: _profileController.showCommonEditSuffixIcon.value ? BipHip.circleCrossNew : null,
+                        //   inputType: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                        //           _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                        //       ? TextInputType.number
+                        //       : TextInputType.text,
+                        //   borderRadius: k8BorderRadius,
+                        //   inputFormatters: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                        //           _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                        //       ? [FilteringTextInputFormatter.digitsOnly]
+                        //       : null,
+                        //   onSuffixPress: () {
+                        //     _profileController.commonEditTextEditingController.clear();
+                        //     _profileController.showCommonEditSuffixIcon.value = false;
+                        //   },
+                        //   onChanged: (value) {
+                        //     if (_profileController.commonEditTextEditingController.text != '') {
+                        //       _profileController.showCommonEditSuffixIcon.value = true;
+                        //     } else {
+                        //       _profileController.showCommonEditSuffixIcon.value = false;
+                        //     }
+                        //     if (_profileController.commonEditTextfieldHintText.value == ksEmail.tr ||
+                        //         _profileController.commonEditTextfieldHintText.value == ksEditEmail.tr) {
+                        //       if (!_profileController.commonEditTextEditingController.text.isValidEmail) {
+                        //         _profileController.commonEditTextFieldErrorText.value = ksInvalidEmailErrorMessage.tr;
+                        //       } else {
+                        //         _profileController.commonEditTextFieldErrorText.value = '';
+                        //       }
+                        //     }
+                        //   },
+                        // ),
+                        RawAutocomplete(
+                          textEditingController: _profileController.commonEditTextEditingController,
+                          focusNode: _commonFocusNode,
+                          optionsBuilder: (TextEditingValue textEditingValue) {
+                            return _profileController.tempListCommon.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
                           },
-                          onChanged: (value) {
-                            if (_profileController.commonEditTextEditingController.text != '') {
-                              _profileController.showCommonEditSuffixIcon.value = true;
-                            } else {
-                              _profileController.showCommonEditSuffixIcon.value = false;
-                            }
-                            if (_profileController.commonEditTextfieldHintText.value == ksEmail.tr ||
-                                _profileController.commonEditTextfieldHintText.value == ksEditEmail.tr) {
-                              if (!_profileController.commonEditTextEditingController.text.isValidEmail) {
-                                _profileController.commonEditTextFieldErrorText.value = ksInvalidEmailErrorMessage.tr;
-                              } else {
-                                _profileController.commonEditTextFieldErrorText.value = '';
-                              }
-                            }
+                          onSelected: (option) {
+                            _profileController.commonEditTextEditingController.text = option;
+                          },
+                          optionsViewBuilder: (context, Function(String) onSelected, options) {
+                            return Material(
+                              elevation: 4,
+                              child: ListView.separated(
+                                padding: EdgeInsets.zero,
+                                itemBuilder: (context, index) {
+                                  final option = options.elementAt(index);
+
+                                  return ListTile(
+                                    title: Text(option.toString()),
+                                    onTap: () {
+                                      onSelected(option.toString());
+                                      _profileController.commonEditTextEditingController.text = option.toString();
+                                      unfocus(context);
+                                    },
+                                  );
+                                },
+                                separatorBuilder: (context, index) => const Divider(),
+                                itemCount: options.length,
+                              ),
+                            );
+                          },
+                          fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                            return Obx(
+                              () => CustomModifiedTextField(
+                                focusNode: focusNode,
+                                errorText: _profileController.commonEditTextFieldErrorText.value,
+                                controller: _profileController.commonEditTextEditingController,
+                                maxLength: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                        _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                                    ? 15
+                                    : 255,
+                                hint: _profileController.commonEditTextfieldHintText.value,
+                                prefixIcon: _profileController.commonEditPageIcon.value ?? _profileController.commonEditIconData.value,
+                                suffixIcon: _profileController.showCommonEditSuffixIcon.value ? BipHip.circleCrossNew : null,
+                                inputType: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                        _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                                    ? TextInputType.number
+                                    : TextInputType.text,
+                                borderRadius: k8BorderRadius,
+                                inputFormatters: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                        _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                                    ? [FilteringTextInputFormatter.digitsOnly]
+                                    : null,
+                                onSuffixPress: () {
+                                  _profileController.commonEditTextEditingController.clear();
+                                  _profileController.showCommonEditSuffixIcon.value = false;
+                                },
+                                onChanged: (value) {
+                                  if (_profileController.commonEditTextEditingController.text != '') {
+                                    _profileController.showCommonEditSuffixIcon.value = true;
+                                  } else {
+                                    _profileController.showCommonEditSuffixIcon.value = false;
+                                  }
+                                  if (_profileController.commonEditTextfieldHintText.value == ksEmail.tr ||
+                                      _profileController.commonEditTextfieldHintText.value == ksEditEmail.tr) {
+                                    if (!_profileController.commonEditTextEditingController.text.isValidEmail) {
+                                      _profileController.commonEditTextFieldErrorText.value = ksInvalidEmailErrorMessage.tr;
+                                    } else {
+                                      _profileController.commonEditTextFieldErrorText.value = '';
+                                    }
+                                  }
+                                },
+                              ),
+                            );
                           },
                         ),
                         if (_profileController.isSecondaryTextfieldShown.value)
