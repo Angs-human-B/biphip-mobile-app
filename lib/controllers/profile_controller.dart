@@ -224,7 +224,8 @@ class ProfileController extends GetxController {
   final RxBool isCurrentlyLiveHere = RxBool(false);
   final RxBool isCurrentlyStudyingHere = RxBool(false);
   final RxBool isCurrentlyWorkingHere = RxBool(false);
-  final RxList cityList = RxList([]);
+  final List<String> cityList = [];
+  final List<String> companyList = [];
   final RxString birthday = RxString('');
   // final RxBool showEditAddress = RxBool(false);
   final RxBool showEditRelationshipStatus = RxBool(false);
@@ -244,7 +245,7 @@ class ProfileController extends GetxController {
   ]);
   final RxString friendActionSelect = RxString('');
   final RxList educationBackgroundList = RxList(['School', 'College']);
-  final RxList linkSourceList = RxList(['Facebook', 'Twitter', 'Website']);
+  final RxList linkSourceList = RxList([]);
   final RxString relationshipStatus = RxString('');
   final RxString selectedGender = RxString('');
   final RxString tempSelectedGender = RxString('');
@@ -266,6 +267,10 @@ class ProfileController extends GetxController {
   final RxString tempLinkSource = RxString('');
   final RxInt linkID = RxInt(-1);
   final RxInt deleteIndex = RxInt(-1);
+  final RxBool viewOptionEnabled = RxBool(false);
+  final RxString previewPhoto = RxString('');
+  final RxBool isProfilePhoto = RxBool(true);
+  final RxList<String> tempListCommon = RxList<String>([]);
 
   void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
       showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function) {
@@ -291,14 +296,20 @@ class ProfileController extends GetxController {
   }
 
   void resetTextEditor() {
+    tempListCommon.clear();
     homeTownTextEditingController.clear();
     presentAddressTextEditingController.clear();
     educationInstituteTextEditingController.clear();
+    educationBackground.value = '';
     companyNameTextEditingController.clear();
     designationTextEditingController.clear();
     phoneTextEditingController.clear();
     emailTextEditingController.clear();
     linkTextEditingController.clear();
+    commonEditPageIcon.value = null;
+    isCurrentlyLiveHere.value = false;
+    isCurrentlyStudyingHere.value = false;
+    isCurrentlyWorkingHere.value = false;
   }
 
   void selectFunction(functionFlag, [index]) async {
@@ -502,25 +513,25 @@ class ProfileController extends GetxController {
 
   bool buttonActivation(String functionFlag) {
     if (functionFlag.contains('LINK')) {
-      if (commonEditTextEditingController.text != '' && linkSource.value != '') {
+      if (commonEditTextEditingController.text.trim() != '' && linkSource.value != '') {
         return true;
       } else {
         return false;
       }
     } else if (functionFlag == 'ADD SCHOOL') {
-      if (commonEditTextEditingController.text != '' && educationBackground.value != '') {
+      if (commonEditTextEditingController.text.trim() != '' && educationBackground.value != '') {
         return true;
       } else {
         return false;
       }
     } else if (functionFlag.contains('EMAIL')) {
-      if (commonEditTextEditingController.text != '' && commonEditTextEditingController.text.isValidEmail) {
+      if (commonEditTextEditingController.text.trim() != '' && commonEditTextEditingController.text.isValidEmail) {
         return true;
       } else {
         return false;
       }
     } else {
-      if (commonEditTextEditingController.text != '') {
+      if (commonEditTextEditingController.text.trim() != '') {
         return true;
       } else {
         return false;
@@ -744,6 +755,7 @@ class ProfileController extends GetxController {
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
         'school': educationInstituteTextEditingController.text.trim(),
+        'graduated': isCommonEditCheckBoxSelected.value ? '0' : '1',
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -779,6 +791,7 @@ class ProfileController extends GetxController {
       Map<String, dynamic> body = {
         'id': id.toString(),
         'school': educationInstituteTextEditingController.text.trim(),
+        'graduated': isCommonEditCheckBoxSelected.value ? '0' : '1',
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -852,6 +865,7 @@ class ProfileController extends GetxController {
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
         'school': educationInstituteTextEditingController.text.trim(),
+        'graduated': isCommonEditCheckBoxSelected.value ? '0' : '1',
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -887,6 +901,7 @@ class ProfileController extends GetxController {
       Map<String, dynamic> body = {
         'id': id.toString(),
         'school': educationInstituteTextEditingController.text.trim(),
+        'graduated': isCommonEditCheckBoxSelected.value ? '0' : '1',
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -1421,6 +1436,7 @@ class ProfileController extends GetxController {
             "token": token.toString(),
           });
         }
+        await _spController.saveUserImage(userData.value!.profilePicture.toString());
         await _globalController.getUserInfo();
         if (isFromProfile == true) {
           Get.back();
@@ -1488,7 +1504,10 @@ class ProfileController extends GetxController {
     try {
       isChangeNameLoading.value = true;
       String? token = await _spController.getBearerToken();
-      Map<String, dynamic> body = {'first_name': firstNameEditingController.text.trim(), 'last_name': lastNameEditingController.text.trim()};
+      Map<String, dynamic> body = {
+        'first_name': firstNameEditingController.text.trim(),
+        'last_name': lastNameEditingController.text.trim(),
+      };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
         url: kuUpdateUserFullName,
@@ -1511,6 +1530,9 @@ class ProfileController extends GetxController {
             "token": token.toString(),
           });
         }
+        await _spController.saveUserFirstName(userData.value!.firstName.toString());
+        await _spController.saveUserLastName(userData.value!.lastName.toString());
+        await _spController.saveUserName(userData.value!.fullName.toString());
         await _globalController.getUserInfo();
         isChangeNameLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -1564,6 +1586,7 @@ class ProfileController extends GetxController {
   //* get interest list API
   Rx<InterestListModel?> interestListData = Rx<InterestListModel?>(null);
   RxBool isInterestListLoading = RxBool(false);
+  RxList tempInterestList = RxList([]);
   Future<void> getInterestList() async {
     try {
       isInterestListLoading.value = true;
@@ -1574,9 +1597,15 @@ class ProfileController extends GetxController {
         url: kuGetAllInterests,
       ) as CommonDM;
       if (response.success == true) {
+        tempInterestList.clear();
         _globalController.interestList.clear();
         interestListData.value = InterestListModel.fromJson(response.data);
-        _globalController.interestList.addAll(interestListData.value!.interests);
+        tempInterestList.addAll(interestListData.value!.interests);
+        for (int i = 0; i < tempInterestList.length; i++) {
+          if (!_globalController.interestList.contains(tempInterestList[i])) {
+            _globalController.interestList.add(tempInterestList[i]);
+          }
+        }
         isInterestListLoading.value = false;
       } else {
         isInterestListLoading.value = false;
@@ -1742,6 +1771,7 @@ class ProfileController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         positionList.clear();
+        temp.clear();
         positionListData.value = PositionListModel.fromJson(response.data);
         positionList.addAll(positionListData.value!.positions);
         temp.addAll(positionList);
@@ -1764,6 +1794,102 @@ class ProfileController extends GetxController {
       return true;
     } else {
       return false;
+    }
+  }
+
+  //* Get link api implementation
+  Rx<LinkListModel?> linkListData = Rx<LinkListModel?>(null);
+  RxBool isLinkListLoading = RxBool(false);
+  Future<void> getLinkList() async {
+    try {
+      isLinkListLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllLinkTypes,
+      ) as CommonDM;
+      if (response.success == true) {
+        linkSourceList.clear();
+        linkListData.value = LinkListModel.fromJson(response.data);
+        linkSourceList.addAll(linkListData.value!.linkTypes);
+        isLinkListLoading.value = false;
+      } else {
+        isLinkListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isLinkListLoading.value = false;
+      ll('getLinkList error: $e');
+    }
+  }
+
+  //* Get city list api implementation
+  Rx<CityListModel?> cityListData = Rx<CityListModel?>(null);
+  Future<void> getCityList() async {
+    try {
+      isLinkListLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllCities,
+      ) as CommonDM;
+      if (response.success == true) {
+        cityList.clear();
+        cityListData.value = CityListModel.fromJson(response.data);
+        cityList.addAll(cityListData.value!.cities);
+        tempListCommon.addAll(cityList);
+        isLinkListLoading.value = false;
+      } else {
+        isLinkListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isLinkListLoading.value = false;
+      ll('getCityList error: $e');
+    }
+  }
+
+  //* Get city list api implementation
+  Rx<CompanyListModel?> companyListData = Rx<CompanyListModel?>(null);
+  Future<void> getCompanyList() async {
+    try {
+      isLinkListLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllCompanies,
+      ) as CommonDM;
+      if (response.success == true) {
+        companyList.clear();
+        companyListData.value = CompanyListModel.fromJson(response.data);
+        companyList.addAll(companyListData.value!.companies);
+        tempListCommon.addAll(companyList);
+        isLinkListLoading.value = false;
+      } else {
+        isLinkListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isLinkListLoading.value = false;
+      ll('getCompanyList error: $e');
     }
   }
 }

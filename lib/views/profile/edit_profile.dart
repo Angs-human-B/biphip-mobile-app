@@ -88,8 +88,8 @@ class EditProfile extends StatelessWidget {
                                           Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
                                           fit: BoxFit.cover,
                                           errorBuilder: (context, error, stackTrace) => const Icon(
-                                            BipHip.imageFile,
-                                            size: kIconSize120,
+                                            BipHip.user,
+                                            size: kIconSize70,
                                             color: cIconColor,
                                           ),
                                           loadingBuilder: imageLoadingBuilder,
@@ -128,21 +128,31 @@ class EditProfile extends StatelessWidget {
                                   },
                                 ),
                                 kH16sizedBox,
-                                ClipRRect(
-                                  borderRadius: k8CircularBorderRadius,
-                                  child: Container(
-                                    height: 150,
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(width: 0, color: cLineColor),
+                                    borderRadius: k8CircularBorderRadius,
                                     color: cBlackColor,
-                                    width: width,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: k8CircularBorderRadius,
                                     child: Image.network(
                                       Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
+                                      height: 150,
+                                      // color: cBlackColor,
+                                      width: width,
                                       fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) => const Icon(
-                                        BipHip.imageFile,
-                                        size: kIconSize120,
-                                        color: cIconColor,
+                                      errorBuilder: (context, error, stackTrace) => Container(
+                                        width: width,
+                                        height: 150,
+                                        color: cBlackColor,
+                                        child: const Icon(
+                                          BipHip.imageFile,
+                                          size: kIconSize120,
+                                          color: cIconColor,
+                                        ),
                                       ),
-                                      loadingBuilder: imageLoadingBuilder,
+                                      loadingBuilder: imageLoadingBuilderCover,
                                     ),
                                   ),
                                 ),
@@ -156,24 +166,28 @@ class EditProfile extends StatelessWidget {
                                     if (_profileController.userData.value!.bio == null) {
                                       _profileController.bioEditingController.text = '';
                                       _profileController.bio.value = '';
-                                      Get.toNamed(krEditBio);
                                     } else {
-                                      _globalController.commonBottomSheet(
-                                          context: context,
-                                          onPressCloseButton: () {
-                                            Get.back();
-                                          },
-                                          onPressRightButton: () {},
-                                          rightText: '',
-                                          rightTextStyle: regular14TextStyle(cBiddingColor),
-                                          title: ksEditBio.tr,
-                                          isRightButtonShow: false,
-                                          isScrollControlled: false,
-                                          bottomSheetHeight: 190,
-                                          content: EditBioModalSheet(
-                                            profileController: _profileController,
-                                          ));
+                                      _profileController.bio.value = _profileController.userData.value!.bio!;
+                                      _profileController.bioEditingController.text = _profileController.userData.value!.bio!;
                                     }
+                                    Get.toNamed(krEditBio);
+                                    // else {
+                                    //   _globalController.commonBottomSheet(
+                                    //       context: context,
+                                    //       onPressCloseButton: () {
+                                    //         Get.back();
+                                    //       },
+                                    //       onPressRightButton: () {},
+                                    //       rightText: '',
+                                    //       rightTextStyle: regular14TextStyle(cBiddingColor),
+                                    //       title: ksEditBio.tr,
+                                    //       isRightButtonShow: false,
+                                    //       isScrollControlled: false,
+                                    //       bottomSheetHeight: 190,
+                                    //       content: EditBioModalSheet(
+                                    //         profileController: _profileController,
+                                    //       ));
+                                    // }
                                   },
                                 ),
                                 if (_profileController.userData.value!.bio != null) kH16sizedBox,
@@ -214,10 +228,10 @@ class EditProfile extends StatelessWidget {
                                     isLink: false,
                                     onPressed: null,
                                   ),
-                                if (_profileController.profileData.value!.user!.relation != null)
+                                if (_profileController.userData.value!.relation != null)
                                   LinkUpIconTextRow(
                                     icon: BipHip.love,
-                                    text: checkNullOrStringNull(_profileController.profileData.value!.user!.relation),
+                                    text: checkNullOrStringNull(_profileController.userData.value!.relation),
                                     isLink: false,
                                     onPressed: null,
                                   ),

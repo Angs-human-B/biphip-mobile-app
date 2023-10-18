@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/friend_controller.dart';
 import 'package:bip_hip/controllers/gallery_controller.dart';
+import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/models/common/common_error_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -10,16 +11,16 @@ class MenuSectionController extends GetxController {
   final FriendController _friendController = Get.find<FriendController>();
   final GalleryController _galleryController = Get.find<GalleryController>();
   final GlobalController _globalController = Get.find<GlobalController>();
-  final RxList tapAbleButtonState = RxList([true, false, false]);
-  final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
-  void resetTapButtonData() {
-    tapAbleButtonState.clear();
-    tapAbleButtonState.addAll([true, false, false]);
-  }
+  // final RxList tapAbleButtonState = RxList([true, false, false]);
+  // final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
+  // void resetTapButtonData() {
+  //   tapAbleButtonState.clear();
+  //   tapAbleButtonState.addAll([true, false, false]);
+  // }
 
   List shortcutButtonContent = [
     {'text': 'Friend', 'icon': BipHip.friends},
-    {'text': 'Family', 'icon': BipHip.removeFamily},
+    {'text': 'Family', 'icon': BipHip.addFamily},
     {'text': 'Images', 'icon': BipHip.imageFile},
     {'text': 'Videos', 'icon': BipHip.playNew},
     {'text': 'Stars', 'icon': BipHip.giftNew},
@@ -32,12 +33,12 @@ class MenuSectionController extends GetxController {
   void menuPressFunction(index) async {
     if (index == 0) {
       ll('Friend');
-      resetTapButtonData();
+      Get.find<ProfileController>().resetTapButtonData();
       Get.toNamed(krFriends);
       await _friendController.getFriendList();
     } else if (index == 1) {
       ll('Family');
-      resetTapButtonData();
+      Get.find<ProfileController>().resetTapButtonData();
       Get.toNamed(krFamily);
     } else if (index == 2) {
       ll('Image');

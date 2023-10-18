@@ -56,19 +56,51 @@ class Profile extends StatelessWidget {
                                   height: 225,
                                   color: cWhiteColor,
                                 ),
-                                Container(
-                                  color: cBlackColor,
-                                  height: 150,
-                                  width: width,
-                                  child: Image.network(
-                                    Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => const Icon(
-                                      BipHip.imageFile,
-                                      size: kIconSize120,
-                                      color: cIconColor,
+                                InkWell(
+                                  onTap: () {
+                                    if (_profileController.userData.value!.coverPhoto != null) {
+                                      _profileController.viewOptionEnabled.value = true;
+                                      _profileController.isProfilePhoto.value = false;
+                                      _profileController.previewPhoto.value = _profileController.userData.value!.coverPhoto.toString();
+                                    }
+                                    _profileController.isProfilePicEditor.value = false;
+                                    _profileController.resetImage();
+                                    _globalController.commonBottomSheet(
+                                        context: context,
+                                        onPressCloseButton: () {
+                                          Get.back();
+                                        },
+                                        onPressRightButton: () {},
+                                        rightText: '',
+                                        rightTextStyle: regular14TextStyle(cBiddingColor),
+                                        title: ksUploadImage.tr,
+                                        isRightButtonShow: false,
+                                        isScrollControlled: false,
+                                        bottomSheetHeight: 210,
+                                        content: PictureUploadContent(
+                                          viewPhoto: ksViewCoverPhoto.tr,
+                                          isImageChanged: _profileController.isCoverImageChanged,
+                                          imagePath: _profileController.coverImageLink,
+                                          imageFile: _profileController.coverImageFile,
+                                        ));
+                                  },
+                                  child: Container(
+                                    height: 150,
+                                    width: width,
+                                    decoration: const BoxDecoration(color: cBlackColor, border: Border(bottom: BorderSide(color: cLineColor))),
+                                    child: Image.network(
+                                      Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) => const Icon(
+                                        BipHip.imageFile,
+                                        size: kIconSize120,
+                                        color: cIconColor,
+                                      ),
+                                      loadingBuilder: imageLoadingBuilder,
+                                      frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                        return child;
+                                      },
                                     ),
-                                    loadingBuilder: imageLoadingBuilder,
                                   ),
                                 ),
                                 Positioned(
@@ -76,34 +108,64 @@ class Profile extends StatelessWidget {
                                   left: 20,
                                   child: Stack(
                                     children: [
-                                      Container(
-                                        height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
-                                        width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
-                                        decoration: BoxDecoration(
-                                          color: cBlackColor,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(color: cWhiteColor.withAlpha(500), width: 2),
-                                        ),
-                                        child: ClipOval(
-                                          child: Image.network(
-                                            Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (context, error, stackTrace) => const Icon(
-                                              BipHip.user,
-                                              size: kIconSize70,
-                                              color: cIconColor,
+                                      InkWell(
+                                        onTap: () {
+                                          if (_profileController.userData.value!.profilePicture != null) {
+                                            _profileController.isProfilePhoto.value = true;
+                                            _profileController.viewOptionEnabled.value = true;
+                                            _profileController.previewPhoto.value = _profileController.userData.value!.profilePicture.toString();
+                                          }
+                                          _profileController.isProfilePicEditor.value = true;
+                                          _profileController.resetImage();
+                                          _globalController.commonBottomSheet(
+                                              context: context,
+                                              onPressCloseButton: () {
+                                                Get.back();
+                                              },
+                                              onPressRightButton: () {},
+                                              rightText: '',
+                                              rightTextStyle: regular14TextStyle(cBiddingColor),
+                                              title: ksUploadImage.tr,
+                                              isRightButtonShow: false,
+                                              isScrollControlled: false,
+                                              bottomSheetHeight: 210,
+                                              content: PictureUploadContent(
+                                                viewPhoto: ksViewProfilePicture.tr,
+                                                isImageChanged: _profileController.isProfileImageChanged,
+                                                imagePath: _profileController.profileImageLink,
+                                                imageFile: _profileController.profileImageFile,
+                                              ));
+                                        },
+                                        child: Container(
+                                          height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                                          width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                                          decoration: BoxDecoration(
+                                            color: cBlackColor,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(color: cWhiteColor.withAlpha(500), width: 2),
+                                          ),
+                                          child: ClipOval(
+                                            child: Image.network(
+                                              Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (context, error, stackTrace) => const Icon(
+                                                BipHip.user,
+                                                size: kIconSize70,
+                                                color: cIconColor,
+                                              ),
+                                              loadingBuilder: imageLoadingBuilder,
                                             ),
-                                            loadingBuilder: imageLoadingBuilder,
                                           ),
                                         ),
                                       ),
                                       Positioned(
-                                        right: 8,
-                                        bottom: 15,
+                                        right: 6,
+                                        bottom: 10,
                                         child: TextButton(
                                           style: kTextButtonStyle,
                                           onPressed: () {
                                             _profileController.isProfilePicEditor.value = true;
+                                            _profileController.viewOptionEnabled.value = false;
                                             _profileController.resetImage();
                                             _globalController.commonBottomSheet(
                                                 context: context,
@@ -129,17 +191,20 @@ class Profile extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: cGreyBoxColor,
                                               borderRadius: BorderRadius.circular(26),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: cBlackColor.withAlpha(100),
-                                                  offset: const Offset(
-                                                    1.0,
-                                                    1.0,
-                                                  ),
-                                                  blurRadius: 5.0,
-                                                  spreadRadius: 2.0,
-                                                ),
-                                              ],
+                                              border: Border.all(
+                                                color: cLineColor,
+                                              ),
+                                              // boxShadow: [
+                                              //   BoxShadow(
+                                              //     color: cBlackColor.withAlpha(100),
+                                              //     offset: const Offset(
+                                              //       1.0,
+                                              //       1.0,
+                                              //     ),
+                                              //     blurRadius: 5.0,
+                                              //     spreadRadius: 2.0,
+                                              //   ),
+                                              // ],
                                               // border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
                                             ),
                                             child: const Icon(
@@ -174,6 +239,7 @@ class Profile extends StatelessWidget {
                                     style: kTextButtonStyle,
                                     onPressed: () {
                                       _profileController.isProfilePicEditor.value = false;
+                                      _profileController.viewOptionEnabled.value = false;
                                       _profileController.resetImage();
                                       _globalController.commonBottomSheet(
                                           context: context,
@@ -198,18 +264,21 @@ class Profile extends StatelessWidget {
                                       width: h28,
                                       decoration: BoxDecoration(
                                         color: cGreyBoxColor,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: cBlackColor.withAlpha(100),
-                                            offset: const Offset(
-                                              0.0,
-                                              1.0,
-                                            ),
-                                            blurRadius: 5.0,
-                                            spreadRadius: 2.0,
-                                          ),
-                                        ],
+                                        // boxShadow: [
+                                        //   BoxShadow(
+                                        //     color: cBlackColor.withAlpha(100),
+                                        //     offset: const Offset(
+                                        //       0.0,
+                                        //       1.0,
+                                        //     ),
+                                        //     blurRadius: 5.0,
+                                        //     spreadRadius: 2.0,
+                                        //   ),
+                                        // ],
                                         borderRadius: BorderRadius.circular(26),
+                                        border: Border.all(
+                                          color: cLineColor,
+                                        ),
                                       ),
                                       child: const Icon(
                                         BipHip.camera,
@@ -230,7 +299,7 @@ class Profile extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                     child: Text(
-                                      '${_profileController.profileData.value!.user!.firstName} ${_profileController.profileData.value!.user!.lastName}',
+                                      '${_profileController.userData.value!.firstName} ${_profileController.userData.value!.lastName}',
                                       style: semiBold20TextStyle(cBlackColor),
                                     ),
                                   ),
@@ -244,7 +313,7 @@ class Profile extends StatelessWidget {
                                           label: ksAddSelfie.tr,
                                           buttonHeight: 44,
                                           buttonWidth: (width / 2) - 28,
-                                          prefixIcon: BipHip.selfieFill,
+                                          prefixIcon: BipHip.selfieNew,
                                           textStyle: semiBold18TextStyle(cWhiteColor),
                                           onPressed: () {},
                                         ),
@@ -284,12 +353,12 @@ class Profile extends StatelessWidget {
                                         onPressed: null,
                                       ),
                                     ),
-                                  if (_profileController.profileData.value!.user!.relation != null)
+                                  if (_profileController.userData.value!.relation != null)
                                     Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                       child: LinkUpIconTextRow(
                                         icon: BipHip.love,
-                                        text: checkNullOrStringNull(_profileController.profileData.value!.user!.relation),
+                                        text: checkNullOrStringNull(_profileController.userData.value!.relation),
                                         isLink: false,
                                         onPressed: null,
                                       ),
@@ -440,9 +509,8 @@ class Profile extends StatelessWidget {
                             Container(
                               color: cWhiteColor,
                               child: CustomPostButton(
-                                name: checkNullOrStringNull(_profileController.profileData.value!.user!.firstName) ??
-                                    _profileController.profileData.value!.user!.firstName,
-                                profilePic: _profileController.profileData.value!.user!.profilePicture.toString(),
+                                name: checkNullOrStringNull(_profileController.userData.value!.firstName) ?? _profileController.userData.value!.firstName,
+                                profilePic: _profileController.userData.value!.profilePicture.toString(),
                                 onPressed: () {
                                   ll('post');
                                   Get.find<CreatePostController>().resetData();
@@ -689,18 +757,38 @@ class CustomGridViewContainer extends StatelessWidget {
 }
 
 class PictureUploadContent extends StatelessWidget {
-  PictureUploadContent({super.key, required this.isImageChanged, required this.imageFile, required this.imagePath});
+  PictureUploadContent({super.key, required this.isImageChanged, required this.imageFile, required this.imagePath, this.viewPhoto});
 
   final GlobalController _globalController = Get.find<GlobalController>();
   final RxBool isImageChanged;
   final Rx<File> imageFile;
   final RxString imagePath;
+  final String? viewPhoto;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        if (Get.find<ProfileController>().viewOptionEnabled.value)
+          Padding(
+            padding: const EdgeInsets.only(bottom: k16Padding),
+            child: CustomElevatedButton(
+              label: viewPhoto!,
+              prefixIcon: BipHip.view,
+              prefixIconColor: cIconColor,
+              suffixIconColor: cIconColor,
+              onPressed: () {
+                Get.back();
+                Get.toNamed(krViewPhoto);
+              },
+              buttonHeight: h32,
+              buttonWidth: width - 40,
+              buttonColor: cWhiteColor,
+              borderColor: cLineColor,
+              textStyle: semiBold14TextStyle(cBlackColor),
+            ),
+          ),
         CustomElevatedButton(
           label: ksAddPhoto.tr,
           prefixIcon: BipHip.camera,

@@ -8,8 +8,8 @@ class FriendController extends GetxController {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
-  //*Scroll controller for pagination 
-   final ScrollController friendListScrollController = ScrollController();
+  //*Scroll controller for pagination
+  final ScrollController friendListScrollController = ScrollController();
   //*Friend List Api Call
   Rx<FriendListModel?> friendListData = Rx<FriendListModel?>(null);
   RxList<FriendData> friendList = RxList<FriendData>([]);
@@ -24,20 +24,20 @@ class FriendController extends GetxController {
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: kuFriendList+suffixUrl,
+        url: kuFriendList + suffixUrl,
       ) as CommonDM;
       if (response.success == true) {
         friendList.clear();
         friendListScrolled.value = false;
         friendListData.value = FriendListModel.fromJson(response.data);
         friendList.addAll(friendListData.value!.friends!.data);
-         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
+        friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
           friendListScrolled.value = false;
         } else {
           friendListScrolled.value = true;
         }
-      
+
         isFriendListLoading.value = false;
       } else {
         isFriendListLoading.value = false;
@@ -53,39 +53,40 @@ class FriendController extends GetxController {
       ll('getFriendList error: $e');
     }
   }
+
   //*Get More Friend List for pagination
-    Future<void> getMoreFriendList(take) async {
+  Future<void> getMoreFriendList(take) async {
     try {
       String? token = await _spController.getBearerToken();
       dynamic friendListSub;
-   
-        if (friendListSubLink.value == null) {
-          return;
-        } else {
-          friendListSub = friendListSubLink.value!.split('?');
-        }
-      
+
+      if (friendListSubLink.value == null) {
+        return;
+      } else {
+        friendListSub = friendListSubLink.value!.split('?');
+      }
+
       String friendListSuffixUrl = '';
 
-        friendListSuffixUrl = '?${friendListSub[1]}&take=15';
+      friendListSuffixUrl = '?${friendListSub[1]}&take=15';
 
-         var response = await _apiController.commonApiCall(
+      var response = await _apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: kuFriendList+friendListSuffixUrl,
+        url: kuFriendList + friendListSuffixUrl,
       ) as CommonDM;
 
-       if (response.success == true) {
+      if (response.success == true) {
         friendListData.value = FriendListModel.fromJson(response.data);
         ll(friendListData.value);
         friendList.addAll(friendListData.value!.friends!.data);
-         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
+        friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
           friendListScrolled.value = false;
         } else {
           friendListScrolled.value = true;
         }
-      
+
         isFriendListLoading.value = false;
       } else {
         isFriendListLoading.value = false;
@@ -102,7 +103,7 @@ class FriendController extends GetxController {
     }
   }
 
-   //*Received Friend List Api Call
+  //*Received Friend List Api Call
   Rx<ReceivedFriendListModel?> receivedFriendListData = Rx<ReceivedFriendListModel?>(null);
   RxList<ReceivedFriendData> receivedFriendList = RxList<ReceivedFriendData>([]);
   // final Rx<String?> friendListSubLink = Rx<String?>(null);
@@ -123,8 +124,7 @@ class FriendController extends GetxController {
 
         receivedFriendListData.value = ReceivedFriendListModel.fromJson(response.data);
         receivedFriendList.addAll(receivedFriendListData.value!.users!.data);
-   
-      
+
         isReceivedFriendListLoading.value = false;
       } else {
         isReceivedFriendListLoading.value = false;
@@ -140,5 +140,4 @@ class FriendController extends GetxController {
       ll('getFriendList error: $e');
     }
   }
-
 }
