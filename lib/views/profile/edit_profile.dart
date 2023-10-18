@@ -166,24 +166,28 @@ class EditProfile extends StatelessWidget {
                                     if (_profileController.userData.value!.bio == null) {
                                       _profileController.bioEditingController.text = '';
                                       _profileController.bio.value = '';
-                                      Get.toNamed(krEditBio);
                                     } else {
-                                      _globalController.commonBottomSheet(
-                                          context: context,
-                                          onPressCloseButton: () {
-                                            Get.back();
-                                          },
-                                          onPressRightButton: () {},
-                                          rightText: '',
-                                          rightTextStyle: regular14TextStyle(cBiddingColor),
-                                          title: ksEditBio.tr,
-                                          isRightButtonShow: false,
-                                          isScrollControlled: false,
-                                          bottomSheetHeight: 190,
-                                          content: EditBioModalSheet(
-                                            profileController: _profileController,
-                                          ));
+                                      _profileController.bio.value = _profileController.userData.value!.bio!;
+                                      _profileController.bioEditingController.text = _profileController.userData.value!.bio!;
                                     }
+                                    Get.toNamed(krEditBio);
+                                    // else {
+                                    //   _globalController.commonBottomSheet(
+                                    //       context: context,
+                                    //       onPressCloseButton: () {
+                                    //         Get.back();
+                                    //       },
+                                    //       onPressRightButton: () {},
+                                    //       rightText: '',
+                                    //       rightTextStyle: regular14TextStyle(cBiddingColor),
+                                    //       title: ksEditBio.tr,
+                                    //       isRightButtonShow: false,
+                                    //       isScrollControlled: false,
+                                    //       bottomSheetHeight: 190,
+                                    //       content: EditBioModalSheet(
+                                    //         profileController: _profileController,
+                                    //       ));
+                                    // }
                                   },
                                 ),
                                 if (_profileController.userData.value!.bio != null) kH16sizedBox,

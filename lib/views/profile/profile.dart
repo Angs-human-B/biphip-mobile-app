@@ -59,7 +59,7 @@ class Profile extends StatelessWidget {
                                 Container(
                                   height: 150,
                                   width: width,
-                                  // decoration: BoxDecoration(color: cBlackColor, border: Border),
+                                  decoration: BoxDecoration(color: cBlackColor, border: Border(bottom: BorderSide(color: cLineColor))),
                                   child: Image.network(
                                     Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
                                     fit: BoxFit.cover,
@@ -98,8 +98,8 @@ class Profile extends StatelessWidget {
                                         ),
                                       ),
                                       Positioned(
-                                        right: 8,
-                                        bottom: 15,
+                                        right: 6,
+                                        bottom: 10,
                                         child: TextButton(
                                           style: kTextButtonStyle,
                                           onPressed: () {
@@ -129,17 +129,20 @@ class Profile extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: cGreyBoxColor,
                                               borderRadius: BorderRadius.circular(26),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: cBlackColor.withAlpha(100),
-                                                  offset: const Offset(
-                                                    1.0,
-                                                    1.0,
-                                                  ),
-                                                  blurRadius: 5.0,
-                                                  spreadRadius: 2.0,
-                                                ),
-                                              ],
+                                              border: Border.all(
+                                                color: cLineColor,
+                                              ),
+                                              // boxShadow: [
+                                              //   BoxShadow(
+                                              //     color: cBlackColor.withAlpha(100),
+                                              //     offset: const Offset(
+                                              //       1.0,
+                                              //       1.0,
+                                              //     ),
+                                              //     blurRadius: 5.0,
+                                              //     spreadRadius: 2.0,
+                                              //   ),
+                                              // ],
                                               // border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
                                             ),
                                             child: const Icon(
@@ -198,18 +201,21 @@ class Profile extends StatelessWidget {
                                       width: h28,
                                       decoration: BoxDecoration(
                                         color: cGreyBoxColor,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: cBlackColor.withAlpha(100),
-                                            offset: const Offset(
-                                              0.0,
-                                              1.0,
-                                            ),
-                                            blurRadius: 5.0,
-                                            spreadRadius: 2.0,
-                                          ),
-                                        ],
+                                        // boxShadow: [
+                                        //   BoxShadow(
+                                        //     color: cBlackColor.withAlpha(100),
+                                        //     offset: const Offset(
+                                        //       0.0,
+                                        //       1.0,
+                                        //     ),
+                                        //     blurRadius: 5.0,
+                                        //     spreadRadius: 2.0,
+                                        //   ),
+                                        // ],
                                         borderRadius: BorderRadius.circular(26),
+                                        border: Border.all(
+                                          color: cLineColor,
+                                        ),
                                       ),
                                       child: const Icon(
                                         BipHip.camera,
@@ -440,8 +446,7 @@ class Profile extends StatelessWidget {
                             Container(
                               color: cWhiteColor,
                               child: CustomPostButton(
-                                name: checkNullOrStringNull(_profileController.userData.value!.firstName) ??
-                                    _profileController.userData.value!.firstName,
+                                name: checkNullOrStringNull(_profileController.userData.value!.firstName) ?? _profileController.userData.value!.firstName,
                                 profilePic: _profileController.userData.value!.profilePicture.toString(),
                                 onPressed: () {
                                   ll('post');
