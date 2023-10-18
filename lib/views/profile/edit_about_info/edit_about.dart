@@ -393,34 +393,6 @@ class EditAboutInfo extends StatelessWidget {
                                 : checkNullOrStringNull(_profileController.userData.value!.relation) ?? ksSelectRelationshipStatus,
                             hintText: ksSelectRelationshipStatus.tr,
                           ),
-                          // InfoContainer(
-                          //   prefixIcon: BipHip.love,
-                          //   suffixIcon: BipHip.downArrow,
-                          //   text: _profileController.relationshipStatus.value??checkNullOrStringNull(_profileController.profileData.value!.user!.relation) ?? ksSelectRelationshipStatus,
-                          //   suffixOnPressed: () {
-                          //     _globalController.commonBottomSheet(
-                          //       context: context,
-                          //       content: _RelationshipStatusListContent(
-                          //         profileController: _profileController,
-                          //       ),
-                          //       isScrollControlled: true,
-                          //       bottomSheetHeight: height * 0.6,
-                          //       onPressCloseButton: () {
-                          //         Get.back();
-                          //       },
-                          //       onPressRightButton: () {
-                          //         if (_profileController.relationshipStatus.value != '') {
-                          //           _profileController.showEditRelationshipStatus.value = true;
-                          //         }
-                          //         Get.back();
-                          //       },
-                          //       rightText: ksDone.tr,
-                          //       rightTextStyle: medium14TextStyle(cPrimaryColor),
-                          //       title: ksSelectRelationshipStatus.tr,
-                          //       isRightButtonShow: true,
-                          //     );
-                          //   },
-                          // ),
                           // if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH20sizedBox,
                           // if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
                           //   OutLinedButton(

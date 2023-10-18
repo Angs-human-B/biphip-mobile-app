@@ -230,7 +230,7 @@ class Profile extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                     child: Text(
-                                      '${_profileController.profileData.value!.user!.firstName} ${_profileController.profileData.value!.user!.lastName}',
+                                      '${_profileController.userData.value!.firstName} ${_profileController.userData.value!.lastName}',
                                       style: semiBold20TextStyle(cBlackColor),
                                     ),
                                   ),
@@ -284,12 +284,12 @@ class Profile extends StatelessWidget {
                                         onPressed: null,
                                       ),
                                     ),
-                                  if (_profileController.profileData.value!.user!.relation != null)
+                                  if (_profileController.userData.value!.relation != null)
                                     Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                       child: LinkUpIconTextRow(
                                         icon: BipHip.love,
-                                        text: checkNullOrStringNull(_profileController.profileData.value!.user!.relation),
+                                        text: checkNullOrStringNull(_profileController.userData.value!.relation),
                                         isLink: false,
                                         onPressed: null,
                                       ),
@@ -440,9 +440,9 @@ class Profile extends StatelessWidget {
                             Container(
                               color: cWhiteColor,
                               child: CustomPostButton(
-                                name: checkNullOrStringNull(_profileController.profileData.value!.user!.firstName) ??
-                                    _profileController.profileData.value!.user!.firstName,
-                                profilePic: _profileController.profileData.value!.user!.profilePicture.toString(),
+                                name: checkNullOrStringNull(_profileController.userData.value!.firstName) ??
+                                    _profileController.userData.value!.firstName,
+                                profilePic: _profileController.userData.value!.profilePicture.toString(),
                                 onPressed: () {
                                   ll('post');
                                   Get.find<CreatePostController>().resetData();
