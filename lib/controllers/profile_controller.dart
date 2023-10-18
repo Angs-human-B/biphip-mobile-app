@@ -1577,6 +1577,7 @@ class ProfileController extends GetxController {
   //* get interest list API
   Rx<InterestListModel?> interestListData = Rx<InterestListModel?>(null);
   RxBool isInterestListLoading = RxBool(false);
+  RxList tempInterestList = RxList([]);
   Future<void> getInterestList() async {
     try {
       isInterestListLoading.value = true;
@@ -1587,9 +1588,18 @@ class ProfileController extends GetxController {
         url: kuGetAllInterests,
       ) as CommonDM;
       if (response.success == true) {
+        tempInterestList.clear();
         _globalController.interestList.clear();
         interestListData.value = InterestListModel.fromJson(response.data);
-        _globalController.interestList.addAll(interestListData.value!.interests);
+        tempInterestList.addAll(interestListData.value!.interests);
+        ll(tempInterestList.length);
+        for (int i = 0; i < tempInterestList.length; i++) {
+          if (!_globalController.interestList.contains(tempInterestList[i])) {
+            _globalController.interestList.add(tempInterestList[i]);
+          }
+        }
+        ll(_globalController.interestList.length);
+        // _globalController.interestList.addAll(interestListData.value!.interests);
         isInterestListLoading.value = false;
       } else {
         isInterestListLoading.value = false;
@@ -1755,6 +1765,7 @@ class ProfileController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         positionList.clear();
+        temp.clear();
         positionListData.value = PositionListModel.fromJson(response.data);
         positionList.addAll(positionListData.value!.positions);
         temp.addAll(positionList);
