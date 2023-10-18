@@ -226,7 +226,7 @@ class PendingFamilyList extends StatelessWidget {
                   // ll(index);
                 },
                 child: CustomSingleButtonListViewItem(
-                  backgroundImage: AssetImage(_profileController.pendingFriendLists[index]['image']),
+                  backgroundImage: _profileController.pendingFriendLists[index]['image'].toString(),
                   name: _profileController.pendingFriendLists[index]['name'],
                   subTitle: ksBrotherPending.tr,
                   buttonText: ksCancelRequest.tr,

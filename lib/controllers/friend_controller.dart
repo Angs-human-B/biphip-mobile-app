@@ -232,8 +232,9 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
+        ll(receivedFriendList.length);
         isUnfriendUserRequestLoading.value = false;
-        for (int index = 0; index <= receivedFriendList.length; index++) {
+        for (int index = 0; index < receivedFriendList.length; index++) {
           friendList.removeAt(index);
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -321,38 +322,38 @@ class FriendController extends GetxController {
   }
 
   // //*Cancel Friend Request
-  // final RxBool isCancelFriendRequestLoading = RxBool(false);
-  // Future<void> cancelFriendRequest() async {
-  //   try {
-  //     isCancelFriendRequestLoading.value = true;
-  //     String? token = await _spController.getBearerToken();
-  //     Map<String, dynamic> body = {
-  //       'user_id': userId.value.toString(),
-  //     };
-  //     var response = await _apiController.commonApiCall(
-  //       requestMethod: kPost,
-  //       url: kuCancelFriendRequest,
-  //       body: body,
-  //       token: token,
-  //     ) as CommonDM;
-  //     if (response.success == true) {
-  //       for (int index = 0; index <= sendFriendRequestList.length; index++) {
-  //         sendFriendRequestList.removeAt(index);
-  //       }
-  //       isCancelFriendRequestLoading.value = false;
-  //       _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-  //     } else {
-  //       isCancelFriendRequestLoading.value = false;
-  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
-  //       if (errorModel.errors.isEmpty) {
-  //         _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-  //       } else {
-  //         _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     isCancelFriendRequestLoading.value = false;
-  //     ll('cancelFriendRequest error: $e');
-  //   }
-  // }
+  final RxBool isCancelFriendRequestLoading = RxBool(false);
+  Future<void> cancelFriendRequest() async {
+    try {
+      isCancelFriendRequestLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'user_id': userId.value.toString(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuCancelFriendRequest,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        for (int index = 0; index < sendFriendRequestList.length; index++) {
+          sendFriendRequestList.removeAt(index);
+        }
+        isCancelFriendRequestLoading.value = false;
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isCancelFriendRequestLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isCancelFriendRequestLoading.value = false;
+      ll('cancelFriendRequest error: $e');
+    }
+  }
 }

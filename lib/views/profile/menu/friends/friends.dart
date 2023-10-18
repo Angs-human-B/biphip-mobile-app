@@ -263,7 +263,7 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
     this.buttonHeight,
     this.subTitle,
   });
-  final ImageProvider backgroundImage;
+  final String backgroundImage;
   final String name;
   final String buttonText;
   final VoidCallback buttonOnPressed;
@@ -282,9 +282,23 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CircleAvatar(
-              radius: 25,
-              backgroundImage: backgroundImage,
+            Container(
+              height: h40,
+              width: h40,
+              decoration: const BoxDecoration(
+                color: cWhiteColor,
+                shape: BoxShape.circle,
+              ),
+              child: ClipOval(
+                child: Image.network(
+                  backgroundImage,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(kiProfileDefaultImageUrl);
+                  },
+                  loadingBuilder: imageLoadingBuilder,
+                ),
+              ),
             ),
             kW12sizedBox,
             Column(
@@ -395,7 +409,6 @@ class AllFriendList extends StatelessWidget {
                                 ),
                                 trailing: CustomIconButton(
                                     onPress: () {
-                                      _friendController.userId.value = _friendController.friendList[index].id!;
                                       _profileController.friendActionSelect.value = '';
                                       _globalController.commonBottomSheet(
                                         context: context,
@@ -408,6 +421,7 @@ class AllFriendList extends StatelessWidget {
                                           Get.back();
                                         },
                                         onPressRightButton: () async {
+                                          _friendController.userId.value = _friendController.friendList[index].id!;
                                           Get.back();
                                           if (_profileController.friendActionSelect.value == 'Unfriend') {
                                             await _friendController.unfriendUserRequest();
@@ -503,8 +517,8 @@ class ReceivedFriendList extends StatelessWidget {
 //*Pending Friend Request
 class PendingFriendList extends StatelessWidget {
   PendingFriendList({super.key});
-  final FriendFamilyController _friendFamilyController = Get.find<FriendFamilyController>();
   final FriendController _friendController = Get.find<FriendController>();
+  final FriendFamilyController _friendFamilyController = Get.find<FriendFamilyController>();
   final GlobalController _globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
@@ -554,7 +568,6 @@ class PendingFriendList extends StatelessWidget {
                           ),
                           trailing: CustomIconButton(
                               onPress: () {
-                                _friendController.userId.value = _friendController.friendList[index].id!;
                                 _friendFamilyController.pendingFriendActionSelect.value = '';
                                 _globalController.commonBottomSheet(
                                   context: context,
@@ -566,13 +579,14 @@ class PendingFriendList extends StatelessWidget {
                                     Get.back();
                                   },
                                   onPressRightButton: () async {
+                                    _friendController.userId.value = _friendController.sendFriendRequestList[index].id!;
                                     Get.back();
-                                    // if (_friendFamilyController.pendingFriendActionSelect.value == 'Cancel Request') {
-                                    //   // await _friendController.cancelFriendRequest();
-                                    // }
-                                    // if (_friendFamilyController.pendingFriendActionSelect.value == 'Unfollow') {
-                                    //   await _friendController.unfollowUser();
-                                    // }
+                                    if (_friendFamilyController.pendingFriendActionSelect.value == 'Cancel Request') {
+                                      await _friendController.cancelFriendRequest();
+                                    }
+                                    if (_friendFamilyController.pendingFriendActionSelect.value == 'Unfollow') {
+                                      await _friendController.unfollowUser();
+                                    }
                                     _friendFamilyController.pendingFriendActionSelect.value = '';
                                   },
                                   rightText: ksDone.tr,
@@ -617,7 +631,7 @@ class BottomSheetContent extends StatelessWidget {
                     // ll(index);
                   },
                   child: CustomSingleButtonListViewItem(
-                    backgroundImage: AssetImage(_profileController.addFriendLists[index]['image']),
+                    backgroundImage: _profileController.addFriendLists[index]['image'].toString(),
                     name: _profileController.addFriendLists[index]['name'],
                     buttonText: ksSendRequest.tr,
                     buttonColor: cPrimaryColor,
