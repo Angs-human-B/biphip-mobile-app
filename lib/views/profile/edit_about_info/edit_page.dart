@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+import 'package:shimmer/shimmer.dart';
 
 class EditPage extends StatelessWidget {
   EditPage({super.key});
@@ -62,21 +63,24 @@ class EditPage extends StatelessWidget {
                               buttonHeight: 32,
                               borderColor: cLineColor,
                               contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding),
-                              onPressed: () {
+                              onPressed: () async {
+                                _profileController.isLinkListLoading.value = true;
                                 _profileController.tempLinkSource.value = _profileController.linkSource.value;
                                 _profileController.tempEducationBackground.value = _profileController.educationBackground.value;
                                 _globalController.commonBottomSheet(
                                   context: context,
-                                  content:
+                                  content: Obx(() =>
                                       (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
-                                          ? _LinkListContent(profileController: _profileController)
+                                          ? (_profileController.isLinkListLoading.value
+                                              ? const _LinkListContentShimmer()
+                                              : _LinkListContent(profileController: _profileController))
                                           : _EducationBackgroundContent(
                                               profileController: _profileController,
-                                            ),
+                                            )),
                                   isScrollControlled: true,
                                   bottomSheetHeight:
                                       (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
-                                          ? 220
+                                          ? 320
                                           : 200,
                                   onPressCloseButton: () {
                                     Get.back();
@@ -99,6 +103,7 @@ class EditPage extends StatelessWidget {
                                           : ksSelectEducationInstitute.tr,
                                   isRightButtonShow: true,
                                 );
+                                _profileController.getLinkList();
                               },
                               text: (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
                                   ? _profileController.linkSource.value
@@ -450,6 +455,47 @@ class _LinkListContent extends StatelessWidget {
                     profileController.tempLinkSource.value = profileController.linkSourceList[index];
                   },
                 ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _LinkListContentShimmer extends StatelessWidget {
+  const _LinkListContentShimmer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: 7,
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: k8Padding),
+              child: CustomListTile(
+                title: Shimmer.fromColors(
+                  baseColor: cWhiteColor,
+                  highlightColor: Colors.grey,
+                  child: Container(
+                    height: 20,
+                    decoration: BoxDecoration(
+                      borderRadius: k8CircularBorderRadius,
+                      color: cWhiteColor,
+                    ),
+                  ),
+                ),
+                trailing: const CustomRadioButton(
+                  onChanged: null,
+                ),
+                itemColor: cWhiteColor,
               ),
             );
           },

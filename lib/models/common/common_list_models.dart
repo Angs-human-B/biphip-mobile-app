@@ -57,3 +57,15 @@ class PositionListModel {
         positions: List<String>.from(json["positions"].map((x) => x)),
     );
 }
+
+class LinkListModel {
+    List<String> linkTypes;
+
+    LinkListModel({
+        required this.linkTypes,
+    });
+
+    factory LinkListModel.fromJson(Map<String, dynamic> json) => LinkListModel(
+        linkTypes: List<String>.from(json["linkTypes"].map((x) => x)),
+    );
+}

@@ -244,7 +244,7 @@ class ProfileController extends GetxController {
   ]);
   final RxString friendActionSelect = RxString('');
   final RxList educationBackgroundList = RxList(['School', 'College']);
-  final RxList linkSourceList = RxList(['Facebook', 'Twitter', 'Website']);
+  final RxList linkSourceList = RxList([]);
   final RxString relationshipStatus = RxString('');
   final RxString selectedGender = RxString('');
   final RxString tempSelectedGender = RxString('');
@@ -1777,6 +1777,38 @@ class ProfileController extends GetxController {
       return true;
     } else {
       return false;
+    }
+  }
+
+  //* Get link api implementation
+  Rx<LinkListModel?> linkListData = Rx<LinkListModel?>(null);
+  RxBool isLinkListLoading = RxBool(false);
+  Future<void> getLinkList() async {
+    try {
+      isLinkListLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllLinkTypes,
+      ) as CommonDM;
+      if (response.success == true) {
+        linkSourceList.clear();
+        linkListData.value = LinkListModel.fromJson(response.data);
+        linkSourceList.addAll(linkListData.value!.linkTypes);
+        isLinkListLoading.value = false;
+      } else {
+        isLinkListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isLinkListLoading.value = false;
+      ll('getPositionList error: $e');
     }
   }
 }
