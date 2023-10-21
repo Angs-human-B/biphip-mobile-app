@@ -390,16 +390,22 @@ class FriendController extends GetxController {
       if (response.success == true) {
         addFriendRequestList.clear();
         addFriendRequestData.value = CommonPaginaton.fromJson(response.data);
-        addFriendRequestList.addAll(addFriendRequestData.value!.data);
+        for (int index = 0; index < addFriendRequestData.value!.data.length; index++) {
+          if (addFriendRequestData.value!.data[index].friendStatus == 2 || addFriendRequestData.value!.data[index].friendStatus == 0) {
+            addFriendRequestList.add(addFriendRequestData.value!.data[index]);
+          }
+        }
+        // addFriendRequestList.addAll(addFriendRequestData.value!.data);
         isSendRequest.clear();
         for (int index = 0; index < addFriendRequestList.length; index++) {
           if (addFriendRequestList[index].friendStatus == 2) {
             isSendRequest.add(false);
           } else if (addFriendRequestList[index].friendStatus == 0) {
             isSendRequest.add(true);
-          } else {
-            isSendRequest.add(false);
           }
+          // else {
+          //   isSendRequest.add(false);
+          // }
         }
         isAddFriendRequestListLoading.value = false;
       } else {
