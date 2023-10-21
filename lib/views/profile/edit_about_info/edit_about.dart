@@ -114,7 +114,6 @@ class EditAboutInfo extends StatelessWidget {
                               showAddButton: _profileController.currentCityData.value == null ? true : false,
                               onPressedAdd: () async {
                                 _profileController.resetTextEditor();
-
                                 _profileController.getMethod(1);
                                 Get.toNamed(krEdit);
                                 _profileController.getCityList();
@@ -234,6 +233,7 @@ class EditAboutInfo extends StatelessWidget {
                               onPressedAdd: () {
                                 _profileController.resetTextEditor();
                                 _profileController.getMethod(5);
+                                _profileController.getSchoolList();
                               },
                               buttonWidth: 126,
                             ),
@@ -270,6 +270,7 @@ class EditAboutInfo extends StatelessWidget {
                                     _profileController.isCurrentlyStudyingHere.value = false;
                                   }
                                   _profileController.getMethod(6);
+                                  _profileController.getSchoolList();
                                 },
                               ),
                             ),
@@ -305,6 +306,7 @@ class EditAboutInfo extends StatelessWidget {
                                     _profileController.isCurrentlyStudyingHere.value = false;
                                   }
                                   _profileController.getMethod(7);
+                                  _profileController.getSchoolList();
                                   // _globalController.commonBottomSheet(
                                   //     context: context,
                                   //     isScrollControlled: false,

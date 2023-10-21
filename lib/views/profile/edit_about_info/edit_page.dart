@@ -169,26 +169,38 @@ class EditPage extends StatelessWidget {
                             _profileController.commonEditTextEditingController.text = option;
                           },
                           optionsViewBuilder: (context, Function(String) onSelected, options) {
-                            return Material(
-                              elevation: 4,
-                              child: ListView.separated(
-                                padding: EdgeInsets.zero,
-                                itemBuilder: (context, index) {
-                                  final option = options.elementAt(index);
+                            return Align(
+                              alignment: Alignment.topLeft,
+                              child: SizedBox(
+                                width: width - 40,
+                                child: Material(
+                                  elevation: 4,
+                                  child: ListView.separated(
+                                    padding: EdgeInsets.zero,
+                                    itemBuilder: (context, index) {
+                                      final option = options.elementAt(index);
 
-                                  return ListTile(
-                                    title: Text(option.toString()),
-                                    onTap: () {
-                                      onSelected(option.toString());
-                                      _profileController.commonEditTextEditingController.text = option.toString();
-                                      _profileController.checkSaveButtonActive();
+                                      return CustomListTile(
+                                        title: Text(
+                                          option.toString(),
+                                          style: medium16TextStyle(cBlackColor),
+                                        ),
+                                        onPressed: () {
+                                          onSelected(option.toString());
+                                          _profileController.commonEditTextEditingController.text = option.toString();
+                                          _profileController.checkSaveButtonActive();
 
-                                      unfocus(context);
+                                          unfocus(context);
+                                        },
+                                      );
                                     },
-                                  );
-                                },
-                                separatorBuilder: (context, index) => const Divider(),
-                                itemCount: options.length,
+                                    separatorBuilder: (context, index) => Container(
+                                      height: 1,
+                                      color: cLineColor,
+                                    ),
+                                    itemCount: options.length,
+                                  ),
+                                ),
                               ),
                             );
                           },
@@ -254,26 +266,38 @@ class EditPage extends StatelessWidget {
                                 ll(option);
                               },
                               optionsViewBuilder: (context, Function(String) onSelected, options) {
-                                return Material(
-                                  elevation: 4,
-                                  child: ListView.separated(
-                                    padding: EdgeInsets.zero,
-                                    itemBuilder: (context, index) {
-                                      final option = options.elementAt(index);
+                                return Align(
+                                  alignment: Alignment.topLeft,
+                                  child: SizedBox(
+                                    width: width - 40,
+                                    child: Material(
+                                      elevation: 4,
+                                      child: ListView.separated(
+                                        padding: EdgeInsets.zero,
+                                        itemBuilder: (context, index) {
+                                          final option = options.elementAt(index);
 
-                                      return ListTile(
-                                        title: Text(option.toString()),
-                                        onTap: () {
-                                          onSelected(option.toString());
-                                          _profileController.commonEditSecondaryTextEditingController.text = option.toString();
-                                          _profileController.checkSaveButtonActive();
+                                          return CustomListTile(
+                                            title: Text(
+                                              option.toString(),
+                                              style: medium16TextStyle(cBlackColor),
+                                            ),
+                                            onPressed: () {
+                                              onSelected(option.toString());
+                                              _profileController.commonEditSecondaryTextEditingController.text = option.toString();
+                                              _profileController.checkSaveButtonActive();
 
-                                          unfocus(context);
+                                              unfocus(context);
+                                            },
+                                          );
                                         },
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) => const Divider(),
-                                    itemCount: options.length,
+                                        separatorBuilder: (context, index) => Container(
+                                          height: 1,
+                                          color: cLineColor,
+                                        ),
+                                        itemCount: options.length,
+                                      ),
+                                    ),
                                   ),
                                 );
                               },

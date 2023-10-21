@@ -226,6 +226,7 @@ class ProfileController extends GetxController {
   final RxBool isCurrentlyWorkingHere = RxBool(false);
   final List<String> cityList = [];
   final List<String> companyList = [];
+  final List<String> schoolList = [];
   final RxString birthday = RxString('');
   // final RxBool showEditAddress = RxBool(false);
   final RxBool showEditRelationshipStatus = RxBool(false);
@@ -251,7 +252,6 @@ class ProfileController extends GetxController {
   final RxString tempSelectedGender = RxString('');
   final RxBool isGenderSelected = RxBool(false);
   final RxString tempRelationshipStatus = RxString('');
-  final RxList schoolList = RxList([]);
   final RxInt schoolID = RxInt(-1);
   final RxList collegeList = RxList([]);
   final RxInt collegeID = RxInt(-1);
@@ -1988,6 +1988,34 @@ class ProfileController extends GetxController {
     } catch (e) {
       isLinkListLoading.value = false;
       ll('getCompanyList error: $e');
+    }
+  }
+
+  //* Get school list api implementation
+  Rx<SchoolListModel?> schoolListData = Rx<SchoolListModel?>(null);
+  Future<void> getSchoolList() async {
+    try {
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllSchools,
+      ) as CommonDM;
+      if (response.success == true) {
+        schoolList.clear();
+        schoolListData.value = SchoolListModel.fromJson(response.data);
+        schoolList.addAll(schoolListData.value!.schools);
+        tempListCommon.addAll(schoolList);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getSchoolList error: $e');
     }
   }
 }
