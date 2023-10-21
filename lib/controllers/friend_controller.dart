@@ -11,7 +11,7 @@ class FriendController extends GetxController {
   final GlobalController _globalController = Get.find<GlobalController>();
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
-  //*Friend List Api Call
+  //*Friend List Api Callzz
   Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
   RxList<CommonFriendData> friendList = RxList<CommonFriendData>([]);
   final Rx<String?> friendListSubLink = Rx<String?>(null);
@@ -360,7 +360,7 @@ class FriendController extends GetxController {
   }
 
   //* Add Friend
-  Rx<CommonPaginaton?> addFriendRequestData = Rx<CommonPaginaton?>(null);
+  Rx<CommonPagination?> addFriendRequestData = Rx<CommonPagination?>(null);
   RxList<CommonFriendData> addFriendRequestList = RxList<CommonFriendData>([]);
   final RxBool isAddFriendRequestListLoading = RxBool(false);
   Future<void> getAddFriendRequestList() async {
@@ -374,7 +374,7 @@ class FriendController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         addFriendRequestList.clear();
-        addFriendRequestData.value = CommonPaginaton.fromJson(response.data);
+        addFriendRequestData.value = CommonPagination.fromJson(response.data);
         addFriendRequestList.addAll(addFriendRequestData.value!.data);
         isAddFriendRequestListLoading.value = false;
       } else {

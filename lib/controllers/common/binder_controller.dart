@@ -6,6 +6,7 @@ import 'package:bip_hip/controllers/gallery_controller.dart';
 import 'package:bip_hip/controllers/home_controller.dart';
 import 'package:bip_hip/controllers/post_reaction_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/profile_controllers/family_controller.dart';
 import 'package:bip_hip/controllers/profile_controllers/menu_section_controller.dart';
 import 'package:bip_hip/controllers/splash_screen_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -20,6 +21,7 @@ class BinderController implements Bindings {
     Get.put<ProfileController>(ProfileController());
     Get.put<FriendFamilyController>(FriendFamilyController());
     Get.put<FriendController>(FriendController());
+    Get.put<FamilyController>(FamilyController());
     Get.put<CreatePostController>(CreatePostController());
     Get.put<PostReactionController>(PostReactionController());
     Get.put<GalleryController>(GalleryController());

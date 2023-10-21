@@ -1,31 +1,28 @@
 class CommonSendReceiveModel {
-  CommonPaginaton? users;
+  CommonPagination? users;
 
   CommonSendReceiveModel({
     required this.users,
   });
 
   factory CommonSendReceiveModel.fromJson(Map<String, dynamic> json) => CommonSendReceiveModel(
-        users: json["users"] == null ? null : CommonPaginaton.fromJson(json["users"]),
+        users: json["users"] == null ? null : CommonPagination.fromJson(json["users"]),
       );
 }
 
-
 class CommonFriendModel {
- CommonPaginaton? friends;
+  CommonPagination? friends;
 
   CommonFriendModel({
     required this.friends,
   });
 
   factory CommonFriendModel.fromJson(Map<String, dynamic> json) => CommonFriendModel(
-        friends: json["friends"] == null ? null : CommonPaginaton.fromJson(json["friends"]),
+        friends: json["friends"] == null ? null : CommonPagination.fromJson(json["friends"]),
       );
 }
 
-
-
-class CommonPaginaton {
+class CommonPagination {
   int? currentPage;
   List<CommonFriendData> data;
   String? firstPageUrl;
@@ -40,7 +37,7 @@ class CommonPaginaton {
   int? to;
   int? total;
 
-  CommonPaginaton({
+  CommonPagination({
     required this.currentPage,
     required this.data,
     required this.firstPageUrl,
@@ -56,7 +53,7 @@ class CommonPaginaton {
     required this.total,
   });
 
-  factory CommonPaginaton.fromJson(Map<String, dynamic> json) => CommonPaginaton(
+  factory CommonPagination.fromJson(Map<String, dynamic> json) => CommonPagination(
         currentPage: json["current_page"],
         data: List<CommonFriendData>.from(json["data"].map((x) => CommonFriendData.fromJson(x))),
         firstPageUrl: json["first_page_url"],
@@ -72,6 +69,7 @@ class CommonPaginaton {
         total: json["total"],
       );
 }
+
 class CommonFriendData {
   int? id;
   String? image;
