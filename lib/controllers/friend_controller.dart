@@ -32,6 +32,7 @@ class FriendController extends GetxController {
         friendListScrolled.value = false;
         friendListData.value = CommonFriendModel.fromJson(response.data);
         friendList.addAll(friendListData.value!.friends!.data);
+        allFriendCount.value = friendList.length;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
           friendListScrolled.value = false;
@@ -81,6 +82,7 @@ class FriendController extends GetxController {
         friendListData.value = CommonFriendModel.fromJson(response.data);
         ll(friendListData.value);
         friendList.addAll(friendListData.value!.friends!.data);
+        allFriendCount.value = friendList.length;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
           friendListScrolled.value = false;
@@ -100,7 +102,7 @@ class FriendController extends GetxController {
       }
     } catch (e) {
       isFriendListLoading.value = false;
-      ll('getFriendList error: $e');
+      ll('getMoreFriendList error: $e');
     }
   }
 
@@ -160,7 +162,9 @@ class FriendController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         for (int index = 0; index <= receivedFriendList.length; index++) {
-          receivedFriendList.removeAt(index);
+          if (userId.value == receivedFriendList[index].id) {
+            receivedFriendList.removeAt(index);
+          }
         }
         isAcceptFriendRequestLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -199,8 +203,10 @@ class FriendController extends GetxController {
       if (response.success == true) {
         isRejectFriendRequestLoading.value = false;
         for (int index = 0; index <= receivedFriendList.length; index++) {
-          receivedFriendList.removeAt(index);
-          receivedRequestCount.value--;
+          if (userId.value == receivedFriendList[index].id) {
+            receivedFriendList.removeAt(index);
+            receivedRequestCount.value--;
+          }
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -219,6 +225,7 @@ class FriendController extends GetxController {
   }
 
   //*Unfriend User
+  final RxInt allFriendCount = RxInt(0);
   final RxBool isUnfriendUserRequestLoading = RxBool(false);
   Future<void> unfriendUserRequest() async {
     try {
@@ -236,8 +243,11 @@ class FriendController extends GetxController {
       if (response.success == true) {
         ll(receivedFriendList.length);
         isUnfriendUserRequestLoading.value = false;
-        for (int index = 0; index <= receivedFriendList.length; index++) {
-          friendList.removeAt(index);
+        for (int index = 0; index < receivedFriendList.length; index++) {
+          if (userId.value == receivedFriendList[index].id) {
+            friendList.removeAt(index);
+            allFriendCount.value--;
+          }
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -339,8 +349,11 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        for (int index = 1; index <= sendFriendRequestList.length; index++) {
-          sendFriendRequestList.removeAt(index);
+        ll(sendFriendRequestList.length.toString());
+        for (int index = 0; index < sendFriendRequestList.length; index++) {
+          if (userId.value == sendFriendRequestList[index].id) {
+            sendFriendRequestList.removeAt(index);
+          }
         }
         isCancelFriendRequestLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -408,9 +421,6 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        for (int index = 0; index <= addFriendRequestList.length; index++) {
-          sendFriendRequestList.removeAt(index);
-        }
         isSendFriendRequestLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {

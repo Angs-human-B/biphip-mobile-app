@@ -366,7 +366,7 @@ class AllFriendList extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: kHorizontalPadding, top: k4Padding, bottom: k12Padding),
                     child: Text(
-                      '${ksTotalFriends.tr}: ${_friendController.friendListData.value!.friends!.total}',
+                      '${ksTotalFriends.tr}: ${_friendController.allFriendCount.value}',
                       style: semiBold14TextStyle(cBlackColor),
                     ),
                   ),

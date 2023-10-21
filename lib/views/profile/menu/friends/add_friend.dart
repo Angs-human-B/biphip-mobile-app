@@ -45,7 +45,7 @@ class AddFriend extends StatelessWidget {
                   if (_profileController.searchController.text.trim() != '') {
                     await _friendController.getAddFriendRequestList();
                   }
-                  if (_profileController.searchController.text == '') {
+                  if (_profileController.searchController.text.trim() == '') {
                     _friendController.addFriendRequestList.clear();
                   }
                 },
