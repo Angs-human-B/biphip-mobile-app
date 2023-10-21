@@ -62,23 +62,31 @@ class AddFriend extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: k10Padding),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(k8BorderRadius),
-                          child: TextButton(
-                              style: kTextButtonStyle,
-                              onPressed: () async {
-                                // ll(index);
+                          child: Obx(
+                            () => CustomSingleButtonListViewItem(
+                              backgroundImage: Environment.imageBaseUrl + _friendController.addFriendRequestList[index].profilePicture.toString(),
+                              name: _friendController.addFriendRequestList[index].fullName ?? ksNA.tr,
+                              buttonText: _friendController.isSendRequest[index] ? ksSendRequest.tr : ksCancelRequest.tr,
+                              buttonColor: _friendController.isSendRequest[index] ? cPrimaryColor : cWhiteColor,
+                              borderColor: _friendController.isSendRequest[index] ? null : cRedColor,
+                              textStyle: _friendController.isSendRequest[index] ? semiBold14TextStyle(cWhiteColor) : semiBold14TextStyle(cRedColor),
+                              buttonWidth: 147,
+                              buttonOnPressed: () async {
+                                // _friendController.isSendOrCancelRequest.value = !_friendController.isSendOrCancelRequest.value;
+                                _friendController.userId.value = _friendController.addFriendRequestList[index].id!;
+                                _friendController.isSendRequest[index] = !_friendController.isSendRequest[index];
+                                bool status;
+                                if (!_friendController.isSendRequest[index]) {
+                                  status = await _friendController.sendFriendRequest();
+                                } else {
+                                  status = await _friendController.cancelFriendRequest();
+                                }
+                                if (status == false) {
+                                  _friendController.isSendRequest[index] = !_friendController.isSendRequest[index];
+                                }
                               },
-                              child: CustomSingleButtonListViewItem(
-                                backgroundImage: Environment.imageBaseUrl + _friendController.addFriendRequestList[index].profilePicture.toString(),
-                                name: _friendController.addFriendRequestList[index].fullName ?? ksNA.tr,
-                                buttonText: ksSendRequest.tr,
-                                buttonColor: cPrimaryColor,
-                                buttonOnPressed: () async {
-                                  // _friendController.userId.value = _friendController.addFriendRequestList[index].id!;
-                                  // await _friendController.sendFriendRequest();
-                                },
-                                textStyle: semiBold14TextStyle(cWhiteColor),
-                                buttonWidth: 147,
-                              )),
+                            ),
+                          ),
                         ),
                       );
                     },
