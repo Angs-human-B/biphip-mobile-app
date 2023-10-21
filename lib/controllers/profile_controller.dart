@@ -215,8 +215,8 @@ class ProfileController extends GetxController {
   final TextEditingController phoneTextEditingController = TextEditingController();
   final TextEditingController emailTextEditingController = TextEditingController();
   final TextEditingController linkTextEditingController = TextEditingController();
-  final RxString startDateAddress = RxString('');
-  final RxString endDateAddress = RxString('');
+  final RxString commonStartDate = RxString('');
+  final RxString commonEndDate = RxString('');
   final RxString joiningYearEducation = RxString('');
   final RxString leavingYearEducation = RxString('');
   final RxString joiningYearJob = RxString('');
@@ -271,9 +271,14 @@ class ProfileController extends GetxController {
   final RxString previewPhoto = RxString('');
   final RxBool isProfilePhoto = RxBool(true);
   final RxList<String> tempListCommon = RxList<String>([]);
+  final RxBool enableSaveButton = RxBool(false);
+  final RxString tempSchoolStartDate = RxString('');
+  final RxString tempSchoolEndDate = RxString('');
+  final RxString tempWorkplaceStartDate = RxString('');
+  final RxString tempWorkplaceEndDate = RxString('');
 
   void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
-      showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function) {
+      showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function, startDate, endDate) {
     commonEditPageTitle.value = pageTitle;
     isDropdownShown.value = showDropDown;
     commonEditIconData.value = iconData;
@@ -287,12 +292,8 @@ class ProfileController extends GetxController {
     isCommonEditCheckBoxSelected.value = checkBoxSelect;
     commonEditCheckBoxText.value = checkBoxText;
     functionFlag.value = function;
-  }
-
-  void clearCommonEditPageData() {
-    commonEditTextEditingController.clear();
-    commonEditSecondaryTextEditingController.clear();
-    isCommonEditCheckBoxSelected.value = false;
+    commonStartDate.value = startDate;
+    commonEndDate.value = endDate;
   }
 
   void resetTextEditor() {
@@ -310,6 +311,11 @@ class ProfileController extends GetxController {
     isCurrentlyLiveHere.value = false;
     isCurrentlyStudyingHere.value = false;
     isCurrentlyWorkingHere.value = false;
+    enableSaveButton.value = false;
+    tempSchoolEndDate.value = '';
+    tempSchoolStartDate.value = '';
+    tempWorkplaceEndDate.value = '';
+    tempWorkplaceStartDate.value = '';
   }
 
   void selectFunction(functionFlag, [index]) async {
@@ -448,64 +454,106 @@ class ProfileController extends GetxController {
       homeID.value = hometownData.value!.id!;
       homeTownTextEditingController.text = hometownData.value!.city!;
       setEditPageValue(ksEditHometownAddress.tr, false, BipHip.location, homeTownTextEditingController, false, homeTownTextEditingController,
-          ksEditHometownAddress.tr, false, true, false, false, 'checkBoxText', 'EDIT HOMETOWN');
+          ksEditHometownAddress.tr, false, true, false, false, 'checkBoxText', 'EDIT HOMETOWN', '', '');
       // Get.back();
     } else if (methodID == 1) {
       setEditPageValue(ksAddPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksAddLocation.tr, true, true, false, true, ksCurrentlyLivingHere.tr, 'ADD PRESENT');
+          ksAddLocation.tr, false, true, false, true, ksCurrentlyLivingHere.tr, 'ADD PRESENT', '', '');
     } else if (methodID == 2) {
       presentAddressTextEditingController.text = currentCityData.value!.city!;
       setEditPageValue(ksEditPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksEditLocation.tr, true, true, false, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'EDIT PRESENT');
+          ksEditLocation.tr, false, true, false, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
       // Get.back();
     } else if (methodID == 3) {
       setEditPageValue(ksAddOtherAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksAddLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'ADD PRESENT');
+          ksAddLocation.tr, false, true, true, false, ksCurrentlyLivingHere.tr, 'ADD PRESENT', '', '');
     } else if (methodID == 4) {
       setEditPageValue(ksEditPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksEditLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'EDIT PRESENT');
+          ksEditLocation.tr, false, true, true, false, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
       // Get.back();
     } else if (methodID == 5) {
       setEditPageValue('Add Educational Event', true, BipHip.schoolNew, educationInstituteTextEditingController, false, educationInstituteTextEditingController,
-          'Institute name', true, true, true, isCurrentlyStudyingHere.value, 'Currently studying here', 'ADD SCHOOL');
+          'Institute name', true, true, true, isCurrentlyStudyingHere.value, 'Currently studying here', 'ADD SCHOOL', '', '');
     } else if (methodID == 6) {
-      setEditPageValue(ksEditSchool.tr, false, BipHip.schoolNew, educationInstituteTextEditingController, false, educationInstituteTextEditingController,
-          ksEditSchool.tr, true, true, true, isCurrentlyStudyingHere.value, ksCurrentlyStudyingHere.tr, 'EDIT SCHOOL');
+      setEditPageValue(
+          ksEditSchool.tr,
+          false,
+          BipHip.schoolNew,
+          educationInstituteTextEditingController,
+          false,
+          educationInstituteTextEditingController,
+          ksEditSchool.tr,
+          true,
+          true,
+          true,
+          isCurrentlyStudyingHere.value,
+          ksCurrentlyStudyingHere.tr,
+          'EDIT SCHOOL',
+          tempSchoolStartDate.value,
+          tempSchoolEndDate.value);
       // Get.back();
     } else if (methodID == 7) {
-      setEditPageValue(ksEditCollege.tr, false, BipHip.schoolNew, educationInstituteTextEditingController, false, educationInstituteTextEditingController,
-          ksEditCollege.tr, true, true, true, isCurrentlyStudyingHere.value, ksCurrentlyStudyingHere.tr, 'EDIT COLLEGE');
+      setEditPageValue(
+          ksEditCollege.tr,
+          false,
+          BipHip.schoolNew,
+          educationInstituteTextEditingController,
+          false,
+          educationInstituteTextEditingController,
+          ksEditCollege.tr,
+          true,
+          true,
+          true,
+          isCurrentlyStudyingHere.value,
+          ksCurrentlyStudyingHere.tr,
+          'EDIT COLLEGE',
+          tempSchoolStartDate.value,
+          tempSchoolEndDate.value);
       // Get.back();
     } else if (methodID == 8) {
       setEditPageValue(ksAddWorkplace.tr, false, BipHip.officeFill, companyNameTextEditingController, true, designationTextEditingController, ksOfficeName.tr,
-          true, true, true, isCurrentlyStudyingHere.value, ksCurrentlyWorkingHere.tr, 'ADD WORKPLACE');
+          true, true, true, isCurrentlyStudyingHere.value, ksCurrentlyWorkingHere.tr, 'ADD WORKPLACE', '', '');
     } else if (methodID == 9) {
       setEditPageValue(ksAddHomeTownAddress.tr, false, BipHip.location, homeTownTextEditingController, false, homeTownTextEditingController,
-          ksEnterHometownAddress.tr, false, true, false, false, '', 'HOMETOWN');
+          ksEnterHometownAddress.tr, false, true, false, false, '', 'HOMETOWN', '', '');
     } else if (methodID == 10) {
-      setEditPageValue(ksEditWorkplace.tr, false, BipHip.officeFill, companyNameTextEditingController, true, designationTextEditingController,
-          ksEditWorkplace.tr, true, true, true, isCurrentlyWorkingHere.value, ksCurrentlyWorkingHere.tr, 'EDIT WORKPLACE');
+      setEditPageValue(
+          ksEditWorkplace.tr,
+          false,
+          BipHip.officeFill,
+          companyNameTextEditingController,
+          true,
+          designationTextEditingController,
+          ksEditWorkplace.tr,
+          true,
+          true,
+          true,
+          isCurrentlyWorkingHere.value,
+          ksCurrentlyWorkingHere.tr,
+          'EDIT WORKPLACE',
+          tempWorkplaceStartDate.value,
+          tempWorkplaceEndDate.value);
       // Get.back();
     } else if (methodID == 11) {
       setEditPageValue(ksAddPhoneNumber.tr, false, BipHip.phoneFill, phoneTextEditingController, false, phoneTextEditingController, ksPhone.tr, false, true,
-          false, false, '', 'ADD PHONE');
+          false, false, '', 'ADD PHONE', '', '');
     } else if (methodID == 12) {
       setEditPageValue(ksEditPhone.tr, false, BipHip.phoneFill, phoneTextEditingController, false, phoneTextEditingController, ksEditPhone.tr, false, true,
-          false, false, '', 'EDIT PHONE');
+          false, false, '', 'EDIT PHONE', '', '');
       // Get.back();
     } else if (methodID == 13) {
       setEditPageValue(ksAddEmail.tr, false, BipHip.mail, emailTextEditingController, false, emailTextEditingController, ksEmail.tr, false, true, false, false,
-          '', 'ADD EMAIL');
+          '', 'ADD EMAIL', '', '');
     } else if (methodID == 14) {
       setEditPageValue(ksEditEmail.tr, false, BipHip.mail, emailTextEditingController, false, emailTextEditingController, ksEditEmail.tr, false, true, false,
-          false, '', 'EDIT EMAIL');
+          false, '', 'EDIT EMAIL', '', '');
       // Get.back();
     } else if (methodID == 15) {
-      setEditPageValue(
-          ksAddLink, true, BipHip.webLink, linkTextEditingController, false, emailTextEditingController, ksAddLink, false, true, false, false, '', 'ADD LINK');
+      setEditPageValue(ksAddLink, true, BipHip.webLink, linkTextEditingController, false, emailTextEditingController, ksAddLink, false, true, false, false, '',
+          'ADD LINK', '', '');
     } else if (methodID == 16) {
       setEditPageValue(ksEditLink.tr, true, getLinkIcon(linkSource.value), linkTextEditingController, false, linkTextEditingController, ksEditLink.tr, false,
-          true, false, false, '', 'EDIT LINK');
+          true, false, false, '', 'EDIT LINK', '', '');
       // Get.back();
     }
     Get.toNamed(krEdit);
@@ -545,6 +593,34 @@ class ProfileController extends GetxController {
         return true;
       } else {
         return false;
+      }
+    }
+  }
+
+  void checkSaveButtonActive() {
+    if (functionFlag.contains('LINK')) {
+      if (commonEditTextEditingController.text.trim() != '' && linkSource.value != '') {
+        enableSaveButton.value = true;
+      } else {
+        enableSaveButton.value = false;
+      }
+    } else if (functionFlag == 'ADD SCHOOL') {
+      if (commonEditTextEditingController.text.trim() != '' && educationBackground.value != '') {
+        enableSaveButton.value = true;
+      } else {
+        enableSaveButton.value = false;
+      }
+    } else if (functionFlag.contains('EMAIL')) {
+      if (commonEditTextEditingController.text.trim() != '' && commonEditTextEditingController.text.isValidEmail) {
+        enableSaveButton.value = true;
+      } else {
+        enableSaveButton.value = false;
+      }
+    } else {
+      if (commonEditTextEditingController.text.trim() != '') {
+        enableSaveButton.value = true;
+      } else {
+        enableSaveButton.value = false;
       }
     }
   }
@@ -766,6 +842,8 @@ class ProfileController extends GetxController {
       Map<String, dynamic> body = {
         'school': educationInstituteTextEditingController.text.trim(),
         'graduated': isCommonEditCheckBoxSelected.value ? '0' : '1',
+        'started': commonStartDate.value,
+        'ended': commonEndDate.value
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -802,6 +880,8 @@ class ProfileController extends GetxController {
         'id': id.toString(),
         'school': educationInstituteTextEditingController.text.trim(),
         'graduated': isCommonEditCheckBoxSelected.value ? '0' : '1',
+        'started': commonStartDate.value,
+        'ended': commonEndDate.value
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -876,6 +956,8 @@ class ProfileController extends GetxController {
       Map<String, dynamic> body = {
         'school': educationInstituteTextEditingController.text.trim(),
         'graduated': isCommonEditCheckBoxSelected.value ? '0' : '1',
+        'started': commonStartDate.value,
+        'ended': commonEndDate.value
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -912,6 +994,8 @@ class ProfileController extends GetxController {
         'id': id.toString(),
         'school': educationInstituteTextEditingController.text.trim(),
         'graduated': isCommonEditCheckBoxSelected.value ? '0' : '1',
+        'started': commonStartDate.value,
+        'ended': commonEndDate.value
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -986,7 +1070,9 @@ class ProfileController extends GetxController {
       Map<String, dynamic> body = {
         'company': companyNameTextEditingController.text.trim(),
         'position': designationTextEditingController.text.trim(),
-        'is_current': isCommonEditCheckBoxSelected.value ? '1' : '0'
+        'is_current': isCommonEditCheckBoxSelected.value ? '1' : '0',
+        'started': commonStartDate.value,
+        'ended': commonEndDate.value
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -1026,7 +1112,9 @@ class ProfileController extends GetxController {
         'id': id.toString(),
         'company': companyNameTextEditingController.text.trim(),
         'position': designationTextEditingController.text.trim(),
-        'is_current': isCommonEditCheckBoxSelected.value ? '1' : '0'
+        'is_current': isCommonEditCheckBoxSelected.value ? '1' : '0',
+        'started': commonStartDate.value,
+        'ended': commonEndDate.value
       };
       ll(body);
       var response = await _apiController.commonApiCall(
