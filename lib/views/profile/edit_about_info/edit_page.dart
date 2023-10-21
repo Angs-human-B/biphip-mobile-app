@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/profile/profile_widgets/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -70,14 +71,16 @@ class EditPage extends StatelessWidget {
                                 _profileController.tempEducationBackground.value = _profileController.educationBackground.value;
                                 _globalController.commonBottomSheet(
                                   context: context,
-                                  content: Obx(() =>
-                                      (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
-                                          ? (_profileController.isLinkListLoading.value
-                                              ? const _LinkListContentShimmer()
-                                              : _LinkListContent(profileController: _profileController))
-                                          : _EducationBackgroundContent(
-                                              profileController: _profileController,
-                                            )),
+                                  content: Obx(
+                                    () => (_profileController.commonEditPageTitle.value == ksAddLink ||
+                                            _profileController.commonEditPageTitle.value == ksEditLink)
+                                        ? (_profileController.isLinkListLoading.value
+                                            ? const _LinkListContentShimmer()
+                                            : _LinkListContent(profileController: _profileController))
+                                        : _EducationBackgroundContent(
+                                            profileController: _profileController,
+                                          ),
+                                  ),
                                   isScrollControlled: true,
                                   bottomSheetHeight:
                                       (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
@@ -466,36 +469,40 @@ class _EducationBackgroundContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: profileController.educationBackgroundList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Obx(
-              () => Padding(
-                padding: const EdgeInsets.only(bottom: k8Padding),
-                child: CustomListTile(
-                  title: profileController.educationBackgroundList[index],
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
+    return Obx(() => Column(
+          children: [
+            profileController.educationBackgroundList.isNotEmpty
+                ? ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: profileController.educationBackgroundList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: k8Padding),
+                        child: CustomListTile(
+                          title: profileController.educationBackgroundList[index],
+                          trailing: CustomRadioButton(
+                            onChanged: () {
+                              profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
+                            },
+                            isSelected: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index],
+                          ),
+                          itemColor: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index]
+                              ? cPrimaryTint3Color
+                              : cWhiteColor,
+                          onPressed: () {
+                            profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
+                          },
+                        ),
+                      );
                     },
-                    isSelected: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index],
+                  )
+                : EmptyView(
+                    height: 140,
+                    title: ksNoDataAvailable.tr,
                   ),
-                  itemColor:
-                      profileController.tempEducationBackground.value == profileController.educationBackgroundList[index] ? cPrimaryTint3Color : cWhiteColor,
-                  onPressed: () {
-                    profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
-                  },
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
+          ],
+        ));
   }
 }
 
@@ -509,35 +516,41 @@ class _LinkListContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: profileController.linkSourceList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Obx(
-              () => Padding(
-                padding: const EdgeInsets.only(bottom: k8Padding),
-                child: CustomListTile(
-                  title: profileController.linkSourceList[index],
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      profileController.tempLinkSource.value = profileController.linkSourceList[index];
+    return Obx(() => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            profileController.linkSourceList.isNotEmpty
+                ? ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: profileController.linkSourceList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Obx(
+                        () => Padding(
+                          padding: const EdgeInsets.only(bottom: k8Padding),
+                          child: CustomListTile(
+                            title: profileController.linkSourceList[index],
+                            trailing: CustomRadioButton(
+                              onChanged: () {
+                                profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                              },
+                              isSelected: profileController.tempLinkSource.value == profileController.linkSourceList[index],
+                            ),
+                            itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
+                            onPressed: () {
+                              profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                            },
+                          ),
+                        ),
+                      );
                     },
-                    isSelected: profileController.tempLinkSource.value == profileController.linkSourceList[index],
+                  )
+                : EmptyView(
+                    height: height * 0.8,
+                    title: ksNoDataAvailable.tr,
                   ),
-                  itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
-                  onPressed: () {
-                    profileController.tempLinkSource.value = profileController.linkSourceList[index];
-                  },
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
+          ],
+        ));
   }
 }
 

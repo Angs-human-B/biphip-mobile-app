@@ -163,6 +163,7 @@ class EditProfile extends StatelessWidget {
                                   prefix: ksBio.tr,
                                   suffix: _profileController.userData.value!.bio == null ? ksAdd.tr : ksEdit.tr,
                                   onEditPressed: () {
+                                    _profileController.bioCount.value = _profileController.userData.value!.bio.toString().length;
                                     if (_profileController.userData.value!.bio == null) {
                                       _profileController.bioEditingController.text = '';
                                       _profileController.bio.value = '';

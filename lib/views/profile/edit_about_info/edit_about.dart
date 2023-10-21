@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
+import 'package:bip_hip/views/profile/profile_widgets/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
@@ -469,7 +470,7 @@ class EditAboutInfo extends StatelessWidget {
                                     content: Obx(
                                       () => _profileController.isGenderListLoading.value
                                           ? const GenderListShimmer()
-                                          : _GenderListContent(
+                                          : GenderListContent(
                                               profileController: _profileController,
                                             ),
                                     ),
@@ -1067,36 +1068,42 @@ class _RelationshipStatusListContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: profileController.relationshipStatusList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Obx(
-              () => Padding(
-                padding: const EdgeInsets.only(bottom: k8Padding),
-                child: CustomListTile(
-                  title: profileController.relationshipStatusList[index],
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
+    return Obx(() => Column(
+          children: [
+            profileController.relationshipStatusList.isNotEmpty
+                ? ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: profileController.relationshipStatusList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Obx(
+                        () => Padding(
+                          padding: const EdgeInsets.only(bottom: k8Padding),
+                          child: CustomListTile(
+                            title: profileController.relationshipStatusList[index],
+                            trailing: CustomRadioButton(
+                              onChanged: () {
+                                profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
+                              },
+                              isSelected: profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index],
+                            ),
+                            itemColor: profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index]
+                                ? cPrimaryTint3Color
+                                : cWhiteColor,
+                            onPressed: () {
+                              profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
+                            },
+                          ),
+                        ),
+                      );
                     },
-                    isSelected: profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index],
+                  )
+                : EmptyView(
+                    height: height * 0.45,
+                    title: ksNoDataAvailable.tr,
                   ),
-                  itemColor:
-                      profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index] ? cPrimaryTint3Color : cWhiteColor,
-                  onPressed: () {
-                    profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
-                  },
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
+          ],
+        ));
   }
 }
 
@@ -1135,8 +1142,8 @@ class _RelationshipStatusListShimmer extends StatelessWidget {
   }
 }
 
-class _GenderListContent extends StatelessWidget {
-  const _GenderListContent({
+class GenderListContent extends StatelessWidget {
+  const GenderListContent({
     Key? key,
     required this.profileController,
   }) : super(key: key);
@@ -1145,35 +1152,40 @@ class _GenderListContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: profileController.genderList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Obx(
-              () => Padding(
-                padding: const EdgeInsets.only(bottom: k8Padding),
-                child: CustomListTile(
-                  title: profileController.genderList[index],
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      profileController.tempSelectedGender.value = profileController.genderList[index];
+    return Obx(() => Column(
+          children: [
+            profileController.genderList.isNotEmpty
+                ? ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: profileController.genderList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Obx(
+                        () => Padding(
+                          padding: const EdgeInsets.only(bottom: k8Padding),
+                          child: CustomListTile(
+                            title: profileController.genderList[index],
+                            trailing: CustomRadioButton(
+                              onChanged: () {
+                                profileController.tempSelectedGender.value = profileController.genderList[index];
+                              },
+                              isSelected: profileController.tempSelectedGender.value == profileController.genderList[index],
+                            ),
+                            itemColor: profileController.tempSelectedGender.value == profileController.genderList[index] ? cPrimaryTint3Color : cWhiteColor,
+                            onPressed: () {
+                              profileController.tempSelectedGender.value = profileController.genderList[index];
+                            },
+                          ),
+                        ),
+                      );
                     },
-                    isSelected: profileController.tempSelectedGender.value == profileController.genderList[index],
+                  )
+                : EmptyView(
+                    height: isDeviceScreenLarge() ? 185 : 170,
+                    title: ksNoDataAvailable.tr,
                   ),
-                  itemColor: profileController.tempSelectedGender.value == profileController.genderList[index] ? cPrimaryTint3Color : cWhiteColor,
-                  onPressed: () {
-                    profileController.tempSelectedGender.value = profileController.genderList[index];
-                  },
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
+          ],
+        ));
   }
 }
 

@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/profile/edit_about_info/edit_about.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
@@ -67,7 +68,7 @@ class SelectGender extends StatelessWidget {
                             content: Obx(
                               () => _profileController.isGenderListLoading.value
                                   ? const GenderListShimmer()
-                                  : _GenderListContent(
+                                  : GenderListContent(
                                       profileController: _profileController,
                                     ),
                             ),
@@ -75,6 +76,7 @@ class SelectGender extends StatelessWidget {
                               Get.back();
                             },
                             onPressRightButton: () {
+                                  _profileController.isGenderListLoading.value = true;
                               if (_profileController.tempSelectedGender.value != '') {
                                 _authenticationController.gender.value = _profileController.tempSelectedGender.value;
                                 _profileController.isGenderSelected.value = true;
@@ -113,43 +115,6 @@ class SelectGender extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _GenderListContent extends StatelessWidget {
-  const _GenderListContent({
-    Key? key,
-    required this.profileController,
-  }) : super(key: key);
-
-  final ProfileController profileController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: profileController.genderList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Obx(
-              () => RadioListTile(
-                title: Text(profileController.genderList[index]),
-                value: profileController.genderList[index],
-                activeColor: cPrimaryColor,
-                contentPadding: EdgeInsets.zero,
-                groupValue: profileController.tempSelectedGender.value,
-                controlAffinity: ListTileControlAffinity.trailing,
-                onChanged: (value) {
-                  profileController.tempSelectedGender.value = value;
-                },
-              ),
-            );
-          },
-        ),
-      ],
     );
   }
 }

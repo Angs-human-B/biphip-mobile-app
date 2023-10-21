@@ -418,6 +418,16 @@ class ProfileController extends GetxController {
       return BipHip.linkedin;
     } else if (type.toLowerCase() == "twitter") {
       return BipHip.twitter;
+    } else if (type.toLowerCase() == "instagram") {
+      return BipHip.instagram;
+    } else if (type.toLowerCase() == "twitch") {
+      return BipHip.twitchFill;
+    } else if (type.toLowerCase() == "youtube") {
+      return BipHip.youtube;
+    } else if (type.toLowerCase() == "snapchat") {
+      return BipHip.snapchatFill;
+    } else if (type.toLowerCase() == "whatsapp") {
+      return BipHip.whatsappFill;
     } else {
       return BipHip.webLink;
     }
