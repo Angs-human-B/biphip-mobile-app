@@ -12,15 +12,15 @@ class FriendController extends GetxController {
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
   //*Friend List Api Call
-  Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
-  RxList<CommonFriendData> friendList = RxList<CommonFriendData>([]);
+  final Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
+  final RxList<CommonFriendData> friendList = RxList<CommonFriendData>([]);
   final Rx<String?> friendListSubLink = Rx<String?>(null);
   final RxBool friendListScrolled = RxBool(false);
   final RxBool isFriendListLoading = RxBool(false);
   Future<void> getFriendList() async {
     try {
       isFriendListLoading.value = true;
-      String suffixUrl = '?take=15';
+      String suffixUrl = '?take=2';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -70,7 +70,7 @@ class FriendController extends GetxController {
 
       String friendListSuffixUrl = '';
 
-      friendListSuffixUrl = '?${friendListSub[1]}&take=15';
+      friendListSuffixUrl = '?${friendListSub[1]}&take=2';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -241,10 +241,9 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        ll(receivedFriendList.length);
         isUnfriendUserRequestLoading.value = false;
-        for (int index = 0; index < receivedFriendList.length; index++) {
-          if (userId.value == receivedFriendList[index].id) {
+        for (int index = 0; index < friendList.length; index++) {
+          if (userId.value == friendList[index].id) {
             friendList.removeAt(index);
             allFriendCount.value--;
           }
@@ -398,11 +397,9 @@ class FriendController extends GetxController {
             isSendRequest.add(false);
           } else if (addFriendRequestList[index].friendStatus == 0) {
             isSendRequest.add(true);
+          } else {
+            isSendRequest.add(false);
           }
-          // if (userId.value == addFriendRequestList[index].id) {
-          //   isSendRequest[index] = !isSendRequest[index];
-          // }
-          ll(isSendRequest);
         }
         isAddFriendRequestListLoading.value = false;
       } else {
@@ -437,8 +434,6 @@ class FriendController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         isSendFriendRequestLoading.value = false;
-
-        ll(isSendRequest);
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
         return true;
       } else {

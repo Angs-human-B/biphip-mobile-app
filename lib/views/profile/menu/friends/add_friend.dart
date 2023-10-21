@@ -58,6 +58,7 @@ class AddFriend extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: _friendController.addFriendRequestList.length,
                     itemBuilder: (context, index) {
+                      ll(_friendController.addFriendRequestList.length);
                       return Padding(
                         padding: const EdgeInsets.only(bottom: k10Padding),
                         child: ClipRRect(
