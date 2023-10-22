@@ -2,10 +2,10 @@ import 'package:bip_hip/controllers/friend_controller.dart';
 import 'package:bip_hip/controllers/friends_family_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/common_shimmer.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 import 'package:flutter/rendering.dart';
-import 'package:shimmer/shimmer.dart';
 
 class Friends extends StatelessWidget {
   Friends({super.key});
@@ -787,10 +787,8 @@ class AllPendingFriendShimmer extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: kHorizontalPadding, top: k4Padding, bottom: k12Padding),
-          child: Shimmer.fromColors(
-            baseColor: cWhiteColor,
-            highlightColor: Colors.grey,
-            child: Container(
+          child: ShimmerCommon(
+            widget: Container(
               decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
               height: 16,
               width: 120,
@@ -808,47 +806,27 @@ class AllPendingFriendShimmer extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: k16Padding),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(k8BorderRadius),
-                  child: TextButton(
-                    style: kTextButtonStyle,
-                    onPressed: () async {
-                      // ll(index);
-                    },
-                    child: CustomListTile(
-                      borderColor: cLineColor,
-                      leading: Container(
+                  child: CustomListTile(
+                    borderColor: cLineColor,
+                    leading: ShimmerCommon(
+                      widget: Container(
+                        decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
                         height: h40,
                         width: h40,
-                        decoration: const BoxDecoration(
-                          color: cWhiteColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Shimmer.fromColors(
-                          baseColor: cWhiteColor,
-                          highlightColor: Colors.grey,
-                          child: Container(
-                            decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
-                            height: 40,
-                            width: 40,
-                          ),
-                        ),
                       ),
-                      title: Shimmer.fromColors(
-                        baseColor: cWhiteColor,
-                        highlightColor: Colors.grey,
-                        child: Container(
-                          decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                          height: 12,
-                          width: 80,
-                        ),
+                    ),
+                    title: ShimmerCommon(
+                      widget: Container(
+                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                        height: 12,
+                        width: 80,
                       ),
-                      trailing: Shimmer.fromColors(
-                        baseColor: cWhiteColor,
-                        highlightColor: Colors.grey,
-                        child: Container(
-                          decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                          height: 20,
-                          width: 12,
-                        ),
+                    ),
+                    trailing: ShimmerCommon(
+                      widget: Container(
+                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                        height: 20,
+                        width: 12,
                       ),
                     ),
                   ),
@@ -873,10 +851,8 @@ class ReceivedFriendShimmer extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: kHorizontalPadding, top: k4Padding, bottom: k12Padding),
-          child: Shimmer.fromColors(
-            baseColor: cWhiteColor,
-            highlightColor: Colors.grey,
-            child: Container(
+          child: ShimmerCommon(
+            widget: Container(
               decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
               height: 16,
               width: 120,
@@ -886,7 +862,7 @@ class ReceivedFriendShimmer extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
           child: ListView.builder(
-            itemCount: 10,
+            itemCount: 20,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
@@ -894,77 +870,63 @@ class ReceivedFriendShimmer extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: k16Padding),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(k8BorderRadius),
-                  child: TextButton(
-                    style: kTextButtonStyle,
-                    onPressed: () async {
-                      // ll(index);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: h40,
-                          width: h40,
-                          decoration: const BoxDecoration(
-                            color: cWhiteColor,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Shimmer.fromColors(
-                            baseColor: cWhiteColor,
-                            highlightColor: Colors.grey,
-                            child: Container(
-                              decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
-                              height: 40,
-                              width: 40,
-                            ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: h40,
+                        width: h40,
+                        decoration: const BoxDecoration(
+                          color: cWhiteColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: ShimmerCommon(
+                          widget: Container(
+                            decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                            height: 40,
+                            width: 40,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: k12Padding),
-                          child: SizedBox(
-                            width: width - 105,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Shimmer.fromColors(
-                                  baseColor: cWhiteColor,
-                                  highlightColor: Colors.grey,
-                                  child: Container(
-                                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                                    height: 16,
-                                    width: 200,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: k12Padding),
+                        child: SizedBox(
+                          width: width - 105,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ShimmerCommon(
+                                widget: Container(
+                                  decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                  height: 16,
+                                  width: 200,
+                                ),
+                              ),
+                              kH4sizedBox,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ShimmerCommon(
+                                    widget: Container(
+                                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
+                                      height: 30,
+                                      width: 120,
+                                    ),
                                   ),
-                                ),
-                                kH4sizedBox,
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Shimmer.fromColors(
-                                      baseColor: cWhiteColor,
-                                      highlightColor: Colors.grey,
-                                      child: Container(
-                                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
-                                        height: 30,
-                                        width: 120,
-                                      ),
+                                  ShimmerCommon(
+                                    widget: Container(
+                                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
+                                      height: 30,
+                                      width: 120,
                                     ),
-                                    Shimmer.fromColors(
-                                      baseColor: cWhiteColor,
-                                      highlightColor: Colors.grey,
-                                      child: Container(
-                                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
-                                        height: 30,
-                                        width: 120,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               );

@@ -159,19 +159,11 @@ class AddFriendShimmer extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Container(
-                              height: h40,
-                              width: h40,
-                              decoration: const BoxDecoration(
-                                color: cWhiteColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: ShimmerCommon(
-                                widget: Container(
-                                  decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
-                                  height: 40,
-                                  width: 40,
-                                ),
+                            ShimmerCommon(
+                              widget: Container(
+                                decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                                height: h40,
+                                width: h40,
                               ),
                             ),
                             kW12sizedBox,
