@@ -20,7 +20,7 @@ class FriendController extends GetxController {
   Future<void> getFriendList() async {
     try {
       isFriendListLoading.value = true;
-      String suffixUrl = '?take=2';
+      String suffixUrl = '?take=1';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -70,7 +70,7 @@ class FriendController extends GetxController {
 
       String friendListSuffixUrl = '';
 
-      friendListSuffixUrl = '?${friendListSub[1]}&take=2';
+      friendListSuffixUrl = '?${friendListSub[1]}&take=1';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -109,18 +109,18 @@ class FriendController extends GetxController {
   //*Received Friend List Api Call
   Rx<CommonSendReceiveModel?> receivedFriendListData = Rx<CommonSendReceiveModel?>(null);
   RxList<CommonFriendData> receivedFriendList = RxList<CommonFriendData>([]);
-  // final Rx<String?> friendListSubLink = Rx<String?>(null);
-  // final RxBool friendListScrolled = RxBool(false);
+  final Rx<String?> receivedListSubLink = Rx<String?>(null);
+  final RxBool receivedListScrolled = RxBool(false);
   final RxBool isReceivedFriendListLoading = RxBool(false);
   Future<void> getReceivedFriendList() async {
     try {
       isReceivedFriendListLoading.value = true;
-      // String suffixUrl = '?take=3';
+      String suffixUrl = '?take=2';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: kuGetFriendRequestReceiveList,
+        url: kuGetFriendRequestReceiveList + suffixUrl,
       ) as CommonDM;
       if (response.success == true) {
         receivedFriendList.clear();

@@ -453,6 +453,7 @@ class AllFriendList extends StatelessWidget {
                         },
                       ),
                     ),
+                    if (!_friendController.friendListScrolled.value) Center(child: CircularProgressIndicator()),
                   ],
                 ),
               ),
