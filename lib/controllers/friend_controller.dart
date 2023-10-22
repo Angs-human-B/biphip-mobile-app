@@ -11,6 +11,7 @@ class FriendController extends GetxController {
   final GlobalController _globalController = Get.find<GlobalController>();
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
+  final ScrollController receivedFriendListScrollController = ScrollController();
   //*Friend List Api Call
   final Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
   final RxList<CommonFriendData> friendList = RxList<CommonFriendData>([]);
@@ -107,15 +108,15 @@ class FriendController extends GetxController {
   }
 
   //*Received Friend List Api Call
-  Rx<CommonSendReceiveModel?> receivedFriendListData = Rx<CommonSendReceiveModel?>(null);
-  RxList<CommonFriendData> receivedFriendList = RxList<CommonFriendData>([]);
-  final Rx<String?> receivedListSubLink = Rx<String?>(null);
-  final RxBool receivedListScrolled = RxBool(false);
+  final Rx<CommonSendReceiveModel?> receivedFriendListData = Rx<CommonSendReceiveModel?>(null);
+  final RxList<CommonFriendData> receivedFriendList = RxList<CommonFriendData>([]);
+  final Rx<String?> receivedFriendListSubLink = Rx<String?>(null);
+  final RxBool receivedFriendListScrolled = RxBool(false);
   final RxBool isReceivedFriendListLoading = RxBool(false);
   Future<void> getReceivedFriendList() async {
     try {
       isReceivedFriendListLoading.value = true;
-      String suffixUrl = '?take=2';
+      String suffixUrl = '?take=1';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -124,10 +125,16 @@ class FriendController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         receivedFriendList.clear();
-
+        receivedFriendListScrolled.value = false;
         receivedFriendListData.value = CommonSendReceiveModel.fromJson(response.data);
         receivedFriendList.addAll(receivedFriendListData.value!.users!.data);
         receivedRequestCount.value = receivedFriendList.length;
+        receivedFriendListSubLink.value = receivedFriendListData.value!.users!.nextPageUrl;
+        if (receivedFriendListSubLink.value != null) {
+          receivedFriendListScrolled.value = false;
+        } else {
+          receivedFriendListScrolled.value = true;
+        }
         isReceivedFriendListLoading.value = false;
       } else {
         isReceivedFriendListLoading.value = false;
@@ -141,6 +148,54 @@ class FriendController extends GetxController {
     } catch (e) {
       isReceivedFriendListLoading.value = false;
       ll('getReceivedFriendList error: $e');
+    }
+  }
+
+  //*Get More Received Friend List for pagination
+  Future<void> getMoreReceivedFriendList(take) async {
+    try {
+      String? token = await _spController.getBearerToken();
+      dynamic receivedFriendListSub;
+
+      if (receivedFriendListSubLink.value == null) {
+        return;
+      } else {
+        receivedFriendListSub = receivedFriendListSubLink.value!.split('?');
+      }
+
+      String receivedFriendListSuffixUrl = '';
+
+      receivedFriendListSuffixUrl = '?${receivedFriendListSub[1]}&take=1';
+
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetFriendRequestReceiveList + receivedFriendListSuffixUrl,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        receivedFriendListData.value = CommonSendReceiveModel.fromJson(response.data);
+        receivedFriendList.addAll(receivedFriendListData.value!.users!.data);
+        receivedRequestCount.value = receivedFriendList.length;
+        receivedFriendListSubLink.value = receivedFriendListData.value!.users!.nextPageUrl;
+        if (receivedFriendListSubLink.value != null) {
+          receivedFriendListScrolled.value = false;
+        } else {
+          receivedFriendListScrolled.value = true;
+        }
+        isReceivedFriendListLoading.value = false;
+      } else {
+        isReceivedFriendListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isReceivedFriendListLoading.value = false;
+      ll('getMoreReceivedFriendList error: $e');
     }
   }
 

@@ -453,7 +453,7 @@ class AllFriendList extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (!_friendController.friendListScrolled.value) Center(child: CircularProgressIndicator()),
+                    if (!_friendController.friendListScrolled.value) const Center(child: CircularProgressIndicator()),
                   ],
                 ),
               ),
@@ -471,53 +471,72 @@ class ReceivedFriendList extends StatelessWidget {
     return Obx(
       () => _friendController.isReceivedFriendListLoading.value
           ? const ReceivedFriendShimmer()
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: kHorizontalPadding, top: k4Padding, bottom: k12Padding),
-                  child: Text(
-                    '${ksFriendRequests.tr}: ${_friendController.receivedRequestCount.value}',
-                    style: semiBold14TextStyle(cBlackColor),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                  child: ListView.builder(
-                    itemCount: _friendController.receivedFriendList.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: k16Padding),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(k8BorderRadius),
-                          child: TextButton(
-                            style: kTextButtonStyle,
-                            onPressed: () async {
-                              // ll(index);
-                            },
-                            child: CustomListViewItem(
-                              backgroundImage: Environment.imageBaseUrl + _friendController.receivedFriendList[index].profilePicture.toString(),
-                              name: _friendController.receivedFriendList[index].fullName ?? ksNA.tr,
-                              firstButtonText: ksConfirm.tr,
-                              secondButtonText: ksCancel.tr,
-                              firstButtonOnPressed: () async {
-                                _friendController.userId.value = _friendController.receivedFriendList[index].id!;
-                                await _friendController.acceptFriendRequest();
-                              },
-                              secondButtonOnPressed: () async {
-                                _friendController.userId.value = _friendController.receivedFriendList[index].id!;
-                                await _friendController.rejectFriendRequest();
-                              },
+          : NotificationListener<ScrollNotification>(
+              onNotification: (scrollNotification) {
+                if (_friendController.receivedFriendListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                    scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
+                    !_friendController.receivedFriendListScrolled.value) {
+                  _friendController.receivedFriendListScrolled.value = true;
+                  if (_friendController.receivedFriendList.isNotEmpty) {
+                    _friendController.getMoreReceivedFriendList(null);
+                  }
+                  return true;
+                }
+                return false;
+              },
+              child: SingleChildScrollView(
+                controller: _friendController.receivedFriendListScrollController,
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: kHorizontalPadding, top: k4Padding, bottom: k12Padding),
+                      child: Text(
+                        '${ksFriendRequests.tr}: ${_friendController.receivedRequestCount.value}',
+                        style: semiBold14TextStyle(cBlackColor),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                      child: ListView.builder(
+                        itemCount: _friendController.receivedFriendList.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: k16Padding),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(k8BorderRadius),
+                              child: TextButton(
+                                style: kTextButtonStyle,
+                                onPressed: () async {
+                                  // ll(index);
+                                },
+                                child: CustomListViewItem(
+                                  backgroundImage: Environment.imageBaseUrl + _friendController.receivedFriendList[index].profilePicture.toString(),
+                                  name: _friendController.receivedFriendList[index].fullName ?? ksNA.tr,
+                                  firstButtonText: ksConfirm.tr,
+                                  secondButtonText: ksCancel.tr,
+                                  firstButtonOnPressed: () async {
+                                    _friendController.userId.value = _friendController.receivedFriendList[index].id!;
+                                    await _friendController.acceptFriendRequest();
+                                  },
+                                  secondButtonOnPressed: () async {
+                                    _friendController.userId.value = _friendController.receivedFriendList[index].id!;
+                                    await _friendController.rejectFriendRequest();
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                          );
+                        },
+                      ),
+                    ),
+                    if (!_friendController.receivedFriendListScrolled.value) const Center(child: CircularProgressIndicator()),
+                  ],
                 ),
-              ],
+              ),
             ),
     );
   }
