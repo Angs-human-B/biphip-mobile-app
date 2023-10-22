@@ -11,14 +11,14 @@ class FriendController extends GetxController {
   final GlobalController _globalController = Get.find<GlobalController>();
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
-  
+
   //*Friend List Api Call
   final Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
   final RxList<CommonFriendData> friendList = RxList<CommonFriendData>([]);
   final Rx<String?> friendListSubLink = Rx<String?>(null);
   final RxBool friendListScrolled = RxBool(false);
   final RxBool isFriendListLoading = RxBool(false);
-    final RxInt allFriendCount = RxInt(0);
+  final RxInt allFriendCount = RxInt(0);
   Future<void> getFriendList() async {
     try {
       isFriendListLoading.value = true;
@@ -108,14 +108,15 @@ class FriendController extends GetxController {
     }
   }
 
-  //*Received Friend List Api Call
+  //*Scroll controller for pagination
   final ScrollController receivedFriendListScrollController = ScrollController();
+  //*Received Friend List Api Call
   final Rx<CommonSendReceiveModel?> receivedFriendListData = Rx<CommonSendReceiveModel?>(null);
   final RxList<CommonFriendData> receivedFriendList = RxList<CommonFriendData>([]);
   final Rx<String?> receivedFriendListSubLink = Rx<String?>(null);
   final RxBool receivedFriendListScrolled = RxBool(false);
   final RxBool isReceivedFriendListLoading = RxBool(false);
-    final RxInt receivedRequestCount = RxInt(0);
+  final RxInt receivedRequestCount = RxInt(0);
   Future<void> getReceivedFriendList() async {
     try {
       isReceivedFriendListLoading.value = true;
@@ -355,8 +356,9 @@ class FriendController extends GetxController {
     }
   }
 
-  //* Friend Request Send List(Pending)
+  //*Scroll controller for pagination
   final ScrollController sendFriendListScrollController = ScrollController();
+  //* Friend Request Send List(Pending)
   final Rx<CommonSendReceiveModel?> sendFriendRequestData = Rx<CommonSendReceiveModel?>(null);
   final RxList<CommonFriendData> sendFriendRequestList = RxList<CommonFriendData>([]);
   final Rx<String?> sendFriendListSubLink = Rx<String?>(null);
@@ -365,19 +367,19 @@ class FriendController extends GetxController {
   Future<void> getSendFriendRequestList() async {
     try {
       isSendFriendRequestListLoading.value = true;
-       String suffixUrl = '?take=1';
+      String suffixUrl = '?take=1';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: kuGetFriendRequestSendList+suffixUrl,
+        url: kuGetFriendRequestSendList + suffixUrl,
       ) as CommonDM;
       if (response.success == true) {
         sendFriendRequestList.clear();
         sendFriendListScrolled.value = false;
         sendFriendRequestData.value = CommonSendReceiveModel.fromJson(response.data);
         sendFriendRequestList.addAll(sendFriendRequestData.value!.users!.data);
-         sendFriendListSubLink.value = sendFriendRequestData.value!.users!.nextPageUrl;
+        sendFriendListSubLink.value = sendFriendRequestData.value!.users!.nextPageUrl;
         if (sendFriendListSubLink.value != null) {
           sendFriendListScrolled.value = false;
         } else {
@@ -399,7 +401,7 @@ class FriendController extends GetxController {
     }
   }
 
-   //*Get More Send Friend Request List(Pending) for pagination
+  //*Get More Send Friend Request List(Pending) for pagination
   Future<void> getMoreSendFriendRequestList(take) async {
     try {
       String? token = await _spController.getBearerToken();
@@ -487,26 +489,38 @@ class FriendController extends GetxController {
     }
   }
 
+  //*Scroll controller for pagination
+  final ScrollController addFriendListScrollController = ScrollController();
   //* Add Friend
   final Rx<CommonPagination?> addFriendRequestData = Rx<CommonPagination?>(null);
   final RxList<CommonFriendData> addFriendRequestList = RxList<CommonFriendData>([]);
+  final Rx<String?> addFriendListSubLink = Rx<String?>(null);
+  final RxBool addFriendListScrolled = RxBool(false);
   final RxBool isAddFriendRequestListLoading = RxBool(false);
   final RxList isSendRequest = RxList([]);
   Future<void> getAddFriendRequestList() async {
     try {
       isAddFriendRequestListLoading.value = true;
+      String suffixUrl = '?take=15';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}',
+        url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}$suffixUrl',
       ) as CommonDM;
       if (response.success == true) {
         addFriendRequestList.clear();
+        addFriendListScrolled.value = false;
         addFriendRequestData.value = CommonPagination.fromJson(response.data);
         for (int index = 0; index < addFriendRequestData.value!.data.length; index++) {
           if (addFriendRequestData.value!.data[index].friendStatus == 2 || addFriendRequestData.value!.data[index].friendStatus == 0) {
             addFriendRequestList.add(addFriendRequestData.value!.data[index]);
+            addFriendListSubLink.value = addFriendRequestData.value!.nextPageUrl;
+            if (addFriendListSubLink.value != null) {
+              sendFriendListScrolled.value = false;
+            } else {
+              sendFriendListScrolled.value = true;
+            }
           }
         }
         // addFriendRequestList.addAll(addFriendRequestData.value!.data);
@@ -534,6 +548,62 @@ class FriendController extends GetxController {
     } catch (e) {
       isAddFriendRequestListLoading.value = false;
       ll('getAddFriendRequestList error: $e');
+    }
+  }
+
+  //*Get More Send Friend Request List(Pending) for pagination
+  Future<void> getMoreAddFriendRequestList(take) async {
+    try {
+      String? token = await _spController.getBearerToken();
+      dynamic addFriendListSub;
+
+      if (addFriendListSubLink.value == null) {
+        return;
+      } else {
+        addFriendListSub = addFriendListSubLink.value!.split('?');
+      }
+
+      String addFriendListSuffixUrl = '';
+
+      addFriendListSuffixUrl = '?${addFriendListSub[1]}&take=15';
+
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}$addFriendListSuffixUrl',
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int index = 0; index < addFriendRequestData.value!.data.length; index++) {
+          if (addFriendRequestData.value!.data[index].friendStatus == 2 || addFriendRequestData.value!.data[index].friendStatus == 0) {
+            addFriendRequestList.add(addFriendRequestData.value!.data[index]);
+            addFriendListSubLink.value = addFriendRequestData.value!.nextPageUrl;
+            if (addFriendListSubLink.value != null) {
+              sendFriendListScrolled.value = false;
+            } else {
+              sendFriendListScrolled.value = true;
+            }
+          }
+        }
+        addFriendListSubLink.value = addFriendRequestData.value!.nextPageUrl;
+        if (addFriendListSubLink.value != null) {
+          sendFriendListScrolled.value = false;
+        } else {
+          sendFriendListScrolled.value = true;
+        }
+        isAddFriendRequestListLoading.value = false;
+      } else {
+        isAddFriendRequestListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isAddFriendRequestListLoading.value = false;
+      ll('getMoreAddFriendRequestList error: $e');
     }
   }
 
