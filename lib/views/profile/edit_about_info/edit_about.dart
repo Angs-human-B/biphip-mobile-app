@@ -571,7 +571,7 @@ class EditAboutInfo extends StatelessWidget {
                           if (_profileController.showAllEditOption.value) const CustomDivider(),
                           if (_profileController.showAllEditOption.value)
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                              padding: const EdgeInsets.only(top: k16Padding),
                               child: RowTextButton(
                                 text: ksInterest.tr,
                                 buttonText: ksAdd.tr,
@@ -603,6 +603,7 @@ class EditAboutInfo extends StatelessWidget {
                                 buttonWidth: 149,
                               ),
                             ),
+                          if (_profileController.userData.value!.interest.isEmpty && _profileController.showAllEditOption.value) kH16sizedBox,
                           if (_profileController.userData.value!.interest.isNotEmpty && _profileController.showAllEditOption.value)
                             Padding(
                               padding: const EdgeInsets.only(bottom: k8Padding),
@@ -719,7 +720,7 @@ class EditAboutInfo extends StatelessWidget {
                           for (int i = 0; i < _profileController.workplaceDataList.length; i++)
                             if (_profileController.workplaceDataList[i].isCurrent != 1)
                               Padding(
-                                padding: const EdgeInsets.only(bottom: k10Padding),
+                                padding: const EdgeInsets.only(bottom: k16Padding),
                                 child: InfoContainer(
                                   prefixIcon: BipHip.officeFill,
                                   suffixIcon: BipHip.edit,
@@ -806,7 +807,7 @@ class EditAboutInfo extends StatelessWidget {
                           for (int i = 0; i < _profileController.contactDataList.length; i++)
                             if (_profileController.contactDataList[i].type == 'phone' && _profileController.showAllEditOption.value)
                               Padding(
-                                padding: const EdgeInsets.only(bottom: k10Padding),
+                                padding: const EdgeInsets.only(bottom: k16Padding),
                                 child: InfoContainer(
                                   prefixIcon: BipHip.phoneFill,
                                   suffixIcon: BipHip.edit,
@@ -862,7 +863,7 @@ class EditAboutInfo extends StatelessWidget {
                           for (int i = 0; i < _profileController.contactDataList.length; i++)
                             if (_profileController.contactDataList[i].type == 'email' && _profileController.showAllEditOption.value)
                               Padding(
-                                padding: const EdgeInsets.only(bottom: k10Padding),
+                                padding: const EdgeInsets.only(bottom: k16Padding),
                                 child: InfoContainer(
                                   prefixIcon: BipHip.mail,
                                   suffixIcon: BipHip.edit,
@@ -923,7 +924,7 @@ class EditAboutInfo extends StatelessWidget {
                           for (int i = 0; i < _profileController.linkDataList.length; i++)
                             if (_profileController.showAllEditOption.value)
                               Padding(
-                                padding: const EdgeInsets.only(bottom: k10Padding),
+                                padding: const EdgeInsets.only(bottom: k16Padding),
                                 child: InfoContainer(
                                   prefixIcon: _profileController.getLinkIcon(_profileController.linkDataList[i].type!),
                                   suffixIcon: BipHip.edit,
@@ -1124,11 +1125,11 @@ class _RelationshipStatusListShimmer extends StatelessWidget {
         ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: 5,
+          itemCount: 10,
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
               title: ShimmerCommon(
-               widget: Container(
+                widget: Container(
                   height: 20,
                   decoration: BoxDecoration(
                     borderRadius: k8CircularBorderRadius,
