@@ -1,13 +1,13 @@
-// import 'package:bip_hip/controllers/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/profile_controllers/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/menu/friends/friends.dart';
-// import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 
 class Family extends StatelessWidget {
   Family({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
+  final FamilyController _familyController = Get.find<FamilyController>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,25 +29,10 @@ class Family extends StatelessWidget {
               child: TextButton(
                 style: kTextButtonStyle,
                 onPressed: () {
-                  _profileController.initializeRelationText();
+                  _profileController.searchController.clear();
+                  FocusScope.of(context).unfocus();
+                  _familyController.addFamilyRequestList.clear();
                   Get.toNamed(krAddFamily);
-                  // _globalController.commonBottomSheet(
-                  //   context: context,
-                  //   isScrollControlled: true,
-                  //   isSearchShow: true,
-                  //   bottomSheetHeight: height * .6,
-                  //   content: AddFamilyMemberBottomSheetContent(),
-                  //   onPressCloseButton: () {
-                  //     Get.back();
-                  //   },
-                  //   onPressRightButton: () {
-                  //     Get.back();
-                  //   },
-                  //   rightText: ksSend.tr,
-                  //   rightTextStyle: medium14TextStyle(cPrimaryColor),
-                  //   title: ksAddFamilyMember.tr,
-                  //   isRightButtonShow: true,
-                  // );
                 },
                 child: Text(
                   ksAdd.tr,
@@ -69,14 +54,23 @@ class Family extends StatelessWidget {
                 buttonText: _profileController.tapAbleButtonText,
                 buttonState: _profileController.tapAbleButtonState,
                 buttonPress: RxList([
-                  () {
+                  () async {
+                    _profileController.searchController.clear();
+                    FocusScope.of(context).unfocus();
                     _profileController.toggleType(0);
+                    await _familyController.getFamilyList();
                   },
-                  () {
+                  () async {
+                    _profileController.searchController.clear();
+                    FocusScope.of(context).unfocus();
                     _profileController.toggleType(1);
+                    await _familyController.getReceivedFamilyList();
                   },
-                  () {
+                  () async {
+                    _profileController.searchController.clear();
+                    FocusScope.of(context).unfocus();
                     _profileController.toggleType(2);
+                    await _familyController.getSendFamilyRequestList();
                   },
                 ]),
               ),
@@ -125,40 +119,45 @@ class Family extends StatelessWidget {
 class AllFamilyList extends StatelessWidget {
   AllFamilyList({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
+  final FamilyController _familyController = Get.find<FamilyController>();
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-      child: ListView.builder(
-        itemCount: _profileController.allFamilyLists.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          // var _item = _profileController.allFriendsList[index];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: k16Padding),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(k8BorderRadius),
-              child: TextButton(
-                style: kTextButtonStyle,
-                onPressed: () async {
-                  // ll(index);
+    return Obx(
+      () => _familyController.isFamilyListLoading.value
+          ? const AllPendingFriendShimmer()
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: ListView.builder(
+                itemCount: _profileController.allFamilyLists.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  // var _item = _profileController.allFriendsList[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: k16Padding),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(k8BorderRadius),
+                      child: TextButton(
+                        style: kTextButtonStyle,
+                        onPressed: () async {
+                          // ll(index);
+                        },
+                        child: CustomListViewItem(
+                          backgroundImage: _profileController.allFriendsLists[index]['image'].toString(),
+                          name: _profileController.allFriendsLists[index]['name'],
+                          icon: BipHip.love,
+                          subTitle: ksBrother.tr,
+                          firstButtonText: ksMessage.tr,
+                          secondButtonText: ksRemove.tr,
+                          firstButtonOnPressed: () {},
+                          secondButtonOnPressed: () {},
+                        ),
+                      ),
+                    ),
+                  );
                 },
-                child: CustomListViewItem(
-                  backgroundImage: _profileController.allFriendsLists[index]['image'].toString(),
-                  name: _profileController.allFriendsLists[index]['name'],
-                  icon: BipHip.love,
-                  subTitle: ksBrother.tr,
-                  firstButtonText: ksMessage.tr,
-                  secondButtonText: ksRemove.tr,
-                  firstButtonOnPressed: () {},
-                  secondButtonOnPressed: () {},
-                ),
               ),
             ),
-          );
-        },
-      ),
     );
   }
 }
