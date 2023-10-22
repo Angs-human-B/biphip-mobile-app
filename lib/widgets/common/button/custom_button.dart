@@ -3,7 +3,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 class CustomElevatedButton extends StatelessWidget {
   final String label;
   final GestureTapCallback? onPressed;
-  final double? buttonWidth;
+  final double? buttonWidth, prefixIconSize;
   final double? buttonHeight;
   final Color? buttonColor, borderColor, prefixIconColor, suffixIconColor;
   final bool isCircularHead;
@@ -26,6 +26,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.suffixIconColor,
     this.suffixIcon,
     this.isCustomButton,
+    this.prefixIconSize,
   }) : super(key: key);
 
   @override
@@ -66,7 +67,7 @@ class CustomElevatedButton extends StatelessWidget {
                       child: Icon(
                         prefixIcon!,
                         color: prefixIconColor ?? cWhiteColor,
-                        size: screenWiseSize(kIconSize16, 4),
+                        size: prefixIconSize ?? screenWiseSize(kIconSize16, 4),
                       ),
                     ),
                   Text(label.toString(), textAlign: TextAlign.center, style: textStyle),

@@ -2,10 +2,10 @@ import 'package:bip_hip/controllers/authentication_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_about_info/edit_about.dart';
+import 'package:bip_hip/widgets/common/common_shimmer.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
-import 'package:shimmer/shimmer.dart';
 
 class SelectGender extends StatelessWidget {
   SelectGender({super.key});
@@ -134,10 +134,8 @@ class GenderListShimmer extends StatelessWidget {
           itemCount: 3,
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
-              title: Shimmer.fromColors(
-                baseColor: cWhiteColor,
-                highlightColor: Colors.grey,
-                child: Container(
+              title: ShimmerCommon(
+               widget: Container(
                   height: 20,
                   decoration: BoxDecoration(
                     borderRadius: k8CircularBorderRadius,

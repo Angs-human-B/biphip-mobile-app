@@ -127,6 +127,7 @@ const String ksWeeklyWinner = 'Weekly Winner';
 //---------------------------------------
 const String ksSeeMore = 'See more';
 const String ksShowLess = 'Show less';
+const String ksSeeYourAboutInfo = 'See your about info';
 const String ksBids = 'Bids';
 const String ksRecommended = 'Recommended';
 const String ksBidAmount = 'Bid amount';
@@ -183,6 +184,7 @@ const String ksSelfie = 'Selfie';
 //---------------------------------------
 const String ksMenu = 'Menu';
 const String ksFriends = 'Friends';
+const String ksFriendsAndFamily = 'Friends & Family';
 const String ksFamily = 'Family';
 const String ksAll = 'All';
 const String ksReceived = 'Received';
@@ -212,6 +214,7 @@ const String ksCHooseInterestSubtitle =
     'This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.';
 const String ksEditInterestSubtitle = 'This will help us to provide you a nice experience while you will use our system.';
 const String ksAddress = 'Address';
+const String ksDetails = 'Details';
 const String ksHomeTown = 'Hometown';
 const String ksAddHomeTownAddress = 'Add hometown address';
 const String ksEnterHometownAddress = 'Enter hometown address';
@@ -281,6 +284,7 @@ const String ksWriteAge = "Write age";
 const String ksSaveKidInformation = "Save Kid’s information's for further use.";
 const String ksCreatePost = 'Create post';
 const String ksPost = "Post";
+const String ksPosts = "Posts";
 const String ksIsWithSmall = 'is with';
 const String ksOthersSmall = 'others';
 const String ksPostType = "Post Type";

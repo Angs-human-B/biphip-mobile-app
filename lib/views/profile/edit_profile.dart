@@ -219,42 +219,48 @@ class EditProfile extends StatelessWidget {
                                 if (_profileController.currentCityData.value?.city != null && _profileController.currentCityData.value?.isCurrent == 1)
                                   LinkUpIconTextRow(
                                     icon: BipHip.address,
-                                    text: 'Lives in ${_profileController.currentCityData.value?.city}',
+                                    prefixText: 'Lives in ',
+                                    suffixText: '${_profileController.currentCityData.value?.city}',
                                     isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.hometownData.value != null)
                                   LinkUpIconTextRow(
                                     icon: BipHip.location,
-                                    text: 'From ${_profileController.hometownData.value?.city}',
+                                    prefixText: 'From ',
+                                    suffixText: '${_profileController.hometownData.value?.city}',
                                     isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.userData.value!.relation != null)
                                   LinkUpIconTextRow(
                                     icon: BipHip.love,
-                                    text: checkNullOrStringNull(_profileController.userData.value!.relation),
+                                    suffixText: '',
+                                    prefixText: checkNullOrStringNull(_profileController.userData.value!.relation),
                                     isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.schoolDataList.isNotEmpty)
                                   LinkUpIconTextRow(
                                     icon: BipHip.school,
-                                    text: checkNullOrStringNull(_profileController.schoolDataList[0].school),
+                                    suffixText: '',
+                                    prefixText: checkNullOrStringNull(_profileController.schoolDataList[0].school),
                                     isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.collegeDataList.isNotEmpty)
                                   LinkUpIconTextRow(
                                     icon: BipHip.school,
-                                    text: checkNullOrStringNull(_profileController.collegeDataList[0].school),
+                                    suffixText: '',
+                                    prefixText: checkNullOrStringNull(_profileController.collegeDataList[0].school),
                                     isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.workplaceDataList.isNotEmpty)
                                   LinkUpIconTextRow(
                                     icon: BipHip.work,
-                                    text: checkNullOrStringNull(_profileController.workplaceDataList[0].company),
+                                    suffixText: '',
+                                    prefixText: checkNullOrStringNull(_profileController.workplaceDataList[0].company),
                                     isLink: false,
                                     onPressed: null,
                                   ),
@@ -334,14 +340,14 @@ class RowTextEdit extends StatelessWidget {
       children: [
         Text(
           prefix,
-          style: semiBold14TextStyle(cBlackColor),
+          style: semiBold18TextStyle(cBlackColor),
         ),
         TextButton(
           style: kTextButtonStyle,
           onPressed: onEditPressed,
           child: Text(
             suffix,
-            style: regular12TextStyle(cPrimaryColor),
+            style: semiBold16TextStyle(cPrimaryColor),
           ),
         ),
       ],
