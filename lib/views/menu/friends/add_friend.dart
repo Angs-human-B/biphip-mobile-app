@@ -1,8 +1,7 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/profile/menu/friends/friends.dart';
-import 'package:bip_hip/widgets/common/common_shimmer.dart';
+import 'package:bip_hip/views/menu/friends/friends.dart';
 import 'package:flutter/rendering.dart';
 
 class AddFriend extends StatelessWidget {

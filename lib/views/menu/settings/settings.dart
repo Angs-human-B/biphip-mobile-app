@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/profile/menu/menu.dart';
+import 'package:bip_hip/views/menu/menu.dart';
 
 class Settings extends StatelessWidget {
   Settings({super.key});

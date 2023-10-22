@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/profile/post_widgets/like_section_widget.dart';
+import 'package:bip_hip/widgets/post_widgets/like_section_widget.dart';
 
 class ViewPhoto extends StatelessWidget {
   ViewPhoto({super.key});

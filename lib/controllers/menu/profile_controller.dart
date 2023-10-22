@@ -3,8 +3,8 @@ import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/menu/profile/profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/profile/menu/family/family.dart';
-import 'package:bip_hip/views/profile/menu/friends/friends.dart';
+import 'package:bip_hip/views/menu/family/family.dart';
+import 'package:bip_hip/views/menu/friends/friends.dart';
 import 'package:video_player/video_player.dart';
 
 class ProfileController extends GetxController with GetSingleTickerProviderStateMixin {

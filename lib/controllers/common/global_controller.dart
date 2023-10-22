@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/profile/edit_profile.dart';
+import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';

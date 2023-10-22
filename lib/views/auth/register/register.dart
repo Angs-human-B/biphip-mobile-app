@@ -4,7 +4,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/utils/custom_container.dart';
 import 'package:bip_hip/widgets/common/button/linkup_text.dart';
-import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
 class Register extends StatelessWidget {
   Register({super.key});

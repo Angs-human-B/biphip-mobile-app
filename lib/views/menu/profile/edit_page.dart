@@ -1,8 +1,7 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/profile/profile_widgets/gallery_photos.dart';
+import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
-import 'package:bip_hip/widgets/common/common_shimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 

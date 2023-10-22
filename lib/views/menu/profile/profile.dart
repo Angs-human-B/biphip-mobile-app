@@ -4,9 +4,9 @@ import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
-import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
+import 'package:bip_hip/widgets/post_widgets/post_button_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
-import 'package:bip_hip/widgets/common/common_shimmer.dart';
+import 'package:bip_hip/widgets/common/utils/common_shimmer.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 

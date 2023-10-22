@@ -1,13 +1,13 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
-import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
-import 'package:bip_hip/views/profile/profile_widgets/stories_widget.dart';
+import 'package:bip_hip/widgets/post_widgets/post_button_widget.dart';
+import 'package:bip_hip/widgets/post_widgets/stories_widget.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -25,6 +25,6 @@ export 'package:bip_hip/widgets/common/utils/custom_app_bar.dart';
 export 'package:bip_hip/widgets/common/button/custom_button.dart';
 export 'package:bip_hip/widgets/common/textfields/custom_textfield.dart';
 export 'package:bip_hip/widgets/common/utils/common_loading_animation.dart';
-export 'package:bip_hip/widgets/common/common_shimmer.dart';
+export 'package:bip_hip/widgets/common/utils/common_shimmer.dart';
 export 'package:bip_hip/models/common/common_data_model.dart';
 export 'package:bip_hip/models/common/common_error_model.dart';

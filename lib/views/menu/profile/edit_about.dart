@@ -2,12 +2,11 @@ import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
-import 'package:bip_hip/views/profile/edit_profile.dart';
-import 'package:bip_hip/views/profile/profile_widgets/gallery_photos.dart';
+import 'package:bip_hip/views/menu/profile/edit_profile.dart';
+import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
-import 'package:bip_hip/widgets/common/common_shimmer.dart';
 import 'package:intl/intl.dart';
 
 class EditAboutInfo extends StatelessWidget {

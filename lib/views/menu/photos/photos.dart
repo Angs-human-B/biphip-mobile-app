@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/profile/profile_widgets/gallery_photos.dart';
+import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class Photos extends StatelessWidget {

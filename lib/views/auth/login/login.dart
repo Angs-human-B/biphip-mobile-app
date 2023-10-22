@@ -1,9 +1,9 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/button/checkbox_and_container.dart';
+import 'package:bip_hip/widgets/auth/checkbox_and_container.dart';
 import 'package:bip_hip/widgets/common/button/linkup_text.dart';
-import 'package:bip_hip/widgets/common/button/logo_and_text_widget.dart';
-import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/auth/logo_and_text_widget.dart';
+import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
 class Login extends StatelessWidget {
   Login({Key? key}) : super(key: key);
