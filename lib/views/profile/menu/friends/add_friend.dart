@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/friend_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/menu/friends/friends.dart';
+import 'package:bip_hip/widgets/common/common_shimmer.dart';
 import 'package:flutter/rendering.dart';
 
 class AddFriend extends StatelessWidget {
@@ -57,7 +58,7 @@ class AddFriend extends StatelessWidget {
                 kH8sizedBox,
                 Obx(
                   () => _friendController.isAddFriendRequestListLoading.value
-                      ? const SizedBox()
+                      ? const AddFriendShimmer()
                       : NotificationListener<ScrollNotification>(
                           onNotification: (scrollNotification) {
                             if (_friendController.addFriendListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
@@ -82,7 +83,6 @@ class AddFriend extends StatelessWidget {
                                     physics: const NeverScrollableScrollPhysics(),
                                     itemCount: _friendController.addFriendRequestList.length,
                                     itemBuilder: (context, index) {
-                                      ll(_friendController.addFriendRequestList.length);
                                       return Padding(
                                         padding: const EdgeInsets.only(bottom: k10Padding),
                                         child: ClipRRect(
@@ -135,3 +135,72 @@ class AddFriend extends StatelessWidget {
   }
 }
 
+class AddFriendShimmer extends StatelessWidget {
+  const AddFriendShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 20,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: k10Padding),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(k8BorderRadius),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: h40,
+                              width: h40,
+                              decoration: const BoxDecoration(
+                                color: cWhiteColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: ShimmerCommon(
+                                widget: Container(
+                                  decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                                  height: 40,
+                                  width: 40,
+                                ),
+                              ),
+                            ),
+                            kW12sizedBox,
+                            ShimmerCommon(
+                              widget: Container(
+                                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                height: 16,
+                                width: 100,
+                              ),
+                            ),
+                            const Spacer(),
+                            ShimmerCommon(
+                              widget: Container(
+                                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
+                                height: 30,
+                                width: 120,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
