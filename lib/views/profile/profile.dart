@@ -490,14 +490,16 @@ class PostTab extends StatelessWidget {
                       kH12sizedBox,
                       LinkUpIconTextRow(
                         icon: BipHip.birthday,
-                        text: 'Date of birth ${DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!)}',
                         isLink: false,
                         onPressed: null,
+                        prefixText: 'Born on ',
+                        suffixText: '${DateFormat("MMMM dd, yyyy").format(_profileController.userData.value!.dob!)}',
                       ),
                       if (_profileController.currentCityData.value?.city != null && _profileController.currentCityData.value?.isCurrent == 1)
                         LinkUpIconTextRow(
                           icon: BipHip.address,
-                          text: 'Lives in ${_profileController.currentCityData.value?.city}',
+                          prefixText: 'Lives in ',
+                          suffixText: '${_profileController.currentCityData.value?.city}',
                           isLink: false,
                           onPressed: null,
                         ),
@@ -615,10 +617,10 @@ class PostTab extends StatelessWidget {
 //! LinkUpIconTextRow
 //-------------------
 class LinkUpIconTextRow extends StatelessWidget {
-  const LinkUpIconTextRow({super.key, required this.icon, required this.text, required this.isLink, this.onPressed});
+  const LinkUpIconTextRow({super.key, required this.icon, required this.prefixText, required this.isLink, this.onPressed, required this.suffixText});
 
   final IconData icon;
-  final String text;
+  final String prefixText, suffixText;
   final bool isLink;
   final VoidCallback? onPressed;
 
@@ -635,13 +637,18 @@ class LinkUpIconTextRow extends StatelessWidget {
             Icon(
               icon,
               color: cIconColor,
+              size: screenWiseSize(kIconSize20, 4),
             ),
             kW12sizedBox,
             Expanded(
-              child: Text(
-                text,
-                style: regular14TextStyle(cBlackColor),
-              ),
+              child: RichText(
+                  text: TextSpan(children: [
+                TextSpan(text: prefixText, style: regular14TextStyle(cBlackColor)),
+                TextSpan(text: suffixText, style: semiBold14TextStyle(cBlackColor))
+              ])
+                  // text,
+                  // style: regular14TextStyle(cBlackColor),
+                  ),
             )
           ],
         ),
