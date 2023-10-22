@@ -453,7 +453,8 @@ class AllFriendList extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (!_friendController.friendListScrolled.value) const Center(child: CircularProgressIndicator()),
+                    if (_friendController.friendList.isNotEmpty && !_friendController.friendListScrolled.value)
+                      const Center(child: CircularProgressIndicator()),
                   ],
                 ),
               ),
@@ -533,7 +534,8 @@ class ReceivedFriendList extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (!_friendController.receivedFriendListScrolled.value) const Center(child: CircularProgressIndicator()),
+                    if (_friendController.receivedFriendList.isNotEmpty && !_friendController.receivedFriendListScrolled.value)
+                      const Center(child: CircularProgressIndicator()),
                   ],
                 ),
               ),
@@ -650,7 +652,8 @@ class PendingFriendList extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (!_friendController.sendFriendListScrolled.value) const Center(child: CircularProgressIndicator()),
+                    if (_friendController.sendFriendRequestList.isNotEmpty && !_friendController.sendFriendListScrolled.value)
+                      const Center(child: CircularProgressIndicator()),
                   ],
                 ),
               ),
