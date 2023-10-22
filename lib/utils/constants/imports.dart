@@ -12,7 +12,7 @@ export 'package:bip_hip/widgets/common/button/custom_text_button.dart';
 export 'package:flutter_dotenv/flutter_dotenv.dart';
 export 'package:bip_hip/utils/constants/routes.dart';
 export 'package:flutter/services.dart';
-export 'package:bip_hip/models/environment.dart';
+export 'package:bip_hip/models/utility/environment.dart';
 export 'package:bip_hip/widgets/common/button/custom_icon_button.dart';
 export 'package:bip_hip/controllers/common/sp_controller.dart';
 export 'package:bip_hip/controllers/common/global_controller.dart';

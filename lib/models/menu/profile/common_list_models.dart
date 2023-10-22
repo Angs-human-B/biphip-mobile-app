@@ -1,3 +1,17 @@
+import 'package:bip_hip/models/common/common_user_model.dart';
+
+class CommonUserDataModel {
+    User? user;
+
+    CommonUserDataModel({
+        required this.user,
+    });
+
+    factory CommonUserDataModel.fromJson(Map<String, dynamic> json) => CommonUserDataModel(
+        user: json["user"]==null?null:User.fromJson(json["user"]),
+    );
+}
+
 class ProfessionListModel {
   List<String> professions;
 
@@ -103,43 +117,5 @@ class SchoolListModel {
 
   factory SchoolListModel.fromJson(Map<String, dynamic> json) => SchoolListModel(
         schools: List<String>.from(json["schools"].map((x) => x)),
-      );
-}
-
-class CommonListModel {
-  List<String> professions;
-  List<String> interests;
-  List<String> relationships;
-  List<String> linkTypes;
-  List<String> genders;
-  List<String> positions;
-  List<String> cities;
-  List<String> companies;
-
-  List<String> schools;
-
-  CommonListModel({
-    required this.professions,
-    required this.interests,
-    required this.relationships,
-    required this.linkTypes,
-    required this.genders,
-    required this.positions,
-    required this.cities,
-    required this.schools,
-    required this.companies,
-
-  });
-
-  factory CommonListModel.fromJson(Map<String, dynamic> json) => CommonListModel(
-        professions: List<String>.from(json["professions"].map((x) => x)),
-        interests: List<String>.from(json["interests"].map((x) => x)),
-        relationships: List<String>.from(json["relationships"].map((x) => x)),
-        linkTypes: List<String>.from(json["linkTypes"].map((x) => x)),
-        genders: List<String>.from(json["genders"].map((x) => x)),
-        positions: List<String>.from(json["positions"].map((x) => x)),
-        cities: List<String>.from(json["cities"].map((x) => x)),
-        schools: List<String>.from(json["schools"].map((x) => x)),
-        companies: List<String>.from(json["companies"].map((x) => x)),
       );
 }

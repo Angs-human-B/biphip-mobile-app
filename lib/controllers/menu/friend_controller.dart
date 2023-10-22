@@ -1,7 +1,8 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/models/common/common_error_model.dart';
-import 'package:bip_hip/models/friend/common_friend_model.dart';
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
+import 'package:bip_hip/models/menu/friend/common_friend_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class FriendController extends GetxController {
@@ -14,7 +15,7 @@ class FriendController extends GetxController {
 
   //*Friend List Api Call
   final Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
-  final RxList<CommonFriendData> friendList = RxList<CommonFriendData>([]);
+  final RxList<FriendFamilyUserData> friendList = RxList<FriendFamilyUserData>([]);
   final Rx<String?> friendListSubLink = Rx<String?>(null);
   final RxBool friendListScrolled = RxBool(false);
   final RxBool isFriendListLoading = RxBool(false);
@@ -112,7 +113,7 @@ class FriendController extends GetxController {
   final ScrollController receivedFriendListScrollController = ScrollController();
   //*Received Friend List Api Call
   final Rx<CommonSendReceiveModel?> receivedFriendListData = Rx<CommonSendReceiveModel?>(null);
-  final RxList<CommonFriendData> receivedFriendList = RxList<CommonFriendData>([]);
+  final RxList<FriendFamilyUserData> receivedFriendList = RxList<FriendFamilyUserData>([]);
   final Rx<String?> receivedFriendListSubLink = Rx<String?>(null);
   final RxBool receivedFriendListScrolled = RxBool(false);
   final RxBool isReceivedFriendListLoading = RxBool(false);
@@ -360,7 +361,7 @@ class FriendController extends GetxController {
   final ScrollController sendFriendListScrollController = ScrollController();
   //* Friend Request Send List(Pending)
   final Rx<CommonSendReceiveModel?> sendFriendRequestData = Rx<CommonSendReceiveModel?>(null);
-  final RxList<CommonFriendData> sendFriendRequestList = RxList<CommonFriendData>([]);
+  final RxList<FriendFamilyUserData> sendFriendRequestList = RxList<FriendFamilyUserData>([]);
   final Rx<String?> sendFriendListSubLink = Rx<String?>(null);
   final RxBool sendFriendListScrolled = RxBool(false);
   final RxBool isSendFriendRequestListLoading = RxBool(false);
@@ -492,8 +493,8 @@ class FriendController extends GetxController {
   //*Scroll controller for pagination
   final ScrollController addFriendListScrollController = ScrollController();
   //* Add Friend
-  final Rx<CommonPagination?> addFriendRequestData = Rx<CommonPagination?>(null);
-  final RxList<CommonFriendData> addFriendRequestList = RxList<CommonFriendData>([]);
+  final Rx<CommonFriends?> addFriendRequestData = Rx<CommonFriends?>(null);
+  final RxList<FriendFamilyUserData> addFriendRequestList = RxList<FriendFamilyUserData>([]);
   final Rx<String?> addFriendListSubLink = Rx<String?>(null);
   final RxBool addFriendListScrolled = RxBool(false);
   final RxBool isAddFriendRequestListLoading = RxBool(false);
@@ -511,7 +512,7 @@ class FriendController extends GetxController {
       if (response.success == true) {
         addFriendRequestList.clear();
         addFriendListScrolled.value = false;
-        addFriendRequestData.value = CommonPagination.fromJson(response.data);
+        addFriendRequestData.value = CommonFriends.fromJson(response.data);
         for (int index = 0; index < addFriendRequestData.value!.data.length; index++) {
           if (addFriendRequestData.value!.data[index].friendStatus == 2 || addFriendRequestData.value!.data[index].friendStatus == 0) {
             addFriendRequestList.add(addFriendRequestData.value!.data[index]);
@@ -573,7 +574,7 @@ class FriendController extends GetxController {
         url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}$addFriendListSuffixUrl',
       ) as CommonDM;
       if (response.success == true) {
-        addFriendRequestData.value = CommonPagination.fromJson(response.data);
+        addFriendRequestData.value = CommonFriends.fromJson(response.data);
         for (int index = 0; index < addFriendRequestData.value!.data.length; index++) {
           if (addFriendRequestData.value!.data[index].friendStatus == 2 || addFriendRequestData.value!.data[index].friendStatus == 0) {
             addFriendRequestList.add(addFriendRequestData.value!.data[index]);

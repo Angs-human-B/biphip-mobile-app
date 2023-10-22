@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
-import 'package:bip_hip/models/video_model.dart';
+import 'package:bip_hip/models/utility/video_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
 import 'package:bip_hip/views/profile/post_widgets/like_section_widget.dart';

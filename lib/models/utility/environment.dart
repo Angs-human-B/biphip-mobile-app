@@ -21,7 +21,4 @@ class Environment {
     return dotenv.get('Image_Base_Url');
   }
 
-  static String get appId {
-    return dotenv.get('App_Id');
-  }
 }

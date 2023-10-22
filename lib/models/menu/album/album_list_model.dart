@@ -105,7 +105,7 @@ class ImageList {
   String? title;
   String? storagePath;
   String? path;
-  int? filesize;
+  int? fileSize;
   String? fullPath;
 
   ImageList({
@@ -119,7 +119,7 @@ class ImageList {
     required this.title,
     required this.storagePath,
     required this.path,
-    required this.filesize,
+    required this.fileSize,
     required this.fullPath,
   });
 
@@ -134,7 +134,7 @@ class ImageList {
         title: json["title"],
         storagePath: json["storage_path"],
         path: json["path"],
-        filesize: json["filesize"],
+        fileSize: json["filesize"],
         fullPath: json["full_path"],
       );
 }

@@ -1,7 +1,8 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/models/common/common_error_model.dart';
-import 'package:bip_hip/models/family/common_family_model.dart';
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
+import 'package:bip_hip/models/menu/family/common_family_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class FamilyController extends GetxController {
@@ -13,7 +14,7 @@ class FamilyController extends GetxController {
   final ScrollController familyListScrollController = ScrollController();
   //*Family List Api Call
   Rx<CommonFamilyModel?> familyData = Rx<CommonFamilyModel?>(null);
-  RxList<FamilyData> familyList = RxList<FamilyData>([]);
+  RxList<FriendFamilyUserData> familyList = RxList<FriendFamilyUserData>([]);
   final Rx<String?> familyListSubLink = Rx<String?>(null);
   final RxBool familyListScrolled = RxBool(false);
   final RxBool isFamilyListLoading = RxBool(false);
@@ -109,7 +110,7 @@ class FamilyController extends GetxController {
 
   //*Received Family List Api Call
   Rx<CommonFamilySendReceiveModel?> receivedFamilyListData = Rx<CommonFamilySendReceiveModel?>(null);
-  RxList<FamilyData> receivedFamilyList = RxList<FamilyData>([]);
+  RxList<FriendFamilyUserData> receivedFamilyList = RxList<FriendFamilyUserData>([]);
   // final Rx<String?> familyListSubLink = Rx<String?>(null);
   // final RxBool familyListScrolled = RxBool(false);
   final RxBool isReceivedFamilyListLoading = RxBool(false);
@@ -223,7 +224,7 @@ class FamilyController extends GetxController {
 
   //* Family Request Send List(Pending)
   Rx<CommonFamilySendReceiveModel?> sendFamilyRequestData = Rx<CommonFamilySendReceiveModel?>(null);
-  RxList<FamilyData> sendFamilyRequestList = RxList<FamilyData>([]);
+  RxList<FriendFamilyUserData> sendFamilyRequestList = RxList<FriendFamilyUserData>([]);
   final RxBool isSendFamilyRequestListLoading = RxBool(false);
   Future<void> getSendFamilyRequestList() async {
     try {
@@ -292,7 +293,7 @@ class FamilyController extends GetxController {
 
   //* Add Family
   Rx<CommonFamilies?> addFamilyRequestData = Rx<CommonFamilies?>(null);
-  RxList<FamilyData> addFamilyRequestList = RxList<FamilyData>([]);
+  RxList<FriendFamilyUserData> addFamilyRequestList = RxList<FriendFamilyUserData>([]);
   final RxBool isAddFamilyRequestListLoading = RxBool(false);
   Future<void> getAddFamilyRequestList() async {
     try {
