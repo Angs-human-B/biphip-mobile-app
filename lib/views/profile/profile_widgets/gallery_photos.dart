@@ -94,7 +94,7 @@ class GalleryPhotos extends StatelessWidget {
                                         children: [
                                           Row(children: [
                                             CommonGalleryPhotoContainer(
-                                              title: _galleryController.imageDataList[index].title,
+                                              title: _galleryController.imageDataList[index].title ?? ksNA.tr,
                                               subTitle: _galleryController.imageDataList[index].totalImage.toString(),
                                               image: _galleryController.imageDataList[index].preview,
                                               onPressed: () {
@@ -228,22 +228,12 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     kH8sizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: k4Padding + k2Padding),
-                          child: Text(
-                            title!,
-                            style: semiBold14TextStyle(cBlackColor),
-                          ),
-                        ),
-                        const Icon(
-                          BipHip.system,
-                          size: kIconSize14,
-                          color: cIconColor,
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.only(left: k4Padding + k2Padding),
+                      child: Text(
+                        title!,
+                        style: semiBold14TextStyle(cBlackColor),
+                      ),
                     ),
                     kH4sizedBox,
                     Padding(
@@ -307,31 +297,19 @@ class GalleryPhotoShimmer extends StatelessWidget {
                             ),
                           ),
                           kH8sizedBox,
-                          Row(
-                            children: [
-                              ShimmerCommon(
-                                widget: Container(
-                                  decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                                  height: 12,
-                                  width: 80,
-                                ),
-                              ),
-                              const Spacer(),
-                              ShimmerCommon(
-                                widget: Container(
-                                  decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                                  height: 12,
-                                  width: 12,
-                                ),
-                              ),
-                            ],
+                          ShimmerCommon(
+                            widget: Container(
+                              decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                              height: 12,
+                              width: 80,
+                            ),
                           ),
                           kH4sizedBox,
                           ShimmerCommon(
                             widget: Container(
                               decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
                               height: 12,
-                              width: 12,
+                              width: 20,
                             ),
                           ),
                         ],

@@ -108,20 +108,36 @@ class Friends extends StatelessWidget {
                 textInputStyle: regular16TextStyle(cBlackColor),
               ),
             ),
-            // if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
-            // if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
-            //   Padding(
-            //     padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-            //     child: _profileController.tapAbleButtonState[0]
-            //         ? Text(
-            //             '${ksTotalFriends.tr}: ${_friendController.friendListData.value!.friends!.total}',
-            //             style: semiBold14TextStyle(cBlackColor),
-            //           )
-            //         : Text(
-            //             '${ksFriendRequests.tr}: ${_friendController.receivedFriendListData.value!.users!.total}',
-            //             style: semiBold14TextStyle(cBlackColor),
-            //           ),
-            //   ),
+            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
+            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                child: _profileController.tapAbleButtonState[0]
+                    ? _friendController.isFriendListLoading.value
+                        ? ShimmerCommon(
+                            widget: Container(
+                              decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                              height: 16,
+                              width: 120,
+                            ),
+                          )
+                        : Text(
+                            '${ksTotalFriends.tr}: ${_friendController.receivedFriendListData.value!.users!.total}',
+                            style: semiBold14TextStyle(cBlackColor),
+                          )
+                    : _friendController.isFriendListLoading.value
+                        ? ShimmerCommon(
+                            widget: Container(
+                              decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                              height: 16,
+                              width: 120,
+                            ),
+                          )
+                        : Text(
+                            '${ksFriendRequests.tr}: ${_friendController.receivedFriendListData.value!.users!.total}',
+                            style: semiBold14TextStyle(cBlackColor),
+                          ),
+              ),
 
             // kH12sizedBox,
             //*All friend, Receive friend request and Pending friend request ui
@@ -801,7 +817,7 @@ class AllPendingFriendShimmer extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
           child: ListView.builder(
-            itemCount: 10,
+            itemCount: 20,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
