@@ -1,22 +1,11 @@
 import 'package:bip_hip/controllers/friend_controller.dart';
 import 'package:bip_hip/controllers/gallery_controller.dart';
 import 'package:bip_hip/controllers/profile_controller.dart';
-import 'package:bip_hip/models/common/common_data_model.dart';
-import 'package:bip_hip/models/common/common_error_model.dart';
+import 'package:bip_hip/controllers/profile_controllers/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class MenuSectionController extends GetxController {
-  final ApiController _apiController = ApiController();
-  final SpController _spController = SpController();
-  final FriendController _friendController = Get.find<FriendController>();
   final GalleryController _galleryController = Get.find<GalleryController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
-  // final RxList tapAbleButtonState = RxList([true, false, false]);
-  // final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
-  // void resetTapButtonData() {
-  //   tapAbleButtonState.clear();
-  //   tapAbleButtonState.addAll([true, false, false]);
-  // }
 
   List shortcutButtonContent = [
     {'text': 'Friend', 'icon': BipHip.friends},
@@ -35,19 +24,17 @@ class MenuSectionController extends GetxController {
       ll('Friend');
       Get.find<ProfileController>().resetTapButtonData();
       Get.toNamed(krFriends);
-      await _friendController.getFriendList();
+      await Get.find<FriendController>().getFriendList();
     } else if (index == 1) {
       ll('Family');
       Get.find<ProfileController>().resetTapButtonData();
       Get.toNamed(krFamily);
+      await Get.find<FamilyController>().getFamilyList();
     } else if (index == 2) {
       ll('Image');
-
       _galleryController.resetTapButtonData();
       Get.toNamed(krGalleryPhotos);
       await _galleryController.getGalleryAlbumList();
-      // ll(_galleryController.imageDataList[0].title);
-      //*new changes for gallery photos
     } else if (index == 3) {
       ll('Videos');
       Get.toNamed(krGalleryVideos); //*new changes for gallery Videos
@@ -156,33 +143,4 @@ class MenuSectionController extends GetxController {
     {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
     {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl}
   ];
-
-  /*
-  |--------------------------------------------------------------------------
-  | //! info:: Menu section api call
-  |--------------------------------------------------------------------------
-  */
-  Future<void> getAllFriendList() async {
-    try {
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
-        requestMethod: kGet,
-        token: token,
-        url: kuGetFriendList,
-      ) as CommonDM;
-
-      if (response.success == true) {
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-      } else {
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-        } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-        }
-      }
-    } catch (e) {
-      ll('getAllFriendList error: $e');
-    }
-  }
 }

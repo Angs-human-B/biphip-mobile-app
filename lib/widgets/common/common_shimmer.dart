@@ -12,8 +12,8 @@ class ShimmerCommon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: cWhiteColor,
-      highlightColor: Colors.grey[500]!,
+      baseColor: Colors.grey[200]!,
+      highlightColor: Colors.grey[300]!,
       child: widget,
     );
   }

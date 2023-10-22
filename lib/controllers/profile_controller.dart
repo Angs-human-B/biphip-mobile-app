@@ -137,11 +137,6 @@ class ProfileController extends GetxController {
   final TextEditingController searchController = TextEditingController();
   RxBool isCloseIconVisible = RxBool(false);
 
-  //*Friends
-  RxList allFriendsLists = RxList(friendsList);
-  RxList receivedFriendLists = RxList(friendsList);
-  RxList pendingFriendLists = RxList(friendsList);
-  RxList addFriendLists = RxList(addFriendList);
 
   //*friends page list data show
   StatelessWidget allReceivedPendingFriendsView() {

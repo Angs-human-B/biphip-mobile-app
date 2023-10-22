@@ -151,19 +151,21 @@ class CustomListViewItem extends StatelessWidget {
     super.key,
     required this.backgroundImage,
     required this.name,
-    required this.firstButtonText,
-    required this.secondButtonText,
-    required this.firstButtonOnPressed,
-    required this.secondButtonOnPressed,
+    this.firstButtonText,
+    this.secondButtonText,
+    this.firstButtonOnPressed,
+    this.secondButtonOnPressed,
     this.icon,
     this.subTitle,
+    this.imageSize,
   });
   final String backgroundImage;
+  final double? imageSize;
   final String name;
-  final String firstButtonText;
-  final String secondButtonText;
-  final VoidCallback firstButtonOnPressed;
-  final VoidCallback secondButtonOnPressed;
+  final String? firstButtonText;
+  final String? secondButtonText;
+  final VoidCallback? firstButtonOnPressed;
+  final VoidCallback? secondButtonOnPressed;
   final IconData? icon;
   final String? subTitle;
   @override
@@ -172,8 +174,8 @@ class CustomListViewItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          height: h40,
-          width: h40,
+          height: imageSize ?? h40,
+          width: imageSize ?? h40,
           decoration: const BoxDecoration(
             color: cWhiteColor,
             shape: BoxShape.circle,
@@ -222,22 +224,24 @@ class CustomListViewItem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomElevatedButton(
-                      buttonWidth: (width / 2) - h60,
-                      buttonHeight: 30,
-                      label: firstButtonText,
-                      textStyle: semiBold16TextStyle(cWhiteColor),
-                      onPressed: firstButtonOnPressed,
-                    ),
-                    CustomElevatedButton(
-                      buttonWidth: (width / 2) - h60,
-                      buttonHeight: 30,
-                      label: secondButtonText,
-                      onPressed: secondButtonOnPressed,
-                      buttonColor: cWhiteColor,
-                      borderColor: cRedColor,
-                      textStyle: semiBold16TextStyle(cRedColor),
-                    )
+                    if (firstButtonText != null)
+                      CustomElevatedButton(
+                        buttonWidth: (width / 2) - h60,
+                        buttonHeight: 30,
+                        label: firstButtonText!,
+                        textStyle: semiBold16TextStyle(cWhiteColor),
+                        onPressed: firstButtonOnPressed,
+                      ),
+                    if (secondButtonText != null)
+                      CustomElevatedButton(
+                        buttonWidth: (width / 2) - h60,
+                        buttonHeight: 30,
+                        label: secondButtonText!,
+                        onPressed: secondButtonOnPressed,
+                        buttonColor: cWhiteColor,
+                        borderColor: cRedColor,
+                        textStyle: semiBold16TextStyle(cRedColor),
+                      )
                   ],
                 ),
               ],
@@ -263,6 +267,7 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
     this.borderColor,
     this.buttonHeight,
     this.subTitle,
+    this.imageSize,
   });
   final String backgroundImage;
   final String name;
@@ -274,6 +279,7 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
   final double? buttonWidth;
   final double? buttonHeight;
   final String? subTitle;
+  final double? imageSize;
   // final BoxDecoration boxDecoration;
   @override
   Widget build(BuildContext context) {
@@ -284,8 +290,8 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              height: h40,
-              width: h40,
+              height: imageSize ?? h40,
+              width: imageSize ?? h40,
               decoration: const BoxDecoration(
                 color: cWhiteColor,
                 shape: BoxShape.circle,
@@ -311,6 +317,7 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: semiBold16TextStyle(cBlackColor),
                   ),
+                  kH4sizedBox,
                   subTitle == null
                       ? const SizedBox()
                       : Text(
@@ -612,45 +619,6 @@ class PendingFriendList extends StatelessWidget {
                 },
               ),
             ),
-    );
-  }
-}
-
-//*add friend request list in bottom sheet
-class BottomSheetContent extends StatelessWidget {
-  BottomSheetContent({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: _profileController.addFriendLists.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: k10Padding),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(k8BorderRadius),
-              child: TextButton(
-                  style: kTextButtonStyle,
-                  onPressed: () async {
-                    // ll(index);
-                  },
-                  child: CustomSingleButtonListViewItem(
-                    backgroundImage: _profileController.addFriendLists[index]['image'].toString(),
-                    name: _profileController.addFriendLists[index]['name'],
-                    buttonText: ksSendRequest.tr,
-                    buttonColor: cPrimaryColor,
-                    buttonOnPressed: () {},
-                    textStyle: semiBold14TextStyle(cWhiteColor),
-                    buttonWidth: 147,
-                  )),
-            ),
-          );
-        },
-      ),
     );
   }
 }

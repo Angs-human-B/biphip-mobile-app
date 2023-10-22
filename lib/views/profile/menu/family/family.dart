@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/profile_controllers/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/menu/friends/friends.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
+import 'package:bip_hip/widgets/common/common_shimmer.dart';
 
 class Family extends StatelessWidget {
   Family({super.key});
@@ -90,19 +91,31 @@ class Family extends StatelessWidget {
             ),
             if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
             if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                child: _profileController.tapAbleButtonState[0]
-                    ? Text(
-                        '${ksTotalFamilyMembers.tr}: 55',
-                        style: semiBold14TextStyle(cBlackColor),
-                      )
-                    : Text(
-                        '${ksFamilyRequests.tr}: 33',
-                        style: semiBold14TextStyle(cBlackColor),
+              (_familyController.isFamilyListLoading.value || _familyController.isReceivedFamilyListLoading.value)
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: kHorizontalPadding),
+                      child: ShimmerCommon(
+                        widget: Container(
+                          decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                          height: 16,
+                          width: 160,
+                        ),
                       ),
-              ),
-            kH12sizedBox,
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                      child: _profileController.tapAbleButtonState[0]
+                          ? Text(
+                              '${ksTotalFamilyMembers.tr}: ${_familyController.allFamilyCount.value}',
+                              style: semiBold14TextStyle(cBlackColor),
+                            )
+                          : Text(
+                              '${ksFamilyRequests.tr}: ${_familyController.receivedRequestCount.value}',
+                              style: semiBold14TextStyle(cBlackColor),
+                            ),
+                    ),
+            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
+            if (_profileController.tapAbleButtonState[2]) kH4sizedBox,
             Expanded(
               child: SingleChildScrollView(
                 child: _profileController.allReceivedPendingFamilyView(),
@@ -118,21 +131,19 @@ class Family extends StatelessWidget {
 //*All friend list
 class AllFamilyList extends StatelessWidget {
   AllFamilyList({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
   final FamilyController _familyController = Get.find<FamilyController>();
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => _familyController.isFamilyListLoading.value
-          ? const AllPendingFriendShimmer()
+          ? const CommonFamilyShimmer()
           : Padding(
               padding: const EdgeInsets.symmetric(horizontal: k20Padding),
               child: ListView.builder(
-                itemCount: _profileController.allFamilyLists.length,
+                itemCount: _familyController.familyList.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  // var _item = _profileController.allFriendsList[index];
                   return Padding(
                     padding: const EdgeInsets.only(bottom: k16Padding),
                     child: ClipRRect(
@@ -143,12 +154,13 @@ class AllFamilyList extends StatelessWidget {
                           // ll(index);
                         },
                         child: CustomListViewItem(
-                          backgroundImage: _profileController.allFriendsLists[index]['image'].toString(),
-                          name: _profileController.allFriendsLists[index]['name'],
-                          icon: BipHip.love,
+                          backgroundImage: _familyController.familyList[index].profilePicture.toString(),
+                          imageSize: h50,
+                          name: _familyController.familyList[index].fullName.toString(),
+                          icon: BipHip.relation,
                           subTitle: ksBrother.tr,
                           firstButtonText: ksMessage.tr,
-                          secondButtonText: ksRemove.tr,
+                          secondButtonText: ksBlock.tr,
                           firstButtonOnPressed: () {},
                           secondButtonOnPressed: () {},
                         ),
@@ -165,39 +177,44 @@ class AllFamilyList extends StatelessWidget {
 //*Received family list
 class ReceivedFamilyList extends StatelessWidget {
   ReceivedFamilyList({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
+  final FamilyController _familyController = Get.find<FamilyController>();
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-      child: ListView.builder(
-        itemCount: _profileController.receivedFriendLists.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: k16Padding),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(k8BorderRadius),
-              child: TextButton(
-                style: kTextButtonStyle,
-                onPressed: () async {
-                  // ll(index);
+    return Obx(
+      () => _familyController.isReceivedFamilyListLoading.value
+          ? const CommonFamilyShimmer()
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: ListView.builder(
+                itemCount: _familyController.receivedFamilyList.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: k16Padding),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(k8BorderRadius),
+                      child: TextButton(
+                        style: kTextButtonStyle,
+                        onPressed: () async {
+                          // ll(index);
+                        },
+                        child: CustomListViewItem(
+                          backgroundImage: _familyController.receivedFamilyList[index].profilePicture.toString(),
+                          imageSize: h50,
+                          name: _familyController.receivedFamilyList[index].fullName.toString(),
+                          subTitle: ksGotRequestToBeABrother.tr,
+                          firstButtonText: ksConfirm.tr,
+                          secondButtonText: ksCancel.tr,
+                          firstButtonOnPressed: () {},
+                          secondButtonOnPressed: () {},
+                        ),
+                      ),
+                    ),
+                  );
                 },
-                child: CustomListViewItem(
-                  backgroundImage: _profileController.allFriendsLists[index]['image'].toString(),
-                  name: _profileController.allFriendsLists[index]['name'],
-                  subTitle: ksGotRequestToBeABrother.tr,
-                  firstButtonText: ksConfirm.tr,
-                  secondButtonText: ksCancel.tr,
-                  firstButtonOnPressed: () {},
-                  secondButtonOnPressed: () {},
-                ),
               ),
             ),
-          );
-        },
-      ),
     );
   }
 }
@@ -205,112 +222,49 @@ class ReceivedFamilyList extends StatelessWidget {
 //*Pending family request list
 class PendingFamilyList extends StatelessWidget {
   PendingFamilyList({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
+  final FamilyController _familyController = Get.find<FamilyController>();
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-      child: ListView.builder(
-        itemCount: _profileController.pendingFriendLists.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: k10Padding),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(k8BorderRadius),
-              child: TextButton(
-                style: kTextButtonStyle,
-                onPressed: () async {
-                  // ll(index);
+    return Obx(
+      () => _familyController.isSendFamilyRequestListLoading.value
+          ? const PendingFamilyListShimmer()
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: ListView.builder(
+                itemCount: _familyController.sendFamilyRequestList.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: k10Padding),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(k8BorderRadius),
+                      child: TextButton(
+                        style: kTextButtonStyle,
+                        onPressed: () async {
+                          // ll(index);
+                        },
+                        child: CustomSingleButtonListViewItem(
+                          backgroundImage: _familyController.sendFamilyRequestList[index].profilePicture.toString(),
+                          imageSize: h45,
+                          name: _familyController.sendFamilyRequestList[index].fullName.toString(),
+                          subTitle: ksBrotherPending.tr,
+                          buttonText: ksCancelRequest.tr,
+                          buttonOnPressed: () {},
+                          buttonColor: cWhiteColor,
+                          borderColor: cRedColor,
+                          textStyle: semiBold14TextStyle(cRedColor),
+                          buttonWidth: 147,
+                        ),
+                      ),
+                    ),
+                  );
                 },
-                child: CustomSingleButtonListViewItem(
-                  backgroundImage: _profileController.pendingFriendLists[index]['image'].toString(),
-                  name: _profileController.pendingFriendLists[index]['name'],
-                  subTitle: ksBrotherPending.tr,
-                  buttonText: ksCancelRequest.tr,
-                  buttonOnPressed: () {},
-                  buttonColor: cWhiteColor,
-                  borderColor: cRedColor,
-                  textStyle: semiBold14TextStyle(cRedColor),
-                  buttonWidth: 147,
-                ),
               ),
             ),
-          );
-        },
-      ),
     );
   }
 }
-
-//*add friend request list in bottom sheet
-// class AddFamilyMemberBottomSheetContent extends StatelessWidget {
-//   const AddFamilyMemberBottomSheetContent({super.key});
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Obx(
-//             () => CustomSelectionButton(
-//               hintText: ksSelectRelation.tr,
-//               text: Get.find<ProfileController>().relation.value == "" ? '' : Get.find<ProfileController>().relation.value,
-//               onPressed: () {
-//                 unFocus(context);
-//                 Get.find<ProfileController>().initializeSelectedRelationText();
-//                 Get.find<GlobalController>().commonBottomSheet(
-//                   context: context,
-//                   isScrollControlled: true,
-//                   isSearchShow: false,
-//                   bottomSheetHeight: height * .9,
-//                   content: RelationContent(),
-//                   onPressCloseButton: () {
-//                     Get.back();
-//                   },
-//                   onPressRightButton: () {
-//                     Get.find<ProfileController>().selectRelationTextChange();
-//                     Get.back();
-//                   },
-//                   rightText: ksOk.tr,
-//                   rightTextStyle: medium14TextStyle(cPrimaryColor),
-//                   title: ksSelectRelation.tr,
-//                   isRightButtonShow: true,
-//                 );
-//               },
-//             ),
-//           ),
-//           kH20sizedBox,
-//           Row(
-//             children: [
-//               Obx(
-//                 () => CustomElevatedButton(
-//                   isCustomButton: true,
-//                   label: Get.find<CreatePostController>().postType.value,
-//                   prefixIcon: Get.find<CreatePostController>().postTypeIcon.value,
-//                   onPressed: () {
-//                     unFocus(context);
-//                     Get.find<CreatePostController>().initializeAudienceText();
-//                     Get.find<CreatePostController>().showAudienceSheet(context);
-//                   },
-//                   buttonHeight: 40,
-//                   buttonWidth: width * .5,
-//                   suffixIcon: BipHip.downArrow,
-//                   buttonColor: cGreyBoxColor,
-//                   prefixIconColor: cBlackColor,
-//                   suffixIconColor: cBlackColor,
-//                   textStyle: medium14TextStyle(cBlackColor),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 class RelationContent extends StatelessWidget {
   RelationContent({super.key});
@@ -342,6 +296,168 @@ class RelationContent extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class CommonFamilyShimmer extends StatelessWidget {
+  const CommonFamilyShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+      child: ListView.builder(
+        itemCount: 10,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: k16Padding),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  height: h50,
+                  width: h50,
+                  decoration: const BoxDecoration(
+                    color: cWhiteColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: ShimmerCommon(
+                    widget: Container(
+                      decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                      height: h50,
+                      width: h50,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: k12Padding),
+                  child: SizedBox(
+                    width: width - 105,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ShimmerCommon(
+                          widget: Container(
+                            decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                            height: 16,
+                            width: 200,
+                          ),
+                        ),
+                        kH4sizedBox,
+                        ShimmerCommon(
+                          widget: Container(
+                            decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                            height: 8,
+                            width: 100,
+                          ),
+                        ),
+                        kH4sizedBox,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ShimmerCommon(
+                              widget: Container(
+                                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
+                                height: 30,
+                                width: (width / 2) - h60,
+                              ),
+                            ),
+                            ShimmerCommon(
+                              widget: Container(
+                                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
+                                height: 30,
+                                width: (width / 2) - h60,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class PendingFamilyListShimmer extends StatelessWidget {
+  const PendingFamilyListShimmer({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+      child: ListView.builder(
+        itemCount: 20,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: k10Padding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: h45,
+                      width: h45,
+                      decoration: const BoxDecoration(
+                        color: cWhiteColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: ShimmerCommon(
+                        widget: Container(
+                          decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                          height: h50,
+                          width: h50,
+                        ),
+                      ),
+                    ),
+                    kW12sizedBox,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ShimmerCommon(
+                            widget: Container(
+                              decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                              height: 16,
+                              width: 120,
+                            ),
+                          ),
+                          kH4sizedBox,
+                          ShimmerCommon(
+                            widget: Container(
+                              decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                              height: 8,
+                              width: 80,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ShimmerCommon(
+                      widget: Container(
+                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
+                        height: 30,
+                        width: (width / 2) - h60,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
