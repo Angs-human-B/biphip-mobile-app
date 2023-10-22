@@ -1,12 +1,12 @@
-import 'package:bip_hip/controllers/create_post_controller.dart';
+// import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AddBrandPage extends StatelessWidget {
-  AddBrandPage({super.key});
+  const AddBrandPage({super.key});
 
-  final CreatePostController _createPostController = Get.find<CreatePostController>();
+  // final CreatePostController _createPostController = Get.find<CreatePostController>();
 
   @override
   Widget build(BuildContext context) {
