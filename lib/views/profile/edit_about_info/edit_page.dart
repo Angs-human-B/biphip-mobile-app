@@ -1,6 +1,9 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/profile/profile_widgets/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 class EditPage extends StatelessWidget {
@@ -70,14 +73,16 @@ class EditPage extends StatelessWidget {
                                 _profileController.tempEducationBackground.value = _profileController.educationBackground.value;
                                 _globalController.commonBottomSheet(
                                   context: context,
-                                  content: Obx(() =>
-                                      (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
-                                          ? (_profileController.isLinkListLoading.value
-                                              ? const _LinkListContentShimmer()
-                                              : _LinkListContent(profileController: _profileController))
-                                          : _EducationBackgroundContent(
-                                              profileController: _profileController,
-                                            )),
+                                  content: Obx(
+                                    () => (_profileController.commonEditPageTitle.value == ksAddLink ||
+                                            _profileController.commonEditPageTitle.value == ksEditLink)
+                                        ? (_profileController.isLinkListLoading.value
+                                            ? const _LinkListContentShimmer()
+                                            : _LinkListContent(profileController: _profileController))
+                                        : _EducationBackgroundContent(
+                                            profileController: _profileController,
+                                          ),
+                                  ),
                                   isScrollControlled: true,
                                   bottomSheetHeight:
                                       (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
@@ -164,24 +169,38 @@ class EditPage extends StatelessWidget {
                             _profileController.commonEditTextEditingController.text = option;
                           },
                           optionsViewBuilder: (context, Function(String) onSelected, options) {
-                            return Material(
-                              elevation: 4,
-                              child: ListView.separated(
-                                padding: EdgeInsets.zero,
-                                itemBuilder: (context, index) {
-                                  final option = options.elementAt(index);
+                            return Align(
+                              alignment: Alignment.topLeft,
+                              child: SizedBox(
+                                width: width - 40,
+                                child: Material(
+                                  elevation: 4,
+                                  child: ListView.separated(
+                                    padding: EdgeInsets.zero,
+                                    itemBuilder: (context, index) {
+                                      final option = options.elementAt(index);
 
-                                  return ListTile(
-                                    title: Text(option.toString()),
-                                    onTap: () {
-                                      onSelected(option.toString());
-                                      _profileController.commonEditTextEditingController.text = option.toString();
-                                      unfocus(context);
+                                      return CustomListTile(
+                                        title: Text(
+                                          option.toString(),
+                                          style: medium16TextStyle(cBlackColor),
+                                        ),
+                                        onPressed: () {
+                                          onSelected(option.toString());
+                                          _profileController.commonEditTextEditingController.text = option.toString();
+                                          _profileController.checkSaveButtonActive();
+
+                                          unfocus(context);
+                                        },
+                                      );
                                     },
-                                  );
-                                },
-                                separatorBuilder: (context, index) => const Divider(),
-                                itemCount: options.length,
+                                    separatorBuilder: (context, index) => Container(
+                                      height: 1,
+                                      color: cLineColor,
+                                    ),
+                                    itemCount: options.length,
+                                  ),
+                                ),
                               ),
                             );
                           },
@@ -210,8 +229,10 @@ class EditPage extends StatelessWidget {
                                 onSuffixPress: () {
                                   _profileController.commonEditTextEditingController.clear();
                                   _profileController.showCommonEditSuffixIcon.value = false;
+                                  _profileController.checkSaveButtonActive();
                                 },
                                 onChanged: (value) {
+                                  _profileController.checkSaveButtonActive();
                                   if (_profileController.commonEditTextEditingController.text != '') {
                                     _profileController.showCommonEditSuffixIcon.value = true;
                                   } else {
@@ -232,7 +253,7 @@ class EditPage extends StatelessWidget {
                         ),
                         if (_profileController.isSecondaryTextfieldShown.value)
                           Padding(
-                            padding: const EdgeInsets.only(bottom: k16Padding),
+                            padding: const EdgeInsets.only(bottom: k8Padding),
                             child: RawAutocomplete(
                               textEditingController: _profileController.commonEditSecondaryTextEditingController,
                               focusNode: _commonSecondaryFocusNode,
@@ -245,24 +266,38 @@ class EditPage extends StatelessWidget {
                                 ll(option);
                               },
                               optionsViewBuilder: (context, Function(String) onSelected, options) {
-                                return Material(
-                                  elevation: 4,
-                                  child: ListView.separated(
-                                    padding: EdgeInsets.zero,
-                                    itemBuilder: (context, index) {
-                                      final option = options.elementAt(index);
+                                return Align(
+                                  alignment: Alignment.topLeft,
+                                  child: SizedBox(
+                                    width: width - 40,
+                                    child: Material(
+                                      elevation: 4,
+                                      child: ListView.separated(
+                                        padding: EdgeInsets.zero,
+                                        itemBuilder: (context, index) {
+                                          final option = options.elementAt(index);
 
-                                      return ListTile(
-                                        title: Text(option.toString()),
-                                        onTap: () {
-                                          onSelected(option.toString());
-                                          _profileController.commonEditSecondaryTextEditingController.text = option.toString();
-                                          unfocus(context);
+                                          return CustomListTile(
+                                            title: Text(
+                                              option.toString(),
+                                              style: medium16TextStyle(cBlackColor),
+                                            ),
+                                            onPressed: () {
+                                              onSelected(option.toString());
+                                              _profileController.commonEditSecondaryTextEditingController.text = option.toString();
+                                              _profileController.checkSaveButtonActive();
+
+                                              unfocus(context);
+                                            },
+                                          );
                                         },
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) => const Divider(),
-                                    itemCount: options.length,
+                                        separatorBuilder: (context, index) => Container(
+                                          height: 1,
+                                          color: cLineColor,
+                                        ),
+                                        itemCount: options.length,
+                                      ),
+                                    ),
                                   ),
                                 );
                               },
@@ -277,9 +312,13 @@ class EditPage extends StatelessWidget {
                                     borderRadius: k8BorderRadius,
                                     onSuffixPress: () {
                                       _profileController.commonEditSecondaryTextEditingController.clear();
+                                      _profileController.checkSaveButtonActive();
+
                                       _profileController.showCommonSecondaryEditSuffixIcon.value = false;
                                     },
                                     onChanged: (value) {
+                                      _profileController.checkSaveButtonActive();
+
                                       if (_profileController.commonEditSecondaryTextEditingController.text.isNotEmpty) {
                                         _profileController.showCommonSecondaryEditSuffixIcon.value = true;
                                       } else {
@@ -307,61 +346,73 @@ class EditPage extends StatelessWidget {
                         //     },
                         //   ),
                         // ),
-                        // if (_profileController.isCommonEditDatePickerShown.value)
-                        //   Padding(
-                        //     padding: const EdgeInsets.symmetric(vertical: k16Padding),
-                        //     child: Row(
-                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //       children: [
-                        //         SizedBox(
-                        //           width: (width / 2) - 30,
-                        //           child: CustomSelectionButton(
-                        //             prefixIcon: BipHip.calendarFill,
-                        //             onPressed: () {
-                        //               showModalBottomSheet(
-                        //                   context: context,
-                        //                   builder: (context) {
-                        //                     return SizedBox(
-                        //                       height: height * 0.4,
-                        //                       child: CupertinoDatePicker(
-                        //                         mode: CupertinoDatePickerMode.monthYear,
-                        //                         onDateTimeChanged: (value) {
-                        //                           // _profileController.startDateAddress.value = value.year.toString();
-                        //                         },
-                        //                       ),
-                        //                     );
-                        //                   });
-                        //             },
-                        //             text: _profileController.startDateAddress.value,
-                        //             hintText: ksStartDate.tr,
-                        //           ),
-                        //         ),
-                        //         SizedBox(
-                        //           width: (width / 2) - 30,
-                        //           child: CustomSelectionButton(
-                        //             prefixIcon: BipHip.calendarFill,
-                        //             onPressed: () {
-                        //               showModalBottomSheet(
-                        //                   context: context,
-                        //                   builder: (context) {
-                        //                     return SizedBox(
-                        //                       height: height * 0.4,
-                        //                       child: CupertinoDatePicker(
-                        //                         mode: CupertinoDatePickerMode.monthYear,
-                        //                         onDateTimeChanged: (value) {
-                        //                           // _profileController.endDateAddress.value = value.year.toString();
-                        //                         },
-                        //                       ),
-                        //                     );
-                        //                   });
-                        //             },
-                        //             text: _profileController.endDateAddress.value,
-                        //             hintText: ksEndDate.tr,
-                        //           ),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
+                        if (_profileController.isCommonEditDatePickerShown.value)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: k16Padding),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width: (width / 2) - 30,
+                                  child: CustomSelectionButton(
+                                    prefixIcon: BipHip.calendarFill,
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) {
+                                            return SizedBox(
+                                              height: height * 0.4,
+                                              child: CupertinoDatePicker(
+                                                // maximumDate: DateTime.now(),
+                                                initialDateTime: _profileController.commonStartDate.value != ''
+                                                    ? DateTime.parse(_profileController.commonStartDate.value)
+                                                    : DateTime.now(),
+                                                mode: CupertinoDatePickerMode.date,
+                                                onDateTimeChanged: (value) {
+                                                  _profileController.checkSaveButtonActive();
+
+                                                  _profileController.commonStartDate.value = DateFormat("yyyy-MM-dd").format(value);
+                                                },
+                                              ),
+                                            );
+                                          });
+                                    },
+                                    text: _profileController.commonStartDate.value,
+                                    hintText: ksStartDate.tr,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: (width / 2) - 30,
+                                  child: CustomSelectionButton(
+                                    prefixIcon: BipHip.calendarFill,
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) {
+                                            return SizedBox(
+                                              height: height * 0.4,
+                                              child: CupertinoDatePicker(
+                                                mode: CupertinoDatePickerMode.date,
+                                                // maximumDate: DateTime.now(),
+                                                initialDateTime: _profileController.commonEndDate.value != ''
+                                                    ? DateTime.parse(_profileController.commonEndDate.value)
+                                                    : DateTime.now(),
+                                                onDateTimeChanged: (value) {
+                                                  _profileController.checkSaveButtonActive();
+
+                                                  _profileController.commonEndDate.value = DateFormat("yyyy-MM-dd").format(value);
+                                                },
+                                              ),
+                                            );
+                                          });
+                                    },
+                                    text: _profileController.commonEndDate.value,
+                                    hintText: ksEndDate.tr,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         if (_profileController.isCommonEditPrivacyShown.value || _profileController.isCommonEditCheckBoxShown.value)
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -438,7 +489,7 @@ class EditPage extends StatelessWidget {
                       textStyle: semiBold14TextStyle(cWhiteColor),
                       buttonHeight: h32,
                       buttonWidth: width - 40,
-                      onPressed: _profileController.buttonActivation(_profileController.functionFlag.value)
+                      onPressed: _profileController.enableSaveButton.value
                           ? () {
                               ll(_profileController.functionFlag.value);
                               _profileController.selectFunction(_profileController.functionFlag.value);
@@ -466,36 +517,40 @@ class _EducationBackgroundContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: profileController.educationBackgroundList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Obx(
-              () => Padding(
-                padding: const EdgeInsets.only(bottom: k8Padding),
-                child: CustomListTile(
-                  title: profileController.educationBackgroundList[index],
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
+    return Obx(() => Column(
+          children: [
+            profileController.educationBackgroundList.isNotEmpty
+                ? ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: profileController.educationBackgroundList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: k8Padding),
+                        child: Obx(() => CustomListTile(
+                              title: profileController.educationBackgroundList[index],
+                              trailing: CustomRadioButton(
+                                onChanged: () {
+                                  profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
+                                },
+                                isSelected: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index],
+                              ),
+                              itemColor: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index]
+                                  ? cPrimaryTint3Color
+                                  : cWhiteColor,
+                              onPressed: () {
+                                profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
+                              },
+                            )),
+                      );
                     },
-                    isSelected: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index],
+                  )
+                : EmptyView(
+                    height: 140,
+                    title: ksNoDataAvailable.tr,
                   ),
-                  itemColor:
-                      profileController.tempEducationBackground.value == profileController.educationBackgroundList[index] ? cPrimaryTint3Color : cWhiteColor,
-                  onPressed: () {
-                    profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
-                  },
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
+          ],
+        ));
   }
 }
 
@@ -509,35 +564,41 @@ class _LinkListContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: profileController.linkSourceList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Obx(
-              () => Padding(
-                padding: const EdgeInsets.only(bottom: k8Padding),
-                child: CustomListTile(
-                  title: profileController.linkSourceList[index],
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      profileController.tempLinkSource.value = profileController.linkSourceList[index];
+    return Obx(() => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            profileController.linkSourceList.isNotEmpty
+                ? ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: profileController.linkSourceList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Obx(
+                        () => Padding(
+                          padding: const EdgeInsets.only(bottom: k8Padding),
+                          child: CustomListTile(
+                            title: profileController.linkSourceList[index],
+                            trailing: CustomRadioButton(
+                              onChanged: () {
+                                profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                              },
+                              isSelected: profileController.tempLinkSource.value == profileController.linkSourceList[index],
+                            ),
+                            itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
+                            onPressed: () {
+                              profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                            },
+                          ),
+                        ),
+                      );
                     },
-                    isSelected: profileController.tempLinkSource.value == profileController.linkSourceList[index],
+                  )
+                : EmptyView(
+                    height: height * 0.8,
+                    title: ksNoDataAvailable.tr,
                   ),
-                  itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
-                  onPressed: () {
-                    profileController.tempLinkSource.value = profileController.linkSourceList[index];
-                  },
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
+          ],
+        ));
   }
 }
 

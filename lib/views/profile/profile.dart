@@ -643,7 +643,7 @@ class LinkUpIconTextRow extends StatelessWidget {
             Expanded(
               child: Text(
                 text,
-                style: regular14TextStyle(isLink ? cPrimaryColor : cBlackColor),
+                style: regular14TextStyle(cBlackColor),
               ),
             )
           ],

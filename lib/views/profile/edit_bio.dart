@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/profile/edit_profile.dart';
 
 class EditBio extends StatelessWidget {
   EditBio({super.key});
@@ -83,10 +82,6 @@ class EditBio extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
-                      const Positioned(
-                        top: 0,
-                        child: CustomDivider(),
                       ),
                     ],
                   )),
