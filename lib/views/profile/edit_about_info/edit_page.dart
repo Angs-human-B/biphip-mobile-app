@@ -2,9 +2,9 @@ import 'package:bip_hip/controllers/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/profile_widgets/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+import 'package:bip_hip/widgets/common/common_shimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 
 class EditPage extends StatelessWidget {
   EditPage({super.key});
@@ -619,10 +619,8 @@ class _LinkListContentShimmer extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: k8Padding),
               child: CustomListTile(
-                title: Shimmer.fromColors(
-                  baseColor: cWhiteColor,
-                  highlightColor: Colors.grey,
-                  child: Container(
+                title: ShimmerCommon(
+               widget: Container(
                     height: 20,
                     decoration: BoxDecoration(
                       borderRadius: k8CircularBorderRadius,

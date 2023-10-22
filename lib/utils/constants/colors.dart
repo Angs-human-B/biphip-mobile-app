@@ -10,6 +10,7 @@ const Color cSecondaryColor = Color(0xFFFDB805);
 const Color cSecondaryTintColor = Color(0xFFFFE193);
 const Color cSecondaryTint2Color = Color(0xFFFFF3D3);
 const Color cSecondaryTint3Color = Color(0xFFFFFAEE);
+const Color cBackgroundColor = Color(0xFFE6E6E6);
 const Color cBlackColor = Color(0xFF232732);
 const Color cIconColor = Color(0xFF767982);
 const Color cSmallBodyTextColor = Color(0xFF8E9094);

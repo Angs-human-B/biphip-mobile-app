@@ -7,8 +7,8 @@ import 'package:bip_hip/views/profile/profile_widgets/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+import 'package:bip_hip/widgets/common/common_shimmer.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 
 class EditAboutInfo extends StatelessWidget {
   EditAboutInfo({super.key});
@@ -77,6 +77,7 @@ class EditAboutInfo extends StatelessWidget {
                                 suffixIcon: BipHip.edit,
                                 text: checkNullOrStringNull(_profileController.hometownData.value?.city),
                                 suffixOnPressed: () async {
+                                  _profileController.enableSaveButton.value = true;
                                   _profileController.getMethod(0);
                                   _profileController.getCityList();
                                   // _globalController.commonBottomSheet(
@@ -130,6 +131,7 @@ class EditAboutInfo extends StatelessWidget {
                                 suffixIcon: BipHip.edit,
                                 text: checkNullOrStringNull(_profileController.currentCityData.value!.city),
                                 suffixOnPressed: () async {
+                                  _profileController.enableSaveButton.value = true;
                                   _profileController.isCurrentlyLiveHere.value = true;
                                   _profileController.cityID.value = _profileController.currentCityData.value!.id!;
                                   _profileController.getMethod(2);
@@ -191,7 +193,7 @@ class EditAboutInfo extends StatelessWidget {
                                   suffixOnPressed: () async {
                                     _profileController.cityID.value = _profileController.otherCityList[i].id!;
                                     _profileController.presentAddressTextEditingController.text = _profileController.otherCityList[i].city!;
-
+                                    _profileController.enableSaveButton.value = true;
                                     _profileController.getMethod(4);
                                     _profileController.getCityList();
                                     // _globalController.commonBottomSheet(
@@ -255,6 +257,7 @@ class EditAboutInfo extends StatelessWidget {
                                 text: checkNullOrStringNull(_profileController.schoolDataList[i].school),
                                 suffixOnPressed: () {
                                   _profileController.resetTextEditor();
+                                  _profileController.enableSaveButton.value = true;
                                   if (_profileController.schoolDataList[i].started != null) {
                                     _profileController.tempSchoolStartDate.value =
                                         DateFormat("yyyy-MM-dd").format(_profileController.schoolDataList[i].started!);
@@ -291,6 +294,7 @@ class EditAboutInfo extends StatelessWidget {
                                 text: checkNullOrStringNull(_profileController.collegeDataList[i].school),
                                 suffixOnPressed: () {
                                   _profileController.resetTextEditor();
+                                  _profileController.enableSaveButton.value = true;
                                   if (_profileController.collegeDataList[i].started != null) {
                                     _profileController.tempSchoolStartDate.value =
                                         DateFormat("yyyy-MM-dd").format(_profileController.collegeDataList[i].started!);
@@ -567,7 +571,7 @@ class EditAboutInfo extends StatelessWidget {
                           if (_profileController.showAllEditOption.value) const CustomDivider(),
                           if (_profileController.showAllEditOption.value)
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                              padding: const EdgeInsets.only(top: k16Padding),
                               child: RowTextButton(
                                 text: ksInterest.tr,
                                 buttonText: ksAdd.tr,
@@ -599,6 +603,7 @@ class EditAboutInfo extends StatelessWidget {
                                 buttonWidth: 149,
                               ),
                             ),
+                          if (_profileController.userData.value!.interest.isEmpty && _profileController.showAllEditOption.value) kH16sizedBox,
                           if (_profileController.userData.value!.interest.isNotEmpty && _profileController.showAllEditOption.value)
                             Padding(
                               padding: const EdgeInsets.only(bottom: k8Padding),
@@ -645,6 +650,7 @@ class EditAboutInfo extends StatelessWidget {
                                 text: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
                                 suffixOnPressed: () async {
                                   _profileController.resetTextEditor();
+                                  _profileController.enableSaveButton.value = true;
                                   if (_profileController.currentWorkplace.value!.started != null) {
                                     _profileController.tempWorkplaceStartDate.value =
                                         DateFormat("yyyy-MM-dd").format(_profileController.currentWorkplace.value!.started!);
@@ -714,14 +720,14 @@ class EditAboutInfo extends StatelessWidget {
                           for (int i = 0; i < _profileController.workplaceDataList.length; i++)
                             if (_profileController.workplaceDataList[i].isCurrent != 1)
                               Padding(
-                                padding: const EdgeInsets.only(bottom: k10Padding),
+                                padding: const EdgeInsets.only(bottom: k16Padding),
                                 child: InfoContainer(
                                   prefixIcon: BipHip.officeFill,
                                   suffixIcon: BipHip.edit,
                                   text: _profileController.workplaceDataList[i].company!,
                                   suffixOnPressed: () async {
                                     _profileController.resetTextEditor();
-
+                                    _profileController.enableSaveButton.value = true;
                                     _profileController.getCompanyList();
                                     if (_profileController.workplaceDataList[i].started != null) {
                                       _profileController.tempWorkplaceStartDate.value =
@@ -801,13 +807,14 @@ class EditAboutInfo extends StatelessWidget {
                           for (int i = 0; i < _profileController.contactDataList.length; i++)
                             if (_profileController.contactDataList[i].type == 'phone' && _profileController.showAllEditOption.value)
                               Padding(
-                                padding: const EdgeInsets.only(bottom: k10Padding),
+                                padding: const EdgeInsets.only(bottom: k16Padding),
                                 child: InfoContainer(
                                   prefixIcon: BipHip.phoneFill,
                                   suffixIcon: BipHip.edit,
                                   text: checkNullOrStringNull(_profileController.contactDataList[i].value),
                                   suffixOnPressed: () {
                                     _profileController.resetTextEditor();
+                                    _profileController.enableSaveButton.value = true;
                                     _profileController.phoneID.value = _profileController.contactDataList[i].id!;
                                     _profileController.phoneTextEditingController.text = _profileController.contactDataList[i].value!;
                                     _profileController.getMethod(12);
@@ -856,14 +863,14 @@ class EditAboutInfo extends StatelessWidget {
                           for (int i = 0; i < _profileController.contactDataList.length; i++)
                             if (_profileController.contactDataList[i].type == 'email' && _profileController.showAllEditOption.value)
                               Padding(
-                                padding: const EdgeInsets.only(bottom: k10Padding),
+                                padding: const EdgeInsets.only(bottom: k16Padding),
                                 child: InfoContainer(
                                   prefixIcon: BipHip.mail,
                                   suffixIcon: BipHip.edit,
                                   text: checkNullOrStringNull(_profileController.contactDataList[i].value),
                                   suffixOnPressed: () {
                                     _profileController.resetTextEditor();
-
+                                    _profileController.enableSaveButton.value = true;
                                     _profileController.emailID.value = _profileController.contactDataList[i].id!;
                                     _profileController.emailTextEditingController.text = _profileController.contactDataList[i].value!;
                                     _profileController.getMethod(14);
@@ -917,14 +924,14 @@ class EditAboutInfo extends StatelessWidget {
                           for (int i = 0; i < _profileController.linkDataList.length; i++)
                             if (_profileController.showAllEditOption.value)
                               Padding(
-                                padding: const EdgeInsets.only(bottom: k10Padding),
+                                padding: const EdgeInsets.only(bottom: k16Padding),
                                 child: InfoContainer(
                                   prefixIcon: _profileController.getLinkIcon(_profileController.linkDataList[i].type!),
                                   suffixIcon: BipHip.edit,
                                   text: checkNullOrStringNull(_profileController.linkDataList[i].link),
                                   suffixOnPressed: () {
                                     _profileController.resetTextEditor();
-
+                                    _profileController.enableSaveButton.value = true;
                                     _profileController.commonEditPageIcon.value = null;
                                     _profileController.linkTextEditingController.text = _profileController.linkDataList[i].link!;
                                     _profileController.linkID.value = _profileController.linkDataList[i].id!;
@@ -1118,13 +1125,11 @@ class _RelationshipStatusListShimmer extends StatelessWidget {
         ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: 5,
+          itemCount: 10,
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
-              title: Shimmer.fromColors(
-                baseColor: cWhiteColor,
-                highlightColor: Colors.grey,
-                child: Container(
+              title: ShimmerCommon(
+                widget: Container(
                   height: 20,
                   decoration: BoxDecoration(
                     borderRadius: k8CircularBorderRadius,
