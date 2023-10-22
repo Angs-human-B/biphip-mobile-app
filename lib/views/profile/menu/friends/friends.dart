@@ -159,19 +159,21 @@ class CustomListViewItem extends StatelessWidget {
     super.key,
     required this.backgroundImage,
     required this.name,
-    required this.firstButtonText,
-    required this.secondButtonText,
-    required this.firstButtonOnPressed,
-    required this.secondButtonOnPressed,
+    this.firstButtonText,
+    this.secondButtonText,
+    this.firstButtonOnPressed,
+    this.secondButtonOnPressed,
     this.icon,
     this.subTitle,
+    this.imageSize,
   });
   final String backgroundImage;
+  final double? imageSize;
   final String name;
-  final String firstButtonText;
-  final String secondButtonText;
-  final VoidCallback firstButtonOnPressed;
-  final VoidCallback secondButtonOnPressed;
+  final String? firstButtonText;
+  final String? secondButtonText;
+  final VoidCallback? firstButtonOnPressed;
+  final VoidCallback? secondButtonOnPressed;
   final IconData? icon;
   final String? subTitle;
   @override
@@ -180,8 +182,8 @@ class CustomListViewItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          height: h40,
-          width: h40,
+          height: imageSize ?? h40,
+          width: imageSize ?? h40,
           decoration: const BoxDecoration(
             color: cWhiteColor,
             shape: BoxShape.circle,
@@ -230,22 +232,24 @@ class CustomListViewItem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomElevatedButton(
-                      buttonWidth: (width / 2) - h60,
-                      buttonHeight: 30,
-                      label: firstButtonText,
-                      textStyle: semiBold16TextStyle(cWhiteColor),
-                      onPressed: firstButtonOnPressed,
-                    ),
-                    CustomElevatedButton(
-                      buttonWidth: (width / 2) - h60,
-                      buttonHeight: 30,
-                      label: secondButtonText,
-                      onPressed: secondButtonOnPressed,
-                      buttonColor: cWhiteColor,
-                      borderColor: cRedColor,
-                      textStyle: semiBold16TextStyle(cRedColor),
-                    )
+                    if (firstButtonText != null)
+                      CustomElevatedButton(
+                        buttonWidth: (width / 2) - h60,
+                        buttonHeight: 30,
+                        label: firstButtonText!,
+                        textStyle: semiBold16TextStyle(cWhiteColor),
+                        onPressed: firstButtonOnPressed,
+                      ),
+                    if (secondButtonText != null)
+                      CustomElevatedButton(
+                        buttonWidth: (width / 2) - h60,
+                        buttonHeight: 30,
+                        label: secondButtonText!,
+                        onPressed: secondButtonOnPressed,
+                        buttonColor: cWhiteColor,
+                        borderColor: cRedColor,
+                        textStyle: semiBold16TextStyle(cRedColor),
+                      )
                   ],
                 ),
               ],
@@ -271,6 +275,7 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
     this.borderColor,
     this.buttonHeight,
     this.subTitle,
+    this.imageSize,
   });
   final String backgroundImage;
   final String name;
@@ -282,6 +287,7 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
   final double? buttonWidth;
   final double? buttonHeight;
   final String? subTitle;
+  final double? imageSize;
   // final BoxDecoration boxDecoration;
   @override
   Widget build(BuildContext context) {
@@ -292,8 +298,8 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              height: h40,
-              width: h40,
+              height: imageSize ?? h40,
+              width: imageSize ?? h40,
               decoration: const BoxDecoration(
                 color: cWhiteColor,
                 shape: BoxShape.circle,
@@ -319,6 +325,7 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: semiBold16TextStyle(cBlackColor),
                   ),
+                  kH4sizedBox,
                   subTitle == null
                       ? const SizedBox()
                       : Text(

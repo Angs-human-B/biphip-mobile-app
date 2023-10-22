@@ -17,6 +17,7 @@ class FamilyController extends GetxController {
   final Rx<String?> familyListSubLink = Rx<String?>(null);
   final RxBool familyListScrolled = RxBool(false);
   final RxBool isFamilyListLoading = RxBool(false);
+  final RxInt allFamilyCount = RxInt(0);
   Future<void> getFamilyList() async {
     try {
       isFamilyListLoading.value = true;
@@ -32,6 +33,7 @@ class FamilyController extends GetxController {
         familyListScrolled.value = false;
         familyData.value = CommonFamilyModel.fromJson(response.data);
         familyList.addAll(familyData.value!.families!.data);
+        allFamilyCount.value = familyList.length;
         familyListSubLink.value = familyData.value!.families!.nextPageUrl;
         if (familyListSubLink.value != null) {
           familyListScrolled.value = false;
@@ -81,6 +83,7 @@ class FamilyController extends GetxController {
         familyData.value = CommonFamilyModel.fromJson(response.data);
         ll(familyData.value);
         familyList.addAll(familyData.value!.families!.data);
+        allFamilyCount.value = familyList.length;
         familyListSubLink.value = familyData.value!.families!.nextPageUrl;
         if (familyListSubLink.value != null) {
           familyListScrolled.value = false;
@@ -217,7 +220,6 @@ class FamilyController extends GetxController {
       ll('rejectFamilyRequest error: $e');
     }
   }
-
 
   //* Family Request Send List(Pending)
   Rx<CommonFamilySendReceiveModel?> sendFamilyRequestData = Rx<CommonFamilySendReceiveModel?>(null);
