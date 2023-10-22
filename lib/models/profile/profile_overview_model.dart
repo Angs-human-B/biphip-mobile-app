@@ -103,8 +103,8 @@ class Workplace {
   dynamic position;
   dynamic city;
   dynamic description;
-  dynamic started;
-  dynamic ended;
+  DateTime? started;
+  DateTime? ended;
   int? isCurrent;
 
   Workplace({
@@ -126,8 +126,8 @@ class Workplace {
         position: json["position"],
         city: json["city"],
         description: json["description"],
-        started: json["started"],
-        ended: json["ended"],
+        started: json["started"] == null ? null : DateTime.parse(json["started"]),
+        ended: json["ended"] == null ? null : DateTime.parse(json["ended"]),
         isCurrent: json["is_current"],
       );
 }
