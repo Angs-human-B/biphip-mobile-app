@@ -1,5 +1,5 @@
-import 'package:bip_hip/controllers/create_post_controller.dart';
-import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';
 import 'package:bip_hip/views/profile/post_widgets/comment_widget.dart';

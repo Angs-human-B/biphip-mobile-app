@@ -1,4 +1,4 @@
-import 'package:bip_hip/controllers/create_post_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/create_post/create_post_widget/common_category_button.dart';
 import 'package:bip_hip/views/profile/edit_profile.dart';

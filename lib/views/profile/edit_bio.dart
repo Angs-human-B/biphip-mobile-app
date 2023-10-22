@@ -1,4 +1,4 @@
-import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class EditBio extends StatelessWidget {

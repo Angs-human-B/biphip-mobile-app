@@ -1,4 +1,4 @@
-import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/models/common/common_error_model.dart';
 import 'package:bip_hip/models/friend/common_friend_model.dart';
@@ -654,4 +654,10 @@ class FriendController extends GetxController {
       return false;
     }
   }
+
+  final RxList pendingFriendActionList = RxList([
+    {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
+    {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow this user'}
+  ]);
+  final RxString pendingFriendActionSelect = RxString('');
 }

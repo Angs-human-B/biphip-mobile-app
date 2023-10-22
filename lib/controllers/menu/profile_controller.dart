@@ -5,7 +5,6 @@ import 'package:bip_hip/models/common/common_list_models.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/profile/common_user_layer_model.dart';
 import 'package:bip_hip/models/profile/profile_overview_model.dart';
-// import 'package:bip_hip/models/profile/profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile/menu/family/family.dart';
 import 'package:bip_hip/views/profile/menu/friends/friends.dart';
@@ -48,9 +47,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     String videoUrl, {
     bool init = false,
   }) {
-    // if(index<0 || index>= videos.length){
-    //   return;
-    // }
     videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl))
       ..addListener(() {})
       ..setLooping(true)
@@ -144,8 +140,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
 
   //*Search
   final TextEditingController searchController = TextEditingController();
-  RxBool isCloseIconVisible = RxBool(false);
-
+  final RxBool isCloseIconVisible = RxBool(false);
 
   //*friends page list data show
   StatelessWidget allReceivedPendingFriendsView() {
@@ -159,10 +154,10 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   }
 
   //*Family
-  RxList allFamilyLists = RxList(friendsList);
-  RxList receivedFamilyLists = RxList(friendsList);
-  RxList pendingFamilyLists = RxList(friendsList);
-  RxList addFamilyLists = RxList(addFriendList);
+  final RxList allFamilyLists = RxList(friendsList);
+  final RxList receivedFamilyLists = RxList(friendsList);
+  final RxList pendingFamilyLists = RxList(friendsList);
+  final RxList addFamilyLists = RxList(addFriendList);
 
   //*friends page list data show
   StatelessWidget allReceivedPendingFamilyView() {
@@ -195,19 +190,19 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   //-----------------
   TextEditingController commonEditTextEditingController = TextEditingController();
   TextEditingController commonEditSecondaryTextEditingController = TextEditingController();
-  TextEditingController tempCommonEditSecondaryTextEditingController = TextEditingController();
-  RxString commonEditTextfieldHintText = RxString('');
-  RxBool isCommonEditDatePickerShown = RxBool(false);
-  RxBool isCommonEditPrivacyShown = RxBool(false);
-  RxBool isCommonEditCheckBoxShown = RxBool(false);
-  RxBool isCommonEditCheckBoxSelected = RxBool(false);
-  RxBool isDropdownShown = RxBool(false);
-  RxBool isSecondaryTextfieldShown = RxBool(false);
-  RxBool isRouteFromAboutInfo = RxBool(false);
-  RxString commonEditCheckBoxText = RxString('');
-  RxString commonEditPageTitle = RxString('');
-  Rx<IconData> commonEditIconData = Rx<IconData>(BipHip.add);
-  RxString functionFlag = RxString('');
+  final TextEditingController tempCommonEditSecondaryTextEditingController = TextEditingController();
+  final RxString commonEditTextfieldHintText = RxString('');
+  final RxBool isCommonEditDatePickerShown = RxBool(false);
+  final RxBool isCommonEditPrivacyShown = RxBool(false);
+  final RxBool isCommonEditCheckBoxShown = RxBool(false);
+  final RxBool isCommonEditCheckBoxSelected = RxBool(false);
+  final RxBool isDropdownShown = RxBool(false);
+  final RxBool isSecondaryTextfieldShown = RxBool(false);
+  final RxBool isRouteFromAboutInfo = RxBool(false);
+  final RxString commonEditCheckBoxText = RxString('');
+  final RxString commonEditPageTitle = RxString('');
+  final Rx<IconData> commonEditIconData = Rx<IconData>(BipHip.add);
+  final RxString functionFlag = RxString('');
   final TextEditingController homeTownTextEditingController = TextEditingController();
   final RxString homeTown = RxString('');
   final RxInt homeID = RxInt(-1);
@@ -215,7 +210,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final TextEditingController presentAddressTextEditingController = TextEditingController();
   final TextEditingController educationInstituteTextEditingController = TextEditingController();
   final TextEditingController companyNameTextEditingController = TextEditingController();
-  TextEditingController designationTextEditingController = TextEditingController();
+  final TextEditingController designationTextEditingController = TextEditingController();
   final TextEditingController phoneTextEditingController = TextEditingController();
   final TextEditingController emailTextEditingController = TextEditingController();
   final TextEditingController linkTextEditingController = TextEditingController();
@@ -232,12 +227,10 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final List<String> companyList = [];
   final List<String> schoolList = [];
   final RxString birthday = RxString('');
-  // final RxBool showEditAddress = RxBool(false);
   final RxBool showEditRelationshipStatus = RxBool(false);
   final RxString commonEditTextFieldErrorText = RxString('');
   final RxBool showCommonEditSuffixIcon = RxBool(false);
   final RxBool showCommonSecondaryEditSuffixIcon = RxBool(false);
-  // final RxBool showAddSchool = RxBool(false);
   final RxInt cityListIndex = RxInt(-1);
   final RxList relationshipStatusList = RxList([]);
   final RxList genderList = RxList([]);
@@ -495,7 +488,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           'EDIT SCHOOL',
           tempSchoolStartDate.value,
           tempSchoolEndDate.value);
-      // Get.back();
     } else if (methodID == 7) {
       setEditPageValue(
           ksEditCollege.tr,
@@ -513,7 +505,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           'EDIT COLLEGE',
           tempSchoolStartDate.value,
           tempSchoolEndDate.value);
-      // Get.back();
     } else if (methodID == 8) {
       setEditPageValue(ksAddWorkplace.tr, false, BipHip.officeFill, companyNameTextEditingController, true, designationTextEditingController, ksOfficeName.tr,
           true, true, true, isCurrentlyStudyingHere.value, ksCurrentlyWorkingHere.tr, 'ADD WORKPLACE', '', '');

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/auth/common_unverify_model.dart';
 import 'package:bip_hip/models/auth/forget_pass_model.dart';
 import 'package:bip_hip/models/auth/login_model.dart';

@@ -1,4 +1,4 @@
-import 'package:bip_hip/controllers/post_reaction_controller.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class CommentTextField extends StatelessWidget {

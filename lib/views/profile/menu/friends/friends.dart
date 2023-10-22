@@ -1,6 +1,5 @@
-import 'package:bip_hip/controllers/friend_controller.dart';
-import 'package:bip_hip/controllers/friends_family_controller.dart';
-import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/common_shimmer.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
@@ -37,21 +36,6 @@ class Friends extends StatelessWidget {
                   FocusScope.of(context).unfocus();
                   _friendController.addFriendRequestList.clear();
                   Get.toNamed(krAddFriend);
-                  // _globalController.commonBottomSheet(
-                  //   context: context,
-                  //   isSearchShow: true,
-                  //   isScrollControlled: true,
-                  //   content: BottomSheetContent(),
-                  //   onPressCloseButton: () {
-                  //     Get.back();
-                  //   },
-                  //   onPressRightButton: null,
-                  //   rightText: '',
-                  //   rightTextStyle: semiBold10TextStyle(cWhiteColor),
-                  //   title: ksAddFriend.tr,
-                  //   isRightButtonShow: false,
-                  //   bottomSheetHeight: height * .9,
-                  // );
                 },
                 child: Text(
                   ksAdd.tr,
@@ -549,7 +533,6 @@ class ReceivedFriendList extends StatelessWidget {
 class PendingFriendList extends StatelessWidget {
   PendingFriendList({super.key});
   final FriendController _friendController = Get.find<FriendController>();
-  final FriendFamilyController _friendFamilyController = Get.find<FriendFamilyController>();
   final GlobalController _globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
@@ -617,12 +600,12 @@ class PendingFriendList extends StatelessWidget {
                                   ),
                                   trailing: CustomIconButton(
                                       onPress: () {
-                                        _friendFamilyController.pendingFriendActionSelect.value = '';
+                                        _friendController.pendingFriendActionSelect.value = '';
                                         _globalController.commonBottomSheet(
                                           context: context,
                                           isScrollControlled: true,
                                           content: _PendingFriendActionContent(
-                                            friendFamilyController: _friendFamilyController,
+                                            friendController: _friendController,
                                           ),
                                           onPressCloseButton: () {
                                             Get.back();
@@ -630,13 +613,13 @@ class PendingFriendList extends StatelessWidget {
                                           onPressRightButton: () async {
                                             _friendController.userId.value = _friendController.sendFriendRequestList[index].id!;
                                             Get.back();
-                                            if (_friendFamilyController.pendingFriendActionSelect.value == 'Cancel Request') {
+                                            if (_friendController.pendingFriendActionSelect.value == 'Cancel Request') {
                                               await _friendController.cancelFriendRequest();
                                             }
-                                            if (_friendFamilyController.pendingFriendActionSelect.value == 'Unfollow') {
+                                            if (_friendController.pendingFriendActionSelect.value == 'Unfollow') {
                                               await _friendController.unfollowUser();
                                             }
-                                            _friendFamilyController.pendingFriendActionSelect.value = '';
+                                            _friendController.pendingFriendActionSelect.value = '';
                                           },
                                           rightText: ksDone.tr,
                                           rightTextStyle: regular14TextStyle(cPrimaryColor),
@@ -725,10 +708,10 @@ class _FriendActionContent extends StatelessWidget {
 class _PendingFriendActionContent extends StatelessWidget {
   const _PendingFriendActionContent({
     Key? key,
-    required this.friendFamilyController,
+    required this.friendController,
   }) : super(key: key);
 
-  final FriendFamilyController friendFamilyController;
+  final FriendController friendController;
 
   @override
   Widget build(BuildContext context) {
@@ -737,7 +720,7 @@ class _PendingFriendActionContent extends StatelessWidget {
         ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: friendFamilyController.pendingFriendActionList.length,
+          itemCount: friendController.pendingFriendActionList.length,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
               () => Padding(
@@ -751,24 +734,24 @@ class _PendingFriendActionContent extends StatelessWidget {
                     height: h28,
                     width: h28,
                     child: Icon(
-                      friendFamilyController.pendingFriendActionList[index]['icon'],
+                      friendController.pendingFriendActionList[index]['icon'],
                       color: cBlackColor,
                       size: isDeviceScreenLarge() ? h18 : h14,
                     ),
                   ),
-                  title: friendFamilyController.pendingFriendActionList[index]['action'],
-                  subtitle: friendFamilyController.pendingFriendActionList[index]['actionSubtitle'],
+                  title: friendController.pendingFriendActionList[index]['action'],
+                  subtitle: friendController.pendingFriendActionList[index]['actionSubtitle'],
                   trailing: CustomRadioButton(
                     onChanged: () {
-                      friendFamilyController.pendingFriendActionSelect.value = friendFamilyController.pendingFriendActionList[index]['action'];
+                      friendController.pendingFriendActionSelect.value = friendController.pendingFriendActionList[index]['action'];
                     },
-                    isSelected: friendFamilyController.pendingFriendActionSelect.value == friendFamilyController.pendingFriendActionList[index]['action'],
+                    isSelected: friendController.pendingFriendActionSelect.value == friendController.pendingFriendActionList[index]['action'],
                   ),
-                  itemColor: friendFamilyController.pendingFriendActionSelect.value == friendFamilyController.pendingFriendActionList[index]['action']
+                  itemColor: friendController.pendingFriendActionSelect.value == friendController.pendingFriendActionList[index]['action']
                       ? cPrimaryTint3Color
                       : cWhiteColor,
                   onPressed: () {
-                    friendFamilyController.pendingFriendActionSelect.value = friendFamilyController.pendingFriendActionList[index]['action'];
+                    friendController.pendingFriendActionSelect.value = friendController.pendingFriendActionList[index]['action'];
                   },
                 ),
               ),

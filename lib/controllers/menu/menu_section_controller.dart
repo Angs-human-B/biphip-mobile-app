@@ -1,7 +1,7 @@
-import 'package:bip_hip/controllers/friend_controller.dart';
-import 'package:bip_hip/controllers/gallery_controller.dart';
-import 'package:bip_hip/controllers/profile_controller.dart';
-import 'package:bip_hip/controllers/profile_controllers/family_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
+import 'package:bip_hip/controllers/menu/gallery_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class MenuSectionController extends GetxController {

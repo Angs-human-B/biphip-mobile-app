@@ -1,4 +1,4 @@
-import 'package:bip_hip/controllers/gallery_controller.dart';
+import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class GalleryVideos extends StatelessWidget {
