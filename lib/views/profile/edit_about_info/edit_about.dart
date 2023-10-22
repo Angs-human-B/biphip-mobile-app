@@ -77,6 +77,7 @@ class EditAboutInfo extends StatelessWidget {
                                 suffixIcon: BipHip.edit,
                                 text: checkNullOrStringNull(_profileController.hometownData.value?.city),
                                 suffixOnPressed: () async {
+                                  _profileController.enableSaveButton.value = true;
                                   _profileController.getMethod(0);
                                   _profileController.getCityList();
                                   // _globalController.commonBottomSheet(
@@ -130,6 +131,7 @@ class EditAboutInfo extends StatelessWidget {
                                 suffixIcon: BipHip.edit,
                                 text: checkNullOrStringNull(_profileController.currentCityData.value!.city),
                                 suffixOnPressed: () async {
+                                  _profileController.enableSaveButton.value = true;
                                   _profileController.isCurrentlyLiveHere.value = true;
                                   _profileController.cityID.value = _profileController.currentCityData.value!.id!;
                                   _profileController.getMethod(2);
@@ -191,7 +193,7 @@ class EditAboutInfo extends StatelessWidget {
                                   suffixOnPressed: () async {
                                     _profileController.cityID.value = _profileController.otherCityList[i].id!;
                                     _profileController.presentAddressTextEditingController.text = _profileController.otherCityList[i].city!;
-
+                                    _profileController.enableSaveButton.value = true;
                                     _profileController.getMethod(4);
                                     _profileController.getCityList();
                                     // _globalController.commonBottomSheet(
@@ -255,6 +257,7 @@ class EditAboutInfo extends StatelessWidget {
                                 text: checkNullOrStringNull(_profileController.schoolDataList[i].school),
                                 suffixOnPressed: () {
                                   _profileController.resetTextEditor();
+                                  _profileController.enableSaveButton.value = true;
                                   if (_profileController.schoolDataList[i].started != null) {
                                     _profileController.tempSchoolStartDate.value =
                                         DateFormat("yyyy-MM-dd").format(_profileController.schoolDataList[i].started!);
@@ -291,6 +294,7 @@ class EditAboutInfo extends StatelessWidget {
                                 text: checkNullOrStringNull(_profileController.collegeDataList[i].school),
                                 suffixOnPressed: () {
                                   _profileController.resetTextEditor();
+                                  _profileController.enableSaveButton.value = true;
                                   if (_profileController.collegeDataList[i].started != null) {
                                     _profileController.tempSchoolStartDate.value =
                                         DateFormat("yyyy-MM-dd").format(_profileController.collegeDataList[i].started!);
@@ -645,6 +649,7 @@ class EditAboutInfo extends StatelessWidget {
                                 text: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
                                 suffixOnPressed: () async {
                                   _profileController.resetTextEditor();
+                                  _profileController.enableSaveButton.value = true;
                                   if (_profileController.currentWorkplace.value!.started != null) {
                                     _profileController.tempWorkplaceStartDate.value =
                                         DateFormat("yyyy-MM-dd").format(_profileController.currentWorkplace.value!.started!);
@@ -721,7 +726,7 @@ class EditAboutInfo extends StatelessWidget {
                                   text: _profileController.workplaceDataList[i].company!,
                                   suffixOnPressed: () async {
                                     _profileController.resetTextEditor();
-
+                                    _profileController.enableSaveButton.value = true;
                                     _profileController.getCompanyList();
                                     if (_profileController.workplaceDataList[i].started != null) {
                                       _profileController.tempWorkplaceStartDate.value =
@@ -808,6 +813,7 @@ class EditAboutInfo extends StatelessWidget {
                                   text: checkNullOrStringNull(_profileController.contactDataList[i].value),
                                   suffixOnPressed: () {
                                     _profileController.resetTextEditor();
+                                    _profileController.enableSaveButton.value = true;
                                     _profileController.phoneID.value = _profileController.contactDataList[i].id!;
                                     _profileController.phoneTextEditingController.text = _profileController.contactDataList[i].value!;
                                     _profileController.getMethod(12);
@@ -863,7 +869,7 @@ class EditAboutInfo extends StatelessWidget {
                                   text: checkNullOrStringNull(_profileController.contactDataList[i].value),
                                   suffixOnPressed: () {
                                     _profileController.resetTextEditor();
-
+                                    _profileController.enableSaveButton.value = true;
                                     _profileController.emailID.value = _profileController.contactDataList[i].id!;
                                     _profileController.emailTextEditingController.text = _profileController.contactDataList[i].value!;
                                     _profileController.getMethod(14);
@@ -924,7 +930,7 @@ class EditAboutInfo extends StatelessWidget {
                                   text: checkNullOrStringNull(_profileController.linkDataList[i].link),
                                   suffixOnPressed: () {
                                     _profileController.resetTextEditor();
-
+                                    _profileController.enableSaveButton.value = true;
                                     _profileController.commonEditPageIcon.value = null;
                                     _profileController.linkTextEditingController.text = _profileController.linkDataList[i].link!;
                                     _profileController.linkID.value = _profileController.linkDataList[i].id!;
