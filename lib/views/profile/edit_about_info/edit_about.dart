@@ -7,8 +7,8 @@ import 'package:bip_hip/views/profile/profile_widgets/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+import 'package:bip_hip/widgets/common/common_shimmer.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 
 class EditAboutInfo extends StatelessWidget {
   EditAboutInfo({super.key});
@@ -1127,10 +1127,8 @@ class _RelationshipStatusListShimmer extends StatelessWidget {
           itemCount: 5,
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
-              title: Shimmer.fromColors(
-                baseColor: cWhiteColor,
-                highlightColor: Colors.grey,
-                child: Container(
+              title: ShimmerCommon(
+               widget: Container(
                   height: 20,
                   decoration: BoxDecoration(
                     borderRadius: k8CircularBorderRadius,

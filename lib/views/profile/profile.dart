@@ -6,8 +6,8 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
 import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
+import 'package:bip_hip/widgets/common/common_shimmer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shimmer/shimmer.dart';
 
 class Profile extends StatelessWidget {
   Profile({super.key});
@@ -844,10 +844,8 @@ class ProfilePageShimmer extends StatelessWidget {
           //* info:: appBar
           child: CustomAppBar(
             appBarColor: cWhiteColor,
-            title: Shimmer.fromColors(
-              baseColor: cWhiteColor,
-              highlightColor: Colors.grey,
-              child: Container(decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius), height: h20, width: width * 0.6),
+            title: ShimmerCommon(
+              widget: Container(decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius), height: h20, width: width * 0.6),
             ),
             hasBackButton: true,
             onBack: () {
@@ -872,10 +870,8 @@ class ProfilePageShimmer extends StatelessWidget {
                     SizedBox(
                         height: 150,
                         width: width,
-                        child: Shimmer.fromColors(
-                          baseColor: cWhiteColor,
-                          highlightColor: Colors.grey,
-                          child: Container(
+                        child: ShimmerCommon(
+                          widget: Container(
                             color: cWhiteColor,
                           ),
                         )),
@@ -893,10 +889,8 @@ class ProfilePageShimmer extends StatelessWidget {
                               border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
                             ),
                             child: ClipOval(
-                                child: Shimmer.fromColors(
-                              baseColor: cWhiteColor,
-                              highlightColor: Colors.grey,
-                              child: Container(
+                                child: ShimmerCommon(
+                              widget: Container(
                                 color: cWhiteColor,
                               ),
                             )),
@@ -914,10 +908,8 @@ class ProfilePageShimmer extends StatelessWidget {
                       kH10sizedBox,
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                          child: Shimmer.fromColors(
-                            baseColor: cWhiteColor,
-                            highlightColor: Colors.grey,
-                            child: Container(
+                          child: ShimmerCommon(
+                            widget: Container(
                               height: h20,
                               width: width * 0.6,
                               decoration: BoxDecoration(
@@ -932,10 +924,8 @@ class ProfilePageShimmer extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Shimmer.fromColors(
-                              baseColor: cWhiteColor,
-                              highlightColor: Colors.grey,
-                              child: Container(
+                            ShimmerCommon(
+                              widget: Container(
                                 height: 44,
                                 width: (width / 2) - 28,
                                 decoration: BoxDecoration(
@@ -944,10 +934,8 @@ class ProfilePageShimmer extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Shimmer.fromColors(
-                              baseColor: cWhiteColor,
-                              highlightColor: Colors.grey,
-                              child: Container(
+                            ShimmerCommon(
+                              widget: Container(
                                 height: 44,
                                 width: (width / 2) - 28,
                                 decoration: BoxDecoration(
@@ -962,10 +950,8 @@ class ProfilePageShimmer extends StatelessWidget {
                       kH16sizedBox,
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                          child: Shimmer.fromColors(
-                            baseColor: cWhiteColor,
-                            highlightColor: Colors.grey,
-                            child: Padding(
+                          child: ShimmerCommon(
+                            widget: Padding(
                               padding: const EdgeInsets.only(bottom: k12Padding),
                               child: Container(
                                 height: h20,
@@ -979,10 +965,8 @@ class ProfilePageShimmer extends StatelessWidget {
                           )),
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                          child: Shimmer.fromColors(
-                            baseColor: cWhiteColor,
-                            highlightColor: Colors.grey,
-                            child: Padding(
+                          child: ShimmerCommon(
+                            widget: Padding(
                               padding: const EdgeInsets.only(bottom: k12Padding),
                               child: Container(
                                 height: h20,
@@ -996,10 +980,8 @@ class ProfilePageShimmer extends StatelessWidget {
                           )),
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                          child: Shimmer.fromColors(
-                            baseColor: cWhiteColor,
-                            highlightColor: Colors.grey,
-                            child: Padding(
+                          child: ShimmerCommon(
+                            widget: Padding(
                               padding: const EdgeInsets.only(bottom: k12Padding),
                               child: Container(
                                 height: h20,
@@ -1013,10 +995,8 @@ class ProfilePageShimmer extends StatelessWidget {
                           )),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                        child: Shimmer.fromColors(
-                          baseColor: cWhiteColor,
-                          highlightColor: Colors.grey,
-                          child: Padding(
+                        child: ShimmerCommon(
+                          widget: Padding(
                             padding: const EdgeInsets.only(bottom: k12Padding),
                             child: Container(
                               height: h20,
@@ -1050,10 +1030,8 @@ class ProfilePageShimmer extends StatelessWidget {
                     child: Row(
                       children: [
                         kW20sizedBox,
-                        Shimmer.fromColors(
-                          baseColor: cWhiteColor,
-                          highlightColor: Colors.grey,
-                          child: ClipOval(
+                        ShimmerCommon(
+                          widget: ClipOval(
                             child: Container(
                               height: h40,
                               width: h40,
@@ -1065,10 +1043,8 @@ class ProfilePageShimmer extends StatelessWidget {
                           ),
                         ),
                         kW12sizedBox,
-                        Shimmer.fromColors(
-                          baseColor: cWhiteColor,
-                          highlightColor: Colors.grey,
-                          child: Container(
+                        ShimmerCommon(
+                          widget: Container(
                             height: h20,
                             width: width * 0.6,
                             decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
@@ -1086,10 +1062,8 @@ class ProfilePageShimmer extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
-                        child: Shimmer.fromColors(
-                          baseColor: cWhiteColor,
-                          highlightColor: Colors.grey,
-                          child: Container(
+                        child: ShimmerCommon(
+                          widget: Container(
                             height: h20,
                             width: width * 0.2,
                             decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
@@ -1107,10 +1081,8 @@ class ProfilePageShimmer extends StatelessWidget {
                           itemBuilder: (BuildContext context, i) {
                             return Padding(
                               padding: const EdgeInsets.symmetric(horizontal: k4Padding),
-                              child: Shimmer.fromColors(
-                                baseColor: cWhiteColor,
-                                highlightColor: Colors.grey,
-                                child: CustomChoiceChips(
+                              child: ShimmerCommon(
+                                widget: CustomChoiceChips(
                                   label: '     ',
                                   isSelected: false,
                                   onSelected: (value) {},
@@ -1144,10 +1116,8 @@ class GridViewShimmer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           kH12sizedBox,
-          Shimmer.fromColors(
-            baseColor: cWhiteColor,
-            highlightColor: Colors.grey,
-            child: Container(
+          ShimmerCommon(
+            widget: Container(
               height: h20,
               width: 60,
               decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
@@ -1174,10 +1144,8 @@ class GridViewShimmer extends StatelessWidget {
                     children: [
                       ClipRRect(
                         borderRadius: k8CircularBorderRadius,
-                        child: Shimmer.fromColors(
-                          baseColor: cWhiteColor,
-                          highlightColor: Colors.grey,
-                          child: Container(
+                        child: ShimmerCommon(
+                          widget: Container(
                             color: cWhiteColor,
                             height: 100,
                             width: ((width - 72) / 3),
@@ -1185,10 +1153,8 @@ class GridViewShimmer extends StatelessWidget {
                         ),
                       ),
                       kH4sizedBox,
-                      Shimmer.fromColors(
-                        baseColor: cWhiteColor,
-                        highlightColor: Colors.grey,
-                        child: Container(
+                      ShimmerCommon(
+                        widget: Container(
                           decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
                           height: 12,
                           width: 60,
