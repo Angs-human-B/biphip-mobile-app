@@ -1,6 +1,4 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
-import 'package:bip_hip/models/common/common_data_model.dart';
-import 'package:bip_hip/models/common/common_error_model.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/friend/common_friend_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';

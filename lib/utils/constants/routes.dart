@@ -38,20 +38,12 @@ import 'package:bip_hip/views/profile/videos.dart';
 import 'package:bip_hip/views/splash_and_intro/splash_screen.dart';
 import 'package:get/get.dart';
 
+const String krSplashScreen = '/splash-screen';
+const String krIntroductionScreen = '/introduction-screen';
+
+
 const String krLogin = '/login';
 const String krSavedUserLogin = '/saved-user-login';
-const String krForgotPassword = '/forgot-password';
-const String krResetPass = '/reset-pass';
-const String krSetNewPass = '/set-new-pass';
-const String krOTP = '/otp-verify';
-
-const String krIntroductionScreen = '/introduction-screen';
-const String krSplashScreen = '/splash-screen';
-const String krHome = '/home';
-const String krNotification = '/notification';
-const String krChangePassword = '/change-password';
-const String krChangeLanguage = '/change-language';
-
 const String krRegister = '/register';
 const String krSelectBirthday = '/birthday';
 const String krSelectGender = '/gender';
@@ -59,24 +51,34 @@ const String krSetEmail = '/set-email';
 const String krSelectProfession = '/select-profession';
 const String krSelectInterest = '/select-interest';
 const String krUploadPicture = '/upload-picture';
+const String krForgotPassword = '/forgot-password';
+const String krResetPass = '/reset-pass';
+const String krSetNewPass = '/set-new-pass';
+const String krOTP = '/otp-verify';
+
+const String krHome = '/home';
+const String krNotification = '/notification';
+const String krChangePassword = '/change-password';
+const String krChangeLanguage = '/change-language';
+
 
 const String krMenu = '/menu';
 const String krProfile = '/profile';
-const String krFriends = '/friends';
-const String krFamily = '/family';
-const String krEditProfile = '/edit-profile';
 const String krEditBio = '/edit-bio';
-const String krPhotos = '/photos';
-const String krPhotoDetails = '/photo-details';
-const String krVideos = '/videos';
-const String krVideoDetails = '/video-details';
-const String krPhotoPreview = '/photo-preview';
-const String krSettings = '/settings';
 const String krEditAboutInfo = '/edit-about-info';
 const String krEdit = '/edit';
-const String krAddFamily = '/add-family';
+const String krEditProfile = '/edit-profile';
+const String krPhotoPreview = '/photo-preview';
+const String krFriends = '/friends';
 const String krAddFriend = '/add-friend';
+const String krFamily = '/family';
+const String krAddFamily = '/add-family';
+const String krPhotos = '/photos';
+const String krPhotoDetails = '/photo-details';
 const String krViewPhoto = '/view-photo';
+const String krVideos = '/videos';
+const String krVideoDetails = '/video-details';
+const String krSettings = '/settings';
 
 const String krCreatePost = '/create-post';
 const String krSelectCategory = '/create-post/select-category';

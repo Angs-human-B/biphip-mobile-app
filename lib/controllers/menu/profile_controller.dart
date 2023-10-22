@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:bip_hip/models/common/common_data_model.dart';
-import 'package:bip_hip/models/common/common_error_model.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/menu/profile/profile_overview_model.dart';
@@ -151,12 +149,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       return PendingFriendList();
     }
   }
-
-  //*Family
-  final RxList allFamilyLists = RxList(friendsList);
-  final RxList receivedFamilyLists = RxList(friendsList);
-  final RxList pendingFamilyLists = RxList(friendsList);
-  final RxList addFamilyLists = RxList(addFriendList);
 
   //*friends page list data show
   StatelessWidget allReceivedPendingFamilyView() {

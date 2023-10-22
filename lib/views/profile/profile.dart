@@ -493,7 +493,7 @@ class PostTab extends StatelessWidget {
                         isLink: false,
                         onPressed: null,
                         prefixText: 'Born on ',
-                        suffixText: '${DateFormat("MMMM dd, yyyy").format(_profileController.userData.value!.dob!)}',
+                        suffixText: DateFormat("MMMM dd, yyyy").format(_profileController.userData.value!.dob!),
                       ),
                       if (_profileController.currentCityData.value?.city != null && _profileController.currentCityData.value?.isCurrent == 1)
                         LinkUpIconTextRow(
