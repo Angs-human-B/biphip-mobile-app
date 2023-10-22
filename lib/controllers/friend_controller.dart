@@ -11,16 +11,16 @@ class FriendController extends GetxController {
   final GlobalController _globalController = Get.find<GlobalController>();
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
-  //*Friend List Api Callzz
-  Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
-  RxList<CommonFriendData> friendList = RxList<CommonFriendData>([]);
+  //*Friend List Api Call
+  final Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
+  final RxList<CommonFriendData> friendList = RxList<CommonFriendData>([]);
   final Rx<String?> friendListSubLink = Rx<String?>(null);
   final RxBool friendListScrolled = RxBool(false);
   final RxBool isFriendListLoading = RxBool(false);
   Future<void> getFriendList() async {
     try {
       isFriendListLoading.value = true;
-      String suffixUrl = '?take=15';
+      String suffixUrl = '?take=2';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -32,6 +32,7 @@ class FriendController extends GetxController {
         friendListScrolled.value = false;
         friendListData.value = CommonFriendModel.fromJson(response.data);
         friendList.addAll(friendListData.value!.friends!.data);
+        allFriendCount.value = friendList.length;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
           friendListScrolled.value = false;
@@ -69,7 +70,7 @@ class FriendController extends GetxController {
 
       String friendListSuffixUrl = '';
 
-      friendListSuffixUrl = '?${friendListSub[1]}&take=15';
+      friendListSuffixUrl = '?${friendListSub[1]}&take=2';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -81,6 +82,7 @@ class FriendController extends GetxController {
         friendListData.value = CommonFriendModel.fromJson(response.data);
         ll(friendListData.value);
         friendList.addAll(friendListData.value!.friends!.data);
+        allFriendCount.value = friendList.length;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
           friendListScrolled.value = false;
@@ -100,7 +102,7 @@ class FriendController extends GetxController {
       }
     } catch (e) {
       isFriendListLoading.value = false;
-      ll('getFriendList error: $e');
+      ll('getMoreFriendList error: $e');
     }
   }
 
@@ -160,7 +162,9 @@ class FriendController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         for (int index = 0; index <= receivedFriendList.length; index++) {
-          receivedFriendList.removeAt(index);
+          if (userId.value == receivedFriendList[index].id) {
+            receivedFriendList.removeAt(index);
+          }
         }
         isAcceptFriendRequestLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -199,8 +203,10 @@ class FriendController extends GetxController {
       if (response.success == true) {
         isRejectFriendRequestLoading.value = false;
         for (int index = 0; index <= receivedFriendList.length; index++) {
-          receivedFriendList.removeAt(index);
-          receivedRequestCount.value--;
+          if (userId.value == receivedFriendList[index].id) {
+            receivedFriendList.removeAt(index);
+            receivedRequestCount.value--;
+          }
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -219,6 +225,7 @@ class FriendController extends GetxController {
   }
 
   //*Unfriend User
+  final RxInt allFriendCount = RxInt(0);
   final RxBool isUnfriendUserRequestLoading = RxBool(false);
   Future<void> unfriendUserRequest() async {
     try {
@@ -234,10 +241,12 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        ll(receivedFriendList.length);
         isUnfriendUserRequestLoading.value = false;
-        for (int index = 0; index <= receivedFriendList.length; index++) {
-          friendList.removeAt(index);
+        for (int index = 0; index < friendList.length; index++) {
+          if (userId.value == friendList[index].id) {
+            friendList.removeAt(index);
+            allFriendCount.value--;
+          }
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -325,7 +334,7 @@ class FriendController extends GetxController {
 
   //*Cancel Friend Request
   final RxBool isCancelFriendRequestLoading = RxBool(false);
-  Future<void> cancelFriendRequest() async {
+  Future<dynamic> cancelFriendRequest() async {
     try {
       isCancelFriendRequestLoading.value = true;
       String? token = await _spController.getBearerToken();
@@ -339,11 +348,14 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        for (int index = 1; index <= sendFriendRequestList.length; index++) {
-          sendFriendRequestList.removeAt(index);
+        for (int index = 0; index < sendFriendRequestList.length; index++) {
+          if (userId.value == sendFriendRequestList[index].id) {
+            sendFriendRequestList.removeAt(index);
+          }
         }
         isCancelFriendRequestLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        return true;
       } else {
         isCancelFriendRequestLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -353,16 +365,19 @@ class FriendController extends GetxController {
           _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
+      return false;
     } catch (e) {
       isCancelFriendRequestLoading.value = false;
       ll('cancelFriendRequest error: $e');
+      return false;
     }
   }
 
   //* Add Friend
-  Rx<CommonPagination?> addFriendRequestData = Rx<CommonPagination?>(null);
-  RxList<CommonFriendData> addFriendRequestList = RxList<CommonFriendData>([]);
+  final Rx<CommonPaginaton?> addFriendRequestData = Rx<CommonPaginaton?>(null);
+  final RxList<CommonFriendData> addFriendRequestList = RxList<CommonFriendData>([]);
   final RxBool isAddFriendRequestListLoading = RxBool(false);
+  final RxList isSendRequest = RxList([]);
   Future<void> getAddFriendRequestList() async {
     try {
       isAddFriendRequestListLoading.value = true;
@@ -374,8 +389,24 @@ class FriendController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         addFriendRequestList.clear();
-        addFriendRequestData.value = CommonPagination.fromJson(response.data);
-        addFriendRequestList.addAll(addFriendRequestData.value!.data);
+        addFriendRequestData.value = CommonPaginaton.fromJson(response.data);
+        for (int index = 0; index < addFriendRequestData.value!.data.length; index++) {
+          if (addFriendRequestData.value!.data[index].friendStatus == 2 || addFriendRequestData.value!.data[index].friendStatus == 0) {
+            addFriendRequestList.add(addFriendRequestData.value!.data[index]);
+          }
+        }
+        // addFriendRequestList.addAll(addFriendRequestData.value!.data);
+        isSendRequest.clear();
+        for (int index = 0; index < addFriendRequestList.length; index++) {
+          if (addFriendRequestList[index].friendStatus == 2) {
+            isSendRequest.add(false);
+          } else if (addFriendRequestList[index].friendStatus == 0) {
+            isSendRequest.add(true);
+          }
+          // else {
+          //   isSendRequest.add(false);
+          // }
+        }
         isAddFriendRequestListLoading.value = false;
       } else {
         isAddFriendRequestListLoading.value = false;
@@ -394,7 +425,7 @@ class FriendController extends GetxController {
 
   //*Send Friend Request
   final RxBool isSendFriendRequestLoading = RxBool(false);
-  Future<void> sendFriendRequest() async {
+  Future<dynamic> sendFriendRequest() async {
     try {
       isSendFriendRequestLoading.value = true;
       String? token = await _spController.getBearerToken();
@@ -408,11 +439,9 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        for (int index = 0; index <= addFriendRequestList.length; index++) {
-          sendFriendRequestList.removeAt(index);
-        }
         isSendFriendRequestLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        return true;
       } else {
         isSendFriendRequestLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -421,10 +450,12 @@ class FriendController extends GetxController {
         } else {
           _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
+        return false;
       }
     } catch (e) {
       isSendFriendRequestLoading.value = false;
       ll('sendFriendRequest error: $e');
+      return false;
     }
   }
 }

@@ -353,13 +353,15 @@ class GalleryPhotoShimmer extends StatelessWidget {
 }
 
 class EmptyView extends StatelessWidget {
-  const EmptyView({super.key, required this.title});
+  const EmptyView({super.key, required this.title, this.height});
   final String title;
+  final double? height;
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: width,
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Center(
         child: Text(
           title,
           style: semiBold16TextStyle(cPlaceHolderColor),
