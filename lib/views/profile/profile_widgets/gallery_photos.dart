@@ -1,7 +1,7 @@
 import 'package:bip_hip/controllers/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:bip_hip/widgets/common/common_shimmer.dart';
 
 class GalleryPhotos extends StatelessWidget {
   GalleryPhotos({super.key});
@@ -94,7 +94,7 @@ class GalleryPhotos extends StatelessWidget {
                                         children: [
                                           Row(children: [
                                             CommonGalleryPhotoContainer(
-                                              title: _galleryController.imageDataList[index].title,
+                                              title: _galleryController.imageDataList[index].title ?? ksNA.tr,
                                               subTitle: _galleryController.imageDataList[index].totalImage.toString(),
                                               image: _galleryController.imageDataList[index].preview,
                                               onPressed: () {
@@ -228,22 +228,12 @@ class CommonGalleryPhotoContainer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     kH8sizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: k4Padding + k2Padding),
-                          child: Text(
-                            title!,
-                            style: semiBold14TextStyle(cBlackColor),
-                          ),
-                        ),
-                        const Icon(
-                          BipHip.system,
-                          size: kIconSize14,
-                          color: cIconColor,
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.only(left: k4Padding + k2Padding),
+                      child: Text(
+                        title!,
+                        style: semiBold14TextStyle(cBlackColor),
+                      ),
                     ),
                     kH4sizedBox,
                     Padding(
@@ -270,83 +260,67 @@ class GalleryPhotoShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          kH12sizedBox,
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 6,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 1.2,
-              crossAxisCount: 2,
-              crossAxisSpacing: k10Padding,
-              mainAxisSpacing: k4Padding,
-            ),
-            itemBuilder: (BuildContext context, int index) {
-              return ClipRRect(
-                borderRadius: k8CircularBorderRadius,
-                child: SizedBox(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ClipRRect(
-                        borderRadius: k8CircularBorderRadius,
-                        child: Shimmer.fromColors(
-                          baseColor: cWhiteColor,
-                          highlightColor: Colors.grey,
-                          child: Container(
-                            color: cWhiteColor,
-                            height: 100,
-                            width: ((width - 52) / 2),
-                          ),
-                        ),
-                      ),
-                      kH8sizedBox,
-                      Row(
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              kH12sizedBox,
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 20,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 1.2,
+                  crossAxisCount: 2,
+                  crossAxisSpacing: k10Padding,
+                  mainAxisSpacing: k4Padding,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return ClipRRect(
+                    borderRadius: k8CircularBorderRadius,
+                    child: SizedBox(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Shimmer.fromColors(
-                            baseColor: cWhiteColor,
-                            highlightColor: Colors.grey,
-                            child: Container(
+                          ClipRRect(
+                            borderRadius: k8CircularBorderRadius,
+                            child: ShimmerCommon(
+                              widget: Container(
+                                color: cWhiteColor,
+                                height: 100,
+                                width: ((width - 52) / 2),
+                              ),
+                            ),
+                          ),
+                          kH8sizedBox,
+                          ShimmerCommon(
+                            widget: Container(
                               decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
                               height: 12,
                               width: 80,
                             ),
                           ),
-                          const Spacer(),
-                          Shimmer.fromColors(
-                            baseColor: cWhiteColor,
-                            highlightColor: Colors.grey,
-                            child: Container(
+                          kH4sizedBox,
+                          ShimmerCommon(
+                            widget: Container(
                               decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
                               height: 12,
-                              width: 12,
+                              width: 20,
                             ),
                           ),
                         ],
                       ),
-                      kH4sizedBox,
-                      Shimmer.fromColors(
-                        baseColor: cWhiteColor,
-                        highlightColor: Colors.grey,
-                        child: Container(
-                          decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                          height: 12,
-                          width: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
