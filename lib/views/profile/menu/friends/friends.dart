@@ -659,45 +659,6 @@ class PendingFriendList extends StatelessWidget {
   }
 }
 
-//*add friend request list in bottom sheet
-class BottomSheetContent extends StatelessWidget {
-  BottomSheetContent({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: _profileController.addFriendLists.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: k10Padding),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(k8BorderRadius),
-              child: TextButton(
-                  style: kTextButtonStyle,
-                  onPressed: () async {
-                    // ll(index);
-                  },
-                  child: CustomSingleButtonListViewItem(
-                    backgroundImage: _profileController.addFriendLists[index]['image'].toString(),
-                    name: _profileController.addFriendLists[index]['name'],
-                    buttonText: ksSendRequest.tr,
-                    buttonColor: cPrimaryColor,
-                    buttonOnPressed: () {},
-                    textStyle: semiBold14TextStyle(cWhiteColor),
-                    buttonWidth: 147,
-                  )),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
 class _FriendActionContent extends StatelessWidget {
   const _FriendActionContent({
     Key? key,

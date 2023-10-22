@@ -501,7 +501,7 @@ class FriendController extends GetxController {
   Future<void> getAddFriendRequestList() async {
     try {
       isAddFriendRequestListLoading.value = true;
-      String suffixUrl = '?take=15';
+      String suffixUrl = '&take=15';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -551,7 +551,7 @@ class FriendController extends GetxController {
     }
   }
 
-  //*Get More Send Friend Request List(Pending) for pagination
+  //*Get More Add Friend Request List(Pending) for pagination
   Future<void> getMoreAddFriendRequestList(take) async {
     try {
       String? token = await _spController.getBearerToken();
@@ -565,32 +565,44 @@ class FriendController extends GetxController {
 
       String addFriendListSuffixUrl = '';
 
-      addFriendListSuffixUrl = '?${addFriendListSub[1]}&take=15';
+      addFriendListSuffixUrl = '&${addFriendListSub[1]}&take=15';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}$addFriendListSuffixUrl',
       ) as CommonDM;
-
       if (response.success == true) {
+        addFriendRequestData.value = CommonPagination.fromJson(response.data);
         for (int index = 0; index < addFriendRequestData.value!.data.length; index++) {
           if (addFriendRequestData.value!.data[index].friendStatus == 2 || addFriendRequestData.value!.data[index].friendStatus == 0) {
             addFriendRequestList.add(addFriendRequestData.value!.data[index]);
             addFriendListSubLink.value = addFriendRequestData.value!.nextPageUrl;
             if (addFriendListSubLink.value != null) {
-              sendFriendListScrolled.value = false;
+              addFriendListScrolled.value = false;
             } else {
-              sendFriendListScrolled.value = true;
+              addFriendListScrolled.value = true;
             }
           }
         }
         addFriendListSubLink.value = addFriendRequestData.value!.nextPageUrl;
         if (addFriendListSubLink.value != null) {
-          sendFriendListScrolled.value = false;
+          addFriendListScrolled.value = false;
         } else {
-          sendFriendListScrolled.value = true;
+          addFriendListScrolled.value = true;
         }
+        isSendRequest.clear();
+        for (int index = 0; index < addFriendRequestList.length; index++) {
+          if (addFriendRequestList[index].friendStatus == 2) {
+            isSendRequest.add(false);
+          } else if (addFriendRequestList[index].friendStatus == 0) {
+            isSendRequest.add(true);
+          }
+          // else {
+          //   isSendRequest.add(false);
+          // }
+        }
+
         isAddFriendRequestListLoading.value = false;
       } else {
         isAddFriendRequestListLoading.value = false;
