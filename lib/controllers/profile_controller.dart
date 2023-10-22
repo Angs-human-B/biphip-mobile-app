@@ -11,7 +11,7 @@ import 'package:bip_hip/views/profile/menu/family/family.dart';
 import 'package:bip_hip/views/profile/menu/friends/friends.dart';
 import 'package:video_player/video_player.dart';
 
-class ProfileController extends GetxController {
+class ProfileController extends GetxController with GetSingleTickerProviderStateMixin {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
@@ -55,6 +55,15 @@ class ProfileController extends GetxController {
       ..addListener(() {})
       ..setLooping(true)
       ..initialize().then((value) => videoPlayerController.play());
+  }
+
+  final RxBool postSectionVisible = RxBool(true);
+  void showProfileTabSection(index) {
+    if (index == 0) {
+      postSectionVisible.value = true;
+    } else if (index == 1) {
+      postSectionVisible.value = false;
+    }
   }
 
   final RxList relationList = RxList([

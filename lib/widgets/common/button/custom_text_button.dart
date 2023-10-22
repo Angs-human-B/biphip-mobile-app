@@ -7,7 +7,7 @@ class CustomTextButton extends StatelessWidget {
     required this.textStyle,
     this.isIconExits,
     this.icon,
-    Key? key,
+    Key? key, this.mainAxisAlignment, this.padding,
   }) : super(key: key);
 
   final VoidCallback? onPressed;
@@ -15,15 +15,17 @@ class CustomTextButton extends StatelessWidget {
   final TextStyle textStyle;
   final bool? isIconExits;
   final IconData? icon;
+  final MainAxisAlignment? mainAxisAlignment;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+        padding: padding??const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: mainAxisAlignment??MainAxisAlignment.center,
           children: [
             Text(
               text.toString(),
