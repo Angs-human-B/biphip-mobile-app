@@ -34,7 +34,7 @@ class FriendController extends GetxController {
         friendListScrolled.value = false;
         friendListData.value = CommonFriendModel.fromJson(response.data);
         friendList.addAll(friendListData.value!.friends!.data);
-        allFriendCount.value = friendList.length;
+        allFriendCount.value = friendListData.value!.friends!.total!;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
           friendListScrolled.value = false;
@@ -84,7 +84,7 @@ class FriendController extends GetxController {
         friendListData.value = CommonFriendModel.fromJson(response.data);
         ll(friendListData.value);
         friendList.addAll(friendListData.value!.friends!.data);
-        allFriendCount.value = friendList.length;
+        allFriendCount.value = friendListData.value!.friends!.total!;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
           friendListScrolled.value = false;
@@ -132,7 +132,7 @@ class FriendController extends GetxController {
         receivedFriendListScrolled.value = false;
         receivedFriendListData.value = CommonSendReceiveModel.fromJson(response.data);
         receivedFriendList.addAll(receivedFriendListData.value!.users!.data);
-        receivedRequestCount.value = receivedFriendList.length;
+        receivedRequestCount.value = receivedFriendListData.value!.users!.total!;
         receivedFriendListSubLink.value = receivedFriendListData.value!.users!.nextPageUrl;
         if (receivedFriendListSubLink.value != null) {
           receivedFriendListScrolled.value = false;
@@ -180,7 +180,7 @@ class FriendController extends GetxController {
       if (response.success == true) {
         receivedFriendListData.value = CommonSendReceiveModel.fromJson(response.data);
         receivedFriendList.addAll(receivedFriendListData.value!.users!.data);
-        receivedRequestCount.value = receivedFriendList.length;
+        receivedRequestCount.value = receivedFriendListData.value!.users!.total!;
         receivedFriendListSubLink.value = receivedFriendListData.value!.users!.nextPageUrl;
         if (receivedFriendListSubLink.value != null) {
           receivedFriendListScrolled.value = false;
