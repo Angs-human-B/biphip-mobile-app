@@ -374,7 +374,7 @@ class FriendController extends GetxController {
   }
 
   //* Add Friend
-  final Rx<CommonPaginaton?> addFriendRequestData = Rx<CommonPaginaton?>(null);
+  final Rx<CommonPagination?> addFriendRequestData = Rx<CommonPagination?>(null);
   final RxList<CommonFriendData> addFriendRequestList = RxList<CommonFriendData>([]);
   final RxBool isAddFriendRequestListLoading = RxBool(false);
   final RxList isSendRequest = RxList([]);
@@ -389,7 +389,7 @@ class FriendController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         addFriendRequestList.clear();
-        addFriendRequestData.value = CommonPaginaton.fromJson(response.data);
+        addFriendRequestData.value = CommonPagination.fromJson(response.data);
         for (int index = 0; index < addFriendRequestData.value!.data.length; index++) {
           if (addFriendRequestData.value!.data[index].friendStatus == 2 || addFriendRequestData.value!.data[index].friendStatus == 0) {
             addFriendRequestList.add(addFriendRequestData.value!.data[index]);
