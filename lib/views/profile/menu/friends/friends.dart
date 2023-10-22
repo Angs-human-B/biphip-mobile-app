@@ -122,11 +122,11 @@ class Friends extends StatelessWidget {
                       )
                     : _profileController.tapAbleButtonState[0]
                         ? Text(
-                            '${ksTotalFriends.tr}: ${_friendController.receivedFriendListData.value!.users!.total}',
+                            '${ksTotalFriends.tr}: ${_friendController.allFriendCount}',
                             style: semiBold14TextStyle(cBlackColor),
                           )
                         : Text(
-                            '${ksFriendRequests.tr}: ${_friendController.receivedFriendListData.value!.users!.total}',
+                            '${ksFriendRequests.tr}: ${_friendController.receivedRequestCount}',
                             style: semiBold14TextStyle(cBlackColor),
                           ),
               ),
