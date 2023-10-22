@@ -126,7 +126,7 @@ class CommentShareRecord extends StatelessWidget {
         InkWell(
           onTap: shareOnPressed,
           child: Text(
-            shareCount > 1000 ? '${(shareCount / 1000).toStringAsFixed(1)}k ${ksShare.tr}' : '$shareCount ${ksShares}',
+            shareCount > 1000 ? '${(shareCount / 1000).toStringAsFixed(1)}k ${ksShare.tr}' : '$shareCount $ksShares',
             style: regular10TextStyle(cSmallBodyTextColor),
           ),
         ),

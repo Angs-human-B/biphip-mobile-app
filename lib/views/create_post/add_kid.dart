@@ -3,7 +3,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 
 class AddKidPage extends StatelessWidget {
-  AddKidPage({super.key});
+  const AddKidPage({super.key});
 
   // final CreatePostController _createPostController = Get.find<CreatePostController>();
 

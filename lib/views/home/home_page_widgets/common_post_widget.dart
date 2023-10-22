@@ -190,7 +190,7 @@ class CommonPostWidget extends StatelessWidget {
                 child: CommonPostWidget(
                   isCommented: false,
                   isLiked: false,
-                  mediaList: [],
+                  mediaList: const [],
                   isCategorized: false,
                   userName: 'Steve Sanchez',
                   postTime: '5 hrs ago',

@@ -28,7 +28,7 @@ import 'package:bip_hip/views/menu/menu.dart';
 import 'package:bip_hip/views/menu/settings/settings.dart';
 import 'package:bip_hip/views/menu/photos/photo_details.dart';
 import 'package:bip_hip/views/menu/photos/photo_preview.dart';
-import 'package:bip_hip/views/menu/photos/photo_view.dart';
+import 'package:bip_hip/views/menu/profile/photo_view.dart';
 import 'package:bip_hip/views/menu/photos/photos.dart';
 import 'package:bip_hip/views/menu/profile/profile.dart';
 import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
@@ -136,7 +136,7 @@ List<GetPage<dynamic>>? routes = [
 
   //* home
   GetPage(name: krHome, page: () => HomePage(), transition: Transition.noTransition),
-  //*newly added for galler image and videos
+  //*newly added for gallery image and videos
   GetPage(name: krGalleryPhotos, page: () => GalleryPhotos(), transition: Transition.noTransition),
   GetPage(name: krGalleryVideos, page: () => GalleryVideos(), transition: Transition.noTransition)
 ];
