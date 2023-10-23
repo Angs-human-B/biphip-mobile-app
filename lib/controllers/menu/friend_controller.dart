@@ -21,7 +21,7 @@ class FriendController extends GetxController {
   Future<void> getFriendList() async {
     try {
       isFriendListLoading.value = true;
-      String suffixUrl = '?take=1';
+      String suffixUrl = '?take=15';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -71,7 +71,7 @@ class FriendController extends GetxController {
 
       String friendListSuffixUrl = '';
 
-      friendListSuffixUrl = '?${friendListSub[1]}&take=1';
+      friendListSuffixUrl = '?${friendListSub[1]}&take=15';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -119,7 +119,7 @@ class FriendController extends GetxController {
   Future<void> getReceivedFriendList() async {
     try {
       isReceivedFriendListLoading.value = true;
-      String suffixUrl = '?take=1';
+      String suffixUrl = '?take=15';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -168,7 +168,7 @@ class FriendController extends GetxController {
 
       String receivedFriendListSuffixUrl = '';
 
-      receivedFriendListSuffixUrl = '?${receivedFriendListSub[1]}&take=1';
+      receivedFriendListSuffixUrl = '?${receivedFriendListSub[1]}&take=15';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -417,7 +417,7 @@ class FriendController extends GetxController {
   Future<void> getSendFriendRequestList() async {
     try {
       isSendFriendRequestListLoading.value = true;
-      String suffixUrl = '?take=1';
+      String suffixUrl = '?take=15';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -465,7 +465,7 @@ class FriendController extends GetxController {
 
       String sendFriendListSuffixUrl = '';
 
-      sendFriendListSuffixUrl = '?${sendFriendListSub[1]}&take=1';
+      sendFriendListSuffixUrl = '?${sendFriendListSub[1]}&take=15';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -573,7 +573,6 @@ class FriendController extends GetxController {
             }
           }
         }
-        // addFriendRequestList.addAll(addFriendRequestData.value!.data);
         isSendRequest.clear();
         for (int index = 0; index < addFriendRequestList.length; index++) {
           if (addFriendRequestList[index].friendStatus == 2) {
@@ -581,9 +580,6 @@ class FriendController extends GetxController {
           } else if (addFriendRequestList[index].friendStatus == 0) {
             isSendRequest.add(true);
           }
-          // else {
-          //   isSendRequest.add(false);
-          // }
         }
         isAddFriendRequestListLoading.value = false;
       } else {
@@ -648,9 +644,6 @@ class FriendController extends GetxController {
           } else if (addFriendRequestList[index].friendStatus == 0) {
             isSendRequest.add(true);
           }
-          // else {
-          //   isSendRequest.add(false);
-          // }
         }
 
         isAddFriendRequestListLoading.value = false;
