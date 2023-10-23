@@ -196,7 +196,7 @@ class AllFamilyList extends StatelessWidget {
                     ),
                   ),
                 )
-              : EmptyView(height: height * 0.5, title: ksNoDataAvailable.tr),
+              : EmptyView(height: height * 0.5, title: ksNofamilyAddedYet.tr),
     );
   }
 }
