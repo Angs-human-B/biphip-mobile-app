@@ -319,6 +319,7 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
                 ],
               ),
             ),
+            kW20sizedBox,
             CustomElevatedButton(
               label: buttonText,
               onPressed: buttonOnPressed,
