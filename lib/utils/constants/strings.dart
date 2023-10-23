@@ -337,4 +337,7 @@ const String ksNoDataAvailable = "No data available";
 const String ksNA = "NA";
 const String ksBlock='Block';
 const String ksFollow='Follow';
+const String ksNoFriendAddedYet = "No friend added yet";
+const String ksNoFriendRequestReceivedYet = "No friend request received yet";
+const String ksNoFriendRequestSendYet = "No friend request send yet";
 
