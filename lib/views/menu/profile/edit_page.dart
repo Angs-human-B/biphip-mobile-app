@@ -352,7 +352,7 @@ class EditPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SizedBox(
-                                  width: (width / 2) - 30,
+                                  width: _profileController.isSingleDatePicker.value?width-40:(width / 2) - 30,
                                   child: CustomSelectionButton(
                                     prefixIcon: BipHip.calendarFill,
                                     onPressed: () {
@@ -377,9 +377,10 @@ class EditPage extends StatelessWidget {
                                           });
                                     },
                                     text: _profileController.commonStartDate.value,
-                                    hintText: ksStartDate.tr,
+                                    hintText: _profileController.isSingleDatePicker.value?ksDate.tr:ksStartDate.tr,
                                   ),
                                 ),
+                                if(!_profileController.isSingleDatePicker.value)
                                 SizedBox(
                                   width: (width / 2) - 30,
                                   child: CustomSelectionButton(

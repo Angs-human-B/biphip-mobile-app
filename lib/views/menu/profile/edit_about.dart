@@ -26,7 +26,7 @@ class EditAboutInfo extends StatelessWidget {
             SafeArea(
               top: false,
               child: Scaffold(
-                backgroundColor: cWhiteColor,
+                backgroundColor: cBackgroundColor,
                 appBar: PreferredSize(
                   preferredSize: const Size.fromHeight(kAppBarSize),
                   //* info:: appBar
@@ -45,929 +45,683 @@ class EditAboutInfo extends StatelessWidget {
                   width: width,
                   child: SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          kH10sizedBox,
-                          Text(
-                            ksAddress.tr,
-                            style: semiBold18TextStyle(cBlackColor),
-                          ),
-                          kH20sizedBox,
-                          RowTextButton(
-                            text: ksHomeTown.tr,
-                            buttonText: ksAdd.tr,
-                            showAddButton: _profileController.hometownData.value == null ? true : false,
-                            buttonWidth: 151,
-                            onPressedAdd: () async {
-                              _profileController.resetTextEditor();
-                              _profileController.getCityList();
-                              _profileController.getMethod(9);
-                            },
-                          ),
-                          // for (int i = 0; i < _profileController.otherCityList.length; i++)
-                          if (_profileController.hometownData.value != null)
-                            Padding(
-                              padding: const EdgeInsets.only(top: k10Padding),
-                              child: InfoContainer(
-                                prefixIcon: BipHip.location,
-                                suffixIcon: BipHip.edit,
-                                text: checkNullOrStringNull(_profileController.hometownData.value?.city),
-                                suffixOnPressed: () async {
-                                  _profileController.enableSaveButton.value = true;
-                                  _profileController.getMethod(0);
-                                  _profileController.getCityList();
-                                  // _globalController.commonBottomSheet(
-                                  //     context: context,
-                                  //     isScrollControlled: false,
-                                  //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                  //     content: EditModalSheet(
-                                  //       editButtonText: ksEditAddress.tr,
-                                  //       editOnPressed: () {
-                                  //         _profileController.getMethod(0);
-                                  //       },
-                                  //       deleteButtonText: ksDeleteAddress.tr,
-                                  //       deleteOnPressed: () async {
-                                  //         Get.back();
-                                  //         await _profileController.deleteCity(_profileController.hometownData.value!.id);
-                                  //       },
-                                  //     ),
-                                  //     onPressCloseButton: () {
-                                  //       Get.back();
-                                  //     },
-                                  //     onPressRightButton: null,
-                                  //     rightText: '',
-                                  //     rightTextStyle: regular10TextStyle(cBlackColor),
-                                  //     title: ksEdit.tr,
-                                  //     isRightButtonShow: false);
-                                },
-                              ),
-                            ),
-
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: k16Padding),
-                            child: RowTextButton(
-                              text: ksPresentAddress.tr,
-                              buttonText: ksAdd.tr,
-                              showAddButton: _profileController.currentCityData.value == null ? true : false,
-                              onPressedAdd: () async {
-                                _profileController.resetTextEditor();
-                                _profileController.getMethod(1);
-                                Get.toNamed(krEdit);
-                                _profileController.getCityList();
-                              },
-                              buttonWidth: 108,
-                            ),
-                          ),
-                          // for (int i = 0; i < _profileController.otherCityList.length; i++)
-                          if (_profileController.currentCityData.value != null)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: h16),
-                              child: InfoContainer(
-                                prefixIcon: BipHip.location,
-                                suffixIcon: BipHip.edit,
-                                text: checkNullOrStringNull(_profileController.currentCityData.value!.city),
-                                suffixOnPressed: () async {
-                                  _profileController.enableSaveButton.value = true;
-                                  _profileController.isCurrentlyLiveHere.value = true;
-                                  _profileController.cityID.value = _profileController.currentCityData.value!.id!;
-                                  _profileController.getMethod(2);
-                                  _profileController.getCityList();
-
-                                  // _globalController.commonBottomSheet(
-                                  //     context: context,
-                                  //     isScrollControlled: false,
-                                  //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                  //     onPressCloseButton: () {
-                                  //       Get.back();
-                                  //     },
-                                  //     onPressRightButton: null,
-                                  //     rightText: '',
-                                  //     rightTextStyle: regular10TextStyle(cBlackColor),
-                                  //     title: ksEdit.tr,
-                                  //     isRightButtonShow: false,
-                                  //     content: EditModalSheet(
-                                  //       editButtonText: ksEditAddress.tr,
-                                  //       editOnPressed: () {
-                                  //         _profileController.cityID.value = _profileController.currentCityData.value!.id!;
-                                  //         _profileController.isCurrentlyLiveHere.value = true;
-                                  //         _profileController.getMethod(2);
-                                  //       },
-                                  //       deleteButtonText: ksDeleteAddress.tr,
-                                  //       deleteOnPressed: () async {
-                                  //         _profileController.deleteCity(_profileController.currentCityData.value!.id!);
-
-                                  //         Get.back();
-                                  //       },
-                                  //     ));
-                                },
-                              ),
-                            ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: k16Padding),
-                            child: RowTextButton(
-                              text: ksOther.tr,
-                              buttonText: ksAdd.tr,
-                              showAddButton: true,
-                              onPressedAdd: () async {
-                                _profileController.resetTextEditor();
-
-                                _profileController.getMethod(3);
-                                Get.toNamed(krEdit);
-                                _profileController.getCityList();
-                              },
-                              buttonWidth: 108,
-                            ),
-                          ),
-                          for (int i = 0; i < _profileController.otherCityList.length; i++)
-                            if (_profileController.otherCityList[i].isCurrent == 0 && _profileController.otherCityList[i].isHometown == 0)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: k10Padding),
-                                child: InfoContainer(
-                                  prefixIcon: BipHip.location,
-                                  suffixIcon: BipHip.edit,
-                                  text: _profileController.otherCityList[i].city!,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        kH10sizedBox,
+                        Container(
+                          color: cWhiteColor,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                kH16sizedBox,
+                                Text(
+                                  ksAddress.tr,
+                                  style: semiBold18TextStyle(cBlackColor),
+                                ),
+                                kH12sizedBox,
+                                if (_profileController.hometownData.value == null)
+                                  InfoContainer2(
+                                    suffixText: ksHomeTown.tr,
+                                    isAddButton: true,
+                                    suffixOnPressed: () async {
+                                      _profileController.resetTextEditor();
+                                      _profileController.getCityList();
+                                      _profileController.getMethod(9);
+                                    },
+                                  ),
+                                if (_profileController.hometownData.value != null)
+                                  InfoContainer2(
+                                    subtitlePrefixText: ksHomeTown.tr,
+                                    suffixText: checkNullOrStringNull(_profileController.hometownData.value?.city),
+                                    isAddButton: false,
+                                    suffixOnPressed: () async {
+                                      _profileController.enableSaveButton.value = true;
+                                      _profileController.getMethod(0);
+                                      _profileController.getCityList();
+                                    },
+                                  ),
+                                kH12sizedBox,
+                                if (_profileController.currentCityData.value == null)
+                                  InfoContainer2(
+                                    suffixText: ksPresentAddress.tr,
+                                    isAddButton: true,
+                                    suffixOnPressed: () async {
+                                      _profileController.resetTextEditor();
+                                      _profileController.getMethod(1);
+                                      Get.toNamed(krEdit);
+                                      _profileController.getCityList();
+                                    },
+                                  ),
+                                if (_profileController.currentCityData.value != null)
+                                  InfoContainer2(
+                                    subtitlePrefixText: ksCurrentCity.tr,
+                                    suffixText: checkNullOrStringNull(_profileController.currentCityData.value!.city),
+                                    isAddButton: false,
+                                    suffixOnPressed: () async {
+                                      _profileController.enableSaveButton.value = true;
+                                      _profileController.isCurrentlyLiveHere.value = true;
+                                      _profileController.cityID.value = _profileController.currentCityData.value!.id!;
+                                      _profileController.getMethod(2);
+                                      _profileController.getCityList();
+                                    },
+                                  ),
+                                kH12sizedBox,
+                                InfoContainer2(
+                                  suffixText: ksOther.tr,
+                                  isAddButton: true,
                                   suffixOnPressed: () async {
-                                    _profileController.cityID.value = _profileController.otherCityList[i].id!;
-                                    _profileController.presentAddressTextEditingController.text = _profileController.otherCityList[i].city!;
-                                    _profileController.enableSaveButton.value = true;
-                                    _profileController.getMethod(4);
+                                    _profileController.resetTextEditor();
+                                    _profileController.isSingleDatePicker.value = true;
+                                    _profileController.getMethod(3);
+                                    Get.toNamed(krEdit);
                                     _profileController.getCityList();
-                                    // _globalController.commonBottomSheet(
-                                    //     context: context,
-                                    //     isScrollControlled: false,
-                                    //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                    //     onPressCloseButton: () {
-                                    //       Get.back();
-                                    //     },
-                                    //     onPressRightButton: null,
-                                    //     rightText: '',
-                                    //     rightTextStyle: regular10TextStyle(cBlackColor),
-                                    //     title: ksEdit.tr,
-                                    //     isRightButtonShow: false,
-                                    //     content: EditModalSheet(
-                                    //       editButtonText: ksEditAddress.tr,
-                                    //       editOnPressed: () {
-                                    //         // _profileController.cityListIndex.value = index;
-                                    //         _profileController.presentAddressTextEditingController.text = _profileController.otherCityList[i].city!;
-                                    //         _profileController.getMethod(4);
-                                    //       },
-                                    //       deleteButtonText: ksDeleteAddress.tr,
-                                    //       deleteOnPressed: () async {
-                                    //         _profileController.deleteCity(_profileController.otherCityList[i].id);
-                                    //         Get.back();
-                                    //       },
-                                    //     ));
                                   },
                                 ),
-                              ),
-                          const CustomDivider(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: k16Padding),
-                            child: RowTextButton(
-                              text: ksEducationalBackground.tr,
-                              textStyle: semiBold18TextStyle(cBlackColor),
-                              buttonText: ksAdd.tr,
-                              showAddButton: true,
-                              onPressedAdd: () {
-                                _profileController.resetTextEditor();
-                                _profileController.getMethod(5);
-                                _profileController.getSchoolList();
-                              },
-                              buttonWidth: 126,
+                                kH12sizedBox,
+                                for (int i = 0; i < _profileController.otherCityList.length; i++)
+                                  if (_profileController.otherCityList[i].isCurrent == 0 && _profileController.otherCityList[i].isHometown == 0)
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: k12Padding),
+                                      child: InfoContainer2(
+                                        suffixText: _profileController.otherCityList[i].city!,
+                                        subtitlePrefixText: 'Moved in',
+                                        subtitleSuffixText: DateFormat("MMMM dd, yyyy").format(_profileController.otherCityList[i].moved!),
+                                        isAddButton: false,
+                                        suffixOnPressed: () async {
+                                          _profileController.cityID.value = _profileController.otherCityList[i].id!;
+                                          _profileController.presentAddressTextEditingController.text = _profileController.otherCityList[i].city!;
+                                          _profileController.enableSaveButton.value = true;
+                                          _profileController.isSingleDatePicker.value = true;
+                                          _profileController.getMethod(4);
+                                          _profileController.getCityList();
+                                        },
+                                      ),
+                                    ),
+                                kH4sizedBox
+                              ],
                             ),
                           ),
-                          if (_profileController.schoolDataList.isNotEmpty)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: k16Padding),
-                              child: Text(
-                                ksSchool.tr,
-                                style: semiBold16TextStyle(cBlackColor),
-                              ),
-                            ),
-                          for (int i = 0; i < _profileController.schoolDataList.length; i++)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: k10Padding),
-                              child: InfoContainer(
-                                prefixIcon: BipHip.schoolNew,
-                                suffixIcon: BipHip.edit,
-                                text: checkNullOrStringNull(_profileController.schoolDataList[i].school),
-                                suffixOnPressed: () {
-                                  _profileController.resetTextEditor();
-                                  _profileController.enableSaveButton.value = true;
-                                  if (_profileController.schoolDataList[i].started != null) {
-                                    _profileController.tempSchoolStartDate.value =
-                                        DateFormat("yyyy-MM-dd").format(_profileController.schoolDataList[i].started!);
-                                  }
-                                  if (_profileController.schoolDataList[i].ended != null) {
-                                    _profileController.tempSchoolEndDate.value = DateFormat("yyyy-MM-dd").format(_profileController.schoolDataList[i].ended!);
-                                  }
-                                  _profileController.schoolID.value = _profileController.schoolDataList[i].id!;
-                                  _profileController.educationInstituteTextEditingController.text = _profileController.schoolDataList[i].school!;
-                                  if (_profileController.schoolDataList[i].graduated == 0) {
-                                    _profileController.isCurrentlyStudyingHere.value = true;
-                                  } else {
-                                    _profileController.isCurrentlyStudyingHere.value = false;
-                                  }
-                                  _profileController.getMethod(6);
-                                  _profileController.getSchoolList();
-                                },
-                              ),
-                            ),
-                          if (_profileController.collegeDataList.isNotEmpty)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: k16Padding),
-                              child: Text(
-                                ksCollege.tr,
-                                style: semiBold16TextStyle(cBlackColor),
-                              ),
-                            ),
-                          for (int i = 0; i < _profileController.collegeDataList.length; i++)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: k10Padding),
-                              child: InfoContainer(
-                                prefixIcon: BipHip.schoolNew,
-                                suffixIcon: BipHip.edit,
-                                text: checkNullOrStringNull(_profileController.collegeDataList[i].school),
-                                suffixOnPressed: () {
-                                  _profileController.resetTextEditor();
-                                  _profileController.enableSaveButton.value = true;
-                                  if (_profileController.collegeDataList[i].started != null) {
-                                    _profileController.tempSchoolStartDate.value =
-                                        DateFormat("yyyy-MM-dd").format(_profileController.collegeDataList[i].started!);
-                                  }
-                                  if (_profileController.collegeDataList[i].ended != null) {
-                                    _profileController.tempSchoolEndDate.value = DateFormat("yyyy-MM-dd").format(_profileController.collegeDataList[i].ended!);
-                                  }
-                                  _profileController.collegeID.value = _profileController.collegeDataList[i].id!;
-                                  _profileController.educationInstituteTextEditingController.text = _profileController.collegeDataList[i].school!;
-                                  if (_profileController.collegeDataList[i].graduated == 0) {
-                                    _profileController.isCurrentlyStudyingHere.value = true;
-                                  } else {
-                                    _profileController.isCurrentlyStudyingHere.value = false;
-                                  }
-                                  _profileController.getMethod(7);
-                                  _profileController.getSchoolList();
-                                  // _globalController.commonBottomSheet(
-                                  //     context: context,
-                                  //     isScrollControlled: false,
-                                  //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                  //     onPressCloseButton: () {
-                                  //       Get.back();
-                                  //     },
-                                  //     onPressRightButton: null,
-                                  //     rightText: '',
-                                  //     rightTextStyle: regular10TextStyle(cBlackColor),
-                                  //     title: ksEdit,
-                                  //     isRightButtonShow: false,
-                                  //     content: EditModalSheet(
-                                  //       editButtonText: ksEditCollege.tr,
-                                  //       editOnPressed: () {
-                                  //         _profileController.collegeID.value = _profileController.collegeDataList[i].id!;
-                                  //         _profileController.educationInstituteTextEditingController.text = _profileController.collegeDataList[i].school!;
-                                  //         if (_profileController.collegeDataList[i].graduated == 1) {
-                                  //           _profileController.isCurrentlyStudyingHere.value = true;
-                                  //         } else {
-                                  //           _profileController.isCurrentlyStudyingHere.value = false;
-                                  //         }
-                                  //         _profileController.getMethod(7);
-                                  //       },
-                                  //       deleteButtonText: ksDeleteCollege.tr,
-                                  //       deleteOnPressed: () {
-                                  //         Get.back();
-                                  //         _profileController.deleteCollege(_profileController.collegeDataList[i].id);
-                                  //       },
-                                  //     ));
-                                },
-                              ),
-                            ),
-                          const CustomDivider(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: k16Padding),
-                            child: Text(
-                              ksRelationshipStatus.tr,
-                              style: semiBold18TextStyle(cBlackColor),
-                            ),
-                          ),
-                          CustomSelectionButton(
-                            prefixIcon: BipHip.love,
-                            onPressed: () async {
-                              _profileController.isRelationListLoading.value = true;
-                              if (_profileController.relationshipStatus.value != '') {
-                                _profileController.tempRelationshipStatus.value = _profileController.relationshipStatus.value;
-                              } else if (_profileController.userData.value!.relation != null) {
-                                _profileController.tempRelationshipStatus.value = checkNullOrStringNull(_profileController.userData.value!.relation);
-                              }
-                              ll("value : ${_profileController.tempRelationshipStatus.value}");
-                              _globalController.commonBottomSheet(
-                                context: context,
-                                content: Obx(
-                                  () => _profileController.isRelationListLoading.value
-                                      ? const _RelationshipStatusListShimmer()
-                                      : _RelationshipStatusListContent(
-                                          profileController: _profileController,
-                                        ),
+                        ),
+                        kH8sizedBox,
+                        Container(
+                          color: cWhiteColor,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                kH16sizedBox,
+                                InfoContainer2(
+                                  suffixText: ksEducationalBackground.tr,
+                                  suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                                  isAddButton: true,
+                                  suffixOnPressed: () {
+                                    _profileController.resetTextEditor();
+                                    _profileController.getMethod(5);
+                                    _profileController.getSchoolList();
+                                  },
                                 ),
-                                isScrollControlled: true,
-                                bottomSheetHeight: height * 0.6,
-                                onPressCloseButton: () {
-                                  Get.back();
-                                },
-                                onPressRightButton: () {
-                                  if (_profileController.tempRelationshipStatus.value != '') {
-                                    _profileController.relationshipStatus.value = _profileController.tempRelationshipStatus.value;
-                                    _profileController.showEditRelationshipStatus.value = true;
-                                  }
-                                  Get.back();
-                                },
-                                rightText: ksDone.tr,
-                                rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                title: ksSelectRelationshipStatus.tr,
-                                isRightButtonShow: true,
-                              );
-                              await _profileController.getRelationshipList();
-                            },
-                            text: _profileController.relationshipStatus.value != ''
-                                ? _profileController.relationshipStatus.value
-                                : checkNullOrStringNull(_profileController.userData.value!.relation) ?? ksSelectRelationshipStatus,
-                            hintText: ksSelectRelationshipStatus.tr,
+                                kH12sizedBox,
+                                for (int i = 0; i < _profileController.schoolDataList.length; i++)
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: k12Padding),
+                                    child: InfoContainer2(
+                                      suffixText: checkNullOrStringNull(_profileController.schoolDataList[i].school),
+                                      prefixText: _profileController.schoolDataList[i].ended != null ? 'Studied at' : 'Studies at',
+                                      isAddButton: false,
+                                      suffixOnPressed: () async {
+                                        _profileController.resetTextEditor();
+                                        _profileController.enableSaveButton.value = true;
+                                        if (_profileController.schoolDataList[i].started != null) {
+                                          _profileController.tempSchoolStartDate.value =
+                                              DateFormat("yyyy-MM-dd").format(_profileController.schoolDataList[i].started!);
+                                        }
+                                        if (_profileController.schoolDataList[i].ended != null) {
+                                          _profileController.tempSchoolEndDate.value =
+                                              DateFormat("yyyy-MM-dd").format(_profileController.schoolDataList[i].ended!);
+                                        }
+                                        _profileController.schoolID.value = _profileController.schoolDataList[i].id!;
+                                        _profileController.educationInstituteTextEditingController.text = _profileController.schoolDataList[i].school!;
+                                        if (_profileController.schoolDataList[i].graduated == 0) {
+                                          _profileController.isCurrentlyStudyingHere.value = true;
+                                        } else {
+                                          _profileController.isCurrentlyStudyingHere.value = false;
+                                        }
+                                        _profileController.getMethod(6);
+                                        _profileController.getSchoolList();
+                                      },
+                                    ),
+                                  ),
+                                for (int i = 0; i < _profileController.collegeDataList.length; i++)
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: k12Padding),
+                                    child: InfoContainer2(
+                                      suffixText: checkNullOrStringNull(_profileController.collegeDataList[i].school),
+                                      prefixText: _profileController.collegeDataList[i].ended != null ? 'Studied at' : 'Studies at',
+                                      isAddButton: false,
+                                      suffixOnPressed: () async {
+                                        _profileController.resetTextEditor();
+                                        _profileController.enableSaveButton.value = true;
+                                        if (_profileController.collegeDataList[i].started != null) {
+                                          _profileController.tempSchoolStartDate.value =
+                                              DateFormat("yyyy-MM-dd").format(_profileController.collegeDataList[i].started!);
+                                        }
+                                        if (_profileController.collegeDataList[i].ended != null) {
+                                          _profileController.tempSchoolEndDate.value =
+                                              DateFormat("yyyy-MM-dd").format(_profileController.collegeDataList[i].ended!);
+                                        }
+                                        _profileController.collegeID.value = _profileController.collegeDataList[i].id!;
+                                        _profileController.educationInstituteTextEditingController.text = _profileController.collegeDataList[i].school!;
+                                        if (_profileController.collegeDataList[i].graduated == 0) {
+                                          _profileController.isCurrentlyStudyingHere.value = true;
+                                        } else {
+                                          _profileController.isCurrentlyStudyingHere.value = false;
+                                        }
+                                        _profileController.getMethod(7);
+                                        _profileController.getSchoolList();
+                                      },
+                                    ),
+                                  ),
+                                kH4sizedBox
+                              ],
+                            ),
                           ),
-                          // if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH20sizedBox,
-                          // if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
-                          //   OutLinedButton(
-                          //     buttonWidth: 80,
-                          //     buttonHeight: 25,
-                          //     onPress: () {},
-                          //     buttonText: ksPublic.tr,
-                          //     buttonTextStyle: semiBold12TextStyle(cBlackColor),
-                          //     borderColor: cLineColor,
-                          //     suffixWidget: const Padding(
-                          //       padding: EdgeInsets.only(right: k8Padding),
-                          //       child: Icon(
-                          //         BipHip.world,
-                          //         color: cIconColor,
-                          //         size: kIconSize16,
-                          //       ),
-                          //     ),
-                          //   ),
-                          if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH20sizedBox,
-                          if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
-                            CancelSaveButton(
-                              onPressedCancel: () {
-                                _profileController.relationshipStatus.value = '';
-                                _profileController.showEditRelationshipStatus.value = false;
-                              },
-                              onPressedSave: () async {
-                                _profileController.storeUserSetting('relationship', _profileController.relationshipStatus.value);
-                                _profileController.showEditRelationshipStatus.value = false;
-                                _profileController.relationshipStatus.value = '';
-                              },
-                            ),
-                          kH16sizedBox,
-                          const CustomDivider(),
-                          if (_profileController.showAllEditOption.value)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
-                              child: RowTextButton(
-                                text: ksGender.tr,
-                                buttonText: ksAdd.tr,
-                                textStyle: semiBold18TextStyle(cBlackColor),
-                                showAddButton: false,
-                                onPressedAdd: null,
-                                buttonWidth: 149,
+                        ),
+                        kH8sizedBox,
+                        Container(
+                          color: cWhiteColor,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              kH16sizedBox,
+                              Text(
+                                ksRelationshipStatus.tr,
+                                style: semiBold18TextStyle(cBlackColor),
                               ),
-                            ),
-                          if (_profileController.showAllEditOption.value)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: k16Padding),
-                              child: CustomSelectionButton(
-                                prefixIcon: BipHip.gender,
+                              kH12sizedBox,
+                              CustomSelectionButton(
+                                prefixIcon: BipHip.love,
                                 onPressed: () async {
-                                  _profileController.isGenderListLoading.value = true;
-                                  _profileController.tempSelectedGender.value = checkNullOrStringNull(_profileController.userData.value!.gender);
-                                  if (_profileController.selectedGender.value != '') {
-                                    _profileController.tempSelectedGender.value = _profileController.selectedGender.value;
+                                  _profileController.isRelationListLoading.value = true;
+                                  if (_profileController.relationshipStatus.value != '') {
+                                    _profileController.tempRelationshipStatus.value = _profileController.relationshipStatus.value;
+                                  } else if (_profileController.userData.value!.relation != null) {
+                                    _profileController.tempRelationshipStatus.value = checkNullOrStringNull(_profileController.userData.value!.relation);
                                   }
-
+                                  ll("value : ${_profileController.tempRelationshipStatus.value}");
                                   _globalController.commonBottomSheet(
                                     context: context,
                                     content: Obx(
-                                      () => _profileController.isGenderListLoading.value
-                                          ? const GenderListShimmer()
-                                          : GenderListContent(
+                                      () => _profileController.isRelationListLoading.value
+                                          ? const _RelationshipStatusListShimmer()
+                                          : _RelationshipStatusListContent(
                                               profileController: _profileController,
                                             ),
                                     ),
                                     isScrollControlled: true,
-                                    bottomSheetHeight: isDeviceScreenLarge() ? 255 : 240,
+                                    bottomSheetHeight: height * 0.6,
                                     onPressCloseButton: () {
                                       Get.back();
                                     },
                                     onPressRightButton: () {
-                                      if (_profileController.tempSelectedGender.value != '') {
-                                        _profileController.selectedGender.value = _profileController.tempSelectedGender.value;
-                                        _profileController.isGenderSelected.value = true;
+                                      if (_profileController.tempRelationshipStatus.value != '') {
+                                        _profileController.relationshipStatus.value = _profileController.tempRelationshipStatus.value;
+                                        _profileController.showEditRelationshipStatus.value = true;
                                       }
                                       Get.back();
                                     },
                                     rightText: ksDone.tr,
                                     rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                    title: ksSelectGender.tr,
+                                    title: ksSelectRelationshipStatus.tr,
                                     isRightButtonShow: true,
                                   );
-                                  await _profileController.getGenderList();
+                                  await _profileController.getRelationshipList();
                                 },
-                                text: _profileController.selectedGender.value != ''
-                                    ? _profileController.selectedGender.value
-                                    : checkNullOrStringNull(_profileController.userData.value!.gender) ?? ksSelectGender.tr,
-                                hintText: ksSelectGender.tr,
+                                text: _profileController.relationshipStatus.value != ''
+                                    ? _profileController.relationshipStatus.value
+                                    : checkNullOrStringNull(_profileController.userData.value!.relation) ?? ksSelectRelationshipStatus,
+                                hintText: ksSelectRelationshipStatus.tr,
                               ),
-                            ),
-                          if (_profileController.isGenderSelected.value)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: k16Padding),
-                              child: CancelSaveButton(
-                                onPressedCancel: () {
-                                  _profileController.selectedGender.value = '';
-                                  _profileController.isGenderSelected.value = false;
-                                },
-                                onPressedSave: () async {
-                                  await _profileController.storeUserSetting('gender', _profileController.selectedGender.value);
-                                  _profileController.selectedGender.value = '';
-                                  _profileController.isGenderSelected.value = false;
-                                },
-                              ),
-                            ),
-                          if (_profileController.showAllEditOption.value) const CustomDivider(),
-                          if (_profileController.showAllEditOption.value)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
-                              child: RowTextButton(
-                                text: ksDateOfBirth.tr,
-                                buttonText: ksAdd.tr,
-                                textStyle: semiBold18TextStyle(cBlackColor),
-                                showAddButton: false,
-                                onPressedAdd: null,
-                                buttonWidth: 149,
-                              ),
-                            ),
-                          if (_profileController.userData.value!.dob != null && _profileController.showAllEditOption.value)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: InfoContainer(
-                                prefixIcon: BipHip.birthday,
-                                suffixIcon: BipHip.edit,
-                                text: DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!),
-                                suffixOnPressed: () {
-                                  _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!);
-                                  _profileController.isRouteFromAboutInfo.value = true;
-
-                                  Get.toNamed(krSelectBirthday);
-                                },
-                              ),
-                            ),
-                          if (_profileController.showAllEditOption.value) const CustomDivider(),
-                          if (_profileController.showAllEditOption.value)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
-                              child: RowTextButton(
-                                text: ksProfession.tr,
-                                buttonText: ksAdd.tr,
-                                textStyle: semiBold18TextStyle(cBlackColor),
-                                showAddButton: _profileController.userData.value!.profession.isEmpty ? true : false,
-                                onPressedAdd: () async {
-                                  _profileController.isRouteFromAboutInfo.value = true;
-                                  _globalController.professionIndex.value = -1;
-                                  Get.toNamed(krSelectProfession);
-                                  await _profileController.getProfessionList();
-                                },
-                                buttonWidth: 149,
-                              ),
-                            ),
-                          if (_profileController.userData.value!.profession.isNotEmpty && _profileController.showAllEditOption.value)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: InfoContainer(
-                                prefixIcon: BipHip.profession,
-                                suffixIcon: BipHip.edit,
-                                text: checkNullOrStringNull(_profileController.userData.value!.profession[0]) ?? ksSelectProfession.tr,
-                                suffixOnPressed: () async {
-                                  _globalController.professionIndex.value = -1;
-                                  _profileController.isRouteFromAboutInfo.value = true;
-                                  Get.toNamed(krSelectProfession);
-                                  await _profileController.getProfessionList();
-                                  for (int i = 0; i < _globalController.professionList.length; i++) {
-                                    if (_globalController.professionList[i] == _profileController.userData.value!.profession[0]) {
-                                      _globalController.professionIndex.value = i;
+                              if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH12sizedBox,
+                              if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
+                                CancelSaveButton(
+                                  onPressedCancel: () {
+                                    _profileController.relationshipStatus.value = '';
+                                    _profileController.showEditRelationshipStatus.value = false;
+                                  },
+                                  onPressedSave: () async {
+                                    _profileController.storeUserSetting('relationship', _profileController.relationshipStatus.value);
+                                    _profileController.showEditRelationshipStatus.value = false;
+                                    _profileController.relationshipStatus.value = '';
+                                  },
+                                ),
+                              kH16sizedBox,
+                            ]),
+                          ),
+                        ),
+                        if (_profileController.showAllEditOption.value) kH8sizedBox,
+                        if (_profileController.showAllEditOption.value)
+                          Container(
+                            color: cWhiteColor,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                kH16sizedBox,
+                                Text(
+                                  ksGender.tr,
+                                  style: semiBold18TextStyle(cBlackColor),
+                                ),
+                                kH12sizedBox,
+                                CustomSelectionButton(
+                                  prefixIcon: BipHip.gender,
+                                  onPressed: () async {
+                                    _profileController.isGenderListLoading.value = true;
+                                    _profileController.tempSelectedGender.value = checkNullOrStringNull(_profileController.userData.value!.gender);
+                                    if (_profileController.selectedGender.value != '') {
+                                      _profileController.tempSelectedGender.value = _profileController.selectedGender.value;
                                     }
-                                  }
-                                  ll(_globalController.professionIndex.value);
-                                },
-                              ),
+
+                                    _globalController.commonBottomSheet(
+                                      context: context,
+                                      content: Obx(
+                                        () => _profileController.isGenderListLoading.value
+                                            ? const GenderListShimmer()
+                                            : GenderListContent(
+                                                profileController: _profileController,
+                                              ),
+                                      ),
+                                      isScrollControlled: true,
+                                      bottomSheetHeight: isDeviceScreenLarge() ? 255 : 240,
+                                      onPressCloseButton: () {
+                                        Get.back();
+                                      },
+                                      onPressRightButton: () {
+                                        if (_profileController.tempSelectedGender.value != '') {
+                                          _profileController.selectedGender.value = _profileController.tempSelectedGender.value;
+                                          _profileController.isGenderSelected.value = true;
+                                        }
+                                        Get.back();
+                                      },
+                                      rightText: ksDone.tr,
+                                      rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                      title: ksSelectGender.tr,
+                                      isRightButtonShow: true,
+                                    );
+                                    await _profileController.getGenderList();
+                                  },
+                                  text: _profileController.selectedGender.value != ''
+                                      ? _profileController.selectedGender.value
+                                      : checkNullOrStringNull(_profileController.userData.value!.gender) ?? ksSelectGender.tr,
+                                  hintText: ksSelectGender.tr,
+                                ),
+                                if (_profileController.isGenderSelected.value) kH12sizedBox,
+                                if (_profileController.isGenderSelected.value)
+                                  CancelSaveButton(
+                                    onPressedCancel: () {
+                                      _profileController.selectedGender.value = '';
+                                      _profileController.isGenderSelected.value = false;
+                                    },
+                                    onPressedSave: () async {
+                                      await _profileController.storeUserSetting('gender', _profileController.selectedGender.value);
+                                      _profileController.selectedGender.value = '';
+                                      _profileController.isGenderSelected.value = false;
+                                    },
+                                  ),
+                                kH16sizedBox,
+                              ]),
                             ),
-                          if (_profileController.showAllEditOption.value) const CustomDivider(),
-                          if (_profileController.showAllEditOption.value)
-                            Padding(
-                              padding: const EdgeInsets.only(top: k16Padding),
-                              child: RowTextButton(
-                                text: ksInterest.tr,
-                                buttonText: ksAdd.tr,
-                                textStyle: semiBold18TextStyle(cBlackColor),
-                                suffixWidget: _profileController.userData.value!.interest.isNotEmpty
-                                    ? Padding(
-                                        padding: const EdgeInsets.only(right: 8.0),
-                                        child: Icon(
-                                          BipHip.edit,
-                                          color: cIconColor,
-                                          size: screenWiseSize(kIconSize22, 4),
-                                        ),
-                                      )
-                                    : null,
-                                showAddButton: true,
-                                onPressedAdd: () async {
-                                  _globalController.interestIndex.clear();
-                                  _profileController.isRouteFromAboutInfo.value = true;
-                                  Get.toNamed(krSelectInterest);
-                                  await _profileController.getInterestList();
-                                  for (int j = 0; j < _profileController.userData.value!.interest.length; j++) {
-                                    for (int i = 0; i < _globalController.interestList.length; i++) {
-                                      if (_globalController.interestList[i] == _profileController.userData.value!.interest[j]) {
-                                        _globalController.interestIndex.add(i);
+                          ),
+                        if (_profileController.showAllEditOption.value) kH8sizedBox,
+                        if (_profileController.showAllEditOption.value)
+                          Container(
+                            color: cWhiteColor,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                kH16sizedBox,
+                                Text(
+                                  ksDateOfBirth.tr,
+                                  style: semiBold18TextStyle(cBlackColor),
+                                ),
+                                kH12sizedBox,
+                                InfoContainer2(
+                                  suffixText: '',
+                                  prefixText: DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!),
+                                  isAddButton: false,
+                                  suffixOnPressed: () {
+                                    _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!);
+                                    _profileController.isRouteFromAboutInfo.value = true;
+                                    Get.toNamed(krSelectBirthday);
+                                  },
+                                ),
+                                kH16sizedBox,
+                              ]),
+                            ),
+                          ),
+                        if (_profileController.showAllEditOption.value) kH8sizedBox,
+                        if (_profileController.showAllEditOption.value)
+                          Container(
+                            color: cWhiteColor,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                kH16sizedBox,
+                                RowTextButton(
+                                  text: ksProfession.tr,
+                                  buttonText: ksAdd.tr,
+                                  textStyle: semiBold18TextStyle(cBlackColor),
+                                  showAddButton: _profileController.userData.value!.profession.isEmpty ? true : false,
+                                  onPressedAdd: () async {
+                                    _profileController.isRouteFromAboutInfo.value = true;
+                                    _globalController.professionIndex.value = -1;
+                                    Get.toNamed(krSelectProfession);
+                                    await _profileController.getProfessionList();
+                                  },
+                                  buttonWidth: 149,
+                                ),
+                                kH12sizedBox,
+                                if (_profileController.userData.value!.profession.isNotEmpty && _profileController.showAllEditOption.value)
+                                  InfoContainer2(
+                                    suffixText: '',
+                                    prefixText: checkNullOrStringNull(_profileController.userData.value!.profession[0]),
+                                    isAddButton: false,
+                                    suffixOnPressed: () async {
+                                      _globalController.professionIndex.value = -1;
+                                      _profileController.isRouteFromAboutInfo.value = true;
+                                      Get.toNamed(krSelectProfession);
+                                      await _profileController.getProfessionList();
+                                      for (int i = 0; i < _globalController.professionList.length; i++) {
+                                        if (_globalController.professionList[i] == _profileController.userData.value!.profession[0]) {
+                                          _globalController.professionIndex.value = i;
+                                        }
+                                      }
+                                    },
+                                  ),
+                                kH16sizedBox,
+                              ]),
+                            ),
+                          ),
+                        if (_profileController.showAllEditOption.value) kH8sizedBox,
+                        if (_profileController.showAllEditOption.value)
+                          Container(
+                            color: cWhiteColor,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                kH16sizedBox,
+                                InfoContainer2(
+                                  suffixText: ksInterest.tr,
+                                  suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                                  isAddButton: _profileController.userData.value!.interest.isEmpty ? true : false,
+                                  suffixOnPressed: () async {
+                                    _globalController.interestIndex.clear();
+                                    _profileController.isRouteFromAboutInfo.value = true;
+                                    Get.toNamed(krSelectInterest);
+                                    await _profileController.getInterestList();
+                                    for (int j = 0; j < _profileController.userData.value!.interest.length; j++) {
+                                      for (int i = 0; i < _globalController.interestList.length; i++) {
+                                        if (_globalController.interestList[i] == _profileController.userData.value!.interest[j]) {
+                                          _globalController.interestIndex.add(i);
+                                        }
                                       }
                                     }
-                                  }
-                                },
-                                buttonWidth: 149,
-                              ),
+                                  },
+                                ),
+                                kH8sizedBox,
+                                Wrap(
+                                  alignment: WrapAlignment.start,
+                                  direction: Axis.horizontal,
+                                  spacing: 8.0,
+                                  children: [
+                                    for (int i = 0; i < _profileController.userData.value!.interest.length; i++)
+                                      CustomChoiceChips(
+                                        label: _profileController.userData.value!.interest[i],
+                                        isSelected: false,
+                                        onSelected: null,
+                                      )
+                                  ],
+                                ),
+                                kH8sizedBox,
+                              ]),
                             ),
-                          if (_profileController.userData.value!.interest.isEmpty && _profileController.showAllEditOption.value) kH16sizedBox,
-                          if (_profileController.userData.value!.interest.isNotEmpty && _profileController.showAllEditOption.value)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: k8Padding),
-                              child: Wrap(
-                                alignment: WrapAlignment.start,
-                                direction: Axis.horizontal,
-                                spacing: 8.0,
+                          ),
+                        kH8sizedBox,
+                        Container(
+                          color: cWhiteColor,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              kH16sizedBox,
+                              Text(
+                                ksWork.tr,
+                                style: semiBold18TextStyle(cBlackColor),
+                              ),
+                              kH12sizedBox,
+                              if (_profileController.currentWorkplace.value == null)
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: k12Padding),
+                                  child: InfoContainer2(
+                                    suffixText: ksCurrentWorkplace.tr,
+                                    isAddButton: true,
+                                    suffixOnPressed: () async {
+                                      _profileController.resetTextEditor();
+                                      _profileController.getMethod(8);
+                                      _profileController.getCompanyList();
+                                    },
+                                  ),
+                                ),
+                              if (_profileController.currentWorkplace.value != null)
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: k12Padding),
+                                  child: InfoContainer2(
+                                    prefixText: _profileController.currentWorkplace.value!.position == null
+                                        ? null
+                                        : '${_profileController.currentWorkplace.value!.position} at',
+                                    suffixText: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
+                                    isAddButton: false,
+                                    suffixOnPressed: () async {
+                                      _profileController.resetTextEditor();
+                                      _profileController.enableSaveButton.value = true;
+                                      if (_profileController.currentWorkplace.value!.started != null) {
+                                        _profileController.tempWorkplaceStartDate.value =
+                                            DateFormat("yyyy-MM-dd").format(_profileController.currentWorkplace.value!.started!);
+                                      }
+                                      if (_profileController.currentWorkplace.value!.ended != null) {
+                                        _profileController.tempWorkplaceEndDate.value =
+                                            DateFormat("yyyy-MM-dd").format(_profileController.currentWorkplace.value!.ended!);
+                                      }
+                                      _profileController.officeID.value = _profileController.currentWorkplace.value!.id!;
+                                      _profileController.companyNameTextEditingController.text = _profileController.currentWorkplace.value!.company!;
+                                      _profileController.designationTextEditingController.text = _profileController.currentWorkplace.value!.position ?? '';
+                                      if (_profileController.currentWorkplace.value!.isCurrent == 1) {
+                                        _profileController.isCurrentlyWorkingHere.value = true;
+                                      } else {
+                                        _profileController.isCurrentlyWorkingHere.value = false;
+                                      }
+                                      _profileController.getMethod(10);
+                                      _profileController.getCompanyList();
+                                    },
+                                  ),
+                                ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: k12Padding),
+                                child: InfoContainer2(
+                                  suffixText: ksOther.tr,
+                                  isAddButton: true,
+                                  suffixOnPressed: () async {
+                                    _profileController.resetTextEditor();
+                                    _profileController.getMethod(8);
+                                    _profileController.getCompanyList();
+                                  },
+                                ),
+                              ),
+                              for (int i = 0; i < _profileController.workplaceDataList.length; i++)
+                                if (_profileController.workplaceDataList[i].isCurrent != 1)
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: k12Padding),
+                                    child: InfoContainer2(
+                                      prefixText: _profileController.workplaceDataList[i].position == null
+                                          ? null
+                                          : 'Former ${_profileController.workplaceDataList[i].position} at',
+                                      suffixText: _profileController.workplaceDataList[i].company!,
+                                      isAddButton: false,
+                                      suffixOnPressed: () async {
+                                        _profileController.resetTextEditor();
+                                        _profileController.enableSaveButton.value = true;
+                                        _profileController.getCompanyList();
+                                        if (_profileController.workplaceDataList[i].started != null) {
+                                          _profileController.tempWorkplaceStartDate.value =
+                                              DateFormat("yyyy-MM-dd").format(_profileController.workplaceDataList[i].started!);
+                                        }
+                                        if (_profileController.workplaceDataList[i].ended != null) {
+                                          _profileController.tempWorkplaceEndDate.value =
+                                              DateFormat("yyyy-MM-dd").format(_profileController.workplaceDataList[i].ended!);
+                                        }
+                                        _profileController.officeID.value = _profileController.workplaceDataList[i].id!;
+                                        _profileController.companyNameTextEditingController.text = _profileController.workplaceDataList[i].company!;
+                                        _profileController.designationTextEditingController.text = _profileController.workplaceDataList[i].position ?? '';
+                                        if (_profileController.workplaceDataList[i].isCurrent == 1) {
+                                          _profileController.isCurrentlyWorkingHere.value = true;
+                                        } else {
+                                          _profileController.isCurrentlyWorkingHere.value = false;
+                                        }
+                                        _profileController.getMethod(10);
+                                      },
+                                    ),
+                                  ),
+                              kH4sizedBox,
+                            ]),
+                          ),
+                        ),
+                        kH8sizedBox,
+                        if (_profileController.showAllEditOption.value)
+                          Container(
+                            color: cWhiteColor,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  for (int i = 0; i < _profileController.userData.value!.interest.length; i++)
-                                    CustomChoiceChips(
-                                      label: _profileController.userData.value!.interest[i],
-                                      isSelected: false,
-                                      onSelected: null,
-                                    )
+                                  kH16sizedBox,
+                                  Text(
+                                    ksContactDetails.tr,
+                                    style: semiBold18TextStyle(cBlackColor),
+                                  ),
+                                  kH12sizedBox,
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: k12Padding),
+                                    child: InfoContainer2(
+                                      suffixText: ksPhone.tr,
+                                      isAddButton: true,
+                                      suffixOnPressed: () {
+                                        _profileController.resetTextEditor();
+                                        _profileController.getMethod(11);
+                                      },
+                                    ),
+                                  ),
+                                  for (int i = 0; i < _profileController.contactDataList.length; i++)
+                                    if (_profileController.contactDataList[i].type == 'phone')
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: k12Padding),
+                                        child: InfoContainer2(
+                                          suffixText: '',
+                                          prefixText: checkNullOrStringNull(_profileController.contactDataList[i].value),
+                                          isAddButton: false,
+                                          suffixOnPressed: () {
+                                            _profileController.resetTextEditor();
+                                            _profileController.enableSaveButton.value = true;
+                                            _profileController.phoneID.value = _profileController.contactDataList[i].id!;
+                                            _profileController.phoneTextEditingController.text = _profileController.contactDataList[i].value!;
+                                            _profileController.getMethod(12);
+                                          },
+                                        ),
+                                      ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: k12Padding),
+                                    child: InfoContainer2(
+                                      suffixText: ksEmail.tr,
+                                      isAddButton: true,
+                                      suffixOnPressed: () {
+                                        _profileController.resetTextEditor();
+                                        _profileController.getMethod(13);
+                                      },
+                                    ),
+                                  ),
+                                  for (int i = 0; i < _profileController.contactDataList.length; i++)
+                                    if (_profileController.contactDataList[i].type == 'email')
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: k12Padding),
+                                        child: InfoContainer2(
+                                          suffixText: '',
+                                          prefixText: checkNullOrStringNull(_profileController.contactDataList[i].value),
+                                          isAddButton: false,
+                                          suffixOnPressed: () {
+                                            _profileController.resetTextEditor();
+                                            _profileController.enableSaveButton.value = true;
+                                            _profileController.emailID.value = _profileController.contactDataList[i].id!;
+                                            _profileController.emailTextEditingController.text = _profileController.contactDataList[i].value!;
+                                            _profileController.getMethod(14);
+                                          },
+                                        ),
+                                      ),
+                                  kH4sizedBox
                                 ],
                               ),
                             ),
-                          if (_profileController.showAllEditOption.value) const CustomDivider(),
-                          kH16sizedBox,
-                          Text(
-                            ksWork.tr,
-                            style: semiBold18TextStyle(cBlackColor),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: k16Padding),
-                            child: RowTextButton(
-                              text: ksCurrentWorkplace.tr,
-                              buttonText: ksAdd.tr,
-                              showAddButton: true,
-                              onPressedAdd: () async {
-                                _profileController.resetTextEditor();
-                                _profileController.getMethod(8);
-                                _profileController.getCompanyList();
-                              },
-                              buttonWidth: 149,
-                            ),
-                          ),
-                          if (_profileController.currentWorkplace.value != null)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: k16Padding),
-                              child: InfoContainer(
-                                prefixIcon: BipHip.officeFill,
-                                suffixIcon: BipHip.edit,
-                                text: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
-                                suffixOnPressed: () async {
-                                  _profileController.resetTextEditor();
-                                  _profileController.enableSaveButton.value = true;
-                                  if (_profileController.currentWorkplace.value!.started != null) {
-                                    _profileController.tempWorkplaceStartDate.value =
-                                        DateFormat("yyyy-MM-dd").format(_profileController.currentWorkplace.value!.started!);
-                                  }
-                                  if (_profileController.currentWorkplace.value!.ended != null) {
-                                    _profileController.tempWorkplaceEndDate.value =
-                                        DateFormat("yyyy-MM-dd").format(_profileController.currentWorkplace.value!.ended!);
-                                  }
-                                  _profileController.officeID.value = _profileController.currentWorkplace.value!.id!;
-                                  _profileController.companyNameTextEditingController.text = _profileController.currentWorkplace.value!.company!;
-                                  _profileController.designationTextEditingController.text = _profileController.currentWorkplace.value!.position ?? '';
-                                  if (_profileController.currentWorkplace.value!.isCurrent == 1) {
-                                    _profileController.isCurrentlyWorkingHere.value = true;
-                                  } else {
-                                    _profileController.isCurrentlyWorkingHere.value = false;
-                                  }
-                                  _profileController.getMethod(10);
-                                  _profileController.getCompanyList();
-                                  // _globalController.commonBottomSheet(
-                                  //     isScrollControlled: false,
-                                  //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                  //     onPressCloseButton: () {
-                                  //       Get.back();
-                                  //     },
-                                  //     onPressRightButton: null,
-                                  //     rightText: '',
-                                  //     rightTextStyle: regular10TextStyle(cBlackColor),
-                                  //     title: ksEdit.tr,
-                                  //     isRightButtonShow: false,
-                                  //     context: context,
-                                  //     content: EditModalSheet(
-                                  //       editButtonText: ksEditWorkplace.tr,
-                                  //       editOnPressed: () {
-                                  //         _profileController.officeID.value = _profileController.currentWorkplace.value!.id!;
-                                  //         _profileController.companyNameTextEditingController.text = _profileController.currentWorkplace.value!.company!;
-                                  //         _profileController.designationTextEditingController.text = _profileController.currentWorkplace.value!.position ?? '';
-                                  //         if (_profileController.currentWorkplace.value!.isCurrent == 1) {
-                                  //           _profileController.isCurrentlyWorkingHere.value = true;
-                                  //         } else {
-                                  //           _profileController.isCurrentlyWorkingHere.value = false;
-                                  //         }
-                                  //         _profileController.getMethod(10);
-                                  //       },
-                                  //       deleteButtonText: ksDeleteWorkplace.tr,
-                                  //       deleteOnPressed: () async {
-                                  //         Get.back();
-                                  //         await _profileController.deleteWork(_profileController.currentWorkplace.value!.id);
-                                  //       },
-                                  //     ));
-                                },
+                        kH8sizedBox,
+                        if (_profileController.showAllEditOption.value)
+                          Container(
+                            color: cWhiteColor,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  kH16sizedBox,
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: k12Padding),
+                                    child: InfoContainer2(
+                                      suffixText: ksWebsiteAndSocialLinks.tr,
+                                      suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                                      isAddButton: true,
+                                      suffixOnPressed: () {
+                                        _profileController.resetTextEditor();
+                                        _profileController.linkSource.value = '';
+                                        _profileController.commonEditPageIcon.value = null;
+                                        _profileController.getMethod(15);
+                                      },
+                                    ),
+                                  ),
+                                  for (int i = 0; i < _profileController.linkDataList.length; i++)
+                                    if (_profileController.showAllEditOption.value)
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: k12Padding),
+                                        child: InfoContainer2(
+                                          suffixText: '',
+                                          prefixText: checkNullOrStringNull(_profileController.linkDataList[i].link),
+                                          isAddButton: false,
+                                          suffixOnPressed: () {
+                                            _profileController.resetTextEditor();
+                                            _profileController.enableSaveButton.value = true;
+                                            _profileController.commonEditPageIcon.value = null;
+                                            _profileController.linkTextEditingController.text = _profileController.linkDataList[i].link!;
+                                            _profileController.linkID.value = _profileController.linkDataList[i].id!;
+                                            _profileController.linkSource.value = _profileController.linkDataList[i].type!;
+                                            _profileController.getMethod(16);
+                                          },
+                                        ),
+                                      ),
+                                  kH4sizedBox
+                                ],
                               ),
-                            ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: k16Padding),
-                            child: RowTextButton(
-                              text: ksOther.tr,
-                              buttonText: ksAdd.tr,
-                              showAddButton: true,
-                              onPressedAdd: () async {
-                                _profileController.resetTextEditor();
-                                _profileController.getMethod(8);
-                                _profileController.getCompanyList();
-                              },
-                              buttonWidth: 149,
                             ),
                           ),
-                          for (int i = 0; i < _profileController.workplaceDataList.length; i++)
-                            if (_profileController.workplaceDataList[i].isCurrent != 1)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: k16Padding),
-                                child: InfoContainer(
-                                  prefixIcon: BipHip.officeFill,
-                                  suffixIcon: BipHip.edit,
-                                  text: _profileController.workplaceDataList[i].company!,
-                                  suffixOnPressed: () async {
-                                    _profileController.resetTextEditor();
-                                    _profileController.enableSaveButton.value = true;
-                                    _profileController.getCompanyList();
-                                    if (_profileController.workplaceDataList[i].started != null) {
-                                      _profileController.tempWorkplaceStartDate.value =
-                                          DateFormat("yyyy-MM-dd").format(_profileController.workplaceDataList[i].started!);
-                                    }
-                                    if (_profileController.workplaceDataList[i].ended != null) {
-                                      _profileController.tempWorkplaceEndDate.value =
-                                          DateFormat("yyyy-MM-dd").format(_profileController.workplaceDataList[i].ended!);
-                                    }
-                                    _profileController.officeID.value = _profileController.workplaceDataList[i].id!;
-                                    _profileController.companyNameTextEditingController.text = _profileController.workplaceDataList[i].company!;
-                                    _profileController.designationTextEditingController.text = _profileController.workplaceDataList[i].position ?? '';
-                                    if (_profileController.workplaceDataList[i].isCurrent == 1) {
-                                      _profileController.isCurrentlyWorkingHere.value = true;
-                                    } else {
-                                      _profileController.isCurrentlyWorkingHere.value = false;
-                                    }
-                                    _profileController.getMethod(10);
-                                    // _globalController.commonBottomSheet(
-                                    //     isScrollControlled: false,
-                                    //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                    //     onPressCloseButton: () {
-                                    //       Get.back();
-                                    //     },
-                                    //     onPressRightButton: null,
-                                    //     rightText: '',
-                                    //     rightTextStyle: regular10TextStyle(cBlackColor),
-                                    //     title: ksEdit.tr,
-                                    //     isRightButtonShow: false,
-                                    //     context: context,
-                                    //     content: EditModalSheet(
-                                    //       editButtonText: ksEditWorkplace.tr,
-                                    //       editOnPressed: () {
-                                    //         _profileController.officeID.value = _profileController.workplaceDataList[i].id!;
-                                    //         _profileController.companyNameTextEditingController.text = _profileController.workplaceDataList[i].company!;
-                                    //         _profileController.designationTextEditingController.text = _profileController.workplaceDataList[i].position ?? '';
-                                    //         if (_profileController.workplaceDataList[i].isCurrent == 1) {
-                                    //           _profileController.isCurrentlyWorkingHere.value = true;
-                                    //         } else {
-                                    //           _profileController.isCurrentlyWorkingHere.value = false;
-                                    //         }
-                                    //         _profileController.getMethod(10);
-                                    //       },
-                                    //       deleteButtonText: ksDeleteWorkplace.tr,
-                                    //       deleteOnPressed: () async {
-                                    //         Get.back();
-                                    //         await _profileController.deleteWork(_profileController.workplaceDataList[i].id);
-                                    //       },
-                                    //     ));
-                                  },
-                                ),
-                              ),
-                          if (_profileController.showAllEditOption.value) const CustomDivider(),
-                          if (_profileController.showAllEditOption.value) kH16sizedBox,
-                          if (_profileController.showAllEditOption.value)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: k16Padding),
-                              child: Text(
-                                ksContactDetails.tr,
-                                style: semiBold18TextStyle(cBlackColor),
-                              ),
-                            ),
-                          if (_profileController.showAllEditOption.value)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: k16Padding),
-                              child: RowTextButton(
-                                text: ksPhone.tr,
-                                buttonText: ksAdd.tr,
-                                showAddButton: true,
-                                onPressedAdd: () {
-                                  _profileController.resetTextEditor();
-                                  _profileController.getMethod(11);
-                                },
-                                buttonWidth: 177,
-                              ),
-                            ),
-                          for (int i = 0; i < _profileController.contactDataList.length; i++)
-                            if (_profileController.contactDataList[i].type == 'phone' && _profileController.showAllEditOption.value)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: k16Padding),
-                                child: InfoContainer(
-                                  prefixIcon: BipHip.phoneFill,
-                                  suffixIcon: BipHip.edit,
-                                  text: checkNullOrStringNull(_profileController.contactDataList[i].value),
-                                  suffixOnPressed: () {
-                                    _profileController.resetTextEditor();
-                                    _profileController.enableSaveButton.value = true;
-                                    _profileController.phoneID.value = _profileController.contactDataList[i].id!;
-                                    _profileController.phoneTextEditingController.text = _profileController.contactDataList[i].value!;
-                                    _profileController.getMethod(12);
-                                    // _globalController.commonBottomSheet(
-                                    //     context: context,
-                                    //     isScrollControlled: false,
-                                    //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                    //     onPressCloseButton: () {
-                                    //       Get.back();
-                                    //     },
-                                    //     onPressRightButton: null,
-                                    //     rightText: '',
-                                    //     rightTextStyle: regular10TextStyle(cBlackColor),
-                                    //     title: ksEdit.tr,
-                                    //     isRightButtonShow: false,
-                                    //     content: EditModalSheet(
-                                    //       editButtonText: ksEditPhone.tr,
-                                    //       editOnPressed: () {
-                                    //         _profileController.phoneID.value = _profileController.contactDataList[i].id!;
-                                    //         _profileController.phoneTextEditingController.text = _profileController.contactDataList[i].value!;
-                                    //         _profileController.getMethod(12);
-                                    //       },
-                                    //       deleteButtonText: ksDeletePhone.tr,
-                                    //       deleteOnPressed: () async {
-                                    //         _profileController.deleteContact(_profileController.contactDataList[i].id);
-                                    //         Get.back();
-                                    //       },
-                                    //     ));
-                                  },
-                                ),
-                              ),
-                          if (_profileController.showAllEditOption.value)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: k16Padding),
-                              child: RowTextButton(
-                                text: ksEmail.tr,
-                                buttonText: ksAdd.tr,
-                                showAddButton: true,
-                                onPressedAdd: () {
-                                  _profileController.resetTextEditor();
-                                  _profileController.getMethod(13);
-                                },
-                                buttonWidth: 118,
-                              ),
-                            ),
-                          for (int i = 0; i < _profileController.contactDataList.length; i++)
-                            if (_profileController.contactDataList[i].type == 'email' && _profileController.showAllEditOption.value)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: k16Padding),
-                                child: InfoContainer(
-                                  prefixIcon: BipHip.mail,
-                                  suffixIcon: BipHip.edit,
-                                  text: checkNullOrStringNull(_profileController.contactDataList[i].value),
-                                  suffixOnPressed: () {
-                                    _profileController.resetTextEditor();
-                                    _profileController.enableSaveButton.value = true;
-                                    _profileController.emailID.value = _profileController.contactDataList[i].id!;
-                                    _profileController.emailTextEditingController.text = _profileController.contactDataList[i].value!;
-                                    _profileController.getMethod(14);
-                                    // _globalController.commonBottomSheet(
-                                    //     context: context,
-                                    //     isScrollControlled: false,
-                                    //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                    //     onPressCloseButton: () {
-                                    //       Get.back();
-                                    //     },
-                                    //     onPressRightButton: null,
-                                    //     rightText: '',
-                                    //     rightTextStyle: regular10TextStyle(cBlackColor),
-                                    //     title: ksEdit.tr,
-                                    //     isRightButtonShow: false,
-                                    //     content: EditModalSheet(
-                                    //       editButtonText: ksEditEmail.tr,
-                                    //       editOnPressed: () {
-                                    //         _profileController.emailID.value = _profileController.contactDataList[i].id!;
-                                    //         _profileController.emailTextEditingController.text = _profileController.contactDataList[i].value!;
-                                    //         _profileController.getMethod(14);
-                                    //       },
-                                    //       deleteButtonText: ksDeleteEmail.tr,
-                                    //       deleteOnPressed: () async {
-                                    //         await _profileController.deleteContact(_profileController.contactDataList[i].id);
-                                    //         Get.back();
-                                    //       },
-                                    //     ));
-                                  },
-                                ),
-                              ),
-                          // if (_profileController.showAllEditOption.value) kH16sizedBox,
-                          if (_profileController.showAllEditOption.value) const CustomDivider(),
-                          if (_profileController.showAllEditOption.value)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k16Padding),
-                              child: RowTextButton(
-                                text: ksWebsiteAndSocialLinks.tr,
-                                buttonText: ksAdd.tr,
-                                textStyle: semiBold18TextStyle(cBlackColor),
-                                showAddButton: true,
-                                onPressedAdd: () {
-                                  _profileController.resetTextEditor();
-                                  _profileController.linkSource.value = '';
-                                  _profileController.commonEditPageIcon.value = null;
-                                  _profileController.getMethod(15);
-                                },
-                                buttonWidth: 109,
-                              ),
-                            ),
-                          for (int i = 0; i < _profileController.linkDataList.length; i++)
-                            if (_profileController.showAllEditOption.value)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: k16Padding),
-                                child: InfoContainer(
-                                  prefixIcon: _profileController.getLinkIcon(_profileController.linkDataList[i].type!),
-                                  suffixIcon: BipHip.edit,
-                                  text: checkNullOrStringNull(_profileController.linkDataList[i].link),
-                                  suffixOnPressed: () {
-                                    _profileController.resetTextEditor();
-                                    _profileController.enableSaveButton.value = true;
-                                    _profileController.commonEditPageIcon.value = null;
-                                    _profileController.linkTextEditingController.text = _profileController.linkDataList[i].link!;
-                                    _profileController.linkID.value = _profileController.linkDataList[i].id!;
-                                    _profileController.linkSource.value = _profileController.linkDataList[i].type!;
-                                    _profileController.getMethod(16);
-                                    // _globalController.commonBottomSheet(
-                                    //     context: context,
-                                    //     isScrollControlled: false,
-                                    //     bottomSheetHeight: isDeviceScreenLarge() ? 180 : 160,
-                                    //     onPressCloseButton: () {
-                                    //       Get.back();
-                                    //     },
-                                    //     onPressRightButton: null,
-                                    //     rightText: '',
-                                    //     rightTextStyle: regular10TextStyle(cBlackColor),
-                                    //     title: ksEdit.tr,
-                                    //     isRightButtonShow: false,
-                                    //     content: EditModalSheet(
-                                    //       editButtonText: ksEditLink.tr,
-                                    //       editOnPressed: () {
-                                    //         _profileController.linkTextEditingController.text = _profileController.linkDataList[i].link!;
-                                    //         _profileController.linkID.value = _profileController.linkDataList[i].id!;
-                                    //         _profileController.linkSource.value = _profileController.linkDataList[i].type!;
-                                    //         _profileController.getMethod(16);
-                                    //       },
-                                    //       deleteButtonText: ksDeleteLink.tr,
-                                    //       deleteOnPressed: () async {
-                                    //         Get.back();
-                                    //         await _profileController.deleteLink(_profileController.linkDataList[i].id);
-                                    //       },
-                                    //     ));
-                                  },
-                                ),
-                              ),
-                          kH12sizedBox
-                        ],
-                      ),
+                        kH12sizedBox
+                      ],
                     ),
                   ),
                 ),
@@ -1004,7 +758,7 @@ class InfoContainer extends StatelessWidget {
       onTap: suffixOnPressed,
       child: Container(
         height: 52,
-        decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cGreyBoxColor),
+        decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cWhiteColor),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: k8Padding),
           child: Row(
@@ -1034,6 +788,82 @@ class InfoContainer extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class InfoContainer2 extends StatelessWidget {
+  const InfoContainer2(
+      {super.key,
+      required this.suffixText,
+      this.suffixOnPressed,
+      this.prefixText,
+      required this.isAddButton,
+      this.subtitlePrefixText,
+      this.subtitleSuffixText,
+      this.suffixTextStyle});
+  final String suffixText;
+  final String? prefixText, subtitlePrefixText, subtitleSuffixText;
+  final TextStyle? suffixTextStyle;
+  final VoidCallback? suffixOnPressed;
+  final bool isAddButton;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cWhiteColor),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RichText(
+                    overflow: TextOverflow.clip,
+                    text: TextSpan(children: [
+                      if (prefixText != null) TextSpan(text: '$prefixText ', style: regular16TextStyle(cBlackColor)),
+                      TextSpan(
+                        text: suffixText,
+                        style: suffixTextStyle ?? semiBold16TextStyle(cBlackColor),
+                      )
+                    ])),
+                if (subtitlePrefixText != null || subtitleSuffixText != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: k4Padding),
+                    child: RichText(
+                        overflow: TextOverflow.clip,
+                        text: TextSpan(children: [
+                          TextSpan(text: '$subtitlePrefixText ', style: regular12TextStyle(cSmallBodyTextColor)),
+                          TextSpan(
+                            text: subtitleSuffixText,
+                            style: regular12TextStyle(cSmallBodyTextColor),
+                          )
+                        ])),
+                  ),
+              ],
+            ),
+          ),
+          isAddButton
+              ? CustomTextButtonV2(
+                  onPressed: suffixOnPressed,
+                  text: ksAdd.tr,
+                  textStyle: semiBold16TextStyle(cPrimaryColor),
+                  prefixWidget: Icon(
+                    BipHip.addNew,
+                    color: cPrimaryColor,
+                    size: isDeviceScreenLarge() ? h20 : h16,
+                  ),
+                )
+              : InkWell(
+                  onTap: suffixOnPressed,
+                  child: Icon(
+                    BipHip.edit,
+                    size: screenWiseSize(kIconSize22, 4),
+                    color: cIconColor,
+                  ),
+                ),
+        ],
       ),
     );
   }

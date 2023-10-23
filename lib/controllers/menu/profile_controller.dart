@@ -264,6 +264,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxString tempSchoolEndDate = RxString('');
   final RxString tempWorkplaceStartDate = RxString('');
   final RxString tempWorkplaceEndDate = RxString('');
+  final RxBool isSingleDatePicker = RxBool(false);
 
   void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
       showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function, startDate, endDate) {
@@ -304,6 +305,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     tempSchoolStartDate.value = '';
     tempWorkplaceEndDate.value = '';
     tempWorkplaceStartDate.value = '';
+    isSingleDatePicker.value = false;
   }
 
   void selectFunction(functionFlag, [index]) async {
@@ -454,10 +456,10 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       // Get.back();
     } else if (methodID == 3) {
       setEditPageValue(ksAddOtherAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksAddLocation.tr, false, true, true, false, ksCurrentlyLivingHere.tr, 'ADD PRESENT', '', '');
+          ksAddLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'ADD PRESENT', '', '');
     } else if (methodID == 4) {
       setEditPageValue(ksEditPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksEditLocation.tr, false, true, true, false, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
+          ksEditLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
       // Get.back();
     } else if (methodID == 5) {
       setEditPageValue('Add Educational Event', true, BipHip.schoolNew, educationInstituteTextEditingController, false, educationInstituteTextEditingController,
@@ -702,9 +704,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     try {
       isEditProfileLoading.value = true;
       String? token = await _spController.getBearerToken();
-      Map<String, dynamic> body = {
-        'city': presentAddressTextEditingController.text.trim(),
-      };
+      Map<String, dynamic> body = {'city': presentAddressTextEditingController.text.trim(), if (isSingleDatePicker.value) 'moved': commonStartDate.value};
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
         url: isCommonEditCheckBoxSelected.value ? kuSetCurrentCity : kuOtherCity,
@@ -744,6 +744,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       Map<String, dynamic> body = {
         'id': id.toString(),
         'city': presentAddressTextEditingController.text.trim(),
+        if (isSingleDatePicker.value) 'moved': commonStartDate.value
         // 'is_current': isCommonEditCheckBoxSelected.value ? '1' : '0'
       };
       var response = await _apiController.commonApiCall(
