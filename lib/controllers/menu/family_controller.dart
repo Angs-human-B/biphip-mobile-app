@@ -146,13 +146,13 @@ class FamilyController extends GetxController {
 
   //*Accept Family Request
   final RxBool isAcceptFamilyRequestLoading = RxBool(false);
-  final RxInt familyId = RxInt(-1);
+  final RxInt userId = RxInt(-1);
   Future<void> acceptFamilyRequest() async {
     try {
       isAcceptFamilyRequestLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
-        'family_id': familyId.value.toString(),
+        'family_id': userId.value.toString(),
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -190,7 +190,7 @@ class FamilyController extends GetxController {
       isRejectFamilyRequestLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
-        'family_id': familyId.value.toString(),
+        'family_id': userId.value.toString(),
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -261,7 +261,7 @@ class FamilyController extends GetxController {
       isCancelFamilyRequestLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
-        'user_id': familyId.value.toString(),
+        'user_id': userId.value.toString(),
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -270,7 +270,7 @@ class FamilyController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        for (int index = 1; index <= sendFamilyRequestList.length; index++) {
+        for (int index = 0; index < sendFamilyRequestList.length; index++) {
           sendFamilyRequestList.removeAt(index);
         }
         isCancelFamilyRequestLoading.value = false;
@@ -330,7 +330,7 @@ class FamilyController extends GetxController {
       isSendFamilyRequestLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
-        'family_id': familyId.value.toString(),
+        'family_id': userId.value.toString(),
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,

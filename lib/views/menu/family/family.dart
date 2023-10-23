@@ -206,11 +206,11 @@ class ReceivedFamilyList extends StatelessWidget {
                           firstButtonText: ksConfirm.tr,
                           secondButtonText: ksCancel.tr,
                           firstButtonOnPressed: () async {
-                            _familyController.familyId.value = _familyController.receivedFamilyList[index].id!;
+                            _familyController.userId.value = _familyController.receivedFamilyList[index].id!;
                             await _familyController.acceptFamilyRequest();
                           },
                           secondButtonOnPressed: () async {
-                            _familyController.familyId.value = _familyController.receivedFamilyList[index].id!;
+                            _familyController.userId.value = _familyController.receivedFamilyList[index].id!;
                             await _familyController.rejectFamilyRequest();
                           },
                         ),
@@ -255,7 +255,10 @@ class PendingFamilyList extends StatelessWidget {
                           name: _familyController.sendFamilyRequestList[index].fullName.toString(),
                           subTitle: ksBrotherPending.tr,
                           buttonText: ksCancelRequest.tr,
-                          buttonOnPressed: () {},
+                          buttonOnPressed: () async {
+                            _familyController.userId.value = _familyController.sendFamilyRequestList[index].id!;
+                            await _familyController.cancelFamilyRequest();
+                          },
                           buttonColor: cWhiteColor,
                           borderColor: cRedColor,
                           textStyle: semiBold14TextStyle(cRedColor),
