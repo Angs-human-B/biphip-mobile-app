@@ -371,73 +371,70 @@ class AllFriendList extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          // var _item = _profileController.allFriendsList[index];
                           return Padding(
                             padding: const EdgeInsets.only(bottom: k16Padding),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(k8BorderRadius),
-                              child: TextButton(
-                                style: kTextButtonStyle,
-                                onPressed: () async {
-                                  // ll(index);
-                                },
-                                child: CustomListTile(
-                                  borderColor: cLineColor,
-                                  leading: Container(
-                                    height: h40,
-                                    width: h40,
-                                    decoration: const BoxDecoration(
-                                      color: cWhiteColor,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: ClipOval(
-                                      child: Image.network(
-                                        Environment.imageBaseUrl + _friendController.friendList[index].profilePicture.toString(),
-                                        fit: BoxFit.cover,
-                                        errorBuilder: (context, error, stackTrace) {
-                                          return Image.asset(kiProfileDefaultImageUrl);
-                                        },
-                                        loadingBuilder: imageLoadingBuilder,
-                                      ),
-                                    ),
+                              child: CustomListTile(
+                                borderColor: cLineColor,
+                                leading: Container(
+                                  height: h40,
+                                  width: h40,
+                                  decoration: const BoxDecoration(
+                                    color: cWhiteColor,
+                                    shape: BoxShape.circle,
                                   ),
-                                  title: Text(
-                                    _friendController.friendList[index].fullName ?? ksNA.tr,
-                                    style: semiBold16TextStyle(cBlackColor),
-                                  ),
-                                  trailing: CustomIconButton(
-                                      onPress: () {
-                                        _profileController.friendActionSelect.value = '';
-                                        _globalController.commonBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          content: _FriendActionContent(
-                                            profileController: _profileController,
-                                            friendController: _friendController,
-                                          ),
-                                          onPressCloseButton: () {
-                                            Get.back();
-                                          },
-                                          onPressRightButton: () async {
-                                            _friendController.userId.value = _friendController.friendList[index].id!;
-                                            Get.back();
-                                            if (_profileController.friendActionSelect.value == 'Unfriend') {
-                                              await _friendController.unfriendUserRequest();
-                                            }
-                                            if (_profileController.friendActionSelect.value == 'Unfollow') {
-                                              await _friendController.unfollowUser();
-                                            }
-                                            _profileController.friendActionSelect.value = '';
-                                          },
-                                          rightText: ksDone.tr,
-                                          rightTextStyle: regular14TextStyle(cPrimaryColor),
-                                          title: ksAction.tr,
-                                          isRightButtonShow: true,
-                                          bottomSheetHeight: 250,
-                                        );
+                                  child: ClipOval(
+                                    child: Image.network(
+                                      Environment.imageBaseUrl + _friendController.friendList[index].profilePicture.toString(),
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Image.asset(kiProfileDefaultImageUrl);
                                       },
-                                      icon: BipHip.system),
+                                      loadingBuilder: imageLoadingBuilder,
+                                    ),
+                                  ),
                                 ),
+                                title: Text(
+                                  _friendController.friendList[index].fullName ?? ksNA.tr,
+                                  style: semiBold16TextStyle(cBlackColor),
+                                ),
+                                trailing: CustomIconButton(
+                                    onPress: () {
+                                      _profileController.friendActionSelect.value = '';
+                                      _friendController.allFriendFollowStatus.value = _friendController.friendList[index].followStatus!;
+                                      _globalController.commonBottomSheet(
+                                        context: context,
+                                        isScrollControlled: true,
+                                        content: _FriendActionContent(
+                                          profileController: _profileController,
+                                          friendController: _friendController,
+                                        ),
+                                        onPressCloseButton: () {
+                                          Get.back();
+                                        },
+                                        onPressRightButton: () async {
+                                          _friendController.userId.value = _friendController.friendList[index].id!;
+                                          Get.back();
+                                          if (_profileController.friendActionSelect.value == 'Unfriend') {
+                                            await _friendController.unfriendUserRequest();
+                                          }
+                                          if (_profileController.friendActionSelect.value == 'Unfollow') {
+                                            await _friendController.unfollowUser();
+                                          }
+                                          if (_profileController.friendActionSelect.value == 'Follow') {
+                                            await _friendController.followUser();
+                                          }
+                                          _profileController.friendActionSelect.value = '';
+                                        },
+                                        rightText: ksDone.tr,
+                                        rightTextStyle: regular14TextStyle(cPrimaryColor),
+                                        title: ksAction.tr,
+                                        isRightButtonShow: true,
+                                        bottomSheetHeight: 250,
+                                      );
+                                    },
+                                    icon: BipHip.system),
                               ),
                             ),
                           );
@@ -676,23 +673,42 @@ class _FriendActionContent extends StatelessWidget {
                     height: h28,
                     width: h28,
                     child: Icon(
-                      profileController.friendActionList[index]['icon'],
+                      friendController.allFriendFollowStatus.value == 1
+                          ? profileController.friendActionList[index]['icon']
+                          : friendController.friendFollowActionList[index]['icon'],
                       color: cBlackColor,
                       size: isDeviceScreenLarge() ? h18 : h14,
                     ),
                   ),
-                  title: profileController.friendActionList[index]['action'],
-                  subtitle: profileController.friendActionList[index]['actionSubtitle'],
+                  title: friendController.allFriendFollowStatus.value == 1
+                      ? profileController.friendActionList[index]['action']
+                      : friendController.friendFollowActionList[index]['action'],
+                  subtitle: friendController.allFriendFollowStatus.value == 1
+                      ? profileController.friendActionList[index]['actionSubtitle']
+                      : friendController.friendFollowActionList[index]['actionSubtitle'],
                   trailing: CustomRadioButton(
                     onChanged: () {
-                      profileController.friendActionSelect.value = profileController.friendActionList[index]['action'];
+                      if (friendController.allFriendFollowStatus.value == 1) {
+                        profileController.friendActionSelect.value = profileController.friendActionList[index]['action'];
+                      } else if (friendController.allFriendFollowStatus.value == 0) {
+                        profileController.friendActionSelect.value = friendController.friendFollowActionList[index]['action'];
+                      }
                     },
-                    isSelected: profileController.friendActionSelect.value == profileController.friendActionList[index]['action'],
+                    isSelected: friendController.allFriendFollowStatus.value == 1
+                        ? profileController.friendActionSelect.value == profileController.friendActionList[index]['action']
+                        : profileController.friendActionSelect.value == friendController.friendFollowActionList[index]['action'],
                   ),
-                  itemColor:
-                      profileController.friendActionSelect.value == profileController.friendActionList[index]['action'] ? cPrimaryTint3Color : cWhiteColor,
+                  itemColor: friendController.allFriendFollowStatus.value == 1
+                      ? (profileController.friendActionSelect.value == profileController.friendActionList[index]['action'] ? cPrimaryTint3Color : cWhiteColor)
+                      : (profileController.friendActionSelect.value == friendController.friendFollowActionList[index]['action']
+                          ? cPrimaryTint3Color
+                          : cWhiteColor),
                   onPressed: () {
-                    profileController.friendActionSelect.value = profileController.friendActionList[index]['action'];
+                    if (friendController.allFriendFollowStatus.value == 1) {
+                      profileController.friendActionSelect.value = profileController.friendActionList[index]['action'];
+                    } else if (friendController.allFriendFollowStatus.value == 0) {
+                      profileController.friendActionSelect.value = friendController.friendFollowActionList[index]['action'];
+                    }
                   },
                 ),
               ),

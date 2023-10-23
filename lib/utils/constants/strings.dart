@@ -336,4 +336,5 @@ const String ksNoImageAvailable = "No image available";
 const String ksNoDataAvailable = "No data available";
 const String ksNA = "NA";
 const String ksBlock='Block';
+const String ksFollow='Follow';
 
