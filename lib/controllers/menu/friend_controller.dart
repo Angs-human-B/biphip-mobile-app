@@ -221,6 +221,7 @@ class FriendController extends GetxController {
         for (int index = 0; index <= receivedFriendList.length; index++) {
           if (userId.value == receivedFriendList[index].id) {
             receivedFriendList.removeAt(index);
+            receivedRequestCount.value--;
           }
         }
         isAcceptFriendRequestLoading.value = false;
