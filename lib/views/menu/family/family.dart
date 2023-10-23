@@ -287,43 +287,69 @@ class PendingFamilyList extends StatelessWidget {
     return Obx(
       () => _familyController.isSendFamilyRequestListLoading.value
           ? const PendingFamilyListShimmer()
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-              child: ListView.builder(
-                itemCount: _familyController.sendFamilyRequestList.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: k10Padding),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                      child: TextButton(
-                        style: kTextButtonStyle,
-                        onPressed: () async {
-                          // ll(index);
-                        },
-                        child: CustomSingleButtonListViewItem(
-                          backgroundImage: _familyController.sendFamilyRequestList[index].profilePicture.toString(),
-                          imageSize: h45,
-                          name: _familyController.sendFamilyRequestList[index].fullName.toString(),
-                          subTitle: ksBrotherPending.tr,
-                          buttonText: ksCancelRequest.tr,
-                          buttonOnPressed: () async {
-                            _familyController.userId.value = _familyController.sendFamilyRequestList[index].id!;
-                            await _familyController.cancelFamilyRequest();
-                          },
-                          buttonColor: cWhiteColor,
-                          borderColor: cRedColor,
-                          textStyle: semiBold14TextStyle(cRedColor),
-                          buttonWidth: 147,
+          : _familyController.sendFamilyRequestList.isNotEmpty
+              ? NotificationListener<ScrollNotification>(
+                  onNotification: (scrollNotification) {
+                    if (_familyController.sendFamilyListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                        scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
+                        !_familyController.sendFamilyListScrolled.value) {
+                      _familyController.sendFamilyListScrolled.value = true;
+                      if (_familyController.sendFamilyRequestList.isNotEmpty) {
+                        _familyController.getMoreSendFamilyList(null);
+                      }
+                      return true;
+                    }
+                    return false;
+                  },
+                  child: SingleChildScrollView(
+                    controller: _familyController.sendFamilyListScrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                          child: ListView.builder(
+                            itemCount: _familyController.sendFamilyRequestList.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: k10Padding),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                                  child: TextButton(
+                                    style: kTextButtonStyle,
+                                    onPressed: () async {
+                                      // ll(index);
+                                    },
+                                    child: CustomSingleButtonListViewItem(
+                                      backgroundImage: _familyController.sendFamilyRequestList[index].profilePicture.toString(),
+                                      imageSize: h45,
+                                      name: _familyController.sendFamilyRequestList[index].fullName.toString(),
+                                      subTitle: ksBrotherPending.tr,
+                                      buttonText: ksCancelRequest.tr,
+                                      buttonOnPressed: () async {
+                                        _familyController.userId.value = _familyController.sendFamilyRequestList[index].id!;
+                                        await _familyController.cancelFamilyRequest();
+                                      },
+                                      buttonColor: cWhiteColor,
+                                      borderColor: cRedColor,
+                                      textStyle: semiBold14TextStyle(cRedColor),
+                                      buttonWidth: 147,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                      ),
+                        if (_familyController.sendFamilyRequestList.isNotEmpty && !_familyController.sendFamilyListScrolled.value)
+                          const Center(child: CircularProgressIndicator()),
+                      ],
                     ),
-                  );
-                },
-              ),
-            ),
+                  ),
+                )
+              : EmptyView(height: height * 0.5, title: ksNofamilyRequestSendYet.tr),
     );
   }
 }

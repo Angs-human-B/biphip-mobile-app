@@ -104,7 +104,8 @@ class FamilyController extends GetxController {
       ll('getMoreFamilyList error: $e');
     }
   }
-    //*Received Scroll controller for pagination
+
+  //*Received Scroll controller for pagination
   final ScrollController receivedFamilyListScrollController = ScrollController();
   //*Received Family List Api Call
   Rx<CommonFamilySendReceiveModel?> receivedFamilyListData = Rx<CommonFamilySendReceiveModel?>(null);
@@ -149,7 +150,6 @@ class FamilyController extends GetxController {
       ll('getReceivedFamilyList error: $e');
     }
   }
-
 
   //*Get More Received Family List for pagination
   Future<void> getMoreReceivedFamilyList(take) async {
@@ -277,23 +277,35 @@ class FamilyController extends GetxController {
     }
   }
 
+  //*Send Request Scroll controller for pagination
+  final ScrollController sendFamilyListScrollController = ScrollController();
   //* Family Request Send List(Pending)
   Rx<CommonFamilySendReceiveModel?> sendFamilyRequestData = Rx<CommonFamilySendReceiveModel?>(null);
   RxList<FriendFamilyUserData> sendFamilyRequestList = RxList<FriendFamilyUserData>([]);
+  final Rx<String?> sendFamilyListSubLink = Rx<String?>(null);
+  final RxBool sendFamilyListScrolled = RxBool(false);
   final RxBool isSendFamilyRequestListLoading = RxBool(false);
   Future<void> getSendFamilyRequestList() async {
     try {
       isSendFamilyRequestListLoading.value = true;
+      String suffixUrl = '?take=1';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: kuGetFamilyRequestSendList,
+        url: kuGetFamilyRequestSendList + suffixUrl,
       ) as CommonDM;
       if (response.success == true) {
         sendFamilyRequestList.clear();
+        sendFamilyListScrolled.value = false;
         sendFamilyRequestData.value = CommonFamilySendReceiveModel.fromJson(response.data);
         sendFamilyRequestList.addAll(sendFamilyRequestData.value!.users!.data);
+        sendFamilyListSubLink.value = sendFamilyRequestData.value!.users!.nextPageUrl;
+        if (sendFamilyListSubLink.value != null) {
+          sendFamilyListScrolled.value = false;
+        } else {
+          sendFamilyListScrolled.value = true;
+        }
         isSendFamilyRequestListLoading.value = false;
       } else {
         isSendFamilyRequestListLoading.value = false;
@@ -307,6 +319,53 @@ class FamilyController extends GetxController {
     } catch (e) {
       isSendFamilyRequestListLoading.value = false;
       ll('getSendFamilyRequestList error: $e');
+    }
+  }
+
+  //*Get More Received Family List for pagination
+  Future<void> getMoreSendFamilyList(take) async {
+    try {
+      String? token = await _spController.getBearerToken();
+      dynamic sendFamilyListSub;
+
+      if (sendFamilyListSubLink.value == null) {
+        return;
+      } else {
+        sendFamilyListSub = sendFamilyListSubLink.value!.split('?');
+      }
+
+      String sendFamilyListSuffixUrl = '';
+
+      sendFamilyListSuffixUrl = '?${sendFamilyListSub[1]}&take=1';
+
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetFamilyRequestSendList + sendFamilyListSuffixUrl,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        sendFamilyRequestData.value = CommonFamilySendReceiveModel.fromJson(response.data);
+        sendFamilyRequestList.addAll(sendFamilyRequestData.value!.users!.data);
+        sendFamilyListSubLink.value = sendFamilyRequestData.value!.users!.nextPageUrl;
+        if (sendFamilyListSubLink.value != null) {
+          sendFamilyListScrolled.value = false;
+        } else {
+          sendFamilyListScrolled.value = true;
+        }
+        isSendFamilyRequestListLoading.value = false;
+      } else {
+        isSendFamilyRequestListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isSendFamilyRequestListLoading.value = false;
+      ll('getMoreSendFamilyList error: $e');
     }
   }
 
