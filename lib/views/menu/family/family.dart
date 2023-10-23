@@ -209,7 +209,10 @@ class ReceivedFamilyList extends StatelessWidget {
                             _familyController.familyId.value = _familyController.receivedFamilyList[index].id!;
                             await _familyController.acceptFamilyRequest();
                           },
-                          secondButtonOnPressed: () {},
+                          secondButtonOnPressed: () async {
+                            _familyController.familyId.value = _familyController.receivedFamilyList[index].id!;
+                            await _familyController.rejectFamilyRequest();
+                          },
                         ),
                       ),
                     ),

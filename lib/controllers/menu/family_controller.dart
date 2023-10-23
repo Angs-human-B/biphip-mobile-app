@@ -190,7 +190,7 @@ class FamilyController extends GetxController {
       isRejectFamilyRequestLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
-        'user_id': familyId.value.toString(),
+        'family_id': familyId.value.toString(),
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
