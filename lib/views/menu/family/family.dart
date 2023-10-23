@@ -210,44 +210,70 @@ class ReceivedFamilyList extends StatelessWidget {
     return Obx(
       () => _familyController.isReceivedFamilyListLoading.value
           ? const CommonFamilyShimmer()
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-              child: ListView.builder(
-                itemCount: _familyController.receivedFamilyList.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: k16Padding),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                      child: TextButton(
-                        style: kTextButtonStyle,
-                        onPressed: () async {
-                          // ll(index);
-                        },
-                        child: CustomListViewItem(
-                          backgroundImage: _familyController.receivedFamilyList[index].profilePicture.toString(),
-                          imageSize: h50,
-                          name: _familyController.receivedFamilyList[index].fullName.toString(),
-                          subTitle: ksGotRequestToBeABrother.tr,
-                          firstButtonText: ksConfirm.tr,
-                          secondButtonText: ksCancel.tr,
-                          firstButtonOnPressed: () async {
-                            _familyController.userId.value = _familyController.receivedFamilyList[index].id!;
-                            await _familyController.acceptFamilyRequest();
-                          },
-                          secondButtonOnPressed: () async {
-                            _familyController.userId.value = _familyController.receivedFamilyList[index].id!;
-                            await _familyController.rejectFamilyRequest();
-                          },
+          : _familyController.receivedFamilyList.isNotEmpty
+              ? NotificationListener<ScrollNotification>(
+                  onNotification: (scrollNotification) {
+                    if (_familyController.receivedFamilyListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                        scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
+                        !_familyController.receivedFamilyListScrolled.value) {
+                      _familyController.receivedFamilyListScrolled.value = true;
+                      if (_familyController.receivedFamilyList.isNotEmpty) {
+                        _familyController.getMoreReceivedFamilyList(null);
+                      }
+                      return true;
+                    }
+                    return false;
+                  },
+                  child: SingleChildScrollView(
+                    controller: _familyController.receivedFamilyListScrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                          child: ListView.builder(
+                            itemCount: _familyController.receivedFamilyList.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: k16Padding),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                                  child: TextButton(
+                                    style: kTextButtonStyle,
+                                    onPressed: () async {
+                                      // ll(index);
+                                    },
+                                    child: CustomListViewItem(
+                                      backgroundImage: _familyController.receivedFamilyList[index].profilePicture.toString(),
+                                      imageSize: h50,
+                                      name: _familyController.receivedFamilyList[index].fullName.toString(),
+                                      subTitle: ksGotRequestToBeABrother.tr,
+                                      firstButtonText: ksConfirm.tr,
+                                      secondButtonText: ksCancel.tr,
+                                      firstButtonOnPressed: () async {
+                                        _familyController.userId.value = _familyController.receivedFamilyList[index].id!;
+                                        await _familyController.acceptFamilyRequest();
+                                      },
+                                      secondButtonOnPressed: () async {
+                                        _familyController.userId.value = _familyController.receivedFamilyList[index].id!;
+                                        await _familyController.rejectFamilyRequest();
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                      ),
+                        if (_familyController.receivedFamilyList.isNotEmpty && !_familyController.receivedFamilyListScrolled.value)
+                          const Center(child: CircularProgressIndicator()),
+                      ],
                     ),
-                  );
-                },
-              ),
-            ),
+                  ),
+                )
+              : EmptyView(height: height * 0.5, title: ksNofamilyRequestReceivedYet.tr),
     );
   }
 }

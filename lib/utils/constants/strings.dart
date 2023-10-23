@@ -340,4 +340,7 @@ const String ksFollow='Follow';
 const String ksNoFriendAddedYet = "No friend added yet";
 const String ksNoFriendRequestReceivedYet = "No friend request received yet";
 const String ksNoFriendRequestSendYet = "No friend request send yet";
+const String ksNofamilyAddedYet = "No family added yet";
+const String ksNofamilyRequestReceivedYet = "No family request received yet";
+const String ksNofamilyRequestSendYet = "No family request send yet";
 
