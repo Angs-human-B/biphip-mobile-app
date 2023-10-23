@@ -341,7 +341,11 @@ class FriendController extends GetxController {
             friendList[index].followStatus = 0;
           }
         }
-       
+        for (int index = 0; index < sendFriendRequestList.length; index++) {
+          if (userId.value == sendFriendRequestList[index].id) {
+            sendFriendRequestList[index].followStatus = 0;
+          }
+        }
         isUnfollowUserLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -380,7 +384,11 @@ class FriendController extends GetxController {
             friendList[index].followStatus = 1;
           }
         }
-       
+        for (int index = 0; index < sendFriendRequestList.length; index++) {
+          if (userId.value == sendFriendRequestList[index].id) {
+            sendFriendRequestList[index].followStatus = 1;
+          }
+        }
         isFollowUserLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -708,6 +716,7 @@ class FriendController extends GetxController {
     {'icon': BipHip.user, 'action': 'Follow', 'actionSubtitle': 'Follow this user'}
   ]);
   final RxInt allFriendFollowStatus = RxInt(-1);
+  final RxInt pendingFriendFollowStatus = RxInt(-1);
   //*Follow All friend list
   final RxList friendFollowActionList = RxList([
     {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
