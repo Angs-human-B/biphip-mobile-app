@@ -217,9 +217,11 @@ class FamilyController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        for (int index = 0; index <= receivedFamilyList.length; index++) {
-          receivedFamilyList.removeAt(index);
-          receivedRequestCount.value--;
+        for (int index = 0; index < receivedFamilyList.length; index++) {
+          if (userId.value == receivedFamilyList[index].id) {
+            receivedFamilyList.removeAt(index);
+            receivedRequestCount.value--;
+          }
         }
         isAcceptFamilyRequestLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -257,9 +259,11 @@ class FamilyController extends GetxController {
 
       if (response.success == true) {
         isRejectFamilyRequestLoading.value = false;
-        for (int index = 0; index <= receivedFamilyList.length; index++) {
-          receivedFamilyList.removeAt(index);
-          receivedRequestCount.value--;
+        for (int index = 0; index < receivedFamilyList.length; index++) {
+          if (userId.value == receivedFamilyList[index].id) {
+            receivedFamilyList.removeAt(index);
+            receivedRequestCount.value--;
+          }
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -386,7 +390,9 @@ class FamilyController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         for (int index = 0; index < sendFamilyRequestList.length; index++) {
-          sendFamilyRequestList.removeAt(index);
+          if (userId.value == sendFamilyRequestList[index].id) {
+            sendFamilyRequestList.removeAt(index);
+          }
         }
         isCancelFamilyRequestLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -439,24 +445,23 @@ class FamilyController extends GetxController {
   }
 
   //*Send Family Request
+  final RxInt relationStatusId = RxInt(-1);
   final RxBool isSendFamilyRequestLoading = RxBool(false);
   Future<void> sendFamilyRequest() async {
     try {
       isSendFamilyRequestLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
-        'family_id': userId.value.toString(),
+        'family_id': _profileController.searchController.text.trim(),
+        'relation_id': relationStatusId.value.toString(),
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
-        url: kuSendFriendRequest,
+        url: kuSendFamilyRequest,
         body: body,
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        for (int index = 0; index <= addFamilyRequestList.length; index++) {
-          sendFamilyRequestList.removeAt(index);
-        }
         isSendFamilyRequestLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
