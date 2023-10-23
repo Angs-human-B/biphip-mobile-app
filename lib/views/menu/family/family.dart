@@ -2,7 +2,9 @@ import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/friends/friends.dart';
+import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
+import 'package:flutter/rendering.dart';
 
 class Family extends StatelessWidget {
   Family({super.key});
@@ -136,39 +138,65 @@ class AllFamilyList extends StatelessWidget {
     return Obx(
       () => _familyController.isFamilyListLoading.value
           ? const CommonFamilyShimmer()
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-              child: ListView.builder(
-                itemCount: _familyController.familyList.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: k16Padding),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                      child: TextButton(
-                        style: kTextButtonStyle,
-                        onPressed: () async {
-                          // ll(index);
-                        },
-                        child: CustomListViewItem(
-                          backgroundImage: _familyController.familyList[index].profilePicture.toString(),
-                          imageSize: h50,
-                          name: _familyController.familyList[index].fullName.toString(),
-                          icon: BipHip.relation,
-                          subTitle: ksBrother.tr,
-                          firstButtonText: ksMessage.tr,
-                          secondButtonText: ksBlock.tr,
-                          firstButtonOnPressed: () {},
-                          secondButtonOnPressed: () {},
+          : _familyController.familyList.isNotEmpty
+              ? NotificationListener<ScrollNotification>(
+                  onNotification: (scrollNotification) {
+                    if (_familyController.familyListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                        scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
+                        !_familyController.familyListScrolled.value) {
+                      _familyController.familyListScrolled.value = true;
+                      if (_familyController.familyList.isNotEmpty) {
+                        _familyController.getMoreFamilyList(null);
+                      }
+                      return true;
+                    }
+                    return false;
+                  },
+                  child: SingleChildScrollView(
+                    controller: _familyController.familyListScrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                          child: ListView.builder(
+                            itemCount: _familyController.familyList.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: k16Padding),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                                  child: TextButton(
+                                    style: kTextButtonStyle,
+                                    onPressed: () async {
+                                      // ll(index);
+                                    },
+                                    child: CustomListViewItem(
+                                      backgroundImage: _familyController.familyList[index].profilePicture.toString(),
+                                      imageSize: h50,
+                                      name: _familyController.familyList[index].fullName.toString(),
+                                      icon: BipHip.relation,
+                                      subTitle: ksBrother.tr,
+                                      firstButtonText: ksMessage.tr,
+                                      secondButtonText: ksBlock.tr,
+                                      firstButtonOnPressed: () {},
+                                      secondButtonOnPressed: () {},
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                      ),
+                        if (_familyController.familyList.isNotEmpty && !_familyController.familyListScrolled.value)
+                          const Center(child: CircularProgressIndicator()),
+                      ],
                     ),
-                  );
-                },
-              ),
-            ),
+                  ),
+                )
+              : EmptyView(height: height * 0.5, title: ksNoDataAvailable.tr),
     );
   }
 }

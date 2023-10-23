@@ -20,7 +20,7 @@ class FamilyController extends GetxController {
   Future<void> getFamilyList() async {
     try {
       isFamilyListLoading.value = true;
-      String suffixUrl = '?take=15';
+      String suffixUrl = '?take=1';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -32,7 +32,7 @@ class FamilyController extends GetxController {
         familyListScrolled.value = false;
         familyData.value = CommonFamilyModel.fromJson(response.data);
         familyList.addAll(familyData.value!.families!.data);
-        allFamilyCount.value = familyList.length;
+        allFamilyCount.value = familyData.value!.families!.total!;
         familyListSubLink.value = familyData.value!.families!.nextPageUrl;
         if (familyListSubLink.value != null) {
           familyListScrolled.value = false;
@@ -70,19 +70,19 @@ class FamilyController extends GetxController {
 
       String familyListSuffixUrl = '';
 
-      familyListSuffixUrl = '?${familyListSub[1]}&take=15';
+      familyListSuffixUrl = '?${familyListSub[1]}&take=1';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: kuGetFriendList + familyListSuffixUrl,
+        url: kuGetFamilyList + familyListSuffixUrl,
       ) as CommonDM;
 
       if (response.success == true) {
         familyData.value = CommonFamilyModel.fromJson(response.data);
         ll(familyData.value);
         familyList.addAll(familyData.value!.families!.data);
-        allFamilyCount.value = familyList.length;
+        allFamilyCount.value = familyData.value!.families!.total!;
         familyListSubLink.value = familyData.value!.families!.nextPageUrl;
         if (familyListSubLink.value != null) {
           familyListScrolled.value = false;
