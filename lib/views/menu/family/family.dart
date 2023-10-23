@@ -205,7 +205,10 @@ class ReceivedFamilyList extends StatelessWidget {
                           subTitle: ksGotRequestToBeABrother.tr,
                           firstButtonText: ksConfirm.tr,
                           secondButtonText: ksCancel.tr,
-                          firstButtonOnPressed: () {},
+                          firstButtonOnPressed: () async {
+                            _familyController.familyId.value = _familyController.receivedFamilyList[index].id!;
+                            await _familyController.acceptFamilyRequest();
+                          },
                           secondButtonOnPressed: () {},
                         ),
                       ),
