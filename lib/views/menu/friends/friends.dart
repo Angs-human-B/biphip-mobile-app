@@ -686,7 +686,7 @@ class _FriendActionContent extends StatelessWidget {
                       }
                     },
                     isSelected: friendController.allFriendFollowStatus.value == 1
-                        ? profileController.friendActionSelect.value == profileController.friendActionList[index]['action']
+                        ? (profileController.friendActionSelect.value == profileController.friendActionList[index]['action'])
                         : profileController.friendActionSelect.value == friendController.friendFollowActionList[index]['action'],
                   ),
                   itemColor: friendController.allFriendFollowStatus.value == 1
