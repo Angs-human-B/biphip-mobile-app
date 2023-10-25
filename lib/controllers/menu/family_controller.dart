@@ -479,8 +479,10 @@ class FamilyController extends GetxController {
       ll('sendFamilyRequest error: $e');
     }
   }
+
   //*Get Family Relation Status
-    Rx<FamilyRelationModel?> familyRelationListData = Rx<FamilyRelationModel?>(null);
+  final Rx<FamilyRelationModel?> familyRelationListData = Rx<FamilyRelationModel?>(null);
+  final RxList<Relation> familyRelationList = RxList<Relation>([]);
   RxBool isFamilyRelationListLoading = RxBool(false);
   Future<void> getFamilyRelationList() async {
     try {
@@ -492,9 +494,9 @@ class FamilyController extends GetxController {
         url: kuGetAllFamilyRelations,
       ) as CommonDM;
       if (response.success == true) {
-        // genderList.clear();
+        familyRelationList.clear();
         familyRelationListData.value = FamilyRelationModel.fromJson(response.data);
-        // genderList.addAll(genderListData.value!.genders);
+        familyRelationList.addAll(familyRelationListData.value!.relations);
         isFamilyRelationListLoading.value = false;
       } else {
         isFamilyRelationListLoading.value = false;
@@ -511,4 +513,24 @@ class FamilyController extends GetxController {
     }
   }
 
+  final RxString relation = RxString("");
+  // final RxList relationListState = RxList([]);
+  //   void initializeSelectedRelationText() {
+  //   for (int i = 0; i < familyRelationList.length; i++) {
+  //     if (familyRelationList[i].name == relation.value) {
+  //       relationListState[i] = true;
+  //     } else {
+  //       relationListState[i] = false;
+  //     }
+  //   }
+  // }
+  //   void relationStatusChange(index) {
+  //   for (int i = 0; i < relationListState.length; i++) {
+  //     if (index == i) {
+  //       relationListState[i] = true;
+  //     } else {
+  //       relationListState[i] = false;
+  //     }
+  //   }
+  // }
 }

@@ -360,29 +360,29 @@ class PendingFamilyList extends StatelessWidget {
 
 class RelationContent extends StatelessWidget {
   RelationContent({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
+  final FamilyController _familyController = Get.find<FamilyController>();
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: _profileController.relationList.length,
+      itemCount: _familyController.familyRelationList.length,
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.only(bottom: k10Padding),
           child: Obx(
             () => CustomListTile(
-              itemColor: _profileController.relationListState[index] ? cPrimaryTint3Color : cWhiteColor,
+              itemColor: _familyController.relationStatusId.value == index ? cPrimaryTint3Color : cWhiteColor,
               onPressed: () {
-                _profileController.relationStatusChange(index);
+                _familyController.relationStatusId.value = index;
               },
-              title: _profileController.relationList[index],
-              borderColor: _profileController.relationListState[index] ? cPrimaryColor : cLineColor,
+              title: _familyController.familyRelationList[index].name,
+              borderColor: _familyController.relationStatusId.value == index ? cPrimaryColor : cLineColor,
               trailing: CustomRadioButton(
                 onChanged: () {
-                  _profileController.relationStatusChange(index);
+                  _familyController.relationStatusId.value = index;
                 },
-                isSelected: _profileController.relationListState[index],
+                isSelected: _familyController.relationStatusId.value == index,
               ),
             ),
           ),

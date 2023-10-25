@@ -6,7 +6,6 @@ import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 
 class AddFamily extends StatelessWidget {
   AddFamily({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
   final FamilyController _familyController = Get.find<FamilyController>();
   @override
   Widget build(BuildContext context) {
@@ -59,28 +58,34 @@ class AddFamily extends StatelessWidget {
               kH12sizedBox,
               CustomSelectionButton(
                 hintText: ksSelectRelation.tr,
-                text: Get.find<ProfileController>().relation.value == "" ? '' : Get.find<ProfileController>().relation.value,
-                onPressed: () {
+                text: _familyController.relation.value == "" ? '' : _familyController.relation.value,
+                onPressed: () async {
                   unFocus(context);
-                  Get.find<ProfileController>().initializeSelectedRelationText();
+                  _familyController.isFamilyRelationListLoading.value = true;
                   Get.find<GlobalController>().commonBottomSheet(
                     context: context,
                     isScrollControlled: true,
                     isSearchShow: false,
                     bottomSheetHeight: height * .9,
-                    content: RelationContent(),
+                    content: Obx(() => _familyController.isFamilyRelationListLoading.value ? const RelationContentShimmer() : RelationContent()),
                     onPressCloseButton: () {
                       Get.back();
                     },
                     onPressRightButton: () {
-                      _profileController.selectRelationTextChange();
-                      // _familyController.getFamilyRelationList();
-                      for (int i = 0; i < _profileController.relationListState.length; i++) {
-                        if (_profileController.relationListState[i]) {
-                          _familyController.relationStatusId.value = i + 1;
-                          break;
+                      _familyController.isFamilyRelationListLoading.value = true;
+                      for (int index = 0; index < _familyController.familyRelationList.length; index++) {
+                        if (_familyController.relationStatusId.value == index) {
+                          _familyController.relation.value = _familyController.familyRelationList[index].name;
                         }
                       }
+                      // _profileController.selectRelationTextChange();
+                      // _familyController.getFamilyRelationList();
+                      // for (int i = 0; i < _profileController.relationListState.length; i++) {
+                      //   if (_profileController.relationListState[i]) {
+                      //     _familyController.relationStatusId.value = i + 1;
+                      //     break;
+                      //   }
+                      // }
                       Get.back();
                     },
                     rightText: ksOk.tr,
@@ -88,6 +93,7 @@ class AddFamily extends StatelessWidget {
                     title: ksSelectRelation.tr,
                     isRightButtonShow: true,
                   );
+                  await _familyController.getFamilyRelationList();
                 },
               ),
               // kH20sizedBox,
@@ -122,35 +128,29 @@ class AddFamily extends StatelessWidget {
   }
 }
 
-class FamilyRelationListShimmer extends StatelessWidget {
-  const FamilyRelationListShimmer({
-    Key? key,
-  }) : super(key: key);
+class RelationContentShimmer extends StatelessWidget {
+  const RelationContentShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: 50,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: ShimmerCommon(
-                widget: Container(
-                  height: 20,
-                  decoration: BoxDecoration(
-                    borderRadius: k8CircularBorderRadius,
-                    color: cWhiteColor,
-                  ),
-                ),
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: 50,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: ShimmerCommon(
+            widget: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                borderRadius: k8CircularBorderRadius,
+                color: cWhiteColor,
               ),
-              contentPadding: EdgeInsets.zero,
-            );
-          },
-        ),
-      ],
+            ),
+          ),
+          contentPadding: EdgeInsets.zero,
+        );
+      },
     );
   }
 }
