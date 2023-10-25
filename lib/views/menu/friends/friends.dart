@@ -387,6 +387,7 @@ class AllFriendList extends StatelessWidget {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(k8BorderRadius),
                                   child: CustomListTile(
+                                    padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k8Padding).copyWith(right: k0Padding),
                                     borderColor: cLineColor,
                                     leading: Container(
                                       height: h40,
@@ -574,6 +575,7 @@ class PendingFriendList extends StatelessWidget {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(k8BorderRadius),
                                   child: CustomListTile(
+                                    padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k8Padding).copyWith(right: k0Padding),
                                     borderColor: cLineColor,
                                     leading: Container(
                                       height: h40,
