@@ -22,6 +22,7 @@ class AddFamily extends StatelessWidget {
           hasBackButton: true,
           isCenterTitle: true,
           onBack: () {
+            Get.find<ProfileController>().searchController.clear();
             Get.back();
           },
           action: [
@@ -31,8 +32,9 @@ class AddFamily extends StatelessWidget {
                 style: kTextButtonStyle,
                 onPressed: () async {
                   unfocus(context);
+                  Get.find<ProfileController>().searchController.clear();
+                  Get.back();
                   await _familyController.sendFamilyRequest();
-                  // Get.back();
                 },
                 child: Text(
                   ksSend.tr,
@@ -57,7 +59,6 @@ class AddFamily extends StatelessWidget {
                 },
                 onSelected: (option) {
                   profileController.searchController.text = option;
-                  ll(option);
                 },
                 optionsViewBuilder: (context, Function(String) onSelected, options) {
                   return Align(
@@ -141,14 +142,7 @@ class AddFamily extends StatelessWidget {
                           _familyController.relation.value = _familyController.familyRelationList[index].name;
                         }
                       }
-                      // _profileController.selectRelationTextChange();
-                      // _familyController.getFamilyRelationList();
-                      // for (int i = 0; i < _profileController.relationListState.length; i++) {
-                      //   if (_profileController.relationListState[i]) {
-                      //     _familyController.relationStatusId.value = i + 1;
-                      //     break;
-                      //   }
-                      // }
+
                       Get.back();
                     },
                     rightText: ksOk.tr,

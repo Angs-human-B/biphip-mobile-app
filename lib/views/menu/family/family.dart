@@ -1,4 +1,3 @@
-import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -183,9 +182,9 @@ class AllFamilyList extends StatelessWidget {
                                     child: CustomListViewItem(
                                       backgroundImage: _familyController.familyList[index].profilePicture.toString(),
                                       imageSize: h50,
-                                      name: _familyController.familyList[index].fullName.toString(),
+                                      name: _familyController.familyList[index].fullName ?? ksNA.tr,
                                       icon: BipHip.relation,
-                                      subTitle: ksBrother.tr,
+                                      subTitle: _familyController.familyList[index].familyRelationStatus ?? ksNA.tr,
                                       firstButtonText: ksMessage.tr,
                                       secondButtonText: ksBlock.tr,
                                       firstButtonOnPressed: () {},
@@ -255,8 +254,8 @@ class ReceivedFamilyList extends StatelessWidget {
                                     child: CustomListViewItem(
                                       backgroundImage: _familyController.receivedFamilyList[index].profilePicture.toString(),
                                       imageSize: h50,
-                                      name: _familyController.receivedFamilyList[index].fullName.toString(),
-                                      subTitle: ksGotRequestToBeABrother.tr,
+                                      name: _familyController.receivedFamilyList[index].fullName ?? ksNA.tr,
+                                      subTitle: _familyController.receivedFamilyList[index].familyRelationStatus ?? ksNA,
                                       firstButtonText: ksConfirm.tr,
                                       secondButtonText: ksCancel.tr,
                                       firstButtonOnPressed: () async {
