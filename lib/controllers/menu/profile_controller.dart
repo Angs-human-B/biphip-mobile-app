@@ -5,6 +5,7 @@ import 'package:bip_hip/models/menu/profile/profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/family/family.dart';
 import 'package:bip_hip/views/menu/friends/friends.dart';
+import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 
 class ProfileController extends GetxController with GetSingleTickerProviderStateMixin {
@@ -265,6 +266,18 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxString tempWorkplaceStartDate = RxString('');
   final RxString tempWorkplaceEndDate = RxString('');
   final RxBool isSingleDatePicker = RxBool(false);
+
+  String? schoolSubtitleText(DateTime? startDate, DateTime? endDate) {
+    if (startDate != null && endDate != null) {
+      return '${DateFormat("dd MMMM, yyyy").format(startDate)} - ${DateFormat("dd MMMM, yyyy").format(endDate)}';
+    } else if (startDate == null && endDate != null) {
+      return 'School year ${endDate.year}';
+    } else if (startDate != null && endDate == null) {
+      return 'In ${startDate.year}';
+    } else {
+      return null;
+    }
+  }
 
   void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
       showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function, startDate, endDate) {

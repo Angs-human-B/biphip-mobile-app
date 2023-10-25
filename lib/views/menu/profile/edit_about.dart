@@ -2,7 +2,6 @@ import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
-import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
@@ -171,6 +170,7 @@ class EditAboutInfo extends StatelessWidget {
                                     child: InfoContainer2(
                                       suffixText: checkNullOrStringNull(_profileController.schoolDataList[i].school),
                                       prefixText: _profileController.schoolDataList[i].ended != null ? 'Studied at' : 'Studies at',
+                                      subtitlePrefixText: _profileController.schoolSubtitleText(_profileController.schoolDataList[i].started, _profileController.schoolDataList[i].ended),
                                       isAddButton: false,
                                       suffixOnPressed: () async {
                                         _profileController.resetTextEditor();

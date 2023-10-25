@@ -1108,6 +1108,302 @@ class ProfilePageShimmer extends StatelessWidget {
   }
 }
 
+class ProfileShimmer2 extends StatelessWidget {
+  const ProfileShimmer2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      top: false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: cGreyBoxColor,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kAppBarSize),
+          //* info:: appBar
+          child: CustomAppBar(
+            appBarColor: cWhiteColor,
+            title: ShimmerCommon(
+              widget: Container(decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius), height: h20, width: width * 0.6),
+            ),
+            hasBackButton: true,
+            onBack: () {
+              Get.back();
+            },
+          ),
+        ),
+    body: SizedBox(
+      height: height,
+      width: width,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    height: 225,
+                    color: cWhiteColor,
+                  ),
+                   SizedBox(
+                        height: 150,
+                        width: width,
+                        child: ShimmerCommon(
+                          widget: Container(
+                            color: cWhiteColor,
+                          ),
+                        )),
+                  Positioned(
+                    bottom: 0,
+                    left: 20,
+                    child: Stack(
+                      children: [
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                            width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                            decoration: BoxDecoration(
+                              color: cBlackColor,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: cWhiteColor.withAlpha(500), width: 2),
+                            ),
+                            child: ClipOval(
+                              child: Image.network(
+                                Environment.imageBaseUrl,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  BipHip.user,
+                                  size: kIconSize70,
+                                  color: cIconColor,
+                                ),
+                                loadingBuilder: imageLoadingBuilder,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          right: 6,
+                          bottom: 10,
+                          child: TextButton(
+                            style: kTextButtonStyle,
+                            onPressed: () {},
+                            child: Container(
+                              height: h28,
+                              width: h28,
+                              decoration: BoxDecoration(
+                                color: cGreyBoxColor,
+                                borderRadius: BorderRadius.circular(26),
+                                border: Border.all(
+                                  color: cLineColor,
+                                ),
+                                // boxShadow: [
+                                //   BoxShadow(
+                                //     color: cBlackColor.withAlpha(100),
+                                //     offset: const Offset(
+                                //       1.0,
+                                //       1.0,
+                                //     ),
+                                //     blurRadius: 5.0,
+                                //     spreadRadius: 2.0,
+                                //   ),
+                                // ],
+                                // border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
+                              ),
+                              child: const Icon(
+                                BipHip.camera,
+                                color: cBlackColor,
+                                size: kIconSize14,
+                              ),
+                            ),
+                          ),
+                        ),
+                        //todo: badge
+                        Positioned(
+                          right: 6,
+                          top: 10,
+                          child: Container(
+                              height: h28,
+                              width: h28,
+                              decoration: BoxDecoration(
+                                color: cGreyBoxColor,
+                                borderRadius: BorderRadius.circular(26),
+                                border: Border.all(color: cPrimaryColor, width: 1),
+                              ),
+                              child: SvgPicture.asset(kiBadge1SvgImageUrl)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    right: 16,
+                    bottom: 60,
+                    child: TextButton(
+                      style: kTextButtonStyle,
+                      onPressed: () {},
+                      child: Container(
+                        height: h28,
+                        width: h28,
+                        decoration: BoxDecoration(
+                          color: cGreyBoxColor,
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //     color: cBlackColor.withAlpha(100),
+                          //     offset: const Offset(
+                          //       0.0,
+                          //       1.0,
+                          //     ),
+                          //     blurRadius: 5.0,
+                          //     spreadRadius: 2.0,
+                          //   ),
+                          // ],
+                          borderRadius: BorderRadius.circular(26),
+                          border: Border.all(
+                            color: cLineColor,
+                          ),
+                        ),
+                        child: const Icon(
+                          BipHip.camera,
+                          color: cBlackColor,
+                          size: kIconSize14,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                color: cWhiteColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    kH10sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: Text(
+                        'kjnkj',
+                        style: medium24TextStyle(cBlackColor),
+                      ),
+                    ),
+                    kH10sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.attach_money_sharp,
+                            color: cSecondaryColor,
+                            size: kIconSize14,
+                          ),
+                          Text(
+                            '2.57',
+                            style: medium14TextStyle(cSmallBodyTextColor),
+                          ),
+                          kW4sizedBox,
+                          const Icon(
+                            BipHip.giftNew,
+                            color: cSecondaryColor,
+                            size: kIconSize14,
+                          ),
+                          kW4sizedBox,
+                          Text(
+                            '457',
+                            style: medium14TextStyle(cSmallBodyTextColor),
+                          )
+                        ],
+                      ),
+                    ),
+                    kH12sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomElevatedButton(
+                            label: ksAddSelfie.tr,
+                            buttonHeight: 32,
+                            buttonWidth: 124,
+                            prefixIcon: BipHip.selfieNew,
+                            textStyle: semiBold18TextStyle(cWhiteColor),
+                            prefixIconSize: screenWiseSize(kIconSize18, 4),
+                            onPressed: () {},
+                          ),
+                          kW16sizedBox,
+                          CustomElevatedButton(
+                            label: ksEditProfile.tr,
+                            onPressed: () {
+                              Get.toNamed(krEditProfile);
+                            },
+                            prefixIcon: BipHip.edit,
+                            prefixIconColor: cBlackColor,
+                            prefixIconSize: screenWiseSize(kIconSize18, 4),
+                            buttonHeight: 32,
+                            buttonWidth: 124,
+                            buttonColor: cWhiteColor,
+                            textStyle: semiBold18TextStyle(cBlackColor),
+                          )
+                        ],
+                      ),
+                    ),
+                    kH16sizedBox,
+                  ],
+                ),
+              ),
+              kH12sizedBox,
+              DefaultTabController(
+                length: 2,
+                child: Column(
+                  children: [
+                    Container(
+                      color: cWhiteColor,
+                      height: 40,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                        child: TabBar(
+                          onTap: (value) {},
+                          // controller: _profileController.profileTabController,
+                          indicatorColor: cPrimaryColor,
+                          unselectedLabelColor: cSmallBodyTextColor,
+                          unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
+                          labelStyle: medium14TextStyle(cPrimaryColor),
+                          labelColor: cPrimaryColor,
+                          tabs: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                              child: Text(
+                                ksPosts.tr,
+                                // style: medium14TextStyle(cPrimaryColor),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                              child: Text(
+                                ksFriendsAndFamily.tr,
+                                // style: medium14TextStyle(cPrimaryColor),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // TabBarView(
+                    //   controller: _profileController.profileTabController,
+                    //   children: [PostTab(), FriendFamilyTab()],
+                    // )
+                  ],
+                ),
+              ),
+              kHBottomSizedBox
+            ],
+          ),
+        ),
+      ),
+    ),);
+  }
+}
+
 class GridViewShimmer extends StatelessWidget {
   const GridViewShimmer({super.key});
 
