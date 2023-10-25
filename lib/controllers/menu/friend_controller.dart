@@ -21,7 +21,7 @@ class FriendController extends GetxController {
   Future<void> getFriendList() async {
     try {
       isFriendListLoading.value = true;
-      String suffixUrl = '?take=1';
+      String suffixUrl = '?take=15';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -71,7 +71,7 @@ class FriendController extends GetxController {
 
       String friendListSuffixUrl = '';
 
-      friendListSuffixUrl = '?${friendListSub[1]}&take=1';
+      friendListSuffixUrl = '?${friendListSub[1]}&take=15';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -81,7 +81,6 @@ class FriendController extends GetxController {
 
       if (response.success == true) {
         friendListData.value = CommonFriendModel.fromJson(response.data);
-        ll(friendListData.value);
         friendList.addAll(friendListData.value!.friends!.data);
         allFriendCount.value = friendListData.value!.friends!.total!;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
@@ -119,7 +118,7 @@ class FriendController extends GetxController {
   Future<void> getReceivedFriendList() async {
     try {
       isReceivedFriendListLoading.value = true;
-      String suffixUrl = '?take=1';
+      String suffixUrl = '?take=15';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -168,7 +167,7 @@ class FriendController extends GetxController {
 
       String receivedFriendListSuffixUrl = '';
 
-      receivedFriendListSuffixUrl = '?${receivedFriendListSub[1]}&take=1';
+      receivedFriendListSuffixUrl = '?${receivedFriendListSub[1]}&take=15';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -222,6 +221,7 @@ class FriendController extends GetxController {
         for (int index = 0; index <= receivedFriendList.length; index++) {
           if (userId.value == receivedFriendList[index].id) {
             receivedFriendList.removeAt(index);
+            receivedRequestCount.value--;
           }
         }
         isAcceptFriendRequestLoading.value = false;
@@ -322,7 +322,6 @@ class FriendController extends GetxController {
 
   //*Unfollow User
   final RxBool isUnfollowUserLoading = RxBool(false);
-  final RxString followStatus = RxString('');
   Future<void> unfollowUser() async {
     try {
       isUnfollowUserLoading.value = true;
@@ -337,8 +336,17 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
+        for (int index = 0; index < friendList.length; index++) {
+          if (userId.value == friendList[index].id) {
+            friendList[index].followStatus = 0;
+          }
+        }
+        for (int index = 0; index < sendFriendRequestList.length; index++) {
+          if (userId.value == sendFriendRequestList[index].id) {
+            sendFriendRequestList[index].followStatus = 0;
+          }
+        }
         isUnfollowUserLoading.value = false;
-        followStatus.value = response.message.toString();
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isUnfollowUserLoading.value = false;
@@ -355,6 +363,49 @@ class FriendController extends GetxController {
     }
   }
 
+  //*Follow User
+  final RxBool isFollowUserLoading = RxBool(false);
+  Future<void> followUser() async {
+    try {
+      isFollowUserLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'user_id': userId.value.toString(),
+      };
+      var response = await _apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuFollowUser,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        for (int index = 0; index < friendList.length; index++) {
+          if (userId.value == friendList[index].id) {
+            friendList[index].followStatus = 1;
+          }
+        }
+        for (int index = 0; index < sendFriendRequestList.length; index++) {
+          if (userId.value == sendFriendRequestList[index].id) {
+            sendFriendRequestList[index].followStatus = 1;
+          }
+        }
+        isFollowUserLoading.value = false;
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isFollowUserLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFollowUserLoading.value = false;
+      ll('followUser error: $e');
+    }
+  }
+
   //*Scroll controller for pagination
   final ScrollController sendFriendListScrollController = ScrollController();
   //* Friend Request Send List(Pending)
@@ -366,7 +417,7 @@ class FriendController extends GetxController {
   Future<void> getSendFriendRequestList() async {
     try {
       isSendFriendRequestListLoading.value = true;
-      String suffixUrl = '?take=1';
+      String suffixUrl = '?take=15';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -414,7 +465,7 @@ class FriendController extends GetxController {
 
       String sendFriendListSuffixUrl = '';
 
-      sendFriendListSuffixUrl = '?${sendFriendListSub[1]}&take=1';
+      sendFriendListSuffixUrl = '?${sendFriendListSub[1]}&take=15';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -522,7 +573,6 @@ class FriendController extends GetxController {
             }
           }
         }
-        // addFriendRequestList.addAll(addFriendRequestData.value!.data);
         isSendRequest.clear();
         for (int index = 0; index < addFriendRequestList.length; index++) {
           if (addFriendRequestList[index].friendStatus == 2) {
@@ -530,9 +580,6 @@ class FriendController extends GetxController {
           } else if (addFriendRequestList[index].friendStatus == 0) {
             isSendRequest.add(true);
           }
-          // else {
-          //   isSendRequest.add(false);
-          // }
         }
         isAddFriendRequestListLoading.value = false;
       } else {
@@ -597,9 +644,6 @@ class FriendController extends GetxController {
           } else if (addFriendRequestList[index].friendStatus == 0) {
             isSendRequest.add(true);
           }
-          // else {
-          //   isSendRequest.add(false);
-          // }
         }
 
         isAddFriendRequestListLoading.value = false;
@@ -659,4 +703,17 @@ class FriendController extends GetxController {
     {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow this user'}
   ]);
   final RxString pendingFriendActionSelect = RxString('');
+  //*Follow Pending friend list
+  final RxList pendingFollowFriendActionList = RxList([
+    {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
+    {'icon': BipHip.user, 'action': 'Follow', 'actionSubtitle': 'Follow this user'}
+  ]);
+  final RxInt allFriendFollowStatus = RxInt(-1);
+  final RxInt pendingFriendFollowStatus = RxInt(-1);
+  //*Follow All friend list
+  final RxList friendFollowActionList = RxList([
+    {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
+    {'icon': BipHip.user, 'action': 'Follow', 'actionSubtitle': 'Follow your friend'},
+    {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
+  ]);
 }
