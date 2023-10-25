@@ -273,7 +273,23 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     } else if (startDate == null && endDate != null) {
       return 'School year ${endDate.year}';
     } else if (startDate != null && endDate == null) {
-      return 'In ${startDate.year}';
+      return '${DateFormat("dd MMMM, yyyy").format(startDate)} to present';
+    } else {
+      return null;
+    }
+  }
+
+  String? currentWorkSubtitleText(DateTime? startDate) {
+    if (startDate != null) {
+      return '${DateFormat("dd MMMM, yyyy").format(startDate)} - present';
+    } else {
+      return null;
+    }
+  }
+
+  String? previousWorkSubtitleText(DateTime? startDate, DateTime? endDate) {
+    if (startDate != null && endDate != null) {
+      return '${DateFormat("dd MMMM, yyyy").format(startDate)} - ${DateFormat("dd MMMM, yyyy").format(endDate)}';
     } else {
       return null;
     }
@@ -513,7 +529,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           tempSchoolEndDate.value);
     } else if (methodID == 8) {
       setEditPageValue(ksAddWorkplace.tr, false, BipHip.officeFill, companyNameTextEditingController, true, designationTextEditingController, ksOfficeName.tr,
-          true, true, true, isCurrentlyStudyingHere.value, ksCurrentlyWorkingHere.tr, 'ADD WORKPLACE', '', '');
+          true, true, false, true, ksCurrentlyWorkingHere.tr, 'ADD WORKPLACE', '', '');
     } else if (methodID == 9) {
       setEditPageValue(ksAddHomeTownAddress.tr, false, BipHip.location, homeTownTextEditingController, false, homeTownTextEditingController,
           ksEnterHometownAddress.tr, false, true, false, false, '', 'HOMETOWN', '', '');
@@ -556,6 +572,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       setEditPageValue(ksEditLink.tr, true, getLinkIcon(linkSource.value), linkTextEditingController, false, linkTextEditingController, ksEditLink.tr, false,
           true, false, false, '', 'EDIT LINK', '', '');
       // Get.back();
+    } else if (methodID == 17) {
+      setEditPageValue(ksAddWorkplace.tr, false, BipHip.officeFill, companyNameTextEditingController, true, designationTextEditingController, ksOfficeName.tr,
+          true, true, true, isCurrentlyStudyingHere.value, ksCurrentlyWorkingHere.tr, 'ADD WORKPLACE', '', '');
     }
     Get.toNamed(krEdit);
   }
@@ -599,21 +618,43 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   }
 
   void checkSaveButtonActive() {
-    if (functionFlag.contains('LINK')) {
+    if (functionFlag.value.contains('LINK')) {
       if (commonEditTextEditingController.text.trim() != '' && linkSource.value != '') {
         enableSaveButton.value = true;
       } else {
         enableSaveButton.value = false;
       }
-    } else if (functionFlag == 'ADD SCHOOL') {
+    } else if (functionFlag.value == 'ADD SCHOOL') {
       if (commonEditTextEditingController.text.trim() != '' && educationBackground.value != '') {
         enableSaveButton.value = true;
       } else {
         enableSaveButton.value = false;
       }
-    } else if (functionFlag.contains('EMAIL')) {
+    } else if (functionFlag.value.contains('EMAIL')) {
       if (commonEditTextEditingController.text.trim() != '' && commonEditTextEditingController.text.isValidEmail) {
         enableSaveButton.value = true;
+      } else {
+        enableSaveButton.value = false;
+      }
+    } else if (functionFlag.value.contains('WORKPLACE')) {
+      if (commonEditTextEditingController.text.trim() != '') {
+        if (!isCommonEditCheckBoxSelected.value) {
+          if (commonStartDate.value == '' && commonEndDate.value == '') {
+            enableSaveButton.value = true;
+          } else if (commonStartDate.value != '' && commonEndDate.value == '') {
+            enableSaveButton.value = false;
+          } else if (commonStartDate.value != '' && commonEndDate.value != '') {
+            enableSaveButton.value = true;
+          } else if (commonStartDate.value == '' && commonEndDate.value != '') {
+            enableSaveButton.value = false;
+          }
+        } else {
+          if (commonStartDate.value != '') {
+            enableSaveButton.value = true;
+          } else {
+            enableSaveButton.value = false;
+          }
+        }
       } else {
         enableSaveButton.value = false;
       }
@@ -717,7 +758,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     try {
       isEditProfileLoading.value = true;
       String? token = await _spController.getBearerToken();
-      Map<String, dynamic> body = {'city': presentAddressTextEditingController.text.trim(), if (isSingleDatePicker.value) 'moved': commonStartDate.value};
+      Map<String, dynamic> body = {'city': presentAddressTextEditingController.text.trim(), 'moved': commonStartDate.value};
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
         url: isCommonEditCheckBoxSelected.value ? kuSetCurrentCity : kuOtherCity,

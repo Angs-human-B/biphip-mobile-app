@@ -3,7 +3,6 @@ import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
-import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 import 'package:intl/intl.dart';
@@ -109,7 +108,7 @@ class EditAboutInfo extends StatelessWidget {
                                   ),
                                 kH12sizedBox,
                                 InfoContainer2(
-                                  suffixText: ksOther.tr,
+                                  suffixText: ksPreviousPlacesLived.tr,
                                   isAddButton: true,
                                   suffixOnPressed: () async {
                                     _profileController.resetTextEditor();
@@ -170,7 +169,8 @@ class EditAboutInfo extends StatelessWidget {
                                     child: InfoContainer2(
                                       suffixText: checkNullOrStringNull(_profileController.schoolDataList[i].school),
                                       prefixText: _profileController.schoolDataList[i].ended != null ? 'Studied at' : 'Studies at',
-                                      subtitlePrefixText: _profileController.schoolSubtitleText(_profileController.schoolDataList[i].started, _profileController.schoolDataList[i].ended),
+                                      subtitlePrefixText: _profileController.schoolSubtitleText(
+                                          _profileController.schoolDataList[i].started, _profileController.schoolDataList[i].ended),
                                       isAddButton: false,
                                       suffixOnPressed: () async {
                                         _profileController.resetTextEditor();
@@ -477,10 +477,23 @@ class EditAboutInfo extends StatelessWidget {
                                   spacing: 8.0,
                                   children: [
                                     for (int i = 0; i < _profileController.userData.value!.interest.length; i++)
-                                      CustomChoiceChips(
-                                        label: _profileController.userData.value!.interest[i],
-                                        isSelected: false,
-                                        onSelected: null,
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: k8Padding),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: cWhiteColor,
+                                              border: Border.all(
+                                                color: cLineColor,
+                                              ),
+                                              borderRadius: k100CircularBorderRadius),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(k8Padding),
+                                            child: Text(
+                                              _profileController.userData.value!.interest[i],
+                                              style: regular14TextStyle(cBlackColor),
+                                            ),
+                                          ),
+                                        ),
                                       )
                                   ],
                                 ),
@@ -508,6 +521,7 @@ class EditAboutInfo extends StatelessWidget {
                                     isAddButton: true,
                                     suffixOnPressed: () async {
                                       _profileController.resetTextEditor();
+                                      _profileController.isSingleDatePicker.value = true;
                                       _profileController.getMethod(8);
                                       _profileController.getCompanyList();
                                     },
@@ -521,9 +535,11 @@ class EditAboutInfo extends StatelessWidget {
                                         ? null
                                         : '${_profileController.currentWorkplace.value!.position} at',
                                     suffixText: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
+                                    subtitlePrefixText: _profileController.currentWorkSubtitleText(_profileController.currentWorkplace.value!.started),
                                     isAddButton: false,
                                     suffixOnPressed: () async {
                                       _profileController.resetTextEditor();
+                                      _profileController.isSingleDatePicker.value = true;
                                       _profileController.enableSaveButton.value = true;
                                       if (_profileController.currentWorkplace.value!.started != null) {
                                         _profileController.tempWorkplaceStartDate.value =
@@ -549,11 +565,11 @@ class EditAboutInfo extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(bottom: k12Padding),
                                 child: InfoContainer2(
-                                  suffixText: ksOther.tr,
+                                  suffixText: ksPreviousWorkPlaces.tr,
                                   isAddButton: true,
                                   suffixOnPressed: () async {
                                     _profileController.resetTextEditor();
-                                    _profileController.getMethod(8);
+                                    _profileController.getMethod(17);
                                     _profileController.getCompanyList();
                                   },
                                 ),
@@ -567,6 +583,8 @@ class EditAboutInfo extends StatelessWidget {
                                           ? null
                                           : 'Former ${_profileController.workplaceDataList[i].position} at',
                                       suffixText: _profileController.workplaceDataList[i].company!,
+                                      subtitlePrefixText: _profileController.previousWorkSubtitleText(
+                                          _profileController.workplaceDataList[i].started, _profileController.workplaceDataList[i].ended),
                                       isAddButton: false,
                                       suffixOnPressed: () async {
                                         _profileController.resetTextEditor();
