@@ -129,7 +129,7 @@ class Family extends StatelessWidget {
   }
 }
 
-//*All friend list
+//*All family list
 class AllFamilyList extends StatelessWidget {
   AllFamilyList({super.key});
   final FamilyController _familyController = Get.find<FamilyController>();
@@ -154,7 +154,7 @@ class AllFamilyList extends StatelessWidget {
                   },
                   child: SingleChildScrollView(
                     controller: _familyController.familyListScrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    // physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
                       children: [
                         Padding(
@@ -226,7 +226,7 @@ class ReceivedFamilyList extends StatelessWidget {
                   },
                   child: SingleChildScrollView(
                     controller: _familyController.receivedFamilyListScrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    // physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
                       children: [
                         Padding(
@@ -303,7 +303,7 @@ class PendingFamilyList extends StatelessWidget {
                   },
                   child: SingleChildScrollView(
                     controller: _familyController.sendFamilyListScrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    // physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
                       children: [
                         Padding(

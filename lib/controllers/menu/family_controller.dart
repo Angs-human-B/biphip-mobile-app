@@ -20,7 +20,7 @@ class FamilyController extends GetxController {
   Future<void> getFamilyList() async {
     try {
       isFamilyListLoading.value = true;
-      String suffixUrl = '?take=1';
+      String suffixUrl = '?take=15';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -70,7 +70,7 @@ class FamilyController extends GetxController {
 
       String familyListSuffixUrl = '';
 
-      familyListSuffixUrl = '?${familyListSub[1]}&take=1';
+      familyListSuffixUrl = '?${familyListSub[1]}&take=15';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -116,7 +116,7 @@ class FamilyController extends GetxController {
   Future<void> getReceivedFamilyList() async {
     try {
       isReceivedFamilyListLoading.value = true;
-      String suffixUrl = '?take=1';
+      String suffixUrl = '?take=15';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -165,7 +165,7 @@ class FamilyController extends GetxController {
 
       String receivedFamilyListSuffixUrl = '';
 
-      receivedFamilyListSuffixUrl = '?${receivedFamilyListSub[1]}&take=1';
+      receivedFamilyListSuffixUrl = '?${receivedFamilyListSub[1]}&take=15';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -292,7 +292,7 @@ class FamilyController extends GetxController {
   Future<void> getSendFamilyRequestList() async {
     try {
       isSendFamilyRequestListLoading.value = true;
-      String suffixUrl = '?take=1';
+      String suffixUrl = '?take=15';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -340,7 +340,7 @@ class FamilyController extends GetxController {
 
       String sendFamilyListSuffixUrl = '';
 
-      sendFamilyListSuffixUrl = '?${sendFamilyListSub[1]}&take=1';
+      sendFamilyListSuffixUrl = '?${sendFamilyListSub[1]}&take=15';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
