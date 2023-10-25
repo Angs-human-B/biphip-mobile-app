@@ -194,13 +194,14 @@ class CustomListViewItem extends StatelessWidget {
                   name,
                   style: medium16TextStyle(cBlackColor),
                 ),
+                kH4sizedBox,
                 Row(
                   children: [
                     icon == null
                         ? const SizedBox()
                         : Icon(
                             icon,
-                            size: h10,
+                            size: kIconSize12,
                             color: cRedColor,
                           ),
                     if (icon != null) kW4sizedBox,
@@ -208,31 +209,34 @@ class CustomListViewItem extends StatelessWidget {
                         ? const SizedBox()
                         : Text(
                             subTitle ?? '',
-                            style: regular10TextStyle(cSmallBodyTextColor),
+                            style: regular12TextStyle(cSmallBodyTextColor),
                           ),
                   ],
                 ),
                 kH4sizedBox,
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     if (firstButtonText != null)
                       CustomElevatedButton(
-                        buttonWidth: (width / 2) - h60,
+                        buttonWidth: 120,
                         buttonHeight: 30,
                         label: firstButtonText!,
                         textStyle: semiBold16TextStyle(cWhiteColor),
                         onPressed: firstButtonOnPressed,
                       ),
                     if (secondButtonText != null)
-                      CustomElevatedButton(
-                        buttonWidth: (width / 2) - h60,
-                        buttonHeight: 30,
-                        label: secondButtonText!,
-                        onPressed: secondButtonOnPressed,
-                        buttonColor: cWhiteColor,
-                        borderColor: cRedColor,
-                        textStyle: semiBold16TextStyle(cRedColor),
+                      Padding(
+                        padding: const EdgeInsets.only(left: k20Padding),
+                        child: CustomElevatedButton(
+                          buttonWidth: 120,
+                          buttonHeight: 30,
+                          label: secondButtonText!,
+                          onPressed: secondButtonOnPressed,
+                          buttonColor: cWhiteColor,
+                          borderColor: cRedColor,
+                          textStyle: semiBold16TextStyle(cRedColor),
+                        ),
                       )
                   ],
                 ),
@@ -375,7 +379,7 @@ class AllFriendList extends StatelessWidget {
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               return Padding(
-                                padding: const EdgeInsets.only(bottom: k16Padding),
+                                padding: const EdgeInsets.only(bottom: k12Padding),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(k8BorderRadius),
                                   child: CustomListTile(
@@ -562,7 +566,7 @@ class PendingFriendList extends StatelessWidget {
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               return Padding(
-                                padding: const EdgeInsets.only(bottom: k16Padding),
+                                padding: const EdgeInsets.only(bottom: k12Padding),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(k8BorderRadius),
                                   child: CustomListTile(

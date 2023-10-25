@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/family/common_family_model.dart';
+import 'package:bip_hip/models/menu/family/family_relation_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class FamilyController extends GetxController {
@@ -478,4 +479,36 @@ class FamilyController extends GetxController {
       ll('sendFamilyRequest error: $e');
     }
   }
+  //*Get Family Relation Status
+    Rx<FamilyRelationModel?> familyRelationListData = Rx<FamilyRelationModel?>(null);
+  RxBool isFamilyRelationListLoading = RxBool(false);
+  Future<void> getFamilyRelationList() async {
+    try {
+      isFamilyRelationListLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllFamilyRelations,
+      ) as CommonDM;
+      if (response.success == true) {
+        // genderList.clear();
+        familyRelationListData.value = FamilyRelationModel.fromJson(response.data);
+        // genderList.addAll(genderListData.value!.genders);
+        isFamilyRelationListLoading.value = false;
+      } else {
+        isFamilyRelationListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFamilyRelationListLoading.value = false;
+      ll('getFamilyRelationList error: $e');
+    }
+  }
+
 }

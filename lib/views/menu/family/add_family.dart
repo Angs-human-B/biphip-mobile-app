@@ -74,6 +74,7 @@ class AddFamily extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       _profileController.selectRelationTextChange();
+                      // _familyController.getFamilyRelationList();
                       for (int i = 0; i < _profileController.relationListState.length; i++) {
                         if (_profileController.relationListState[i]) {
                           _familyController.relationStatusId.value = i + 1;
@@ -117,6 +118,39 @@ class AddFamily extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class FamilyRelationListShimmer extends StatelessWidget {
+  const FamilyRelationListShimmer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: 50,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: ShimmerCommon(
+                widget: Container(
+                  height: 20,
+                  decoration: BoxDecoration(
+                    borderRadius: k8CircularBorderRadius,
+                    color: cWhiteColor,
+                  ),
+                ),
+              ),
+              contentPadding: EdgeInsets.zero,
+            );
+          },
+        ),
+      ],
     );
   }
 }

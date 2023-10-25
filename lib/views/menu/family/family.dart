@@ -171,7 +171,7 @@ class AllFamilyList extends StatelessWidget {
                                   child: TextButton(
                                     style: kTextButtonStyle,
                                     onPressed: () async {
-                                      // ll(index);
+                                      // ll(index); 
                                     },
                                     child: CustomListViewItem(
                                       backgroundImage: _familyController.familyList[index].profilePicture.toString(),
@@ -335,7 +335,7 @@ class PendingFamilyList extends StatelessWidget {
                                       buttonColor: cWhiteColor,
                                       borderColor: cRedColor,
                                       textStyle: semiBold14TextStyle(cRedColor),
-                                      buttonWidth: 147,
+                                      buttonWidth: 120,
                                     ),
                                   ),
                                 ),
