@@ -363,7 +363,7 @@ class AllFriendList extends StatelessWidget {
                   },
                   child: SingleChildScrollView(
                     controller: _friendController.friendListScrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    // physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -480,7 +480,7 @@ class ReceivedFriendList extends StatelessWidget {
                   },
                   child: SingleChildScrollView(
                     controller: _friendController.receivedFriendListScrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    // physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -551,7 +551,7 @@ class PendingFriendList extends StatelessWidget {
                   },
                   child: SingleChildScrollView(
                     controller: _friendController.sendFriendListScrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    // physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
                       children: [
                         Padding(
