@@ -250,6 +250,7 @@ class EditPage extends StatelessWidget {
                             );
                           },
                         ),
+                        
                         if (_profileController.isSecondaryTextfieldShown.value)
                           Padding(
                             padding: const EdgeInsets.only(bottom: k8Padding),

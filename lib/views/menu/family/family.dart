@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -30,10 +31,12 @@ class Family extends StatelessWidget {
               padding: const EdgeInsets.only(right: k20Padding),
               child: TextButton(
                 style: kTextButtonStyle,
-                onPressed: () {
+                onPressed: () async {
                   _profileController.searchController.clear();
                   FocusScope.of(context).unfocus();
                   _familyController.addFamilyRequestList.clear();
+                  // await Get.find<FriendController>().getFriendList();
+                  _familyController.relation.value == "";
                   Get.toNamed(krAddFamily);
                 },
                 child: Text(
@@ -330,7 +333,7 @@ class PendingFamilyList extends StatelessWidget {
                                       backgroundImage: _familyController.sendFamilyRequestList[index].profilePicture.toString(),
                                       imageSize: h45,
                                       name: _familyController.sendFamilyRequestList[index].fullName.toString(),
-                                      subTitle: ksBrotherPending.tr,
+                                      subTitle: _familyController.relation.value,
                                       buttonText: ksCancelRequest.tr,
                                       buttonOnPressed: () async {
                                         _familyController.userId.value = _familyController.sendFamilyRequestList[index].id!;

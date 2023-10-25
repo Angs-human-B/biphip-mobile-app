@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/menu/family_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/family/family.dart';
@@ -7,6 +8,8 @@ import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 class AddFamily extends StatelessWidget {
   AddFamily({super.key});
   final FamilyController _familyController = Get.find<FamilyController>();
+  final FriendController _friendController = Get.find<FriendController>();
+  final ProfileController profileController = Get.find<ProfileController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,15 +49,74 @@ class AddFamily extends StatelessWidget {
           () => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomModifiedTextField(
-                borderRadius: h8,
-                controller: Get.find<ProfileController>().searchController,
-                prefixIcon: BipHip.search,
-                suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
-                hint: ksSearch.tr,
-                contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
-                textInputStyle: regular16TextStyle(cBlackColor),
+              RawAutocomplete(
+                textEditingController: profileController.searchController,
+                focusNode: _familyController.addFamilyFocusNode,
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  return _friendController.tempFriendList.where((word) => word.toLowerCase().contains(textEditingValue.text.toLowerCase()));
+                },
+                onSelected: (option) {
+                  profileController.searchController.text = option;
+                  ll(option);
+                },
+                optionsViewBuilder: (context, Function(String) onSelected, options) {
+                  return Align(
+                    alignment: Alignment.topLeft,
+                    child: SizedBox(
+                      width: width - 40,
+                      child: Material(
+                        elevation: 4,
+                        child: ListView.separated(
+                          padding: EdgeInsets.zero,
+                          itemBuilder: (context, index) {
+                            final option = options.elementAt(index);
+                            return CustomListTile(
+                              title: Text(
+                                option.toString(),
+                                style: medium16TextStyle(cBlackColor),
+                              ),
+                              onPressed: () {
+                                onSelected(option.toString());
+                                profileController.searchController.text = option.toString();
+                                for (int i = 0; i < option.length; i++) {
+                                  if (_friendController.friendList[i].fullName == option) {
+                                    _familyController.userId.value = _friendController.friendList[i].id!;
+                                    ll(_familyController.userId.value);
+                                  }
+                                }
+                                unfocus(context);
+                              },
+                            );
+                          },
+                          separatorBuilder: (context, index) => Container(
+                            height: 1,
+                            color: cLineColor,
+                          ),
+                          itemCount: options.length,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                  return CustomModifiedTextField(
+                    borderRadius: h8,
+                    controller: Get.find<ProfileController>().searchController,
+                    focusNode: focusNode,
+                    prefixIcon: BipHip.search,
+                    suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
+                    hint: ksSearch.tr,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
+                    textInputStyle: regular16TextStyle(cBlackColor),
+                    onChanged: (v) async {
+                      if (Get.find<ProfileController>().searchController.text.trim() != '') {
+                        await Get.find<FriendController>().getFriendList();
+                      } else {}
+                    },
+                  );
+                },
               ),
+
               kH12sizedBox,
               CustomSelectionButton(
                 hintText: ksSelectRelation.tr,
@@ -73,6 +135,7 @@ class AddFamily extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       _familyController.isFamilyRelationListLoading.value = true;
+                      _familyController.relationId.value = _familyController.relationStatusId.value + 1;
                       for (int index = 0; index < _familyController.familyRelationList.length; index++) {
                         if (_familyController.relationStatusId.value == index) {
                           _familyController.relation.value = _familyController.familyRelationList[index].name;

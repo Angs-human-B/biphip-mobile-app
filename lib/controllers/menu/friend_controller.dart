@@ -11,6 +11,9 @@ class FriendController extends GetxController {
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
 
+  final RxList<String> tempFriendList = RxList<String>([]);
+  // final RxList<int> tempFriendIdList = RxList<int>([]);
+
   //*Friend List Api Call
   final Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
   final RxList<FriendFamilyUserData> friendList = RxList<FriendFamilyUserData>([]);
@@ -33,6 +36,12 @@ class FriendController extends GetxController {
         friendListScrolled.value = false;
         friendListData.value = CommonFriendModel.fromJson(response.data);
         friendList.addAll(friendListData.value!.friends!.data);
+        tempFriendList.clear();
+        for (int i = 0; i < friendList.length; i++) {
+          tempFriendList.add(friendListData.value!.friends!.data[i].fullName!);
+        }
+        ll(tempFriendList);
+        // tempFriendList.addAll(friendListData.value!.friends!.data);
         allFriendCount.value = friendListData.value!.friends!.total!;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {

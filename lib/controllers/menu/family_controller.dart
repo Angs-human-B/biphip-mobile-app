@@ -447,14 +447,15 @@ class FamilyController extends GetxController {
 
   //*Send Family Request
   final RxInt relationStatusId = RxInt(-1);
+  final RxInt relationId = RxInt(-1);
   final RxBool isSendFamilyRequestLoading = RxBool(false);
   Future<void> sendFamilyRequest() async {
     try {
       isSendFamilyRequestLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
-        'family_id': _profileController.searchController.text.trim(),
-        'relation_id': relationStatusId.value.toString(),
+        'family_id': userId.value.toString(),
+        'relation_id': relationId.value.toString(),
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -514,23 +515,5 @@ class FamilyController extends GetxController {
   }
 
   final RxString relation = RxString("");
-  // final RxList relationListState = RxList([]);
-  //   void initializeSelectedRelationText() {
-  //   for (int i = 0; i < familyRelationList.length; i++) {
-  //     if (familyRelationList[i].name == relation.value) {
-  //       relationListState[i] = true;
-  //     } else {
-  //       relationListState[i] = false;
-  //     }
-  //   }
-  // }
-  //   void relationStatusChange(index) {
-  //   for (int i = 0; i < relationListState.length; i++) {
-  //     if (index == i) {
-  //       relationListState[i] = true;
-  //     } else {
-  //       relationListState[i] = false;
-  //     }
-  //   }
-  // }
+  final FocusNode addFamilyFocusNode = FocusNode();
 }
