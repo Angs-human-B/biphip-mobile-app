@@ -105,14 +105,18 @@ class Friends extends StatelessWidget {
                         ),
                       )
                     : _profileController.tapAbleButtonState[0]
-                        ? Text(
-                            '${ksTotalFriends.tr}: ${_friendController.allFriendCount}',
-                            style: semiBold14TextStyle(cBlackColor),
-                          )
-                        : Text(
-                            '${ksFriendRequests.tr}: ${_friendController.receivedRequestCount}',
-                            style: semiBold14TextStyle(cBlackColor),
-                          ),
+                        ? _friendController.allFriendCount.value == 0
+                            ? const SizedBox()
+                            : Text(
+                                '${ksTotalFriends.tr}: ${_friendController.allFriendCount.value}',
+                                style: semiBold14TextStyle(cBlackColor),
+                              )
+                        : _friendController.receivedRequestCount.value == 0
+                            ? const SizedBox()
+                            : Text(
+                                '${ksFriendRequests.tr}: ${_friendController.receivedRequestCount.value}',
+                                style: semiBold14TextStyle(cBlackColor),
+                              ),
               ),
             if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
             if (_profileController.tapAbleButtonState[2]) kH4sizedBox,
@@ -435,7 +439,7 @@ class AllFriendList extends StatelessWidget {
                                               _profileController.friendActionSelect.value = '';
                                             },
                                             rightText: ksDone.tr,
-                                            rightTextStyle: regular14TextStyle(cPrimaryColor),
+                                            rightTextStyle: semiBold14TextStyle(cPrimaryColor),
                                             title: ksAction.tr,
                                             isRightButtonShow: true,
                                             bottomSheetHeight: 250,
@@ -621,7 +625,7 @@ class PendingFriendList extends StatelessWidget {
                                               _friendController.pendingFriendActionSelect.value = '';
                                             },
                                             rightText: ksDone.tr,
-                                            rightTextStyle: regular14TextStyle(cPrimaryColor),
+                                            rightTextStyle: semiBold14TextStyle(cPrimaryColor),
                                             title: ksAction.tr,
                                             isRightButtonShow: true,
                                             bottomSheetHeight: 200,

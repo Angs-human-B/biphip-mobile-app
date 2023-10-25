@@ -106,14 +106,18 @@ class Family extends StatelessWidget {
                   : Padding(
                       padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                       child: _profileController.tapAbleButtonState[0]
-                          ? Text(
-                              '${ksTotalFamilyMembers.tr}: ${_familyController.allFamilyCount.value}',
-                              style: semiBold14TextStyle(cBlackColor),
-                            )
-                          : Text(
-                              '${ksFamilyRequests.tr}: ${_familyController.receivedRequestCount.value}',
-                              style: semiBold14TextStyle(cBlackColor),
-                            ),
+                          ? _familyController.allFamilyCount.value == 0
+                              ? const SizedBox()
+                              : Text(
+                                  '${ksTotalFamilyMembers.tr}: ${_familyController.allFamilyCount.value}',
+                                  style: semiBold14TextStyle(cBlackColor),
+                                )
+                          : _familyController.receivedRequestCount.value == 0
+                              ? const SizedBox()
+                              : Text(
+                                  '${ksFamilyRequests.tr}: ${_familyController.receivedRequestCount.value}',
+                                  style: semiBold14TextStyle(cBlackColor),
+                                ),
                     ),
             if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
             if (_profileController.tapAbleButtonState[2]) kH4sizedBox,
@@ -171,7 +175,7 @@ class AllFamilyList extends StatelessWidget {
                                   child: TextButton(
                                     style: kTextButtonStyle,
                                     onPressed: () async {
-                                      // ll(index); 
+                                      // ll(index);
                                     },
                                     child: CustomListViewItem(
                                       backgroundImage: _familyController.familyList[index].profilePicture.toString(),
