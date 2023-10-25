@@ -1,11 +1,13 @@
+import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/family/family.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 
 class AddFamily extends StatelessWidget {
-  const AddFamily({super.key});
-
+  AddFamily({super.key});
+  final ProfileController _profileController = Get.find<ProfileController>();
+  final FamilyController _familyController = Get.find<FamilyController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,9 +27,10 @@ class AddFamily extends StatelessWidget {
               padding: const EdgeInsets.only(right: h20),
               child: TextButton(
                 style: kTextButtonStyle,
-                onPressed: () {
+                onPressed: () async {
                   unfocus(context);
-                  Get.back();
+                  await _familyController.sendFamilyRequest();
+                  // Get.back();
                 },
                 child: Text(
                   ksSend.tr,
@@ -70,7 +73,13 @@ class AddFamily extends StatelessWidget {
                       Get.back();
                     },
                     onPressRightButton: () {
-                      Get.find<ProfileController>().selectRelationTextChange();
+                      _profileController.selectRelationTextChange();
+                      for (int i = 0; i < _profileController.relationListState.length; i++) {
+                        if (_profileController.relationListState[i]) {
+                          _familyController.relationStatusId.value = i + 1;
+                          break;
+                        }
+                      }
                       Get.back();
                     },
                     rightText: ksOk.tr,
