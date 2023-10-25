@@ -216,6 +216,7 @@ const String ksEditInterestSubtitle = 'This will help us to provide you a nice e
 const String ksAddress = 'Address';
 const String ksDetails = 'Details';
 const String ksHomeTown = 'Hometown';
+const String ksLivesIn = 'Lives in';
 const String ksAddHomeTownAddress = 'Add hometown address';
 const String ksEnterHometownAddress = 'Enter hometown address';
 const String ksEditHometownAddress = 'Edit hometown address';
@@ -247,6 +248,7 @@ const String ksSelectProfession = 'Select profession';
 const String ksInterest = 'Interest';
 const String ksWork = 'Work';
 const String ksCurrentWorkplace = 'Current workplace';
+const String ksCurrentCity = 'Current city';
 const String ksAddWorkplace = 'Add workplace';
 const String ksEditWorkplace = 'Edit workplace';
 const String ksDeleteWorkplace = 'Delete workplace';
@@ -263,12 +265,14 @@ const String ksSelectEducationInstitute = 'Select educational institute';
 const String ksSelectLinkSource = 'Select link source';
 const String ksDesignation = 'Designation';
 const String ksStartDate = 'Start date';
+const String ksDate = 'Date';
 const String ksEndDate = 'End date';
 const String ksAddLink = 'Add Link';
 const String ksEditLink = 'Edit Link';
 const String ksDeleteLink = 'Delete Link';
 const String ksWebsiteAndSocialLinks = 'Websites and social links';
-const String ksEducationalBackground = 'Education Background';
+const String ksEducation = 'Education';
+const String ksEducationalBackground = 'Educational background';
 
 //---------------------------------------
 //* Create Post
@@ -335,5 +339,4 @@ const String ksNoAlbumAvailable = "No album available";
 const String ksNoImageAvailable = "No image available";
 const String ksNoDataAvailable = "No data available";
 const String ksNA = "NA";
-const String ksBlock='Block';
-
+const String ksBlock = 'Block';

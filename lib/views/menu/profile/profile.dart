@@ -641,13 +641,13 @@ class LinkUpIconTextRow extends StatelessWidget {
             kW12sizedBox,
             Expanded(
               child: RichText(
-                  text: TextSpan(children: [
-                TextSpan(text: prefixText, style: regular14TextStyle(cBlackColor)),
-                TextSpan(text: suffixText, style: semiBold14TextStyle(cBlackColor))
-              ])
-                  // text,
-                  // style: regular14TextStyle(cBlackColor),
-                  ),
+                text: TextSpan(
+                  children: [
+                    TextSpan(text: prefixText, style: regular14TextStyle(cBlackColor)),
+                    TextSpan(text: suffixText, style: semiBold14TextStyle(cBlackColor))
+                  ],
+                ),
+              ),
             )
           ],
         ),
