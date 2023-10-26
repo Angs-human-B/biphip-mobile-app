@@ -607,7 +607,7 @@ class FriendController extends GetxController {
     }
   }
 
-  //*Get More Add Friend Request List(Pending) for pagination
+  //*Get More Add Friend Request List for pagination
   Future<void> getMoreAddFriendRequestList(take) async {
     try {
       String? token = await _spController.getBearerToken();
