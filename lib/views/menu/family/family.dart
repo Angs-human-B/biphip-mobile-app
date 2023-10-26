@@ -48,7 +48,7 @@ class Family extends StatelessWidget {
                           },
                           child: Text(
                             ksAdd.tr,
-                            style: medium14TextStyle(cPrimaryColor),
+                            style: medium16TextStyle(cPrimaryColor),
                           ),
                         ),
                       ),
@@ -344,8 +344,8 @@ class PendingFamilyList extends StatelessWidget {
                                   child: CustomSingleButtonListViewItem(
                                     backgroundImage: _familyController.sendFamilyRequestList[index].profilePicture.toString(),
                                     imageSize: h45,
-                                    name: _familyController.sendFamilyRequestList[index].fullName.toString(),
-                                    subTitle: _familyController.relation.value,
+                                    name: _familyController.sendFamilyRequestList[index].fullName ?? ksNA.tr,
+                                    subTitle: _familyController.sendFamilyRequestList[index].familyRelationStatus ?? ksNA.tr,
                                     buttonText: ksCancelRequest.tr,
                                     buttonOnPressed: () async {
                                       _familyController.userId.value = _familyController.sendFamilyRequestList[index].id!;
@@ -354,7 +354,6 @@ class PendingFamilyList extends StatelessWidget {
                                     buttonColor: cWhiteColor,
                                     borderColor: cRedColor,
                                     textStyle: semiBold14TextStyle(cRedColor),
-                                    buttonWidth: 120,
                                   ),
                                 ),
                               );

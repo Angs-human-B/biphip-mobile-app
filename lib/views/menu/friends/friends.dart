@@ -47,7 +47,7 @@ class Friends extends StatelessWidget {
                           },
                           child: Text(
                             ksAdd.tr,
-                            style: medium14TextStyle(cPrimaryColor),
+                            style: medium16TextStyle(cPrimaryColor),
                           ),
                         ),
                       ),
@@ -219,63 +219,59 @@ class CustomListViewItem extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(left: k12Padding),
-          child: SizedBox(
-            width: width - 105,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: medium16TextStyle(cBlackColor),
-                ),
-                kH4sizedBox,
-                Row(
-                  children: [
-                    icon == null
-                        ? const SizedBox()
-                        : Icon(
-                            icon,
-                            size: kIconSize12,
-                            color: cRedColor,
-                          ),
-                    if (icon != null) kW4sizedBox,
-                    subTitle == null
-                        ? const SizedBox()
-                        : Text(
-                            subTitle ?? '',
-                            style: regular12TextStyle(cSmallBodyTextColor),
-                          ),
-                  ],
-                ),
-                kH4sizedBox,
-                Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    if (firstButtonText != null)
-                      CustomElevatedButton(
-                        buttonWidth: 120,
-                        buttonHeight: 30,
-                        label: firstButtonText!,
-                        textStyle: semiBold16TextStyle(cWhiteColor),
-                        onPressed: firstButtonOnPressed,
-                      ),
-                    if (secondButtonText != null)
-                      Padding(
-                        padding: const EdgeInsets.only(left: k20Padding),
-                        child: CustomElevatedButton(
-                          buttonWidth: 120,
-                          buttonHeight: 30,
-                          label: secondButtonText!,
-                          onPressed: secondButtonOnPressed,
-                          buttonColor: cWhiteColor,
-                          borderColor: cRedColor,
-                          textStyle: semiBold16TextStyle(cRedColor),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                name,
+                style: medium16TextStyle(cBlackColor),
+              ),
+              kH4sizedBox,
+              Row(
+                children: [
+                  icon == null
+                      ? const SizedBox()
+                      : Icon(
+                          icon,
+                          size: kIconSize12,
+                          color: cRedColor,
                         ),
-                      )
-                  ],
-                ),
-              ],
-            ),
+                  if (icon != null) kW4sizedBox,
+                  subTitle == null
+                      ? const SizedBox()
+                      : Text(
+                          subTitle ?? '',
+                          style: regular12TextStyle(cSmallBodyTextColor),
+                        ),
+                ],
+              ),
+              kH4sizedBox,
+              Row(
+                children: [
+                  if (firstButtonText != null)
+                    CustomElevatedButton(
+                      buttonWidth: isDeviceScreenLarge() ? 100 : 108,
+                      buttonHeight: 30,
+                      label: firstButtonText!,
+                      textStyle: semiBold16TextStyle(cWhiteColor),
+                      onPressed: firstButtonOnPressed,
+                    ),
+                  if (secondButtonText != null)
+                    Padding(
+                      padding: const EdgeInsets.only(left: k20Padding),
+                      child: CustomElevatedButton(
+                        buttonWidth: isDeviceScreenLarge() ? 100 : 108,
+                        buttonHeight: 30,
+                        label: secondButtonText!,
+                        onPressed: secondButtonOnPressed,
+                        buttonColor: cWhiteColor,
+                        borderColor: cRedColor,
+                        textStyle: semiBold16TextStyle(cRedColor),
+                      ),
+                    )
+                ],
+              ),
+            ],
           ),
         ),
       ],
@@ -364,7 +360,7 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
               buttonColor: buttonColor,
               textStyle: textStyle,
               buttonHeight: buttonHeight ?? 32,
-              buttonWidth: buttonWidth,
+              buttonWidth: buttonWidth ?? (isDeviceScreenLarge() ? 100 : 108),
               borderColor: borderColor,
             ),
           ],
@@ -471,7 +467,7 @@ class AllFriendList extends StatelessWidget {
                                                 _profileController.friendActionSelect.value = '';
                                               },
                                               rightText: ksDone.tr,
-                                              rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                                              rightTextStyle: semiBold16TextStyle(cPrimaryColor),
                                               title: ksAction.tr,
                                               isRightButtonShow: true,
                                               bottomSheetHeight: 250,
@@ -662,7 +658,7 @@ class PendingFriendList extends StatelessWidget {
                                                 _friendController.pendingFriendActionSelect.value = '';
                                               },
                                               rightText: ksDone.tr,
-                                              rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                                              rightTextStyle: semiBold16TextStyle(cPrimaryColor),
                                               title: ksAction.tr,
                                               isRightButtonShow: true,
                                               bottomSheetHeight: 200,
