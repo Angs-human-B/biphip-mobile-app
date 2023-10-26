@@ -36,7 +36,7 @@ class Friends extends StatelessWidget {
                   FocusScope.of(context).unfocus();
                   _friendController.addFriendRequestList.clear();
                   Get.toNamed(krAddFriend);
-                  _profileController.toggleType(0);
+                  // _profileController.toggleType(0);
                 },
                 child: Text(
                   ksAdd.tr,
