@@ -14,122 +14,144 @@ class Family extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: cWhiteColor,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kAppBarSize),
-        //* info:: appBar
-        child: CustomAppBar(
-          title: ksFamily.tr,
-          hasBackButton: true,
-          isCenterTitle: true,
-          onBack: () {
-            Get.back();
-          },
-          action: [
-            Padding(
-              padding: const EdgeInsets.only(right: k20Padding),
-              child: TextButton(
-                style: kTextButtonStyle,
-                onPressed: () async {
-                  _profileController.searchController.clear();
-                  FocusScope.of(context).unfocus();
-                  _familyController.addFamilyRequestList.clear();
-                  _familyController.relationStatusId.value = -1;
-                  _familyController.relation.value = '';
-                  await Get.find<FriendController>().getFriendList();
-                  Get.toNamed(krAddFamily);
-                },
-                child: Text(
-                  ksAdd.tr,
-                  style: medium14TextStyle(cPrimaryColor),
+    return Container(
+      color: cWhiteColor,
+      child: Obx(
+        () => Stack(
+          children: [
+            SafeArea(
+              top: false,
+              child: Scaffold(
+                backgroundColor: cWhiteColor,
+                appBar: PreferredSize(
+                  preferredSize: const Size.fromHeight(kAppBarSize),
+                  //* info:: appBar
+                  child: CustomAppBar(
+                    title: ksFamily.tr,
+                    hasBackButton: true,
+                    isCenterTitle: true,
+                    onBack: () {
+                      Get.back();
+                    },
+                    action: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: k20Padding),
+                        child: TextButton(
+                          style: kTextButtonStyle,
+                          onPressed: () async {
+                            _profileController.searchController.clear();
+                            FocusScope.of(context).unfocus();
+                            // _familyController.addFamilyRequestList.clear();
+                            _familyController.clearAddFamilyData();
+                            await Get.find<FriendController>().getFriendList();
+                            Get.toNamed(krAddFamily);
+                          },
+                          child: Text(
+                            ksAdd.tr,
+                            style: medium14TextStyle(cPrimaryColor),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                body: Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      kH4sizedBox,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                        child: TapAbleButtonContainer(
+                          buttonText: _profileController.tapAbleButtonText,
+                          buttonState: _profileController.tapAbleButtonState,
+                          buttonPress: RxList([
+                            () async {
+                              _profileController.searchController.clear();
+                              FocusScope.of(context).unfocus();
+                              _profileController.toggleType(0);
+                              await _familyController.getFamilyList();
+                            },
+                            () async {
+                              _profileController.searchController.clear();
+                              FocusScope.of(context).unfocus();
+                              _profileController.toggleType(1);
+                              await _familyController.getReceivedFamilyList();
+                            },
+                            () async {
+                              _profileController.searchController.clear();
+                              FocusScope.of(context).unfocus();
+                              _profileController.toggleType(2);
+                              await _familyController.getSendFamilyRequestList();
+                            },
+                          ]),
+                        ),
+                      ),
+                      kH12sizedBox,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                        child: CustomModifiedTextField(
+                          borderRadius: h8,
+                          controller: Get.find<ProfileController>().searchController,
+                          prefixIcon: BipHip.search,
+                          suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
+                          hint: ksSearch.tr,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
+                          textInputStyle: regular16TextStyle(cBlackColor),
+                        ),
+                      ),
+                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
+                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
+                        (_familyController.isFamilyListLoading.value || _familyController.isReceivedFamilyListLoading.value)
+                            ? Padding(
+                                padding: const EdgeInsets.only(left: kHorizontalPadding),
+                                child: ShimmerCommon(
+                                  widget: Container(
+                                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                    height: 16,
+                                    width: 160,
+                                  ),
+                                ),
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                                child: _profileController.tapAbleButtonState[0]
+                                    ? _familyController.allFamilyCount.value == 0
+                                        ? const SizedBox()
+                                        : Text(
+                                            '${ksTotalFamilyMembers.tr}: ${_familyController.allFamilyCount.value}',
+                                            style: semiBold14TextStyle(cBlackColor),
+                                          )
+                                    : _familyController.receivedRequestCount.value == 0
+                                        ? const SizedBox()
+                                        : Text(
+                                            '${ksFamilyRequests.tr}: ${_familyController.receivedRequestCount.value}',
+                                            style: semiBold14TextStyle(cBlackColor),
+                                          ),
+                              ),
+                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
+                      if (_profileController.tapAbleButtonState[2]) kH4sizedBox,
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: _profileController.allReceivedPendingFamilyView(),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ],
-        ),
-      ),
-      body: Obx(
-        () => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            kH4sizedBox,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-              child: TapAbleButtonContainer(
-                buttonText: _profileController.tapAbleButtonText,
-                buttonState: _profileController.tapAbleButtonState,
-                buttonPress: RxList([
-                  () async {
-                    _profileController.searchController.clear();
-                    FocusScope.of(context).unfocus();
-                    _profileController.toggleType(0);
-                    await _familyController.getFamilyList();
+            if (Get.find<FriendController>().isFriendListLoading.value == true)
+              Positioned(
+                child: CommonLoadingAnimation(
+                  onWillPop: () async {
+                    if (Get.find<FriendController>().isFriendListLoading.value) {
+                      return false;
+                    }
+                    return true;
                   },
-                  () async {
-                    _profileController.searchController.clear();
-                    FocusScope.of(context).unfocus();
-                    _profileController.toggleType(1);
-                    await _familyController.getReceivedFamilyList();
-                  },
-                  () async {
-                    _profileController.searchController.clear();
-                    FocusScope.of(context).unfocus();
-                    _profileController.toggleType(2);
-                    await _familyController.getSendFamilyRequestList();
-                  },
-                ]),
+                ),
               ),
-            ),
-            kH12sizedBox,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-              child: CustomModifiedTextField(
-                borderRadius: h8,
-                controller: Get.find<ProfileController>().searchController,
-                prefixIcon: BipHip.search,
-                suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
-                hint: ksSearch.tr,
-                contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
-                textInputStyle: regular16TextStyle(cBlackColor),
-              ),
-            ),
-            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
-            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
-              (_familyController.isFamilyListLoading.value || _familyController.isReceivedFamilyListLoading.value)
-                  ? Padding(
-                      padding: const EdgeInsets.only(left: kHorizontalPadding),
-                      child: ShimmerCommon(
-                        widget: Container(
-                          decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                          height: 16,
-                          width: 160,
-                        ),
-                      ),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                      child: _profileController.tapAbleButtonState[0]
-                          ? _familyController.allFamilyCount.value == 0
-                              ? const SizedBox()
-                              : Text(
-                                  '${ksTotalFamilyMembers.tr}: ${_familyController.allFamilyCount.value}',
-                                  style: semiBold14TextStyle(cBlackColor),
-                                )
-                          : _familyController.receivedRequestCount.value == 0
-                              ? const SizedBox()
-                              : Text(
-                                  '${ksFamilyRequests.tr}: ${_familyController.receivedRequestCount.value}',
-                                  style: semiBold14TextStyle(cBlackColor),
-                                ),
-                    ),
-            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
-            if (_profileController.tapAbleButtonState[2]) kH4sizedBox,
-            Expanded(
-              child: SingleChildScrollView(
-                child: _profileController.allReceivedPendingFamilyView(),
-              ),
-            ),
           ],
         ),
       ),

@@ -8,7 +8,7 @@ class FamilyController extends GetxController {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
-  final ProfileController _profileController = Get.find<ProfileController>();
+  // final ProfileController _profileController = Get.find<ProfileController>();
   //*Scroll controller for pagination
   final ScrollController familyListScrollController = ScrollController();
   //*Family List Api Call
@@ -413,37 +413,37 @@ class FamilyController extends GetxController {
   }
 
   //* Add Family
-  Rx<CommonFamilies?> addFamilyRequestData = Rx<CommonFamilies?>(null);
-  RxList<FriendFamilyUserData> addFamilyRequestList = RxList<FriendFamilyUserData>([]);
-  final RxBool isAddFamilyRequestListLoading = RxBool(false);
-  Future<void> getAddFamilyRequestList() async {
-    try {
-      isAddFamilyRequestListLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
-        requestMethod: kGet,
-        token: token,
-        url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}',
-      ) as CommonDM;
-      if (response.success == true) {
-        addFamilyRequestList.clear();
-        addFamilyRequestData.value = CommonFamilies.fromJson(response.data);
-        addFamilyRequestList.addAll(addFamilyRequestData.value!.data);
-        isAddFamilyRequestListLoading.value = false;
-      } else {
-        isAddFamilyRequestListLoading.value = false;
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-        } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-        }
-      }
-    } catch (e) {
-      isAddFamilyRequestListLoading.value = false;
-      ll('getAddFamilyRequestList error: $e');
-    }
-  }
+  // Rx<CommonFamilies?> addFamilyRequestData = Rx<CommonFamilies?>(null);
+  // RxList<FriendFamilyUserData> addFamilyRequestList = RxList<FriendFamilyUserData>([]);
+  // final RxBool isAddFamilyRequestListLoading = RxBool(false);
+  // Future<void> getAddFamilyRequestList() async {
+  //   try {
+  //     isAddFamilyRequestListLoading.value = true;
+  //     String? token = await _spController.getBearerToken();
+  //     var response = await _apiController.commonApiCall(
+  //       requestMethod: kGet,
+  //       token: token,
+  //       url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}',
+  //     ) as CommonDM;
+  //     if (response.success == true) {
+  //       addFamilyRequestList.clear();
+  //       addFamilyRequestData.value = CommonFamilies.fromJson(response.data);
+  //       addFamilyRequestList.addAll(addFamilyRequestData.value!.data);
+  //       isAddFamilyRequestListLoading.value = false;
+  //     } else {
+  //       isAddFamilyRequestListLoading.value = false;
+  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+  //       if (errorModel.errors.isEmpty) {
+  //         _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+  //       } else {
+  //         _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isAddFamilyRequestListLoading.value = false;
+  //     ll('getAddFamilyRequestList error: $e');
+  //   }
+  // }
 
   //*Send Family Request
   final RxInt relationStatusId = RxInt(-1);
@@ -465,7 +465,9 @@ class FamilyController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         isSendFamilyRequestLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        Get.find<ProfileController>().searchController.clear();
+        Get.back();
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor);
       } else {
         isSendFamilyRequestLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -516,4 +518,10 @@ class FamilyController extends GetxController {
 
   final RxString relation = RxString("");
   final FocusNode addFamilyFocusNode = FocusNode();
+  void clearAddFamilyData() {
+    relationStatusId.value = -1;
+    userId.value = -1;
+    relationId.value = -1;
+    relation.value = '';
+  }
 }

@@ -32,8 +32,6 @@ class AddFamily extends StatelessWidget {
                 style: kTextButtonStyle,
                 onPressed: () async {
                   unfocus(context);
-                  Get.find<ProfileController>().searchController.clear();
-                  Get.back();
                   await _familyController.sendFamilyRequest();
                 },
                 child: Text(
