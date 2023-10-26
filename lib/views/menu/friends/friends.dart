@@ -13,126 +13,159 @@ class Friends extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: cWhiteColor,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kAppBarSize),
-        //* info:: appBar
-        child: CustomAppBar(
-          title: ksFriends.tr,
-          hasBackButton: true,
-          isCenterTitle: true,
-          onBack: () {
-            Get.back();
-          },
-          action: [
-            Padding(
-              padding: const EdgeInsets.only(right: k20Padding),
-              child: TextButton(
-                style: kTextButtonStyle,
-                onPressed: () async {
-                  //*Common bottom sheet for add friend
-                  _profileController.searchController.clear();
-                  FocusScope.of(context).unfocus();
-                  _friendController.addFriendRequestList.clear();
-                  Get.toNamed(krAddFriend);
-                  // _profileController.toggleType(0);
-                },
-                child: Text(
-                  ksAdd.tr,
-                  style: medium14TextStyle(cPrimaryColor),
+    return Container(
+      color: cWhiteColor,
+      child: Obx(
+        () => Stack(
+          children: [
+            SafeArea(
+              top: false,
+              child: Scaffold(
+                backgroundColor: cWhiteColor,
+                appBar: PreferredSize(
+                  preferredSize: const Size.fromHeight(kAppBarSize),
+                  //* info:: appBar
+                  child: CustomAppBar(
+                    title: ksFriends.tr,
+                    hasBackButton: true,
+                    isCenterTitle: true,
+                    onBack: () {
+                      Get.back();
+                    },
+                    action: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: k20Padding),
+                        child: TextButton(
+                          style: kTextButtonStyle,
+                          onPressed: () async {
+                            //*Common bottom sheet for add friend
+                            _profileController.searchController.clear();
+                            FocusScope.of(context).unfocus();
+                            _friendController.addFriendRequestList.clear();
+                            Get.toNamed(krAddFriend);
+                            // _profileController.toggleType(0);
+                          },
+                          child: Text(
+                            ksAdd.tr,
+                            style: medium14TextStyle(cPrimaryColor),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                body: Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      kH4sizedBox,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                        child: TapAbleButtonContainer(
+                          buttonText: _profileController.tapAbleButtonText,
+                          buttonState: _profileController.tapAbleButtonState,
+                          buttonPress: RxList([
+                            () async {
+                              _profileController.searchController.clear();
+                              FocusScope.of(context).unfocus();
+                              _profileController.toggleType(0);
+                              await _friendController.getFriendList();
+                            },
+                            () async {
+                              _profileController.searchController.clear();
+                              FocusScope.of(context).unfocus();
+                              _profileController.toggleType(1);
+                              await _friendController.getReceivedFriendList();
+                            },
+                            () async {
+                              _profileController.searchController.clear();
+                              FocusScope.of(context).unfocus();
+                              _profileController.toggleType(2);
+                              await _friendController.getSendFriendRequestList();
+                            },
+                          ]),
+                        ),
+                      ),
+                      kH12sizedBox,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                        child: CustomModifiedTextField(
+                          borderRadius: h8,
+                          controller: Get.find<ProfileController>().searchController,
+
+                          prefixIcon: BipHip.search,
+                          suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
+                          hint: ksSearch.tr,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
+                          textInputStyle: regular16TextStyle(cBlackColor),
+                        ),
+                      ),
+                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
+                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                          child: _friendController.isFriendListLoading.value || _friendController.isReceivedFriendListLoading.value
+                              ? ShimmerCommon(
+                                  widget: Container(
+                                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                    height: 16,
+                                    width: 120,
+                                  ),
+                                )
+                              : _profileController.tapAbleButtonState[0]
+                                  ? _friendController.allFriendCount.value == 0
+                                      ? const SizedBox()
+                                      : Text(
+                                          '${ksTotalFriends.tr}: ${_friendController.allFriendCount.value}',
+                                          style: semiBold14TextStyle(cBlackColor),
+                                        )
+                                  : _friendController.receivedRequestCount.value == 0
+                                      ? const SizedBox()
+                                      : Text(
+                                          '${ksFriendRequests.tr}: ${_friendController.receivedRequestCount.value}',
+                                          style: semiBold14TextStyle(cBlackColor),
+                                        ),
+                        ),
+                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
+                      if (_profileController.tapAbleButtonState[2]) kH4sizedBox,
+                      //*All friend, Receive friend request and Pending friend request ui
+                      _profileController.allReceivedPendingFriendsView(),
+                    ],
+                  ),
+                ),
+                bottomNavigationBar: CustomBottomNavBar(
+                  width: width,
+                  isFirstButtonClicked: false,
+                  isSecondButtonClicked: true,
+                  isThirdButtonClicked: false,
+                  isFourthButtonClicked: false,
+                  isFifthButtonClicked: false,
                 ),
               ),
             ),
+            if (_friendController.isUnfriendUserRequestLoading.value ||
+                _friendController.isFollowUserLoading.value ||
+                _friendController.isUnfollowUserLoading.value ||
+                _friendController.isAcceptFriendRequestLoading.value ||
+                _friendController.isRejectFriendRequestLoading.value ||
+                _friendController.isCancelFriendRequestLoading.value)
+              Positioned(
+                child: CommonLoadingAnimation(
+                  onWillPop: () async {
+                    if (_friendController.isUnfriendUserRequestLoading.value ||
+                        _friendController.isFollowUserLoading.value ||
+                        _friendController.isUnfollowUserLoading.value ||
+                        _friendController.isAcceptFriendRequestLoading.value ||
+                        _friendController.isRejectFriendRequestLoading.value ||
+                        _friendController.isCancelFriendRequestLoading.value) {
+                      return false;
+                    }
+                    return true;
+                  },
+                ),
+              ),
           ],
         ),
-      ),
-      body: Obx(
-        () => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            kH4sizedBox,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-              child: TapAbleButtonContainer(
-                buttonText: _profileController.tapAbleButtonText,
-                buttonState: _profileController.tapAbleButtonState,
-                buttonPress: RxList([
-                  () async {
-                    _profileController.searchController.clear();
-                    FocusScope.of(context).unfocus();
-                    _profileController.toggleType(0);
-                    await _friendController.getFriendList();
-                  },
-                  () async {
-                    _profileController.searchController.clear();
-                    FocusScope.of(context).unfocus();
-                    _profileController.toggleType(1);
-                    await _friendController.getReceivedFriendList();
-                  },
-                  () async {
-                    _profileController.searchController.clear();
-                    FocusScope.of(context).unfocus();
-                    _profileController.toggleType(2);
-                    await _friendController.getSendFriendRequestList();
-                  },
-                ]),
-              ),
-            ),
-            kH12sizedBox,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-              child: CustomModifiedTextField(
-                borderRadius: h8,
-                controller: Get.find<ProfileController>().searchController,
-
-                prefixIcon: BipHip.search,
-                suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
-                hint: ksSearch.tr,
-                contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
-                textInputStyle: regular16TextStyle(cBlackColor),
-              ),
-            ),
-            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
-            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                child: _friendController.isFriendListLoading.value || _friendController.isReceivedFriendListLoading.value
-                    ? ShimmerCommon(
-                        widget: Container(
-                          decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                          height: 16,
-                          width: 120,
-                        ),
-                      )
-                    : _profileController.tapAbleButtonState[0]
-                        ? _friendController.allFriendCount.value == 0
-                            ? const SizedBox()
-                            : Text(
-                                '${ksTotalFriends.tr}: ${_friendController.allFriendCount.value}',
-                                style: semiBold14TextStyle(cBlackColor),
-                              )
-                        : _friendController.receivedRequestCount.value == 0
-                            ? const SizedBox()
-                            : Text(
-                                '${ksFriendRequests.tr}: ${_friendController.receivedRequestCount.value}',
-                                style: semiBold14TextStyle(cBlackColor),
-                              ),
-              ),
-            if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
-            if (_profileController.tapAbleButtonState[2]) kH4sizedBox,
-            //*All friend, Receive friend request and Pending friend request ui
-            _profileController.allReceivedPendingFriendsView(),
-          ],
-        ),
-      ),
-      bottomNavigationBar: CustomBottomNavBar(
-        width: width,
-        isFirstButtonClicked: false,
-        isSecondButtonClicked: true,
-        isThirdButtonClicked: false,
-        isFourthButtonClicked: false,
-        isFifthButtonClicked: false,
       ),
     );
   }
