@@ -10,9 +10,8 @@ class FriendController extends GetxController {
   final GlobalController _globalController = Get.find<GlobalController>();
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
-
+  //* tempFriendList -> when add family member friend name list needed for suggestion
   final RxList<String> tempFriendList = RxList<String>([]);
-  // final RxList<int> tempFriendIdList = RxList<int>([]);
 
   //*Friend List Api Call
   final Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
@@ -40,8 +39,7 @@ class FriendController extends GetxController {
         for (int i = 0; i < friendList.length; i++) {
           tempFriendList.add(friendListData.value!.friends!.data[i].fullName!);
         }
-        ll(tempFriendList);
-        // tempFriendList.addAll(friendListData.value!.friends!.data);
+        ll(tempFriendList.length);
         allFriendCount.value = friendListData.value!.friends!.total!;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {

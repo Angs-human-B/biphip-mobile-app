@@ -71,6 +71,7 @@ class AddFamily extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           itemBuilder: (context, index) {
                             final option = options.elementAt(index);
+                            // ll(options.elementAt(index));
                             return CustomListTile(
                               title: Text(
                                 option.toString(),
@@ -79,10 +80,9 @@ class AddFamily extends StatelessWidget {
                               onPressed: () {
                                 onSelected(option.toString());
                                 profileController.searchController.text = option.toString();
-                                for (int i = 0; i < option.length; i++) {
+                                for (int i = 0; i < options.length; i++) {
                                   if (_friendController.friendList[i].fullName == option) {
                                     _familyController.userId.value = _friendController.friendList[i].id!;
-                                    ll(_familyController.userId.value);
                                   }
                                 }
                                 unfocus(context);
@@ -111,7 +111,7 @@ class AddFamily extends StatelessWidget {
                     textInputStyle: regular16TextStyle(cBlackColor),
                     onChanged: (v) async {
                       if (Get.find<ProfileController>().searchController.text.trim() != '') {
-                        await Get.find<FriendController>().getFriendList();
+                        // await _friendController.getFriendList();
                       } else {}
                     },
                   );
