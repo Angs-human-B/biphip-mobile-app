@@ -125,8 +125,10 @@ class EditAboutInfo extends StatelessWidget {
                                       padding: const EdgeInsets.only(bottom: k12Padding),
                                       child: InfoContainer2(
                                         suffixText: _profileController.otherCityList[i].city!,
-                                        subtitlePrefixText: 'Moved in',
-                                        subtitleSuffixText: DateFormat("MMMM dd, yyyy").format(_profileController.otherCityList[i].moved!),
+                                        subtitlePrefixText: _profileController.otherCityList[i].moved != null ? 'Moved in' : null,
+                                        subtitleSuffixText: _profileController.otherCityList[i].moved != null
+                                            ? DateFormat("MMMM dd, yyyy").format(_profileController.otherCityList[i].moved!)
+                                            : null,
                                         isAddButton: false,
                                         suffixOnPressed: () async {
                                           _profileController.cityID.value = _profileController.otherCityList[i].id!;

@@ -76,23 +76,33 @@ class EditProfile extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
-                                      width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
-                                      decoration: const BoxDecoration(
-                                        color: cBlackColor,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: ClipOval(
-                                        child: Image.network(
-                                          Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
-                                          fit: BoxFit.cover,
-                                          errorBuilder: (context, error, stackTrace) => const Icon(
-                                            BipHip.user,
-                                            size: kIconSize70,
-                                            color: cIconColor,
+                                    InkWell(
+                                      onTap: () {
+                                        if (_profileController.userData.value!.profilePicture != null) {
+                                          _profileController.isProfilePhoto.value = true;
+                                          _profileController.viewOptionEnabled.value = true;
+                                          _profileController.previewPhoto.value = _profileController.userData.value!.profilePicture.toString();
+                                        }
+                                        Get.toNamed(krViewPhoto);
+                                      },
+                                      child: Container(
+                                        height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                                        width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                                        decoration: const BoxDecoration(
+                                          color: cBlackColor,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: ClipOval(
+                                          child: Image.network(
+                                            Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
+                                            fit: BoxFit.cover,
+                                            errorBuilder: (context, error, stackTrace) => const Icon(
+                                              BipHip.user,
+                                              size: kIconSize70,
+                                              color: cIconColor,
+                                            ),
+                                            loadingBuilder: imageLoadingBuilder,
                                           ),
-                                          loadingBuilder: imageLoadingBuilder,
                                         ),
                                       ),
                                     ),
@@ -128,31 +138,41 @@ class EditProfile extends StatelessWidget {
                                   },
                                 ),
                                 kH16sizedBox,
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(width: 0, color: cLineColor),
-                                    borderRadius: k8CircularBorderRadius,
-                                    color: cBlackColor,
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: k8CircularBorderRadius,
-                                    child: Image.network(
-                                      Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
-                                      height: 150,
-                                      // color: cBlackColor,
-                                      width: width,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) => Container(
-                                        width: width,
+                                InkWell(
+                                  onTap: () {
+                                    if (_profileController.userData.value!.coverPhoto != null) {
+                                      _profileController.viewOptionEnabled.value = true;
+                                      _profileController.isProfilePhoto.value = false;
+                                      _profileController.previewPhoto.value = _profileController.userData.value!.coverPhoto.toString();
+                                    }
+                                    Get.toNamed(krViewPhoto);
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(width: 0, color: cLineColor),
+                                      borderRadius: k8CircularBorderRadius,
+                                      color: cBlackColor,
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: k8CircularBorderRadius,
+                                      child: Image.network(
+                                        Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
                                         height: 150,
-                                        color: cBlackColor,
-                                        child: const Icon(
-                                          BipHip.imageFile,
-                                          size: kIconSize120,
-                                          color: cIconColor,
+                                        // color: cBlackColor,
+                                        width: width,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (context, error, stackTrace) => Container(
+                                          width: width,
+                                          height: 150,
+                                          color: cBlackColor,
+                                          child: const Icon(
+                                            BipHip.imageFile,
+                                            size: kIconSize120,
+                                            color: cIconColor,
+                                          ),
                                         ),
+                                        loadingBuilder: imageLoadingBuilderCover,
                                       ),
-                                      loadingBuilder: imageLoadingBuilderCover,
                                     ),
                                   ),
                                 ),

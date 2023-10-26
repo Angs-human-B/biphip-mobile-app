@@ -340,7 +340,7 @@ class Profile extends StatelessWidget {
                                         CustomElevatedButton(
                                           label: ksAddSelfie.tr,
                                           buttonHeight: 32,
-                                          buttonWidth: 124,
+                                          buttonWidth: 130,
                                           prefixIcon: BipHip.selfieNew,
                                           textStyle: semiBold18TextStyle(cWhiteColor),
                                           prefixIconSize: screenWiseSize(kIconSize18, 4),
@@ -353,12 +353,12 @@ class Profile extends StatelessWidget {
                                             Get.toNamed(krEditProfile);
                                           },
                                           prefixIcon: BipHip.edit,
-                                          prefixIconColor: cBlackColor,
+                                          prefixIconColor: cPrimaryColor,
                                           prefixIconSize: screenWiseSize(kIconSize18, 4),
                                           buttonHeight: 32,
-                                          buttonWidth: 124,
+                                          buttonWidth: 130,
                                           buttonColor: cWhiteColor,
-                                          textStyle: semiBold18TextStyle(cBlackColor),
+                                          textStyle: semiBold18TextStyle(cPrimaryColor),
                                         )
                                       ],
                                     ),
@@ -773,7 +773,7 @@ class PictureUploadContent extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (Get.find<ProfileController>().viewOptionEnabled.value)
+        if (Get.find<ProfileController>().viewOptionEnabled.value && viewPhoto != null)
           Padding(
             padding: const EdgeInsets.only(bottom: k16Padding),
             child: CustomElevatedButton(
