@@ -487,7 +487,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       setEditPageValue(ksAddOtherAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
           ksAddLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'ADD PRESENT', '', '');
     } else if (methodID == 4) {
-      setEditPageValue(ksEditPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
+      setEditPageValue(ksEditAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
           ksEditLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
       // Get.back();
     } else if (methodID == 5) {

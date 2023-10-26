@@ -377,32 +377,40 @@ class Profile extends StatelessWidget {
                                     height: 40,
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                      child: TabBar(
-                                        onTap: (value) {
-                                          _profileController.showProfileTabSection(value);
-                                        },
-                                        // controller: _profileController.profileTabController,
-                                        indicatorColor: cPrimaryColor,
-                                        unselectedLabelColor: cSmallBodyTextColor,
-                                        unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
-                                        labelStyle: medium14TextStyle(cPrimaryColor),
-                                        labelColor: cPrimaryColor,
-                                        tabs: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                            child: Text(
-                                              ksPosts.tr,
-                                              // style: medium14TextStyle(cPrimaryColor),
-                                            ),
+                                      child: DecoratedBox(
+                                        decoration: const BoxDecoration(
+                                          border: Border(
+                                            bottom: BorderSide(color: cLineColor, width: 1),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                            child: Text(
-                                              ksFriendsAndFamily.tr,
-                                              // style: medium14TextStyle(cPrimaryColor),
+                                        ),
+                                        child: TabBar(
+                                          onTap: (value) {
+                                            _profileController.showProfileTabSection(value);
+                                          },
+                                          // controller: _profileController.profileTabController,
+                                          indicatorColor: cPrimaryColor,
+                                          indicatorWeight: 1,
+                                          unselectedLabelColor: cSmallBodyTextColor,
+                                          unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
+                                          labelStyle: medium14TextStyle(cPrimaryColor),
+                                          labelColor: cPrimaryColor,
+                                          tabs: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                              child: Text(
+                                                ksPosts.tr,
+                                                // style: medium14TextStyle(cPrimaryColor),
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                              child: Text(
+                                                ksFriendsAndFamily.tr,
+                                                // style: medium14TextStyle(cPrimaryColor),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
