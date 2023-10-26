@@ -80,7 +80,6 @@ class AddFamily extends StatelessWidget {
                                 for (int i = 0; i < _friendController.friendList.length; i++) {
                                   if (_friendController.friendList[i].fullName == option) {
                                     _familyController.userId.value = _friendController.friendList[i].id!;
-                                    ll(options.length);
                                   }
                                 }
                                 unfocus(context);

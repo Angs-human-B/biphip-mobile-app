@@ -40,7 +40,7 @@ class Family extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () async {
                             _profileController.searchController.clear();
-                            FocusScope.of(context).unfocus();
+                            unfocus(context);
                             // _familyController.addFamilyRequestList.clear();
                             _familyController.clearAddFamilyData();
                             await Get.find<FriendController>().getFriendList();
@@ -198,22 +198,16 @@ class AllFamilyList extends StatelessWidget {
                                 padding: const EdgeInsets.only(bottom: k16Padding),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(k8BorderRadius),
-                                  child: TextButton(
-                                    style: kTextButtonStyle,
-                                    onPressed: () async {
-                                      // ll(index);
-                                    },
-                                    child: CustomListViewItem(
-                                      backgroundImage: _familyController.familyList[index].profilePicture.toString(),
-                                      imageSize: h50,
-                                      name: _familyController.familyList[index].fullName ?? ksNA.tr,
-                                      icon: BipHip.relation,
-                                      subTitle: _familyController.familyList[index].familyRelationStatus ?? ksNA.tr,
-                                      firstButtonText: ksMessage.tr,
-                                      secondButtonText: ksBlock.tr,
-                                      firstButtonOnPressed: () {},
-                                      secondButtonOnPressed: () {},
-                                    ),
+                                  child: CustomListViewItem(
+                                    backgroundImage: _familyController.familyList[index].profilePicture.toString(),
+                                    imageSize: h50,
+                                    name: _familyController.familyList[index].fullName ?? ksNA.tr,
+                                    icon: BipHip.relation,
+                                    subTitle: _familyController.familyList[index].familyRelationStatus ?? ksNA.tr,
+                                    firstButtonText: ksMessage.tr,
+                                    secondButtonText: ksBlock.tr,
+                                    firstButtonOnPressed: () {},
+                                    secondButtonOnPressed: () {},
                                   ),
                                 ),
                               );
@@ -270,27 +264,21 @@ class ReceivedFamilyList extends StatelessWidget {
                                 padding: const EdgeInsets.only(bottom: k16Padding),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(k8BorderRadius),
-                                  child: TextButton(
-                                    style: kTextButtonStyle,
-                                    onPressed: () async {
-                                      // ll(index);
+                                  child: CustomListViewItem(
+                                    backgroundImage: _familyController.receivedFamilyList[index].profilePicture.toString(),
+                                    imageSize: h50,
+                                    name: _familyController.receivedFamilyList[index].fullName ?? ksNA.tr,
+                                    subTitle: _familyController.receivedFamilyList[index].familyRelationStatus ?? ksNA,
+                                    firstButtonText: ksConfirm.tr,
+                                    secondButtonText: ksCancel.tr,
+                                    firstButtonOnPressed: () async {
+                                      _familyController.userId.value = _familyController.receivedFamilyList[index].id!;
+                                      await _familyController.acceptFamilyRequest();
                                     },
-                                    child: CustomListViewItem(
-                                      backgroundImage: _familyController.receivedFamilyList[index].profilePicture.toString(),
-                                      imageSize: h50,
-                                      name: _familyController.receivedFamilyList[index].fullName ?? ksNA.tr,
-                                      subTitle: _familyController.receivedFamilyList[index].familyRelationStatus ?? ksNA,
-                                      firstButtonText: ksConfirm.tr,
-                                      secondButtonText: ksCancel.tr,
-                                      firstButtonOnPressed: () async {
-                                        _familyController.userId.value = _familyController.receivedFamilyList[index].id!;
-                                        await _familyController.acceptFamilyRequest();
-                                      },
-                                      secondButtonOnPressed: () async {
-                                        _familyController.userId.value = _familyController.receivedFamilyList[index].id!;
-                                        await _familyController.rejectFamilyRequest();
-                                      },
-                                    ),
+                                    secondButtonOnPressed: () async {
+                                      _familyController.userId.value = _familyController.receivedFamilyList[index].id!;
+                                      await _familyController.rejectFamilyRequest();
+                                    },
                                   ),
                                 ),
                               );
@@ -347,26 +335,20 @@ class PendingFamilyList extends StatelessWidget {
                                 padding: const EdgeInsets.only(bottom: k10Padding),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(k8BorderRadius),
-                                  child: TextButton(
-                                    style: kTextButtonStyle,
-                                    onPressed: () async {
-                                      // ll(index);
+                                  child: CustomSingleButtonListViewItem(
+                                    backgroundImage: _familyController.sendFamilyRequestList[index].profilePicture.toString(),
+                                    imageSize: h45,
+                                    name: _familyController.sendFamilyRequestList[index].fullName.toString(),
+                                    subTitle: _familyController.relation.value,
+                                    buttonText: ksCancelRequest.tr,
+                                    buttonOnPressed: () async {
+                                      _familyController.userId.value = _familyController.sendFamilyRequestList[index].id!;
+                                      await _familyController.cancelFamilyRequest();
                                     },
-                                    child: CustomSingleButtonListViewItem(
-                                      backgroundImage: _familyController.sendFamilyRequestList[index].profilePicture.toString(),
-                                      imageSize: h45,
-                                      name: _familyController.sendFamilyRequestList[index].fullName.toString(),
-                                      subTitle: _familyController.relation.value,
-                                      buttonText: ksCancelRequest.tr,
-                                      buttonOnPressed: () async {
-                                        _familyController.userId.value = _familyController.sendFamilyRequestList[index].id!;
-                                        await _familyController.cancelFamilyRequest();
-                                      },
-                                      buttonColor: cWhiteColor,
-                                      borderColor: cRedColor,
-                                      textStyle: semiBold14TextStyle(cRedColor),
-                                      buttonWidth: 120,
-                                    ),
+                                    buttonColor: cWhiteColor,
+                                    borderColor: cRedColor,
+                                    textStyle: semiBold14TextStyle(cRedColor),
+                                    buttonWidth: 120,
                                   ),
                                 ),
                               );

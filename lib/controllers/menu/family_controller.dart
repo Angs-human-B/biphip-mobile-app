@@ -266,6 +266,7 @@ class FamilyController extends GetxController {
             receivedRequestCount.value--;
           }
         }
+
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isRejectFamilyRequestLoading.value = false;
