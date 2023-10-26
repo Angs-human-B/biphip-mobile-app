@@ -141,11 +141,17 @@ class Family extends StatelessWidget {
                 ),
               ),
             ),
-            if (Get.find<FriendController>().isFriendListLoading.value == true)
+            if (Get.find<FriendController>().isFriendListLoading.value == true ||
+                _familyController.isCancelFamilyRequestLoading.value == true ||
+                _familyController.isAcceptFamilyRequestLoading.value == true ||
+                _familyController.isRejectFamilyRequestLoading.value == true)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (Get.find<FriendController>().isFriendListLoading.value) {
+                    if (Get.find<FriendController>().isFriendListLoading.value ||
+                        _familyController.isCancelFamilyRequestLoading.value ||
+                        _familyController.isAcceptFamilyRequestLoading.value ||
+                        _familyController.isRejectFamilyRequestLoading.value) {
                       return false;
                     }
                     return true;
