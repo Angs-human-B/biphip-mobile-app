@@ -132,21 +132,21 @@ class HomePage extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(vertical: k8Padding),
                                 child: Text(
                                   ksSelfie.tr,
-                                  style: semiBold12TextStyle(cPrimaryColor),
+                                  // style: semiBold12TextStyle(cPrimaryColor),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: k8Padding),
                                 child: Text(
                                   ksDailyQuiz.tr,
-                                  style: semiBold12TextStyle(cPrimaryColor),
+                                  // style: semiBold12TextStyle(cPrimaryColor),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: k8Padding),
                                 child: Text(
                                   ksWeeklyWinner.tr,
-                                  style: semiBold12TextStyle(cPrimaryColor),
+                                  // style: semiBold12TextStyle(cPrimaryColor),
                                 ),
                               ),
                             ],

@@ -203,6 +203,8 @@ class EditAboutInfo extends StatelessWidget {
                                     child: InfoContainer2(
                                       suffixText: checkNullOrStringNull(_profileController.collegeDataList[i].school),
                                       prefixText: _profileController.collegeDataList[i].ended != null ? 'Studied at' : 'Studies at',
+                                      subtitlePrefixText: _profileController.schoolSubtitleText(
+                                          _profileController.collegeDataList[i].started, _profileController.collegeDataList[i].ended),
                                       isAddButton: false,
                                       suffixOnPressed: () async {
                                         _profileController.resetTextEditor();

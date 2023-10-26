@@ -342,7 +342,7 @@ class Profile extends StatelessWidget {
                                           buttonHeight: 32,
                                           buttonWidth: 130,
                                           prefixIcon: BipHip.selfieNew,
-                                          textStyle: semiBold18TextStyle(cWhiteColor),
+                                          textStyle: semiBold16TextStyle(cWhiteColor),
                                           prefixIconSize: screenWiseSize(kIconSize18, 4),
                                           onPressed: () {},
                                         ),
@@ -358,7 +358,7 @@ class Profile extends StatelessWidget {
                                           buttonHeight: 32,
                                           buttonWidth: 130,
                                           buttonColor: cWhiteColor,
-                                          textStyle: semiBold18TextStyle(cPrimaryColor),
+                                          textStyle: semiBold16TextStyle(cPrimaryColor),
                                         )
                                       ],
                                     ),

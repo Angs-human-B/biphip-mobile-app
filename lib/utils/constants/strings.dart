@@ -120,7 +120,7 @@ const String ksSeeAll = 'See all';
 //* Home
 //---------------------------------------
 const String ksDailyQuiz = 'Daily Quiz';
-const String ksWeeklyWinner = 'Weekly Winner';
+const String ksWeeklyWinner = 'Winner';
 
 //---------------------------------------
 //* Home widget
@@ -341,12 +341,11 @@ const String ksNoAlbumAvailable = "No album available";
 const String ksNoImageAvailable = "No image available";
 const String ksNoDataAvailable = "No data available";
 const String ksNA = "NA";
-const String ksBlock='Block';
-const String ksFollow='Follow';
+const String ksBlock = 'Block';
+const String ksFollow = 'Follow';
 const String ksNoFriendAddedYet = "No friend added yet";
 const String ksNoFriendRequestReceivedYet = "No friend request received yet";
 const String ksNoFriendRequestSendYet = "No friend request send yet";
 const String ksNofamilyAddedYet = "No family added yet";
 const String ksNofamilyRequestReceivedYet = "No family request received yet";
 const String ksNofamilyRequestSendYet = "No family request send yet";
-

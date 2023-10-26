@@ -271,6 +271,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     if (startDate != null && endDate != null) {
       return '${DateFormat("dd MMMM, yyyy").format(startDate)} - ${DateFormat("dd MMMM, yyyy").format(endDate)}';
     } else if (startDate == null && endDate != null) {
+      ll(endDate.year);
       return 'School year ${endDate.year}';
     } else if (startDate != null && endDate == null) {
       return '${DateFormat("dd MMMM, yyyy").format(startDate)} to present';

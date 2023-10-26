@@ -98,6 +98,7 @@ class EditPage extends StatelessWidget {
                                     } else {
                                       _profileController.educationBackground.value = _profileController.tempEducationBackground.value;
                                     }
+                                    _profileController.checkSaveButtonActive();
                                     Get.back();
                                   },
                                   rightText: ksDone.tr,
