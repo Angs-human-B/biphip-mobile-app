@@ -71,7 +71,6 @@ class AddFamily extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           itemBuilder: (context, index) {
                             final option = options.elementAt(index);
-                            // ll(options.elementAt(index));
                             return CustomListTile(
                               title: Text(
                                 option.toString(),
@@ -80,9 +79,10 @@ class AddFamily extends StatelessWidget {
                               onPressed: () {
                                 onSelected(option.toString());
                                 profileController.searchController.text = option.toString();
-                                for (int i = 0; i < options.length; i++) {
+                                for (int i = 0; i < _friendController.friendList.length; i++) {
                                   if (_friendController.friendList[i].fullName == option) {
                                     _familyController.userId.value = _friendController.friendList[i].id!;
+                                    ll(options.length);
                                   }
                                 }
                                 unfocus(context);
@@ -121,7 +121,7 @@ class AddFamily extends StatelessWidget {
               kH12sizedBox,
               CustomSelectionButton(
                 hintText: ksSelectRelation.tr,
-                text: _familyController.relation.value == "" ? '' : _familyController.relation.value,
+                text: _familyController.relation.value,
                 onPressed: () async {
                   unFocus(context);
                   _familyController.isFamilyRelationListLoading.value = true;

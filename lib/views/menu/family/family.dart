@@ -35,8 +35,9 @@ class Family extends StatelessWidget {
                   _profileController.searchController.clear();
                   FocusScope.of(context).unfocus();
                   _familyController.addFamilyRequestList.clear();
+                  _familyController.relationStatusId.value = -1;
+                  _familyController.relation.value = '';
                   await Get.find<FriendController>().getFriendList();
-                  _familyController.relation.value == "";
                   Get.toNamed(krAddFamily);
                 },
                 child: Text(
