@@ -77,7 +77,7 @@ class AddFriend extends StatelessWidget {
                                 child: Expanded(
                                   child: SingleChildScrollView(
                                     controller: _friendController.addFriendListScrollController,
-                                    physics: const AlwaysScrollableScrollPhysics(),
+                                    // physics: const AlwaysScrollableScrollPhysics(),
                                     child: Column(
                                       children: [
                                         ListView.builder(

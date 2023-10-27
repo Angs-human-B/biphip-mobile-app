@@ -88,10 +88,6 @@ class FriendController extends GetxController {
       if (response.success == true) {
         friendListData.value = CommonFriendModel.fromJson(response.data);
         friendList.addAll(friendListData.value!.friends!.data);
-        tempFriendList.clear();
-        for (int i = 0; i < friendList.length; i++) {
-          tempFriendList.add(friendListData.value!.friends!.data[i].fullName!);
-        }
         allFriendCount.value = friendListData.value!.friends!.total!;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
