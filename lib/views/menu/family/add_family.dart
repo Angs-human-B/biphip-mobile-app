@@ -46,8 +46,8 @@ class AddFamily extends StatelessWidget {
                               child: Text(
                                 ksSend.tr,
                                 style: (_familyController.relationId.value == -1 || _familyController.userId.value == -1)
-                                    ? medium14TextStyle(cIconColor)
-                                    : medium14TextStyle(cPrimaryColor),
+                                    ? medium16TextStyle(cIconColor)
+                                    : medium16TextStyle(cPrimaryColor),
                               ),
                             ),
                           )),
@@ -120,7 +120,7 @@ class AddFamily extends StatelessWidget {
                               textInputStyle: regular16TextStyle(cBlackColor),
                               onChanged: (v) {
                                 for (int i = 0; i < _friendController.tempFriendList.length; i++) {
-                                  if (_friendController.tempFriendList[i].contains(profileController.searchController.text)) {
+                                  if (_friendController.tempFriendList[i].contains(profileController.searchController.text.trim())) {
                                     _familyController.userId.value = _friendController.friendList[i].id!;
                                   }
                                   if (_friendController.tempFriendList[i] != profileController.searchController.text) {
