@@ -461,20 +461,20 @@ class CommonFamilyShimmer extends StatelessWidget {
                         ),
                         kH4sizedBox,
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             ShimmerCommon(
                               widget: Container(
                                 decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                                 height: 30,
-                                width: (width / 2) - h60,
+                                width: isDeviceScreenLarge() ? 100 : 108,
                               ),
                             ),
+                            kW20sizedBox,
                             ShimmerCommon(
                               widget: Container(
                                 decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                                 height: 30,
-                                width: (width / 2) - h60,
+                                width: isDeviceScreenLarge() ? 100 : 108,
                               ),
                             ),
                           ],
@@ -492,6 +492,7 @@ class CommonFamilyShimmer extends StatelessWidget {
   }
 }
 
+//*Pending family list shimmer
 class PendingFamilyListShimmer extends StatelessWidget {
   const PendingFamilyListShimmer({super.key});
   @override
@@ -553,7 +554,7 @@ class PendingFamilyListShimmer extends StatelessWidget {
                       widget: Container(
                         decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                         height: 30,
-                        width: (width / 2) - h60,
+                        width: isDeviceScreenLarge() ? 100 : 108,
                       ),
                     ),
                   ],

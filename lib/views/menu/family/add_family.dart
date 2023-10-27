@@ -120,7 +120,7 @@ class AddFamily extends StatelessWidget {
                               textInputStyle: regular16TextStyle(cBlackColor),
                               onChanged: (v) {
                                 for (int i = 0; i < _friendController.tempFriendList.length; i++) {
-                                  if (_friendController.tempFriendList[i].contains(profileController.searchController.text.trim())) {
+                                  if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
                                     _familyController.userId.value = _friendController.friendList[i].id!;
                                   }
                                   if (_friendController.tempFriendList[i] != profileController.searchController.text) {

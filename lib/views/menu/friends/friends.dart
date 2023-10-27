@@ -953,20 +953,20 @@ class ReceivedFriendShimmer extends StatelessWidget {
                                   ),
                                   kH4sizedBox,
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       ShimmerCommon(
                                         widget: Container(
                                           decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                                           height: 30,
-                                          width: 120,
+                                          width: isDeviceScreenLarge() ? 100 : 108,
                                         ),
                                       ),
+                                      kW20sizedBox,
                                       ShimmerCommon(
                                         widget: Container(
                                           decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                                           height: 30,
-                                          width: 120,
+                                          width: isDeviceScreenLarge() ? 100 : 108,
                                         ),
                                       ),
                                     ],
