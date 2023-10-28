@@ -414,9 +414,12 @@ class Profile extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  // TabBarView(
-                                  //   controller: _profileController.profileTabController,
-                                  //   children: [PostTab(), FriendFamilyTab()],
+                                  // Flexible(
+                                  //   flex: 1,
+                                  //   child: TabBarView(
+                                  //     controller: _profileController.profileTabController,
+                                  //     children: [PostTab(), FriendFamilyTab()],
+                                  //   ),
                                   // )
                                 ],
                               ),
@@ -710,15 +713,8 @@ class FriendsFamilyGridView extends StatelessWidget {
             ),
             itemBuilder: (BuildContext context, int index) {
               var item = friendList[index];
-              return ClipRRect(
-                borderRadius: k8CircularBorderRadius,
-                child: TextButton(
-                  style: kTextButtonStyle,
-                  onPressed: () {},
-                  child: CustomGridViewContainer(
-                    item: item,
-                  ),
-                ),
+              return CustomGridViewContainer(
+                item: item,
               );
             },
           ),
@@ -757,7 +753,7 @@ class CustomGridViewContainer extends StatelessWidget {
           kH4sizedBox,
           Text(
             _item['name'],
-            style: medium12TextStyle(cBlackColor),
+            style: semiBold14TextStyle(cBlackColor),
             overflow: TextOverflow.clip,
             maxLines: 2,
           ),

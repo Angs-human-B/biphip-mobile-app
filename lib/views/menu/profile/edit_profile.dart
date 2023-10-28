@@ -288,10 +288,10 @@ class EditProfile extends StatelessWidget {
                                 kH16sizedBox,
                                 CustomElevatedButton(
                                   label: ksEditYouAboutInfo.tr,
-                                  buttonHeight: h28,
+                                  buttonHeight: h32,
                                   buttonWidth: width - 40,
-                                  buttonColor: cLineColor,
-                                  textStyle: semiBold12TextStyle(cBlackColor),
+                                  buttonColor: cPrimaryColor,
+                                  textStyle: semiBold14TextStyle(cWhiteColor),
                                   onPressed: () async {
                                     _profileController.showAllEditOption.value = true;
                                     _profileController.resetEditAboutPage();

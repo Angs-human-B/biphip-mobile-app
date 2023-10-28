@@ -42,7 +42,7 @@ class EditPage extends StatelessWidget {
                           Get.back();
                         },
                         text: ksDelete,
-                        textStyle: regular14TextStyle(cRedColor)),
+                        textStyle: semiBold14TextStyle(cRedColor)),
                   )
               ],
             ),
@@ -179,7 +179,6 @@ class EditPage extends StatelessWidget {
                                     padding: EdgeInsets.zero,
                                     itemBuilder: (context, index) {
                                       final option = options.elementAt(index);
-
                                       return CustomListTile(
                                         title: Text(
                                           option.toString(),
