@@ -48,7 +48,7 @@ class Family extends StatelessWidget {
                           },
                           child: Text(
                             ksAdd.tr,
-                            style: medium16TextStyle(cPrimaryColor),
+                            style: semiBold16TextStyle(cPrimaryColor),
                           ),
                         ),
                       ),
@@ -472,10 +472,9 @@ class CommonFamilyShimmer extends StatelessWidget {
                             kW20sizedBox,
                             ShimmerCommon(
                               widget: Container(
-                                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
-                                height: 30,
-                                width: isDeviceScreenLarge() ? 112 : 120
-                              ),
+                                  decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
+                                  height: 30,
+                                  width: isDeviceScreenLarge() ? 112 : 120),
                             ),
                           ],
                         ),

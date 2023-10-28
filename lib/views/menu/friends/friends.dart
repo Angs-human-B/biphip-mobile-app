@@ -47,7 +47,7 @@ class Friends extends StatelessWidget {
                           },
                           child: Text(
                             ksAdd.tr,
-                            style: medium16TextStyle(cPrimaryColor),
+                            style: semiBold16TextStyle(cPrimaryColor),
                           ),
                         ),
                       ),
