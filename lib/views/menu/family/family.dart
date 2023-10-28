@@ -466,7 +466,7 @@ class CommonFamilyShimmer extends StatelessWidget {
                               widget: Container(
                                 decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                                 height: 30,
-                                width: isDeviceScreenLarge() ? 100 : 108,
+                                width: isDeviceScreenLarge() ? 112 : 120,
                               ),
                             ),
                             kW20sizedBox,
@@ -474,7 +474,7 @@ class CommonFamilyShimmer extends StatelessWidget {
                               widget: Container(
                                 decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                                 height: 30,
-                                width: isDeviceScreenLarge() ? 100 : 108,
+                                width: isDeviceScreenLarge() ? 112 : 120
                               ),
                             ),
                           ],
@@ -554,7 +554,7 @@ class PendingFamilyListShimmer extends StatelessWidget {
                       widget: Container(
                         decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                         height: 30,
-                        width: isDeviceScreenLarge() ? 100 : 108,
+                        width: isDeviceScreenLarge() ? 112 : 120,
                       ),
                     ),
                   ],

@@ -195,7 +195,7 @@ class AddFriendShimmer extends StatelessWidget {
                               widget: Container(
                                 decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                                 height: 30,
-                                width: 120,
+                                width: isDeviceScreenLarge() ? 112 : 120,
                               ),
                             ),
                           ],

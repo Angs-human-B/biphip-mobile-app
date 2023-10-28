@@ -250,7 +250,7 @@ class CustomListViewItem extends StatelessWidget {
                 children: [
                   if (firstButtonText != null)
                     CustomElevatedButton(
-                      buttonWidth: isDeviceScreenLarge() ? 100 : 108,
+                      buttonWidth: isDeviceScreenLarge() ? 112 : 120,
                       buttonHeight: 30,
                       label: firstButtonText!,
                       textStyle: semiBold16TextStyle(cWhiteColor),
@@ -260,7 +260,7 @@ class CustomListViewItem extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: k20Padding),
                       child: CustomElevatedButton(
-                        buttonWidth: isDeviceScreenLarge() ? 100 : 108,
+                        buttonWidth: isDeviceScreenLarge() ? 112 : 120,
                         buttonHeight: 30,
                         label: secondButtonText!,
                         onPressed: secondButtonOnPressed,
@@ -360,7 +360,7 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
               buttonColor: buttonColor,
               textStyle: textStyle,
               buttonHeight: buttonHeight ?? 32,
-              buttonWidth: buttonWidth ?? (isDeviceScreenLarge() ? 100 : 108),
+              buttonWidth: buttonWidth ?? (isDeviceScreenLarge() ? 112 : 120),
               borderColor: borderColor,
             ),
           ],
@@ -958,7 +958,7 @@ class ReceivedFriendShimmer extends StatelessWidget {
                                         widget: Container(
                                           decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                                           height: 30,
-                                          width: isDeviceScreenLarge() ? 100 : 108,
+                                          width: isDeviceScreenLarge() ? 112 : 120,
                                         ),
                                       ),
                                       kW20sizedBox,
@@ -966,7 +966,7 @@ class ReceivedFriendShimmer extends StatelessWidget {
                                         widget: Container(
                                           decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                                           height: 30,
-                                          width: isDeviceScreenLarge() ? 100 : 108,
+                                          width: isDeviceScreenLarge() ? 112 : 120,
                                         ),
                                       ),
                                     ],
