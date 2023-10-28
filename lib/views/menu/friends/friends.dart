@@ -224,7 +224,7 @@ class CustomListViewItem extends StatelessWidget {
             children: [
               Text(
                 name,
-                style: medium16TextStyle(cBlackColor),
+                style: semiBold16TextStyle(cBlackColor),
               ),
               kH4sizedBox,
               Row(
@@ -348,7 +348,7 @@ class CustomSingleButtonListViewItem extends StatelessWidget {
                       ? const SizedBox()
                       : Text(
                           subTitle ?? '',
-                          style: regular10TextStyle(cSmallBodyTextColor),
+                          style: regular12TextStyle(cSmallBodyTextColor),
                         ),
                 ],
               ),
