@@ -46,8 +46,8 @@ class AddFamily extends StatelessWidget {
                               child: Text(
                                 ksSend.tr,
                                 style: (_familyController.relationId.value == -1 || _familyController.userId.value == -1)
-                                    ? medium16TextStyle(cIconColor)
-                                    : medium16TextStyle(cPrimaryColor),
+                                    ? semiBold16TextStyle(cIconColor)
+                                    : semiBold16TextStyle(cPrimaryColor),
                               ),
                             ),
                           )),
