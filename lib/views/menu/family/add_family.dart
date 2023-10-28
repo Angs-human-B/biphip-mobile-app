@@ -160,7 +160,7 @@ class AddFamily extends StatelessWidget {
                                 Get.back();
                               },
                               rightText: ksDone.tr,
-                              rightTextStyle: medium14TextStyle(cPrimaryColor),
+                              rightTextStyle: semiBold16TextStyle(cPrimaryColor),
                               title: ksSelectRelation.tr,
                               isRightButtonShow: true,
                             );
