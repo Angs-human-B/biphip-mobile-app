@@ -17,7 +17,8 @@ class OTPVerifyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      // color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
           children: [
@@ -29,6 +30,7 @@ class OTPVerifyScreen extends StatelessWidget {
                   //* info:: appBar
                   child: Obx(
                     () => CustomAppBar(
+                      appBarColor: cTransparentColor,
                       title: _authenticationController.parentRoute.value == "register" ? ksRegistration.tr : ksForgetPassword.tr,
                       onBack: () async {
                         Get.back();
@@ -46,7 +48,7 @@ class OTPVerifyScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                backgroundColor: cWhiteColor,
+                backgroundColor: cTransparentColor,
                 body: SizedBox(
                   height: height,
                   width: width,

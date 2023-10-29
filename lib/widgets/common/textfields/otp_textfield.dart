@@ -1,5 +1,3 @@
-
-
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -42,16 +40,15 @@ class OtpTextField extends StatelessWidget {
       onChanged: onChange,
       onCompleted: onCompleted,
       pinTheme: PinTheme(
-        
         borderRadius: BorderRadius.circular(k4BorderRadius),
         activeFillColor: cGreyBoxColor,
         inactiveFillColor: cGreyBoxColor,
         shape: PinCodeFieldShape.box,
         fieldHeight: 50,
         fieldWidth: 65,
-        inactiveColor: cGreyBoxColor,
-        activeColor: cGreyBoxColor,
-        selectedColor: cGreyBoxColor,
+        inactiveColor: cLineColor2,
+        activeColor: cLineColor2,
+        selectedColor: cLineColor2,
         selectedFillColor: cGreyBoxColor,
       ),
     );

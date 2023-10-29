@@ -17,7 +17,8 @@ class SelectGender extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      // color: cRedColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         top: false,
         child: Scaffold(
@@ -25,6 +26,7 @@ class SelectGender extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
+              appBarColor: cTransparentColor,
               title: ksRegistration.tr,
               onBack: () async {
                 Get.back();
@@ -39,7 +41,7 @@ class SelectGender extends StatelessWidget {
               ],
             ),
           ),
-          backgroundColor: cWhiteColor,
+          backgroundColor: cTransparentColor,
           body: SizedBox(
             height: height,
             width: width,
@@ -77,7 +79,7 @@ class SelectGender extends StatelessWidget {
                               Get.back();
                             },
                             onPressRightButton: () {
-                                  _profileController.isGenderListLoading.value = true;
+                              _profileController.isGenderListLoading.value = true;
                               if (_profileController.tempSelectedGender.value != '') {
                                 _authenticationController.gender.value = _profileController.tempSelectedGender.value;
                                 _profileController.isGenderSelected.value = true;
@@ -136,7 +138,7 @@ class GenderListShimmer extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
               title: ShimmerCommon(
-               widget: Container(
+                widget: Container(
                   height: 20,
                   decoration: BoxDecoration(
                     borderRadius: k8CircularBorderRadius,

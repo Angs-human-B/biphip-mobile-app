@@ -13,7 +13,9 @@ class ResetPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      // color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
+
       child: Obx(
         () => Stack(
           children: [
@@ -24,6 +26,7 @@ class ResetPasswordScreen extends StatelessWidget {
                   preferredSize: const Size.fromHeight(kAppBarSize),
                   //* info:: appBar
                   child: CustomAppBar(
+                    appBarColor: cTransparentColor,
                     title: ksForgetPassword.tr,
                     onBack: () async {
                       Get.back();
@@ -38,7 +41,7 @@ class ResetPasswordScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                backgroundColor: cWhiteColor,
+                backgroundColor: cTransparentColor,
                 body: SizedBox(
                   height: height,
                   width: width,
@@ -58,6 +61,12 @@ class ResetPasswordScreen extends StatelessWidget {
                             controller: _authenticationController.resetNewPasswordTextEditingController,
                             errorText: _authenticationController.resetPasswordError.value,
                             hint: ksTypePassword.tr,
+                            textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                            fillColor: cWhiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(k4BorderRadius),
+                              borderSide: const BorderSide(width: 1, color: cLineColor2),
+                            ),
                             suffixIcon: _authenticationController.isResetNewPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                             onSuffixPress: () {
                               _authenticationController.isResetNewPasswordToggleObscure.value =
@@ -86,6 +95,12 @@ class ResetPasswordScreen extends StatelessWidget {
                             focusNode: _confirmPasswordFocusNode,
                             errorText: _authenticationController.resetConfirmPasswordError.value,
                             hint: ksConfirmPassword.tr,
+                            textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                            fillColor: cWhiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(k4BorderRadius),
+                              borderSide: const BorderSide(width: 1, color: cLineColor2),
+                            ),
                             suffixIcon: _authenticationController.isResetConfirmPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                             onSuffixPress: () {
                               _authenticationController.isResetConfirmPasswordToggleObscure.value =
