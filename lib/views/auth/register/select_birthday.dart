@@ -41,7 +41,7 @@ class SelectBirthday extends StatelessWidget {
               ],
             ),
           ),
-          backgroundColor: cWhiteColor,
+          backgroundColor: cTransparentColor,
           body: SizedBox(
             height: height,
             width: width,
@@ -59,6 +59,8 @@ class SelectBirthday extends StatelessWidget {
                       ),
                       _profileController.isRouteFromAboutInfo.value ? kH20sizedBox : kH50sizedBox,
                       CustomSelectionButton(
+                        buttonColor: cWhiteColor,
+                        borderColor: cLineColor2,
                         onPressed: () {
                           showModalBottomSheet(
                               context: context,

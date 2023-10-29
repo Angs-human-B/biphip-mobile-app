@@ -18,9 +18,39 @@ class Login extends StatelessWidget {
       child: Obx(
         () => Stack(
           children: [
+            Positioned(
+              top: 0.0,
+              child: Container(
+                height: (height) / 2,
+                width: width,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.topRight,
+                    colors: [cGradientColor1.withOpacity(0.1), cGradientColor2.withOpacity(0.1)],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 0.0,
+              // right: 0.0,
+              child: Container(
+                height: (height) / 2,
+                width: width,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.bottomRight,
+                    colors: [cPrimaryColor.withOpacity(0.1), cGradientColor3.withOpacity(0.1)],
+                  ),
+                ),
+              ),
+            ),
             SafeArea(
+              top: false,
               child: Scaffold(
-                backgroundColor: cWhiteColor,
+                backgroundColor: cTransparentColor,
                 body: SizedBox(
                   height: height,
                   width: width,
@@ -31,8 +61,8 @@ class Login extends StatelessWidget {
                           padding:
                               isDeviceScreenLarge() ? EdgeInsets.only(top: getPaddingTop(context) + h60) : EdgeInsets.only(top: getPaddingTop(context) + h40),
                           child: const LogoAndText(
-                            size: h50,
-                            fontSize: h18,
+                            size: 80,
+                            fontSize: h26,
                             mainAxisAlignment: MainAxisAlignment.start,
                           ),
                         ),
@@ -54,6 +84,12 @@ class Login extends StatelessWidget {
                             errorText: _authenticationController.loginEmailErrorText.isEmpty ? null : _authenticationController.loginEmailErrorText.value,
                             controller: _authenticationController.loginEmailTextEditingController,
                             hint: ksEmailOrPhone.tr,
+                            textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                            fillColor: cWhiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(k4BorderRadius),
+                              borderSide: const BorderSide(width: 1, color: cLineColor2),
+                            ),
                             onChanged: (text) {
                               _authenticationController.checkCanLogin();
                               if (_authenticationController.loginEmailTextEditingController.text.trim() == '') {
@@ -76,6 +112,12 @@ class Login extends StatelessWidget {
                             errorText: _authenticationController.loginPasswordErrorText.value,
                             controller: _authenticationController.loginPasswordTextEditingController,
                             hint: ksPassword.tr,
+                            textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                            fillColor: cWhiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(k4BorderRadius),
+                              borderSide: const BorderSide(width: 1, color: cLineColor2),
+                            ),
                             suffixIcon: _authenticationController.isLoginPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                             onSuffixPress: () {
                               _authenticationController.isLoginPasswordToggleObscure.value = !_authenticationController.isLoginPasswordToggleObscure.value;

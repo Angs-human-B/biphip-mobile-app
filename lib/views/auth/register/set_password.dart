@@ -58,6 +58,12 @@ class SetPassword extends StatelessWidget {
                             controller: _authenticationController.registerPasswordTextEditingController,
                             errorText: _authenticationController.registerPasswordError.value,
                             hint: ksPassword.tr,
+                             textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                                fillColor: cWhiteColor,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(k4BorderRadius),
+                                  borderSide: const BorderSide(width: 1, color: cLineColor2),
+                                ),
                             suffixIcon: _authenticationController.isRegisterPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                             onSuffixPress: () {
                               _authenticationController.isRegisterPasswordToggleObscure.value =
@@ -91,6 +97,12 @@ class SetPassword extends StatelessWidget {
                             focusNode: _confirmPasswordFocusNode,
                             errorText: _authenticationController.registerConfirmPasswordError.value,
                             hint: ksConfirmPassword.tr,
+                             textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                                fillColor: cWhiteColor,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(k4BorderRadius),
+                                  borderSide: const BorderSide(width: 1, color: cLineColor2),
+                                ),
                             suffixIcon: _authenticationController.isRegisterConfirmPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
                             onSuffixPress: () {
                               _authenticationController.isRegisterConfirmPasswordToggleObscure.value =

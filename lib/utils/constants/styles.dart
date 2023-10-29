@@ -12,9 +12,11 @@ TextStyle medium24TextStyle(Color color) {
 TextStyle medium12TextStyle(Color color) {
   return TextStyle(fontWeight: FontWeight.w500, fontSize: screenWiseSize(h12, 2), color: color);
 }
+
 TextStyle medium14TextStyle(Color color) {
   return TextStyle(fontWeight: FontWeight.w500, fontSize: screenWiseSize(h14, 2), color: color);
 }
+
 TextStyle medium16TextStyle(Color color) {
   return TextStyle(fontWeight: FontWeight.w500, fontSize: screenWiseSize(h16, 2), color: color);
 }

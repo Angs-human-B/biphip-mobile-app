@@ -14,7 +14,7 @@ const String kuGetAllLinkTypes = '/mobile/get-all-link-types'; //DONE
 const String kuGetAllRelationShips = '/mobile/get-all-relationships'; //DONE
 const String kuGetAllGenders = '/mobile/get-all-genders'; //DONE
 const String kuGetAllCities = '/mobile/get-all-cities'; //DONE
-const String kuGetAllSchools = '/mobile/get-all-schools'; 
+const String kuGetAllSchools = '/mobile/get-all-schools';
 const String kuGetAllCompanies = '/mobile/get-all-companies'; //DONE
 const String kuGetAllDegrees = '/mobile/get-all-degrees';
 const String kuGetAllPositions = '/mobile/get-all-positions'; //DONE
@@ -108,6 +108,9 @@ const String kuSendFamilyRequest = '/mobile/user/send-family-request';
 const String kuCancelFamilyRequest = '/mobile/user/cancel-family-request';
 const String kuAcceptFamilyRequest = '/mobile/user/accept-family-request';
 const String kuRejectFamilyRequest = '/mobile/user/reject-family-request';
+
+//* Family Relation Status
+const String kuGetAllFamilyRelations = '/mobile/get-all-family-relations';
 
 /*
 |--------------------------------------------------------------------------

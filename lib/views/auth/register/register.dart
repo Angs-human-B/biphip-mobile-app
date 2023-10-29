@@ -24,6 +24,7 @@ class Register extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
+              // appBarColor: cTransparentColor,
               title: ksRegistration.tr,
               hasBackButton: false,
               onBack: () async {
@@ -39,7 +40,7 @@ class Register extends StatelessWidget {
               ],
             ),
           ),
-          backgroundColor: cWhiteColor,
+          backgroundColor: cTransparentColor,
           body: SizedBox(
             height: height,
             width: width,
@@ -88,6 +89,12 @@ class Register extends StatelessWidget {
                         controller: _authenticationController.registerFirstNameTextEditingController,
                         errorText: _authenticationController.firstNameError.value,
                         hint: ksFirstName.tr,
+                        textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                        fillColor: cWhiteColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(k4BorderRadius),
+                          borderSide: const BorderSide(width: 1, color: cLineColor2),
+                        ),
                         onChanged: (text) {
                           _authenticationController.checkName();
                           if (_authenticationController.registerFirstNameTextEditingController.text.trim() == '') {
@@ -105,6 +112,12 @@ class Register extends StatelessWidget {
                         controller: _authenticationController.registerLastNameTextEditingController,
                         errorText: _authenticationController.lastNameError.value,
                         hint: ksLastName.tr,
+                        textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                        fillColor: cWhiteColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(k4BorderRadius),
+                          borderSide: const BorderSide(width: 1, color: cLineColor2),
+                        ),
                         onChanged: (text) {
                           _authenticationController.checkName();
                           if (_authenticationController.registerLastNameTextEditingController.text.trim() == '') {
@@ -122,7 +135,7 @@ class Register extends StatelessWidget {
                         label: ksNext.tr,
                         onPressed: _authenticationController.checkValidName.value
                             ? () {
-                               unfocus(context);
+                                unfocus(context);
                                 Get.find<ProfileController>().isRouteFromAboutInfo.value = false;
                                 _authenticationController.birthDay.value = '';
                                 Get.toNamed(krSelectBirthday);
@@ -138,7 +151,7 @@ class Register extends StatelessWidget {
                         prefix: ksAlreadyHaveAccount.tr,
                         suffix: ksLogin.tr,
                         onPressed: () {
-                           unfocus(context);
+                          unfocus(context);
                           Get.toNamed(krLogin);
                         },
                       )

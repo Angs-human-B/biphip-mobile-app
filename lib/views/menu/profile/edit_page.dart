@@ -42,7 +42,7 @@ class EditPage extends StatelessWidget {
                           Get.back();
                         },
                         text: ksDelete,
-                        textStyle: regular14TextStyle(cRedColor)),
+                        textStyle: semiBold14TextStyle(cRedColor)),
                   )
               ],
             ),
@@ -98,6 +98,7 @@ class EditPage extends StatelessWidget {
                                     } else {
                                       _profileController.educationBackground.value = _profileController.tempEducationBackground.value;
                                     }
+                                    _profileController.checkSaveButtonActive();
                                     Get.back();
                                   },
                                   rightText: ksDone.tr,
@@ -178,7 +179,6 @@ class EditPage extends StatelessWidget {
                                     padding: EdgeInsets.zero,
                                     itemBuilder: (context, index) {
                                       final option = options.elementAt(index);
-
                                       return CustomListTile(
                                         title: Text(
                                           option.toString(),
@@ -231,7 +231,6 @@ class EditPage extends StatelessWidget {
                                   _profileController.checkSaveButtonActive();
                                 },
                                 onChanged: (value) {
-                                  _profileController.checkSaveButtonActive();
                                   if (_profileController.commonEditTextEditingController.text != '') {
                                     _profileController.showCommonEditSuffixIcon.value = true;
                                   } else {
@@ -245,11 +244,13 @@ class EditPage extends StatelessWidget {
                                       _profileController.commonEditTextFieldErrorText.value = '';
                                     }
                                   }
+                                  _profileController.checkSaveButtonActive();
                                 },
                               ),
                             );
                           },
                         ),
+                        
                         if (_profileController.isSecondaryTextfieldShown.value)
                           Padding(
                             padding: const EdgeInsets.only(bottom: k8Padding),
@@ -352,9 +353,10 @@ class EditPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SizedBox(
-                                  width: _profileController.isSingleDatePicker.value?width-40:(width / 2) - 30,
+                                  width: _profileController.isSingleDatePicker.value ? width - 40 : (width / 2) - 30,
                                   child: CustomSelectionButton(
                                     prefixIcon: BipHip.calendarFill,
+                                    prefixIconSize: screenWiseSize(kIconSize20, 4),
                                     onPressed: () {
                                       showModalBottomSheet(
                                           context: context,
@@ -368,48 +370,47 @@ class EditPage extends StatelessWidget {
                                                     : DateTime.now(),
                                                 mode: CupertinoDatePickerMode.date,
                                                 onDateTimeChanged: (value) {
-                                                  _profileController.checkSaveButtonActive();
-
                                                   _profileController.commonStartDate.value = DateFormat("yyyy-MM-dd").format(value);
+                                                  _profileController.checkSaveButtonActive();
                                                 },
                                               ),
                                             );
                                           });
                                     },
                                     text: _profileController.commonStartDate.value,
-                                    hintText: _profileController.isSingleDatePicker.value?ksDate.tr:ksStartDate.tr,
+                                    hintText: _profileController.isSingleDatePicker.value ? ksDate.tr : ksStartDate.tr,
                                   ),
                                 ),
-                                if(!_profileController.isSingleDatePicker.value)
-                                SizedBox(
-                                  width: (width / 2) - 30,
-                                  child: CustomSelectionButton(
-                                    prefixIcon: BipHip.calendarFill,
-                                    onPressed: () {
-                                      showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) {
-                                            return SizedBox(
-                                              height: height * 0.4,
-                                              child: CupertinoDatePicker(
-                                                mode: CupertinoDatePickerMode.date,
-                                                // maximumDate: DateTime.now(),
-                                                initialDateTime: _profileController.commonEndDate.value != ''
-                                                    ? DateTime.parse(_profileController.commonEndDate.value)
-                                                    : DateTime.now(),
-                                                onDateTimeChanged: (value) {
-                                                  _profileController.checkSaveButtonActive();
-
-                                                  _profileController.commonEndDate.value = DateFormat("yyyy-MM-dd").format(value);
-                                                },
-                                              ),
-                                            );
-                                          });
-                                    },
-                                    text: _profileController.commonEndDate.value,
-                                    hintText: ksEndDate.tr,
+                                if (!_profileController.isSingleDatePicker.value)
+                                  SizedBox(
+                                    width: (width / 2) - 30,
+                                    child: CustomSelectionButton(
+                                      prefixIcon: BipHip.calendarFill,
+                                      prefixIconSize: screenWiseSize(kIconSize20, 4),
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) {
+                                              return SizedBox(
+                                                height: height * 0.4,
+                                                child: CupertinoDatePicker(
+                                                  mode: CupertinoDatePickerMode.date,
+                                                  // maximumDate: DateTime.now(),
+                                                  initialDateTime: _profileController.commonEndDate.value != ''
+                                                      ? DateTime.parse(_profileController.commonEndDate.value)
+                                                      : DateTime.now(),
+                                                  onDateTimeChanged: (value) {
+                                                    _profileController.commonEndDate.value = DateFormat("yyyy-MM-dd").format(value);
+                                                    _profileController.checkSaveButtonActive();
+                                                  },
+                                                ),
+                                              );
+                                            });
+                                      },
+                                      text: _profileController.commonEndDate.value,
+                                      hintText: ksEndDate.tr,
+                                    ),
                                   ),
-                                ),
                               ],
                             ),
                           ),
@@ -442,7 +443,15 @@ class EditPage extends StatelessWidget {
                                       label: _profileController.commonEditCheckBoxText.value,
                                       onChanged: (v) {
                                         _profileController.isCommonEditCheckBoxSelected.value = !_profileController.isCommonEditCheckBoxSelected.value;
-                                        ll(_profileController.isCommonEditCheckBoxSelected.value);
+                                        if (!_profileController.functionFlag.contains('PRESENT')) {
+                                          if (_profileController.isCommonEditCheckBoxSelected.value) {
+                                            _profileController.isSingleDatePicker.value = true;
+                                            _profileController.commonEndDate.value = '';
+                                          } else {
+                                            _profileController.isSingleDatePicker.value = false;
+                                          }
+                                        }
+                                        _profileController.checkSaveButtonActive();
                                       },
                                       textStyle: regular14TextStyle(cBlackColor)),
                                 )
@@ -484,19 +493,21 @@ class EditPage extends StatelessWidget {
                 Positioned(
                   bottom: 20,
                   left: 20,
-                  child: CustomElevatedButton(
-                      label: ksSave,
-                      textStyle: semiBold14TextStyle(cWhiteColor),
-                      buttonHeight: h32,
-                      buttonWidth: width - 40,
-                      onPressed: _profileController.enableSaveButton.value
-                          ? () {
-                              ll(_profileController.functionFlag.value);
-                              _profileController.selectFunction(_profileController.functionFlag.value);
-                              Get.back();
-                              //_profileController.clearCommonEditPageData();
-                            }
-                          : null),
+                  child: Obx(
+                    () => CustomElevatedButton(
+                        label: ksSave,
+                        textStyle: semiBold14TextStyle(cWhiteColor),
+                        buttonHeight: h32,
+                        buttonWidth: width - 40,
+                        onPressed: _profileController.enableSaveButton.value
+                            ? () {
+                                ll(_profileController.functionFlag.value);
+                                _profileController.selectFunction(_profileController.functionFlag.value);
+                                Get.back();
+                                //_profileController.clearCommonEditPageData();
+                              }
+                            : null),
+                  ),
                 )
               ],
             ),
@@ -620,7 +631,7 @@ class _LinkListContentShimmer extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: k8Padding),
               child: CustomListTile(
                 title: ShimmerCommon(
-               widget: Container(
+                  widget: Container(
                     height: 20,
                     decoration: BoxDecoration(
                       borderRadius: k8CircularBorderRadius,
