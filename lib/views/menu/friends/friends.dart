@@ -487,7 +487,7 @@ class AllFriendList extends StatelessWidget {
                     ),
                   ),
                 )
-              : Expanded(child: EmptyView(height: height, title: ksNoFriendAddedYet.tr)),
+              : Expanded(child: EmptyView(title: ksNoFriendAddedYet.tr)),
     );
   }
 }

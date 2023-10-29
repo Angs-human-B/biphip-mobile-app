@@ -224,7 +224,7 @@ class AllFamilyList extends StatelessWidget {
                     ),
                   ),
                 )
-              : Expanded(child: EmptyView(height: height * 0.5, title: ksNofamilyAddedYet.tr)),
+              : Expanded(child: EmptyView(title: ksNofamilyAddedYet.tr)),
     );
   }
 }
@@ -295,7 +295,7 @@ class ReceivedFamilyList extends StatelessWidget {
                     ),
                   ),
                 )
-              : Expanded(child: EmptyView(height: height * 0.5, title: ksNofamilyRequestReceivedYet.tr)),
+              : Expanded(child: EmptyView(title: ksNofamilyRequestReceivedYet.tr)),
     );
   }
 }
@@ -364,7 +364,7 @@ class PendingFamilyList extends StatelessWidget {
                     ),
                   ),
                 )
-              : Expanded(child: EmptyView(height: height * 0.5, title: ksNofamilyRequestSendYet.tr)),
+              : Expanded(child: EmptyView(title: ksNofamilyRequestSendYet.tr)),
     );
   }
 }
