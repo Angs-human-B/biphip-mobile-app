@@ -1,13 +1,16 @@
+import 'dart:async';
+
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/family/common_family_model.dart';
+import 'package:bip_hip/models/menu/family/family_relation_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class FamilyController extends GetxController {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
-  final ProfileController _profileController = Get.find<ProfileController>();
+  // final ProfileController _profileController = Get.find<ProfileController>();
   //*Scroll controller for pagination
   final ScrollController familyListScrollController = ScrollController();
   //*Family List Api Call
@@ -20,7 +23,7 @@ class FamilyController extends GetxController {
   Future<void> getFamilyList() async {
     try {
       isFamilyListLoading.value = true;
-      String suffixUrl = '?take=1';
+      String suffixUrl = '?take=15';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -70,7 +73,7 @@ class FamilyController extends GetxController {
 
       String familyListSuffixUrl = '';
 
-      familyListSuffixUrl = '?${familyListSub[1]}&take=1';
+      familyListSuffixUrl = '?${familyListSub[1]}&take=15';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -116,7 +119,7 @@ class FamilyController extends GetxController {
   Future<void> getReceivedFamilyList() async {
     try {
       isReceivedFamilyListLoading.value = true;
-      String suffixUrl = '?take=1';
+      String suffixUrl = '?take=15';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -165,7 +168,7 @@ class FamilyController extends GetxController {
 
       String receivedFamilyListSuffixUrl = '';
 
-      receivedFamilyListSuffixUrl = '?${receivedFamilyListSub[1]}&take=1';
+      receivedFamilyListSuffixUrl = '?${receivedFamilyListSub[1]}&take=15';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -265,6 +268,7 @@ class FamilyController extends GetxController {
             receivedRequestCount.value--;
           }
         }
+
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isRejectFamilyRequestLoading.value = false;
@@ -292,7 +296,7 @@ class FamilyController extends GetxController {
   Future<void> getSendFamilyRequestList() async {
     try {
       isSendFamilyRequestListLoading.value = true;
-      String suffixUrl = '?take=1';
+      String suffixUrl = '?take=15';
       String? token = await _spController.getBearerToken();
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -340,7 +344,7 @@ class FamilyController extends GetxController {
 
       String sendFamilyListSuffixUrl = '';
 
-      sendFamilyListSuffixUrl = '?${sendFamilyListSub[1]}&take=1';
+      sendFamilyListSuffixUrl = '?${sendFamilyListSub[1]}&take=15';
 
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
@@ -412,48 +416,49 @@ class FamilyController extends GetxController {
   }
 
   //* Add Family
-  Rx<CommonFamilies?> addFamilyRequestData = Rx<CommonFamilies?>(null);
-  RxList<FriendFamilyUserData> addFamilyRequestList = RxList<FriendFamilyUserData>([]);
-  final RxBool isAddFamilyRequestListLoading = RxBool(false);
-  Future<void> getAddFamilyRequestList() async {
-    try {
-      isAddFamilyRequestListLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
-        requestMethod: kGet,
-        token: token,
-        url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}',
-      ) as CommonDM;
-      if (response.success == true) {
-        addFamilyRequestList.clear();
-        addFamilyRequestData.value = CommonFamilies.fromJson(response.data);
-        addFamilyRequestList.addAll(addFamilyRequestData.value!.data);
-        isAddFamilyRequestListLoading.value = false;
-      } else {
-        isAddFamilyRequestListLoading.value = false;
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-        } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-        }
-      }
-    } catch (e) {
-      isAddFamilyRequestListLoading.value = false;
-      ll('getAddFamilyRequestList error: $e');
-    }
-  }
+  // Rx<CommonFamilies?> addFamilyRequestData = Rx<CommonFamilies?>(null);
+  // RxList<FriendFamilyUserData> addFamilyRequestList = RxList<FriendFamilyUserData>([]);
+  // final RxBool isAddFamilyRequestListLoading = RxBool(false);
+  // Future<void> getAddFamilyRequestList() async {
+  //   try {
+  //     isAddFamilyRequestListLoading.value = true;
+  //     String? token = await _spController.getBearerToken();
+  //     var response = await _apiController.commonApiCall(
+  //       requestMethod: kGet,
+  //       token: token,
+  //       url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}',
+  //     ) as CommonDM;
+  //     if (response.success == true) {
+  //       addFamilyRequestList.clear();
+  //       addFamilyRequestData.value = CommonFamilies.fromJson(response.data);
+  //       addFamilyRequestList.addAll(addFamilyRequestData.value!.data);
+  //       isAddFamilyRequestListLoading.value = false;
+  //     } else {
+  //       isAddFamilyRequestListLoading.value = false;
+  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+  //       if (errorModel.errors.isEmpty) {
+  //         _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+  //       } else {
+  //         _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isAddFamilyRequestListLoading.value = false;
+  //     ll('getAddFamilyRequestList error: $e');
+  //   }
+  // }
 
   //*Send Family Request
   final RxInt relationStatusId = RxInt(-1);
+  final RxInt relationId = RxInt(-1);
   final RxBool isSendFamilyRequestLoading = RxBool(false);
   Future<void> sendFamilyRequest() async {
     try {
       isSendFamilyRequestLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, dynamic> body = {
-        'family_id': _profileController.searchController.text.trim(),
-        'relation_id': relationStatusId.value.toString(),
+        'family_id': userId.value.toString(),
+        'relation_id': relationId.value.toString(),
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
@@ -463,7 +468,9 @@ class FamilyController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         isSendFamilyRequestLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        Get.find<ProfileController>().searchController.clear();
+        Get.back();
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor);
       } else {
         isSendFamilyRequestLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -478,4 +485,47 @@ class FamilyController extends GetxController {
       ll('sendFamilyRequest error: $e');
     }
   }
+
+  //*Get Family Relation Status
+  final Rx<FamilyRelationModel?> familyRelationListData = Rx<FamilyRelationModel?>(null);
+  final RxList<Relation> familyRelationList = RxList<Relation>([]);
+  RxBool isFamilyRelationListLoading = RxBool(false);
+  Future<void> getFamilyRelationList() async {
+    try {
+      isFamilyRelationListLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllFamilyRelations,
+      ) as CommonDM;
+      if (response.success == true) {
+        familyRelationList.clear();
+        familyRelationListData.value = FamilyRelationModel.fromJson(response.data);
+        familyRelationList.addAll(familyRelationListData.value!.relations);
+        isFamilyRelationListLoading.value = false;
+      } else {
+        isFamilyRelationListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFamilyRelationListLoading.value = false;
+      ll('getFamilyRelationList error: $e');
+    }
+  }
+
+  final RxString relation = RxString("");
+  final FocusNode addFamilyFocusNode = FocusNode();
+  void clearAddFamilyData() {
+    relationStatusId.value = -1;
+    userId.value = -1;
+    relationId.value = -1;
+    relation.value = '';
+  }
+Timer? debounce;
 }
