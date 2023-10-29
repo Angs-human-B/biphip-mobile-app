@@ -525,6 +525,12 @@ class FriendController extends GetxController {
             sendFriendRequestList.removeAt(index);
           }
         }
+        for (int index = 0; index < addFriendRequestList.length; index++) {
+          if (addFriendRequestList[index] == isSendRequest[index]) {
+            // isSendRequest.add(false);
+            isSendRequest[index] = !isSendRequest[index];
+          }
+        }
         isCancelFriendRequestLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
         return true;
@@ -684,6 +690,12 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
+        for (int index = 0; index < addFriendRequestList.length; index++) {
+          if (addFriendRequestList[index] == isSendRequest[index]) {
+            // isSendRequest.add(true);
+            isSendRequest[index] = !isSendRequest[index];
+          }
+        }
         isSendFriendRequestLoading.value = false;
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
         return true;

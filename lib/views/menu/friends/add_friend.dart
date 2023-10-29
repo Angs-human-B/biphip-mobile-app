@@ -101,9 +101,10 @@ class AddFriend extends StatelessWidget {
                                                         ? semiBold14TextStyle(cWhiteColor)
                                                         : semiBold14TextStyle(cRedColor),
                                                     buttonOnPressed: () async {
-                                                      // _friendController.isSendOrCancelRequest.value = !_friendController.isSendOrCancelRequest.value;
                                                       _friendController.userId.value = _friendController.addFriendRequestList[index].id!;
-                                                      _friendController.isSendRequest[index] = !_friendController.isSendRequest[index];
+                                                      if (_friendController.userId.value == _friendController.addFriendRequestList[index].id) {
+                                                        _friendController.isSendRequest[index] = !_friendController.isSendRequest[index];
+                                                      }
                                                       bool status;
                                                       if (!_friendController.isSendRequest[index]) {
                                                         status = await _friendController.sendFriendRequest();
