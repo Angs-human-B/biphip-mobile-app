@@ -114,9 +114,7 @@ class AddFamily extends StatelessWidget {
                               controller: Get.find<ProfileController>().searchController,
                               focusNode: focusNode,
                               prefixIcon: BipHip.search,
-                              suffixIcon: Get.find<ProfileController>().searchController.text.trim() != ""
-                                  ? BipHip.add
-                                  : null, //BipHip.voiceFill, // todo:: icon will be changed
+                              suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
                               hint: ksSearch.tr,
                               contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
                               textInputStyle: regular16TextStyle(cBlackColor),
@@ -127,7 +125,7 @@ class AddFamily extends StatelessWidget {
                                 profileController.searchController.text = v;
                                 for (int i = 0; i < _friendController.tempFriendList.length; i++) {
                                   if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
-                                    profileController.searchController.text = _friendController.tempFriendList[i];
+                                    // profileController.searchController.text = _friendController.tempFriendList[i];
                                     _familyController.userId.value = _friendController.friendList[i].id!;
                                   }
                                   if (_friendController.tempFriendList[i] != profileController.searchController.text) {
