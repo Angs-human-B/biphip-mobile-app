@@ -114,17 +114,20 @@ class AddFamily extends StatelessWidget {
                               controller: Get.find<ProfileController>().searchController,
                               focusNode: focusNode,
                               prefixIcon: BipHip.search,
-                              suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
+                              suffixIcon: Get.find<ProfileController>().searchController.text.trim() != ""
+                                  ? BipHip.add
+                                  : null, //BipHip.voiceFill, // todo:: icon will be changed
                               hint: ksSearch.tr,
                               contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
                               textInputStyle: regular16TextStyle(cBlackColor),
                               onChanged: (v) async {
                                 // profileController.searchController.text = v;
+                                // unFocus(context);
                                 await _friendController.getFriendList();
                                 profileController.searchController.text = v;
                                 for (int i = 0; i < _friendController.tempFriendList.length; i++) {
                                   if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
-                                    // profileController.searchController.text = _friendController.tempFriendList[i];
+                                    profileController.searchController.text = _friendController.tempFriendList[i];
                                     _familyController.userId.value = _friendController.friendList[i].id!;
                                   }
                                   if (_friendController.tempFriendList[i] != profileController.searchController.text) {
@@ -245,17 +248,25 @@ class RelationContentShimmer extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: 50,
       itemBuilder: (context, index) {
-        return ListTile(
-          title: ShimmerCommon(
-            widget: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                borderRadius: k8CircularBorderRadius,
-                color: cWhiteColor,
+        return Padding(
+          padding: const EdgeInsets.only(bottom: k12Padding),
+          child: CustomListTile(
+            borderColor: cLineColor,
+            title: ShimmerCommon(
+              widget: Container(
+                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                height: 16,
+                width: 120,
+              ),
+            ),
+            trailing: ShimmerCommon(
+              widget: Container(
+                decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                height: 16,
+                width: 16,
               ),
             ),
           ),
-          contentPadding: EdgeInsets.zero,
         );
       },
     );

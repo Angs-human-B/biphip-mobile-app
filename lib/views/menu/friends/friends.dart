@@ -487,7 +487,8 @@ class AllFriendList extends StatelessWidget {
                     ),
                   ),
                 )
-              : Expanded(child: EmptyView(title: ksNoFriendAddedYet.tr)),
+              : Expanded(
+                  child: Container(alignment: Alignment.center, child: Container(alignment: Alignment.center, child: EmptyView(title: ksNoFriendAddedYet.tr)))),
     );
   }
 }
@@ -560,7 +561,7 @@ class ReceivedFriendList extends StatelessWidget {
                   ),
                 )
               : Expanded(
-                  child: EmptyView(title: ksNoFriendRequestReceivedYet.tr),
+                  child: Container(alignment: Alignment.center, child: EmptyView(title: ksNoFriendRequestReceivedYet.tr)),
                 ),
     );
   }

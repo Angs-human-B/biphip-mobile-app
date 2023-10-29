@@ -1,4 +1,3 @@
-import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -131,11 +130,7 @@ class Family extends StatelessWidget {
                               ),
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
                       if (_profileController.tapAbleButtonState[2]) kH4sizedBox,
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: _profileController.allReceivedPendingFamilyView(),
-                        ),
-                      ),
+                      _profileController.allReceivedPendingFamilyView(),
                     ],
                   ),
                 ),
@@ -186,45 +181,47 @@ class AllFamilyList extends StatelessWidget {
                     }
                     return false;
                   },
-                  child: SingleChildScrollView(
-                    controller: _familyController.familyListScrollController,
-                    // physics: const AlwaysScrollableScrollPhysics(),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                          child: ListView.builder(
-                            itemCount: _familyController.familyList.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: k16Padding),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(k8BorderRadius),
-                                  child: CustomListViewItem(
-                                    backgroundImage: _familyController.familyList[index].profilePicture.toString(),
-                                    imageSize: h50,
-                                    name: _familyController.familyList[index].fullName ?? ksNA.tr,
-                                    icon: BipHip.relation,
-                                    subTitle: _familyController.familyList[index].familyRelationStatus ?? ksNA.tr,
-                                    firstButtonText: ksMessage.tr,
-                                    secondButtonText: ksBlock.tr,
-                                    firstButtonOnPressed: () {},
-                                    secondButtonOnPressed: () {},
+                  child: Expanded(
+                    child: SingleChildScrollView(
+                      controller: _familyController.familyListScrollController,
+                      // physics: const AlwaysScrollableScrollPhysics(),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                            child: ListView.builder(
+                              itemCount: _familyController.familyList.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: k16Padding),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(k8BorderRadius),
+                                    child: CustomListViewItem(
+                                      backgroundImage: _familyController.familyList[index].profilePicture.toString(),
+                                      imageSize: h50,
+                                      name: _familyController.familyList[index].fullName ?? ksNA.tr,
+                                      icon: BipHip.relation,
+                                      subTitle: _familyController.familyList[index].familyRelationStatus ?? ksNA.tr,
+                                      firstButtonText: ksMessage.tr,
+                                      secondButtonText: ksBlock.tr,
+                                      firstButtonOnPressed: () {},
+                                      secondButtonOnPressed: () {},
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                        if (_familyController.familyList.isNotEmpty && !_familyController.familyListScrolled.value)
-                          const Center(child: CircularProgressIndicator()),
-                      ],
+                          if (_familyController.familyList.isNotEmpty && !_familyController.familyListScrolled.value)
+                            const Center(child: CircularProgressIndicator()),
+                        ],
+                      ),
                     ),
                   ),
                 )
-              : Expanded(child: EmptyView(title: ksNofamilyAddedYet.tr)),
+              : Expanded(child: Container(alignment: Alignment.center, child: EmptyView(title: ksNofamilyAddedYet.tr))),
     );
   }
 }
@@ -252,50 +249,52 @@ class ReceivedFamilyList extends StatelessWidget {
                     }
                     return false;
                   },
-                  child: SingleChildScrollView(
-                    controller: _familyController.receivedFamilyListScrollController,
-                    // physics: const AlwaysScrollableScrollPhysics(),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                          child: ListView.builder(
-                            itemCount: _familyController.receivedFamilyList.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: k16Padding),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(k8BorderRadius),
-                                  child: CustomListViewItem(
-                                    backgroundImage: _familyController.receivedFamilyList[index].profilePicture.toString(),
-                                    imageSize: h50,
-                                    name: _familyController.receivedFamilyList[index].fullName ?? ksNA.tr,
-                                    subTitle: _familyController.receivedFamilyList[index].familyRelationStatus ?? ksNA,
-                                    firstButtonText: ksConfirm.tr,
-                                    secondButtonText: ksCancel.tr,
-                                    firstButtonOnPressed: () async {
-                                      _familyController.userId.value = _familyController.receivedFamilyList[index].id!;
-                                      await _familyController.acceptFamilyRequest();
-                                    },
-                                    secondButtonOnPressed: () async {
-                                      _familyController.userId.value = _familyController.receivedFamilyList[index].id!;
-                                      await _familyController.rejectFamilyRequest();
-                                    },
+                  child: Expanded(
+                    child: SingleChildScrollView(
+                      controller: _familyController.receivedFamilyListScrollController,
+                      // physics: const AlwaysScrollableScrollPhysics(),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                            child: ListView.builder(
+                              itemCount: _familyController.receivedFamilyList.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: k16Padding),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(k8BorderRadius),
+                                    child: CustomListViewItem(
+                                      backgroundImage: _familyController.receivedFamilyList[index].profilePicture.toString(),
+                                      imageSize: h50,
+                                      name: _familyController.receivedFamilyList[index].fullName ?? ksNA.tr,
+                                      subTitle: _familyController.receivedFamilyList[index].familyRelationStatus ?? ksNA,
+                                      firstButtonText: ksConfirm.tr,
+                                      secondButtonText: ksCancel.tr,
+                                      firstButtonOnPressed: () async {
+                                        _familyController.userId.value = _familyController.receivedFamilyList[index].id!;
+                                        await _familyController.acceptFamilyRequest();
+                                      },
+                                      secondButtonOnPressed: () async {
+                                        _familyController.userId.value = _familyController.receivedFamilyList[index].id!;
+                                        await _familyController.rejectFamilyRequest();
+                                      },
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                        if (_familyController.receivedFamilyList.isNotEmpty && !_familyController.receivedFamilyListScrolled.value)
-                          const Center(child: CircularProgressIndicator()),
-                      ],
+                          if (_familyController.receivedFamilyList.isNotEmpty && !_familyController.receivedFamilyListScrolled.value)
+                            const Center(child: CircularProgressIndicator()),
+                        ],
+                      ),
                     ),
                   ),
                 )
-              : Expanded(child: EmptyView(title: ksNofamilyRequestReceivedYet.tr)),
+              : Expanded(child: Container(alignment: Alignment.center, child: EmptyView(title: ksNofamilyRequestReceivedYet.tr))),
     );
   }
 }
@@ -323,48 +322,50 @@ class PendingFamilyList extends StatelessWidget {
                     }
                     return false;
                   },
-                  child: SingleChildScrollView(
-                    controller: _familyController.sendFamilyListScrollController,
-                    // physics: const AlwaysScrollableScrollPhysics(),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                          child: ListView.builder(
-                            itemCount: _familyController.sendFamilyRequestList.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: k10Padding),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(k8BorderRadius),
-                                  child: CustomSingleButtonListViewItem(
-                                    backgroundImage: _familyController.sendFamilyRequestList[index].profilePicture.toString(),
-                                    imageSize: h45,
-                                    name: _familyController.sendFamilyRequestList[index].fullName ?? ksNA.tr,
-                                    subTitle: _familyController.sendFamilyRequestList[index].familyRelationStatus ?? ksNA.tr,
-                                    buttonText: ksCancelRequest.tr,
-                                    buttonOnPressed: () async {
-                                      _familyController.userId.value = _familyController.sendFamilyRequestList[index].id!;
-                                      await _familyController.cancelFamilyRequest();
-                                    },
-                                    buttonColor: cWhiteColor,
-                                    borderColor: cRedColor,
-                                    textStyle: semiBold14TextStyle(cRedColor),
+                  child: Expanded(
+                    child: SingleChildScrollView(
+                      controller: _familyController.sendFamilyListScrollController,
+                      // physics: const AlwaysScrollableScrollPhysics(),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                            child: ListView.builder(
+                              itemCount: _familyController.sendFamilyRequestList.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: k10Padding),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(k8BorderRadius),
+                                    child: CustomSingleButtonListViewItem(
+                                      backgroundImage: _familyController.sendFamilyRequestList[index].profilePicture.toString(),
+                                      imageSize: h45,
+                                      name: _familyController.sendFamilyRequestList[index].fullName ?? ksNA.tr,
+                                      subTitle: _familyController.sendFamilyRequestList[index].familyRelationStatus ?? ksNA.tr,
+                                      buttonText: ksCancelRequest.tr,
+                                      buttonOnPressed: () async {
+                                        _familyController.userId.value = _familyController.sendFamilyRequestList[index].id!;
+                                        await _familyController.cancelFamilyRequest();
+                                      },
+                                      buttonColor: cWhiteColor,
+                                      borderColor: cRedColor,
+                                      textStyle: semiBold14TextStyle(cRedColor),
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                        if (_familyController.sendFamilyRequestList.isNotEmpty && !_familyController.sendFamilyListScrolled.value)
-                          const Center(child: CircularProgressIndicator()),
-                      ],
+                          if (_familyController.sendFamilyRequestList.isNotEmpty && !_familyController.sendFamilyListScrolled.value)
+                            const Center(child: CircularProgressIndicator()),
+                        ],
+                      ),
                     ),
                   ),
                 )
-              : Expanded(child: EmptyView(title: ksNofamilyRequestSendYet.tr)),
+              : Expanded(child: Container(alignment: Alignment.center, child: EmptyView(title: ksNofamilyRequestSendYet.tr))),
     );
   }
 }
@@ -408,82 +409,90 @@ class CommonFamilyShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-      child: ListView.builder(
-        itemCount: 10,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: k16Padding),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  height: h50,
-                  width: h50,
-                  decoration: const BoxDecoration(
-                    color: cWhiteColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: ShimmerCommon(
-                    widget: Container(
-                      decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
-                      height: h50,
-                      width: h50,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: k12Padding),
-                  child: SizedBox(
-                    width: width - 105,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: ListView.builder(
+                itemCount: 10,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: k16Padding),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        ShimmerCommon(
-                          widget: Container(
-                            decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                            height: 16,
-                            width: 200,
+                        Container(
+                          height: h50,
+                          width: h50,
+                          decoration: const BoxDecoration(
+                            color: cWhiteColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: ShimmerCommon(
+                            widget: Container(
+                              decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                              height: h50,
+                              width: h50,
+                            ),
                           ),
                         ),
-                        kH4sizedBox,
-                        ShimmerCommon(
-                          widget: Container(
-                            decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                            height: 8,
-                            width: 100,
+                        Padding(
+                          padding: const EdgeInsets.only(left: k12Padding),
+                          child: SizedBox(
+                            width: width - 105,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ShimmerCommon(
+                                  widget: Container(
+                                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                    height: 16,
+                                    width: 200,
+                                  ),
+                                ),
+                                kH4sizedBox,
+                                ShimmerCommon(
+                                  widget: Container(
+                                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                    height: 8,
+                                    width: 100,
+                                  ),
+                                ),
+                                kH4sizedBox,
+                                Row(
+                                  children: [
+                                    ShimmerCommon(
+                                      widget: Container(
+                                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
+                                        height: 30,
+                                        width: isDeviceScreenLarge() ? 112 : 120,
+                                      ),
+                                    ),
+                                    kW20sizedBox,
+                                    ShimmerCommon(
+                                      widget: Container(
+                                          decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
+                                          height: 30,
+                                          width: isDeviceScreenLarge() ? 112 : 120),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        kH4sizedBox,
-                        Row(
-                          children: [
-                            ShimmerCommon(
-                              widget: Container(
-                                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
-                                height: 30,
-                                width: isDeviceScreenLarge() ? 112 : 120,
-                              ),
-                            ),
-                            kW20sizedBox,
-                            ShimmerCommon(
-                              widget: Container(
-                                  decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
-                                  height: 30,
-                                  width: isDeviceScreenLarge() ? 112 : 120),
-                            ),
-                          ],
                         ),
                       ],
                     ),
-                  ),
-                ),
-              ],
+                  );
+                },
+              ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
@@ -494,72 +503,80 @@ class PendingFamilyListShimmer extends StatelessWidget {
   const PendingFamilyListShimmer({super.key});
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-      child: ListView.builder(
-        itemCount: 20,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: k10Padding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: h45,
-                      width: h45,
-                      decoration: const BoxDecoration(
-                        color: cWhiteColor,
-                        shape: BoxShape.circle,
-                      ),
-                      child: ShimmerCommon(
-                        widget: Container(
-                          decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
-                          height: h50,
-                          width: h50,
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: ListView.builder(
+                itemCount: 20,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: k10Padding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: h45,
+                              width: h45,
+                              decoration: const BoxDecoration(
+                                color: cWhiteColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: ShimmerCommon(
+                                widget: Container(
+                                  decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                                  height: h50,
+                                  width: h50,
+                                ),
+                              ),
+                            ),
+                            kW12sizedBox,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ShimmerCommon(
+                                    widget: Container(
+                                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                      height: 16,
+                                      width: 120,
+                                    ),
+                                  ),
+                                  kH4sizedBox,
+                                  ShimmerCommon(
+                                    widget: Container(
+                                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                      height: 8,
+                                      width: 80,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            ShimmerCommon(
+                              widget: Container(
+                                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
+                                height: 30,
+                                width: isDeviceScreenLarge() ? 112 : 120,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
+                      ],
                     ),
-                    kW12sizedBox,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ShimmerCommon(
-                            widget: Container(
-                              decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                              height: 16,
-                              width: 120,
-                            ),
-                          ),
-                          kH4sizedBox,
-                          ShimmerCommon(
-                            widget: Container(
-                              decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                              height: 8,
-                              width: 80,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    ShimmerCommon(
-                      widget: Container(
-                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
-                        height: 30,
-                        width: isDeviceScreenLarge() ? 112 : 120,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                  );
+                },
+              ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
