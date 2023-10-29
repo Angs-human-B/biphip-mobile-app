@@ -43,7 +43,7 @@ class Family extends StatelessWidget {
                             unfocus(context);
                             // _familyController.addFamilyRequestList.clear();
                             _familyController.clearAddFamilyData();
-                            await Get.find<FriendController>().getFriendList();
+                            // Get.find<FriendController>().getFriendList();
                             Get.toNamed(krAddFamily);
                           },
                           child: Text(
@@ -141,15 +141,13 @@ class Family extends StatelessWidget {
                 ),
               ),
             ),
-            if (Get.find<FriendController>().isFriendListLoading.value == true ||
-                _familyController.isCancelFamilyRequestLoading.value == true ||
+            if (_familyController.isCancelFamilyRequestLoading.value == true ||
                 _familyController.isAcceptFamilyRequestLoading.value == true ||
                 _familyController.isRejectFamilyRequestLoading.value == true)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (Get.find<FriendController>().isFriendListLoading.value ||
-                        _familyController.isCancelFamilyRequestLoading.value ||
+                    if (_familyController.isCancelFamilyRequestLoading.value ||
                         _familyController.isAcceptFamilyRequestLoading.value ||
                         _familyController.isRejectFamilyRequestLoading.value) {
                       return false;

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/family/common_family_model.dart';
@@ -525,4 +527,5 @@ class FamilyController extends GetxController {
     relationId.value = -1;
     relation.value = '';
   }
+Timer? debounce;
 }

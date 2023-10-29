@@ -118,16 +118,35 @@ class AddFamily extends StatelessWidget {
                               hint: ksSearch.tr,
                               contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
                               textInputStyle: regular16TextStyle(cBlackColor),
-                              onChanged: (v) {
+                              onChanged: (v) async {
+                                // profileController.searchController.text = v;
+                                await _friendController.getFriendList();
+                                profileController.searchController.text = v;
                                 for (int i = 0; i < _friendController.tempFriendList.length; i++) {
                                   if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
+                                    // profileController.searchController.text = _friendController.tempFriendList[i];
                                     _familyController.userId.value = _friendController.friendList[i].id!;
                                   }
                                   if (_friendController.tempFriendList[i] != profileController.searchController.text) {
                                     _familyController.userId.value = -1;
                                   }
                                 }
+                                // unfocus(context);
                               },
+                              // onChanged: (v) async {
+                              //   if (_familyController.debounce?.isActive ?? false) _familyController.debounce!.cancel();
+                              //   _familyController.debounce = Timer(const Duration(milliseconds: 2000), () async {
+                              //     await _friendController.getFriendList();
+                              //     for (int i = 0; i < _friendController.tempFriendList.length; i++) {
+                              //       if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
+                              //         _familyController.userId.value = _friendController.friendList[i].id!;
+                              //       }
+                              //       if (_friendController.tempFriendList[i] != profileController.searchController.text) {
+                              //         _familyController.userId.value = -1;
+                              //       }
+                              //     }
+                              //   });
+                              // },
                             );
                           },
                         ),
@@ -158,6 +177,7 @@ class AddFamily extends StatelessWidget {
                                 }
 
                                 Get.back();
+                                unfocus(context);
                               },
                               rightText: ksDone.tr,
                               rightTextStyle: semiBold16TextStyle(cPrimaryColor),
