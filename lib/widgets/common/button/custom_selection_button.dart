@@ -54,7 +54,7 @@ class CustomSelectionButton extends StatelessWidget {
                     if (text == '')
                       Text(
                         hintText ?? '',
-                        style: regular14TextStyle(cPlaceHolderColor),
+                        style: regular14TextStyle(cPlaceHolderColor2),
                       ),
                   ],
                 ),
