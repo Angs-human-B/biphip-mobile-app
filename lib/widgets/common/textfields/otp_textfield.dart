@@ -42,6 +42,7 @@ class OtpTextField extends StatelessWidget {
       onChanged: onChange,
       onCompleted: onCompleted,
       pinTheme: PinTheme(
+        
         borderRadius: BorderRadius.circular(k4BorderRadius),
         activeFillColor: cGreyBoxColor,
         inactiveFillColor: cGreyBoxColor,

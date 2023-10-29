@@ -57,6 +57,8 @@ class SelectGender extends StatelessWidget {
                       ),
                       kH50sizedBox,
                       CustomSelectionButton(
+                        buttonColor: cWhiteColor,
+                        borderColor: cLineColor2,
                         onPressed: () async {
                           if (_authenticationController.gender.value != '') {
                             _profileController.tempSelectedGender.value = _authenticationController.gender.value;

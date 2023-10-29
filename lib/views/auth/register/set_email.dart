@@ -56,6 +56,12 @@ class SetEmail extends StatelessWidget {
                         controller: _authenticationController.registerEmailTextEditingController,
                         errorText: _authenticationController.registerEmailError.value,
                         hint: ksEmail.tr,
+                         textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                                fillColor: cWhiteColor,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(k4BorderRadius),
+                                  borderSide: const BorderSide(width: 1, color: cLineColor2),
+                                ),
                         onChanged: (text) {
                           _authenticationController.checkEmail();
                           if (_authenticationController.registerEmailTextEditingController.text.trim() == '') {

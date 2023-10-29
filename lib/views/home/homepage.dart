@@ -114,30 +114,43 @@ class HomePage extends StatelessWidget {
                       ),
                       child: DefaultTabController(
                         length: 3,
-                        child: TabBar(
-                          tabs: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                              child: Text(
-                                ksSelfie.tr,
-                                style: semiBold12TextStyle(cPrimaryColor),
-                              ),
+                        child: DecoratedBox(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: cLineColor, width: 1),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                              child: Text(
-                                ksDailyQuiz.tr,
-                                style: semiBold12TextStyle(cPrimaryColor),
+                          ),
+                          child: TabBar(
+                            indicatorColor: cPrimaryColor,
+                            indicatorWeight: 1,
+                            unselectedLabelColor: cSmallBodyTextColor,
+                            unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
+                            labelStyle: medium14TextStyle(cPrimaryColor),
+                            labelColor: cPrimaryColor,
+                            tabs: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                child: Text(
+                                  ksSelfie.tr,
+                                  // style: semiBold12TextStyle(cPrimaryColor),
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                              child: Text(
-                                ksWeeklyWinner.tr,
-                                style: semiBold12TextStyle(cPrimaryColor),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                child: Text(
+                                  ksDailyQuiz.tr,
+                                  // style: semiBold12TextStyle(cPrimaryColor),
+                                ),
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                child: Text(
+                                  ksWeeklyWinner.tr,
+                                  // style: semiBold12TextStyle(cPrimaryColor),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

@@ -19,6 +19,35 @@ class SavedUserLogin extends StatelessWidget {
             () => Stack(
               alignment: AlignmentDirectional.topCenter,
               children: [
+                Positioned(
+                  top: 0.0,
+                  child: Container(
+                    height: (height - MediaQuery.of(context).padding.top) / 2,
+                    width: width,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.topRight,
+                        colors: [cGradientColor1.withOpacity(0.1), cGradientColor2.withOpacity(0.1)],
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0.0,
+                  // right: 0.0,
+                  child: Container(
+                    height: (height - MediaQuery.of(context).padding.top) / 2,
+                    width: width,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.bottomRight,
+                        colors: [cPrimaryColor.withOpacity(0.1), cGradientColor3.withOpacity(0.1)],
+                      ),
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: height,
                   width: width,
@@ -102,7 +131,8 @@ class CustomUserListContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomListTile(
-      itemColor: cGreyBoxColor,
+      itemColor: cWhiteColor,
+      borderColor: cLineColor2,
       onPressed: () async {
         final SpController spController = SpController();
         await spController.saveBearerToken(_item['token']);
