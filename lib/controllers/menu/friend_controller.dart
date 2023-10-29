@@ -526,9 +526,11 @@ class FriendController extends GetxController {
           }
         }
         for (int index = 0; index < addFriendRequestList.length; index++) {
-          if (addFriendRequestList[index] == isSendRequest[index]) {
+          if (addFriendRequestList[index].id == userId.value) {
             // isSendRequest.add(false);
-            isSendRequest[index] = !isSendRequest[index];
+            // isSendRequest[index] = true;
+            addFriendRequestList[index].friendStatus = 0;
+            // isSendRequest[index] = !isSendRequest[index];
           }
         }
         isCancelFriendRequestLoading.value = false;
@@ -559,7 +561,7 @@ class FriendController extends GetxController {
   final Rx<String?> addFriendListSubLink = Rx<String?>(null);
   final RxBool addFriendListScrolled = RxBool(false);
   final RxBool isAddFriendRequestListLoading = RxBool(false);
-  final RxList isSendRequest = RxList([]);
+  // final RxList isSendRequest = RxList([]);
   Future<void> getAddFriendRequestList() async {
     try {
       isAddFriendRequestListLoading.value = true;
@@ -585,14 +587,14 @@ class FriendController extends GetxController {
             }
           }
         }
-        isSendRequest.clear();
-        for (int index = 0; index < addFriendRequestList.length; index++) {
-          if (addFriendRequestList[index].friendStatus == 2) {
-            isSendRequest.add(false);
-          } else if (addFriendRequestList[index].friendStatus == 0) {
-            isSendRequest.add(true);
-          }
-        }
+        // isSendRequest.clear();
+        // for (int index = 0; index < addFriendRequestList.length; index++) {
+        //   if (addFriendRequestList[index].friendStatus == 2) {
+        //     isSendRequest.add(false);
+        //   } else if (addFriendRequestList[index].friendStatus == 0) {
+        //     isSendRequest.add(true);
+        //   }
+        // }
         isAddFriendRequestListLoading.value = false;
       } else {
         isAddFriendRequestListLoading.value = false;
@@ -649,14 +651,14 @@ class FriendController extends GetxController {
         } else {
           addFriendListScrolled.value = true;
         }
-        isSendRequest.clear();
-        for (int index = 0; index < addFriendRequestList.length; index++) {
-          if (addFriendRequestList[index].friendStatus == 2) {
-            isSendRequest.add(false);
-          } else if (addFriendRequestList[index].friendStatus == 0) {
-            isSendRequest.add(true);
-          }
-        }
+        // isSendRequest.clear();
+        // for (int index = 0; index < addFriendRequestList.length; index++) {
+        //   if (addFriendRequestList[index].friendStatus == 2) {
+        //     isSendRequest.add(false);
+        //   } else if (addFriendRequestList[index].friendStatus == 0) {
+        //     isSendRequest.add(true);
+        //   }
+        // }
 
         isAddFriendRequestListLoading.value = false;
       } else {
@@ -691,9 +693,12 @@ class FriendController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         for (int index = 0; index < addFriendRequestList.length; index++) {
-          if (addFriendRequestList[index] == isSendRequest[index]) {
+          if (addFriendRequestList[index].id == userId.value) {
             // isSendRequest.add(true);
-            isSendRequest[index] = !isSendRequest[index];
+            // isSendRequest[index] = false;
+            addFriendRequestList[index].friendStatus = 2;
+
+            // isSendRequest[index] = !isSendRequest[index];
           }
         }
         isSendFriendRequestLoading.value = false;

@@ -94,26 +94,28 @@ class AddFriend extends StatelessWidget {
                                                     backgroundImage:
                                                         Environment.imageBaseUrl + _friendController.addFriendRequestList[index].profilePicture.toString(),
                                                     name: _friendController.addFriendRequestList[index].fullName ?? ksNA.tr,
-                                                    buttonText: _friendController.isSendRequest[index] ? ksSendRequest.tr : ksCancelRequest.tr,
-                                                    buttonColor: _friendController.isSendRequest[index] ? cPrimaryColor : cWhiteColor,
-                                                    borderColor: _friendController.isSendRequest[index] ? null : cRedColor,
-                                                    textStyle: _friendController.isSendRequest[index]
+                                                    buttonText:
+                                                        _friendController.addFriendRequestList[index].friendStatus == 0 ? ksSendRequest.tr : ksCancelRequest.tr,
+                                                    buttonColor: _friendController.addFriendRequestList[index].friendStatus == 0 ? cPrimaryColor : cWhiteColor,
+                                                    borderColor: _friendController.addFriendRequestList[index].friendStatus == 0 ? null : cRedColor,
+                                                    textStyle: _friendController.addFriendRequestList[index].friendStatus == 0
                                                         ? semiBold14TextStyle(cWhiteColor)
                                                         : semiBold14TextStyle(cRedColor),
                                                     buttonOnPressed: () async {
                                                       _friendController.userId.value = _friendController.addFriendRequestList[index].id!;
-                                                      if (_friendController.userId.value == _friendController.addFriendRequestList[index].id) {
-                                                        _friendController.isSendRequest[index] = !_friendController.isSendRequest[index];
+                                                      // if (_friendController.userId.value == _friendController.addFriendRequestList[index].id) {
+                                                      //   _friendController.isSendRequest[index] = !_friendController.isSendRequest[index];
+                                                      // }
+                                                      // bool status;
+                                                      if (_friendController.addFriendRequestList[index].friendStatus == 0) {
+                                                        await _friendController.sendFriendRequest();
+                                                        // _friendController.addFriendRequestList[index].friendStatus == 0;
+                                                      } else if (_friendController.addFriendRequestList[index].friendStatus == 2) {
+                                                        await _friendController.cancelFriendRequest();
                                                       }
-                                                      bool status;
-                                                      if (!_friendController.isSendRequest[index]) {
-                                                        status = await _friendController.sendFriendRequest();
-                                                      } else {
-                                                        status = await _friendController.cancelFriendRequest();
-                                                      }
-                                                      if (status == false) {
-                                                        _friendController.isSendRequest[index] = !_friendController.isSendRequest[index];
-                                                      }
+                                                      // if (status == false) {
+                                                      //   // _friendController.isSendRequest[index] = !_friendController.isSendRequest[index];
+                                                      // }
                                                     },
                                                   ),
                                                 ),
