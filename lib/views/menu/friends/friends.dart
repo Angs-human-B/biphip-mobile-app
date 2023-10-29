@@ -487,7 +487,7 @@ class AllFriendList extends StatelessWidget {
                     ),
                   ),
                 )
-              : EmptyView(height: height * 0.5, title: ksNoFriendAddedYet.tr),
+              : Expanded(child: EmptyView(height: height, title: ksNoFriendAddedYet.tr)),
     );
   }
 }
@@ -559,7 +559,9 @@ class ReceivedFriendList extends StatelessWidget {
                     ),
                   ),
                 )
-              : EmptyView(height: height * 0.5, title: ksNoFriendRequestReceivedYet.tr),
+              : Expanded(
+                  child: EmptyView(title: ksNoFriendRequestReceivedYet.tr),
+                ),
     );
   }
 }
@@ -678,7 +680,7 @@ class PendingFriendList extends StatelessWidget {
                     ),
                   ),
                 )
-              : EmptyView(height: height * 0.5, title: ksNoFriendRequestSendYet.tr),
+              : Expanded(child: EmptyView(title: ksNoFriendRequestSendYet.tr)),
     );
   }
 }
