@@ -588,6 +588,7 @@ class _LinkListContent extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: k8Padding),
                           child: CustomListTile(
                             title: profileController.linkSourceList[index],
+                            borderColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryColor : cLineColor,
                             trailing: CustomRadioButton(
                               onChanged: () {
                                 profileController.tempLinkSource.value = profileController.linkSourceList[index];
@@ -627,21 +628,23 @@ class _LinkListContentShimmer extends StatelessWidget {
           itemCount: 20,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
-              padding: const EdgeInsets.only(bottom: k8Padding),
+              padding: const EdgeInsets.only(bottom: k12Padding),
               child: CustomListTile(
+                borderColor: cLineColor,
                 title: ShimmerCommon(
                   widget: Container(
-                    height: 20,
-                    decoration: BoxDecoration(
-                      borderRadius: k8CircularBorderRadius,
-                      color: cWhiteColor,
-                    ),
+                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                    height: 16,
+                    width: 120,
                   ),
                 ),
-                trailing: const CustomRadioButton(
-                  onChanged: null,
+                trailing: ShimmerCommon(
+                  widget: Container(
+                    decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                    height: 16,
+                    width: 16,
+                  ),
                 ),
-                itemColor: cWhiteColor,
               ),
             );
           },

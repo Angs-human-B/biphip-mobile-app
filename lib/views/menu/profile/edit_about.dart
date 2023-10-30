@@ -251,6 +251,7 @@ class EditAboutInfo extends StatelessWidget {
                                 prefixIcon: BipHip.love,
                                 onPressed: () async {
                                   _profileController.isRelationListLoading.value = true;
+                                  _profileController.tempRelationshipStatus.value = '';
                                   if (_profileController.relationshipStatus.value != '') {
                                     _profileController.tempRelationshipStatus.value = _profileController.relationshipStatus.value;
                                   } else if (_profileController.userData.value!.relation != null) {
@@ -427,7 +428,7 @@ class EditAboutInfo extends StatelessWidget {
                                   },
                                   buttonWidth: 149,
                                 ),
-                                kH12sizedBox,
+                                if (_profileController.userData.value!.profession.isNotEmpty && _profileController.showAllEditOption.value) kH12sizedBox,
                                 if (_profileController.userData.value!.profession.isNotEmpty && _profileController.showAllEditOption.value)
                                   InfoContainer2(
                                     suffixText: '',
@@ -939,6 +940,8 @@ class _RelationshipStatusListContent extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: k8Padding),
                           child: CustomListTile(
                             title: profileController.relationshipStatusList[index],
+                            borderColor:
+                                profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index] ? cPrimaryColor : cLineColor,
                             trailing: CustomRadioButton(
                               onChanged: () {
                                 profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
@@ -979,17 +982,25 @@ class _RelationshipStatusListShimmer extends StatelessWidget {
           shrinkWrap: true,
           itemCount: 10,
           itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: ShimmerCommon(
-                widget: Container(
-                  height: 20,
-                  decoration: BoxDecoration(
-                    borderRadius: k8CircularBorderRadius,
-                    color: cWhiteColor,
+            return Padding(
+              padding: const EdgeInsets.only(bottom: k12Padding),
+              child: CustomListTile(
+                borderColor: cLineColor,
+                title: ShimmerCommon(
+                  widget: Container(
+                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                    height: 16,
+                    width: 120,
+                  ),
+                ),
+                trailing: ShimmerCommon(
+                  widget: Container(
+                    decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                    height: 16,
+                    width: 16,
                   ),
                 ),
               ),
-              contentPadding: EdgeInsets.zero,
             );
           },
         ),
@@ -1020,6 +1031,7 @@ class GenderListContent extends StatelessWidget {
                         () => Padding(
                           padding: const EdgeInsets.only(bottom: k8Padding),
                           child: CustomListTile(
+                            borderColor: profileController.tempSelectedGender.value == profileController.genderList[index] ? cPrimaryColor : cLineColor,
                             title: profileController.genderList[index],
                             trailing: CustomRadioButton(
                               onChanged: () {
