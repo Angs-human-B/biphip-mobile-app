@@ -743,9 +743,11 @@ class _FriendActionContent extends StatelessWidget {
                   title: friendController.allFriendFollowStatus.value == 1
                       ? profileController.friendActionList[index]['action']
                       : friendController.friendFollowActionList[index]['action'],
+                  titleTextStyle: semiBold16TextStyle(cBlackColor),
                   subtitle: friendController.allFriendFollowStatus.value == 1
                       ? profileController.friendActionList[index]['actionSubtitle']
                       : friendController.friendFollowActionList[index]['actionSubtitle'],
+                  subTitleTextStyle: regular14TextStyle(cBlackColor),
                   trailing: CustomRadioButton(
                     onChanged: () {
                       if (friendController.allFriendFollowStatus.value == 1) {
@@ -819,9 +821,11 @@ class _PendingFriendActionContent extends StatelessWidget {
                   title: friendController.pendingFriendFollowStatus.value == 1
                       ? friendController.pendingFriendActionList[index]['action']
                       : friendController.pendingFollowFriendActionList[index]['action'],
+                  titleTextStyle: semiBold16TextStyle(cBlackColor),
                   subtitle: friendController.pendingFriendFollowStatus.value == 1
                       ? friendController.pendingFriendActionList[index]['actionSubtitle']
                       : friendController.pendingFollowFriendActionList[index]['actionSubtitle'],
+                  subTitleTextStyle: regular14TextStyle(cBlackColor),
                   trailing: CustomRadioButton(
                     onChanged: () {
                       if (friendController.pendingFriendFollowStatus.value == 1) {
