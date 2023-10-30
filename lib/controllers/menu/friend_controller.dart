@@ -10,8 +10,6 @@ class FriendController extends GetxController {
   final GlobalController _globalController = Get.find<GlobalController>();
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
-  //* tempFriendList -> when add family member friend name list needed for suggestion
-  final RxList<String> tempFriendList = RxList<String>([]);
 
   //*Friend List Api Call
   final Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
@@ -35,10 +33,7 @@ class FriendController extends GetxController {
         friendListScrolled.value = false;
         friendListData.value = CommonFriendModel.fromJson(response.data);
         friendList.addAll(friendListData.value!.friends!.data);
-        tempFriendList.clear();
-        for (int i = 0; i < friendList.length; i++) {
-          tempFriendList.add(friendListData.value!.friends!.data[i].fullName!);
-        }
+
         allFriendCount.value = friendListData.value!.friends!.total!;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
@@ -561,7 +556,6 @@ class FriendController extends GetxController {
   final Rx<String?> addFriendListSubLink = Rx<String?>(null);
   final RxBool addFriendListScrolled = RxBool(false);
   final RxBool isAddFriendRequestListLoading = RxBool(false);
-  // final RxList isSendRequest = RxList([]);
   Future<void> getAddFriendRequestList() async {
     try {
       isAddFriendRequestListLoading.value = true;
@@ -587,14 +581,7 @@ class FriendController extends GetxController {
             }
           }
         }
-        // isSendRequest.clear();
-        // for (int index = 0; index < addFriendRequestList.length; index++) {
-        //   if (addFriendRequestList[index].friendStatus == 2) {
-        //     isSendRequest.add(false);
-        //   } else if (addFriendRequestList[index].friendStatus == 0) {
-        //     isSendRequest.add(true);
-        //   }
-        // }
+
         isAddFriendRequestListLoading.value = false;
       } else {
         isAddFriendRequestListLoading.value = false;
@@ -694,11 +681,7 @@ class FriendController extends GetxController {
       if (response.success == true) {
         for (int index = 0; index < addFriendRequestList.length; index++) {
           if (addFriendRequestList[index].id == userId.value) {
-            // isSendRequest.add(true);
-            // isSendRequest[index] = false;
             addFriendRequestList[index].friendStatus = 2;
-
-            // isSendRequest[index] = !isSendRequest[index];
           }
         }
         isSendFriendRequestLoading.value = false;
@@ -721,6 +704,49 @@ class FriendController extends GetxController {
     }
   }
 
+  //* tempFriendList -> when add family member friend name list needed for suggestion
+  final RxList<String> tempFriendList = RxList<String>([]);
+
+  //*Friend List Api Call for add family suggestion list
+  final Rx<CommonFriendModel?> friendListDataForAddFamily = Rx<CommonFriendModel?>(null);
+  final RxList<FriendFamilyUserData> friendListForAddFamily = RxList<FriendFamilyUserData>([]);
+  final RxBool isFriendListForAddFamilyLoading = RxBool(false);
+  Future<void> getFriendListForAddFamily() async {
+    try {
+      isFriendListForAddFamilyLoading.value = true;
+      String suffixUrl = '?take=100';
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetFriendList + suffixUrl,
+      ) as CommonDM;
+      if (response.success == true) {
+        friendListForAddFamily.clear();
+        friendListDataForAddFamily.value = CommonFriendModel.fromJson(response.data);
+        friendListForAddFamily.addAll(friendListDataForAddFamily.value!.friends!.data);
+        tempFriendList.clear();
+        for (int i = 0; i < friendListForAddFamily.length; i++) {
+          if (friendListForAddFamily[i].familyRelationStatus == null) {
+            tempFriendList.add(friendListDataForAddFamily.value!.friends!.data[i].fullName!);
+          }
+        }
+        isFriendListForAddFamilyLoading.value = false;
+      } else {
+        isFriendListForAddFamilyLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFriendListForAddFamilyLoading.value = false;
+      ll('getFriendListForAddFamily error: $e');
+    }
+  }
+
   final RxList pendingFriendActionList = RxList([
     {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
     {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow this user'}
@@ -739,4 +765,6 @@ class FriendController extends GetxController {
     {'icon': BipHip.user, 'action': 'Follow', 'actionSubtitle': 'Follow your friend'},
     {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
   ]);
+  final RxBool isFriendSuffixIconVisible = RxBool(false);
+  final RxBool isAddFriendSuffixIconVisible = RxBool(false);
 }

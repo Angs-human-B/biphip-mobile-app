@@ -528,4 +528,6 @@ class FamilyController extends GetxController {
     relation.value = '';
   }
 Timer? debounce;
+final RxBool isAddFamilySuffixIconVisible = RxBool(false);
+final RxBool isFamilySuffixIconVisible = RxBool(false);
 }
