@@ -230,6 +230,10 @@ class EditPage extends StatelessWidget {
                                   _profileController.showCommonEditSuffixIcon.value = false;
                                   _profileController.checkSaveButtonActive();
                                 },
+                                onSubmit: (value) {
+                                  unFocus(context);
+                                  _profileController.showCommonEditSuffixIcon.value = false;
+                                },
                                 onChanged: (value) {
                                   if (_profileController.commonEditTextEditingController.text != '') {
                                     _profileController.showCommonEditSuffixIcon.value = true;
@@ -313,6 +317,10 @@ class EditPage extends StatelessWidget {
                                       _profileController.commonEditSecondaryTextEditingController.clear();
                                       _profileController.checkSaveButtonActive();
 
+                                      _profileController.showCommonSecondaryEditSuffixIcon.value = false;
+                                    },
+                                    onSubmit: (value) {
+                                      unFocus(context);
                                       _profileController.showCommonSecondaryEditSuffixIcon.value = false;
                                     },
                                     onChanged: (value) {
