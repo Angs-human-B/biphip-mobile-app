@@ -177,6 +177,7 @@ class EditPage extends StatelessWidget {
                                   elevation: 4,
                                   child: ListView.separated(
                                     padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
                                     itemBuilder: (context, index) {
                                       final option = options.elementAt(index);
                                       return CustomListTile(
@@ -277,6 +278,7 @@ class EditPage extends StatelessWidget {
                                       elevation: 4,
                                       child: ListView.separated(
                                         padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
                                         itemBuilder: (context, index) {
                                           final option = options.elementAt(index);
 
@@ -547,6 +549,9 @@ class _EducationBackgroundContent extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: k8Padding),
                         child: Obx(() => CustomListTile(
                               title: profileController.educationBackgroundList[index],
+                              borderColor: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index]
+                                  ? cPrimaryColor
+                                  : cLineColor,
                               trailing: CustomRadioButton(
                                 onChanged: () {
                                   profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
