@@ -35,7 +35,7 @@ class OTPVerifyScreen extends StatelessWidget {
                       onBack: () async {
                         Get.back();
                       },
-                      action: (_authenticationController.parentRoute.value == "register" || _authenticationController.parentRoute.value == "forget-password")
+                      action: (_authenticationController.parentRoute.value == "register")
                           ? [
                               Padding(
                                 padding: const EdgeInsets.only(right: 8.0),

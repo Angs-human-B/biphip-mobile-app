@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
@@ -29,14 +28,6 @@ class ForgotPasswordScreen extends StatelessWidget {
                     onBack: () async {
                       Get.back();
                     },
-                    action: const [
-                      Padding(
-                        padding: EdgeInsets.only(right: 8.0),
-                        child: CustomCircularProgressBar(
-                          percent: .33,
-                        ),
-                      ),
-                    ],
                   ),
                 ),
                 backgroundColor: cTransparentColor,
