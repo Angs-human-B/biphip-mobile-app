@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
         top: false,
         child: Scaffold(
           resizeToAvoidBottomInset: true,
-          backgroundColor: cGreyBoxColor,
+          backgroundColor: cBackgroundColor,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
@@ -86,7 +86,7 @@ class HomePage extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
-                  kH16sizedBox,
+                  kH8sizedBox,
                   Container(
                     width: width,
                     color: cWhiteColor,
@@ -104,7 +104,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  kH16sizedBox,
+                  kH8sizedBox,
                   Container(
                     color: cWhiteColor,
                     width: width,
@@ -160,11 +160,11 @@ class HomePage extends StatelessWidget {
                     width: width,
                     child: const StoriesWidget(),
                   ),
-                  kH16sizedBox,
+                  kH8sizedBox,
                   ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      separatorBuilder: (context, index) => kH20sizedBox,
+                      separatorBuilder: (context, index) => kH8sizedBox,
                       itemCount: homePagePost.length,
                       itemBuilder: (context, index) {
                         var item = homePagePost[index];
@@ -196,7 +196,7 @@ class HomePage extends StatelessWidget {
                           ),
                         );
                       }),
-                  kH20sizedBox,
+                  kH8sizedBox,
                 ],
               ),
             ),

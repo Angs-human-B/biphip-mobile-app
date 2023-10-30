@@ -25,6 +25,7 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
       centerTitle: isCenterTitle ?? true,
       automaticallyImplyLeading: false,
       elevation: kCommonElevation,

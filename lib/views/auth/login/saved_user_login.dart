@@ -11,43 +11,14 @@ class SavedUserLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: cWhiteColor,
+          backgroundColor: cTransparentColor,
           body: Obx(
             () => Stack(
               alignment: AlignmentDirectional.topCenter,
               children: [
-                Positioned(
-                  top: 0.0,
-                  child: Container(
-                    height: (height - MediaQuery.of(context).padding.top) / 2,
-                    width: width,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.topRight,
-                        colors: [cGradientColor1.withOpacity(0.1), cGradientColor2.withOpacity(0.1)],
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 0.0,
-                  // right: 0.0,
-                  child: Container(
-                    height: (height - MediaQuery.of(context).padding.top) / 2,
-                    width: width,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomLeft,
-                        end: Alignment.bottomRight,
-                        colors: [cPrimaryColor.withOpacity(0.1), cGradientColor3.withOpacity(0.1)],
-                      ),
-                    ),
-                  ),
-                ),
                 SizedBox(
                   height: height,
                   width: width,

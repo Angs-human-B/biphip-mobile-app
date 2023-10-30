@@ -1265,7 +1265,7 @@ class ProfilePageShimmer2 extends StatelessWidget {
                               ShimmerCommon(
                                 widget: Container(
                                   height: h12,
-                                  width: (width - 200) / 3,
+                                  width: (width - 200) / 2,
                                   decoration: BoxDecoration(
                                     borderRadius: k8CircularBorderRadius,
                                     color: cWhiteColor,
@@ -1275,7 +1275,7 @@ class ProfilePageShimmer2 extends StatelessWidget {
                               ShimmerCommon(
                                 widget: Container(
                                   height: 2,
-                                  width: (width - 40) / 3,
+                                  width: (width - 40) / 2,
                                   decoration: BoxDecoration(
                                     borderRadius: k8CircularBorderRadius,
                                     color: cWhiteColor,
@@ -1284,6 +1284,26 @@ class ProfilePageShimmer2 extends StatelessWidget {
                               )
                             ],
                           ),
+                          // Column(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     const SizedBox(),
+                          //     ShimmerCommon(
+                          //       widget: Container(
+                          //         height: h12,
+                          //         width: (width - 200) / 3,
+                          //         decoration: BoxDecoration(
+                          //           borderRadius: k8CircularBorderRadius,
+                          //           color: cWhiteColor,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     SizedBox(
+                          //       height: 2,
+                          //       width: (width - 40) / 3,
+                          //     ),
+                          //   ],
+                          // ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -1291,7 +1311,7 @@ class ProfilePageShimmer2 extends StatelessWidget {
                               ShimmerCommon(
                                 widget: Container(
                                   height: h12,
-                                  width: (width - 200) / 3,
+                                  width: (width - 200) / 2,
                                   decoration: BoxDecoration(
                                     borderRadius: k8CircularBorderRadius,
                                     color: cWhiteColor,
@@ -1300,27 +1320,7 @@ class ProfilePageShimmer2 extends StatelessWidget {
                               ),
                               SizedBox(
                                 height: 2,
-                                width: (width - 40) / 3,
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const SizedBox(),
-                              ShimmerCommon(
-                                widget: Container(
-                                  height: h12,
-                                  width: (width - 200) / 3,
-                                  decoration: BoxDecoration(
-                                    borderRadius: k8CircularBorderRadius,
-                                    color: cWhiteColor,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 2,
-                                width: (width - 40) / 3,
+                                width: (width - 40) / 2,
                               ),
                             ],
                           ),
