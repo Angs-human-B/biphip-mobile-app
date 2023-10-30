@@ -739,10 +739,11 @@ class FriendController extends GetxController {
         friendListForAddFamily.addAll(friendListDataForAddFamily.value!.friends!.data);
         tempFriendList.clear();
         for (int i = 0; i < friendListForAddFamily.length; i++) {
-          if (friendListForAddFamily[i].familyRelationStatus == null || friendListForAddFamily[i].familyRelationStatus == '') {
+          if (friendListForAddFamily[i].familyRelationStatus == null) {
             tempFriendList.add(friendListDataForAddFamily.value!.friends!.data[i].fullName!);
           }
         }
+        ll(tempFriendList);
         isFriendListForAddFamilyLoading.value = false;
       } else {
         isFriendListForAddFamilyLoading.value = false;
@@ -758,6 +759,7 @@ class FriendController extends GetxController {
       ll('getFriendListForAddFamily error: $e');
     }
   }
+
   final RxList pendingFriendActionList = RxList([
     {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
     {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow this user'}
