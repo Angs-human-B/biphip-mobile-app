@@ -89,9 +89,9 @@ class AddFamily extends StatelessWidget {
                                         onPressed: () {
                                           onSelected(option.toString());
                                           profileController.searchController.text = option.toString();
-                                          for (int i = 0; i < _friendController.friendList.length; i++) {
-                                            if (_friendController.friendList[i].fullName == option) {
-                                              _familyController.userId.value = _friendController.friendList[i].id!;
+                                          for (int i = 0; i < _friendController.friendListForAddFamily.length; i++) {
+                                            if (_friendController.friendListForAddFamily[i].fullName == option) {
+                                              _familyController.userId.value = _friendController.friendListForAddFamily[i].id!;
                                             }
                                           }
                                           unfocus(context);
@@ -119,13 +119,11 @@ class AddFamily extends StatelessWidget {
                               contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
                               textInputStyle: regular16TextStyle(cBlackColor),
                               onChanged: (v) async {
-                                // profileController.searchController.text = v;
-                                // unFocus(context);
-                                await _friendController.getFriendList();
                                 profileController.searchController.text = v;
+                                // await _friendController.getFriendList();
+                                // profileController.searchController.text = v;
                                 for (int i = 0; i < _friendController.tempFriendList.length; i++) {
                                   if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
-                                    // profileController.searchController.text = _friendController.tempFriendList[i];
                                     _familyController.userId.value = _friendController.friendList[i].id!;
                                   }
                                   if (_friendController.tempFriendList[i] != profileController.searchController.text) {

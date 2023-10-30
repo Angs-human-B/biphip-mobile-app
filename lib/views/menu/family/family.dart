@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -42,8 +43,8 @@ class Family extends StatelessWidget {
                             unfocus(context);
                             // _familyController.addFamilyRequestList.clear();
                             _familyController.clearAddFamilyData();
-                            // Get.find<FriendController>().getFriendList();
                             Get.toNamed(krAddFamily);
+                             Get.find<FriendController>().getFriendListForAddFamily();
                           },
                           child: Text(
                             ksAdd.tr,
