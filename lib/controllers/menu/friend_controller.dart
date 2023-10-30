@@ -731,7 +731,6 @@ class FriendController extends GetxController {
             tempFriendList.add(friendListDataForAddFamily.value!.friends!.data[i].fullName!);
           }
         }
-        ll(tempFriendList);
         isFriendListForAddFamilyLoading.value = false;
       } else {
         isFriendListForAddFamilyLoading.value = false;
@@ -767,4 +766,5 @@ class FriendController extends GetxController {
     {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
   ]);
   final RxBool isFriendSuffixIconVisible = RxBool(false);
+  final RxBool isAddFriendSuffixIconVisible = RxBool(false);
 }

@@ -43,16 +43,26 @@ class AddFriend extends StatelessWidget {
                         borderRadius: h8,
                         controller: _profileController.searchController,
                         prefixIcon: BipHip.search,
-                        suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
+                        suffixIcon: _friendController.isAddFriendSuffixIconVisible.value ? BipHip.circleCrossNew : null,
                         hint: ksSearch.tr,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
+                        contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
                         textInputStyle: regular16TextStyle(cBlackColor),
+                        onSuffixPress: () {
+                          Get.find<ProfileController>().searchController.clear();
+                          _friendController.isAddFriendSuffixIconVisible.value = false;
+                          _friendController.addFriendRequestList.clear();
+                        },
+                        onSubmit: (v) {
+                          unfocus(context);
+                          _friendController.isAddFriendSuffixIconVisible.value = false;
+                        },
                         onChanged: (v) async {
-                          // _profileController.searchController.text = v.toString().trim();
                           if (_profileController.searchController.text.trim() != '') {
+                            _friendController.isAddFriendSuffixIconVisible.value = true;
                             await _friendController.getAddFriendRequestList();
                           }
                           if (_profileController.searchController.text.trim() == '') {
+                            _friendController.isAddFriendSuffixIconVisible.value = false;
                             _friendController.addFriendRequestList.clear();
                           }
                         },
@@ -103,19 +113,12 @@ class AddFriend extends StatelessWidget {
                                                         : semiBold14TextStyle(cRedColor),
                                                     buttonOnPressed: () async {
                                                       _friendController.userId.value = _friendController.addFriendRequestList[index].id!;
-                                                      // if (_friendController.userId.value == _friendController.addFriendRequestList[index].id) {
-                                                      //   _friendController.isSendRequest[index] = !_friendController.isSendRequest[index];
-                                                      // }
-                                                      // bool status;
+
                                                       if (_friendController.addFriendRequestList[index].friendStatus == 0) {
                                                         await _friendController.sendFriendRequest();
-                                                        // _friendController.addFriendRequestList[index].friendStatus == 0;
                                                       } else if (_friendController.addFriendRequestList[index].friendStatus == 2) {
                                                         await _friendController.cancelFriendRequest();
                                                       }
-                                                      // if (status == false) {
-                                                      //   // _friendController.isSendRequest[index] = !_friendController.isSendRequest[index];
-                                                      // }
                                                     },
                                                   ),
                                                 ),
