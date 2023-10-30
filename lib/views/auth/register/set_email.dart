@@ -8,12 +8,12 @@ class SetEmail extends StatelessWidget {
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
 
-
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      // color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         top: false,
         child: Scaffold(
@@ -21,6 +21,7 @@ class SetEmail extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
+              appBarColor: cTransparentColor,
               title: ksRegistration.tr,
               onBack: () async {
                 Get.back();
@@ -35,7 +36,7 @@ class SetEmail extends StatelessWidget {
               ],
             ),
           ),
-          backgroundColor: cWhiteColor,
+          backgroundColor: cTransparentColor,
           body: SizedBox(
             height: height,
             width: width,
@@ -56,12 +57,12 @@ class SetEmail extends StatelessWidget {
                         controller: _authenticationController.registerEmailTextEditingController,
                         errorText: _authenticationController.registerEmailError.value,
                         hint: ksEmail.tr,
-                         textHintStyle: regular16TextStyle(cPlaceHolderColor2),
-                                fillColor: cWhiteColor,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(k4BorderRadius),
-                                  borderSide: const BorderSide(width: 1, color: cLineColor2),
-                                ),
+                        textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                        fillColor: cWhiteColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(k4BorderRadius),
+                          borderSide: const BorderSide(width: 1, color: cLineColor2),
+                        ),
                         onChanged: (text) {
                           _authenticationController.checkEmail();
                           if (_authenticationController.registerEmailTextEditingController.text.trim() == '') {

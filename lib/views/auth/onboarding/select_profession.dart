@@ -13,7 +13,10 @@ class SelectProfessionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      color: _profileController.isRouteFromAboutInfo.value ? cWhiteColor : null,
+      decoration: !_profileController.isRouteFromAboutInfo.value
+          ? const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover))
+          : null,
       child: SafeArea(
         top: false,
         child: Scaffold(
@@ -23,6 +26,7 @@ class SelectProfessionScreen extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               isCenterTitle: _profileController.isRouteFromAboutInfo.value,
+              appBarColor: _profileController.isRouteFromAboutInfo.value ? cWhiteColor : cTransparentColor,
               hasBackButton: _profileController.isRouteFromAboutInfo.value,
               title: _profileController.isRouteFromAboutInfo.value ? ksEditProfession.tr : '',
               onBack: () {
@@ -44,7 +48,7 @@ class SelectProfessionScreen extends StatelessWidget {
               ],
             ),
           ),
-          backgroundColor: cWhiteColor,
+          backgroundColor: _profileController.isRouteFromAboutInfo.value ? cWhiteColor : cTransparentColor,
           body: Obx(
             () => _profileController.isProfessionListLoading.value
                 ? CommonLoadingAnimation(

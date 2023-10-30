@@ -370,6 +370,7 @@ class Profile extends StatelessWidget {
                             kH12sizedBox,
                             DefaultTabController(
                               length: 2,
+                              initialIndex: _profileController.postSectionVisible.value ? 0 : 1,
                               child: Column(
                                 children: [
                                   Container(
@@ -515,7 +516,7 @@ class PostTab extends StatelessWidget {
                         ),
                       CustomTextButton(
                         text: ksSeeYourAboutInfo.tr,
-                        textStyle: semiBold16TextStyle(cPrimaryColor),
+                        textStyle: medium16TextStyle(cPrimaryColor),
                         onPressed: () {
                           Get.toNamed(krEditProfile);
                         },

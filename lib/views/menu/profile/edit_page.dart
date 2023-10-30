@@ -177,6 +177,7 @@ class EditPage extends StatelessWidget {
                                   elevation: 4,
                                   child: ListView.separated(
                                     padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
                                     itemBuilder: (context, index) {
                                       final option = options.elementAt(index);
                                       return CustomListTile(
@@ -212,7 +213,7 @@ class EditPage extends StatelessWidget {
                                 maxLength: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
                                         _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
                                     ? 15
-                                    : 255,
+                                    : 120,
                                 hint: _profileController.commonEditTextfieldHintText.value,
                                 prefixIcon: _profileController.commonEditPageIcon.value ?? _profileController.commonEditIconData.value,
                                 suffixIcon: _profileController.showCommonEditSuffixIcon.value ? BipHip.circleCrossNew : null,
@@ -229,6 +230,10 @@ class EditPage extends StatelessWidget {
                                   _profileController.commonEditTextEditingController.clear();
                                   _profileController.showCommonEditSuffixIcon.value = false;
                                   _profileController.checkSaveButtonActive();
+                                },
+                                onSubmit: (value) {
+                                  unFocus(context);
+                                  _profileController.showCommonEditSuffixIcon.value = false;
                                 },
                                 onChanged: (value) {
                                   if (_profileController.commonEditTextEditingController.text != '') {
@@ -274,6 +279,7 @@ class EditPage extends StatelessWidget {
                                       elevation: 4,
                                       child: ListView.separated(
                                         padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
                                         itemBuilder: (context, index) {
                                           final option = options.elementAt(index);
 
@@ -314,6 +320,10 @@ class EditPage extends StatelessWidget {
                                       _profileController.commonEditSecondaryTextEditingController.clear();
                                       _profileController.checkSaveButtonActive();
 
+                                      _profileController.showCommonSecondaryEditSuffixIcon.value = false;
+                                    },
+                                    onSubmit: (value) {
+                                      unFocus(context);
                                       _profileController.showCommonSecondaryEditSuffixIcon.value = false;
                                     },
                                     onChanged: (value) {
@@ -540,6 +550,9 @@ class _EducationBackgroundContent extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: k8Padding),
                         child: Obx(() => CustomListTile(
                               title: profileController.educationBackgroundList[index],
+                              borderColor: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index]
+                                  ? cPrimaryColor
+                                  : cLineColor,
                               trailing: CustomRadioButton(
                                 onChanged: () {
                                   profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
@@ -589,6 +602,7 @@ class _LinkListContent extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: k8Padding),
                           child: CustomListTile(
                             title: profileController.linkSourceList[index],
+                            borderColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryColor : cLineColor,
                             trailing: CustomRadioButton(
                               onChanged: () {
                                 profileController.tempLinkSource.value = profileController.linkSourceList[index];
@@ -628,21 +642,23 @@ class _LinkListContentShimmer extends StatelessWidget {
           itemCount: 20,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
-              padding: const EdgeInsets.only(bottom: k8Padding),
+              padding: const EdgeInsets.only(bottom: k12Padding),
               child: CustomListTile(
+                borderColor: cLineColor,
                 title: ShimmerCommon(
                   widget: Container(
-                    height: 20,
-                    decoration: BoxDecoration(
-                      borderRadius: k8CircularBorderRadius,
-                      color: cWhiteColor,
-                    ),
+                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                    height: 16,
+                    width: 120,
                   ),
                 ),
-                trailing: const CustomRadioButton(
-                  onChanged: null,
+                trailing: ShimmerCommon(
+                  widget: Container(
+                    decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                    height: 16,
+                    width: 16,
+                  ),
                 ),
-                itemColor: cWhiteColor,
               ),
             );
           },
