@@ -44,7 +44,7 @@ class Family extends StatelessWidget {
                             // _familyController.addFamilyRequestList.clear();
                             _familyController.clearAddFamilyData();
                             Get.toNamed(krAddFamily);
-                             Get.find<FriendController>().getFriendListForAddFamily();
+                            Get.find<FriendController>().getFriendListForAddFamily();
                           },
                           child: Text(
                             ksAdd.tr,
@@ -70,18 +70,21 @@ class Family extends StatelessWidget {
                               _profileController.searchController.clear();
                               FocusScope.of(context).unfocus();
                               _profileController.toggleType(0);
+                              _familyController.isFamilySuffixIconVisible.value = false;
                               await _familyController.getFamilyList();
                             },
                             () async {
                               _profileController.searchController.clear();
                               FocusScope.of(context).unfocus();
                               _profileController.toggleType(1);
+                              _familyController.isFamilySuffixIconVisible.value = false;
                               await _familyController.getReceivedFamilyList();
                             },
                             () async {
                               _profileController.searchController.clear();
                               FocusScope.of(context).unfocus();
                               _profileController.toggleType(2);
+                              _familyController.isFamilySuffixIconVisible.value = false;
                               await _familyController.getSendFamilyRequestList();
                             },
                           ]),
@@ -90,15 +93,31 @@ class Family extends StatelessWidget {
                       kH12sizedBox,
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                        child: CustomModifiedTextField(
-                          borderRadius: h8,
-                          controller: Get.find<ProfileController>().searchController,
-                          prefixIcon: BipHip.search,
-                          suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
-                          hint: ksSearch.tr,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
-                          textInputStyle: regular16TextStyle(cBlackColor),
-                        ),
+                        child: Obx(() => CustomModifiedTextField(
+                            borderRadius: h8,
+                            controller: Get.find<ProfileController>().searchController,
+                            prefixIcon: BipHip.search,
+                            suffixIcon: _familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                            hint: ksSearch.tr,
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: k12Padding,
+                            ),
+                            textInputStyle: regular16TextStyle(cBlackColor),
+                            onSuffixPress: () {
+                              Get.find<ProfileController>().searchController.clear();
+                              _familyController.isFamilySuffixIconVisible.value = false;
+                            },
+                            onSubmit: (v) {
+                              unfocus(context);
+                              _familyController.isFamilySuffixIconVisible.value = false;
+                            },
+                            onChanged: (v) async {
+                              if (Get.find<ProfileController>().searchController.text.trim() != '') {
+                                _familyController.isFamilySuffixIconVisible.value = true;
+                              } else {
+                                _familyController.isFamilySuffixIconVisible.value = false;
+                              }
+                            })),
                       ),
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])

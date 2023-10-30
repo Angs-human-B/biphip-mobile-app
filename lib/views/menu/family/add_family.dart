@@ -118,19 +118,26 @@ class AddFamily extends StatelessWidget {
                                   suffixIcon:
                                       _familyController.isAddFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null, // todo:: icon will be changed
                                   hint: ksSearch.tr,
-                                  // contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: k12Padding,
+                                  ),
                                   textInputStyle: regular16TextStyle(cBlackColor),
                                   onSuffixPress: () {
                                     profileController.searchController.clear();
                                     _familyController.isAddFamilySuffixIconVisible.value = false;
                                   },
+                                  onSubmit: (v) {
+                                    unfocus(context);
+                                    _familyController.isAddFamilySuffixIconVisible.value = false;
+                                  },
                                   onChanged: (v) async {
                                     // profileController.searchController.text = v;
-                                    if (profileController.searchController.text != '') {
+                                    if (profileController.searchController.text.trim() != '') {
                                       _familyController.isAddFamilySuffixIconVisible.value = true;
                                     } else {
                                       _familyController.isAddFamilySuffixIconVisible.value = false;
                                     }
+
                                     // await _friendController.getFriendList();
                                     // profileController.searchController.text = v;
                                     for (int i = 0; i < _friendController.tempFriendList.length; i++) {

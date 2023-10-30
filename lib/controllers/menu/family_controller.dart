@@ -529,4 +529,5 @@ class FamilyController extends GetxController {
   }
 Timer? debounce;
 final RxBool isAddFamilySuffixIconVisible = RxBool(false);
+final RxBool isFamilySuffixIconVisible = RxBool(false);
 }
