@@ -69,18 +69,21 @@ class Friends extends StatelessWidget {
                               _profileController.searchController.clear();
                               FocusScope.of(context).unfocus();
                               _profileController.toggleType(0);
+                              _friendController.isFriendSuffixIconVisible.value = false;
                               await _friendController.getFriendList();
                             },
                             () async {
                               _profileController.searchController.clear();
                               FocusScope.of(context).unfocus();
                               _profileController.toggleType(1);
+                              _friendController.isFriendSuffixIconVisible.value = false;
                               await _friendController.getReceivedFriendList();
                             },
                             () async {
                               _profileController.searchController.clear();
                               FocusScope.of(context).unfocus();
                               _profileController.toggleType(2);
+                              _friendController.isFriendSuffixIconVisible.value = false;
                               await _friendController.getSendFriendRequestList();
                             },
                           ]),
@@ -89,16 +92,29 @@ class Friends extends StatelessWidget {
                       kH12sizedBox,
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                        child: CustomModifiedTextField(
-                          borderRadius: h8,
-                          controller: Get.find<ProfileController>().searchController,
-
-                          prefixIcon: BipHip.search,
-                          suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
-                          hint: ksSearch.tr,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
-                          textInputStyle: regular16TextStyle(cBlackColor),
-                        ),
+                        child: Obx(() => CustomModifiedTextField(
+                            borderRadius: h8,
+                            controller: Get.find<ProfileController>().searchController,
+                            prefixIcon: BipHip.search,
+                            suffixIcon: _friendController.isFriendSuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                            hint: ksSearch.tr,
+                            contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
+                            textInputStyle: regular16TextStyle(cBlackColor),
+                            onSuffixPress: () {
+                              Get.find<ProfileController>().searchController.clear();
+                              _friendController.isFriendSuffixIconVisible.value = false;
+                            },
+                            onSubmit: (v) {
+                              unfocus(context);
+                              _friendController.isFriendSuffixIconVisible.value = false;
+                            },
+                            onChanged: (v) async {
+                              if (Get.find<ProfileController>().searchController.text.trim() != '') {
+                                _friendController.isFriendSuffixIconVisible.value = true;
+                              } else {
+                                _friendController.isFriendSuffixIconVisible.value = false;
+                              }
+                            })),
                       ),
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])

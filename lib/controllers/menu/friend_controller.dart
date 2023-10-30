@@ -556,7 +556,6 @@ class FriendController extends GetxController {
   final Rx<String?> addFriendListSubLink = Rx<String?>(null);
   final RxBool addFriendListScrolled = RxBool(false);
   final RxBool isAddFriendRequestListLoading = RxBool(false);
-  // final RxList isSendRequest = RxList([]);
   Future<void> getAddFriendRequestList() async {
     try {
       isAddFriendRequestListLoading.value = true;
@@ -582,14 +581,7 @@ class FriendController extends GetxController {
             }
           }
         }
-        // isSendRequest.clear();
-        // for (int index = 0; index < addFriendRequestList.length; index++) {
-        //   if (addFriendRequestList[index].friendStatus == 2) {
-        //     isSendRequest.add(false);
-        //   } else if (addFriendRequestList[index].friendStatus == 0) {
-        //     isSendRequest.add(true);
-        //   }
-        // }
+
         isAddFriendRequestListLoading.value = false;
       } else {
         isAddFriendRequestListLoading.value = false;
@@ -689,11 +681,7 @@ class FriendController extends GetxController {
       if (response.success == true) {
         for (int index = 0; index < addFriendRequestList.length; index++) {
           if (addFriendRequestList[index].id == userId.value) {
-            // isSendRequest.add(true);
-            // isSendRequest[index] = false;
             addFriendRequestList[index].friendStatus = 2;
-
-            // isSendRequest[index] = !isSendRequest[index];
           }
         }
         isSendFriendRequestLoading.value = false;
@@ -719,7 +707,7 @@ class FriendController extends GetxController {
   //* tempFriendList -> when add family member friend name list needed for suggestion
   final RxList<String> tempFriendList = RxList<String>([]);
 
-  //*Friend List Api Call
+  //*Friend List Api Call for add family suggestion list
   final Rx<CommonFriendModel?> friendListDataForAddFamily = Rx<CommonFriendModel?>(null);
   final RxList<FriendFamilyUserData> friendListForAddFamily = RxList<FriendFamilyUserData>([]);
   final RxBool isFriendListForAddFamilyLoading = RxBool(false);
@@ -778,4 +766,5 @@ class FriendController extends GetxController {
     {'icon': BipHip.user, 'action': 'Follow', 'actionSubtitle': 'Follow your friend'},
     {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
   ]);
+  final RxBool isFriendSuffixIconVisible = RxBool(false);
 }
