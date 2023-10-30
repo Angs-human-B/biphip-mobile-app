@@ -107,18 +107,19 @@ class EditAboutInfo extends StatelessWidget {
                                     },
                                   ),
                                 kH12sizedBox,
-                                InfoContainer2(
-                                  suffixText: ksPreviousPlacesLived.tr,
-                                  isAddButton: true,
-                                  suffixOnPressed: () async {
-                                    _profileController.resetTextEditor();
-                                    _profileController.isSingleDatePicker.value = true;
-                                    _profileController.getMethod(3);
-                                    Get.toNamed(krEdit);
-                                    _profileController.getCityList();
-                                  },
-                                ),
-                                kH12sizedBox,
+                                if (_profileController.currentCityData.value != null && _profileController.hometownData.value != null)
+                                  InfoContainer2(
+                                    suffixText: ksPreviousPlacesLived.tr,
+                                    isAddButton: true,
+                                    suffixOnPressed: () async {
+                                      _profileController.resetTextEditor();
+                                      _profileController.isSingleDatePicker.value = true;
+                                      _profileController.getMethod(3);
+                                      Get.toNamed(krEdit);
+                                      _profileController.getCityList();
+                                    },
+                                  ),
+                                if (_profileController.currentCityData.value != null && _profileController.hometownData.value != null) kH12sizedBox,
                                 for (int i = 0; i < _profileController.otherCityList.length; i++)
                                   if (_profileController.otherCityList[i].isCurrent == 0 && _profileController.otherCityList[i].isHometown == 0)
                                     Padding(

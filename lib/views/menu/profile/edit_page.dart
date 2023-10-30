@@ -212,7 +212,7 @@ class EditPage extends StatelessWidget {
                                 maxLength: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
                                         _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
                                     ? 15
-                                    : 255,
+                                    : 120,
                                 hint: _profileController.commonEditTextfieldHintText.value,
                                 prefixIcon: _profileController.commonEditPageIcon.value ?? _profileController.commonEditIconData.value,
                                 suffixIcon: _profileController.showCommonEditSuffixIcon.value ? BipHip.circleCrossNew : null,
