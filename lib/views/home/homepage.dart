@@ -1,7 +1,6 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
-import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 import 'package:bip_hip/widgets/post_widgets/post_button_widget.dart';
 import 'package:bip_hip/widgets/post_widgets/stories_widget.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
@@ -87,8 +86,9 @@ class HomePage extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
-                  // kH8sizedBox,
-                  CustomDivider(),
+                  const SizedBox(
+                    height: 2,
+                  ),
                   Container(
                     width: width,
                     color: cWhiteColor,

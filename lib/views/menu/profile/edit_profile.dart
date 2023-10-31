@@ -316,7 +316,7 @@ class EditProfile extends StatelessWidget {
                         ),
                       ),
                       const Positioned(
-                        top: 0,
+                        top: 1,
                         child: CustomDivider(
                           thickness: 2,
                         ),
@@ -350,7 +350,7 @@ class CustomDivider extends StatelessWidget {
     return SizedBox(
       width: width,
       child: Divider(
-        thickness: thickness ?? 1,
+        thickness: thickness ?? 2,
         height: 1,
         color: cLineColor,
       ),
