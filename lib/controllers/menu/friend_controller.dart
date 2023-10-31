@@ -755,14 +755,14 @@ class FriendController extends GetxController {
   //*Follow Pending friend list
   final RxList pendingFollowFriendActionList = RxList([
     {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
-    {'icon': BipHip.user, 'action': 'Follow', 'actionSubtitle': 'Follow this user'}
+    {'icon': BipHip.follow, 'action': 'Follow', 'actionSubtitle': 'Follow this user'}
   ]);
   final RxInt allFriendFollowStatus = RxInt(-1);
   final RxInt pendingFriendFollowStatus = RxInt(-1);
   //*Follow All friend list
   final RxList friendFollowActionList = RxList([
     {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
-    {'icon': BipHip.user, 'action': 'Follow', 'actionSubtitle': 'Follow your friend'},
+    {'icon': BipHip.follow, 'action': 'Follow', 'actionSubtitle': 'Follow your friend'},
     {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
   ]);
   final RxBool isFriendSuffixIconVisible = RxBool(false);
