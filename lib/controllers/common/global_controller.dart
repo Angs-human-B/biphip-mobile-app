@@ -174,18 +174,20 @@ class GlobalController extends GetxController {
               Positioned(
                 top: h20,
                 right: 10,
-                child: CustomTextButton(
-                  onPressed: onPressRightButton,
-                  icon: BipHip.circleCross,
-                  text: rightText,
-                  textStyle: rightTextStyle,
-                ),
+                child: Obx(() => CustomTextButton(
+                      onPressed: isBottomSheetRightButtonActive.value ? onPressRightButton : null,
+                      icon: BipHip.circleCross,
+                      text: rightText,
+                      textStyle: isBottomSheetRightButtonActive.value ? rightTextStyle : medium14TextStyle(cLineColor2),
+                    )),
               ),
           ],
         );
       },
     );
   }
+
+  final RxBool isBottomSheetRightButtonActive = RxBool(true);
 
   //* Image picker
   final ImagePicker _picker = ImagePicker();

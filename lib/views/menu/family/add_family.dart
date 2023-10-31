@@ -74,10 +74,11 @@ class AddFamily extends StatelessWidget {
                               alignment: Alignment.topLeft,
                               child: SizedBox(
                                 width: width - 40,
-                                height: 200,
+                                // height: 200,
                                 child: Material(
                                   elevation: 4,
                                   child: ListView.separated(
+                                    shrinkWrap: true,
                                     padding: EdgeInsets.zero,
                                     itemBuilder: (context, index) {
                                       final option = options.elementAt(index);

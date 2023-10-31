@@ -14,8 +14,7 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      // color: cWhiteColor,
-      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoarding4xImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
           children: [
@@ -90,7 +89,7 @@ class Login extends StatelessWidget {
                               borderRadius: BorderRadius.circular(k4BorderRadius),
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
-                            suffixIcon: _authenticationController.isLoginPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
+                            suffixIcon: _authenticationController.isLoginPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
                             onSuffixPress: () {
                               _authenticationController.isLoginPasswordToggleObscure.value = !_authenticationController.isLoginPasswordToggleObscure.value;
                             },
