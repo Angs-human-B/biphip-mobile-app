@@ -14,8 +14,7 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      // color: cWhiteColor,
-      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoarding4xImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
           children: [

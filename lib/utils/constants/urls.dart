@@ -135,6 +135,7 @@ const String kiDummyImage3ImageUrl = 'assets/images/pic12.jpeg';
 const String kiBoostPost1xImage3ImageUrl = 'assets/images/boost1x.png';
 const String kiBoostPost4xImage3ImageUrl = 'assets/images/boost4x.png';
 const String kiOnBoardingImageUrl = 'assets/images/onBoarding.png';
+const String kiOnBoarding4xImageUrl = 'assets/images/onBoarding4x.png';
 
 //* svg images
 const String kiBadgeSvgImageUrl = 'assets/svg/badge.svg';

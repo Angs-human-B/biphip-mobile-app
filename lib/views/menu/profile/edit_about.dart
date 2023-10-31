@@ -46,7 +46,7 @@ class EditAboutInfo extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        kH10sizedBox,
+                        kH8sizedBox,
                         Container(
                           color: cWhiteColor,
                           child: Padding(
