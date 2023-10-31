@@ -73,27 +73,6 @@ class CreatePostController extends GetxController {
     },
   ];
 
-  IconData getCategoryIcon(String type){
-    if (type.toLowerCase() == "poetry") {
-      return BipHip.poetry;
-    } else if (type.toLowerCase() == "painting") {
-      return BipHip.painting;
-    } else if (type.toLowerCase() == "kids") {
-      return BipHip.kids;
-    } else if (type.toLowerCase() == "storytelling") {
-      return BipHip.storytelling;
-    }else if (type.toLowerCase() == "photography") {
-      return BipHip.photography;
-    }else if (type.toLowerCase() == "storytelling") {
-      return BipHip.storytelling;
-    }else if (type.toLowerCase() == "news") {
-      return BipHip.newsFill;
-    }else{
-      return BipHip.selling;
-    }
-  }
-  
-
   final List categoryList = [
     {
       "id":'',
