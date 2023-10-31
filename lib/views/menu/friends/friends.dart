@@ -460,6 +460,11 @@ class AllFriendList extends StatelessWidget {
                                           onPress: () {
                                             _profileController.friendActionSelect.value = '';
                                             _friendController.allFriendFollowStatus.value = _friendController.friendList[index].followStatus!;
+                                            if (_profileController.friendActionSelect.value == '') {
+                                              _globalController.isBottomSheetRightButtonActive.value = false;
+                                            } else {
+                                              _globalController.isBottomSheetRightButtonActive.value = true;
+                                            }
                                             _globalController.commonBottomSheet(
                                               context: context,
                                               isScrollControlled: true,
@@ -655,6 +660,11 @@ class PendingFriendList extends StatelessWidget {
                                           onPress: () {
                                             _friendController.pendingFriendActionSelect.value = '';
                                             _friendController.pendingFriendFollowStatus.value = _friendController.sendFriendRequestList[index].followStatus!;
+                                            if (_friendController.pendingFriendActionSelect.value == '') {
+                                              _globalController.isBottomSheetRightButtonActive.value = false;
+                                            } else {
+                                              _globalController.isBottomSheetRightButtonActive.value = true;
+                                            }
                                             _globalController.commonBottomSheet(
                                               context: context,
                                               isScrollControlled: true,
@@ -773,6 +783,11 @@ class _FriendActionContent extends StatelessWidget {
                     } else if (friendController.allFriendFollowStatus.value == 0) {
                       profileController.friendActionSelect.value = friendController.friendFollowActionList[index]['action'];
                     }
+                    if (profileController.friendActionSelect.value == '') {
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                    } else {
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                    }
                   },
                 ),
               ),
@@ -852,6 +867,11 @@ class _PendingFriendActionContent extends StatelessWidget {
                       friendController.pendingFriendActionSelect.value = friendController.pendingFriendActionList[index]['action'];
                     } else if (friendController.pendingFriendFollowStatus.value == 0) {
                       friendController.pendingFriendActionSelect.value = friendController.pendingFollowFriendActionList[index]['action'];
+                    }
+                    if (friendController.pendingFriendActionSelect.value == '') {
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                    } else {
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                     }
                   },
                 ),
