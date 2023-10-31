@@ -40,6 +40,7 @@ class Family extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () async {
                             _profileController.searchController.clear();
+                            _familyController.isAddFamilySuffixIconVisible.value = false;
                             unfocus(context);
                             // _familyController.addFamilyRequestList.clear();
                             _familyController.clearAddFamilyData();
@@ -290,7 +291,7 @@ class ReceivedFamilyList extends StatelessWidget {
                                       backgroundImage: _familyController.receivedFamilyList[index].profilePicture.toString(),
                                       imageSize: h50,
                                       name: _familyController.receivedFamilyList[index].fullName ?? ksNA.tr,
-                                      subTitle: _familyController.receivedFamilyList[index].familyRelationStatus ?? ksNA,
+                                      subTitle: _familyController.receivedFamilyList[index].familyRelationStatus ?? ksNA.tr,
                                       firstButtonText: ksConfirm.tr,
                                       secondButtonText: ksCancel.tr,
                                       firstButtonOnPressed: () async {
