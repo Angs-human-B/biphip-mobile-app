@@ -56,6 +56,7 @@ class Friends extends StatelessWidget {
                     ],
                   ),
                 ),
+               
                 body: Obx(
                   () => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

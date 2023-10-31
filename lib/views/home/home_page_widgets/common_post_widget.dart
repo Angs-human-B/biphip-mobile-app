@@ -35,6 +35,7 @@ class CommonPostWidget extends StatelessWidget {
     required this.isCommentShown,
     required this.isSharedPost,
     required this.showBottomSection,
+    this.postUpperContainerOnpressed,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -45,6 +46,7 @@ class CommonPostWidget extends StatelessWidget {
   final IconData privacy;
   final Color? categoryIconColor;
   final List mediaList;
+  final VoidCallback? postUpperContainerOnpressed;
   final HomeController _homeController = Get.find<HomeController>();
 
   @override
@@ -106,20 +108,26 @@ class CommonPostWidget extends StatelessWidget {
           ),
         if (isSharedPost) const CustomDivider(),
         kH10sizedBox,
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          child: PostUpperContainer(
-            userName: userName,
-            postTime: postTime,
-            isCategorized: isCategorized,
-            category: category,
-            categoryIcon: categoryIcon,
-            categoryIconColor: categoryIconColor,
-            privacy: privacy,
-            brandName: brandName,
-            kidName: kidName,
-            kidAge: kidAge,
-            title: title,
+        InkWell(
+          onTap: () {
+            // ll('Upper container');
+            Get.toNamed(krHomePostDetails);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: PostUpperContainer(
+              userName: userName,
+              postTime: postTime,
+              isCategorized: isCategorized,
+              category: category,
+              categoryIcon: categoryIcon,
+              categoryIconColor: categoryIconColor,
+              privacy: privacy,
+              brandName: brandName,
+              kidName: kidName,
+              kidAge: kidAge,
+              title: title,
+            ),
           ),
         ),
         kH8sizedBox,
