@@ -492,7 +492,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           ksEditLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
       // Get.back();
     } else if (methodID == 5) {
-      setEditPageValue('Add Educational Event', true, BipHip.schoolNew, educationInstituteTextEditingController, false, educationInstituteTextEditingController,
+      setEditPageValue(ksAddEducationalEvent.tr, true, BipHip.schoolNew, educationInstituteTextEditingController, false, educationInstituteTextEditingController,
           'Institute name', true, true, true, isCurrentlyStudyingHere.value, 'Currently studying here', 'ADD SCHOOL', '', '');
     } else if (methodID == 6) {
       setEditPageValue(

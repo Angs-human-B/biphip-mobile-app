@@ -70,6 +70,17 @@ class EditPage extends StatelessWidget {
                                 _profileController.isLinkListLoading.value = true;
                                 _profileController.tempLinkSource.value = _profileController.linkSource.value;
                                 _profileController.tempEducationBackground.value = _profileController.educationBackground.value;
+                                if (_profileController.tempLinkSource.value == '' &&
+                                    (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)) {
+                                  _globalController.isBottomSheetRightButtonActive.value = false;
+                                } else if (_profileController.tempEducationBackground.value == '' &&
+                                    (_profileController.commonEditPageTitle.value == ksAddEducationalEvent ||
+                                        _profileController.commonEditPageTitle.value == ksEditSchool ||
+                                        _profileController.commonEditPageTitle.value == ksEditCollege)) {
+                                  _globalController.isBottomSheetRightButtonActive.value = false;
+                                } else {
+                                  _globalController.isBottomSheetRightButtonActive.value = true;
+                                }
                                 _globalController.commonBottomSheet(
                                   context: context,
                                   content: Obx(
@@ -255,7 +266,7 @@ class EditPage extends StatelessWidget {
                             );
                           },
                         ),
-                        
+
                         if (_profileController.isSecondaryTextfieldShown.value)
                           Padding(
                             padding: const EdgeInsets.only(bottom: k8Padding),
@@ -564,6 +575,11 @@ class _EducationBackgroundContent extends StatelessWidget {
                                   : cWhiteColor,
                               onPressed: () {
                                 profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
+                                if (profileController.tempEducationBackground.value == '') {
+                                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                } else {
+                                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                }
                               },
                             )),
                       );
@@ -612,6 +628,11 @@ class _LinkListContent extends StatelessWidget {
                             itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
                             onPressed: () {
                               profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                              if (profileController.tempLinkSource.value == '') {
+                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                              } else {
+                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                              }
                             },
                           ),
                         ),

@@ -221,6 +221,7 @@ const String ksAddHomeTownAddress = 'Add hometown address';
 const String ksEnterHometownAddress = 'Enter hometown address';
 const String ksEditHometownAddress = 'Edit hometown address';
 const String ksEditAddress = 'Edit address';
+const String ksAddEducationalEvent = 'Add Educational Event';
 const String ksDeleteAddress = 'Delete address';
 const String ksPresentAddress = 'Present address';
 const String ksOther = 'Others';
