@@ -119,3 +119,34 @@ class SchoolListModel {
         schools: List<String>.from(json["schools"].map((x) => x)),
       );
 }
+
+class PostListModel {
+    List<PostCategory> postCategories;
+
+    PostListModel({
+        required this.postCategories,
+    });
+
+    factory PostListModel.fromJson(Map<String, dynamic> json) => PostListModel(
+        postCategories: List<PostCategory>.from(json["postCategories"].map((x) => PostCategory.fromJson(x))),
+    );
+}
+
+class PostCategory {
+    int? id;
+    String? name;
+    int? isActive;
+
+    PostCategory({
+        required this.id,
+        required this.name,
+        required this.isActive,
+    });
+
+    factory PostCategory.fromJson(Map<String, dynamic> json) => PostCategory(
+        id: json["id"],
+        name: json["name"],
+        isActive: json["is_active"],
+    );
+}
+

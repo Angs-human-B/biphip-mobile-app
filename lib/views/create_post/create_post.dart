@@ -164,9 +164,10 @@ class CreatePost extends StatelessWidget {
                                             label: _createPostController.category.value == "" ? "Select Category" : _createPostController.category.value,
                                             prefixIcon: _createPostController.category.value == "" ? null : _createPostController.categoryIcon.value,
                                             prefixIconColor: _createPostController.category.value == "" ? null : _createPostController.categoryIconColor.value,
-                                            onPressed: () {
+                                            onPressed: () async {
                                               _createPostController.initializeCategory();
                                               Get.toNamed(krSelectCategory);
+                                              await _createPostController.getPostCategoryList();
                                             },
                                             buttonHeight: 22,
                                             isCustomButton: true,

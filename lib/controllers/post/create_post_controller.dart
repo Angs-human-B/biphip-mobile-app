@@ -1,13 +1,14 @@
 import 'dart:io';
 
+import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/create_post/add_brand.dart';
 import 'package:bip_hip/views/create_post/add_kid.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 
 class CreatePostController extends GetxController {
-  // final ApiController _apiController = ApiController();
-  // final SpController _spController = SpController();
+  final ApiController _apiController = ApiController();
+  final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
 
   final RxBool isPostButtonActive = RxBool(false);
@@ -72,38 +73,73 @@ class CreatePostController extends GetxController {
     },
   ];
 
+  IconData getCategoryIcon(String type){
+    if (type.toLowerCase() == "poetry") {
+      return BipHip.poetry;
+    } else if (type.toLowerCase() == "painting") {
+      return BipHip.painting;
+    } else if (type.toLowerCase() == "kids") {
+      return BipHip.kids;
+    } else if (type.toLowerCase() == "storytelling") {
+      return BipHip.storytelling;
+    }else if (type.toLowerCase() == "photography") {
+      return BipHip.photography;
+    }else if (type.toLowerCase() == "storytelling") {
+      return BipHip.storytelling;
+    }else if (type.toLowerCase() == "news") {
+      return BipHip.newsFill;
+    }else{
+      return BipHip.selling;
+    }
+  }
+  
+
   final List categoryList = [
     {
+      "id":'',
+      "name":'',
       "title": "Poetry",
       "icon": BipHip.poetry,
       "icon_color": cPoetryColor,
     },
     {
+      "id":'',
+      "name":'',
       "title": "Painting",
       "icon": BipHip.painting,
       "icon_color": cPaintingColor,
     },
     {
+      "id":'',
+      "name":'',
       "title": "Kids",
       "icon": BipHip.kids,
       "icon_color": cKidsColor,
     },
     {
+      "id":'',
+      "name":'',
       "title": "Storytelling",
       "icon": BipHip.storytelling,
       "icon_color": cStoryTellingColor,
     },
     {
+      "id":'',
+      "name":'',
       "title": "Photography",
       "icon": BipHip.photography,
       "icon_color": cPhotographyColor,
     },
     {
+      "id":'',
+      "name":'',
       "title": "News",
       "icon": BipHip.newsFill, // todo:: icon will be changed
       "icon_color": cBlackColor,
     },
     {
+      "id":'',
+      "name":'',
       "title": "Selling",
       "icon": BipHip.selling,
       "icon_color": cSellingColor,
@@ -870,5 +906,46 @@ class CreatePostController extends GetxController {
       title: ksEditAudience.tr,
       isRightButtonShow: true,
     );
+  }
+
+  //Get all post catagories API implementation
+  Rx<PostListModel?> postCategoryData = Rx<PostListModel?>(null);
+  RxList<PostCategory> postCategoryList = RxList<PostCategory>([]);
+  final RxBool isPostCategoryListLoading = RxBool(false);
+  Future<void> getPostCategoryList() async {
+    try {
+      isPostCategoryListLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllPostCatagories,
+      ) as CommonDM;
+      if (response.success == true) {
+        postCategoryList.clear();
+        postCategoryData.value = PostListModel.fromJson(response.data);
+        postCategoryList.addAll(postCategoryData.value!.postCategories);
+        for(int i=0;i<postCategoryList.length;i++){
+          for(int j=0;j<categoryList.length;j++){
+            if(postCategoryList[i].name!.toLowerCase()==categoryList[j]['title'].toLowerCase()){
+              categoryList[j]['name']=postCategoryList[i].name!;
+              categoryList[j]['id']=postCategoryList[i].id!;
+            }
+          }
+        }
+        isPostCategoryListLoading.value = false;
+      } else {
+        isPostCategoryListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isPostCategoryListLoading.value = true;
+      ll('getPostCategoryList error: $e');
+    }
   }
 }
