@@ -41,6 +41,7 @@ class Family extends StatelessWidget {
                           onPressed: () async {
                             _profileController.searchController.clear();
                             _familyController.isAddFamilySuffixIconVisible.value = false;
+                            _familyController.isFamilySuffixIconVisible.value = false;
                             unfocus(context);
                             // _familyController.addFamilyRequestList.clear();
                             _familyController.clearAddFamilyData();

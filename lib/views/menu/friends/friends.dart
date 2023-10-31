@@ -40,6 +40,8 @@ class Friends extends StatelessWidget {
                           onPressed: () async {
                             //*Common bottom sheet for add friend
                             _profileController.searchController.clear();
+                            _friendController.isAddFriendSuffixIconVisible.value = false;
+                            _friendController.isFriendSuffixIconVisible.value = false;
                             FocusScope.of(context).unfocus();
                             _friendController.addFriendRequestList.clear();
                             Get.toNamed(krAddFriend);
