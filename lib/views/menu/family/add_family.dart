@@ -174,6 +174,16 @@ class AddFamily extends StatelessWidget {
                           hintText: ksSelectRelation.tr,
                           text: _familyController.relation.value,
                           onPressed: () async {
+                            if (_familyController.relationId.value != -1) {
+                              _familyController.relationStatusId.value = _familyController.relationId.value - 1;
+                            } else {
+                              _familyController.relationStatusId.value = -1;
+                            }
+                              if (_familyController.relationStatusId.value == -1) {
+                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                  } else {
+                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                  }
                             unFocus(context);
                             _familyController.isFamilyRelationListLoading.value = true;
                             Get.find<GlobalController>().commonBottomSheet(

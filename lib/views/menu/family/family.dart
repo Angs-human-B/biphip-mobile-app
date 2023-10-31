@@ -408,6 +408,11 @@ class RelationContent extends StatelessWidget {
               itemColor: _familyController.relationStatusId.value == index ? cPrimaryTint3Color : cWhiteColor,
               onPressed: () {
                 _familyController.relationStatusId.value = index;
+                if (_familyController.relationStatusId.value == -1) {
+                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                } else {
+                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                }
               },
               title: _familyController.familyRelationList[index].name,
               borderColor: _familyController.relationStatusId.value == index ? cPrimaryColor : cLineColor,
