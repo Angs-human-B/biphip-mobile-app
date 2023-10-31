@@ -66,7 +66,7 @@ class SetPassword extends StatelessWidget {
                               borderRadius: BorderRadius.circular(k4BorderRadius),
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
-                            suffixIcon: _authenticationController.isRegisterPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
+                            suffixIcon: _authenticationController.isRegisterPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
                             onSuffixPress: () {
                               _authenticationController.isRegisterPasswordToggleObscure.value =
                                   !_authenticationController.isRegisterPasswordToggleObscure.value;
@@ -105,7 +105,7 @@ class SetPassword extends StatelessWidget {
                               borderRadius: BorderRadius.circular(k4BorderRadius),
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
-                            suffixIcon: _authenticationController.isRegisterConfirmPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
+                            suffixIcon: _authenticationController.isRegisterConfirmPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
                             onSuffixPress: () {
                               _authenticationController.isRegisterConfirmPasswordToggleObscure.value =
                                   !_authenticationController.isRegisterConfirmPasswordToggleObscure.value;

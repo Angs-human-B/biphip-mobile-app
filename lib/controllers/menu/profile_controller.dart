@@ -443,7 +443,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     } else if (type.toLowerCase() == "linkedin") {
       return BipHip.linkedin;
     } else if (type.toLowerCase() == "twitter") {
-      return BipHip.twitter;
+      return BipHip.twitterX;
     } else if (type.toLowerCase() == "instagram") {
       return BipHip.instagram;
     } else if (type.toLowerCase() == "twitch") {
