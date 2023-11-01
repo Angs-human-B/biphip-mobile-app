@@ -120,7 +120,7 @@ class Friends extends StatelessWidget {
                             onChanged: (v) async {
                               if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
                               if (Get.find<ProfileController>().searchController.text.trim() != '') {
-                                _friendController.debounce = Timer(const Duration(milliseconds: 2000), () async {
+                                _friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
                                   _friendController.isFriendSearched.value = true;
                                   _friendController.isFriendSuffixIconVisible.value = true;
                                   await _friendController.getFriendSearchList();
