@@ -823,10 +823,10 @@ class FriendController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        friendListData.value = CommonFriendModel.fromJson(response.data);
-        friendList.addAll(friendListData.value!.friends!.data);
-        allFriendCount.value = friendListData.value!.friends!.total!;
-        friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
+        searchFriendData.value = CommonFriends.fromJson(response.data);
+        friendList.addAll(searchFriendData.value!.data);
+        searchedFriendCount.value = searchFriendData.value!.total!;
+        friendListSubLink.value = searchFriendData.value!.nextPageUrl;
         if (friendListSubLink.value != null) {
           friendListScrolled.value = false;
         } else {

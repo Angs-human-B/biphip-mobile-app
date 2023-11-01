@@ -530,7 +530,11 @@ class AllFriendList extends StatelessWidget {
                   ),
                 )
               : Expanded(
-                  child: Container(alignment: Alignment.center, child: Container(alignment: Alignment.center, child: EmptyView(title: ksNoFriendAddedYet.tr)))),
+                  child: Container(
+                      alignment: Alignment.center,
+                      child: Container(
+                          alignment: Alignment.center,
+                          child: EmptyView(title: _friendController.allFriendCount.value == 0 ? ksNoFriendAddedYet.tr : ksNoSearchedFriendsAvailable.tr)))),
     );
   }
 }
