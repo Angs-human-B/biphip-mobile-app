@@ -1,4 +1,5 @@
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/home_page_widgets/post_upper_container.dart';
 
 class HomePostDetails extends StatelessWidget {
   const HomePostDetails({super.key});
@@ -14,42 +15,20 @@ class HomePostDetails extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: 'Wahid Murad',
               hasBackButton: true,
               isCenterTitle: false,
               onBack: () {
                 Get.back();
               },
               action: [
-              Row(
-                children: [
-                  
-                ],
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(left: k50Padding, top: k0Padding),
+                  child: SizedBox(
+                      height: kAppBarSize,
+                      width: width - 50,
+                      child: PostUpperContainer(userName: 'Wahid Murad', isCategorized: false, privacy: BipHip.world, postTime: '1hr')),
+                )
               ],
-              
-              // action: [
-              //   Padding(
-              //     padding: const EdgeInsets.only(right: k20Padding),
-              //     child: TextButton(
-              //       style: kTextButtonStyle,
-              //       onPressed: () async {
-              //         //*Common bottom sheet for add friend
-              //         // _profileController.searchController.clear();
-              //         // _friendController.isAddFriendSuffixIconVisible.value = false;
-              //         // _friendController.isFriendSuffixIconVisible.value = false;
-              //         // FocusScope.of(context).unfocus();
-              //         // _friendController.addFriendRequestList.clear();
-              //         // Get.toNamed(krAddFriend);
-              //         // _profileController.toggleType(0);
-              //       },
-              //       child: Text(
-              //         ksAdd.tr,
-              //         style: semiBold16TextStyle(cPrimaryColor),
-              //       ),
-              //     ),
-              //   ),
-              // ],
             ),
           ),
         ),

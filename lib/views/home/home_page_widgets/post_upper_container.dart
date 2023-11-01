@@ -32,12 +32,12 @@ class PostUpperContainer extends StatelessWidget {
         Stack(
           children: [
             SizedBox(
-              width: (category == "Kids" || category == "Selling") ? 70 : h45,
+              width: (category == "Kids" || category == "Selling") ? 70 : h44,
               child: Row(
                 children: [
                   Container(
-                    height: h45,
-                    width: h45,
+                    height: h44,
+                    width: h44,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                     ),
