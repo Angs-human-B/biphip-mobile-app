@@ -1,20 +1,21 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class PostUpperContainer extends StatelessWidget {
-  const PostUpperContainer(
-      {super.key,
-      required this.userName,
-      required this.isCategorized,
-      this.category,
-      this.categoryIcon,
-      this.categoryIconColor,
-      required this.privacy,
-      this.brandName,
-      this.kidName,
-      this.kidAge,
-      required this.postTime,
-      this.title,
-      this.price});
+  const PostUpperContainer({
+    super.key,
+    required this.userName,
+    required this.isCategorized,
+    this.category,
+    this.categoryIcon,
+    this.categoryIconColor,
+    required this.privacy,
+    this.brandName,
+    this.kidName,
+    this.kidAge,
+    required this.postTime,
+    this.title,
+    this.price,
+  });
 
   final String userName, postTime;
   final String? category, brandName, kidName, kidAge, title, price;
@@ -71,6 +72,7 @@ class PostUpperContainer extends StatelessWidget {
         kW8sizedBox,
         Expanded(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [

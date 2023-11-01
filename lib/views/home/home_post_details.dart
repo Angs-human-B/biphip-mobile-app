@@ -31,7 +31,13 @@ class HomePostDetails extends StatelessWidget {
               ],
             ),
           ),
+          body: Column(
+            children: [
+              
+            ],
+          ),
         ),
+        
       ),
     );
   }
