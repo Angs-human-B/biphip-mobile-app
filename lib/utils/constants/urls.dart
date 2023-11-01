@@ -113,6 +113,11 @@ const String kuRejectFamilyRequest = '/mobile/user/reject-family-request';
 //* Family Relation Status
 const String kuGetAllFamilyRelations = '/mobile/get-all-family-relations';
 
+//---------------------------------------
+//* Create Post
+//---------------------------------------
+
+const String kuAddKid = '/mobile/user/store-kid';
 /*
 |--------------------------------------------------------------------------
 | //! Image urls

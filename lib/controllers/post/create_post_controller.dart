@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:bip_hip/models/create_post/kid_model.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/create_post/add_brand.dart';
@@ -75,50 +75,50 @@ class CreatePostController extends GetxController {
 
   final List categoryList = [
     {
-      "id":'',
-      "name":'',
+      "id": '',
+      "name": '',
       "title": "Poetry",
       "icon": BipHip.poetry,
       "icon_color": cPoetryColor,
     },
     {
-      "id":'',
-      "name":'',
+      "id": '',
+      "name": '',
       "title": "Painting",
       "icon": BipHip.painting,
       "icon_color": cPaintingColor,
     },
     {
-      "id":'',
-      "name":'',
+      "id": '',
+      "name": '',
       "title": "Kids",
       "icon": BipHip.kids,
       "icon_color": cKidsColor,
     },
     {
-      "id":'',
-      "name":'',
+      "id": '',
+      "name": '',
       "title": "Storytelling",
       "icon": BipHip.storytelling,
       "icon_color": cStoryTellingColor,
     },
     {
-      "id":'',
-      "name":'',
+      "id": '',
+      "name": '',
       "title": "Photography",
       "icon": BipHip.photography,
       "icon_color": cPhotographyColor,
     },
     {
-      "id":'',
-      "name":'',
+      "id": '',
+      "name": '',
       "title": "News",
       "icon": BipHip.newsFill, // todo:: icon will be changed
       "icon_color": cBlackColor,
     },
     {
-      "id":'',
-      "name":'',
+      "id": '',
+      "name": '',
       "title": "Selling",
       "icon": BipHip.selling,
       "icon_color": cSellingColor,
@@ -303,110 +303,155 @@ class CreatePostController extends GetxController {
     if (category.value == "Kids") {
       _globalController.commonBottomSheet(
         context: context,
-        content: Column(
-          children: [
-            kH8sizedBox,
-            OutLinedButton(
-              onPress: () {
-                _globalController.commonBottomSheet(
-                  isScrollControlled: true,
-                  bottomSheetHeight: height * .7,
-                  context: context,
-                  content: Column(
-                    children: [
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        separatorBuilder: (context, index) => kH8sizedBox,
-                        itemCount: kidList.length,
-                        itemBuilder: (context, i) {
-                          return Obx(
-                            () => CustomListTile(
-                              onPressed: () {
-                                selectKidStatusChange(i);
-                              },
-                              itemColor: selectedKidStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
-                              borderColor: selectedKidStatusList[i] ? cPrimaryColor : cLineColor,
-                              title: kidList[i]['name'],
-                              leading: CircleAvatar(
-                                radius: 12,
-                                backgroundImage: AssetImage(kidList[i]['image_url']),
-                              ),
-                              trailing: CustomRadioButton(
-                                onChanged: () {
-                                  selectKidStatusChange(i);
-                                },
-                                isSelected: selectedKidStatusList[i],
-                              ),
-                            ),
-                          );
-                        },
+        content: Obx(() => Column(
+              children: [
+                kH8sizedBox,
+                OutLinedButton(
+                  buttonHeight: isDeviceScreenLarge() ? 45 : 40,
+                  borderRadius: k8CircularBorderRadius,
+                  onPress: () {
+                    _globalController.commonBottomSheet(
+                      isScrollControlled: true,
+                      bottomSheetHeight: height * .7,
+                      context: context,
+                      content: Column(
+                        children: [
+                          ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            separatorBuilder: (context, index) => kH8sizedBox,
+                            itemCount: kidList.length,
+                            itemBuilder: (context, i) {
+                              return Obx(
+                                () => CustomListTile(
+                                  onPressed: () {
+                                    selectKidStatusChange(i);
+                                  },
+                                  itemColor: selectedKidStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
+                                  borderColor: selectedKidStatusList[i] ? cPrimaryColor : cLineColor,
+                                  title: kidList[i]['name'],
+                                  leading: CircleAvatar(
+                                    radius: 12,
+                                    backgroundImage: AssetImage(kidList[i]['image_url']),
+                                  ),
+                                  trailing: CustomRadioButton(
+                                    onChanged: () {
+                                      selectKidStatusChange(i);
+                                    },
+                                    isSelected: selectedKidStatusList[i],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                    ],
+                      onPressCloseButton: () {
+                        Get.back();
+                      },
+                      onPressRightButton: () {
+                        Get.back();
+                      },
+                      rightText: ksDone.tr,
+                      rightTextStyle: medium14TextStyle(cPrimaryColor),
+                      title: ksSelectKids.tr,
+                      isRightButtonShow: true,
+                    );
+                  },
+                  buttonText: ksSelectKids.tr,
+                  buttonTextStyle: medium16TextStyle(cBlackColor),
+                  borderColor: cLineColor,
+                  widget: Icon(
+                    BipHip.downArrowOutline,
+                    color: cBlackColor,
+                    size: isDeviceScreenLarge() ? h20 : h16,
                   ),
-                  onPressCloseButton: () {
-                    Get.back();
-                  },
-                  onPressRightButton: () {
-                    Get.back();
-                  },
-                  rightText: ksDone.tr,
-                  rightTextStyle: medium14TextStyle(cPrimaryColor),
-                  title: ksSelectKids.tr,
-                  isRightButtonShow: true,
-                );
-              },
-              buttonText: ksSelectKids.tr,
-              buttonTextStyle: medium16TextStyle(cBlackColor),
-              borderColor: cLineColor,
-              widget: Icon(
-                BipHip.downArrowOutline,
-                color: cBlackColor,
-                size: isDeviceScreenLarge() ? h20 : h16,
-              ),
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            ),
-            // kH12sizedBox,
-            // OutLinedButton(
-            //   onPress: () {},
-            //   buttonText: "Maria Jones",
-            //   buttonTextStyle: medium16TextStyle(cBlackColor),
-            //   borderColor: cPrimaryColor,
-            //   buttonColor: cPrimaryTint3Color,
-            //   widget: Icon(
-            //     BipHip.circleCrossNew,
-            //     color: cRedColor,
-            //     size: isDeviceScreenLarge() ? h20 : h18,
-            //   ),
-            //   backgroundImage: const NetworkImage("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"),
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // ),
-            kH12sizedBox,
-            Text(
-              ksOr.tr,
-              style: regular16TextStyle(cPlaceHolderColor),
-            ),
-            kH12sizedBox,
-            OutLinedButton(
-              onPress: () {
-                Get.to(() => AddKidPage());
-              },
-              buttonText: ksAddKid.tr,
-              buttonTextStyle: medium16TextStyle(cPrimaryColor),
-              borderColor: cPrimaryColor,
-              widget: Icon(
-                BipHip.plus,
-                color: cPrimaryColor,
-                size: isDeviceScreenLarge() ? h20 : h16,
-              ),
-            ),
-            kH8sizedBox,
-            Text(
-              "*${ksCustomAddInstruction.tr}",
-              style: regular14TextStyle(cSmallBodyTextColor),
-            ),
-          ],
-        ),
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+                // kH12sizedBox,
+                // OutLinedButton(
+                //   onPress: () {},
+                //   buttonText: "Maria Jones",
+                //   buttonTextStyle: medium16TextStyle(cBlackColor),
+                //   borderColor: cPrimaryColor,
+                //   buttonColor: cPrimaryTint3Color,
+                //   widget: Icon(
+                //     BipHip.circleCrossNew,
+                //     color: cRedColor,
+                //     size: isDeviceScreenLarge() ? h20 : h18,
+                //   ),
+                //   backgroundImage: const NetworkImage("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"),
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // ),
+                kH12sizedBox,
+                Text(
+                  ksOr.tr,
+                  style: regular16TextStyle(cPlaceHolderColor),
+                ),
+                kH12sizedBox,
+                if (!isKidAdded.value)
+                  OutLinedButton(
+                    buttonHeight: isDeviceScreenLarge() ? 45 : 40,
+                    borderRadius: k8CircularBorderRadius,
+                    onPress: () {
+                      resetAddKidPage();
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) => AddKidPage(),
+                          transitionDuration: Duration.zero,
+                          reverseTransitionDuration: Duration.zero,
+                        ),
+                      );
+                    },
+                    buttonText: ksAddKid.tr,
+                    buttonTextStyle: medium16TextStyle(cPrimaryColor),
+                    borderColor: cPrimaryColor,
+                    widget: Icon(
+                      BipHip.plus,
+                      color: cPrimaryColor,
+                      size: isDeviceScreenLarge() ? h20 : h16,
+                    ),
+                  ),
+                if (isKidAdded.value)
+                  CustomListTile(
+                    borderColor: cPrimaryColor,
+                    itemColor: cPrimaryTint3Color,
+                    leading: Container(
+                      height: h24,
+                      width: h24,
+                      decoration: const BoxDecoration(
+                        color: cWhiteColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: ClipOval(
+                        child: Image.file(
+                          kidImageFile.value,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      kidNameTextEditingController.text,
+                      style: medium14TextStyle(cBlackColor),
+                    ),
+                    trailing: InkWell(
+                      onTap: () {
+                        resetAddKidPage();
+                      },
+                      child: const Icon(
+                        BipHip.cross,
+                        color: cRedColor,
+                      ),
+                    ),
+                  ),
+                kH8sizedBox,
+                Text(
+                  "*${ksCustomAddInstruction.tr}",
+                  style: regular14TextStyle(cSmallBodyTextColor),
+                ),
+              ],
+            )),
         onPressCloseButton: () {
           Get.back();
         },
@@ -889,7 +934,7 @@ class CreatePostController extends GetxController {
 
   //Get all post catagories API implementation
   Rx<PostListModel?> postCategoryData = Rx<PostListModel?>(null);
-  RxList<PostCategory> postCategoryList = RxList<PostCategory>([]);
+  final RxBool isAddKidPageLoading = RxBool(false);
   final RxBool isPostCategoryListLoading = RxBool(false);
   Future<void> getPostCategoryList() async {
     try {
@@ -904,11 +949,11 @@ class CreatePostController extends GetxController {
         postCategoryList.clear();
         postCategoryData.value = PostListModel.fromJson(response.data);
         postCategoryList.addAll(postCategoryData.value!.postCategories);
-        for(int i=0;i<postCategoryList.length;i++){
-          for(int j=0;j<categoryList.length;j++){
-            if(postCategoryList[i].name!.toLowerCase()==categoryList[j]['title'].toLowerCase()){
-              categoryList[j]['name']=postCategoryList[i].name!;
-              categoryList[j]['id']=postCategoryList[i].id!;
+        for (int i = 0; i < postCategoryList.length; i++) {
+          for (int j = 0; j < categoryList.length; j++) {
+            if (postCategoryList[i].name!.toLowerCase() == categoryList[j]['title'].toLowerCase()) {
+              categoryList[j]['name'] = postCategoryList[i].name!;
+              categoryList[j]['id'] = postCategoryList[i].id!;
             }
           }
         }
@@ -925,6 +970,76 @@ class CreatePostController extends GetxController {
     } catch (e) {
       isPostCategoryListLoading.value = true;
       ll('getPostCategoryList error: $e');
+    }
+  }
+
+  //Add kid
+  final RxBool saveKidInfo = RxBool(false);
+  final RxString kidImageLink = RxString('');
+  final Rx<File> kidImageFile = File('').obs;
+  final RxBool isKidImageChanged = RxBool(false);
+  final TextEditingController kidNameTextEditingController = TextEditingController();
+  final TextEditingController kidAgeTextEditingController = TextEditingController();
+  final RxBool isSaveButtonEnabled = RxBool(false);
+  final RxBool isKidAdded = RxBool(false);
+
+  void checkCanAddKidInfo() {
+    if (kidNameTextEditingController.text.trim() != '' && kidAgeTextEditingController.text.trim() != '' && isKidImageChanged.value) {
+      isSaveButtonEnabled.value = true;
+    } else {
+      isSaveButtonEnabled.value = false;
+    }
+  }
+
+  void resetAddKidPage() {
+    isKidAdded.value = false;
+    saveKidInfo.value = false;
+    isSaveButtonEnabled.value = false;
+    kidImageLink.value = '';
+    kidImageFile.value = File('');
+    isKidImageChanged.value = false;
+    kidNameTextEditingController.clear();
+    kidAgeTextEditingController.clear();
+  }
+
+  //Add kid API Implementation
+  Rx<KidModel?> kidData = Rx<KidModel?>(null);
+  RxList<PostCategory> postCategoryList = RxList<PostCategory>([]);
+  Future<void> addKid() async {
+    try {
+      isAddKidPageLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      Map<String, String> body = {
+        'name': kidNameTextEditingController.text.trim(),
+        'age': kidAgeTextEditingController.text.trim(),
+      };
+      var response = await _apiController.mediaUpload(
+        url: kuAddKid,
+        body: body,
+        token: token,
+        key: 'image',
+        value: kidImageFile.value.path,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        kidData.value = KidModel.fromJson(response.data);
+        ll(kidData.value!.name);
+        isAddKidPageLoading.value = false;
+        Get.back();
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isAddKidPageLoading.value = true;
+
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isAddKidPageLoading.value = true;
+      ll('addKid error: $e');
     }
   }
 }
