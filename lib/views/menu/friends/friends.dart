@@ -525,8 +525,7 @@ class AllFriendList extends StatelessWidget {
                           ),
                           if (_friendController.friendList.isNotEmpty && !_friendController.friendListScrolled.value)
                             const Center(child: CircularProgressIndicator()),
-                          // if (_friendController.isFriendSearched.value && _friendController.searchedFriendCount.value == 0)
-                          //   EmptyView(height: height, title: ksNoFriendAddedYet.tr)
+                        
                         ],
                       ),
                     ),
@@ -728,8 +727,6 @@ class PendingFriendList extends StatelessWidget {
                               },
                             ),
                           ),
-                          // if (_friendController.sendFriendRequestList.isNotEmpty && !_friendController.sendFriendListScrolled.value)
-                          //   const Center(child: CircularProgressIndicator()),
                         ],
                       ),
                     ),
