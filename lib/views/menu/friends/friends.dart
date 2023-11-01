@@ -119,17 +119,17 @@ class Friends extends StatelessWidget {
                             },
                             onChanged: (v) async {
                               if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
-                              _friendController.debounce = Timer(const Duration(milliseconds: 2000), () async {
-                                if (Get.find<ProfileController>().searchController.text.trim() != '') {
+                              if (Get.find<ProfileController>().searchController.text.trim() != '') {
+                                _friendController.debounce = Timer(const Duration(milliseconds: 2000), () async {
                                   _friendController.isFriendSearched.value = true;
                                   _friendController.isFriendSuffixIconVisible.value = true;
                                   await _friendController.getFriendSearchList();
-                                } else {
-                                  _friendController.isFriendSuffixIconVisible.value = false;
-                                  _friendController.isFriendSearched.value = false;
-                                  await _friendController.getFriendList();
-                                }
-                              });
+                                });
+                              } else {
+                                _friendController.isFriendSuffixIconVisible.value = false;
+                                _friendController.isFriendSearched.value = false;
+                                await _friendController.getFriendList();
+                              }
                             })),
                       ),
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
