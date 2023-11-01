@@ -94,9 +94,22 @@ class CreatePost extends StatelessWidget {
                                         decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
                                         ),
-                                        child: Image.asset(
-                                          kiProfileDefaultImageUrl,
-                                          fit: BoxFit.fill,
+                                        child: ClipOval(
+                                          child: _createPostController.selectedKid.value != null?Image.network(
+                                            Environment.imageBaseUrl + _createPostController.postSecondaryCircleAvatar.value,
+                                            fit: BoxFit.cover,
+                                            errorBuilder: (context, error, stackTrace) => const Icon(
+                                              BipHip.imageFile,
+                                              size: kIconSize120,
+                                              color: cIconColor,
+                                            ),
+                                            // loadingBuilder: imageLoadingBuilder,
+                                          ):ClipOval(
+                        child: Image.file(
+                          _createPostController.postSecondaryLocalCirclerAvatar.value,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                                         ),
                                       ),
                                     ),

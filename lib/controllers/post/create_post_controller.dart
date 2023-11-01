@@ -4,6 +4,7 @@ import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/create_post/add_brand.dart';
 import 'package:bip_hip/views/create_post/add_kid.dart';
+import 'package:bip_hip/views/create_post/select_category.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 
 class CreatePostController extends GetxController {
@@ -39,6 +40,8 @@ class CreatePostController extends GetxController {
   final RxList<RxString> mediaLinkList = RxList<RxString>([]);
   final RxList<Rx<File>> mediaFileList = RxList<Rx<File>>([]);
   final RxBool isMediaChanged = RxBool(false);
+  final RxString postSecondaryCircleAvatar = RxString('');
+  final Rx<File> postSecondaryLocalCirclerAvatar = File('').obs;
 
   void postButtonStateCheck() {
     if (createPostTEController.text.trim().isNotEmpty) {
@@ -167,44 +170,44 @@ class CreatePostController extends GetxController {
   ];
 
   final RxList selectedKidStatusList = RxList([false, false, false, false, false, false, false, false, false]);
-  final List kidList = [
-    {
-      "name": "Takin Ahmed 1",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 2",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 3",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 4",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 5",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 6",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 7",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 8",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 9",
-      "image_url": kiLogoImageUrl,
-    },
-  ];
+  // final List kidList = [
+  //   {
+  //     "name": "Takin Ahmed 1",
+  //     "image_url": kiLogoImageUrl,
+  //   },
+  //   {
+  //     "name": "Takin Ahmed 2",
+  //     "image_url": kiLogoImageUrl,
+  //   },
+  //   {
+  //     "name": "Takin Ahmed 3",
+  //     "image_url": kiLogoImageUrl,
+  //   },
+  //   {
+  //     "name": "Takin Ahmed 4",
+  //     "image_url": kiLogoImageUrl,
+  //   },
+  //   {
+  //     "name": "Takin Ahmed 5",
+  //     "image_url": kiLogoImageUrl,
+  //   },
+  //   {
+  //     "name": "Takin Ahmed 6",
+  //     "image_url": kiLogoImageUrl,
+  //   },
+  //   {
+  //     "name": "Takin Ahmed 7",
+  //     "image_url": kiLogoImageUrl,
+  //   },
+  //   {
+  //     "name": "Takin Ahmed 8",
+  //     "image_url": kiLogoImageUrl,
+  //   },
+  //   {
+  //     "name": "Takin Ahmed 9",
+  //     "image_url": kiLogoImageUrl,
+  //   },
+  // ];
   final RxList selectedBrandStatusList = RxList([false, false, false, false, false, false, false, false, false]);
   final List brandList = [
     {
@@ -301,73 +304,174 @@ class CreatePostController extends GetxController {
       }
     }
     if (category.value == "Kids") {
+      selectedKid.value = null;
+      resetAddKidPage();
+      if (selectedKid.value == null || isKidAdded.value) {
+        _globalController.isBottomSheetRightButtonActive.value = false;
+      } else {
+        _globalController.isBottomSheetRightButtonActive.value = true;
+      }
       _globalController.commonBottomSheet(
         context: context,
         content: Obx(() => Column(
               children: [
                 kH8sizedBox,
-                OutLinedButton(
-                  buttonHeight: isDeviceScreenLarge() ? 45 : 40,
-                  borderRadius: k8CircularBorderRadius,
-                  onPress: () {
-                    _globalController.commonBottomSheet(
-                      isScrollControlled: true,
-                      bottomSheetHeight: height * .7,
-                      context: context,
-                      content: Column(
-                        children: [
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            separatorBuilder: (context, index) => kH8sizedBox,
-                            itemCount: kidList.length,
-                            itemBuilder: (context, i) {
-                              return Obx(
-                                () => CustomListTile(
-                                  onPressed: () {
-                                    selectKidStatusChange(i);
-                                  },
-                                  itemColor: selectedKidStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
-                                  borderColor: selectedKidStatusList[i] ? cPrimaryColor : cLineColor,
-                                  title: kidList[i]['name'],
-                                  leading: CircleAvatar(
-                                    radius: 12,
-                                    backgroundImage: AssetImage(kidList[i]['image_url']),
-                                  ),
-                                  trailing: CustomRadioButton(
-                                    onChanged: () {
-                                      selectKidStatusChange(i);
-                                    },
-                                    isSelected: selectedKidStatusList[i],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      onPressCloseButton: () {
-                        Get.back();
-                      },
-                      onPressRightButton: () {
-                        Get.back();
-                      },
-                      rightText: ksDone.tr,
-                      rightTextStyle: medium14TextStyle(cPrimaryColor),
-                      title: ksSelectKids.tr,
-                      isRightButtonShow: true,
-                    );
-                  },
-                  buttonText: ksSelectKids.tr,
-                  buttonTextStyle: medium16TextStyle(cBlackColor),
-                  borderColor: cLineColor,
-                  widget: Icon(
-                    BipHip.downArrowOutline,
-                    color: cBlackColor,
-                    size: isDeviceScreenLarge() ? h20 : h16,
+                if (selectedKid.value == null)
+                  OutLinedButton(
+                    buttonHeight: isDeviceScreenLarge() ? 45 : 40,
+                    borderRadius: k8CircularBorderRadius,
+                    onPress: !isKidAdded.value
+                        ? () async {
+                            isKidListLoading.value = true;
+                            tempSelectedKid.value = null;
+                            kidID.value = -1;
+                            if (tempSelectedKid.value == null) {
+                              _globalController.isBottomSheetRightButtonActive.value = false;
+                            } else {
+                              _globalController.isBottomSheetRightButtonActive.value = true;
+                            }
+                            _globalController.commonBottomSheet(
+                              isScrollControlled: true,
+                              bottomSheetHeight: height * .7,
+                              context: context,
+                              content: Obx(() => isKidListLoading.value
+                                  ? const KidListShimmer()
+                                  : Column(
+                                      children: [
+                                        ListView.separated(
+                                          shrinkWrap: true,
+                                          physics: const NeverScrollableScrollPhysics(),
+                                          separatorBuilder: (context, index) => kH8sizedBox,
+                                          itemCount: kidList.length,
+                                          itemBuilder: (context, i) {
+                                            return Obx(
+                                              () => CustomListTile(
+                                                onPressed: () {
+                                                  // selectKidStatusChange(i);
+                                                  kidID.value = kidList[i].id!;
+                                                  tempSelectedKid.value = kidList[i];
+                                                  if (tempSelectedKid.value == null) {
+                                                    _globalController.isBottomSheetRightButtonActive.value = false;
+                                                  } else {
+                                                    _globalController.isBottomSheetRightButtonActive.value = true;
+                                                  }
+                                                },
+                                                itemColor: kidID.value == kidList[i].id! ? cPrimaryTint3Color : cWhiteColor,
+                                                borderColor: kidID.value == kidList[i].id! ? cPrimaryColor : cLineColor,
+                                                title: kidList[i].name,
+                                                leading: Container(
+                                                  height: h24,
+                                                  width: h24,
+                                                  decoration: const BoxDecoration(
+                                                    color: cWhiteColor,
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: ClipOval(
+                                                    child: Image.network(
+                                                      Environment.imageBaseUrl + kidList[i].kidImage,
+                                                      fit: BoxFit.cover,
+                                                      errorBuilder: (context, error, stackTrace) => const Icon(
+                                                        BipHip.imageFile,
+                                                        size: kIconSize120,
+                                                        color: cIconColor,
+                                                      ),
+                                                      // loadingBuilder: imageLoadingBuilder,
+                                                    ),
+                                                  ),
+                                                ),
+                                                trailing: CustomRadioButton(
+                                                  onChanged: () {
+                                                    // selectKidStatusChange(i);
+                                                    kidID.value = kidList[i].id!;
+                                                    tempSelectedKid.value = kidList[i];
+                                                    if (tempSelectedKid.value == null) {
+                                                      _globalController.isBottomSheetRightButtonActive.value = false;
+                                                    } else {
+                                                      _globalController.isBottomSheetRightButtonActive.value = true;
+                                                    }
+                                                  },
+                                                  isSelected: kidID.value == kidList[i].id!,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    )),
+                              onPressCloseButton: () {
+                                Get.back();
+                              },
+                              onPressRightButton: () {
+                                selectedKid.value = tempSelectedKid.value;
+                                Get.back();
+                                tempSelectedKid.value = null;
+                                if (selectedKid.value == null || isKidAdded.value) {
+                                  _globalController.isBottomSheetRightButtonActive.value = false;
+                                } else {
+                                  _globalController.isBottomSheetRightButtonActive.value = true;
+                                }
+                              },
+                              rightText: ksDone.tr,
+                              rightTextStyle: medium14TextStyle(cPrimaryColor),
+                              title: ksSelectKids.tr,
+                              isRightButtonShow: true,
+                            );
+                            await getKidList();
+                          }
+                        : null,
+                    buttonText: ksSelectKids.tr,
+                    buttonTextStyle: !isKidAdded.value ? medium16TextStyle(cBlackColor) : medium16TextStyle(cLineColor2),
+                    borderColor: cLineColor,
+                    widget: Icon(
+                      BipHip.downArrowOutline,
+                      color: !isKidAdded.value ? cBlackColor : cLineColor2,
+                      size: isDeviceScreenLarge() ? h20 : h16,
+                    ),
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   ),
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                ),
+                if (selectedKid.value != null)
+                  CustomListTile(
+                    borderColor: cPrimaryColor,
+                    itemColor: cPrimaryTint3Color,
+                    leading: Container(
+                      height: h24,
+                      width: h24,
+                      decoration: const BoxDecoration(
+                        color: cWhiteColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: ClipOval(
+                        child: Image.network(
+                          Environment.imageBaseUrl + selectedKid.value!.kidImage,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            BipHip.imageFile,
+                            size: kIconSize120,
+                            color: cIconColor,
+                          ),
+                          // loadingBuilder: imageLoadingBuilder,
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      selectedKid.value!.name!,
+                      style: medium14TextStyle(cBlackColor),
+                    ),
+                    trailing: InkWell(
+                      onTap: () {
+                        selectedKid.value = null;
+                        if (selectedKid.value == null || isKidAdded.value) {
+                          _globalController.isBottomSheetRightButtonActive.value = false;
+                        } else {
+                          _globalController.isBottomSheetRightButtonActive.value = true;
+                        }
+                      },
+                      child: const Icon(
+                        BipHip.cross,
+                        color: cRedColor,
+                      ),
+                    ),
+                  ),
                 // kH12sizedBox,
                 // OutLinedButton(
                 //   onPress: () {},
@@ -393,23 +497,25 @@ class CreatePostController extends GetxController {
                   OutLinedButton(
                     buttonHeight: isDeviceScreenLarge() ? 45 : 40,
                     borderRadius: k8CircularBorderRadius,
-                    onPress: () {
-                      resetAddKidPage();
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (context, animation1, animation2) => AddKidPage(),
-                          transitionDuration: Duration.zero,
-                          reverseTransitionDuration: Duration.zero,
-                        ),
-                      );
-                    },
+                    onPress: selectedKid.value == null
+                        ? () {
+                            resetAddKidPage();
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) => AddKidPage(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                              ),
+                            );
+                          }
+                        : null,
                     buttonText: ksAddKid.tr,
-                    buttonTextStyle: medium16TextStyle(cPrimaryColor),
-                    borderColor: cPrimaryColor,
+                    buttonTextStyle: selectedKid.value == null ? medium16TextStyle(cPrimaryColor) : medium16TextStyle(cLineColor2),
+                    borderColor: selectedKid.value == null ? cPrimaryColor : cLineColor2,
                     widget: Icon(
                       BipHip.plus,
-                      color: cPrimaryColor,
+                      color: selectedKid.value == null ? cPrimaryColor : cLineColor2,
                       size: isDeviceScreenLarge() ? h20 : h16,
                     ),
                   ),
@@ -438,6 +544,11 @@ class CreatePostController extends GetxController {
                     trailing: InkWell(
                       onTap: () {
                         resetAddKidPage();
+                        if (selectedKid.value == null || isKidAdded.value) {
+                          _globalController.isBottomSheetRightButtonActive.value = false;
+                        } else {
+                          _globalController.isBottomSheetRightButtonActive.value = true;
+                        }
                       },
                       child: const Icon(
                         BipHip.cross,
@@ -456,6 +567,12 @@ class CreatePostController extends GetxController {
           Get.back();
         },
         onPressRightButton: () {
+          if (selectedKid.value != null) {
+            postSecondaryCircleAvatar.value = selectedKid.value!.kidImage;
+          } else {
+            postSecondaryLocalCirclerAvatar.value = kidImageFile.value;
+          }
+          Get.back();
           Get.back();
         },
         rightText: ksDone.tr,
@@ -606,25 +723,25 @@ class CreatePostController extends GetxController {
     }
   }
 
-  void selectKidTextChange() {
-    for (int i = 0; i < kidList.length; i++) {
-      if (selectedKidStatusList[i]) {
-        selectedKidName.value = kidList[i]['name'];
-        selectedKidImage.value = kidList[i]['image_url'];
-        break;
-      }
-    }
-  }
+  // void selectKidTextChange() {
+  //   for (int i = 0; i < kidList.length; i++) {
+  //     if (selectedKidStatusList[i]) {
+  //       selectedKidName.value = kidList[i]['name'];
+  //       selectedKidImage.value = kidList[i]['image_url'];
+  //       break;
+  //     }
+  //   }
+  // }
 
-  void initializeKidText() {
-    for (int i = 0; i < selectedKidStatusList.length; i++) {
-      if (kidList[i]['name'] == selectedKidName.value) {
-        selectedKidStatusList[i] = true;
-      } else {
-        selectedKidStatusList[i] = false;
-      }
-    }
-  }
+  // void initializeKidText() {
+  //   for (int i = 0; i < selectedKidStatusList.length; i++) {
+  //     if (kidList[i]['name'] == selectedKidName.value) {
+  //       selectedKidStatusList[i] = true;
+  //     } else {
+  //       selectedKidStatusList[i] = false;
+  //     }
+  //   }
+  // }
 
   void selectBrandStatusChange(index) {
     for (int i = 0; i < selectedBrandStatusList.length; i++) {
@@ -982,6 +1099,7 @@ class CreatePostController extends GetxController {
   final TextEditingController kidAgeTextEditingController = TextEditingController();
   final RxBool isSaveButtonEnabled = RxBool(false);
   final RxBool isKidAdded = RxBool(false);
+  final RxBool isKidSelected = RxBool(false);
 
   void checkCanAddKidInfo() {
     if (kidNameTextEditingController.text.trim() != '' && kidAgeTextEditingController.text.trim() != '' && isKidImageChanged.value) {
@@ -1040,6 +1158,42 @@ class CreatePostController extends GetxController {
     } catch (e) {
       isAddKidPageLoading.value = true;
       ll('addKid error: $e');
+    }
+  }
+
+  //Get Kid List API Implementation
+  Rx<KidListModel?> kidListData = Rx<KidListModel?>(null);
+  RxList<Kid> kidList = RxList<Kid>([]);
+  Rx<Kid?> selectedKid = Rx<Kid?>(null);
+  Rx<Kid?> tempSelectedKid = Rx<Kid?>(null);
+  RxInt kidID = RxInt(-1);
+  RxBool isKidListLoading = RxBool(false);
+  Future<void> getKidList() async {
+    try {
+      isKidListLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllKidList,
+      ) as CommonDM;
+      if (response.success == true) {
+        kidList.clear();
+        kidListData.value = KidListModel.fromJson(response.data);
+        kidList.addAll(kidListData.value!.kids);
+        isKidListLoading.value = false;
+      } else {
+        isKidListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidListLoading.value = true;
+      ll('getKidList error: $e');
     }
   }
 }

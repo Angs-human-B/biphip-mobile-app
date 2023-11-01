@@ -43,6 +43,13 @@ class AddKidPage extends StatelessWidget {
                                     Get.back();
                                   }
                                   _createPostController.isKidAdded.value = true;
+                                  if ( !_createPostController.isKidAdded.value) {
+                                    _globalController.isBottomSheetRightButtonActive.value = false;
+                                  } else {
+                                    _globalController.isBottomSheetRightButtonActive.value = true;
+                                  }
+                                  ll(_globalController.isBottomSheetRightButtonActive.value);
+                                  ll(_createPostController.selectedKid.value);
                                   // unfocus(context);
                                   // Get.back();
                                 }

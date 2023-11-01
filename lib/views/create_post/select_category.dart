@@ -231,3 +231,53 @@ class SelectCategoryShimmer extends StatelessWidget {
     );
   }
 }
+
+class KidListShimmer extends StatelessWidget {
+  const KidListShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListView.builder(
+          itemCount: 20,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: k16Padding),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(k8BorderRadius),
+                child: CustomListTile(
+                  borderColor: cLineColor,
+                  leading: ShimmerCommon(
+                    widget: Container(
+                      decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                      height: h24,
+                      width: h24,
+                    ),
+                  ),
+                  title: ShimmerCommon(
+                    widget: Container(
+                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                      height: 14,
+                      width: 80,
+                    ),
+                  ),
+                  trailing: ShimmerCommon(
+                    widget: Container(
+                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                      height: 20,
+                      width: 20,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
