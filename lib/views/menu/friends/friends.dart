@@ -426,6 +426,9 @@ class AllFriendList extends StatelessWidget {
                       if (_friendController.friendList.isNotEmpty) {
                         _friendController.getMoreFriendList(null);
                       }
+                      if (_friendController.friendList.isNotEmpty && _friendController.isFriendSearched.value) {
+                        _friendController.getMoreFriendSearchList(null);
+                      }
                       return true;
                     }
                     return false;

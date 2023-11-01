@@ -748,15 +748,7 @@ class FriendController extends GetxController {
     }
   }
 
-  //*All friend search scroll controller
-  // final ScrollController searchFriendListScrollController = ScrollController();
-  //*All friend List Search Api Call
-  // final Rx<FriendSearchModel?> friendSearchData = Rx<FriendSearchModel?>(null);
-  // final RxList<SearchFriendData> friendSearchList = RxList<SearchFriendData>([]);
-  // final Rx<String?> searchFriendListSubLink = Rx<String?>(null);
-  // final RxBool searchFriendListScrolled = RxBool(false);
   final RxInt searchedFriendCount = RxInt(0);
-  // final RxBool isFriendSearchListLoading = RxBool(false);
   Rx<CommonFriends?> searchFriendData = Rx<CommonFriends?>(null);
   Future<void> getFriendSearchList() async {
     friendListSubLink.value = null;
@@ -800,8 +792,8 @@ class FriendController extends GetxController {
     }
   }
 
-  //*Get More Friend List for pagination
-  Future<void> getMFriendSearchList(take) async {
+  //*Get More Friend Search List for pagination
+  Future<void> getMoreFriendSearchList(take) async {
     try {
       String? token = await _spController.getBearerToken();
       dynamic friendListSub;
@@ -845,7 +837,7 @@ class FriendController extends GetxController {
       }
     } catch (e) {
       isFriendListLoading.value = false;
-      ll('getMFriendSearchList error: $e');
+      ll('getMoreFriendSearchList error: $e');
     }
   }
 
