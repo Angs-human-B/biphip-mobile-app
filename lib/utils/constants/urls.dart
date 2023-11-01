@@ -119,6 +119,8 @@ const String kuGetAllFamilyRelations = '/mobile/get-all-family-relations';
 //---------------------------------------
 
 const String kuAddKid = '/mobile/user/store-kid';
+const String kuAddBrand = '/mobile/user/store-brand';
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls

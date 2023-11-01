@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:bip_hip/models/create_post/kid_model.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
@@ -1195,5 +1196,72 @@ class CreatePostController extends GetxController {
       isKidListLoading.value = true;
       ll('getKidList error: $e');
     }
+  }
+
+  // Add Brand API Implementation
+  final RxBool saveBrandInfo = RxBool(false);
+  final RxString brandImageLink = RxString('');
+  final Rx<File> brandImageFile = File('').obs;
+  final RxBool isBrandImageChanged = RxBool(false);
+  final TextEditingController brandNameTextEditingController = TextEditingController();
+  final TextEditingController brandWebLinkTextEditingController = TextEditingController();
+  final TextEditingController brandFacebookLinkTextEditingController = TextEditingController();
+  final TextEditingController brandLinkedInLinkTextEditingController = TextEditingController();
+  final TextEditingController brandYoutubeLinkTextEditingController = TextEditingController();
+  final TextEditingController brandTwitterTextEditingController = TextEditingController();
+  final RxList brandSocialLinkList = RxList([]);
+  Future<void> addBrand() async {
+    try {
+      isAddKidPageLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      Map<String, String> body = {
+        'name': brandNameTextEditingController.text.trim(),
+        'social_links': json.encode(brandSocialLinkList),
+      };
+      var response = await _apiController.mediaUpload(
+        url: kuAddBrand,
+        body: body,
+        token: token,
+        key: 'image',
+        value: brandImageFile.value.path,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        isAddKidPageLoading.value = false;
+        Get.back();
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isAddKidPageLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isAddKidPageLoading.value = true;
+      ll('addKid error: $e');
+    }
+  }
+
+  void createLinkList() {
+    brandSocialLinkList.clear();
+    if (brandWebLinkTextEditingController.text.trim() != '') {
+      brandSocialLinkList.add({'Web': brandWebLinkTextEditingController.text.trim()});
+    }
+    if (brandFacebookLinkTextEditingController.text.trim() != '') {
+      brandSocialLinkList.add({'Facebook': brandFacebookLinkTextEditingController.text.trim()});
+    }
+    if (brandLinkedInLinkTextEditingController.text.trim() != '') {
+      brandSocialLinkList.add({'LinkedIn': brandLinkedInLinkTextEditingController.text.trim()});
+    }
+    if (brandTwitterTextEditingController.text.trim() != '') {
+      brandSocialLinkList.add({'Twitter': brandTwitterTextEditingController.text.trim()});
+    }
+    if (brandYoutubeLinkTextEditingController.text.trim() != '') {
+      brandSocialLinkList.add({'Youtube': brandYoutubeLinkTextEditingController.text.trim()});
+    }
+    ll(brandSocialLinkList);
   }
 }
