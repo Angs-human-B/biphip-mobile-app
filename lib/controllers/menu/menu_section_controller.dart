@@ -23,6 +23,8 @@ class MenuSectionController extends GetxController {
     if (index == 0) {
       ll('Friend');
       Get.find<ProfileController>().resetTapButtonData();
+      Get.find<ProfileController>().searchController.clear();
+      Get.find<FriendController>().isFriendSearched.value = false;
       Get.toNamed(krFriends);
       await Get.find<FriendController>().getFriendList();
     } else if (index == 1) {

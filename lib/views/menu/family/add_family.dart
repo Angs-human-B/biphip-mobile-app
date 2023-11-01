@@ -117,7 +117,7 @@ class AddFamily extends StatelessWidget {
                                   focusNode: focusNode,
                                   prefixIcon: BipHip.search,
                                   suffixIcon:
-                                      _familyController.isAddFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null, // todo:: icon will be changed
+                                      _familyController.isAddFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null, 
                                   hint: ksSearch.tr,
                                   contentPadding: const EdgeInsets.symmetric(
                                     vertical: k12Padding,

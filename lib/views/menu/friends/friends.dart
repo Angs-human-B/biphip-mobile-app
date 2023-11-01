@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -56,7 +58,6 @@ class Friends extends StatelessWidget {
                     ],
                   ),
                 ),
-               
                 body: Obx(
                   () => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,6 +74,7 @@ class Friends extends StatelessWidget {
                               FocusScope.of(context).unfocus();
                               _profileController.toggleType(0);
                               _friendController.isFriendSuffixIconVisible.value = false;
+                              _friendController.isFriendSearched.value = false;
                               await _friendController.getFriendList();
                             },
                             () async {
@@ -80,6 +82,7 @@ class Friends extends StatelessWidget {
                               FocusScope.of(context).unfocus();
                               _profileController.toggleType(1);
                               _friendController.isFriendSuffixIconVisible.value = false;
+                              _friendController.isFriendSearched.value = false;
                               await _friendController.getReceivedFriendList();
                             },
                             () async {
@@ -87,6 +90,7 @@ class Friends extends StatelessWidget {
                               FocusScope.of(context).unfocus();
                               _profileController.toggleType(2);
                               _friendController.isFriendSuffixIconVisible.value = false;
+                              _friendController.isFriendSearched.value = false;
                               await _friendController.getSendFriendRequestList();
                             },
                           ]),
@@ -103,27 +107,36 @@ class Friends extends StatelessWidget {
                             hint: ksSearch.tr,
                             contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
                             textInputStyle: regular16TextStyle(cBlackColor),
-                            onSuffixPress: () {
+                            onSuffixPress: () async {
                               Get.find<ProfileController>().searchController.clear();
                               _friendController.isFriendSuffixIconVisible.value = false;
+                              _friendController.isFriendSearched.value = false;
+                              await _friendController.getFriendList();
                             },
                             onSubmit: (v) {
                               unfocus(context);
                               _friendController.isFriendSuffixIconVisible.value = false;
                             },
                             onChanged: (v) async {
-                              if (Get.find<ProfileController>().searchController.text.trim() != '') {
-                                _friendController.isFriendSuffixIconVisible.value = true;
-                              } else {
-                                _friendController.isFriendSuffixIconVisible.value = false;
-                              }
+                              if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
+                              _friendController.debounce = Timer(const Duration(milliseconds: 2000), () async {
+                                if (Get.find<ProfileController>().searchController.text.trim() != '') {
+                                  _friendController.isFriendSearched.value = true;
+                                  _friendController.isFriendSuffixIconVisible.value = true;
+                                  await _friendController.getFriendSearchList();
+                                } else {
+                                  _friendController.isFriendSuffixIconVisible.value = false;
+                                  _friendController.isFriendSearched.value = false;
+                                  await _friendController.getFriendList();
+                                }
+                              });
                             })),
                       ),
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                          child: _friendController.isFriendListLoading.value || _friendController.isReceivedFriendListLoading.value
+                          child: (_friendController.isFriendListLoading.value || _friendController.isReceivedFriendListLoading.value)
                               ? ShimmerCommon(
                                   widget: Container(
                                     decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
@@ -132,10 +145,13 @@ class Friends extends StatelessWidget {
                                   ),
                                 )
                               : _profileController.tapAbleButtonState[0]
-                                  ? _friendController.allFriendCount.value == 0
+                                  ? _friendController.allFriendCount.value == 0 ||
+                                          (_friendController.isFriendSearched.value && _friendController.searchedFriendCount.value == 0)
                                       ? const SizedBox()
                                       : Text(
-                                          '${ksTotalFriends.tr}: ${_friendController.allFriendCount.value}',
+                                          _friendController.isFriendSearched.value
+                                              ? '${ksSearchedFriends.tr}: ${_friendController.searchedFriendCount.value}'
+                                              : '${ksTotalFriends.tr}: ${_friendController.allFriendCount.value}',
                                           style: semiBold14TextStyle(cBlackColor),
                                         )
                                   : _friendController.receivedRequestCount.value == 0
@@ -398,7 +414,7 @@ class AllFriendList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => _friendController.isFriendListLoading.value
+      () => (_friendController.isFriendListLoading.value)
           ? const AllPendingFriendShimmer()
           : _friendController.friendList.isNotEmpty
               ? NotificationListener<ScrollNotification>(
@@ -506,6 +522,8 @@ class AllFriendList extends StatelessWidget {
                           ),
                           if (_friendController.friendList.isNotEmpty && !_friendController.friendListScrolled.value)
                             const Center(child: CircularProgressIndicator()),
+                          // if (_friendController.isFriendSearched.value && _friendController.searchedFriendCount.value == 0)
+                          //   EmptyView(height: height, title: ksNoFriendAddedYet.tr)
                         ],
                       ),
                     ),

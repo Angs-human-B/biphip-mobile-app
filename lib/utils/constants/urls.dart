@@ -112,6 +112,10 @@ const String kuRejectFamilyRequest = '/mobile/user/reject-family-request';
 //* Family Relation Status
 const String kuGetAllFamilyRelations = '/mobile/get-all-family-relations';
 
+//*Friend Search
+const String kuGetSearchFriends = '/mobile/user/search-friends';
+
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls
