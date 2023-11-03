@@ -19,6 +19,7 @@ class CreatePostController extends GetxController {
   final RxString postType = RxString('Public');
   final Rx<IconData> postTypeIcon = Rx<IconData>(BipHip.world);
   final RxString category = RxString('');
+  final RxInt categoryID = RxInt(-1);
   final Rx<IconData?> categoryIcon = Rx<IconData?>(null);
   final Rx<Color?> categoryIconColor = Rx<Color?>(null);
   final RxBool isTagAdded = RxBool(false);
@@ -298,12 +299,14 @@ class CreatePostController extends GetxController {
   void selectCategoryTextChange(context) {
     for (int i = 0; i < categoryList.length; i++) {
       if (categoryStatusList[i]) {
+        categoryID.value = categoryList[i]['id'];
         category.value = categoryList[i]['title'];
         categoryIcon.value = categoryList[i]['icon'];
         categoryIconColor.value = categoryList[i]['icon_color'];
         break;
       }
     }
+    ll(categoryID);
     if (category.value == "Kids") {
       selectedKid.value = null;
       resetAddKidPage();
@@ -1287,9 +1290,9 @@ class CreatePostController extends GetxController {
             brandLinkedInLinkTextEditingController.text.trim() != '' ||
             brandTwitterTextEditingController.text.trim() != '' ||
             brandYoutubeLinkTextEditingController.text.trim() != '')) {
-              isSaveBrandButtonEnabled.value = true;
-            }else{
-              isSaveBrandButtonEnabled.value = false;
-            }
+      isSaveBrandButtonEnabled.value = true;
+    } else {
+      isSaveBrandButtonEnabled.value = false;
+    }
   }
 }
