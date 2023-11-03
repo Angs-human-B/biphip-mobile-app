@@ -352,3 +352,4 @@ const String ksNofamilyRequestReceivedYet = "No family request received yet";
 const String ksNofamilyRequestSendYet = "No family request send yet";
 const String ksSearchedFriends = "Searched Friends";
 const String ksNoSearchedFriendsAvailable = "No Searched Friends Available";
+const String ksWriteAComment = "Write a comment";

@@ -2,9 +2,10 @@ import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class CommentTextField extends StatelessWidget {
-  CommentTextField({super.key, this.onPressEmoji, this.onPressedCamera, this.onPressedSend});
+  CommentTextField({super.key, this.onPressEmoji, this.onPressedCamera, this.onPressedSend, this.hintText});
 
   final VoidCallback? onPressEmoji, onPressedCamera, onPressedSend;
+  final String? hintText;
 
   final PostReactionController _postReactionController = Get.find<PostReactionController>();
 
@@ -18,7 +19,7 @@ class CommentTextField extends StatelessWidget {
           children: [
             CustomModifiedTextField(
               controller: _postReactionController.commentTextEditingController,
-              hint: ksWriteAReply.tr,
+              hint: hintText ?? ksWriteAReply.tr,
               inputType: TextInputType.multiline,
               minLines: 1,
               maxLines: 4,

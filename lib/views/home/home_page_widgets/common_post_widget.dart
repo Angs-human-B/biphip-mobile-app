@@ -359,10 +359,12 @@ class CommonPostWidget extends StatelessWidget {
           ),
         if (showBottomSection) PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown),
         // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
+      
       ],
     );
   }
 }
+
 
 class PostBottomSection extends StatelessWidget {
   PostBottomSection({super.key, required this.isSelfPost, required this.isCommentShown});
@@ -488,6 +490,7 @@ class PostBottomSection extends StatelessWidget {
         ));
   }
 }
+
 
 class _BiddingInsightsContent extends StatelessWidget {
   const _BiddingInsightsContent({super.key, required this.comment});
@@ -649,6 +652,7 @@ class _BadgeTabViewContent extends StatelessWidget {
     );
   }
 }
+
 
 class ReactionBottomSheetTab extends StatelessWidget {
   const ReactionBottomSheetTab({super.key, required this.isReactionImageShown, required this.reactionImage, required this.text});
