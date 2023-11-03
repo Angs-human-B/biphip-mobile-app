@@ -41,40 +41,37 @@ class HomePostDetails extends StatelessWidget {
                   ],
                 ),
               ),
-              body: InkWell(
-                onTap: () => Get.toNamed(krHomePostDetailsScreen),
-                child: SizedBox(
-                  height: height - kAppBarSize - MediaQuery.of(context).padding.top,
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: k20Padding),
-                      child: Column(
-                        children: [
-                          CommonPostWidget(
-                            isCommented: true,
-                            isLiked: true,
-                            isTextualPost: true,
-                            mediaList: const [kiDummyImage1ImageUrl, kiDummyImage2ImageUrl, kiDummyImage3ImageUrl],
-                            isSelfPost: true,
-                            isCommentShown: true,
-                            showBottomSection: true,
-                            category: 'Nothing',
+              body: SizedBox(
+                height: height - kAppBarSize - MediaQuery.of(context).padding.top,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: k20Padding),
+                    child: Column(
+                      children: [
+                        CommonPostWidget(
+                          isCommented: true,
+                          isLiked: true,
+                          isTextualPost: true,
+                          mediaList: const [kiDummyImage1ImageUrl, kiDummyImage2ImageUrl, kiDummyImage3ImageUrl],
+                          isSelfPost: true,
+                          isCommentShown: true,
+                          showBottomSection: true,
+                          category: 'Nothing',
 
-                            // title: 'Hi',
-                            postText:
-                                'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isnt anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
-                          ),
+                          // title: 'Hi',
+                          postText:
+                              'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isnt anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
+                        ),
 
-                          //! comment textfield
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                            child: CommentTextField(
-                              hintText: '${ksWriteAComment.tr} ...',
-                            ),
+                        //! comment textfield
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                          child: CommentTextField(
+                            hintText: '${ksWriteAComment.tr} ...',
                           ),
-                          kH20sizedBox,
-                        ],
-                      ),
+                        ),
+                        kH20sizedBox,
+                      ],
                     ),
                   ),
                 ),
@@ -98,12 +95,14 @@ class CommonPostWidget extends StatelessWidget {
     required this.isSelfPost,
     required this.isCommentShown,
     required this.showBottomSection,
+    this.mediaOnPressed,
   });
   final bool isCommented, isLiked, isTextualPost, isSelfPost, isCommentShown, showBottomSection;
   // final RxBool sharedPostSeeMore = RxBool(false);
   // final RxBool postSeeMore = RxBool(false);
   final String? category, title, postText;
   final List mediaList;
+  final VoidCallback? mediaOnPressed;
   final HomeController _homeController = Get.find<HomeController>();
 
   @override
@@ -198,7 +197,9 @@ class CommonPostWidget extends StatelessWidget {
                     children: [
                       TextButton(
                         style: kTextButtonStyle,
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.toNamed(krHomePostDetailsScreen);
+                        },
                         child: Container(
                           decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                           height: mediaList.length < 2 ? 302 : 150,
@@ -216,7 +217,9 @@ class CommonPostWidget extends StatelessWidget {
                       if (mediaList.length > 3)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krHomePostDetailsScreen);
+                          },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
@@ -238,7 +241,9 @@ class CommonPostWidget extends StatelessWidget {
                       if (mediaList.length < 4 && mediaList.length > 1)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krHomePostDetailsScreen);
+                          },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
