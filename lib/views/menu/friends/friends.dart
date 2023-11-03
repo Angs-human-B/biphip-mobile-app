@@ -29,7 +29,7 @@ class Friends extends StatelessWidget {
                   //* info:: appBar
                   child: CustomAppBar(
                     title: ksFriends.tr,
-                    hasBackButton: true,
+                    hasBackButton: _friendController.isRouteFromBottomNavBar.value ? false : true,
                     isCenterTitle: true,
                     onBack: () {
                       Get.back();
