@@ -121,79 +121,39 @@ class AllKids extends StatelessWidget {
                                 ),
                                 trailing: CustomIconButton(
                                     onPress: () {
+                                      _kidsController.allKidsActionSelect.value == '';
+                                      if (_kidsController.allKidsActionSelect.value == '') {
+                                        _globalController.isBottomSheetRightButtonActive.value = false;
+                                      } else {
+                                        _globalController.isBottomSheetRightButtonActive.value = true;
+                                      }
                                       _globalController.commonBottomSheet(
                                         context: context,
                                         isScrollControlled: true,
-                                        content: Container(),
-                                        onPressRightButton: () {},
-                                        // content: _FriendActionContent(
-                                        //       profileController: _profileController,
-                                        //       friendController: _friendController,
-                                        //     ),
+                                        content: _AllKidsActionContent(kidsController: _kidsController),
                                         onPressCloseButton: () {
                                           Get.back();
                                         },
-                                        //     onPressRightButton: () async {
-                                        //       _friendController.userId.value = _friendController.friendList[index].id!;
-                                        //       Get.back();
-                                        //       if (_profileController.friendActionSelect.value == 'Unfriend') {
-                                        //         await _friendController.unfriendUserRequest();
-                                        //       }
-                                        //       if (_profileController.friendActionSelect.value == 'Unfollow') {
-                                        //         await _friendController.unfollowUser();
-                                        //       }
-                                        //       if (_profileController.friendActionSelect.value == 'Follow') {
-                                        //         await _friendController.followUser();
-                                        //       }
-                                        //       _profileController.friendActionSelect.value = '';
-                                        //     },
+                                        onPressRightButton: () async {
+                                          _kidsController.kidId.value = _kidsController.kidList[index].id!;
+                                          // _friendController.userId.value = _friendController.friendList[index].id!;
+                                          ll(_kidsController.kidId.value.toString());
+                                          Get.back();
+                                          if (_kidsController.allKidsActionSelect.value == 'Edit') {
+                                            // await .unfriendUserRequest();
+                                          }
+                                          if (_kidsController.allKidsActionSelect.value == 'Delete') {
+                                            await _kidsController.kidDelete();
+                                          }
+                                          _kidsController.allKidsActionSelect.value == '';
+                                        },
                                         rightText: ksDone.tr,
                                         rightTextStyle: semiBold16TextStyle(cPrimaryColor),
                                         title: ksAction.tr,
                                         isRightButtonShow: true,
-                                        bottomSheetHeight: 250,
+                                        bottomSheetHeight: 200,
                                       );
                                     },
-                                    // },
-                                    // onPress: () {
-                                    //   _profileController.friendActionSelect.value = '';
-                                    //   _friendController.allFriendFollowStatus.value = _friendController.friendList[index].followStatus!;
-                                    //   if (_profileController.friendActionSelect.value == '') {
-                                    //     _globalController.isBottomSheetRightButtonActive.value = false;
-                                    //   } else {
-                                    //     _globalController.isBottomSheetRightButtonActive.value = true;
-                                    //   }
-                                    //   _globalController.commonBottomSheet(
-                                    //     context: context,
-                                    //     isScrollControlled: true,
-                                    //     content: _FriendActionContent(
-                                    //       profileController: _profileController,
-                                    //       friendController: _friendController,
-                                    //     ),
-                                    //     onPressCloseButton: () {
-                                    //       Get.back();
-                                    //     },
-                                    //     onPressRightButton: () async {
-                                    //       _friendController.userId.value = _friendController.friendList[index].id!;
-                                    //       Get.back();
-                                    //       if (_profileController.friendActionSelect.value == 'Unfriend') {
-                                    //         await _friendController.unfriendUserRequest();
-                                    //       }
-                                    //       if (_profileController.friendActionSelect.value == 'Unfollow') {
-                                    //         await _friendController.unfollowUser();
-                                    //       }
-                                    //       if (_profileController.friendActionSelect.value == 'Follow') {
-                                    //         await _friendController.followUser();
-                                    //       }
-                                    //       _profileController.friendActionSelect.value = '';
-                                    //     },
-                                    //     rightText: ksDone.tr,
-                                    //     rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                    //     title: ksAction.tr,
-                                    //     isRightButtonShow: true,
-                                    //     bottomSheetHeight: 250,
-                                    //   );
-                                    // },
                                     icon: BipHip.system),
                               ),
                             ),
@@ -207,6 +167,71 @@ class AllKids extends StatelessWidget {
                 ),
               ),
             ),
+    );
+  }
+}
+
+class _AllKidsActionContent extends StatelessWidget {
+  const _AllKidsActionContent({Key? key, required this.kidsController}) : super(key: key);
+
+  final KidsController kidsController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: kidsController.allKidsActionList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Obx(
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: k8Padding),
+                child: CustomListTile(
+                  leading: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: cNeutralColor,
+                    ),
+                    height: h28,
+                    width: h28,
+                    child: Icon(
+                      kidsController.allKidsActionList[index]['icon'],
+                      color: cBlackColor,
+                      size: isDeviceScreenLarge() ? h18 : h14,
+                    ),
+                  ),
+                  title: kidsController.allKidsActionList[index]['action'],
+                  titleTextStyle: semiBold16TextStyle(cBlackColor),
+                  subtitle: kidsController.allKidsActionList[index]['actionSubtitle'],
+                  subTitleTextStyle: regular14TextStyle(cBlackColor),
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      kidsController.allKidsActionSelect.value = kidsController.allKidsActionList[index]['action'];
+                    },
+                    isSelected: kidsController.allKidsActionSelect.value == kidsController.allKidsActionList[index]['action'],
+                  ),
+                  itemColor: kidsController.allKidsActionSelect.value == kidsController.allKidsActionList[index]['action'] ? cPrimaryTint3Color : cWhiteColor,
+                  onPressed: () {
+                    kidsController.allKidsActionSelect.value = kidsController.allKidsActionList[index]['action'];
+                    // if (friendController.pendingFriendFollowStatus.value == 1) {
+                    //   friendController.pendingFriendActionSelect.value = friendController.pendingFriendActionList[index]['action'];
+                    // } else if (friendController.pendingFriendFollowStatus.value == 0) {
+                    //   friendController.pendingFriendActionSelect.value = friendController.pendingFollowFriendActionList[index]['action'];
+                    // }
+                    if (kidsController.allKidsActionSelect.value == '') {
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                    } else {
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                    }
+                  },
+                ),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }
