@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class KidsPage extends StatelessWidget {
@@ -27,8 +28,9 @@ class KidsPage extends StatelessWidget {
                   padding: const EdgeInsets.only(right: k20Padding),
                   child: TextButton(
                     style: kTextButtonStyle,
-                    onPressed: () async {
-                      // Get.toNamed(krAddFriend);
+                    onPressed: () {
+                      Get.find<CreatePostController>().resetAddKidPage();
+                      Get.toNamed(krAddKid);
                     },
                     child: Text(
                       ksAdd.tr,
@@ -121,7 +123,8 @@ class AllKids extends StatelessWidget {
                                 ),
                                 trailing: CustomIconButton(
                                     onPress: () {
-                                      _kidsController.allKidsActionSelect.value == '';
+                                      _kidsController.allKidsActionSelect.value = '';
+                                      _kidsController.kidId.value = _kidsController.kidList[index].id!;
                                       if (_kidsController.allKidsActionSelect.value == '') {
                                         _globalController.isBottomSheetRightButtonActive.value = false;
                                       } else {
@@ -135,9 +138,6 @@ class AllKids extends StatelessWidget {
                                           Get.back();
                                         },
                                         onPressRightButton: () async {
-                                          _kidsController.kidId.value = _kidsController.kidList[index].id!;
-                                          // _friendController.userId.value = _friendController.friendList[index].id!;
-                                          ll(_kidsController.kidId.value.toString());
                                           Get.back();
                                           if (_kidsController.allKidsActionSelect.value == 'Edit') {
                                             // await .unfriendUserRequest();

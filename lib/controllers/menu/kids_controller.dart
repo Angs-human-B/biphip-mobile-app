@@ -83,4 +83,5 @@ class KidsController extends GetxController {
     {'icon': BipHip.delete, 'action': 'Delete', 'actionSubtitle': 'Delete the kid'}
   ]);
   final RxString allKidsActionSelect = RxString('');
+  final RxString tempAllKidActionSelect = RxString('');
 }
