@@ -864,4 +864,5 @@ class FriendController extends GetxController {
   ]);
   final RxBool isFriendSuffixIconVisible = RxBool(false);
   final RxBool isAddFriendSuffixIconVisible = RxBool(false);
+  final RxBool isRouteFromBottomNavBar = RxBool(false);
 }

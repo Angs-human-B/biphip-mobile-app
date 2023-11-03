@@ -63,6 +63,7 @@ class CustomBottomNavBar extends StatelessWidget {
                   Get.find<ProfileController>().resetTapButtonData();
                   Get.find<ProfileController>().searchController.clear();
                   Get.find<FriendController>().isFriendSearched.value = false;
+                  Get.find<FriendController>().isRouteFromBottomNavBar.value = true;
                   Get.toNamed(krFriends);
                   await Get.find<FriendController>().getFriendList();
                 },

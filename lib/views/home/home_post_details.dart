@@ -26,39 +26,40 @@ class HomePostDetails extends StatelessWidget {
                 //* info:: appBar
                 child: CustomAppBar(
                   hasBackButton: true,
-                  isCenterTitle: false,
+                  isCenterTitle: true,
+                  title: 'Wahid Murad',
                   onBack: () {
                     Get.back();
                   },
-                  action: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: k50Padding, top: k0Padding),
-                      child: SizedBox(
-                          height: kAppBarSize,
-                          width: width - 50,
-                          child: const PostUpperContainer(userName: 'Wahid Murad', isCategorized: false, privacy: BipHip.world, postTime: '1hr')),
-                    )
-                  ],
                 ),
               ),
               body: SizedBox(
                 height: height - kAppBarSize - MediaQuery.of(context).padding.top,
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: k20Padding),
+                    padding: const EdgeInsets.only(top: k12Padding),
                     child: Column(
                       children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                          child: PostUpperContainer(userName: 'Wahid Murad', isCategorized: false, privacy: BipHip.world, postTime: '1hr'),
+                        ),
+                        kH12sizedBox,
                         CommonPostWidget(
                           isCommented: true,
                           isLiked: true,
                           isTextualPost: true,
-                          mediaList: const [kiDummyImage1ImageUrl, kiDummyImage2ImageUrl, kiDummyImage3ImageUrl],
+                          mediaList: const [
+                            kiDummyImage1ImageUrl,
+                            kiDummyImage2ImageUrl,
+                            kiDummyImage3ImageUrl,
+                            kiDummyImage1ImageUrl,
+                            kiDummyImage2ImageUrl,
+                            kiDummyImage3ImageUrl
+                          ],
                           isSelfPost: true,
                           isCommentShown: true,
                           showBottomSection: true,
-                          category: 'Nothing',
-
-                          // title: 'Hi',
                           postText:
                               'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isnt anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
                         ),
@@ -95,14 +96,10 @@ class CommonPostWidget extends StatelessWidget {
     required this.isSelfPost,
     required this.isCommentShown,
     required this.showBottomSection,
-    this.mediaOnPressed,
   });
   final bool isCommented, isLiked, isTextualPost, isSelfPost, isCommentShown, showBottomSection;
-  // final RxBool sharedPostSeeMore = RxBool(false);
-  // final RxBool postSeeMore = RxBool(false);
   final String? category, title, postText;
   final List mediaList;
-  final VoidCallback? mediaOnPressed;
   final HomeController _homeController = Get.find<HomeController>();
 
   @override
@@ -110,39 +107,6 @@ class CommonPostWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // if (isLiked)
-        //   Padding(
-        //     padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
-        //     child: Row(
-        //       children: [
-        //         Stack(
-        //           children: [
-        //             const SizedBox(
-        //               width: 40,
-        //               height: 20,
-        //             ),
-        //             for (int index = 0; index < 3; index++)
-        //               Positioned(
-        //                 left: index * 10,
-        //                 child: Container(
-        //                   height: 20,
-        //                   width: 20,
-        //                   decoration: BoxDecoration(
-        //                     shape: BoxShape.circle,
-        //                     border: Border.all(color: cWhiteColor, width: 1),
-        //                   ),
-        //                   child: Image.asset(
-        //                     kiProfilePicImageUrl,
-        //                     fit: BoxFit.fill,
-        //                   ),
-        //                 ),
-        //               ),
-        //           ],
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-
         if (isTextualPost)
           Obx(() => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -166,13 +130,6 @@ class CommonPostWidget extends StatelessWidget {
                 child: TextButton(
                   style: kTextButtonStyle,
                   onPressed: () {
-                    // if(isSharedPost){
-                    // _homeController.changeSeeMoreValue(postSeeMore);
-                    // postSeeMore.value = !postSeeMore.value;
-                    // }else {
-                    // _homeController.changeSeeMoreValue(sharedPostSeeMore);
-                    // sharedPostSeeMore.value = !sharedPostSeeMore.value;
-                    // }
                     _homeController.seeMore.value = !_homeController.seeMore.value;
                   },
                   child: Text(
@@ -182,7 +139,6 @@ class CommonPostWidget extends StatelessWidget {
                 ),
               )),
         kH16sizedBox,
-
         if (mediaList.isNotEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -192,7 +148,6 @@ class CommonPostWidget extends StatelessWidget {
               width: width - 40,
               child: Column(
                 children: [
-                  // if (mediaList.length > 0 )
                   Row(
                     children: [
                       TextButton(
@@ -261,7 +216,9 @@ class CommonPostWidget extends StatelessWidget {
                       if (mediaList.length > 2)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krHomePostDetailsScreen);
+                          },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
@@ -279,7 +236,9 @@ class CommonPostWidget extends StatelessWidget {
                       if (mediaList.length > 3)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krHomePostDetailsScreen);
+                          },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
@@ -300,7 +259,9 @@ class CommonPostWidget extends StatelessWidget {
                           children: [
                             TextButton(
                               style: kTextButtonStyle,
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.toNamed(krHomePostDetailsScreen);
+                              },
                               child: Container(
                                 decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                                 height: 150,
@@ -318,7 +279,8 @@ class CommonPostWidget extends StatelessWidget {
                                 child: TextButton(
                                   style: kTextButtonStyle,
                                   onPressed: () {
-                                    Get.toNamed(krUploadedImageListPage);
+                                    // Get.toNamed(krUploadedImageListPage);
+                                    Get.toNamed(krHomePostDetailsScreen);
                                   },
                                   child: Text(
                                     "${mediaList.length - 5} More",
@@ -335,7 +297,6 @@ class CommonPostWidget extends StatelessWidget {
             ),
           ),
         if (showBottomSection) PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown),
-        // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
       ],
     );
   }
