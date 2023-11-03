@@ -74,7 +74,7 @@ class Menu extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
+                            isDeviceScreenLarge() ? kH16sizedBox : kH8sizedBox,
                             CustomMenuContainer(
                               height: 64,
                               onPressed: () async {
@@ -104,7 +104,7 @@ class Menu extends StatelessWidget {
                               text: Get.find<GlobalController>().userName.value.toString(),
                               textStyle: semiBold18TextStyle(cBlackColor),
                             ),
-                            kH25sizedBox,
+                            kH16sizedBox,
                             Text(
                               ksAllShortcuts.tr,
                               style: semiBold18TextStyle(cBlackColor),
