@@ -52,7 +52,14 @@ class HomePostDetails extends StatelessWidget {
                           isCommented: true,
                           isLiked: true,
                           isTextualPost: true,
-                          mediaList: const [kiDummyImage1ImageUrl, kiDummyImage2ImageUrl, kiDummyImage3ImageUrl],
+                          mediaList: const [
+                            kiDummyImage1ImageUrl,
+                            kiDummyImage2ImageUrl,
+                            kiDummyImage3ImageUrl,
+                            kiDummyImage1ImageUrl,
+                            kiDummyImage2ImageUrl,
+                            kiDummyImage3ImageUrl
+                          ],
                           isSelfPost: true,
                           isCommentShown: true,
                           showBottomSection: true,
@@ -212,7 +219,9 @@ class CommonPostWidget extends StatelessWidget {
                       if (mediaList.length > 2)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krHomePostDetailsScreen);
+                          },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
@@ -230,7 +239,9 @@ class CommonPostWidget extends StatelessWidget {
                       if (mediaList.length > 3)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krHomePostDetailsScreen);
+                          },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
@@ -251,7 +262,9 @@ class CommonPostWidget extends StatelessWidget {
                           children: [
                             TextButton(
                               style: kTextButtonStyle,
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.toNamed(krHomePostDetailsScreen);
+                              },
                               child: Container(
                                 decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                                 height: 150,
@@ -269,7 +282,8 @@ class CommonPostWidget extends StatelessWidget {
                                 child: TextButton(
                                   style: kTextButtonStyle,
                                   onPressed: () {
-                                    Get.toNamed(krUploadedImageListPage);
+                                    // Get.toNamed(krUploadedImageListPage);
+                                    Get.toNamed(krHomePostDetailsScreen);
                                   },
                                   child: Text(
                                     "${mediaList.length - 5} More",
