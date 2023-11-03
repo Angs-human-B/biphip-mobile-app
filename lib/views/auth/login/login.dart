@@ -89,7 +89,7 @@ class Login extends StatelessWidget {
                               borderRadius: BorderRadius.circular(k4BorderRadius),
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
-                            suffixIcon: _authenticationController.isLoginPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
+                            suffixIcon: _authenticationController.isLoginPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
                             onSuffixPress: () {
                               _authenticationController.isLoginPasswordToggleObscure.value = !_authenticationController.isLoginPasswordToggleObscure.value;
                             },

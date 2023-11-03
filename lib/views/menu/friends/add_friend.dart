@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -57,9 +59,12 @@ class AddFriend extends StatelessWidget {
                           _friendController.isAddFriendSuffixIconVisible.value = false;
                         },
                         onChanged: (v) async {
+                          if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
                           if (_profileController.searchController.text.trim() != '') {
-                            _friendController.isAddFriendSuffixIconVisible.value = true;
-                            await _friendController.getAddFriendRequestList();
+                            _friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
+                              _friendController.isAddFriendSuffixIconVisible.value = true;
+                              await _friendController.getAddFriendRequestList();
+                            });
                           }
                           if (_profileController.searchController.text.trim() == '') {
                             _friendController.isAddFriendSuffixIconVisible.value = false;

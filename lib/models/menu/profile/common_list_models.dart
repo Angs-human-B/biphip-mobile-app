@@ -119,3 +119,73 @@ class SchoolListModel {
         schools: List<String>.from(json["schools"].map((x) => x)),
       );
 }
+
+class PostListModel {
+    List<PostCategory> postCategories;
+
+    PostListModel({
+        required this.postCategories,
+    });
+
+    factory PostListModel.fromJson(Map<String, dynamic> json) => PostListModel(
+        postCategories: List<PostCategory>.from(json["postCategories"].map((x) => PostCategory.fromJson(x))),
+    );
+}
+
+class PostCategory {
+    int? id;
+    String? name;
+    int? isActive;
+
+    PostCategory({
+        required this.id,
+        required this.name,
+        required this.isActive,
+    });
+
+    factory PostCategory.fromJson(Map<String, dynamic> json) => PostCategory(
+        id: json["id"],
+        name: json["name"],
+        isActive: json["is_active"],
+    );
+}
+
+class KidListModel {
+    List<Kid> kids;
+
+    KidListModel({
+        required this.kids,
+    });
+
+    factory KidListModel.fromJson(Map<String, dynamic> json) => KidListModel(
+        kids: List<Kid>.from(json["kids"].map((x) => Kid.fromJson(x))),
+    );
+}
+
+class Kid {
+    int? id;
+    int? userId;
+    String? name;
+    String? image;
+    int? age;
+    String kidImage;
+
+    Kid({
+        required this.id,
+        required this.userId,
+        required this.name,
+        required this.image,
+        required this.age,
+        required this.kidImage,
+    });
+
+    factory Kid.fromJson(Map<String, dynamic> json) => Kid(
+        id: json["id"],
+        userId: json["user_id"],
+        name: json["name"],
+        image: json["image"],
+        age: json["age"],
+        kidImage: json["kid_image"],
+    );
+}
+

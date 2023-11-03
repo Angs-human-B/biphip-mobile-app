@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -40,6 +42,8 @@ class Friends extends StatelessWidget {
                           onPressed: () async {
                             //*Common bottom sheet for add friend
                             _profileController.searchController.clear();
+                            _friendController.isAddFriendSuffixIconVisible.value = false;
+                            _friendController.isFriendSuffixIconVisible.value = false;
                             FocusScope.of(context).unfocus();
                             _friendController.addFriendRequestList.clear();
                             Get.toNamed(krAddFriend);
@@ -70,6 +74,7 @@ class Friends extends StatelessWidget {
                               FocusScope.of(context).unfocus();
                               _profileController.toggleType(0);
                               _friendController.isFriendSuffixIconVisible.value = false;
+                              _friendController.isFriendSearched.value = false;
                               await _friendController.getFriendList();
                             },
                             () async {
@@ -77,6 +82,7 @@ class Friends extends StatelessWidget {
                               FocusScope.of(context).unfocus();
                               _profileController.toggleType(1);
                               _friendController.isFriendSuffixIconVisible.value = false;
+                              _friendController.isFriendSearched.value = false;
                               await _friendController.getReceivedFriendList();
                             },
                             () async {
@@ -84,6 +90,7 @@ class Friends extends StatelessWidget {
                               FocusScope.of(context).unfocus();
                               _profileController.toggleType(2);
                               _friendController.isFriendSuffixIconVisible.value = false;
+                              _friendController.isFriendSearched.value = false;
                               await _friendController.getSendFriendRequestList();
                             },
                           ]),
@@ -100,19 +107,28 @@ class Friends extends StatelessWidget {
                             hint: ksSearch.tr,
                             contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
                             textInputStyle: regular16TextStyle(cBlackColor),
-                            onSuffixPress: () {
+                            onSuffixPress: () async {
                               Get.find<ProfileController>().searchController.clear();
                               _friendController.isFriendSuffixIconVisible.value = false;
+                              _friendController.isFriendSearched.value = false;
+                              await _friendController.getFriendList();
                             },
                             onSubmit: (v) {
                               unfocus(context);
                               _friendController.isFriendSuffixIconVisible.value = false;
                             },
                             onChanged: (v) async {
+                              if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
                               if (Get.find<ProfileController>().searchController.text.trim() != '') {
-                                _friendController.isFriendSuffixIconVisible.value = true;
+                                _friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
+                                  _friendController.isFriendSearched.value = true;
+                                  _friendController.isFriendSuffixIconVisible.value = true;
+                                  await _friendController.getFriendSearchList();
+                                });
                               } else {
                                 _friendController.isFriendSuffixIconVisible.value = false;
+                                _friendController.isFriendSearched.value = false;
+                                await _friendController.getFriendList();
                               }
                             })),
                       ),
@@ -120,7 +136,7 @@ class Friends extends StatelessWidget {
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                          child: _friendController.isFriendListLoading.value || _friendController.isReceivedFriendListLoading.value
+                          child: (_friendController.isFriendListLoading.value || _friendController.isReceivedFriendListLoading.value)
                               ? ShimmerCommon(
                                   widget: Container(
                                     decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
@@ -129,10 +145,13 @@ class Friends extends StatelessWidget {
                                   ),
                                 )
                               : _profileController.tapAbleButtonState[0]
-                                  ? _friendController.allFriendCount.value == 0
+                                  ? _friendController.allFriendCount.value == 0 ||
+                                          (_friendController.isFriendSearched.value && _friendController.searchedFriendCount.value == 0)
                                       ? const SizedBox()
                                       : Text(
-                                          '${ksTotalFriends.tr}: ${_friendController.allFriendCount.value}',
+                                          _friendController.isFriendSearched.value
+                                              ? '${ksSearchedFriends.tr}: ${_friendController.searchedFriendCount.value}'
+                                              : '${ksTotalFriends.tr}: ${_friendController.allFriendCount.value}',
                                           style: semiBold14TextStyle(cBlackColor),
                                         )
                                   : _friendController.receivedRequestCount.value == 0
@@ -395,7 +414,7 @@ class AllFriendList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => _friendController.isFriendListLoading.value
+      () => (_friendController.isFriendListLoading.value)
           ? const AllPendingFriendShimmer()
           : _friendController.friendList.isNotEmpty
               ? NotificationListener<ScrollNotification>(
@@ -406,6 +425,9 @@ class AllFriendList extends StatelessWidget {
                       _friendController.friendListScrolled.value = true;
                       if (_friendController.friendList.isNotEmpty) {
                         _friendController.getMoreFriendList(null);
+                      }
+                      if (_friendController.friendList.isNotEmpty && _friendController.isFriendSearched.value) {
+                        _friendController.getMoreFriendSearchList(null);
                       }
                       return true;
                     }
@@ -458,6 +480,11 @@ class AllFriendList extends StatelessWidget {
                                           onPress: () {
                                             _profileController.friendActionSelect.value = '';
                                             _friendController.allFriendFollowStatus.value = _friendController.friendList[index].followStatus!;
+                                            if (_profileController.friendActionSelect.value == '') {
+                                              _globalController.isBottomSheetRightButtonActive.value = false;
+                                            } else {
+                                              _globalController.isBottomSheetRightButtonActive.value = true;
+                                            }
                                             _globalController.commonBottomSheet(
                                               context: context,
                                               isScrollControlled: true,
@@ -498,13 +525,18 @@ class AllFriendList extends StatelessWidget {
                           ),
                           if (_friendController.friendList.isNotEmpty && !_friendController.friendListScrolled.value)
                             const Center(child: CircularProgressIndicator()),
+                        
                         ],
                       ),
                     ),
                   ),
                 )
               : Expanded(
-                  child: Container(alignment: Alignment.center, child: Container(alignment: Alignment.center, child: EmptyView(title: ksNoFriendAddedYet.tr)))),
+                  child: Container(
+                      alignment: Alignment.center,
+                      child: Container(
+                          alignment: Alignment.center,
+                          child: EmptyView(title: _friendController.allFriendCount.value == 0 ? ksNoFriendAddedYet.tr : ksNoSearchedFriendsAvailable.tr)))),
     );
   }
 }
@@ -653,6 +685,11 @@ class PendingFriendList extends StatelessWidget {
                                           onPress: () {
                                             _friendController.pendingFriendActionSelect.value = '';
                                             _friendController.pendingFriendFollowStatus.value = _friendController.sendFriendRequestList[index].followStatus!;
+                                            if (_friendController.pendingFriendActionSelect.value == '') {
+                                              _globalController.isBottomSheetRightButtonActive.value = false;
+                                            } else {
+                                              _globalController.isBottomSheetRightButtonActive.value = true;
+                                            }
                                             _globalController.commonBottomSheet(
                                               context: context,
                                               isScrollControlled: true,
@@ -690,8 +727,6 @@ class PendingFriendList extends StatelessWidget {
                               },
                             ),
                           ),
-                          // if (_friendController.sendFriendRequestList.isNotEmpty && !_friendController.sendFriendListScrolled.value)
-                          //   const Center(child: CircularProgressIndicator()),
                         ],
                       ),
                     ),
@@ -770,6 +805,11 @@ class _FriendActionContent extends StatelessWidget {
                       profileController.friendActionSelect.value = profileController.friendActionList[index]['action'];
                     } else if (friendController.allFriendFollowStatus.value == 0) {
                       profileController.friendActionSelect.value = friendController.friendFollowActionList[index]['action'];
+                    }
+                    if (profileController.friendActionSelect.value == '') {
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                    } else {
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                     }
                   },
                 ),
@@ -850,6 +890,11 @@ class _PendingFriendActionContent extends StatelessWidget {
                       friendController.pendingFriendActionSelect.value = friendController.pendingFriendActionList[index]['action'];
                     } else if (friendController.pendingFriendFollowStatus.value == 0) {
                       friendController.pendingFriendActionSelect.value = friendController.pendingFollowFriendActionList[index]['action'];
+                    }
+                    if (friendController.pendingFriendActionSelect.value == '') {
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                    } else {
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                     }
                   },
                 ),

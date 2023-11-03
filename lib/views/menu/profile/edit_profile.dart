@@ -82,8 +82,8 @@ class EditProfile extends StatelessWidget {
                                           _profileController.isProfilePhoto.value = true;
                                           _profileController.viewOptionEnabled.value = true;
                                           _profileController.previewPhoto.value = _profileController.userData.value!.profilePicture.toString();
+                                          Get.toNamed(krViewPhoto);
                                         }
-                                        Get.toNamed(krViewPhoto);
                                       },
                                       child: Container(
                                         height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
@@ -109,7 +109,9 @@ class EditProfile extends StatelessWidget {
                                   ],
                                 ),
                                 kH16sizedBox,
-                                const CustomDivider(),
+                                const CustomDivider(
+                                  thickness: 2,
+                                ),
                                 kH16sizedBox,
                                 RowTextEdit(
                                   prefix: ksCoverPhoto.tr,
@@ -144,8 +146,8 @@ class EditProfile extends StatelessWidget {
                                       _profileController.viewOptionEnabled.value = true;
                                       _profileController.isProfilePhoto.value = false;
                                       _profileController.previewPhoto.value = _profileController.userData.value!.coverPhoto.toString();
+                                      Get.toNamed(krViewPhoto);
                                     }
-                                    Get.toNamed(krViewPhoto);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -177,7 +179,9 @@ class EditProfile extends StatelessWidget {
                                   ),
                                 ),
                                 kH16sizedBox,
-                                const CustomDivider(),
+                                const CustomDivider(
+                                  thickness: 2,
+                                ),
                                 kH16sizedBox,
                                 RowTextEdit(
                                   prefix: ksBio.tr,
@@ -218,7 +222,9 @@ class EditProfile extends StatelessWidget {
                                   style: regular14TextStyle(cIconColor),
                                 ),
                                 if (_profileController.userData.value!.bio != null) kH16sizedBox,
-                                const CustomDivider(),
+                                const CustomDivider(
+                                  thickness: 2,
+                                ),
                                 kH16sizedBox,
                                 RowTextEdit(
                                   prefix: ksIntro.tr,
@@ -255,36 +261,40 @@ class EditProfile extends StatelessWidget {
                                 if (_profileController.userData.value!.relation != null)
                                   LinkUpIconTextRow(
                                     icon: BipHip.love,
-                                    suffixText: '',
-                                    prefixText: checkNullOrStringNull(_profileController.userData.value!.relation),
+                                    suffixText: checkNullOrStringNull(_profileController.userData.value!.relation),
+                                    prefixText: '',
                                     isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.schoolDataList.isNotEmpty)
                                   LinkUpIconTextRow(
                                     icon: BipHip.school,
-                                    suffixText: '',
-                                    prefixText: checkNullOrStringNull(_profileController.schoolDataList[0].school),
+                                    suffixText: checkNullOrStringNull(_profileController.schoolDataList[0].school),
+                                    prefixText: _profileController.schoolDataList[0].ended != null ? 'Studied at ' : 'Studies at ',
                                     isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.collegeDataList.isNotEmpty)
                                   LinkUpIconTextRow(
                                     icon: BipHip.school,
-                                    suffixText: '',
-                                    prefixText: checkNullOrStringNull(_profileController.collegeDataList[0].school),
+                                    suffixText: checkNullOrStringNull(_profileController.collegeDataList[0].school),
+                                    prefixText: _profileController.collegeDataList[0].ended != null ? 'Studied at ' : 'Studies at ',
                                     isLink: false,
                                     onPressed: null,
                                   ),
-                                if (_profileController.workplaceDataList.isNotEmpty)
+                                if (_profileController.currentWorkplace.value != null)
                                   LinkUpIconTextRow(
                                     icon: BipHip.work,
-                                    suffixText: '',
-                                    prefixText: checkNullOrStringNull(_profileController.workplaceDataList[0].company),
+                                    suffixText: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
+                                    prefixText: _profileController.currentWorkplace.value!.position == null
+                                        ? ''
+                                        : '${_profileController.currentWorkplace.value!.position} at ',
                                     isLink: false,
                                     onPressed: null,
                                   ),
-                                const CustomDivider(),
+                                const CustomDivider(
+                                  thickness: 2,
+                                ),
                                 kH16sizedBox,
                                 CustomElevatedButton(
                                   label: ksEditYouAboutInfo.tr,
@@ -306,8 +316,10 @@ class EditProfile extends StatelessWidget {
                         ),
                       ),
                       const Positioned(
-                        top: 0,
-                        child: CustomDivider(),
+                        top: 1,
+                        child: CustomDivider(
+                          thickness: 2,
+                        ),
                       ),
                     ],
                   ),
@@ -331,14 +343,14 @@ class EditProfile extends StatelessWidget {
 }
 
 class CustomDivider extends StatelessWidget {
-  const CustomDivider({super.key});
-
+  const CustomDivider({super.key, this.thickness});
+  final double? thickness;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
-      child: const Divider(
-        thickness: 1,
+      child: Divider(
+        thickness: thickness ?? 2,
         height: 1,
         color: cLineColor,
       ),

@@ -257,7 +257,11 @@ class EditAboutInfo extends StatelessWidget {
                                   } else if (_profileController.userData.value!.relation != null) {
                                     _profileController.tempRelationshipStatus.value = checkNullOrStringNull(_profileController.userData.value!.relation);
                                   }
-                                  ll("value : ${_profileController.tempRelationshipStatus.value}");
+                                  if (_profileController.tempRelationshipStatus.value == '') {
+                                    _globalController.isBottomSheetRightButtonActive.value = false;
+                                  } else {
+                                    _globalController.isBottomSheetRightButtonActive.value = true;
+                                  }
                                   _globalController.commonBottomSheet(
                                     context: context,
                                     content: Obx(
@@ -953,6 +957,11 @@ class _RelationshipStatusListContent extends StatelessWidget {
                                 : cWhiteColor,
                             onPressed: () {
                               profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
+                              if (profileController.tempRelationshipStatus.value == '') {
+                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                              } else {
+                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                              }
                             },
                           ),
                         ),
