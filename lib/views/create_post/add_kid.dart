@@ -35,7 +35,7 @@ class AddKidPage extends StatelessWidget {
                         padding: const EdgeInsets.only(right: h20),
                         child: TextButton(
                           style: kTextButtonStyle,
-                          onPressed: _createPostController.isSaveButtonEnabled.value
+                          onPressed: _createPostController.isSaveKidButtonEnabled.value
                               ? () async {
                                   if (_createPostController.saveKidInfo.value) {
                                     await _createPostController.addKid();
@@ -43,7 +43,7 @@ class AddKidPage extends StatelessWidget {
                                     Get.back();
                                   }
                                   _createPostController.isKidAdded.value = true;
-                                  if ( !_createPostController.isKidAdded.value) {
+                                  if (!_createPostController.isKidAdded.value) {
                                     _globalController.isBottomSheetRightButtonActive.value = false;
                                   } else {
                                     _globalController.isBottomSheetRightButtonActive.value = true;
@@ -52,7 +52,7 @@ class AddKidPage extends StatelessWidget {
                               : null,
                           child: Text(
                             ksAdd.tr,
-                            style: _createPostController.isSaveButtonEnabled.value ? medium14TextStyle(cPrimaryColor) : medium14TextStyle(cIconColor),
+                            style: _createPostController.isSaveKidButtonEnabled.value ? medium14TextStyle(cPrimaryColor) : medium14TextStyle(cIconColor),
                           ),
                         ),
                       ),

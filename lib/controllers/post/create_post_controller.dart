@@ -1098,22 +1098,22 @@ class CreatePostController extends GetxController {
   final RxBool isKidImageChanged = RxBool(false);
   final TextEditingController kidNameTextEditingController = TextEditingController();
   final TextEditingController kidAgeTextEditingController = TextEditingController();
-  final RxBool isSaveButtonEnabled = RxBool(false);
+  final RxBool isSaveKidButtonEnabled = RxBool(false);
   final RxBool isKidAdded = RxBool(false);
   final RxBool isKidSelected = RxBool(false);
 
   void checkCanAddKidInfo() {
     if (kidNameTextEditingController.text.trim() != '' && kidAgeTextEditingController.text.trim() != '' && isKidImageChanged.value) {
-      isSaveButtonEnabled.value = true;
+      isSaveKidButtonEnabled.value = true;
     } else {
-      isSaveButtonEnabled.value = false;
+      isSaveKidButtonEnabled.value = false;
     }
   }
 
   void resetAddKidPage() {
     isKidAdded.value = false;
     saveKidInfo.value = false;
-    isSaveButtonEnabled.value = false;
+    isSaveKidButtonEnabled.value = false;
     kidImageLink.value = '';
     kidImageFile.value = File('');
     isKidImageChanged.value = false;
@@ -1199,10 +1199,11 @@ class CreatePostController extends GetxController {
   }
 
   // Add Brand API Implementation
-  final RxBool saveBrandInfo = RxBool(false);
   final RxString brandImageLink = RxString('');
   final Rx<File> brandImageFile = File('').obs;
   final RxBool isBrandImageChanged = RxBool(false);
+  final RxBool isSaveBrandButtonEnabled = RxBool(false);
+  final RxBool isAddBrandPageLoading = RxBool(false);
   final TextEditingController brandNameTextEditingController = TextEditingController();
   final TextEditingController brandWebLinkTextEditingController = TextEditingController();
   final TextEditingController brandFacebookLinkTextEditingController = TextEditingController();
@@ -1212,7 +1213,7 @@ class CreatePostController extends GetxController {
   final RxList brandSocialLinkList = RxList([]);
   Future<void> addBrand() async {
     try {
-      isAddKidPageLoading.value = true;
+      isAddBrandPageLoading.value = true;
       String? token = await _spController.getBearerToken();
       Map<String, String> body = {
         'name': brandNameTextEditingController.text.trim(),
@@ -1227,11 +1228,11 @@ class CreatePostController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        isAddKidPageLoading.value = false;
+        isAddBrandPageLoading.value = false;
         Get.back();
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isAddKidPageLoading.value = true;
+        isAddBrandPageLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1240,8 +1241,8 @@ class CreatePostController extends GetxController {
         }
       }
     } catch (e) {
-      isAddKidPageLoading.value = true;
-      ll('addKid error: $e');
+      isAddBrandPageLoading.value = true;
+      ll('addBrand error: $e');
     }
   }
 
@@ -1263,5 +1264,32 @@ class CreatePostController extends GetxController {
       brandSocialLinkList.add({'Youtube': brandYoutubeLinkTextEditingController.text.trim()});
     }
     ll(brandSocialLinkList);
+  }
+
+  void resetAddBrandPage() {
+    brandImageLink.value = '';
+    brandImageFile.value = File('');
+    isBrandImageChanged.value = false;
+    isSaveBrandButtonEnabled.value = false;
+    brandNameTextEditingController.clear();
+    brandWebLinkTextEditingController.clear();
+    brandFacebookLinkTextEditingController.clear();
+    brandTwitterTextEditingController.clear();
+    brandLinkedInLinkTextEditingController.clear();
+    brandYoutubeLinkTextEditingController.clear();
+  }
+
+  void checkCanSaveBrand() {
+    if (isBrandImageChanged.value &&
+        brandNameTextEditingController.text.trim() != '' &&
+        (brandWebLinkTextEditingController.text.trim() != '' ||
+            brandFacebookLinkTextEditingController.text.trim() != '' ||
+            brandLinkedInLinkTextEditingController.text.trim() != '' ||
+            brandTwitterTextEditingController.text.trim() != '' ||
+            brandYoutubeLinkTextEditingController.text.trim() != '')) {
+              isSaveBrandButtonEnabled.value = true;
+            }else{
+              isSaveBrandButtonEnabled.value = false;
+            }
   }
 }
