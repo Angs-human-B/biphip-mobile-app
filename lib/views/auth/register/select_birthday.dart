@@ -18,7 +18,8 @@ class SelectBirthday extends StatelessWidget {
     heightWidthKeyboardValue(context);
 
     return Container(
-      color: cWhiteColor,
+      // color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         top: false,
         child: Scaffold(
@@ -26,6 +27,7 @@ class SelectBirthday extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
+              appBarColor: cTransparentColor,
               title: _profileController.isRouteFromAboutInfo.value ? ksEditBirthday.tr : ksRegistration.tr,
               onBack: () async {
                 Get.back();

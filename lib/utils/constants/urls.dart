@@ -112,6 +112,10 @@ const String kuRejectFamilyRequest = '/mobile/user/reject-family-request';
 //* Family Relation Status
 const String kuGetAllFamilyRelations = '/mobile/get-all-family-relations';
 
+//*Friend Search
+const String kuGetSearchFriends = '/mobile/user/search-friends';
+
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls
@@ -134,6 +138,8 @@ const String kiDummyImage2ImageUrl = 'assets/images/pic5.jpeg';
 const String kiDummyImage3ImageUrl = 'assets/images/pic12.jpeg';
 const String kiBoostPost1xImage3ImageUrl = 'assets/images/boost1x.png';
 const String kiBoostPost4xImage3ImageUrl = 'assets/images/boost4x.png';
+const String kiOnBoardingImageUrl = 'assets/images/onBoarding.png';
+const String kiOnBoarding4xImageUrl = 'assets/images/onBoarding4x.png';
 
 //* svg images
 const String kiBadgeSvgImageUrl = 'assets/svg/badge.svg';
@@ -149,3 +155,4 @@ const String kiLinkedListSvgImageUrl = 'assets/svg/linkedin.svg';
 const String kiTwitterSvgImageUrl = 'assets/svg/twitter.svg';
 const String kiWebSvgImageUrl = 'assets/svg/web.svg';
 const String kiYoutubeSvgImageUrl = 'assets/svg/youtube.svg';
+const String kiOnBoardingSvgUrl = 'assets/svg/onbording.svg';

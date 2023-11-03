@@ -255,32 +255,34 @@ class EditProfile extends StatelessWidget {
                                 if (_profileController.userData.value!.relation != null)
                                   LinkUpIconTextRow(
                                     icon: BipHip.love,
-                                    suffixText: '',
-                                    prefixText: checkNullOrStringNull(_profileController.userData.value!.relation),
+                                    suffixText: checkNullOrStringNull(_profileController.userData.value!.relation),
+                                    prefixText: '',
                                     isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.schoolDataList.isNotEmpty)
                                   LinkUpIconTextRow(
                                     icon: BipHip.school,
-                                    suffixText: '',
-                                    prefixText: checkNullOrStringNull(_profileController.schoolDataList[0].school),
+                                    suffixText: checkNullOrStringNull(_profileController.schoolDataList[0].school),
+                                    prefixText: _profileController.schoolDataList[0].ended != null ? 'Studied at ' : 'Studies at ',
                                     isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.collegeDataList.isNotEmpty)
                                   LinkUpIconTextRow(
                                     icon: BipHip.school,
-                                    suffixText: '',
-                                    prefixText: checkNullOrStringNull(_profileController.collegeDataList[0].school),
+                                    suffixText: checkNullOrStringNull(_profileController.collegeDataList[0].school),
+                                    prefixText: _profileController.collegeDataList[0].ended != null ? 'Studied at ' : 'Studies at ',
                                     isLink: false,
                                     onPressed: null,
                                   ),
-                                if (_profileController.workplaceDataList.isNotEmpty)
+                                if (_profileController.currentWorkplace.value != null)
                                   LinkUpIconTextRow(
                                     icon: BipHip.work,
-                                    suffixText: '',
-                                    prefixText: checkNullOrStringNull(_profileController.workplaceDataList[0].company),
+                                    suffixText: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
+                                    prefixText: _profileController.currentWorkplace.value!.position == null
+                                        ? ''
+                                        : '${_profileController.currentWorkplace.value!.position} at ',
                                     isLink: false,
                                     onPressed: null,
                                   ),

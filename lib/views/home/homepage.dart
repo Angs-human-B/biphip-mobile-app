@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
+import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 import 'package:bip_hip/widgets/post_widgets/post_button_widget.dart';
 import 'package:bip_hip/widgets/post_widgets/stories_widget.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
@@ -17,7 +18,7 @@ class HomePage extends StatelessWidget {
         top: false,
         child: Scaffold(
           resizeToAvoidBottomInset: true,
-          backgroundColor: cGreyBoxColor,
+          backgroundColor: cBackgroundColor,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
@@ -86,7 +87,8 @@ class HomePage extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
-                  kH16sizedBox,
+                  // kH8sizedBox,
+                  CustomDivider(),
                   Container(
                     width: width,
                     color: cWhiteColor,
@@ -104,7 +106,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  kH16sizedBox,
+                  kH8sizedBox,
                   Container(
                     color: cWhiteColor,
                     width: width,
@@ -160,11 +162,11 @@ class HomePage extends StatelessWidget {
                     width: width,
                     child: const StoriesWidget(),
                   ),
-                  kH16sizedBox,
+                  kH8sizedBox,
                   ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      separatorBuilder: (context, index) => kH20sizedBox,
+                      separatorBuilder: (context, index) => kH8sizedBox,
                       itemCount: homePagePost.length,
                       itemBuilder: (context, index) {
                         var item = homePagePost[index];
@@ -196,7 +198,8 @@ class HomePage extends StatelessWidget {
                           ),
                         );
                       }),
-                  kH20sizedBox,
+                
+                  kH8sizedBox,
                 ],
               ),
             ),

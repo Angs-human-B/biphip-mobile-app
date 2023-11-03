@@ -13,7 +13,8 @@ class SetPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      // color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
           children: [
@@ -24,6 +25,7 @@ class SetPassword extends StatelessWidget {
                   preferredSize: const Size.fromHeight(kAppBarSize),
                   //* info:: appBar
                   child: CustomAppBar(
+                    appBarColor: cTransparentColor,
                     title: ksRegistration.tr,
                     onBack: () async {
                       Get.back();
@@ -38,7 +40,7 @@ class SetPassword extends StatelessWidget {
                     ],
                   ),
                 ),
-                backgroundColor: cWhiteColor,
+                backgroundColor: cTransparentColor,
                 body: SizedBox(
                   height: height,
                   width: width,
@@ -58,13 +60,13 @@ class SetPassword extends StatelessWidget {
                             controller: _authenticationController.registerPasswordTextEditingController,
                             errorText: _authenticationController.registerPasswordError.value,
                             hint: ksPassword.tr,
-                             textHintStyle: regular16TextStyle(cPlaceHolderColor2),
-                                fillColor: cWhiteColor,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(k4BorderRadius),
-                                  borderSide: const BorderSide(width: 1, color: cLineColor2),
-                                ),
-                            suffixIcon: _authenticationController.isRegisterPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
+                            textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                            fillColor: cWhiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(k4BorderRadius),
+                              borderSide: const BorderSide(width: 1, color: cLineColor2),
+                            ),
+                            suffixIcon: _authenticationController.isRegisterPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
                             onSuffixPress: () {
                               _authenticationController.isRegisterPasswordToggleObscure.value =
                                   !_authenticationController.isRegisterPasswordToggleObscure.value;
@@ -97,13 +99,13 @@ class SetPassword extends StatelessWidget {
                             focusNode: _confirmPasswordFocusNode,
                             errorText: _authenticationController.registerConfirmPasswordError.value,
                             hint: ksConfirmPassword.tr,
-                             textHintStyle: regular16TextStyle(cPlaceHolderColor2),
-                                fillColor: cWhiteColor,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(k4BorderRadius),
-                                  borderSide: const BorderSide(width: 1, color: cLineColor2),
-                                ),
-                            suffixIcon: _authenticationController.isRegisterConfirmPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
+                            textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                            fillColor: cWhiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(k4BorderRadius),
+                              borderSide: const BorderSide(width: 1, color: cLineColor2),
+                            ),
+                            suffixIcon: _authenticationController.isRegisterConfirmPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
                             onSuffixPress: () {
                               _authenticationController.isRegisterConfirmPasswordToggleObscure.value =
                                   !_authenticationController.isRegisterConfirmPasswordToggleObscure.value;

@@ -14,39 +14,10 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoarding4xImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
           children: [
-            Positioned(
-              top: 0.0,
-              child: Container(
-                height: (height) / 2,
-                width: width,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.topRight,
-                    colors: [cGradientColor1.withOpacity(0.1), cGradientColor2.withOpacity(0.1)],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0.0,
-              // right: 0.0,
-              child: Container(
-                height: (height) / 2,
-                width: width,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.bottomRight,
-                    colors: [cPrimaryColor.withOpacity(0.1), cGradientColor3.withOpacity(0.1)],
-                  ),
-                ),
-              ),
-            ),
             SafeArea(
               top: false,
               child: Scaffold(
@@ -118,7 +89,7 @@ class Login extends StatelessWidget {
                               borderRadius: BorderRadius.circular(k4BorderRadius),
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
-                            suffixIcon: _authenticationController.isLoginPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
+                            suffixIcon: _authenticationController.isLoginPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
                             onSuffixPress: () {
                               _authenticationController.isLoginPasswordToggleObscure.value = !_authenticationController.isLoginPasswordToggleObscure.value;
                             },

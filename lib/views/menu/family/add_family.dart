@@ -74,10 +74,11 @@ class AddFamily extends StatelessWidget {
                               alignment: Alignment.topLeft,
                               child: SizedBox(
                                 width: width - 40,
-                                height: 200,
+                                // height: 200,
                                 child: Material(
                                   elevation: 4,
                                   child: ListView.separated(
+                                    shrinkWrap: true,
                                     padding: EdgeInsets.zero,
                                     itemBuilder: (context, index) {
                                       final option = options.elementAt(index);
@@ -89,9 +90,10 @@ class AddFamily extends StatelessWidget {
                                         onPressed: () {
                                           onSelected(option.toString());
                                           profileController.searchController.text = option.toString();
-                                          for (int i = 0; i < _friendController.friendList.length; i++) {
-                                            if (_friendController.friendList[i].fullName == option) {
-                                              _familyController.userId.value = _friendController.friendList[i].id!;
+
+                                          for (int i = 0; i < _friendController.friendListForAddFamily.length; i++) {
+                                            if (_friendController.friendListForAddFamily[i].fullName == option) {
+                                              _familyController.userId.value = _friendController.friendListForAddFamily[i].id!;
                                             }
                                           }
                                           unfocus(context);
@@ -109,45 +111,61 @@ class AddFamily extends StatelessWidget {
                             );
                           },
                           fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
-                            return CustomModifiedTextField(
-                              borderRadius: h8,
-                              controller: Get.find<ProfileController>().searchController,
-                              focusNode: focusNode,
-                              prefixIcon: BipHip.search,
-                              suffixIcon: BipHip.voiceFill, // todo:: icon will be changed
-                              hint: ksSearch.tr,
-                              contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
-                              textInputStyle: regular16TextStyle(cBlackColor),
-                              onChanged: (v) async {
-                                // profileController.searchController.text = v;
-                                await _friendController.getFriendList();
-                                profileController.searchController.text = v;
-                                for (int i = 0; i < _friendController.tempFriendList.length; i++) {
-                                  if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
-                                    // profileController.searchController.text = _friendController.tempFriendList[i];
-                                    _familyController.userId.value = _friendController.friendList[i].id!;
-                                  }
-                                  if (_friendController.tempFriendList[i] != profileController.searchController.text) {
-                                    _familyController.userId.value = -1;
-                                  }
-                                }
-                                // unfocus(context);
-                              },
-                              // onChanged: (v) async {
-                              //   if (_familyController.debounce?.isActive ?? false) _familyController.debounce!.cancel();
-                              //   _familyController.debounce = Timer(const Duration(milliseconds: 2000), () async {
-                              //     await _friendController.getFriendList();
-                              //     for (int i = 0; i < _friendController.tempFriendList.length; i++) {
-                              //       if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
-                              //         _familyController.userId.value = _friendController.friendList[i].id!;
-                              //       }
-                              //       if (_friendController.tempFriendList[i] != profileController.searchController.text) {
-                              //         _familyController.userId.value = -1;
-                              //       }
-                              //     }
-                              //   });
-                              // },
-                            );
+                            return Obx(() => CustomModifiedTextField(
+                                  borderRadius: h8,
+                                  controller: Get.find<ProfileController>().searchController,
+                                  focusNode: focusNode,
+                                  prefixIcon: BipHip.search,
+                                  suffixIcon:
+                                      _familyController.isAddFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null, 
+                                  hint: ksSearch.tr,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: k12Padding,
+                                  ),
+                                  textInputStyle: regular16TextStyle(cBlackColor),
+                                  onSuffixPress: () {
+                                    profileController.searchController.clear();
+                                    _familyController.isAddFamilySuffixIconVisible.value = false;
+                                  },
+                                  onSubmit: (v) {
+                                    unfocus(context);
+                                    _familyController.isAddFamilySuffixIconVisible.value = false;
+                                  },
+                                  onChanged: (v) async {
+                                    // profileController.searchController.text = v;
+                                    if (profileController.searchController.text.trim() != '') {
+                                      _familyController.isAddFamilySuffixIconVisible.value = true;
+                                    } else {
+                                      _familyController.isAddFamilySuffixIconVisible.value = false;
+                                    }
+
+                                    // await _friendController.getFriendList();
+                                    // profileController.searchController.text = v;
+                                    for (int i = 0; i < _friendController.tempFriendList.length; i++) {
+                                      if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
+                                        _familyController.userId.value = _friendController.friendList[i].id!;
+                                      }
+                                      if (_friendController.tempFriendList[i] != profileController.searchController.text) {
+                                        _familyController.userId.value = -1;
+                                      }
+                                    }
+                                    // unfocus(context);
+                                  },
+                                  // onChanged: (v) async {
+                                  //   if (_familyController.debounce?.isActive ?? false) _familyController.debounce!.cancel();
+                                  //   _familyController.debounce = Timer(const Duration(milliseconds: 2000), () async {
+                                  //     await _friendController.getFriendList();
+                                  //     for (int i = 0; i < _friendController.tempFriendList.length; i++) {
+                                  //       if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
+                                  //         _familyController.userId.value = _friendController.friendList[i].id!;
+                                  //       }
+                                  //       if (_friendController.tempFriendList[i] != profileController.searchController.text) {
+                                  //         _familyController.userId.value = -1;
+                                  //       }
+                                  //     }
+                                  //   });
+                                  // },
+                                ));
                           },
                         ),
 
@@ -156,6 +174,16 @@ class AddFamily extends StatelessWidget {
                           hintText: ksSelectRelation.tr,
                           text: _familyController.relation.value,
                           onPressed: () async {
+                            if (_familyController.relationId.value != -1) {
+                              _familyController.relationStatusId.value = _familyController.relationId.value - 1;
+                            } else {
+                              _familyController.relationStatusId.value = -1;
+                            }
+                              if (_familyController.relationStatusId.value == -1) {
+                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                  } else {
+                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                  }
                             unFocus(context);
                             _familyController.isFamilyRelationListLoading.value = true;
                             Get.find<GlobalController>().commonBottomSheet(
@@ -245,17 +273,25 @@ class RelationContentShimmer extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: 50,
       itemBuilder: (context, index) {
-        return ListTile(
-          title: ShimmerCommon(
-            widget: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                borderRadius: k8CircularBorderRadius,
-                color: cWhiteColor,
+        return Padding(
+          padding: const EdgeInsets.only(bottom: k12Padding),
+          child: CustomListTile(
+            borderColor: cLineColor,
+            title: ShimmerCommon(
+              widget: Container(
+                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                height: 16,
+                width: 120,
+              ),
+            ),
+            trailing: ShimmerCommon(
+              widget: Container(
+                decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                height: 16,
+                width: 16,
               ),
             ),
           ),
-          contentPadding: EdgeInsets.zero,
         );
       },
     );

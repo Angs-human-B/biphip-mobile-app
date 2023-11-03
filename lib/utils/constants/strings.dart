@@ -120,7 +120,7 @@ const String ksSeeAll = 'See all';
 //* Home
 //---------------------------------------
 const String ksDailyQuiz = 'Daily Quiz';
-const String ksWeeklyWinner = 'Winner';
+const String ksWeeklyWinner = 'Weekly winner';
 
 //---------------------------------------
 //* Home widget
@@ -221,6 +221,7 @@ const String ksAddHomeTownAddress = 'Add hometown address';
 const String ksEnterHometownAddress = 'Enter hometown address';
 const String ksEditHometownAddress = 'Edit hometown address';
 const String ksEditAddress = 'Edit address';
+const String ksAddEducationalEvent = 'Add Educational Event';
 const String ksDeleteAddress = 'Delete address';
 const String ksPresentAddress = 'Present address';
 const String ksOther = 'Others';
@@ -349,3 +350,6 @@ const String ksNoFriendRequestSendYet = "No friend request send yet";
 const String ksNofamilyAddedYet = "No family added yet";
 const String ksNofamilyRequestReceivedYet = "No family request received yet";
 const String ksNofamilyRequestSendYet = "No family request send yet";
+const String ksSearchedFriends = "Searched Friends";
+const String ksNoSearchedFriendsAvailable = "No Searched Friends Available";
+const String ksWriteAComment = "Write a comment";
