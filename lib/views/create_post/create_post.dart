@@ -95,21 +95,23 @@ class CreatePost extends StatelessWidget {
                                           shape: BoxShape.circle,
                                         ),
                                         child: ClipOval(
-                                          child: _createPostController.selectedKid.value != null?Image.network(
-                                            Environment.imageBaseUrl + _createPostController.postSecondaryCircleAvatar.value,
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (context, error, stackTrace) => const Icon(
-                                              BipHip.imageFile,
-                                              size: kIconSize120,
-                                              color: cIconColor,
-                                            ),
-                                            // loadingBuilder: imageLoadingBuilder,
-                                          ):ClipOval(
-                        child: Image.file(
-                          _createPostController.postSecondaryLocalCirclerAvatar.value,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                                          child: _createPostController.selectedKid.value != null
+                                              ? Image.network(
+                                                  Environment.imageBaseUrl + _createPostController.postSecondaryCircleAvatar.value,
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (context, error, stackTrace) => const Icon(
+                                                    BipHip.imageFile,
+                                                    size: kIconSize120,
+                                                    color: cIconColor,
+                                                  ),
+                                                  // loadingBuilder: imageLoadingBuilder,
+                                                )
+                                              : ClipOval(
+                                                  child: Image.file(
+                                                    _createPostController.postSecondaryLocalCirclerAvatar.value,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
                                         ),
                                       ),
                                     ),
@@ -249,7 +251,7 @@ class CreatePost extends StatelessWidget {
                                                             ),
                                                             kW8sizedBox,
                                                             OutLinedButton(
-                                                              buttonText: ksSelectCTA.tr,
+                                                              buttonText: ksSelectAction.tr,
                                                               buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
                                                               borderColor: cLineColor,
                                                               buttonWidth: width * .45 - 20,

@@ -123,8 +123,6 @@ const String kuGetSearchFriends = '/mobile/user/search-friends';
 const String kuAddKid = '/mobile/user/store-kid';
 const String kuAddBrand = '/mobile/user/store-brand';
 
-
-
 /*
 |--------------------------------------------------------------------------
 | //! Image urls
@@ -160,8 +158,9 @@ const String kiHahaSvgImageUrl = 'assets/svg/haha.svg';
 const String kiLoveSvgImageUrl = 'assets/svg/love.svg';
 const String kiWowSvgImageUrl = 'assets/svg/wow.svg';
 const String kiFacebookSvgImageUrl = 'assets/svg/facebook.svg';
-const String kiLinkedListSvgImageUrl = 'assets/svg/linkedin.svg';
+const String kiLinkedInSvgImageUrl = 'assets/svg/linkedin.svg';
 const String kiTwitterSvgImageUrl = 'assets/svg/twitter.svg';
 const String kiWebSvgImageUrl = 'assets/svg/web.svg';
 const String kiYoutubeSvgImageUrl = 'assets/svg/youtube.svg';
+const String kiTwitterXSvgImageUrl = 'assets/svg/x.svg';
 const String kiOnBoardingSvgUrl = 'assets/svg/onbording.svg';
