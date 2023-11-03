@@ -35,7 +35,7 @@ class CommonPostWidget extends StatelessWidget {
     required this.isCommentShown,
     required this.isSharedPost,
     required this.showBottomSection,
-    this.postUpperContainerOnpressed,
+    this.postUpperContainerOnpressed, required this.commentCount, required this.shareCount, required this.giftCount,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -46,6 +46,7 @@ class CommonPostWidget extends StatelessWidget {
   final IconData privacy;
   final Color? categoryIconColor;
   final List mediaList;
+  final int commentCount, shareCount, giftCount;
   final VoidCallback? postUpperContainerOnpressed;
   final HomeController _homeController = Get.find<HomeController>();
 
@@ -209,7 +210,7 @@ class CommonPostWidget extends StatelessWidget {
                   isSharedPost: false,
                   showBottomSection: false,
                   postText:
-                      'When i was sixteen i won a great victory. I thought i would live to be a hundred. Now i know i shall not see thirty. None of us knows how our life may end.',
+                      'When i was sixteen i won a great victory. I thought i would live to be a hundred. Now i know i shall not see thirty. None of us knows how our life may end.', commentCount: 10, shareCount: 10, giftCount: 10,
                 )),
           ),
         if (mediaList.isNotEmpty)
@@ -410,7 +411,7 @@ class CommonPostWidget extends StatelessWidget {
               ),
             ),
           ),
-        if (showBottomSection) PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown),
+        if (showBottomSection) PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown, commentCount: commentCount, shareCount: shareCount, giftCount: giftCount,),
         // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
       ],
     );
@@ -418,12 +419,13 @@ class CommonPostWidget extends StatelessWidget {
 }
 
 class PostBottomSection extends StatelessWidget {
-  PostBottomSection({super.key, required this.isSelfPost, required this.isCommentShown});
+  PostBottomSection({super.key, required this.isSelfPost, required this.isCommentShown, required this.commentCount, required this.shareCount, required this.giftCount});
 
   final GlobalController _globalController = Get.find<GlobalController>();
   final PostReactionController _postReactionController = Get.find<PostReactionController>();
   final bool isSelfPost, isCommentShown;
   final RxBool showComment = RxBool(false);
+  final int commentCount, shareCount, giftCount;
 
   @override
   Widget build(BuildContext context) {
@@ -484,9 +486,9 @@ class PostBottomSection extends StatelessWidget {
                   _globalController.blankBottomSheet(
                       context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
-                giftCount: 50,
-                commentCount: 200,
-                shareCount: 340,
+                giftCount: giftCount,
+                commentCount: commentCount,
+                shareCount: shareCount,
                 isGiftShown: true,
                 giftOnPressed: () {
                   _postReactionController.giftFilter(0);

@@ -200,7 +200,7 @@ class HomePage extends StatelessWidget {
                                     postText: item.content, //API
                                     mediaList: item.imageUrls, //API
                                     isSelfPost: true,
-                                    isCommentShown: true,
+                                    isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
                                   ),
                                 );
                               }),

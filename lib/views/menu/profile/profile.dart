@@ -616,6 +616,9 @@ class PostTab extends StatelessWidget {
                       mediaList: item['mediaList'],
                       isSelfPost: item['isSelfPost'],
                       isCommentShown: item['isCommentShown'],
+                      commentCount: 10,
+                      shareCount: 10,
+                      giftCount: 10,
                     ),
                   );
                 }),
