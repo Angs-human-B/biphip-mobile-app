@@ -50,9 +50,9 @@ class MenuSectionController extends GetxController {
       ll('Badges');
     } else if (index == 6) {
       ll('Earnings');
-    } else if (index == 7)  {
-      await Get.find<KidsController>().getKidsList();
+    } else if (index == 7) {
       Get.toNamed(krKidsPage);
+      await Get.find<KidsController>().getKidsList();
       ll('Kids');
     } else if (index == 8) {
       ll('Shop');
