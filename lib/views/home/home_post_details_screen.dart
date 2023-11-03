@@ -18,28 +18,25 @@ class HomePostDetailsScreen extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               hasBackButton: true,
-              isCenterTitle: false,
+              isCenterTitle: true,
+              title: 'Wahid Murad',
               onBack: () {
                 Get.back();
               },
-              action: [
-                Padding(
-                  padding: const EdgeInsets.only(left: k50Padding, top: k0Padding),
-                  child: SizedBox(
-                      height: kAppBarSize,
-                      width: width - 50,
-                      child: const PostUpperContainer(userName: 'Wahid Murad', isCategorized: false, privacy: BipHip.world, postTime: '1hr')),
-                )
-              ],
             ),
           ),
           body: SizedBox(
             height: height - kAppBarSize - MediaQuery.of(context).padding.top,
             child: const SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.only(top: k16Padding),
+                padding: EdgeInsets.only(top: k12Padding),
                 child: Column(
                   children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: PostUpperContainer(userName: 'Wahid Murad', isCategorized: false, privacy: BipHip.world, postTime: '1hr'),
+                    ),
+                    kH12sizedBox,
                     CommonPostWidget(
                       isCommented: true,
                       isLiked: true,
