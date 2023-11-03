@@ -94,9 +94,22 @@ class CreatePost extends StatelessWidget {
                                         decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
                                         ),
-                                        child: Image.asset(
-                                          kiProfileDefaultImageUrl,
-                                          fit: BoxFit.fill,
+                                        child: ClipOval(
+                                          child: _createPostController.selectedKid.value != null?Image.network(
+                                            Environment.imageBaseUrl + _createPostController.postSecondaryCircleAvatar.value,
+                                            fit: BoxFit.cover,
+                                            errorBuilder: (context, error, stackTrace) => const Icon(
+                                              BipHip.imageFile,
+                                              size: kIconSize120,
+                                              color: cIconColor,
+                                            ),
+                                            // loadingBuilder: imageLoadingBuilder,
+                                          ):ClipOval(
+                        child: Image.file(
+                          _createPostController.postSecondaryLocalCirclerAvatar.value,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                                         ),
                                       ),
                                     ),
@@ -164,9 +177,10 @@ class CreatePost extends StatelessWidget {
                                             label: _createPostController.category.value == "" ? "Select Category" : _createPostController.category.value,
                                             prefixIcon: _createPostController.category.value == "" ? null : _createPostController.categoryIcon.value,
                                             prefixIconColor: _createPostController.category.value == "" ? null : _createPostController.categoryIconColor.value,
-                                            onPressed: () {
+                                            onPressed: () async {
                                               _createPostController.initializeCategory();
                                               Get.toNamed(krSelectCategory);
+                                              await _createPostController.getPostCategoryList();
                                             },
                                             buttonHeight: 22,
                                             isCustomButton: true,

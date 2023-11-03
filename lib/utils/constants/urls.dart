@@ -14,10 +14,12 @@ const String kuGetAllLinkTypes = '/mobile/get-all-link-types'; //DONE
 const String kuGetAllRelationShips = '/mobile/get-all-relationships'; //DONE
 const String kuGetAllGenders = '/mobile/get-all-genders'; //DONE
 const String kuGetAllCities = '/mobile/get-all-cities'; //DONE
-const String kuGetAllSchools = '/mobile/get-all-schools';
+const String kuGetAllSchools = '/mobile/get-all-schools'; //DONE
 const String kuGetAllCompanies = '/mobile/get-all-companies'; //DONE
 const String kuGetAllDegrees = '/mobile/get-all-degrees';
 const String kuGetAllPositions = '/mobile/get-all-positions'; //DONE
+const String kuGetAllPostCatagories = '/mobile/get-all-post-categories'; //DONE
+const String kuGetAllKidList = '/mobile/user/get-all-kids';
 
 //---------------------------------------
 //* authentication story
@@ -111,9 +113,16 @@ const String kuRejectFamilyRequest = '/mobile/user/reject-family-request';
 
 //* Family Relation Status
 const String kuGetAllFamilyRelations = '/mobile/get-all-family-relations';
-
 //*Friend Search
 const String kuGetSearchFriends = '/mobile/user/search-friends';
+
+//---------------------------------------
+//* Create Post
+//---------------------------------------
+
+const String kuAddKid = '/mobile/user/store-kid';
+const String kuAddBrand = '/mobile/user/store-brand';
+
 
 
 /*

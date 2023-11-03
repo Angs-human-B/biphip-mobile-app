@@ -276,15 +276,13 @@ class EditAboutInfo extends StatelessWidget {
                                     onPressCloseButton: () {
                                       Get.back();
                                     },
-                                    onPressRightButton: _profileController.tempRelationshipStatus.value != ''
-                                        ? () {
-                                            if (_profileController.tempRelationshipStatus.value != '') {
-                                              _profileController.relationshipStatus.value = _profileController.tempRelationshipStatus.value;
-                                              _profileController.showEditRelationshipStatus.value = true;
-                                            }
-                                            Get.back();
-                                          }
-                                        : null,
+                                    onPressRightButton: () {
+                                      if (_profileController.tempRelationshipStatus.value != '') {
+                                        _profileController.relationshipStatus.value = _profileController.tempRelationshipStatus.value;
+                                        _profileController.showEditRelationshipStatus.value = true;
+                                      }
+                                      Get.back();
+                                    },
                                     rightText: ksDone.tr,
                                     rightTextStyle: medium14TextStyle(cPrimaryColor),
                                     title: ksSelectRelationshipStatus.tr,

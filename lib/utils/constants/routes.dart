@@ -12,6 +12,7 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/create_post/add_kid.dart';
 import 'package:bip_hip/views/create_post/create_post.dart';
 import 'package:bip_hip/views/create_post/upload_media_list.dart';
 import 'package:bip_hip/views/home/home_post_details.dart';
@@ -85,6 +86,7 @@ const String krSettings = '/settings';
 const String krCreatePost = '/create-post';
 const String krSelectCategory = '/create-post/select-category';
 const String krUploadedImageListPage = '/create-post/uploaded-image-list';
+const String krAddKid = '/create-post/select-category/add-kid';
 //*newly Added for gallery photos and videos
 const String krGalleryPhotos = '/gallery-photos';
 const String krGalleryVideos = '/gallery-videos';
@@ -134,6 +136,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krCreatePost, page: () => CreatePost(), transition: Transition.downToUp),
   GetPage(name: krSelectCategory, page: () => SelectCategory(), transition: Transition.downToUp),
   GetPage(name: krUploadedImageListPage, page: () => UploadImageListPage(), transition: Transition.rightToLeft),
+  GetPage(name: krAddKid, page: () => AddKidPage(), transition: Transition.noTransition),
 
   //* home
   GetPage(name: krHome, page: () => HomePage(), transition: Transition.noTransition),
