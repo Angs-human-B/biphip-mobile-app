@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -76,6 +78,35 @@ class KidsController extends GetxController {
       isKidDeleteLoading.value = false;
       ll('kidDelete error: $e');
     }
+  }
+
+    final RxBool saveKidInfo = RxBool(false);
+  final RxString kidImageLink = RxString('');
+  final Rx<File> kidImageFile = File('').obs;
+  final RxBool isKidImageChanged = RxBool(false);
+  final TextEditingController kidNameTextEditingController = TextEditingController();
+  final TextEditingController kidAgeTextEditingController = TextEditingController();
+  final RxBool isSaveKidButtonEnabled = RxBool(false);
+  final RxBool isKidAdded = RxBool(false);
+  final RxBool isKidSelected = RxBool(false);
+
+  void checkCanAddKidInfo() {
+    if (kidNameTextEditingController.text.trim() != '' && kidAgeTextEditingController.text.trim() != '' && isKidImageChanged.value) {
+      isSaveKidButtonEnabled.value = true;
+    } else {
+      isSaveKidButtonEnabled.value = false;
+    }
+  }
+
+  void resetAddKidPage() {
+    isKidAdded.value = false;
+    saveKidInfo.value = false;
+    isSaveKidButtonEnabled.value = false;
+    kidImageLink.value = '';
+    kidImageFile.value = File('');
+    isKidImageChanged.value = false;
+    kidNameTextEditingController.clear();
+    kidAgeTextEditingController.clear();
   }
 
   final RxList allKidsActionList = RxList([

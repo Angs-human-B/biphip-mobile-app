@@ -22,6 +22,7 @@ import 'package:bip_hip/views/menu/family/add_family.dart';
 import 'package:bip_hip/views/menu/family/family.dart';
 import 'package:bip_hip/views/menu/friends/add_friend.dart';
 import 'package:bip_hip/views/menu/friends/friends.dart';
+import 'package:bip_hip/views/menu/kids/edit_kid.dart';
 import 'package:bip_hip/views/menu/kids/kids.dart';
 import 'package:bip_hip/views/menu/profile/edit_about.dart';
 import 'package:bip_hip/views/menu/profile/edit_page.dart';
@@ -93,6 +94,7 @@ const String krGalleryPhotos = '/gallery-photos';
 const String krGalleryVideos = '/gallery-videos';
 //*Kids
 const String krKidsPage = '/kids-page';
+const String krEditKidPage = '/edit-kids-page';
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -150,4 +152,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krGalleryVideos, page: () => GalleryVideos(), transition: Transition.noTransition),
   //*Kids
   GetPage(name: krKidsPage, page: () => KidsPage(), transition: Transition.noTransition),
+  GetPage(name: krEditKidPage, page: () => EditKidPage(), transition: Transition.noTransition),
 ];

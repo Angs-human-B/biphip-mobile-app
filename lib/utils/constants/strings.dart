@@ -354,4 +354,5 @@ const String ksSearchedFriends = "Searched Friends";
 const String ksNoSearchedFriendsAvailable = "No Searched Friends Available";
 const String ksWriteAComment = "Write a comment";
 const String ksTotalKids = "Total Kids";
+const String ksEditKid = "Edit Kid";
 // const String ksSelectPlatform="";

@@ -140,6 +140,8 @@ class AllKids extends StatelessWidget {
                                         onPressRightButton: () async {
                                           Get.back();
                                           if (_kidsController.allKidsActionSelect.value == 'Edit') {
+                                            Get.find<CreatePostController>().resetAddKidPage();
+                                            Get.toNamed(krEditKidPage);
                                             // await .unfriendUserRequest();
                                           }
                                           if (_kidsController.allKidsActionSelect.value == 'Delete') {
