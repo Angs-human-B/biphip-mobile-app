@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/create_post/platform_action.dart';
 
 class MenuSectionController extends GetxController {
   final GalleryController _galleryController = Get.find<GalleryController>();
@@ -43,6 +44,7 @@ class MenuSectionController extends GetxController {
       Get.toNamed(krGalleryVideos); //*new changes for gallery Videos
     } else if (index == 4) {
       ll('Stars');
+      Get.to(() => PlatformAndAction());
     } else if (index == 5) {
       ll('Badges');
     } else if (index == 5) {
