@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -47,11 +48,13 @@ class MenuSectionController extends GetxController {
       Get.to(() => PlatformAndAction());
     } else if (index == 5) {
       ll('Badges');
-    } else if (index == 5) {
+    } else if (index == 6) {
       ll('Earnings');
-    } else if (index == 5) {
+    } else if (index == 7)  {
+      await Get.find<KidsController>().getKidsList();
+      Get.toNamed(krKidsPage);
       ll('Kids');
-    } else if (index == 5) {
+    } else if (index == 8) {
       ll('Shop');
     }
   }
