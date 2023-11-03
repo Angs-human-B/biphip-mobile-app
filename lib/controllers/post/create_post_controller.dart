@@ -1053,7 +1053,7 @@ class CreatePostController extends GetxController {
   }
 
   //Get all post catagories API implementation
-  Rx<PostListModel?> postCategoryData = Rx<PostListModel?>(null);
+  Rx<PostCategoryListModel?> postCategoryData = Rx<PostCategoryListModel?>(null);
   final RxBool isAddKidPageLoading = RxBool(false);
   final RxBool isPostCategoryListLoading = RxBool(false);
   Future<void> getPostCategoryList() async {
@@ -1067,7 +1067,7 @@ class CreatePostController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         postCategoryList.clear();
-        postCategoryData.value = PostListModel.fromJson(response.data);
+        postCategoryData.value = PostCategoryListModel.fromJson(response.data);
         postCategoryList.addAll(postCategoryData.value!.postCategories);
         for (int i = 0; i < postCategoryList.length; i++) {
           for (int j = 0; j < categoryList.length; j++) {

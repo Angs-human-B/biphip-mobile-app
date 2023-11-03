@@ -120,7 +120,7 @@ const String ksSeeAll = 'See all';
 //* Home
 //---------------------------------------
 const String ksDailyQuiz = 'Daily Quiz';
-const String ksWeeklyWinner = 'Weekly winner';
+const String ksWeeklyWinner = 'Winner';
 
 //---------------------------------------
 //* Home widget
