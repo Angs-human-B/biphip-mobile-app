@@ -40,6 +40,8 @@ class Family extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () async {
                             _profileController.searchController.clear();
+                            _familyController.isAddFamilySuffixIconVisible.value = false;
+                            _familyController.isFamilySuffixIconVisible.value = false;
                             unfocus(context);
                             // _familyController.addFamilyRequestList.clear();
                             _familyController.clearAddFamilyData();
@@ -290,7 +292,7 @@ class ReceivedFamilyList extends StatelessWidget {
                                       backgroundImage: _familyController.receivedFamilyList[index].profilePicture.toString(),
                                       imageSize: h50,
                                       name: _familyController.receivedFamilyList[index].fullName ?? ksNA.tr,
-                                      subTitle: _familyController.receivedFamilyList[index].familyRelationStatus ?? ksNA,
+                                      subTitle: _familyController.receivedFamilyList[index].familyRelationStatus ?? ksNA.tr,
                                       firstButtonText: ksConfirm.tr,
                                       secondButtonText: ksCancel.tr,
                                       firstButtonOnPressed: () async {
@@ -407,6 +409,11 @@ class RelationContent extends StatelessWidget {
               itemColor: _familyController.relationStatusId.value == index ? cPrimaryTint3Color : cWhiteColor,
               onPressed: () {
                 _familyController.relationStatusId.value = index;
+                if (_familyController.relationStatusId.value == -1) {
+                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                } else {
+                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                }
               },
               title: _familyController.familyRelationList[index].name,
               borderColor: _familyController.relationStatusId.value == index ? cPrimaryColor : cLineColor,

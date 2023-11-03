@@ -117,7 +117,7 @@ class AddFamily extends StatelessWidget {
                                   focusNode: focusNode,
                                   prefixIcon: BipHip.search,
                                   suffixIcon:
-                                      _familyController.isAddFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null, // todo:: icon will be changed
+                                      _familyController.isAddFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null, 
                                   hint: ksSearch.tr,
                                   contentPadding: const EdgeInsets.symmetric(
                                     vertical: k12Padding,
@@ -174,6 +174,16 @@ class AddFamily extends StatelessWidget {
                           hintText: ksSelectRelation.tr,
                           text: _familyController.relation.value,
                           onPressed: () async {
+                            if (_familyController.relationId.value != -1) {
+                              _familyController.relationStatusId.value = _familyController.relationId.value - 1;
+                            } else {
+                              _familyController.relationStatusId.value = -1;
+                            }
+                              if (_familyController.relationStatusId.value == -1) {
+                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                  } else {
+                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                  }
                             unFocus(context);
                             _familyController.isFamilyRelationListLoading.value = true;
                             Get.find<GlobalController>().commonBottomSheet(
