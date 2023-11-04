@@ -885,10 +885,10 @@ class _GiftContent extends StatelessWidget {
             ),
             kH16sizedBox,
             SizedBox(
-              height: 380,
+              // height: 380,
               child: GridView.builder(
                 shrinkWrap: true,
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: giftPackages.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: .8,
@@ -1134,7 +1134,7 @@ class _PurchaseStarContent extends StatelessWidget {
           ),
           kH16sizedBox,
           SizedBox(
-            height: 230,
+            // height: 230,
             child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
