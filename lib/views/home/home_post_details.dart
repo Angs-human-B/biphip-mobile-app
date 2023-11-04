@@ -142,7 +142,7 @@ class CommonPostWidget extends StatelessWidget {
         kH16sizedBox,
         if (mediaList.isNotEmpty)
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k12Padding),
             child: Container(
               color: cWhiteColor,
               height: 302,
@@ -314,6 +314,8 @@ class CommonPostWidget extends StatelessWidget {
                                 width: (width - 44) / 3,
                                 child: Image.network(
                                   Environment.imageBaseUrl + mediaList[4].path.toString(),
+                                  color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
+                                  colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) => const Icon(
                                     BipHip.imageFile,
@@ -365,71 +367,73 @@ class PostBottomSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        kH12sizedBox,
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          child: PostActivityStatusWidget(
-            reactCount: 440,
-            reactionOnPressed: () {
-              _postReactionController.giftFilter(0);
-              _globalController.blankBottomSheet(context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-            },
-            giftCount: 50,
-            commentCount: 200,
-            shareCount: 340,
-            isGiftShown: true,
-            giftOnPressed: () {
-              _postReactionController.giftFilter(0);
-              _globalController.blankBottomSheet(context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-            },
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: kHorizontalPadding,
-          ),
-          child: LikeSectionWidget(
-            isGiftShown: true,
-            giftOnPressed: () {
-              _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-            },
-            commentOnPressed: () {
-              //showComment.value = !showComment.value;
-              ll(showComment);
-            },
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          child: CustomDivider(),
-        ),
-        kH12sizedBox,
-        // if (isCommentShown && showComment.value)
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          child: CommentWidget(
-            profileImage: kiDummyImage3ImageUrl,
-            comment:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
-            timePassed: '30',
-            isLikeButtonShown: true,
-            commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
-            isReplyButtonShown: true,
-            isReactButtonShown: true,
-            isImageComment: true,
-            image: kiDummyImage3ImageUrl,
-            isLink: false,
-            reactCount: 1234,
-            userName: 'Monjurul Sharker Omi',
-            isSendMessageShown: false,
-            isHideButtonShown: true,
-            replyList: replyComment,
-          ),
-        ),
-      ],
-    );
+    return Obx(() => Column(
+          children: [
+            // kH12sizedBox,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              child: PostActivityStatusWidget(
+                reactCount: 440,
+                reactionOnPressed: () {
+                  _postReactionController.giftFilter(0);
+                  _globalController.blankBottomSheet(
+                      context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                },
+                giftCount: 50,
+                commentCount: 200,
+                shareCount: 340,
+                isGiftShown: true,
+                giftOnPressed: () {
+                  _postReactionController.giftFilter(0);
+                  _globalController.blankBottomSheet(
+                      context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: kHorizontalPadding,
+              ),
+              child: LikeSectionWidget(
+                isGiftShown: true,
+                giftOnPressed: () {
+                  _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                },
+                commentOnPressed: () {
+                  showComment.value = !showComment.value;
+                  ll(showComment);
+                },
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              child: CustomDivider(),
+            ),
+            kH12sizedBox,
+            if (isCommentShown && showComment.value)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                child: CommentWidget(
+                  profileImage: kiDummyImage3ImageUrl,
+                  comment:
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
+                  timePassed: '30',
+                  isLikeButtonShown: true,
+                  commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
+                  isReplyButtonShown: true,
+                  isReactButtonShown: true,
+                  isImageComment: true,
+                  image: kiDummyImage3ImageUrl,
+                  isLink: false,
+                  reactCount: 1234,
+                  userName: 'Monjurul Sharker Omi',
+                  isSendMessageShown: false,
+                  isHideButtonShown: true,
+                  replyList: replyComment,
+                ),
+              ),
+          ],
+        ));
   }
 }
 
