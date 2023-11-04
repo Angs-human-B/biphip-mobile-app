@@ -121,21 +121,25 @@ class CommonPostWidget extends StatelessWidget {
                               decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                               height: 300,
                               width: (width - 40),
-                              child: Image.network(
-                                Environment.imageBaseUrl + mediaList[index].path.toString(),
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => const Icon(
-                                  BipHip.imageFile,
-                                  size: kIconSize120,
-                                  color: cIconColor,
+                              child: ClipRRect(
+                                borderRadius: k8CircularBorderRadius,
+                                child: Image.network(
+                                  Environment.imageBaseUrl + mediaList[index].path.toString(),
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => const Icon(
+                                    BipHip.imageFile,
+                                    size: kIconSize120,
+                                    color: cIconColor,
+                                  ),
+                                  loadingBuilder: imageLoadingBuilder,
+                                  frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                    return child;
+                                  },
                                 ),
-                                loadingBuilder: imageLoadingBuilder,
-                                frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                                  return child;
-                                },
                               ),
                             ),
                           ),
+                          kH12sizedBox,
                           PostBottomSection(isCommentShown: isCommentShown),
                         ],
                       );

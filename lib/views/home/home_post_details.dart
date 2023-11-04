@@ -160,18 +160,21 @@ class CommonPostWidget extends StatelessWidget {
                           decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                           height: mediaList.length < 2 ? 302 : 150,
                           width: mediaList.length > 3 ? (width - 42) / 2 : (width - 40),
-                          child: Image.network(
-                            Environment.imageBaseUrl + mediaList[0].path.toString(),
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => const Icon(
-                              BipHip.imageFile,
-                              size: kIconSize120,
-                              color: cIconColor,
+                          child: ClipRRect(
+                            borderRadius: k8CircularBorderRadius,
+                            child: Image.network(
+                              Environment.imageBaseUrl + mediaList[0].path.toString(),
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => const Icon(
+                                BipHip.imageFile,
+                                size: kIconSize120,
+                                color: cIconColor,
+                              ),
+                              loadingBuilder: imageLoadingBuilder,
+                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                return child;
+                              },
                             ),
-                            loadingBuilder: imageLoadingBuilder,
-                            frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                              return child;
-                            },
                           ),
                         ),
                       ),
@@ -189,18 +192,21 @@ class CommonPostWidget extends StatelessWidget {
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
                             width: (width - 42) / 2,
-                            child: Image.network(
-                              Environment.imageBaseUrl + mediaList[1].path.toString(),
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => const Icon(
-                                BipHip.imageFile,
-                                size: kIconSize120,
-                                color: cIconColor,
+                            child: ClipRRect(
+                              borderRadius: k8CircularBorderRadius,
+                              child: Image.network(
+                                Environment.imageBaseUrl + mediaList[1].path.toString(),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  BipHip.imageFile,
+                                  size: kIconSize120,
+                                  color: cIconColor,
+                                ),
+                                loadingBuilder: imageLoadingBuilder,
+                                frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                  return child;
+                                },
                               ),
-                              loadingBuilder: imageLoadingBuilder,
-                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                                return child;
-                              },
                             ),
                           ),
                         ),
@@ -222,18 +228,21 @@ class CommonPostWidget extends StatelessWidget {
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
                             width: mediaList.length < 3 ? (width - 40) : (width - 42) / 2,
-                            child: Image.network(
-                              Environment.imageBaseUrl + mediaList[1].path.toString(),
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => const Icon(
-                                BipHip.imageFile,
-                                size: kIconSize120,
-                                color: cIconColor,
+                            child: ClipRRect(
+                              borderRadius: k8CircularBorderRadius,
+                              child: Image.network(
+                                Environment.imageBaseUrl + mediaList[1].path.toString(),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  BipHip.imageFile,
+                                  size: kIconSize120,
+                                  color: cIconColor,
+                                ),
+                                loadingBuilder: imageLoadingBuilder,
+                                frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                  return child;
+                                },
                               ),
-                              loadingBuilder: imageLoadingBuilder,
-                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                                return child;
-                              },
                             ),
                           ),
                         ),
@@ -251,18 +260,21 @@ class CommonPostWidget extends StatelessWidget {
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
                             width: mediaList.length > 4 ? (width - 44) / 3 : (width - 42) / 2,
-                            child: Image.network(
-                              Environment.imageBaseUrl + mediaList[2].path.toString(),
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => const Icon(
-                                BipHip.imageFile,
-                                size: kIconSize120,
-                                color: cIconColor,
+                            child: ClipRRect(
+                              borderRadius: k8CircularBorderRadius,
+                              child: Image.network(
+                                Environment.imageBaseUrl + mediaList[2].path.toString(),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  BipHip.imageFile,
+                                  size: kIconSize120,
+                                  color: cIconColor,
+                                ),
+                                loadingBuilder: imageLoadingBuilder,
+                                frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                  return child;
+                                },
                               ),
-                              loadingBuilder: imageLoadingBuilder,
-                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                                return child;
-                              },
                             ),
                           ),
                         ),
@@ -280,18 +292,21 @@ class CommonPostWidget extends StatelessWidget {
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
                             width: mediaList.length < 5 ? (width - 42) / 2 : (width - 44) / 3,
-                            child: Image.network(
-                              Environment.imageBaseUrl + mediaList[3].path.toString(),
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => const Icon(
-                                BipHip.imageFile,
-                                size: kIconSize120,
-                                color: cIconColor,
+                            child: ClipRRect(
+                              borderRadius: k8CircularBorderRadius,
+                              child: Image.network(
+                                Environment.imageBaseUrl + mediaList[3].path.toString(),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  BipHip.imageFile,
+                                  size: kIconSize120,
+                                  color: cIconColor,
+                                ),
+                                loadingBuilder: imageLoadingBuilder,
+                                frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                  return child;
+                                },
                               ),
-                              loadingBuilder: imageLoadingBuilder,
-                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                                return child;
-                              },
                             ),
                           ),
                         ),
@@ -309,23 +324,26 @@ class CommonPostWidget extends StatelessWidget {
                                 Get.toNamed(krHomePostDetailsScreen);
                               },
                               child: Container(
-                                decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
+                                decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cWhiteColor),
                                 height: 150,
                                 width: (width - 44) / 3,
-                                child: Image.network(
-                                  Environment.imageBaseUrl + mediaList[4].path.toString(),
-                                  color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
-                                  colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) => const Icon(
-                                    BipHip.imageFile,
-                                    size: kIconSize120,
-                                    color: cIconColor,
+                                child: ClipRRect(
+                                  borderRadius: k8CircularBorderRadius,
+                                  child: Image.network(
+                                    Environment.imageBaseUrl + mediaList[4].path.toString(),
+                                    color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
+                                    colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) => const Icon(
+                                      BipHip.imageFile,
+                                      size: kIconSize120,
+                                      color: cIconColor,
+                                    ),
+                                    loadingBuilder: imageLoadingBuilder,
+                                    frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                      return child;
+                                    },
                                   ),
-                                  loadingBuilder: imageLoadingBuilder,
-                                  frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                                    return child;
-                                  },
                                 ),
                               ),
                             ),
