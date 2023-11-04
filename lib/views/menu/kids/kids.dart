@@ -228,7 +228,6 @@ class EditDeleteContent extends StatelessWidget {
           prefixIconColor: cIconColor,
           suffixIconColor: cIconColor,
           onPressed: () {
-            // Get.find<KidsController>().isKidImageChanged.value = false;
             Get.find<KidsController>().isSaveKidButtonEnabled.value = false;
             Get.find<KidsController>().setupEditKid();
             Get.back();

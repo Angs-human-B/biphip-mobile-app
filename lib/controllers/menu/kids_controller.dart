@@ -93,12 +93,15 @@ class KidsController extends GetxController {
   final RxString kidAge = RxString('');
 
   void checkCanEditKidInfo() {
-    if ((kidNameTextEditingController.text.trim() != '' && kidNameTextEditingController.text.trim() != kidName.value) ||
-        (kidAgeTextEditingController.text.trim() != '' && kidAgeTextEditingController.text.trim() != kidAge.value) ||
+    if ((kidNameTextEditingController.text.trim() != '' &&
+            kidNameTextEditingController.text.trim() != kidName.value &&
+            kidNameTextEditingController.text.trim().length > 2) ||
+        (kidAgeTextEditingController.text.trim() != '' &&
+            kidAgeTextEditingController.text.trim() != kidAge.value &&
+            kidAgeTextEditingController.text.trim() != '0') ||
         isKidImageChanged.value) {
       isSaveKidButtonEnabled.value = true;
-    }
-    if (kidNameTextEditingController.text.trim().length < 3 || kidAgeTextEditingController.text.trim() == '') {
+    } else {
       isSaveKidButtonEnabled.value = false;
     }
   }
