@@ -93,34 +93,14 @@ class KidsController extends GetxController {
   final RxString kidAge = RxString('');
 
   void checkCanEditKidInfo() {
-    // if (kidNameTextEditingController.text.trim() != '') {
-    //   if (kidNameTextEditingController.text.trim() != kidName.value) {
-    //     isSaveKidButtonEnabled.value = true;
-    //   }
-    // }
-    // if (kidAgeTextEditingController.text.trim() != '') {
-    //   if (kidAgeTextEditingController.text.trim() != kidAge.value) {
-    //     isSaveKidButtonEnabled.value = true;
-    //   }
-    // }
-    // if (isKidImageChanged.value) {
-    //   isSaveKidButtonEnabled.value = true;
-    // } else {
-    //   isSaveKidButtonEnabled.value = false;
-    // }
-    //  isKidImageChanged.value = false;
     if ((kidNameTextEditingController.text.trim() != '' && kidNameTextEditingController.text.trim() != kidName.value) ||
         (kidAgeTextEditingController.text.trim() != '' && kidAgeTextEditingController.text.trim() != kidAge.value) ||
         isKidImageChanged.value) {
       isSaveKidButtonEnabled.value = true;
     }
-    if (kidNameTextEditingController.text.trim() == '' || kidAgeTextEditingController.text.trim() == '') {
+    if (kidNameTextEditingController.text.trim().length < 3 || kidAgeTextEditingController.text.trim() == '') {
       isSaveKidButtonEnabled.value = false;
     }
-
-    // if (isKidImageChanged.value == false) {
-    //   isSaveKidButtonEnabled.value = false;
-    // }
   }
 
   void setupEditKid() {
@@ -131,15 +111,11 @@ class KidsController extends GetxController {
         kidImageLink.value = kidList[i].kidImage.toString();
         kidName.value = kidNameTextEditingController.text;
         kidAge.value = kidAgeTextEditingController.text;
-        // isKidImageChanged.value = false;
       }
     }
     checkCanEditKidInfo();
   }
 
-  //Add kid API Implementation
-  // Rx<KidModel?> kidData = Rx<KidModel?>(null);
-  // RxList<PostCategory> postCategoryList = RxList<PostCategory>([]);
   final RxBool isEditKidLoading = RxBool(false);
   Future<void> editKid() async {
     try {
