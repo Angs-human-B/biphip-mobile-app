@@ -35,7 +35,11 @@ class CommonPostWidget extends StatelessWidget {
     required this.isCommentShown,
     required this.isSharedPost,
     required this.showBottomSection,
-    this.postUpperContainerOnpressed, required this.commentCount, required this.shareCount, required this.giftCount,
+    this.postUpperContainerOnpressed,
+    required this.commentCount,
+    required this.shareCount,
+    required this.giftCount,
+    required this.postID,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -46,7 +50,7 @@ class CommonPostWidget extends StatelessWidget {
   final IconData privacy;
   final Color? categoryIconColor;
   final List mediaList;
-  final int commentCount, shareCount, giftCount;
+  final int commentCount, shareCount, giftCount, postID;
   final VoidCallback? postUpperContainerOnpressed;
   final HomeController _homeController = Get.find<HomeController>();
 
@@ -110,9 +114,10 @@ class CommonPostWidget extends StatelessWidget {
         if (isSharedPost) const CustomDivider(),
         kH10sizedBox,
         InkWell(
-          onTap: () {
+          onTap: () async {
             // ll('Upper container');
             Get.toNamed(krHomePostDetails);
+            await Get.find<HomeController>().getPostData(postID);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -197,6 +202,7 @@ class CommonPostWidget extends StatelessWidget {
                   border: Border.all(color: cLineColor),
                 ),
                 child: CommonPostWidget(
+                  postID: 0,
                   isCommented: false,
                   isLiked: false,
                   mediaList: const [],
@@ -210,7 +216,10 @@ class CommonPostWidget extends StatelessWidget {
                   isSharedPost: false,
                   showBottomSection: false,
                   postText:
-                      'When i was sixteen i won a great victory. I thought i would live to be a hundred. Now i know i shall not see thirty. None of us knows how our life may end.', commentCount: 10, shareCount: 10, giftCount: 10,
+                      'When i was sixteen i won a great victory. I thought i would live to be a hundred. Now i know i shall not see thirty. None of us knows how our life may end.',
+                  commentCount: 10,
+                  shareCount: 10,
+                  giftCount: 10,
                 )),
           ),
         if (mediaList.isNotEmpty)
@@ -395,7 +404,7 @@ class CommonPostWidget extends StatelessWidget {
                                 child: TextButton(
                                   style: kTextButtonStyle,
                                   onPressed: () {
-                                    Get.toNamed(krUploadedImageListPage);
+                                    //Get.toNamed(krUploadedImageListPage);
                                   },
                                   child: Text(
                                     "${mediaList.length - 5} More",
@@ -411,7 +420,14 @@ class CommonPostWidget extends StatelessWidget {
               ),
             ),
           ),
-        if (showBottomSection) PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown, commentCount: commentCount, shareCount: shareCount, giftCount: giftCount,),
+        if (showBottomSection)
+          PostBottomSection(
+            isSelfPost: isSelfPost,
+            isCommentShown: isCommentShown,
+            commentCount: commentCount,
+            shareCount: shareCount,
+            giftCount: giftCount,
+          ),
         // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
       ],
     );
@@ -419,7 +435,8 @@ class CommonPostWidget extends StatelessWidget {
 }
 
 class PostBottomSection extends StatelessWidget {
-  PostBottomSection({super.key, required this.isSelfPost, required this.isCommentShown, required this.commentCount, required this.shareCount, required this.giftCount});
+  PostBottomSection(
+      {super.key, required this.isSelfPost, required this.isCommentShown, required this.commentCount, required this.shareCount, required this.giftCount});
 
   final GlobalController _globalController = Get.find<GlobalController>();
   final PostReactionController _postReactionController = Get.find<PostReactionController>();

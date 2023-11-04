@@ -170,7 +170,7 @@ class HomePage extends StatelessWidget {
                             child: const StoriesWidget(),
                           ),
                           kH8sizedBox,
-                          if (_homeController.allPostList.isEmpty) const SizedBox(height: 300, child: const EmptyView(title: ksNoDataAvailable)),
+                          if (_homeController.allPostList.isEmpty) const SizedBox(height: 300, child:  EmptyView(title: ksNoDataAvailable)),
                           if (_homeController.allPostList.isNotEmpty)
                             ListView.separated(
                                 shrinkWrap: true,
@@ -203,7 +203,7 @@ class HomePage extends StatelessWidget {
                                       postText: item.content, //API
                                       mediaList: item.imageUrls, //API
                                       isSelfPost: true,
-                                      isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
+                                      isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
                                     ),
                                   );
                                 }),

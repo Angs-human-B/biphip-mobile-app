@@ -60,9 +60,7 @@ class HomeController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         allPostList.clear();
-        ll('1');
         postListData.value = PostListModel.fromJson(response.data);
-        ll('2');
         allPostList.addAll(postListData.value!.posts.data);
         ll(allPostList[0].kid);
         isHomePageLoading.value = false;
@@ -116,6 +114,41 @@ class HomeController extends GetxController {
       return cBlackColor;
     } else {
       return cSellingColor;
+    }
+  }
+
+  //Get post data
+  final RxBool isPostDetailsPageLoading = RxBool(false);
+  final Rx<PostDataModel?> postData = Rx<PostDataModel?>(null);
+  Future<void> getPostData(id) async {
+    try {
+      isPostDetailsPageLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      var response = await _apiController.commonApiCall(
+        requestMethod: kGet,
+        url: '$kuGetPostData/$id',
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        ll('1');
+        postData.value = PostDataModel.fromJson(response.data);
+        ll('2');
+        isPostDetailsPageLoading.value = false;
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isPostDetailsPageLoading.value = true;
+
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isPostDetailsPageLoading.value = true;
+      ll('getPostData error: $e');
     }
   }
 }

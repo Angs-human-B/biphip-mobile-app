@@ -595,6 +595,7 @@ class PostTab extends StatelessWidget {
                     color: cWhiteColor,
                     width: width,
                     child: CommonPostWidget(
+                      postID: 0,
                       isCommented: item['isCommented'],
                       isLiked: item['isLiked'],
                       isSharedPost: item['isSharedPost'],

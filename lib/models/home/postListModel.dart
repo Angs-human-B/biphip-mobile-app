@@ -224,3 +224,16 @@ class Kid {
         kidImage: json["kid_image"],
       );
 }
+
+class PostDataModel {
+    PostData post;
+
+    PostDataModel({
+        required this.post,
+    });
+
+    factory PostDataModel.fromJson(Map<String, dynamic> json) => PostDataModel(
+        post: PostData.fromJson(json["post"]),
+    );
+
+}
