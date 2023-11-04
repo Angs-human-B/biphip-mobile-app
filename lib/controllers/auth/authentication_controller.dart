@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/auth/common_unverify_model.dart';
 import 'package:bip_hip/models/auth/forget_pass_model.dart';
@@ -111,6 +112,7 @@ class AuthenticationController extends GetxController {
         // await setDeviceID(loginData.user.id);
         isLoginLoading.value = false;
         Get.offAllNamed(krHome);
+        await Get.find<HomeController>().getPostList();
         // final HomeController homeController = Get.find<HomeController>();
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
         // await homeController.getUserHome();
@@ -440,12 +442,12 @@ class AuthenticationController extends GetxController {
         });
         await _globalController.getUserInfo();
         // await setDeviceID(otpData.user.id);
-        // Get.offAllNamed(krHome);
         // final HomeController homeController = Get.find<HomeController>();
         // await homeController.getUserHome();
         if (parentRoute.value == "login") {
           isOTPLoading.value = false;
           Get.offAllNamed(krHome);
+          await Get.find<HomeController>().getPostList();
         } else if (parentRoute.value == "register") {
           isOTPLoading.value = false;
           Get.offAllNamed(krSelectProfession);

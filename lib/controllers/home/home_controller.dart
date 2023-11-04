@@ -59,8 +59,12 @@ class HomeController extends GetxController {
         url: kuGetAllPosts,
       ) as CommonDM;
       if (response.success == true) {
+        allPostList.clear();
+        ll('1');
         postListData.value = PostListModel.fromJson(response.data);
+        ll('2');
         allPostList.addAll(postListData.value!.posts.data);
+        ll(allPostList[0].kid);
         isHomePageLoading.value = false;
       } else {
         isHomePageLoading.value = true;

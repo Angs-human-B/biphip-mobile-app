@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
@@ -158,8 +159,9 @@ class PictureUploadScreen extends StatelessWidget {
                             CustomElevatedButton(
                               buttonWidth: width - 40,
                               buttonColor: cWhiteColor,
-                              onPressed: () {
+                              onPressed: () async {
                                 Get.offAllNamed(krHome);
+                                await Get.find<HomeController>().getPostList();
                               },
                               label: ksSkip.tr,
                               textStyle: semiBold16TextStyle(cPrimaryColor),

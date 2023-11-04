@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/logo_and_text_widget.dart';
 
@@ -115,6 +116,7 @@ class CustomUserListContainer extends StatelessWidget {
         await spController.saveUserEmail(_item['email'].toString());
         await Get.find<GlobalController>().getUserInfo();
         Get.offAllNamed(krHome);
+        await Get.find<HomeController>().getPostList();
       },
       leading: Container(
         height: h40,

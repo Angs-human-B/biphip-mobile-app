@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/menu/profile/profile_overview_model.dart';
@@ -1583,6 +1584,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           isImageUploadPageLoading.value = false;
         } else {
           Get.offAllNamed(krHome);
+          await Get.find<HomeController>().getPostList();
         }
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {

@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
+import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
 import 'package:bip_hip/widgets/post_widgets/post_button_widget.dart';
 import 'package:bip_hip/widgets/post_widgets/stories_widget.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
@@ -169,41 +170,43 @@ class HomePage extends StatelessWidget {
                             child: const StoriesWidget(),
                           ),
                           kH8sizedBox,
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              separatorBuilder: (context, index) => kH8sizedBox,
-                              itemCount: homePagePost.length,
-                              itemBuilder: (context, index) {
-                                var item = _homeController.allPostList[index];
-                                return Container(
-                                  color: cWhiteColor,
-                                  width: width,
-                                  child: CommonPostWidget(
-                                    isCommented: false,
-                                    isLiked: false,
-                                    isSharedPost: false,
-                                    showBottomSection: true,
-                                    userName: 'Rick Sanchez',
-                                    postTime: '3 hrs ago',
-                                    isCategorized: true,
-                                    isTextualPost: item.content == null ? false : true, //API
-                                    category: item.postCategory!.name, //API
-                                    categoryIcon: _homeController.getCategoryIcon(item.postCategory!.id), // need change API
-                                    categoryIconColor: _homeController.getCategoryColor(item.postCategory!.id), // Based on API
-                                    privacy: BipHip.world,
-                                    brandName: item.brand == null ? null : item.brand!.name, //API
-                                    kidName: item.kid == null ? null : item.kid!.name, //API
-                                    kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                    title: null, //API
-                                    price: null, //API
-                                    postText: item.content, //API
-                                    mediaList: item.imageUrls, //API
-                                    isSelfPost: true,
-                                    isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
-                                  ),
-                                );
-                              }),
+                          if (_homeController.allPostList.isEmpty) const SizedBox(height: 300, child: const EmptyView(title: ksNoDataAvailable)),
+                          if (_homeController.allPostList.isNotEmpty)
+                            ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                separatorBuilder: (context, index) => kH8sizedBox,
+                                itemCount: _homeController.allPostList.length,
+                                itemBuilder: (context, index) {
+                                  var item = _homeController.allPostList[index];
+                                  return Container(
+                                    color: cWhiteColor,
+                                    width: width,
+                                    child: CommonPostWidget(
+                                      isCommented: false,
+                                      isLiked: false,
+                                      isSharedPost: false,
+                                      showBottomSection: true,
+                                      userName: 'Rick Sanchez',
+                                      postTime: '3 hrs ago',
+                                      isCategorized: true,
+                                      isTextualPost: item.content == null ? false : true, //API
+                                      category: item.postCategory!.name, //API
+                                      categoryIcon: _homeController.getCategoryIcon(item.postCategory!.id), // need change API
+                                      categoryIconColor: _homeController.getCategoryColor(item.postCategory!.id), // Based on API
+                                      privacy: BipHip.world,
+                                      brandName: item.brand == null ? null : item.brand!.name, //API
+                                      kidName: item.kid == null ? null : item.kid!.name, //API
+                                      kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                                      title: null, //API
+                                      price: null, //API
+                                      postText: item.content, //API
+                                      mediaList: item.imageUrls, //API
+                                      isSelfPost: true,
+                                      isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
+                                    ),
+                                  );
+                                }),
                           kH8sizedBox,
                         ],
                       ),
