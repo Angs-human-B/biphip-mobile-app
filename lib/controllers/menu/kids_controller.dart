@@ -173,6 +173,7 @@ class KidsController extends GetxController {
       if (response.success == true) {
         await getKidsList();
         isEditKidLoading.value = false;
+        isKidImageChanged.value = false;
         Get.back();
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
