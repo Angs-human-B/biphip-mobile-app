@@ -365,73 +365,71 @@ class PostBottomSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Column(
-          children: [
-            kH12sizedBox,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: PostActivityStatusWidget(
-                reactCount: 440,
-                reactionOnPressed: () {
-                  _postReactionController.giftFilter(0);
-                  _globalController.blankBottomSheet(
-                      context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                },
-                giftCount: 50,
-                commentCount: 200,
-                shareCount: 340,
-                isGiftShown: true,
-                giftOnPressed: () {
-                  _postReactionController.giftFilter(0);
-                  _globalController.blankBottomSheet(
-                      context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: kHorizontalPadding,
-              ),
-              child: LikeSectionWidget(
-                isGiftShown: true,
-                giftOnPressed: () {
-                  _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                },
-                commentOnPressed: () {
-                  showComment.value = !showComment.value;
-                  ll(showComment);
-                },
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: CustomDivider(),
-            ),
-            kH12sizedBox,
-            if (isCommentShown && showComment.value)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: CommentWidget(
-                  profileImage: kiDummyImage3ImageUrl,
-                  comment:
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
-                  timePassed: '30',
-                  isLikeButtonShown: true,
-                  commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
-                  isReplyButtonShown: true,
-                  isReactButtonShown: true,
-                  isImageComment: true,
-                  image: kiDummyImage3ImageUrl,
-                  isLink: false,
-                  reactCount: 1234,
-                  userName: 'Monjurul Sharker Omi',
-                  isSendMessageShown: false,
-                  isHideButtonShown: true,
-                  replyList: replyComment,
-                ),
-              ),
-          ],
-        ));
+    return Column(
+      children: [
+        kH12sizedBox,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: PostActivityStatusWidget(
+            reactCount: 440,
+            reactionOnPressed: () {
+              _postReactionController.giftFilter(0);
+              _globalController.blankBottomSheet(context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+            },
+            giftCount: 50,
+            commentCount: 200,
+            shareCount: 340,
+            isGiftShown: true,
+            giftOnPressed: () {
+              _postReactionController.giftFilter(0);
+              _globalController.blankBottomSheet(context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: kHorizontalPadding,
+          ),
+          child: LikeSectionWidget(
+            isGiftShown: true,
+            giftOnPressed: () {
+              _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+            },
+            commentOnPressed: () {
+              //showComment.value = !showComment.value;
+              ll(showComment);
+            },
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: CustomDivider(),
+        ),
+        kH12sizedBox,
+        // if (isCommentShown && showComment.value)
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: CommentWidget(
+            profileImage: kiDummyImage3ImageUrl,
+            comment:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
+            timePassed: '30',
+            isLikeButtonShown: true,
+            commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
+            isReplyButtonShown: true,
+            isReactButtonShown: true,
+            isImageComment: true,
+            image: kiDummyImage3ImageUrl,
+            isLink: false,
+            reactCount: 1234,
+            userName: 'Monjurul Sharker Omi',
+            isSendMessageShown: false,
+            isHideButtonShown: true,
+            replyList: replyComment,
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -898,6 +896,11 @@ class HomePostDetailsShimmer extends StatelessWidget {
                                 )
                               ],
                             ),
+                            kH16sizedBox,
+                            ShimmerCommon(
+                              widget: Container(
+                                  height: h10, width: width - 40, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                            ),
                             kH8sizedBox,
                             ShimmerCommon(
                               widget: Container(
@@ -918,7 +921,7 @@ class HomePostDetailsShimmer extends StatelessWidget {
                               children: [
                                 ShimmerCommon(
                                   widget: Container(
-                                    height: 160,
+                                    height: 130,
                                     width: (width - 42) / 2,
                                     decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
                                   ),
@@ -926,12 +929,20 @@ class HomePostDetailsShimmer extends StatelessWidget {
                                 const SizedBox(width: 2),
                                 ShimmerCommon(
                                   widget: Container(
-                                    height: 160,
+                                    height: 130,
                                     width: (width - 42) / 2,
                                     decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
                                   ),
                                 ),
                               ],
+                            ),
+                            const SizedBox(height: 2),
+                            ShimmerCommon(
+                              widget: Container(
+                                height: 130,
+                                width: width - 40,
+                                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                              ),
                             ),
                             kH12sizedBox,
                             Row(
@@ -939,18 +950,74 @@ class HomePostDetailsShimmer extends StatelessWidget {
                               children: [
                                 ShimmerCommon(
                                   widget: Container(
-                                      height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                                      height: h20, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
                                 ),
                                 ShimmerCommon(
                                   widget: Container(
-                                      height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                                      height: h20, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
                                 ),
                                 ShimmerCommon(
                                   widget: Container(
-                                      height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                                      height: h20, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
                                 )
                               ],
-                            )
+                            ),
+                            kH16sizedBox,
+                            ShimmerCommon(widget: const CustomDivider()),
+                            kH16sizedBox,
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ShimmerCommon(
+                                  widget: Container(
+                                    height: 32,
+                                    width: 32,
+                                    decoration: const BoxDecoration(shape: BoxShape.circle, color: cWhiteColor),
+                                  ),
+                                ),
+                                kW8sizedBox,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ShimmerCommon(
+                                      widget: Container(
+                                        width: width - 130,
+                                        height: 60,
+                                        decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cWhiteColor),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            kH8sizedBox,
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ShimmerCommon(
+                                  widget: Container(
+                                    height: 32,
+                                    width: 32,
+                                    decoration: const BoxDecoration(shape: BoxShape.circle, color: cWhiteColor),
+                                  ),
+                                ),
+                                kW8sizedBox,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ShimmerCommon(
+                                      widget: Container(
+                                        width: width - 180,
+                                        height: 50,
+                                        decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cWhiteColor),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ]),
                         ),
                       ),
