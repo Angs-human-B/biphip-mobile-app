@@ -128,7 +128,7 @@ const String kuCreatePost = '/mobile/user/store-post';
 //* kids
 //---------------------------------------
 const String kuDeleteKids = '/mobile/user/delete-kid';
-
+const String kuUpdateKid = '/mobile/user/update-kid';
 
 /*
 |--------------------------------------------------------------------------

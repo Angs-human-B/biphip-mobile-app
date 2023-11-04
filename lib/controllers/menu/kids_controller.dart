@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -80,7 +79,8 @@ class KidsController extends GetxController {
     }
   }
 
-    final RxBool saveKidInfo = RxBool(false);
+  //Edit kid
+  final RxBool saveKidInfo = RxBool(false);
   final RxString kidImageLink = RxString('');
   final Rx<File> kidImageFile = File('').obs;
   final RxBool isKidImageChanged = RxBool(false);
@@ -89,30 +89,104 @@ class KidsController extends GetxController {
   final RxBool isSaveKidButtonEnabled = RxBool(false);
   final RxBool isKidAdded = RxBool(false);
   final RxBool isKidSelected = RxBool(false);
+  final RxString kidName = RxString('');
+  final RxString kidAge = RxString('');
 
-  void checkCanAddKidInfo() {
-    if (kidNameTextEditingController.text.trim() != '' && kidAgeTextEditingController.text.trim() != '' && isKidImageChanged.value) {
+  void checkCanEditKidInfo() {
+    // if (kidNameTextEditingController.text.trim() != '') {
+    //   if (kidNameTextEditingController.text.trim() != kidName.value) {
+    //     isSaveKidButtonEnabled.value = true;
+    //   }
+    // }
+    // if (kidAgeTextEditingController.text.trim() != '') {
+    //   if (kidAgeTextEditingController.text.trim() != kidAge.value) {
+    //     isSaveKidButtonEnabled.value = true;
+    //   }
+    // }
+    // if (isKidImageChanged.value) {
+    //   isSaveKidButtonEnabled.value = true;
+    // } else {
+    //   isSaveKidButtonEnabled.value = false;
+    // }
+    //  isKidImageChanged.value = false;
+    if ((kidNameTextEditingController.text.trim() != '' && kidNameTextEditingController.text.trim() != kidName.value) ||
+        (kidAgeTextEditingController.text.trim() != '' && kidAgeTextEditingController.text.trim() != kidAge.value) ||
+        isKidImageChanged.value) {
       isSaveKidButtonEnabled.value = true;
-    } else {
+    }
+    if (kidNameTextEditingController.text.trim() == '' || kidAgeTextEditingController.text.trim() == '') {
       isSaveKidButtonEnabled.value = false;
     }
+
+    // if (isKidImageChanged.value == false) {
+    //   isSaveKidButtonEnabled.value = false;
+    // }
   }
 
-  void resetAddKidPage() {
-    isKidAdded.value = false;
-    saveKidInfo.value = false;
-    isSaveKidButtonEnabled.value = false;
-    kidImageLink.value = '';
-    kidImageFile.value = File('');
-    isKidImageChanged.value = false;
-    kidNameTextEditingController.clear();
-    kidAgeTextEditingController.clear();
+  void setupEditKid() {
+    for (int i = 0; i < kidList.length; i++) {
+      if (kidId.value == kidList[i].id) {
+        kidNameTextEditingController.text = kidList[i].name ?? '';
+        kidAgeTextEditingController.text = kidList[i].age.toString();
+        kidImageLink.value = kidList[i].kidImage.toString();
+        kidName.value = kidNameTextEditingController.text;
+        kidAge.value = kidAgeTextEditingController.text;
+        // isKidImageChanged.value = false;
+      }
+    }
+    checkCanEditKidInfo();
   }
 
-  final RxList allKidsActionList = RxList([
-    {'icon': BipHip.edit, 'action': 'Edit', 'actionSubtitle': 'Edit the kid information'},
-    {'icon': BipHip.delete, 'action': 'Delete', 'actionSubtitle': 'Delete the kid'}
-  ]);
-  final RxString allKidsActionSelect = RxString('');
-  final RxString tempAllKidActionSelect = RxString('');
+  //Add kid API Implementation
+  // Rx<KidModel?> kidData = Rx<KidModel?>(null);
+  // RxList<PostCategory> postCategoryList = RxList<PostCategory>([]);
+  final RxBool isEditKidLoading = RxBool(false);
+  Future<void> editKid() async {
+    try {
+      isEditKidLoading.value = true;
+      String? token = await _spController.getBearerToken();
+
+      Map<String, String> body = {
+        'id': kidId.value.toString(),
+        'name': kidNameTextEditingController.text.trim(),
+        'age': kidAgeTextEditingController.text.trim(),
+      };
+      var response;
+      if (isKidImageChanged.value) {
+        response = await _apiController.mediaUpload(
+          // requestMethod: kPost,
+          url: kuUpdateKid,
+          body: body,
+          token: token,
+          key: 'image',
+          value: kidImageFile.value.path,
+        ) as CommonDM;
+      } else {
+        response = await _apiController.commonApiCall(
+          requestMethod: kPost,
+          url: kuUpdateKid,
+          body: body,
+          token: token,
+        ) as CommonDM;
+      }
+
+      if (response.success == true) {
+        await getKidsList();
+        isEditKidLoading.value = false;
+        Get.back();
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isEditKidLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isEditKidLoading.value = false;
+      ll('editKid error: $e');
+    }
+  }
 }

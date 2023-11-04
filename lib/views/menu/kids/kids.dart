@@ -59,7 +59,6 @@ class KidsPage extends StatelessWidget {
                             style: semiBold14TextStyle(cBlackColor),
                           ),
                   )),
-              // kH4sizedBox,
               AllKids(),
             ],
           ),
@@ -123,37 +122,21 @@ class AllKids extends StatelessWidget {
                                 ),
                                 trailing: CustomIconButton(
                                     onPress: () {
-                                      _kidsController.allKidsActionSelect.value = '';
                                       _kidsController.kidId.value = _kidsController.kidList[index].id!;
-                                      if (_kidsController.allKidsActionSelect.value == '') {
-                                        _globalController.isBottomSheetRightButtonActive.value = false;
-                                      } else {
-                                        _globalController.isBottomSheetRightButtonActive.value = true;
-                                      }
+
                                       _globalController.commonBottomSheet(
                                         context: context,
                                         isScrollControlled: true,
-                                        content: _AllKidsActionContent(kidsController: _kidsController),
+                                        content: const EditDeleteContent(),
                                         onPressCloseButton: () {
                                           Get.back();
                                         },
-                                        onPressRightButton: () async {
-                                          Get.back();
-                                          if (_kidsController.allKidsActionSelect.value == 'Edit') {
-                                            Get.find<CreatePostController>().resetAddKidPage();
-                                            Get.toNamed(krEditKidPage);
-                                            // await .unfriendUserRequest();
-                                          }
-                                          if (_kidsController.allKidsActionSelect.value == 'Delete') {
-                                            await _kidsController.kidDelete();
-                                          }
-                                          _kidsController.allKidsActionSelect.value == '';
-                                        },
+                                        onPressRightButton: null,
                                         rightText: ksDone.tr,
                                         rightTextStyle: semiBold16TextStyle(cPrimaryColor),
                                         title: ksAction.tr,
-                                        isRightButtonShow: true,
-                                        bottomSheetHeight: 200,
+                                        isRightButtonShow: false,
+                                        bottomSheetHeight: 150,
                                       );
                                     },
                                     icon: BipHip.system),
@@ -162,79 +145,11 @@ class AllKids extends StatelessWidget {
                           );
                         },
                       ),
-                      // if (_friendController.friendList.isNotEmpty && !_friendController.friendListScrolled.value)
-                      //   const Center(child: CircularProgressIndicator()),
                     ],
                   ),
                 ),
               ),
             ),
-    );
-  }
-}
-
-//*All kid bottom sheet section
-class _AllKidsActionContent extends StatelessWidget {
-  const _AllKidsActionContent({Key? key, required this.kidsController}) : super(key: key);
-
-  final KidsController kidsController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: kidsController.allKidsActionList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Obx(
-              () => Padding(
-                padding: const EdgeInsets.only(bottom: k8Padding),
-                child: CustomListTile(
-                  leading: Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: cNeutralColor,
-                    ),
-                    height: h28,
-                    width: h28,
-                    child: Icon(
-                      kidsController.allKidsActionList[index]['icon'],
-                      color: cBlackColor,
-                      size: isDeviceScreenLarge() ? h18 : h14,
-                    ),
-                  ),
-                  title: kidsController.allKidsActionList[index]['action'],
-                  titleTextStyle: semiBold16TextStyle(cBlackColor),
-                  subtitle: kidsController.allKidsActionList[index]['actionSubtitle'],
-                  subTitleTextStyle: regular14TextStyle(cBlackColor),
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      kidsController.allKidsActionSelect.value = kidsController.allKidsActionList[index]['action'];
-                    },
-                    isSelected: kidsController.allKidsActionSelect.value == kidsController.allKidsActionList[index]['action'],
-                  ),
-                  itemColor: kidsController.allKidsActionSelect.value == kidsController.allKidsActionList[index]['action'] ? cPrimaryTint3Color : cWhiteColor,
-                  onPressed: () {
-                    kidsController.allKidsActionSelect.value = kidsController.allKidsActionList[index]['action'];
-                    // if (friendController.pendingFriendFollowStatus.value == 1) {
-                    //   friendController.pendingFriendActionSelect.value = friendController.pendingFriendActionList[index]['action'];
-                    // } else if (friendController.pendingFriendFollowStatus.value == 0) {
-                    //   friendController.pendingFriendActionSelect.value = friendController.pendingFollowFriendActionList[index]['action'];
-                    // }
-                    if (kidsController.allKidsActionSelect.value == '') {
-                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                    } else {
-                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                    }
-                  },
-                ),
-              ),
-            );
-          },
-        ),
-      ],
     );
   }
 }
@@ -293,6 +208,55 @@ class AllKidsShimmer extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class EditDeleteContent extends StatelessWidget {
+  const EditDeleteContent({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        CustomElevatedButton(
+          label: ksEditKid.tr,
+          prefixIcon: BipHip.edit,
+          prefixIconColor: cIconColor,
+          suffixIconColor: cIconColor,
+          onPressed: () {
+            Get.find<KidsController>().isKidImageChanged.value = false;
+            Get.find<KidsController>().isSaveKidButtonEnabled.value = false;
+            Get.find<KidsController>().setupEditKid();
+            Get.back();
+            Get.toNamed(krEditKidPage);
+          },
+          buttonHeight: h32,
+          buttonWidth: width - 40,
+          buttonColor: cWhiteColor,
+          borderColor: cLineColor,
+          textStyle: semiBold14TextStyle(cBlackColor),
+        ),
+        kH16sizedBox,
+        CustomElevatedButton(
+          label: ksDeleteKid.tr,
+          prefixIcon: BipHip.delete,
+          prefixIconColor: cIconColor,
+          suffixIconColor: cIconColor,
+          onPressed: () async {
+            Get.back();
+            await Get.find<KidsController>().kidDelete();
+          },
+          buttonHeight: h32,
+          buttonWidth: width - 40,
+          buttonColor: cWhiteColor,
+          borderColor: cLineColor,
+          textStyle: semiBold14TextStyle(cBlackColor),
+        ),
+      ],
     );
   }
 }
