@@ -131,11 +131,9 @@ class HomeController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        ll('1');
         postData.value = PostDataModel.fromJson(response.data);
-        ll('2');
         isPostDetailsPageLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        // _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isPostDetailsPageLoading.value = true;
 

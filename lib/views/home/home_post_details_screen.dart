@@ -98,7 +98,7 @@ class CommonPostWidget extends StatelessWidget {
               ),
             ),
           ),
-        PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown),
+        PostBottomSection( isCommentShown: isCommentShown),
         if (mediaList.isNotEmpty)
           Container(
             color: cWhiteColor,
@@ -125,7 +125,7 @@ class CommonPostWidget extends StatelessWidget {
                               ),
                             ),
                           ),
-                          PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown),
+                          PostBottomSection( isCommentShown: isCommentShown),
                         ],
                       );
                     }),

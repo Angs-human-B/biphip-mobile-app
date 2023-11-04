@@ -10,94 +10,95 @@ import 'package:bip_hip/widgets/post_widgets/like_section_widget.dart';
 import 'package:bip_hip/widgets/post_widgets/post_activity_status_widget.dart';
 
 class HomePostDetails extends StatelessWidget {
-  const HomePostDetails({super.key});
+  HomePostDetails({super.key});
+
+  final HomeController _homeController = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: cWhiteColor,
-        child: SafeArea(
-          top: false,
-          child: SizedBox(
-            height: height - kAppBarSize - MediaQuery.of(context).padding.top,
-            child: Scaffold(
-              backgroundColor: cWhiteColor,
-              appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(kAppBarSize),
-                //* info:: appBar
-                child: CustomAppBar(
-                  hasBackButton: true,
-                  isCenterTitle: true,
-                  title: 'Wahid Murad',
-                  onBack: () {
-                    Get.back();
-                  },
-                ),
-              ),
-              body: SizedBox(
-                height: height - kAppBarSize - MediaQuery.of(context).padding.top,
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: k12Padding),
-                    child: Column(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                          child: PostUpperContainer(userName: 'Wahid Murad', isCategorized: false, privacy: BipHip.world, postTime: '1hr'),
+    return Obx(
+      () => _homeController.isPostDetailsPageLoading.value
+          ? const HomePostDetailsShimmer()
+          : Container(
+              color: cWhiteColor,
+              child: SafeArea(
+                top: false,
+                child: SizedBox(
+                  height: height,
+                  child: Scaffold(
+                    backgroundColor: cWhiteColor,
+                    appBar: PreferredSize(
+                      preferredSize: const Size.fromHeight(kAppBarSize),
+                      //* info:: appBar
+                      child: CustomAppBar(
+                        hasBackButton: true,
+                        isCenterTitle: true,
+                        title: 'Wahid Murad',
+                        onBack: () {
+                          Get.back();
+                        },
+                      ),
+                    ),
+                    floatingActionButton: Container(
+                      decoration: const BoxDecoration(color: cWhiteColor, border: Border(top: BorderSide(color: cLineColor))),
+                      height: 110,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: k12Padding,
+                          horizontal: k20Padding,
                         ),
-                        kH12sizedBox,
-                        CommonPostWidget(
-                          isCommented: true,
-                          isLiked: true,
-                          isTextualPost: true,
-                          mediaList: const [
-                            kiDummyImage1ImageUrl,
-                            kiDummyImage2ImageUrl,
-                            kiDummyImage3ImageUrl,
-                            kiDummyImage1ImageUrl,
-                            kiDummyImage2ImageUrl,
-                            kiDummyImage3ImageUrl
-                          ],
-                          isSelfPost: true,
-                          isCommentShown: true,
-                          showBottomSection: true,
-                          postText:
-                              'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isnt anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
+                        child: CommentTextField(
+                          hintText: '${ksWriteAComment.tr} ...',
                         ),
-
-                        //! comment textfield
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                          child: CommentTextField(
-                            hintText: '${ksWriteAComment.tr} ...',
+                      ),
+                    ),
+                    floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+                    body: SizedBox(
+                      height: height - kAppBarSize - MediaQuery.of(context).padding.top,
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: k12Padding),
+                          child: Column(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                child: PostUpperContainer(userName: 'Wahid Murad', isCategorized: false, privacy: BipHip.world, postTime: '1hr'),
+                              ),
+                              kH12sizedBox,
+                              CommonPostWidget(
+                                isTextualPost: true,
+                                mediaList: _homeController.postData.value!.post.imageUrls,
+                                isCommentShown: true,
+                                showBottomSection: true,
+                                postText: _homeController.postData.value!.post.content,
+                              ),
+                              const SizedBox(
+                                height: 110,
+                              ),
+                            ],
                           ),
                         ),
-                        kH20sizedBox,
-                      ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ));
+    );
   }
 }
 
 class CommonPostWidget extends StatelessWidget {
   CommonPostWidget({
     super.key,
-    required this.isCommented,
-    required this.isLiked,
     required this.isTextualPost,
     this.category,
     this.title,
     this.postText,
     required this.mediaList,
-    required this.isSelfPost,
     required this.isCommentShown,
     required this.showBottomSection,
   });
-  final bool isCommented, isLiked, isTextualPost, isSelfPost, isCommentShown, showBottomSection;
+  final bool isTextualPost, isCommentShown, showBottomSection;
   final String? category, title, postText;
   final List mediaList;
   final HomeController _homeController = Get.find<HomeController>();
@@ -159,9 +160,18 @@ class CommonPostWidget extends StatelessWidget {
                           decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                           height: mediaList.length < 2 ? 302 : 150,
                           width: mediaList.length > 3 ? (width - 42) / 2 : (width - 40),
-                          child: Image.asset(
-                            mediaList[0],
+                          child: Image.network(
+                            Environment.imageBaseUrl + mediaList[0].path.toString(),
                             fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) => const Icon(
+                              BipHip.imageFile,
+                              size: kIconSize120,
+                              color: cIconColor,
+                            ),
+                            loadingBuilder: imageLoadingBuilder,
+                            frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                              return child;
+                            },
                           ),
                         ),
                       ),
@@ -179,9 +189,18 @@ class CommonPostWidget extends StatelessWidget {
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
                             width: (width - 42) / 2,
-                            child: Image.asset(
-                              mediaList[1],
+                            child: Image.network(
+                              Environment.imageBaseUrl + mediaList[1].path.toString(),
                               fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => const Icon(
+                                BipHip.imageFile,
+                                size: kIconSize120,
+                                color: cIconColor,
+                              ),
+                              loadingBuilder: imageLoadingBuilder,
+                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                return child;
+                              },
                             ),
                           ),
                         ),
@@ -203,9 +222,18 @@ class CommonPostWidget extends StatelessWidget {
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
                             width: mediaList.length < 3 ? (width - 40) : (width - 42) / 2,
-                            child: Image.asset(
-                              mediaList[1],
+                            child: Image.network(
+                              Environment.imageBaseUrl + mediaList[1].path.toString(),
                               fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => const Icon(
+                                BipHip.imageFile,
+                                size: kIconSize120,
+                                color: cIconColor,
+                              ),
+                              loadingBuilder: imageLoadingBuilder,
+                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                return child;
+                              },
                             ),
                           ),
                         ),
@@ -223,9 +251,18 @@ class CommonPostWidget extends StatelessWidget {
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
                             width: mediaList.length > 4 ? (width - 44) / 3 : (width - 42) / 2,
-                            child: Image.asset(
-                              mediaList[2],
+                            child: Image.network(
+                              Environment.imageBaseUrl + mediaList[2].path.toString(),
                               fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => const Icon(
+                                BipHip.imageFile,
+                                size: kIconSize120,
+                                color: cIconColor,
+                              ),
+                              loadingBuilder: imageLoadingBuilder,
+                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                return child;
+                              },
                             ),
                           ),
                         ),
@@ -243,9 +280,18 @@ class CommonPostWidget extends StatelessWidget {
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
                             width: mediaList.length < 5 ? (width - 42) / 2 : (width - 44) / 3,
-                            child: Image.asset(
-                              mediaList[3],
+                            child: Image.network(
+                              Environment.imageBaseUrl + mediaList[3].path.toString(),
                               fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => const Icon(
+                                BipHip.imageFile,
+                                size: kIconSize120,
+                                color: cIconColor,
+                              ),
+                              loadingBuilder: imageLoadingBuilder,
+                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                return child;
+                              },
                             ),
                           ),
                         ),
@@ -266,11 +312,18 @@ class CommonPostWidget extends StatelessWidget {
                                 decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                                 height: 150,
                                 width: (width - 44) / 3,
-                                child: Image.asset(
-                                  mediaList[4],
+                                child: Image.network(
+                                  Environment.imageBaseUrl + mediaList[4].path.toString(),
                                   fit: BoxFit.cover,
-                                  color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
-                                  colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,
+                                  errorBuilder: (context, error, stackTrace) => const Icon(
+                                    BipHip.imageFile,
+                                    size: kIconSize120,
+                                    color: cIconColor,
+                                  ),
+                                  loadingBuilder: imageLoadingBuilder,
+                                  frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                    return child;
+                                  },
                                 ),
                               ),
                             ),
@@ -296,18 +349,18 @@ class CommonPostWidget extends StatelessWidget {
               ),
             ),
           ),
-        if (showBottomSection) PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown),
+        if (showBottomSection) PostBottomSection(isCommentShown: isCommentShown),
       ],
     );
   }
 }
 
 class PostBottomSection extends StatelessWidget {
-  PostBottomSection({super.key, required this.isSelfPost, required this.isCommentShown});
+  PostBottomSection({super.key, required this.isCommentShown});
 
   final GlobalController _globalController = Get.find<GlobalController>();
   final PostReactionController _postReactionController = Get.find<PostReactionController>();
-  final bool isSelfPost, isCommentShown;
+  final bool isCommentShown;
   final RxBool showComment = RxBool(false);
 
   @override
@@ -774,5 +827,139 @@ class _PurchaseStarContent extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class HomePostDetailsShimmer extends StatelessWidget {
+  const HomePostDetailsShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: cWhiteColor,
+        child: SafeArea(
+          top: false,
+          child: SizedBox(
+            height: height - kAppBarSize - MediaQuery.of(context).padding.top,
+            child: Scaffold(
+              backgroundColor: cWhiteColor,
+              appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(kAppBarSize),
+                //* info:: appBar
+                child: CustomAppBar(
+                  hasBackButton: true,
+                  isCenterTitle: true,
+                  title: ShimmerCommon(
+                    widget: Container(decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius), height: h20, width: width * 0.6),
+                  ),
+                  onBack: () {
+                    Get.back();
+                  },
+                ),
+              ),
+              body: SizedBox(
+                height: height - kAppBarSize,
+                width: width,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      Container(
+                        color: cWhiteColor,
+                        width: width,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k12Padding),
+                          child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            Row(
+                              children: [
+                                ShimmerCommon(
+                                  widget: Container(
+                                      height: h40,
+                                      width: h40,
+                                      decoration: const BoxDecoration(
+                                        color: cWhiteColor,
+                                        shape: BoxShape.circle,
+                                      )),
+                                ),
+                                kW8sizedBox,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ShimmerCommon(
+                                      widget: Container(
+                                          height: h12, width: width * 0.6, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                                    ),
+                                    kH8sizedBox,
+                                    ShimmerCommon(
+                                      widget: Container(
+                                          height: h12, width: width * 0.3, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            kH8sizedBox,
+                            ShimmerCommon(
+                              widget: Container(
+                                  height: h10, width: width - 40, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                            ),
+                            kH8sizedBox,
+                            ShimmerCommon(
+                              widget: Container(
+                                  height: h10, width: width - 40, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                            ),
+                            kH8sizedBox,
+                            ShimmerCommon(
+                              widget: Container(
+                                  height: h10, width: width * 0.4, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                            ),
+                            kH8sizedBox,
+                            Row(
+                              children: [
+                                ShimmerCommon(
+                                  widget: Container(
+                                    height: 160,
+                                    width: (width - 42) / 2,
+                                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                  ),
+                                ),
+                                const SizedBox(width: 2),
+                                ShimmerCommon(
+                                  widget: Container(
+                                    height: 160,
+                                    width: (width - 42) / 2,
+                                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            kH12sizedBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                ShimmerCommon(
+                                  widget: Container(
+                                      height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                                ),
+                                ShimmerCommon(
+                                  widget: Container(
+                                      height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                                ),
+                                ShimmerCommon(
+                                  widget: Container(
+                                      height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                                )
+                              ],
+                            )
+                          ]),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ));
   }
 }
