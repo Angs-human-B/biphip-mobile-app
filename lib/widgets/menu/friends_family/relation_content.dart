@@ -15,22 +15,22 @@ class RelationContent extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: k10Padding),
           child: Obx(
             () => CustomListTile(
-              itemColor: _familyController.relationStatusId.value == index ? cPrimaryTint3Color : cWhiteColor,
+              itemColor: _familyController.tempRelation.value == _familyController.familyRelationList[index].name ? cPrimaryTint3Color : cWhiteColor,
               onPressed: () {
-                _familyController.relationStatusId.value = index;
-                if (_familyController.relationStatusId.value == -1) {
+                _familyController.tempRelation.value = _familyController.familyRelationList[index].name;
+                if (_familyController.tempRelation.value == '') {
                   Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
                 } else {
                   Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                 }
               },
               title: _familyController.familyRelationList[index].name,
-              borderColor: _familyController.relationStatusId.value == index ? cPrimaryColor : cLineColor,
+              borderColor: _familyController.tempRelation.value == _familyController.familyRelationList[index].name ? cPrimaryColor : cLineColor,
               trailing: CustomRadioButton(
                 onChanged: () {
-                  _familyController.relationStatusId.value = index;
+                  _familyController.tempRelation.value = _familyController.familyRelationList[index].name;
                 },
-                isSelected: _familyController.relationStatusId.value == index,
+                isSelected: _familyController.tempRelation.value == _familyController.familyRelationList[index].name,
               ),
             ),
           ),

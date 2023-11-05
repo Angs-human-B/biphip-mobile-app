@@ -30,8 +30,8 @@ class AddFamily extends StatelessWidget {
                     isCenterTitle: true,
                     onBack: () {
                       Get.find<ProfileController>().searchController.clear();
-                      _familyController.isFamilySuffixIconVisible.value = false;
                       Get.back();
+                      _familyController.isFamilySuffixIconVisible.value = false;
                     },
                     action: [
                       Obx(() => Padding(
@@ -43,6 +43,7 @@ class AddFamily extends StatelessWidget {
                                   : () async {
                                       unfocus(context);
                                       await _familyController.sendFamilyRequest();
+                                      _familyController.isFamilySuffixIconVisible.value = false;
                                     },
                               child: Text(
                                 ksSend.tr,
@@ -126,6 +127,7 @@ class AddFamily extends StatelessWidget {
                                   onSuffixPress: () {
                                     profileController.searchController.clear();
                                     _familyController.isFamilySuffixIconVisible.value = false;
+                                    _familyController.userId.value = -1;
                                   },
                                   onSubmit: (v) {
                                     unfocus(context);
@@ -154,12 +156,8 @@ class AddFamily extends StatelessWidget {
                           hintText: ksSelectRelation.tr,
                           text: _familyController.relation.value,
                           onPressed: () async {
-                            if (_familyController.relationId.value != -1) {
-                              _familyController.relationStatusId.value = _familyController.relationStatusId.value;
-                            } else {
-                              _familyController.relationStatusId.value = -1;
-                            }
-                            if (_familyController.relationStatusId.value == -1) {
+                            _familyController.tempRelation.value = _familyController.relation.value;
+                            if (_familyController.tempRelation.value == '') {
                               Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
                             } else {
                               Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
@@ -177,10 +175,11 @@ class AddFamily extends StatelessWidget {
                               },
                               onPressRightButton: () {
                                 _familyController.isFamilyRelationListLoading.value = true;
+                                _familyController.relation.value = _familyController.tempRelation.value;
                                 for (int index = 0; index < _familyController.familyRelationList.length; index++) {
-                                  if (_familyController.relationStatusId.value == index) {
-                                    _familyController.relation.value = _familyController.familyRelationList[index].name;
+                                  if (_familyController.tempRelation.value == _familyController.familyRelationList[index].name) {
                                     _familyController.relationId.value = _familyController.familyRelationList[index].id;
+                                    // ll(_familyController.relationId.value);
                                   }
                                 }
                                 Get.back();
