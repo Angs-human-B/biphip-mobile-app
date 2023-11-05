@@ -30,6 +30,7 @@ class AddFamily extends StatelessWidget {
                     isCenterTitle: true,
                     onBack: () {
                       Get.find<ProfileController>().searchController.clear();
+                      _familyController.isFamilySuffixIconVisible.value = false;
                       Get.back();
                     },
                     action: [
@@ -116,8 +117,7 @@ class AddFamily extends StatelessWidget {
                                   controller: Get.find<ProfileController>().searchController,
                                   focusNode: focusNode,
                                   prefixIcon: BipHip.search,
-                                  suffixIcon:
-                                      _familyController.isAddFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null, 
+                                  suffixIcon: _familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
                                   hint: ksSearch.tr,
                                   contentPadding: const EdgeInsets.symmetric(
                                     vertical: k12Padding,
@@ -125,17 +125,17 @@ class AddFamily extends StatelessWidget {
                                   textInputStyle: regular16TextStyle(cBlackColor),
                                   onSuffixPress: () {
                                     profileController.searchController.clear();
-                                    _familyController.isAddFamilySuffixIconVisible.value = false;
+                                    _familyController.isFamilySuffixIconVisible.value = false;
                                   },
                                   onSubmit: (v) {
                                     unfocus(context);
-                                    _familyController.isAddFamilySuffixIconVisible.value = false;
+                                    _familyController.isFamilySuffixIconVisible.value = false;
                                   },
                                   onChanged: (v) async {
                                     if (profileController.searchController.text.trim() != '') {
-                                      _familyController.isAddFamilySuffixIconVisible.value = true;
+                                      _familyController.isFamilySuffixIconVisible.value = true;
                                     } else {
-                                      _familyController.isAddFamilySuffixIconVisible.value = false;
+                                      _familyController.isFamilySuffixIconVisible.value = false;
                                     }
                                     for (int i = 0; i < _friendController.tempFriendList.length; i++) {
                                       if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
@@ -149,7 +149,6 @@ class AddFamily extends StatelessWidget {
                                 ));
                           },
                         ),
-
                         kH12sizedBox,
                         CustomSelectionButton(
                           hintText: ksSelectRelation.tr,
@@ -160,11 +159,11 @@ class AddFamily extends StatelessWidget {
                             } else {
                               _familyController.relationStatusId.value = -1;
                             }
-                              if (_familyController.relationStatusId.value == -1) {
-                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                                  } else {
-                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                                  }
+                            if (_familyController.relationStatusId.value == -1) {
+                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                            } else {
+                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                            }
                             unFocus(context);
                             _familyController.isFamilyRelationListLoading.value = true;
                             Get.find<GlobalController>().commonBottomSheet(

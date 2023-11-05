@@ -39,7 +39,6 @@ class Family extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () async {
                             _profileController.searchController.clear();
-                            _familyController.isAddFamilySuffixIconVisible.value = false;
                             _familyController.isFamilySuffixIconVisible.value = false;
                             unfocus(context);
                             _familyController.clearAddFamilyData();
@@ -93,31 +92,33 @@ class Family extends StatelessWidget {
                       kH12sizedBox,
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                        child: Obx(() => CustomModifiedTextField(
-                            borderRadius: h8,
-                            controller: Get.find<ProfileController>().searchController,
-                            prefixIcon: BipHip.search,
-                            suffixIcon: _familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
-                            hint: ksSearch.tr,
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: k12Padding,
-                            ),
-                            textInputStyle: regular16TextStyle(cBlackColor),
-                            onSuffixPress: () {
-                              Get.find<ProfileController>().searchController.clear();
-                              _familyController.isFamilySuffixIconVisible.value = false;
-                            },
-                            onSubmit: (v) {
-                              unfocus(context);
-                              _familyController.isFamilySuffixIconVisible.value = false;
-                            },
-                            onChanged: (v) async {
-                              if (Get.find<ProfileController>().searchController.text.trim() != '') {
-                                _familyController.isFamilySuffixIconVisible.value = true;
-                              } else {
-                                _familyController.isFamilySuffixIconVisible.value = false;
-                              }
-                            })),
+                        child: Obx(() => _profileController.tapAbleButtonState[0]
+                            ? CustomModifiedTextField(
+                                borderRadius: h8,
+                                controller: Get.find<ProfileController>().searchController,
+                                prefixIcon: BipHip.search,
+                                suffixIcon: _familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                                hint: ksSearch.tr,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: k12Padding,
+                                ),
+                                textInputStyle: regular16TextStyle(cBlackColor),
+                                onSuffixPress: () {
+                                  Get.find<ProfileController>().searchController.clear();
+                                  _familyController.isFamilySuffixIconVisible.value = false;
+                                },
+                                onSubmit: (v) {
+                                  unfocus(context);
+                                  _familyController.isFamilySuffixIconVisible.value = false;
+                                },
+                                onChanged: (v) async {
+                                  if (Get.find<ProfileController>().searchController.text.trim() != '') {
+                                    _familyController.isFamilySuffixIconVisible.value = true;
+                                  } else {
+                                    _familyController.isFamilySuffixIconVisible.value = false;
+                                  }
+                                })
+                            : const SizedBox()),
                       ),
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
@@ -288,7 +289,7 @@ class ReceivedFamilyList extends StatelessWidget {
                                       backgroundImage: _familyController.receivedFamilyList[index].profilePicture.toString(),
                                       imageSize: h50,
                                       name: _familyController.receivedFamilyList[index].fullName ?? ksNA.tr,
-                                      subTitle: _familyController.receivedFamilyList[index].familyRelationStatus ?? ksNA.tr,
+                                      subTitle: '${ksGotRequestToBeA.tr} ${_familyController.receivedFamilyList[index].familyRelationStatus}',
                                       firstButtonText: ksConfirm.tr,
                                       secondButtonText: ksCancel.tr,
                                       firstButtonOnPressed: () async {
