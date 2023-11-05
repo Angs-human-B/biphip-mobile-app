@@ -655,13 +655,7 @@ class _PendingFriendActionContent extends StatelessWidget {
                         ? (friendController.pendingFriendActionSelect.value == friendController.pendingFriendActionList[index]['action'])
                         : (friendController.pendingFriendActionSelect.value == friendController.pendingFollowFriendActionList[index]['action']),
                   ),
-                  itemColor: friendController.pendingFriendFollowStatus.value == 1
-                      ? (friendController.pendingFriendActionSelect.value == friendController.pendingFriendActionList[index]['action']
-                          ? cPrimaryTint3Color
-                          : cWhiteColor)
-                      : (friendController.pendingFriendActionSelect.value == friendController.pendingFollowFriendActionList[index]['action']
-                          ? cPrimaryTint3Color
-                          : cWhiteColor),
+                  itemColor: friendController.pendingFriendItemColor(index),
                   onPressed: () {
                     if (friendController.pendingFriendFollowStatus.value == 1) {
                       friendController.pendingFriendActionSelect.value = friendController.pendingFriendActionList[index]['action'];
@@ -683,6 +677,7 @@ class _PendingFriendActionContent extends StatelessWidget {
     );
   }
 }
+
 
 //*All and Pending Friend Shimmer
 class AllPendingFriendShimmer extends StatelessWidget {

@@ -523,9 +523,7 @@ class FriendController extends GetxController {
         }
         for (int index = 0; index < addFriendRequestList.length; index++) {
           if (addFriendRequestList[index].id == userId.value) {
-     
             addFriendRequestList[index].friendStatus = 0;
-           
           }
         }
         isCancelFriendRequestLoading.value = false;
@@ -890,4 +888,16 @@ class FriendController extends GetxController {
   ]);
   final RxBool isFriendSuffixIconVisible = RxBool(false);
   final RxBool isRouteFromBottomNavBar = RxBool(false);
+  Color pendingFriendItemColor(int index) {
+    if (pendingFriendFollowStatus.value == 1) {
+      if (pendingFriendActionSelect.value == pendingFriendActionList[index]['action']) {
+        return cPrimaryTint3Color; // Set the selected item color to cPrimaryTint3Color
+      }
+    } else {
+      if (pendingFriendActionSelect.value == pendingFollowFriendActionList[index]['action']) {
+        return cPrimaryTint3Color; // Set the selected item color to cPrimaryTint3Color
+      }
+    }
+    return cWhiteColor;
+  }
 }
