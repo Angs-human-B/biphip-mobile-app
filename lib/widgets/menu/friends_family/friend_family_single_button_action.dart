@@ -80,7 +80,7 @@ class FriendFamilySingleButtonAction extends StatelessWidget {
               buttonColor: buttonColor,
               textStyle: textStyle,
               buttonHeight: buttonHeight ?? 32,
-              buttonWidth: buttonWidth ?? (isDeviceScreenLarge() ? 112 : 120),
+              buttonWidth: buttonWidth ?? (isDeviceScreenLarge() ? 108 : 112),
               borderColor: borderColor,
             ),
           ],
@@ -89,4 +89,3 @@ class FriendFamilySingleButtonAction extends StatelessWidget {
     );
   }
 }
-

@@ -78,7 +78,7 @@ class FriendFamilyButtonAction extends StatelessWidget {
                 children: [
                   if (firstButtonText != null)
                     CustomElevatedButton(
-                      buttonWidth: isDeviceScreenLarge() ? 112 : 120,
+                      buttonWidth: isDeviceScreenLarge() ? 108 : 112,
                       buttonHeight: 30,
                       label: firstButtonText!,
                       textStyle: semiBold16TextStyle(cWhiteColor),
@@ -106,4 +106,3 @@ class FriendFamilyButtonAction extends StatelessWidget {
     );
   }
 }
-
