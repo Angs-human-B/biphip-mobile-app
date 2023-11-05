@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/family/common_family_model.dart';
@@ -10,7 +9,6 @@ class FamilyController extends GetxController {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
-  // final ProfileController _profileController = Get.find<ProfileController>();
   //*Scroll controller for pagination
   final ScrollController familyListScrollController = ScrollController();
   //*Family List Api Call
@@ -414,39 +412,6 @@ class FamilyController extends GetxController {
       ll('cancelFamilyRequest error: $e');
     }
   }
-
-  //* Add Family
-  // Rx<CommonFamilies?> addFamilyRequestData = Rx<CommonFamilies?>(null);
-  // RxList<FriendFamilyUserData> addFamilyRequestList = RxList<FriendFamilyUserData>([]);
-  // final RxBool isAddFamilyRequestListLoading = RxBool(false);
-  // Future<void> getAddFamilyRequestList() async {
-  //   try {
-  //     isAddFamilyRequestListLoading.value = true;
-  //     String? token = await _spController.getBearerToken();
-  //     var response = await _apiController.commonApiCall(
-  //       requestMethod: kGet,
-  //       token: token,
-  //       url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}',
-  //     ) as CommonDM;
-  //     if (response.success == true) {
-  //       addFamilyRequestList.clear();
-  //       addFamilyRequestData.value = CommonFamilies.fromJson(response.data);
-  //       addFamilyRequestList.addAll(addFamilyRequestData.value!.data);
-  //       isAddFamilyRequestListLoading.value = false;
-  //     } else {
-  //       isAddFamilyRequestListLoading.value = false;
-  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
-  //       if (errorModel.errors.isEmpty) {
-  //         _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-  //       } else {
-  //         _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     isAddFamilyRequestListLoading.value = false;
-  //     ll('getAddFamilyRequestList error: $e');
-  //   }
-  // }
 
   //*Send Family Request
   final RxInt relationStatusId = RxInt(-1);

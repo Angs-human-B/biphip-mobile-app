@@ -42,7 +42,6 @@ class Family extends StatelessWidget {
                             _familyController.isAddFamilySuffixIconVisible.value = false;
                             _familyController.isFamilySuffixIconVisible.value = false;
                             unfocus(context);
-                            // _familyController.addFamilyRequestList.clear();
                             _familyController.clearAddFamilyData();
                             Get.toNamed(krAddFamily);
                             Get.find<FriendController>().getFriendListForAddFamily();
@@ -205,7 +204,6 @@ class AllFamilyList extends StatelessWidget {
                   child: Expanded(
                     child: SingleChildScrollView(
                       controller: _familyController.familyListScrollController,
-                      // physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
                         children: [
                           Padding(
@@ -273,7 +271,6 @@ class ReceivedFamilyList extends StatelessWidget {
                   child: Expanded(
                     child: SingleChildScrollView(
                       controller: _familyController.receivedFamilyListScrollController,
-                      // physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
                         children: [
                           Padding(
@@ -346,7 +343,6 @@ class PendingFamilyList extends StatelessWidget {
                   child: Expanded(
                     child: SingleChildScrollView(
                       controller: _familyController.sendFamilyListScrollController,
-                      // physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
                         children: [
                           Padding(

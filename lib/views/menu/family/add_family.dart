@@ -132,15 +132,11 @@ class AddFamily extends StatelessWidget {
                                     _familyController.isAddFamilySuffixIconVisible.value = false;
                                   },
                                   onChanged: (v) async {
-                                    // profileController.searchController.text = v;
                                     if (profileController.searchController.text.trim() != '') {
                                       _familyController.isAddFamilySuffixIconVisible.value = true;
                                     } else {
                                       _familyController.isAddFamilySuffixIconVisible.value = false;
                                     }
-
-                                    // await _friendController.getFriendList();
-                                    // profileController.searchController.text = v;
                                     for (int i = 0; i < _friendController.tempFriendList.length; i++) {
                                       if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
                                         _familyController.userId.value = _friendController.friendList[i].id!;
@@ -149,22 +145,7 @@ class AddFamily extends StatelessWidget {
                                         _familyController.userId.value = -1;
                                       }
                                     }
-                                    // unfocus(context);
                                   },
-                                  // onChanged: (v) async {
-                                  //   if (_familyController.debounce?.isActive ?? false) _familyController.debounce!.cancel();
-                                  //   _familyController.debounce = Timer(const Duration(milliseconds: 2000), () async {
-                                  //     await _friendController.getFriendList();
-                                  //     for (int i = 0; i < _friendController.tempFriendList.length; i++) {
-                                  //       if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
-                                  //         _familyController.userId.value = _friendController.friendList[i].id!;
-                                  //       }
-                                  //       if (_friendController.tempFriendList[i] != profileController.searchController.text) {
-                                  //         _familyController.userId.value = -1;
-                                  //       }
-                                  //     }
-                                  //   });
-                                  // },
                                 ));
                           },
                         ),
@@ -203,7 +184,6 @@ class AddFamily extends StatelessWidget {
                                     _familyController.relation.value = _familyController.familyRelationList[index].name;
                                   }
                                 }
-
                                 Get.back();
                                 unfocus(context);
                               },
@@ -215,30 +195,6 @@ class AddFamily extends StatelessWidget {
                             await _familyController.getFamilyRelationList();
                           },
                         ),
-                        // kH20sizedBox,
-                        // Row(
-                        //   children: [
-                        //     Obx(
-                        //       () => CustomElevatedButton(
-                        //         isCustomButton: true,
-                        //         label: Get.find<CreatePostController>().postType.value,
-                        //         prefixIcon: Get.find<CreatePostController>().postTypeIcon.value,
-                        //         onPressed: () {
-                        //           unFocus(context);
-                        //           Get.find<CreatePostController>().initializeAudienceText();
-                        //           Get.find<CreatePostController>().showAudienceSheet(context);
-                        //         },
-                        //         buttonHeight: 40,
-                        //         buttonWidth: width * .5,
-                        //         suffixIcon: BipHip.downArrow,
-                        //         buttonColor: cGreyBoxColor,
-                        //         prefixIconColor: cBlackColor,
-                        //         suffixIconColor: cBlackColor,
-                        //         textStyle: medium14TextStyle(cBlackColor),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
                       ],
                     ),
                   ),
