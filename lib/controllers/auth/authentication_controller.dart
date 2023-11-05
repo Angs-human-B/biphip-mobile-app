@@ -237,13 +237,7 @@ class AuthenticationController extends GetxController {
     canSendOTP.value = false;
   }
 
-  void checkCanSendOTP() {
-    if (forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
-      canSendOTP.value = true;
-    } else {
-      canSendOTP.value = false;
-    }
-  }
+  
 
   final RxBool isForgetPasswordLoading = RxBool(false);
   Future<void> forgetPassword() async {
@@ -303,14 +297,7 @@ class AuthenticationController extends GetxController {
     canResetPassword.value = false;
   }
 
-  void checkCanResetPassword() {
-    if (resetNewPasswordTextEditingController.text.trim().length >= kMinPasswordLength &&
-        resetNewPasswordTextEditingController.text.trim() == resetConfirmPasswordTextEditingController.text.trim()) {
-      canResetPassword.value = true;
-    } else {
-      canResetPassword.value = false;
-    }
-  }
+  
 
   final RxBool isResetPasswordLoading = RxBool(false);
   Future<void> resetPassword() async {

@@ -289,4 +289,56 @@ class RegistrationHelper {
       _profileController.isRouteFromAboutInfo.value = false;
     }
   }
+
+  void checkCanSendOTP() {
+    if (_authenticationController.forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
+      _authenticationController.canSendOTP.value = true;
+    } else {
+      _authenticationController.canSendOTP.value = false;
+    }
+  }
+
+  void forgetPasswordEmailOnChanged() {
+    checkCanSendOTP();
+    if (_authenticationController.forgotPasswordEmailTextEditingController.text.trim() == '') {
+      _authenticationController.forgotPasswordEmailError.value = ksEmptyEmailErrorMessage.tr;
+    } else if (!_authenticationController.forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
+      _authenticationController.forgotPasswordEmailError.value = ksInvalidEmailErrorMessage.tr;
+    } else {
+      _authenticationController.forgotPasswordEmailError.value = '';
+    }
+  }
+
+  void checkCanResetPassword() {
+    if (_authenticationController.resetNewPasswordTextEditingController.text.trim().length >= kMinPasswordLength &&
+        _authenticationController.resetNewPasswordTextEditingController.text.trim() ==
+            _authenticationController.resetConfirmPasswordTextEditingController.text.trim()) {
+      _authenticationController.canResetPassword.value = true;
+    } else {
+      _authenticationController.canResetPassword.value = false;
+    }
+  }
+
+  void forgetPasswordNewPasswordOnChanged() {
+    checkCanResetPassword();
+    if (_authenticationController.resetNewPasswordTextEditingController.text.trim() == '') {
+      _authenticationController.resetPasswordError.value = ksEmptyPasswordErrorMessage.tr;
+    } else if (_authenticationController.resetNewPasswordTextEditingController.text.length < kMinPasswordLength) {
+      _authenticationController.resetPasswordError.value = ksPasswordLengthErrorMessage.tr;
+    } else {
+      _authenticationController.resetPasswordError.value = '';
+    }
+  }
+
+  void forgetPasswordConfirmPasswordOnChanged() {
+    checkCanResetPassword();
+    if (_authenticationController.resetConfirmPasswordTextEditingController.text.trim() == '') {
+      _authenticationController.resetConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage.tr;
+    } else if (_authenticationController.resetConfirmPasswordTextEditingController.text !=
+        _authenticationController.resetNewPasswordTextEditingController.text) {
+      _authenticationController.resetConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
+    } else {
+      _authenticationController.resetConfirmPasswordError.value = '';
+    }
+  }
 }

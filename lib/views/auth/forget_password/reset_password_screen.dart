@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
@@ -6,13 +7,13 @@ class ResetPasswordScreen extends StatelessWidget {
   ResetPasswordScreen({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final RegistrationHelper _registrationHelper = RegistrationHelper();
   final FocusNode _confirmPasswordFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      // color: cWhiteColor,
       decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
 
       child: Obx(
@@ -64,14 +65,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                   !_authenticationController.isResetNewPasswordToggleObscure.value;
                             },
                             onChanged: (text) {
-                              _authenticationController.checkCanResetPassword();
-                              if (_authenticationController.resetNewPasswordTextEditingController.text.trim() == '') {
-                                _authenticationController.resetPasswordError.value = ksEmptyPasswordErrorMessage.tr;
-                              } else if (_authenticationController.resetNewPasswordTextEditingController.text.length < kMinPasswordLength) {
-                                _authenticationController.resetPasswordError.value = ksPasswordLengthErrorMessage.tr;
-                              } else {
-                                _authenticationController.resetPasswordError.value = '';
-                              }
+                              _registrationHelper.forgetPasswordNewPasswordOnChanged();
                             },
                             onSubmit: (text) {
                               FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
@@ -98,15 +92,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                   !_authenticationController.isResetConfirmPasswordToggleObscure.value;
                             },
                             onChanged: (text) {
-                              _authenticationController.checkCanResetPassword();
-                              if (_authenticationController.resetConfirmPasswordTextEditingController.text.trim() == '') {
-                                _authenticationController.resetConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage.tr;
-                              } else if (_authenticationController.resetConfirmPasswordTextEditingController.text !=
-                                  _authenticationController.resetNewPasswordTextEditingController.text) {
-                                _authenticationController.resetConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
-                              } else {
-                                _authenticationController.resetConfirmPasswordError.value = '';
-                              }
+                              _registrationHelper.forgetPasswordConfirmPasswordOnChanged();
                             },
                             onSubmit: (text) {
                               FocusScope.of(context).unfocus();
