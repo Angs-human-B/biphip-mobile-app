@@ -63,15 +63,6 @@ class AuthenticationController extends GetxController {
 
   final RxBool canLogin = RxBool(false);
 
-  void checkCanLogin() {
-    if (loginEmailTextEditingController.text.trim().isNotEmpty &&
-        loginPasswordTextEditingController.text.trim().isNotEmpty &&
-        loginPasswordTextEditingController.text.length >= kMinPasswordLength) {
-      canLogin.value = true;
-    } else {
-      canLogin.value = false;
-    }
-  }
 
   final RxBool isLoginLoading = RxBool(false);
   Future<void> userLogin() async {

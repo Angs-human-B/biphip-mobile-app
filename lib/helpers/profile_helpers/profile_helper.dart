@@ -110,26 +110,26 @@ class ProfileHelper {
     );
   }
 
-  void coverPhotoUploadBottomSheet(context){
+  void coverPhotoUploadBottomSheet(context) {
     _profileController.isProfilePicEditor.value = false;
-                                      _profileController.viewOptionEnabled.value = false;
-                                      resetImage();
-                                      _globalController.commonBottomSheet(
-                                          context: context,
-                                          onPressCloseButton: () {
-                                            Get.back();
-                                          },
-                                          onPressRightButton: () {},
-                                          rightText: '',
-                                          rightTextStyle: regular14TextStyle(cBiddingColor),
-                                          title: ksUploadImage.tr,
-                                          isRightButtonShow: false,
-                                          isScrollControlled: false,
-                                          bottomSheetHeight: 170,
-                                          content: PictureUploadContent(
-                                            isImageChanged: _profileController.isCoverImageChanged,
-                                            imagePath: _profileController.coverImageLink,
-                                            imageFile: _profileController.coverImageFile,
-                                          ));
+    _profileController.viewOptionEnabled.value = false;
+    resetImage();
+    _globalController.commonBottomSheet(
+        context: context,
+        onPressCloseButton: () {
+          Get.back();
+        },
+        onPressRightButton: () {},
+        rightText: '',
+        rightTextStyle: regular14TextStyle(cBiddingColor),
+        title: ksUploadImage.tr,
+        isRightButtonShow: false,
+        isScrollControlled: false,
+        bottomSheetHeight: 170,
+        content: PictureUploadContent(
+          isImageChanged: _profileController.isCoverImageChanged,
+          imagePath: _profileController.coverImageLink,
+          imageFile: _profileController.coverImageFile,
+        ));
   }
 }
