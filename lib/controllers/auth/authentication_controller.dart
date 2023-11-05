@@ -177,13 +177,6 @@ class AuthenticationController extends GetxController {
     registerConfirmPasswordError.value = '';
   }
 
-  void checkName() {
-    if (registerFirstNameTextEditingController.text.trim() != '' && registerLastNameTextEditingController.text.trim() != '') {
-      checkValidName.value = true;
-    } else {
-      checkValidName.value = false;
-    }
-  }
 
   void checkEmail() {
     if (registerEmailTextEditingController.text.trim() != '' && registerEmailTextEditingController.text.isValidEmail) {
