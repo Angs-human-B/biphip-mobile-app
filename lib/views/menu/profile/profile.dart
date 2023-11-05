@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
 import 'package:bip_hip/widgets/post_widgets/post_button_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:flutter_svg/svg.dart';
@@ -57,31 +59,27 @@ class Profile extends StatelessWidget {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    if (_profileController.userData.value!.coverPhoto != null) {
-                                      _profileController.viewOptionEnabled.value = true;
-                                      _profileController.isProfilePhoto.value = false;
-                                      _profileController.previewPhoto.value = _profileController.userData.value!.coverPhoto.toString();
-                                    }
-                                    _profileController.isProfilePicEditor.value = false;
+                                    _profileController.initialDataCoverPhoto();
                                     _profileController.resetImage();
                                     _globalController.commonBottomSheet(
-                                        context: context,
-                                        onPressCloseButton: () {
-                                          Get.back();
-                                        },
-                                        onPressRightButton: () {},
-                                        rightText: '',
-                                        rightTextStyle: regular14TextStyle(cBiddingColor),
-                                        title: ksUploadImage.tr,
-                                        isRightButtonShow: false,
-                                        isScrollControlled: false,
-                                        bottomSheetHeight: 210,
-                                        content: PictureUploadContent(
-                                          viewPhoto: ksViewCoverPhoto.tr,
-                                          isImageChanged: _profileController.isCoverImageChanged,
-                                          imagePath: _profileController.coverImageLink,
-                                          imageFile: _profileController.coverImageFile,
-                                        ));
+                                      context: context,
+                                      onPressCloseButton: () {
+                                        Get.back();
+                                      },
+                                      onPressRightButton: () {},
+                                      rightText: '',
+                                      rightTextStyle: regular14TextStyle(cBiddingColor),
+                                      title: ksUploadImage.tr,
+                                      isRightButtonShow: false,
+                                      isScrollControlled: false,
+                                      bottomSheetHeight: 210,
+                                      content: PictureUploadContent(
+                                        viewPhoto: ksViewCoverPhoto.tr,
+                                        isImageChanged: _profileController.isCoverImageChanged,
+                                        imagePath: _profileController.coverImageLink,
+                                        imageFile: _profileController.coverImageFile,
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     height: 150,
@@ -90,10 +88,9 @@ class Profile extends StatelessWidget {
                                     child: Image.network(
                                       Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
                                       fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) => const Icon(
-                                        BipHip.imageFile,
-                                        size: kIconSize120,
-                                        color: cIconColor,
+                                      errorBuilder: (context, error, stackTrace) => const CommonImageErrorBuilder(
+                                        icon: BipHip.imageFile,
+                                        iconSize: kIconSize120,
                                       ),
                                       loadingBuilder: imageLoadingBuilder,
                                       frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
@@ -109,12 +106,7 @@ class Profile extends StatelessWidget {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          if (_profileController.userData.value!.profilePicture != null) {
-                                            _profileController.isProfilePhoto.value = true;
-                                            _profileController.viewOptionEnabled.value = true;
-                                            _profileController.previewPhoto.value = _profileController.userData.value!.profilePicture.toString();
-                                          }
-                                          _profileController.isProfilePicEditor.value = true;
+                                          _profileController.initialDataProfilePic();
                                           _profileController.resetImage();
                                           _globalController.commonBottomSheet(
                                               context: context,
@@ -147,10 +139,9 @@ class Profile extends StatelessWidget {
                                             child: Image.network(
                                               Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
                                               fit: BoxFit.cover,
-                                              errorBuilder: (context, error, stackTrace) => const Icon(
-                                                BipHip.user,
-                                                size: kIconSize70,
-                                                color: cIconColor,
+                                              errorBuilder: (context, error, stackTrace) => const CommonImageErrorBuilder(
+                                                icon: BipHip.user,
+                                                iconSize: kIconSize70,
                                               ),
                                               loadingBuilder: imageLoadingBuilder,
                                             ),
@@ -167,22 +158,23 @@ class Profile extends StatelessWidget {
                                             _profileController.viewOptionEnabled.value = false;
                                             _profileController.resetImage();
                                             _globalController.commonBottomSheet(
-                                                context: context,
-                                                onPressCloseButton: () {
-                                                  Get.back();
-                                                },
-                                                onPressRightButton: () {},
-                                                rightText: '',
-                                                rightTextStyle: regular14TextStyle(cBiddingColor),
-                                                title: ksUploadImage.tr,
-                                                isRightButtonShow: false,
-                                                isScrollControlled: false,
-                                                bottomSheetHeight: 170,
-                                                content: PictureUploadContent(
-                                                  isImageChanged: _profileController.isProfileImageChanged,
-                                                  imagePath: _profileController.profileImageLink,
-                                                  imageFile: _profileController.profileImageFile,
-                                                ));
+                                              context: context,
+                                              onPressCloseButton: () {
+                                                Get.back();
+                                              },
+                                              onPressRightButton: () {},
+                                              rightText: '',
+                                              rightTextStyle: regular14TextStyle(cBiddingColor),
+                                              title: ksUploadImage.tr,
+                                              isRightButtonShow: false,
+                                              isScrollControlled: false,
+                                              bottomSheetHeight: 170,
+                                              content: PictureUploadContent(
+                                                isImageChanged: _profileController.isProfileImageChanged,
+                                                imagePath: _profileController.profileImageLink,
+                                                imageFile: _profileController.profileImageFile,
+                                              ),
+                                            );
                                           },
                                           child: Container(
                                             height: h28,
@@ -193,18 +185,6 @@ class Profile extends StatelessWidget {
                                               border: Border.all(
                                                 color: cLineColor,
                                               ),
-                                              // boxShadow: [
-                                              //   BoxShadow(
-                                              //     color: cBlackColor.withAlpha(100),
-                                              //     offset: const Offset(
-                                              //       1.0,
-                                              //       1.0,
-                                              //     ),
-                                              //     blurRadius: 5.0,
-                                              //     spreadRadius: 2.0,
-                                              //   ),
-                                              // ],
-                                              // border: Border.all(color: cGreyBoxColor.withAlpha(500), width: 2),
                                             ),
                                             child: const Icon(
                                               BipHip.camera,
@@ -214,7 +194,6 @@ class Profile extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      //todo: badge
                                       Positioned(
                                         right: 6,
                                         top: 10,
@@ -263,17 +242,6 @@ class Profile extends StatelessWidget {
                                       width: h28,
                                       decoration: BoxDecoration(
                                         color: cGreyBoxColor,
-                                        // boxShadow: [
-                                        //   BoxShadow(
-                                        //     color: cBlackColor.withAlpha(100),
-                                        //     offset: const Offset(
-                                        //       0.0,
-                                        //       1.0,
-                                        //     ),
-                                        //     blurRadius: 5.0,
-                                        //     spreadRadius: 2.0,
-                                        //   ),
-                                        // ],
                                         borderRadius: BorderRadius.circular(26),
                                         border: Border.all(
                                           color: cLineColor,
@@ -388,7 +356,6 @@ class Profile extends StatelessWidget {
                                           onTap: (value) {
                                             _profileController.showProfileTabSection(value);
                                           },
-                                          // controller: _profileController.profileTabController,
                                           indicatorColor: cPrimaryColor,
                                           indicatorWeight: 1,
                                           unselectedLabelColor: cSmallBodyTextColor,
@@ -400,14 +367,12 @@ class Profile extends StatelessWidget {
                                               padding: const EdgeInsets.symmetric(vertical: k8Padding),
                                               child: Text(
                                                 ksPosts.tr,
-                                                // style: medium14TextStyle(cPrimaryColor),
                                               ),
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.symmetric(vertical: k8Padding),
                                               child: Text(
                                                 ksFriendsAndFamily.tr,
-                                                // style: medium14TextStyle(cPrimaryColor),
                                               ),
                                             ),
                                           ],
@@ -415,23 +380,11 @@ class Profile extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  // Flexible(
-                                  //   flex: 1,
-                                  //   child: TabBarView(
-                                  //     controller: _profileController.profileTabController,
-                                  //     children: [PostTab(), FriendFamilyTab()],
-                                  //   ),
-                                  // )
                                 ],
                               ),
                             ),
                             if (_profileController.postSectionVisible.value) PostTab(),
                             if (!_profileController.postSectionVisible.value) FriendFamilyTab(),
-                            //! comment textfield
-                            // Padding(
-                            //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                            //   child: CommentTextField(),
-                            // ),
                             kHBottomSizedBox
                           ],
                         ),
@@ -479,6 +432,7 @@ class FriendFamilyTab extends StatelessWidget {
 class PostTab extends StatelessWidget {
   PostTab({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
+  final HomeController _homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -501,17 +455,15 @@ class PostTab extends StatelessWidget {
                       kH12sizedBox,
                       LinkUpIconTextRow(
                         icon: BipHip.birthday,
-                        isLink: false,
                         onPressed: null,
-                        prefixText: 'Born on ',
+                        prefixText: '${ksBornOn.tr} ',
                         suffixText: DateFormat("MMMM dd, yyyy").format(_profileController.userData.value!.dob!),
                       ),
                       if (_profileController.currentCityData.value?.city != null && _profileController.currentCityData.value?.isCurrent == 1)
                         LinkUpIconTextRow(
                           icon: BipHip.address,
-                          prefixText: 'Lives in ',
+                          prefixText: '${ksLivesIn.tr} ',
                           suffixText: '${_profileController.currentCityData.value?.city}',
-                          isLink: false,
                           onPressed: null,
                         ),
                       CustomTextButton(
@@ -534,9 +486,8 @@ class PostTab extends StatelessWidget {
               color: cWhiteColor,
               child: CustomPostButton(
                 name: checkNullOrStringNull(_profileController.userData.value!.firstName) ?? _profileController.userData.value!.firstName,
-                profilePic: _profileController.userData.value!.profilePicture.toString(),
+                profilePic: Get.find<GlobalController>().userImage.value.toString(),
                 onPressed: () {
-                  ll('post');
                   Get.find<CreatePostController>().resetData();
                   Get.toNamed(krCreatePost);
                 },
@@ -587,42 +538,38 @@ class PostTab extends StatelessWidget {
             ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                separatorBuilder: (context, index) => kH20sizedBox,
-                itemCount: homePagePost.length,
+                separatorBuilder: (context, index) => kH8sizedBox,
+                itemCount: _homeController.allPostList.length,
                 itemBuilder: (context, index) {
-                  var item = homePagePost[index];
+                  var item = _homeController.allPostList[index];
                   return Container(
                     color: cWhiteColor,
                     width: width,
                     child: CommonPostWidget(
-                      postID: 0,
-                      isCommented: item['isCommented'],
-                      isLiked: item['isLiked'],
-                      isSharedPost: item['isSharedPost'],
-                      showBottomSection: item['showBottomSection'],
-                      userName: item['userName'],
-                      postTime: item['postTime'],
-                      isCategorized: item['isCategorized'],
-                      isTextualPost: item['isTextualPost'],
-                      category: item['category'],
-                      categoryIcon: item['categoryIcon'],
-                      categoryIconColor: item['categoryIconColor'],
-                      privacy: item['privacy'],
-                      brandName: item['brandName'],
-                      kidName: item['kidName'],
-                      kidAge: item['kidAge'],
-                      title: item['item'],
-                      price: item['price'],
-                      postText: item['postText'],
-                      mediaList: item['mediaList'],
-                      isSelfPost: item['isSelfPost'],
-                      isCommentShown: item['isCommentShown'],
-                      commentCount: 10,
-                      shareCount: 10,
-                      giftCount: 10,
+                      isCommented: false,
+                      isLiked: false,
+                      isSharedPost: false,
+                      showBottomSection: true,
+                      userName: 'Rick Sanchez',
+                      postTime: '3 hrs ago',
+                      isCategorized: true,
+                      isTextualPost: item.content == null ? false : true, //API
+                      category: item.postCategory!.name, //API
+                      categoryIcon: _homeController.getCategoryIcon(item.postCategory!.id), // need change API
+                      categoryIconColor: _homeController.getCategoryColor(item.postCategory!.id), // Based on API
+                      privacy: BipHip.world,
+                      brandName: item.brand == null ? null : item.brand!.name, //API
+                      kidName: item.kid == null ? null : item.kid!.name, //API
+                      kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                      title: null, //API
+                      price: null, //API
+                      postText: item.content, //API
+                      mediaList: item.imageUrls, //API
+                      isSelfPost: true,
+                      isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
                     ),
                   );
-                }),
+                })
           ],
         ));
   }
@@ -632,11 +579,10 @@ class PostTab extends StatelessWidget {
 //! LinkUpIconTextRow
 //-------------------
 class LinkUpIconTextRow extends StatelessWidget {
-  const LinkUpIconTextRow({super.key, required this.icon, required this.prefixText, required this.isLink, this.onPressed, required this.suffixText});
+  const LinkUpIconTextRow({super.key, required this.icon, required this.prefixText, this.onPressed, required this.suffixText});
 
   final IconData icon;
   final String prefixText, suffixText;
-  final bool isLink;
   final VoidCallback? onPressed;
 
   @override

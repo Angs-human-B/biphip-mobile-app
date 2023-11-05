@@ -247,7 +247,6 @@ class EditProfile extends StatelessWidget {
                                     icon: BipHip.address,
                                     prefixText: 'Lives in ',
                                     suffixText: '${_profileController.currentCityData.value?.city}',
-                                    isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.hometownData.value != null)
@@ -255,7 +254,6 @@ class EditProfile extends StatelessWidget {
                                     icon: BipHip.location,
                                     prefixText: 'From ',
                                     suffixText: '${_profileController.hometownData.value?.city}',
-                                    isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.userData.value!.relation != null)
@@ -263,7 +261,6 @@ class EditProfile extends StatelessWidget {
                                     icon: BipHip.love,
                                     suffixText: checkNullOrStringNull(_profileController.userData.value!.relation),
                                     prefixText: '',
-                                    isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.schoolDataList.isNotEmpty)
@@ -271,7 +268,6 @@ class EditProfile extends StatelessWidget {
                                     icon: BipHip.school,
                                     suffixText: checkNullOrStringNull(_profileController.schoolDataList[0].school),
                                     prefixText: _profileController.schoolDataList[0].ended != null ? 'Studied at ' : 'Studies at ',
-                                    isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.collegeDataList.isNotEmpty)
@@ -279,7 +275,6 @@ class EditProfile extends StatelessWidget {
                                     icon: BipHip.school,
                                     suffixText: checkNullOrStringNull(_profileController.collegeDataList[0].school),
                                     prefixText: _profileController.collegeDataList[0].ended != null ? 'Studied at ' : 'Studies at ',
-                                    isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.currentWorkplace.value != null)
@@ -289,7 +284,6 @@ class EditProfile extends StatelessWidget {
                                     prefixText: _profileController.currentWorkplace.value!.position == null
                                         ? ''
                                         : '${_profileController.currentWorkplace.value!.position} at ',
-                                    isLink: false,
                                     onPressed: null,
                                   ),
                                 const CustomDivider(

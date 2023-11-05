@@ -62,7 +62,6 @@ class HomeController extends GetxController {
         allPostList.clear();
         postListData.value = PostListModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
-        ll(allPostList[0].kid);
         isHomePageLoading.value = false;
       } else {
         isHomePageLoading.value = true;

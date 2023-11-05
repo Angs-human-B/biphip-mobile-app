@@ -117,6 +117,24 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     isCoverImageChanged.value = false;
   }
 
+  void initialDataCoverPhoto() {
+    if (userData.value!.coverPhoto != null) {
+      viewOptionEnabled.value = true;
+      isProfilePhoto.value = false;
+      previewPhoto.value = userData.value!.coverPhoto.toString();
+    }
+    isProfilePicEditor.value = false;
+  }
+
+  void initialDataProfilePic() {
+    if (userData.value!.profilePicture != null) {
+      isProfilePhoto.value = true;
+      viewOptionEnabled.value = true;
+      previewPhoto.value = userData.value!.profilePicture.toString();
+    }
+    isProfilePicEditor.value = true;
+  }
+
   //-----------------
   // !Edit About info
   //-----------------
@@ -432,8 +450,22 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           ksEditLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
       // Get.back();
     } else if (methodID == 5) {
-      setEditPageValue(ksAddEducationalEvent.tr, true, BipHip.schoolNew, educationInstituteTextEditingController, false, educationInstituteTextEditingController,
-          'Institute name', true, true, true, isCurrentlyStudyingHere.value, 'Currently studying here', 'ADD SCHOOL', '', '');
+      setEditPageValue(
+          ksAddEducationalEvent.tr,
+          true,
+          BipHip.schoolNew,
+          educationInstituteTextEditingController,
+          false,
+          educationInstituteTextEditingController,
+          'Institute name',
+          true,
+          true,
+          true,
+          isCurrentlyStudyingHere.value,
+          'Currently studying here',
+          'ADD SCHOOL',
+          '',
+          '');
     } else if (methodID == 6) {
       setEditPageValue(
           ksEditSchool.tr,

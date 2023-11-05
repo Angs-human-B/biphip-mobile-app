@@ -1,4 +1,5 @@
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
 
 class CustomPostButton extends StatelessWidget {
   const CustomPostButton({super.key, this.onPressed, required this.name, required this.profilePic, this.prefixWidget});
@@ -22,15 +23,13 @@ class CustomPostButton extends StatelessWidget {
                 child: Container(
                   height: h40,
                   width: h40,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
+                  decoration: const BoxDecoration(shape: BoxShape.circle, color: cBlackColor),
                   child: Image.network(
                     Environment.imageBaseUrl + profilePic.toString(),
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Image.asset(
-                      kiProfilePicImageUrl,
-                      fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => const CommonImageErrorBuilder(
+                      icon: BipHip.user,
+                      iconSize: kIconSize20,
                     ),
                   ),
                 ),
