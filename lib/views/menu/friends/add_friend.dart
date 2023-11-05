@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/friends/friends.dart';
 import 'package:flutter/rendering.dart';
 
 class AddFriend extends StatelessWidget {
@@ -105,7 +103,7 @@ class AddFriend extends StatelessWidget {
                                               child: ClipRRect(
                                                 borderRadius: BorderRadius.circular(k8BorderRadius),
                                                 child: Obx(
-                                                  () => CustomSingleButtonListViewItem(
+                                                  () => FriendFamilySingleButtonAction(
                                                     backgroundImage:
                                                         Environment.imageBaseUrl + _friendController.addFriendRequestList[index].profilePicture.toString(),
                                                     name: _friendController.addFriendRequestList[index].fullName ?? ksNA.tr,

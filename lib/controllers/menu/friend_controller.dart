@@ -842,6 +842,11 @@ class FriendController extends GetxController {
   }
 
   Timer? debounce;
+  void friendTapableButtonReset() {
+    _profileController.searchController.clear();
+    isFriendSuffixIconVisible.value = false;
+    isFriendSearched.value = false;
+  }
 
   final RxBool isFriendSearched = RxBool(false);
   final RxList pendingFriendActionList = RxList([

@@ -2,7 +2,6 @@ import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/friends/friends.dart';
 import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 import 'package:flutter/rendering.dart';
@@ -220,7 +219,7 @@ class AllFamilyList extends StatelessWidget {
                                   padding: const EdgeInsets.only(bottom: k16Padding),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(k8BorderRadius),
-                                    child: CustomListViewItem(
+                                    child: FriendFamilyButtonAction(
                                       backgroundImage: _familyController.familyList[index].profilePicture.toString(),
                                       imageSize: h50,
                                       name: _familyController.familyList[index].fullName ?? ksNA.tr,
@@ -288,7 +287,7 @@ class ReceivedFamilyList extends StatelessWidget {
                                   padding: const EdgeInsets.only(bottom: k16Padding),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(k8BorderRadius),
-                                    child: CustomListViewItem(
+                                    child: FriendFamilyButtonAction(
                                       backgroundImage: _familyController.receivedFamilyList[index].profilePicture.toString(),
                                       imageSize: h50,
                                       name: _familyController.receivedFamilyList[index].fullName ?? ksNA.tr,
@@ -361,7 +360,7 @@ class PendingFamilyList extends StatelessWidget {
                                   padding: const EdgeInsets.only(bottom: k10Padding),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(k8BorderRadius),
-                                    child: CustomSingleButtonListViewItem(
+                                    child: FriendFamilySingleButtonAction(
                                       backgroundImage: _familyController.sendFamilyRequestList[index].profilePicture.toString(),
                                       imageSize: h45,
                                       name: _familyController.sendFamilyRequestList[index].fullName ?? ksNA.tr,
