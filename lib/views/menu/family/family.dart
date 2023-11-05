@@ -4,6 +4,8 @@ import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
+import 'package:bip_hip/widgets/menu/friends_family/friend_family_button_action.dart';
+import 'package:bip_hip/widgets/menu/friends_family/friend_family_single_button_action.dart';
 import 'package:flutter/rendering.dart';
 
 class Family extends StatelessWidget {
@@ -384,45 +386,6 @@ class PendingFamilyList extends StatelessWidget {
                   ),
                 )
               : Expanded(child: Container(alignment: Alignment.center, child: EmptyView(title: ksNofamilyRequestSendYet.tr))),
-    );
-  }
-}
-
-class RelationContent extends StatelessWidget {
-  RelationContent({super.key});
-  final FamilyController _familyController = Get.find<FamilyController>();
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: _familyController.familyRelationList.length,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: k10Padding),
-          child: Obx(
-            () => CustomListTile(
-              itemColor: _familyController.relationStatusId.value == index ? cPrimaryTint3Color : cWhiteColor,
-              onPressed: () {
-                _familyController.relationStatusId.value = index;
-                if (_familyController.relationStatusId.value == -1) {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                } else {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                }
-              },
-              title: _familyController.familyRelationList[index].name,
-              borderColor: _familyController.relationStatusId.value == index ? cPrimaryColor : cLineColor,
-              trailing: CustomRadioButton(
-                onChanged: () {
-                  _familyController.relationStatusId.value = index;
-                },
-                isSelected: _familyController.relationStatusId.value == index,
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }

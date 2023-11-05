@@ -28,5 +28,3 @@ export 'package:bip_hip/widgets/common/utils/common_loading_animation.dart';
 export 'package:bip_hip/widgets/common/utils/common_shimmer.dart';
 export 'package:bip_hip/models/common/common_data_model.dart';
 export 'package:bip_hip/models/common/common_error_model.dart';
-export 'package:bip_hip/widgets/menu/friends_family/friend_family_button_action.dart';
-export 'package:bip_hip/widgets/menu/friends_family/friend_family_single_button_action.dart';

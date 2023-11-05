@@ -4,6 +4,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
+import 'package:bip_hip/widgets/menu/friends_family/friend_family_button_action.dart';
 import 'package:flutter/rendering.dart';
 
 class Friends extends StatelessWidget {

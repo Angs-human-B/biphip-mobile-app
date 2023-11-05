@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/menu/friends_family/friend_family_single_button_action.dart';
 import 'package:flutter/rendering.dart';
 
 class AddFriend extends StatelessWidget {
