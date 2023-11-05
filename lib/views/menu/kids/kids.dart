@@ -54,10 +54,12 @@ class KidsPage extends StatelessWidget {
                               width: 120,
                             ),
                           )
-                        : Text(
-                            '${ksTotalKids.tr}: ${_kidsController.totalKidsCount.value}',
-                            style: semiBold14TextStyle(cBlackColor),
-                          ),
+                        : _kidsController.totalKidsCount.value == 0
+                            ? const SizedBox()
+                            : Text(
+                                '${ksTotalKids.tr}: ${_kidsController.totalKidsCount.value}',
+                                style: semiBold14TextStyle(cBlackColor),
+                              ),
                   )),
               AllKids(),
             ],
@@ -86,7 +88,6 @@ class AllKids extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ListView.builder(
-                        // itemCount: _friendController.friendList.length,
                         itemCount: _kidsController.kidList.length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
