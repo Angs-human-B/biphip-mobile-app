@@ -40,7 +40,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxList tapAbleButtonState = RxList([true, false, false]);
   final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
   final RxBool isEditProfileLoading = RxBool(false);
-  final RxBool isProfileSeeMore = RxBool(false);
+  // final RxBool isProfileSeeMore = RxBool(false);
 
   void playVideo(
     String videoUrl, {
@@ -61,66 +61,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     }
   }
 
-  final RxList relationList = RxList([
-    "Father",
-    "Mother",
-    "Daughter",
-    "Son",
-    "Sister",
-    "Brother",
-    "Auntie",
-    "Uncle",
-    "Niece",
-    "Nephew",
-  ]);
-  final RxList relationListState = RxList([
-    true,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-
-  final RxString relation = RxString("");
-
-  void relationStatusChange(index) {
-    for (int i = 0; i < relationListState.length; i++) {
-      if (index == i) {
-        relationListState[i] = true;
-      } else {
-        relationListState[i] = false;
-      }
-    }
-  }
-
-  void selectRelationTextChange() {
-    for (int i = 0; i < relationListState.length; i++) {
-      if (relationListState[i]) {
-        relation.value = relationList[i];
-        break;
-      }
-    }
-  }
-
-  void initializeSelectedRelationText() {
-    for (int i = 0; i < relationListState.length; i++) {
-      if (relationList[i] == relation.value) {
-        relationListState[i] = true;
-      } else {
-        relationListState[i] = false;
-      }
-    }
-  }
-
-  void initializeRelationText() {
-    relation.value = "";
-  }
-
   //*For tapAble button
   void toggleType(int index) {
     for (int i = 0; i < 3; i++) {
@@ -139,7 +79,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
 
   //*Search
   final TextEditingController searchController = TextEditingController();
-  final RxBool isCloseIconVisible = RxBool(false);
 
   //*friends page list data show
   StatelessWidget allReceivedPendingFriendsView() {
