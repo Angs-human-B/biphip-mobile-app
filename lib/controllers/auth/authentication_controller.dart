@@ -177,24 +177,6 @@ class AuthenticationController extends GetxController {
     registerConfirmPasswordError.value = '';
   }
 
-
-  void checkEmail() {
-    if (registerEmailTextEditingController.text.trim() != '' && registerEmailTextEditingController.text.isValidEmail) {
-      checkValidEmail.value = true;
-    } else {
-      checkValidEmail.value = false;
-    }
-  }
-
-  void checkPassword() {
-    if (registerPasswordTextEditingController.text.length >= kMinPasswordLength &&
-        registerPasswordTextEditingController.text == registerConfirmPasswordTextEditingController.text) {
-      checkValidPassword.value = true;
-    } else {
-      checkValidPassword.value = false;
-    }
-  }
-
   final RxBool isRegisterLoading = RxBool(false);
   Future<void> userRegister() async {
     try {
@@ -381,13 +363,7 @@ class AuthenticationController extends GetxController {
     canOTPVerifyNow.value = false;
   }
 
-  void checkCanOTPVerifyNow() {
-    if (otpTextEditingController.text.length == kOTPLength) {
-      canOTPVerifyNow.value = true;
-    } else {
-      canOTPVerifyNow.value = false;
-    }
-  }
+  
 
   Future<void> signUpVerify() async {
     try {

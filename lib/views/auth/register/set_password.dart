@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
@@ -8,6 +9,7 @@ class SetPassword extends StatelessWidget {
 
   final FocusNode _confirmPasswordFocusNode = FocusNode();
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final RegistrationHelper _registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -72,19 +74,7 @@ class SetPassword extends StatelessWidget {
                                   !_authenticationController.isRegisterPasswordToggleObscure.value;
                             },
                             onChanged: (text) {
-                              _authenticationController.checkPassword();
-                              if (_authenticationController.registerPasswordTextEditingController.text.trim() == '') {
-                                _authenticationController.registerPasswordError.value = ksEmptyPasswordErrorMessage.tr;
-                              } else if (_authenticationController.registerPasswordTextEditingController.text.length < kMinPasswordLength) {
-                                _authenticationController.registerPasswordError.value = ksPasswordLengthErrorMessage.tr;
-                              } else if ((_authenticationController.registerConfirmPasswordTextEditingController.text !=
-                                      _authenticationController.registerPasswordTextEditingController.text) &&
-                                  _authenticationController.registerConfirmPasswordTextEditingController.text.isNotEmpty) {
-                                _authenticationController.registerConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
-                              } else {
-                                _authenticationController.registerPasswordError.value = '';
-                                _authenticationController.registerConfirmPasswordError.value = '';
-                              }
+                              _registrationHelper.passwordOnChanged();
                             },
                             onSubmit: (text) {
                               FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
@@ -111,15 +101,7 @@ class SetPassword extends StatelessWidget {
                                   !_authenticationController.isRegisterConfirmPasswordToggleObscure.value;
                             },
                             onChanged: (text) {
-                              _authenticationController.checkPassword();
-                              if (_authenticationController.registerConfirmPasswordTextEditingController.text.trim() == '') {
-                                _authenticationController.registerConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage.tr;
-                              } else if (_authenticationController.registerConfirmPasswordTextEditingController.text !=
-                                  _authenticationController.registerPasswordTextEditingController.text) {
-                                _authenticationController.registerConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
-                              } else {
-                                _authenticationController.registerConfirmPasswordError.value = '';
-                              }
+                              _registrationHelper.confirmPasswordOnChanged();
                             },
                             onSubmit: (text) {
                               FocusScope.of(context).unfocus();

@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
@@ -7,12 +8,12 @@ class SetEmail extends StatelessWidget {
   SetEmail({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final RegistrationHelper _registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      // color: cWhiteColor,
       decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         top: false,
@@ -64,14 +65,7 @@ class SetEmail extends StatelessWidget {
                           borderSide: const BorderSide(width: 1, color: cLineColor2),
                         ),
                         onChanged: (text) {
-                          _authenticationController.checkEmail();
-                          if (_authenticationController.registerEmailTextEditingController.text.trim() == '') {
-                            _authenticationController.registerEmailError.value = ksEmptyEmailErrorMessage.tr;
-                          } else if (!_authenticationController.registerEmailTextEditingController.text.trim().isValidEmail) {
-                            _authenticationController.registerEmailError.value = ksInvalidEmailErrorMessage.tr;
-                          } else {
-                            _authenticationController.registerEmailError.value = '';
-                          }
+                          _registrationHelper.registerEmailOnChanged();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,
