@@ -507,8 +507,7 @@ class FamilyController extends GetxController {
     for (int i = 0; i < Get.find<FriendController>().tempFriendList.length; i++) {
       if (Get.find<FriendController>().tempFriendList[i] == Get.find<ProfileController>().searchController.text.trim()) {
         userId.value = Get.find<FriendController>().friendList[i].id!;
-      }
-      if (Get.find<FriendController>().tempFriendList[i] != Get.find<ProfileController>().searchController.text) {
+      } else {
         userId.value = -1;
       }
     }

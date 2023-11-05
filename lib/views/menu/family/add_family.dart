@@ -76,7 +76,6 @@ class AddFamily extends StatelessWidget {
                               alignment: Alignment.topLeft,
                               child: SizedBox(
                                 width: width - 40,
-                                // height: 200,
                                 child: Material(
                                   elevation: 4,
                                   child: ListView.separated(
@@ -134,19 +133,7 @@ class AddFamily extends StatelessWidget {
                                     _familyController.isFamilySuffixIconVisible.value = false;
                                   },
                                   onChanged: (v) {
-                                    if (profileController.searchController.text.trim() != '') {
-                                      _familyController.isFamilySuffixIconVisible.value = true;
-                                    } else {
-                                      _familyController.isFamilySuffixIconVisible.value = false;
-                                    }
-                                    for (int i = 0; i < _friendController.tempFriendList.length; i++) {
-                                      if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
-                                        _familyController.userId.value = _friendController.friendList[i].id!;
-                                      }
-                                      if (_friendController.tempFriendList[i] != profileController.searchController.text) {
-                                        _familyController.userId.value = -1;
-                                      }
-                                    }
+                                    _familyController.addFamilyOnPressed();
                                   },
                                 ));
                           },
@@ -179,7 +166,6 @@ class AddFamily extends StatelessWidget {
                                 for (int index = 0; index < _familyController.familyRelationList.length; index++) {
                                   if (_familyController.tempRelation.value == _familyController.familyRelationList[index].name) {
                                     _familyController.relationId.value = _familyController.familyRelationList[index].id;
-                                    // ll(_familyController.relationId.value);
                                   }
                                 }
                                 Get.back();
