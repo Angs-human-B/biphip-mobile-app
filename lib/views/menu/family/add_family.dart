@@ -131,7 +131,7 @@ class AddFamily extends StatelessWidget {
                                     unfocus(context);
                                     _familyController.isFamilySuffixIconVisible.value = false;
                                   },
-                                  onChanged: (v) async {
+                                  onChanged: (v) {
                                     if (profileController.searchController.text.trim() != '') {
                                       _familyController.isFamilySuffixIconVisible.value = true;
                                     } else {
@@ -159,7 +159,7 @@ class AddFamily extends StatelessWidget {
                             } else {
                               _familyController.relationStatusId.value = -1;
                             }
-                            if (_familyController.relationStatusId.value == -1) {
+                            if (_familyController.relationId.value == -1) {
                               Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
                             } else {
                               Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
@@ -177,10 +177,11 @@ class AddFamily extends StatelessWidget {
                               },
                               onPressRightButton: () {
                                 _familyController.isFamilyRelationListLoading.value = true;
-                                _familyController.relationId.value = _familyController.relationStatusId.value + 1;
+                                // _familyController.relationId.value = _familyController.relationStatusId.value + 1;
                                 for (int index = 0; index < _familyController.familyRelationList.length; index++) {
                                   if (_familyController.relationStatusId.value == index) {
                                     _familyController.relation.value = _familyController.familyRelationList[index].name;
+                                    _familyController.relationId.value = _familyController.familyRelationList[index].id;
                                   }
                                 }
                                 Get.back();

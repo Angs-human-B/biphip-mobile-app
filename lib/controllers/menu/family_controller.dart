@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/family/common_family_model.dart';
@@ -492,6 +493,22 @@ class FamilyController extends GetxController {
     relationId.value = -1;
     relation.value = '';
   }
-Timer? debounce;
-final RxBool isFamilySuffixIconVisible = RxBool(false);
+
+  Timer? debounce;
+  final RxBool isFamilySuffixIconVisible = RxBool(false);
+  void addFamilyOnPressed() {
+    if (Get.find<ProfileController>().searchController.text.trim() != '') {
+      isFamilySuffixIconVisible.value = true;
+    } else {
+      isFamilySuffixIconVisible.value = false;
+    }
+    for (int i = 0; i < Get.find<FriendController>().tempFriendList.length; i++) {
+      if (Get.find<FriendController>().tempFriendList[i] == Get.find<ProfileController>().searchController.text.trim()) {
+        userId.value = Get.find<FriendController>().friendList[i].id!;
+      }
+      if (Get.find<FriendController>().tempFriendList[i] != Get.find<ProfileController>().searchController.text) {
+        userId.value = -1;
+      }
+    }
+  }
 }
