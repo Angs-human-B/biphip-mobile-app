@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -41,6 +40,7 @@ class Friends extends StatelessWidget {
                           onPressed: () async {
                             FocusScope.of(context).unfocus();
                             _friendController.friendTapableButtonReset();
+                            if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
                             _friendController.addFriendRequestList.clear();
                             Get.toNamed(krAddFriend);
                           },
@@ -65,20 +65,20 @@ class Friends extends StatelessWidget {
                           buttonState: _profileController.tapAbleButtonState,
                           buttonPress: RxList([
                             () async {
-                            FocusScope.of(context).unfocus();
-                            _friendController.friendTapableButtonReset();
+                              FocusScope.of(context).unfocus();
+                              _friendController.friendTapableButtonReset();
                               _profileController.toggleType(0);
                               await _friendController.getFriendList();
                             },
                             () async {
                               FocusScope.of(context).unfocus();
-                               _friendController.friendTapableButtonReset();
+                              _friendController.friendTapableButtonReset();
                               _profileController.toggleType(1);
                               await _friendController.getReceivedFriendList();
                             },
                             () async {
                               FocusScope.of(context).unfocus();
-                               _friendController.friendTapableButtonReset();
+                              _friendController.friendTapableButtonReset();
                               _profileController.toggleType(2);
                               await _friendController.getSendFriendRequestList();
                             },
@@ -98,28 +98,16 @@ class Friends extends StatelessWidget {
                                 contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
                                 textInputStyle: regular16TextStyle(cBlackColor),
                                 onSuffixPress: () async {
-                                  Get.find<ProfileController>().searchController.clear();
-                                  _friendController.isFriendSuffixIconVisible.value = false;
-                                  _friendController.isFriendSearched.value = false;
+                                  _friendController.friendTapableButtonReset();
+                                  if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
                                   await _friendController.getFriendList();
                                 },
                                 onSubmit: (v) {
                                   unfocus(context);
                                   _friendController.isFriendSuffixIconVisible.value = false;
                                 },
-                                onChanged: (v) async {
-                                  if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
-                                  if (Get.find<ProfileController>().searchController.text.trim() != '') {
-                                    _friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
-                                      _friendController.isFriendSearched.value = true;
-                                      _friendController.isFriendSuffixIconVisible.value = true;
-                                      await _friendController.getFriendSearchList();
-                                    });
-                                  } else {
-                                    _friendController.isFriendSuffixIconVisible.value = false;
-                                    _friendController.isFriendSearched.value = false;
-                                    await _friendController.getFriendList();
-                                  }
+                                onChanged: (v) {
+                                  _friendController.friendOnChanged();
                                 })
                             : const SizedBox()),
                       ),
@@ -196,6 +184,7 @@ class Friends extends StatelessWidget {
     );
   }
 }
+
 //*All friend list
 class AllFriendList extends StatelessWidget {
   AllFriendList({super.key});
@@ -227,7 +216,6 @@ class AllFriendList extends StatelessWidget {
                   child: Expanded(
                     child: SingleChildScrollView(
                       controller: _friendController.friendListScrollController,
-                   
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

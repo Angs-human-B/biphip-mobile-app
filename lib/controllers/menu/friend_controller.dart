@@ -848,6 +848,35 @@ class FriendController extends GetxController {
     isFriendSearched.value = false;
   }
 
+  void friendOnChanged() async {
+    if (debounce?.isActive ?? false) debounce!.cancel();
+    if (Get.find<ProfileController>().searchController.text.trim() != '') {
+      isFriendSuffixIconVisible.value = true;
+      debounce = Timer(const Duration(milliseconds: 3000), () async {
+        isFriendSearched.value = true;
+        await getFriendSearchList();
+      });
+    } else {
+      isFriendSuffixIconVisible.value = false;
+      isFriendSearched.value = false;
+      await getFriendList();
+    }
+  }
+
+  void addFriendOnChanged() async {
+    if (debounce?.isActive ?? false) debounce!.cancel();
+    if (_profileController.searchController.text.trim() != '') {
+      isFriendSuffixIconVisible.value = true;
+      debounce = Timer(const Duration(milliseconds: 3000), () async {
+        await getAddFriendRequestList();
+      });
+    }
+    if (_profileController.searchController.text.trim() == '') {
+      isFriendSuffixIconVisible.value = false;
+      addFriendRequestList.clear();
+    }
+  }
+
   final RxBool isFriendSearched = RxBool(false);
   final RxList pendingFriendActionList = RxList([
     {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
@@ -868,6 +897,6 @@ class FriendController extends GetxController {
     {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
   ]);
   final RxBool isFriendSuffixIconVisible = RxBool(false);
-  final RxBool isAddFriendSuffixIconVisible = RxBool(false);
+  // final RxBool isAddFriendSuffixIconVisible = RxBool(false);
   final RxBool isRouteFromBottomNavBar = RxBool(false);
 }
