@@ -107,33 +107,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     bioEditingController.clear();
   }
 
-  void resetImage() {
-    profileImageFile.value = File('');
-    profileImageLink.value = '';
-    isProfileImageChanged.value = false;
-    isSharedToNewFeed.value = false;
-    coverImageFile.value = File('');
-    coverImageLink.value = '';
-    isCoverImageChanged.value = false;
-  }
-
-  void initialDataCoverPhoto() {
-    if (userData.value!.coverPhoto != null) {
-      viewOptionEnabled.value = true;
-      isProfilePhoto.value = false;
-      previewPhoto.value = userData.value!.coverPhoto.toString();
-    }
-    isProfilePicEditor.value = false;
-  }
-
-  void initialDataProfilePic() {
-    if (userData.value!.profilePicture != null) {
-      isProfilePhoto.value = true;
-      viewOptionEnabled.value = true;
-      previewPhoto.value = userData.value!.profilePicture.toString();
-    }
-    isProfilePicEditor.value = true;
-  }
 
   //-----------------
   // !Edit About info

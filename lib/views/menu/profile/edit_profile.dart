@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/profile/profile.dart';
+import 'package:bip_hip/views/menu/profile/profile_widgets/profile_pic_upload_content.dart';
+import 'package:bip_hip/views/menu/profile/profile_widgets/profile_post_tab.dart';
 
 class EditProfile extends StatelessWidget {
   EditProfile({super.key});

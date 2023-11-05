@@ -64,7 +64,7 @@ class HomePostDetails extends StatelessWidget {
                                 child: PostUpperContainer(userName: 'Wahid Murad', isCategorized: false, privacy: BipHip.world, postTime: '1hr'),
                               ),
                               kH12sizedBox,
-                              CommonPostWidget(
+                              CommonPostDetailsWidget(
                                 isTextualPost: true,
                                 mediaList: _homeController.postData.value!.post.imageUrls,
                                 isCommentShown: true,
@@ -87,8 +87,8 @@ class HomePostDetails extends StatelessWidget {
   }
 }
 
-class CommonPostWidget extends StatelessWidget {
-  CommonPostWidget({
+class CommonPostDetailsWidget extends StatelessWidget {
+  CommonPostDetailsWidget({
     super.key,
     required this.isTextualPost,
     this.category,

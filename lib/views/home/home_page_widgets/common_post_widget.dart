@@ -616,7 +616,7 @@ class _BiddingInsightsContent extends StatelessWidget {
                   isImageComment: false,
                   isSendMessageShown: true,
                   isHideButtonShown: false,
-                  replyList: [],
+                  replyList: const [],
                 );
               })
         ],

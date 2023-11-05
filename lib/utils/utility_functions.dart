@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
 
 void heightWidthKeyboardValue(context) {
   height = MediaQuery.of(context).size.height;
@@ -74,6 +75,13 @@ Widget imageLoadingBuilderCover(context, child, loadingProgress) {
     child: const CustomLoadingAnimation(
       isTextVisible: false,
     ),
+  );
+}
+
+Widget imageErrorBuilderCover(context, error, stackTrace, icon, iconSize) {
+  return CommonImageErrorBuilder(
+    icon: icon,
+    iconSize: iconSize,
   );
 }
 

@@ -1,10 +1,12 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/profile_helpers/profile_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class PhotoPreview extends StatelessWidget {
   PhotoPreview({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
+  final ProfileHelper _profileHelper = ProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class PhotoPreview extends StatelessWidget {
                             style: kTextButtonStyle,
                             onPressed: () {
                               Get.back();
-                              _profileController.resetImage();
+                              _profileHelper.resetImage();
                             },
                             child: Text(
                               ksDiscard.tr,
