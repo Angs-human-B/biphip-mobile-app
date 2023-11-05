@@ -523,10 +523,9 @@ class FriendController extends GetxController {
         }
         for (int index = 0; index < addFriendRequestList.length; index++) {
           if (addFriendRequestList[index].id == userId.value) {
-            // isSendRequest.add(false);
-            // isSendRequest[index] = true;
+     
             addFriendRequestList[index].friendStatus = 0;
-            // isSendRequest[index] = !isSendRequest[index];
+           
           }
         }
         isCancelFriendRequestLoading.value = false;
@@ -639,15 +638,6 @@ class FriendController extends GetxController {
         } else {
           addFriendListScrolled.value = true;
         }
-        // isSendRequest.clear();
-        // for (int index = 0; index < addFriendRequestList.length; index++) {
-        //   if (addFriendRequestList[index].friendStatus == 2) {
-        //     isSendRequest.add(false);
-        //   } else if (addFriendRequestList[index].friendStatus == 0) {
-        //     isSendRequest.add(true);
-        //   }
-        // }
-
         isAddFriendRequestListLoading.value = false;
       } else {
         isAddFriendRequestListLoading.value = false;
@@ -848,6 +838,7 @@ class FriendController extends GetxController {
     isFriendSearched.value = false;
   }
 
+  //*Friend text field on change
   void friendOnChanged() async {
     if (debounce?.isActive ?? false) debounce!.cancel();
     if (Get.find<ProfileController>().searchController.text.trim() != '') {
@@ -863,6 +854,7 @@ class FriendController extends GetxController {
     }
   }
 
+  //*Add friend text field on change
   void addFriendOnChanged() async {
     if (debounce?.isActive ?? false) debounce!.cancel();
     if (_profileController.searchController.text.trim() != '') {
@@ -897,6 +889,5 @@ class FriendController extends GetxController {
     {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
   ]);
   final RxBool isFriendSuffixIconVisible = RxBool(false);
-  // final RxBool isAddFriendSuffixIconVisible = RxBool(false);
   final RxBool isRouteFromBottomNavBar = RxBool(false);
 }
