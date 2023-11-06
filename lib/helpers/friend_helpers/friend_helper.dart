@@ -138,4 +138,21 @@ class FriendHelper {
     }
     return cWhiteColor;
   }
+
+  // void allFriendActionOnPressed() {
+  //   if (_friendController.allFriendFollowStatus.value == 1) {
+  //     for (int i = 0; i < _profileController.friendActionList.length; i++) {
+  //       _profileController.friendActionSelect.value = _profileController.friendActionList[i]['action'];
+  //     }
+  //   } else if (_friendController.allFriendFollowStatus.value == 0) {
+  //     for (int i = 0; i < _friendController.friendFollowActionList.length; i++) {
+  //       _profileController.friendActionSelect.value = _friendController.friendFollowActionList[i]['action'];
+  //     }
+  //   }
+  //   if (_profileController.friendActionSelect.value == '') {
+  //     Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+  //   } else {
+  //     Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+  //   }
+  // }
 }

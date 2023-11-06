@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/menu/family_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -31,5 +32,38 @@ class FamilyHelper {
         );
       }
     }
+  }
+
+  void familyAddButtonOnPressed() {
+    familySearchFieldReset();
+    _familyController.clearAddFamilyData();
+    Get.toNamed(krAddFamily);
+    Get.find<FriendController>().getFriendListForAddFamily();
+  }
+
+  void familyOnChanged() {
+    if (_profileController.searchController.text.trim() != '') {
+      _familyController.isFamilySuffixIconVisible.value = true;
+    } else {
+      _familyController.isFamilySuffixIconVisible.value = false;
+    }
+  }
+
+  void allFamilyTapableButtonPressed() async {
+    _profileController.toggleType(0);
+    familySearchFieldReset();
+    await _familyController.getFamilyList();
+  }
+
+  void receivedFamilyTapableButtonPressed() async {
+    _profileController.toggleType(1);
+    familySearchFieldReset();
+    await _familyController.getReceivedFamilyList();
+  }
+
+  void pendingFamilyTapableButtonPressed() async {
+    _profileController.toggleType(2);
+    familySearchFieldReset();
+    await _familyController.getSendFamilyRequestList();
   }
 }

@@ -1,4 +1,3 @@
-import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/helpers/family_helpers/family_helper.dart';
@@ -37,12 +36,9 @@ class Family extends StatelessWidget {
                         padding: const EdgeInsets.only(right: k20Padding),
                         child: TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () async {
-                            _familyHelper.familySearchFieldReset();
+                          onPressed: () {
                             unfocus(context);
-                            _familyController.clearAddFamilyData();
-                            Get.toNamed(krAddFamily);
-                            Get.find<FriendController>().getFriendListForAddFamily();
+                            _familyHelper.familyAddButtonOnPressed();
                           },
                           child: Text(
                             ksAdd.tr,
@@ -64,23 +60,17 @@ class Family extends StatelessWidget {
                           buttonText: _profileController.tapAbleButtonText,
                           buttonState: _profileController.tapAbleButtonState,
                           buttonPress: RxList([
-                            () async {
-                              FocusScope.of(context).unfocus();
-                              _profileController.toggleType(0);
-                              _familyHelper.familySearchFieldReset();
-                              await _familyController.getFamilyList();
+                            () {
+                              unfocus(context);
+                              _familyHelper.allFamilyTapableButtonPressed();
                             },
-                            () async {
-                              FocusScope.of(context).unfocus();
-                              _profileController.toggleType(1);
-                              _familyHelper.familySearchFieldReset();
-                              await _familyController.getReceivedFamilyList();
+                            () {
+                              unfocus(context);
+                              _familyHelper.receivedFamilyTapableButtonPressed();
                             },
-                            () async {
-                              FocusScope.of(context).unfocus();
-                              _profileController.toggleType(2);
-                              _familyHelper.familySearchFieldReset();
-                              await _familyController.getSendFamilyRequestList();
+                            () {
+                              unfocus(context);
+                              _familyHelper.pendingFamilyTapableButtonPressed();
                             },
                           ]),
                         ),
@@ -106,12 +96,8 @@ class Family extends StatelessWidget {
                                   unfocus(context);
                                   _familyController.isFamilySuffixIconVisible.value = false;
                                 },
-                                onChanged: (v) async {
-                                  if (Get.find<ProfileController>().searchController.text.trim() != '') {
-                                    _familyController.isFamilySuffixIconVisible.value = true;
-                                  } else {
-                                    _familyController.isFamilySuffixIconVisible.value = false;
-                                  }
+                                onChanged: (v) {
+                                  _familyHelper.familyOnChanged();
                                 })
                             : const SizedBox()),
                       ),
