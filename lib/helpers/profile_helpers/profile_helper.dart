@@ -130,6 +130,15 @@ class ProfileHelper {
           isImageChanged: _profileController.isCoverImageChanged,
           imagePath: _profileController.coverImageLink,
           imageFile: _profileController.coverImageFile,
-        ));
+        ),);
+  }
+
+  void viewProfilePic(){
+    if (_profileController.userData.value!.profilePicture != null) {
+                                          _profileController.isProfilePhoto.value = true;
+                                          _profileController.viewOptionEnabled.value = true;
+                                          _profileController.previewPhoto.value = _profileController.userData.value!.profilePicture.toString();
+                                          Get.toNamed(krViewPhoto);
+                                        }
   }
 }
