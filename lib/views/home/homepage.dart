@@ -42,7 +42,6 @@ class HomePage extends StatelessWidget {
                     onPressed: () async {
                       final spController = SpController();
                       Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
-                      // FirebaseCrashlytics.instance.crash();
                       Get.find<GlobalController>().searchController.clear();
                       Get.to(
                         () => Search(
@@ -100,10 +99,9 @@ class HomePage extends StatelessWidget {
                             width: width,
                             color: cWhiteColor,
                             child: CustomPostButton(
-                              name: 'Monjurul',
-                              profilePic: '',
+                              name: Get.find<GlobalController>().userFirstName.value.toString(),
+                              profilePic: Get.find<GlobalController>().userImage.value.toString(),
                               onPressed: () {
-                                ll('post');
                                 Get.find<CreatePostController>().resetData();
                                 Get.toNamed(krCreatePost);
                               },
@@ -170,7 +168,7 @@ class HomePage extends StatelessWidget {
                             child: const StoriesWidget(),
                           ),
                           kH8sizedBox,
-                          if (_homeController.allPostList.isEmpty) const SizedBox(height: 300, child:  EmptyView(title: ksNoDataAvailable)),
+                          if (_homeController.allPostList.isEmpty) const SizedBox(height: 300, child: EmptyView(title: ksNoDataAvailable)),
                           if (_homeController.allPostList.isNotEmpty)
                             ListView.separated(
                                 shrinkWrap: true,
@@ -203,7 +201,8 @@ class HomePage extends StatelessWidget {
                                       postText: item.content, //API
                                       mediaList: item.imageUrls, //API
                                       isSelfPost: true,
-                                      isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
+                                      isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
+                                      postID: item.id!,
                                     ),
                                   );
                                 }),

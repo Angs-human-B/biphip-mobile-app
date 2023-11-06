@@ -15,7 +15,6 @@ class ResetPasswordScreen extends StatelessWidget {
     heightWidthKeyboardValue(context);
     return Container(
       decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
-
       child: Obx(
         () => Stack(
           children: [
