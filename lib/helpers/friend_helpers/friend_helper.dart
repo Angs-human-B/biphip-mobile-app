@@ -133,21 +133,15 @@ class FriendHelper {
     }
   }
 
-  //! All Friend Action
-  //*All Friend Action on changed
-  void allFriendActionOnChanged() {
+  //* All Friend Action
+  void allFriendActionOnChanged(index) {
     if (_friendController.allFriendFollowStatus.value == 1) {
-      for (int i = 0; i < _profileController.friendActionList.length; i++) {
-        _profileController.friendActionSelect.value = _profileController.friendActionList[i]['action'];
-      }
+      _profileController.friendActionSelect.value = _profileController.friendActionList[index]['action'];
     } else if (_friendController.allFriendFollowStatus.value == 0) {
-      for (int i = 0; i < _friendController.friendFollowActionList.length; i++) {
-        _profileController.friendActionSelect.value = _friendController.friendFollowActionList[i]['action'];
-      }
+      _profileController.friendActionSelect.value = _friendController.friendFollowActionList[index]['action'];
     }
   }
 
-  //*all friend selected action color
   Color allFriendItemColor(int index) {
     if (_friendController.allFriendFollowStatus.value == 1) {
       if (_profileController.friendActionSelect.value == _profileController.friendActionList[index]['action']) {
@@ -161,7 +155,6 @@ class FriendHelper {
     return cWhiteColor;
   }
 
-  //*All friend action on Pressed
   void allFriendActionOnPressed(index) {
     if (_friendController.allFriendFollowStatus.value == 1) {
       _profileController.friendActionSelect.value = _profileController.friendActionList[index]['action'];
@@ -175,21 +168,15 @@ class FriendHelper {
     }
   }
 
-  //!Pending Friend Action
-  //*Pending Friend Action on changed
-  void pendingFriendActionOnChanged() {
+  //*Pending Friend Action
+  void pendingFriendActionOnChanged(index) {
     if (_friendController.pendingFriendFollowStatus.value == 1) {
-      for (int i = 0; i < _friendController.pendingFriendActionList.length; i++) {
-        _friendController.pendingFriendActionSelect.value = _friendController.pendingFriendActionList[i]['action'];
-      }
+      _friendController.pendingFriendActionSelect.value = _friendController.pendingFriendActionList[index]['action'];
     } else if (_friendController.pendingFriendFollowStatus.value == 0) {
-      for (int i = 0; i < _friendController.pendingFollowFriendActionList.length; i++) {
-        _friendController.pendingFriendActionSelect.value = _friendController.pendingFollowFriendActionList[i]['action'];
-      }
+      _friendController.pendingFriendActionSelect.value = _friendController.pendingFollowFriendActionList[index]['action'];
     }
   }
 
-  //*pending friend selected action color
   Color pendingFriendItemColor(int index) {
     if (_friendController.pendingFriendFollowStatus.value == 1) {
       if (_friendController.pendingFriendActionSelect.value == _friendController.pendingFriendActionList[index]['action']) {
@@ -203,7 +190,6 @@ class FriendHelper {
     return cWhiteColor;
   }
 
-  //*pending friend action on pressed
   void pendingFriendOnPressed(index) {
     if (_friendController.pendingFriendFollowStatus.value == 1) {
       _friendController.pendingFriendActionSelect.value = _friendController.pendingFriendActionList[index]['action'];

@@ -49,7 +49,7 @@ class PendingFriendActionContent extends StatelessWidget {
                   subTitleTextStyle: regular14TextStyle(cBlackColor),
                   trailing: CustomRadioButton(
                     onChanged: () {
-                      _friendHelper.pendingFriendActionOnChanged();
+                      _friendHelper.pendingFriendActionOnChanged(index);
                     },
                     isSelected: friendController.pendingFriendFollowStatus.value == 1
                         ? (friendController.pendingFriendActionSelect.value == friendController.pendingFriendActionList[index]['action'])
