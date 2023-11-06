@@ -12,39 +12,41 @@ class GenderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: cWhiteColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          kH16sizedBox,
-          Text(
-            ksGender.tr,
-            style: semiBold18TextStyle(cBlackColor),
-          ),
-          kH12sizedBox,
-          CustomSelectionButton(
-            prefixIcon: BipHip.gender,
-            onPressed: () async {
-              _editProfileHelper.selectGender(context);
-            },
-            text: _profileController.selectedGender.value != ''
-                ? _profileController.selectedGender.value
-                : checkNullOrStringNull(_profileController.userData.value!.gender) ?? ksSelectGender.tr,
-            hintText: ksSelectGender.tr,
-          ),
-          if (_profileController.isGenderSelected.value) kH12sizedBox,
-          if (_profileController.isGenderSelected.value)
-            CancelSaveButton(
-              onPressedCancel: () {
-                _editProfileHelper.resetGender();
-              },
-              onPressedSave: () async {
-                _editProfileHelper.saveGender();
-              },
+    return Obx(
+      () => Container(
+        color: cWhiteColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            kH16sizedBox,
+            Text(
+              ksGender.tr,
+              style: semiBold18TextStyle(cBlackColor),
             ),
-          kH16sizedBox,
-        ]),
+            kH12sizedBox,
+            CustomSelectionButton(
+              prefixIcon: BipHip.gender,
+              onPressed: () async {
+                _editProfileHelper.selectGender(context);
+              },
+              text: _profileController.selectedGender.value != ''
+                  ? _profileController.selectedGender.value
+                  : checkNullOrStringNull(_profileController.userData.value!.gender) ?? ksSelectGender.tr,
+              hintText: ksSelectGender.tr,
+            ),
+            if (_profileController.isGenderSelected.value) kH12sizedBox,
+            if (_profileController.isGenderSelected.value)
+              CancelSaveButton(
+                onPressedCancel: () {
+                  _editProfileHelper.resetGender();
+                },
+                onPressedSave: () async {
+                  _editProfileHelper.saveGender();
+                },
+              ),
+            kH16sizedBox,
+          ]),
+        ),
       ),
     );
   }

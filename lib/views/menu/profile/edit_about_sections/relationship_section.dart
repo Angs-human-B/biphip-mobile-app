@@ -12,53 +12,57 @@ class RelationshipSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: cWhiteColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          kH16sizedBox,
-          Text(
-            ksRelationshipStatus.tr,
-            style: semiBold18TextStyle(cBlackColor),
+    return Obx(
+      () => Container(
+        color: cWhiteColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              kH16sizedBox,
+              Text(
+                ksRelationshipStatus.tr,
+                style: semiBold18TextStyle(cBlackColor),
+              ),
+              kH12sizedBox,
+              CustomSelectionButton(
+                prefixIcon: BipHip.love,
+                onPressed: () async {
+                  _editProfileHelper.setRelationshipStatus(context);
+                },
+                text: _profileController.relationshipStatus.value != ''
+                    ? _profileController.relationshipStatus.value
+                    : checkNullOrStringNull(_profileController.userData.value!.relation) ?? ksSelectRelationshipStatus,
+                hintText: ksSelectRelationshipStatus.tr,
+              ),
+              if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH12sizedBox,
+              if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
+                CancelSaveButton(
+                  onPressedCancel: () {
+                    _editProfileHelper.resetRelationshipStatus();
+                  },
+                  onPressedSave: () {
+                    _editProfileHelper.saveRelationshipStatus();
+                  },
+                ),
+              kH16sizedBox,
+            ],
           ),
-          kH12sizedBox,
-          CustomSelectionButton(
-            prefixIcon: BipHip.love,
-            onPressed: () async {
-              _editProfileHelper.setRelationshipStatus(context);
-            },
-            text: _profileController.relationshipStatus.value != ''
-                ? _profileController.relationshipStatus.value
-                : checkNullOrStringNull(_profileController.userData.value!.relation) ?? ksSelectRelationshipStatus,
-            hintText: ksSelectRelationshipStatus.tr,
-          ),
-          if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH12sizedBox,
-          if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
-            CancelSaveButton(
-              onPressedCancel: () {
-                _editProfileHelper.resetRelationshipStatus();
-              },
-              onPressedSave: ()  {
-                _editProfileHelper.saveRelationshipStatus();
-              },
-            ),
-          kH16sizedBox,
-        ]),
+        ),
       ),
     );
   }
 }
 
 class RelationshipStatusListContent extends StatelessWidget {
-   RelationshipStatusListContent({
+  RelationshipStatusListContent({
     Key? key,
     required this.profileController,
   }) : super(key: key);
 
   final ProfileController profileController;
   final EditProfileHelper _editProfileHelper = EditProfileHelper();
- 
 
   @override
   Widget build(BuildContext context) {
