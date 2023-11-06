@@ -1,7 +1,7 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
