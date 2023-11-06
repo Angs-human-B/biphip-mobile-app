@@ -114,32 +114,16 @@ class Friends extends StatelessWidget {
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                          child: (_friendController.isFriendListLoading.value || _friendController.isReceivedFriendListLoading.value)
-                              ? ShimmerCommon(
-                                  widget: Container(
-                                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                                    height: 16,
-                                    width: 120,
-                                  ),
-                                )
-                              : _profileController.tapAbleButtonState[0]
-                                  ? _friendController.allFriendCount.value == 0 ||
-                                          (_friendController.isFriendSearched.value && _friendController.searchedFriendCount.value == 0)
-                                      ? const SizedBox()
-                                      : Text(
-                                          _friendController.isFriendSearched.value
-                                              ? '${ksSearchedFriends.tr}: ${_friendController.searchedFriendCount.value}'
-                                              : '${ksTotalFriends.tr}: ${_friendController.allFriendCount.value}',
-                                          style: semiBold14TextStyle(cBlackColor),
-                                        )
-                                  : _friendController.receivedRequestCount.value == 0
-                                      ? const SizedBox()
-                                      : Text(
-                                          '${ksFriendRequests.tr}: ${_friendController.receivedRequestCount.value}',
-                                          style: semiBold14TextStyle(cBlackColor),
-                                        ),
-                        ),
+                            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                            child: (_friendController.isFriendListLoading.value || _friendController.isReceivedFriendListLoading.value)
+                                ? ShimmerCommon(
+                                    widget: Container(
+                                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                      height: 16,
+                                      width: 120,
+                                    ),
+                                  )
+                                : _friendHelper.totalFriendValueShow()),
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
                       if (_profileController.tapAbleButtonState[2]) kH4sizedBox,
                       //*All friend, Receive friend request and Pending friend request ui

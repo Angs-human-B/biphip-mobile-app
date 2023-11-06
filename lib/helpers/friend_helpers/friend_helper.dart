@@ -71,4 +71,30 @@ class FriendHelper {
       _friendController.addFriendRequestList.clear();
     }
   }
+
+  Widget totalFriendValueShow() {
+    if (_profileController.tapAbleButtonState[0]) {
+      if (_friendController.allFriendCount.value == 0 || (_friendController.isFriendSearched.value && _friendController.searchedFriendCount.value == 0)) {
+         return const SizedBox();
+      } else {
+        if (_friendController.isFriendSearched.value) {
+           return Text('${ksSearchedFriends.tr}: ${_friendController.searchedFriendCount.value}',
+              style: semiBold14TextStyle(
+                cBlackColor,
+              ));
+        } else {
+           return Text('${ksTotalFriends.tr}: ${_friendController.allFriendCount.value}', style: semiBold14TextStyle(cBlackColor));
+        }
+      }
+    } else {
+      if (_friendController.receivedRequestCount.value == 0) {
+        return const SizedBox();
+      } else {
+       return Text(
+          '${ksFriendRequests.tr}: ${_friendController.receivedRequestCount.value}',
+          style: semiBold14TextStyle(cBlackColor),
+        );
+      }
+    }
+  }
 }
