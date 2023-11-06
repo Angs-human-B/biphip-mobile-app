@@ -1,8 +1,7 @@
-// import 'dart:convert';
 import 'dart:io';
-import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/profile/edit_profile.dart';
+import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
@@ -12,11 +11,20 @@ class GlobalController extends GetxController {
   final RxMap appLang = RxMap({'langCode': 'en', 'countryCode': 'US'});
 
   final Rx<String?> bearerToken = Rx<String?>(null);
+  final RxList professionList = RxList([]);
+  final RxList interestList = RxList([]);
+  final RxList<int> interestIndex = RxList<int>([]);
+  final RxInt professionIndex = RxInt(-1);
+  RxString selectedProfession = RxString('');
+  RxList selectedInterests = RxList([]);
   final RxList languages = RxList([
     {'langCode': 'bn', 'countryCode': 'BD', 'langName': 'Bengali'},
     {'langCode': 'en', 'countryCode': 'US', 'langName': 'English'},
   ]);
-
+  void resetChipSelection() {
+    professionIndex.value = -1;
+    interestIndex.clear();
+  }
 
   //* info:: show loading
   final isLoading = RxBool(false);
@@ -166,18 +174,20 @@ class GlobalController extends GetxController {
               Positioned(
                 top: h20,
                 right: 10,
-                child: CustomTextButton(
-                  onPressed: onPressRightButton,
-                  icon: BipHip.circleCross,
-                  text: rightText,
-                  textStyle: rightTextStyle,
-                ),
+                child: Obx(() => CustomTextButton(
+                      onPressed: isBottomSheetRightButtonActive.value ? onPressRightButton : null,
+                      icon: BipHip.circleCross,
+                      text: rightText,
+                      textStyle: isBottomSheetRightButtonActive.value ? rightTextStyle : medium14TextStyle(cLineColor2),
+                    )),
               ),
           ],
         );
       },
     );
   }
+
+  final RxBool isBottomSheetRightButtonActive = RxBool(true);
 
   //* Image picker
   final ImagePicker _picker = ImagePicker();
@@ -217,7 +227,7 @@ class GlobalController extends GetxController {
 
   Future<bool> selectMultiMediaSource(RxBool isMediaChanged, RxList<RxString> mediaLinkList, RxList<Rx<File?>> mediaFileList) async {
     try {
-      final List<XFile> mediaList = await _picker.pickMultipleMedia(
+      final List<XFile> mediaList = await _picker.pickMultiImage(
         maxHeight: 480,
         maxWidth: 720,
       );
@@ -238,7 +248,7 @@ class GlobalController extends GetxController {
             //   mediaLinkList.add('data:video/mp4;base64,$base64Image'.obs);
             // }
           } else {
-            showSnackBar(title: 'Warning', message: "file format is not supported currently", color: cSecondaryColor);
+            showSnackBar(title: ksWarning.tr, message: ksFileFormatNotSupported.tr, color: cSecondaryColor);
           }
         }
         return true;
@@ -322,10 +332,7 @@ class GlobalController extends GetxController {
                   kH10sizedBox,
                   Expanded(
                     child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
-                        child: content,
-                      ),
+                      child: content,
                     ),
                   ),
                   kH4sizedBox,
@@ -340,6 +347,33 @@ class GlobalController extends GetxController {
 
   final searchController = TextEditingController();
   final recentSearch = RxList();
+
+  final Rx<String?> userName = Rx<String?>(null);
+  final Rx<String?> userFirstName = Rx<String?>(null);
+  final Rx<String?> userLastName = Rx<String?>(null);
+  final Rx<String?> userImage = Rx<String?>(null);
+  final Rx<String?> userEmail = Rx<String?>(null);
+  final Rx<String?> userToken = Rx<String?>(null);
+
+  Future<void> getUserInfo() async {
+    SpController spController = SpController();
+    userName.value = await spController.getUserName();
+    userFirstName.value = await spController.getUserFirstName();
+    userLastName.value = await spController.getUserLastName();
+    userImage.value = await spController.getUserImage();
+    userEmail.value = await spController.getUserEmail();
+    userToken.value = await spController.getBearerToken();
+    var userData = await spController.getUserData(userToken.value);
+    ll("--- : $userData");
+    if (userData != null) {
+      userName.value = userData['name'];
+      userFirstName.value = userData['first_name'];
+      userLastName.value = userData['last_name'];
+      userImage.value = userData['image_url'];
+      userEmail.value = userData['email'];
+      userToken.value = userData['token'];
+    }
+  }
 
   //! end
 }

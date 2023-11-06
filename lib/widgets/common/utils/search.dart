@@ -71,6 +71,7 @@ class Search extends StatelessWidget {
                               }
                             },
                             onSubmit: (v) async {
+                              unfocus(context);
                               if (v.isNotEmpty) {
                                 var item = v.toLowerCase();
                                 for (int i = 0; i < recentSearchList.length; i++) {
@@ -85,9 +86,7 @@ class Search extends StatelessWidget {
                               if (recentSearchList.length > 6) recentSearchList.removeAt(0);
                               final spController = SpController();
                               await spController.saveRecentSearchList(recentSearchList);
-
                               onSubmit();
-                              unfocus(context);
                               searchController.clear();
                             },
                           ),

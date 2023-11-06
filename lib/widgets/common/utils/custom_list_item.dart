@@ -12,7 +12,7 @@ class CustomListTile extends StatelessWidget {
     this.borderColor,
     this.padding,
     this.spacing = 5,
-    this.alignLeadingWithTitle = false,
+    this.alignLeadingWithTitle = false, this.titleTextStyle, this.subTitleTextStyle,
   }) : super(key: key);
 
   final dynamic title, subtitle;
@@ -23,11 +23,13 @@ class CustomListTile extends StatelessWidget {
   final bool alignLeadingWithTitle;
   final EdgeInsetsGeometry? padding;
   final double spacing;
+  final TextStyle ? titleTextStyle;
+  final TextStyle ? subTitleTextStyle;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minHeight: height > kSmallDeviceSizeLimit ? 45 : 40),
+      constraints: BoxConstraints(minHeight: isDeviceScreenLarge() ? 45 : 40),
       decoration: BoxDecoration(
         color: itemColor,
         border: Border.all(color: borderColor ?? itemColor),
@@ -60,7 +62,7 @@ class CustomListTile extends StatelessWidget {
                                 title,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: semiBold14TextStyle(itemColor == cPrimaryColor ? cWhiteColor : cBlackColor),
+                                style: titleTextStyle ?? semiBold14TextStyle(itemColor == cPrimaryColor ? cWhiteColor : cBlackColor),
                               )
                             : title,
                       if (subtitle != null)
@@ -70,7 +72,7 @@ class CustomListTile extends StatelessWidget {
                               ? Text(
                                   subtitle,
                                   overflow: TextOverflow.ellipsis,
-                                  style: regular12TextStyle(itemColor == cPrimaryColor ? cWhiteColor : cBlackColor),
+                                  style: subTitleTextStyle ?? regular12TextStyle(itemColor == cPrimaryColor ? cWhiteColor : cBlackColor),
                                 )
                               : subtitle,
                         ),
@@ -84,7 +86,7 @@ class CustomListTile extends StatelessWidget {
                         ? Icon(
                             trailing!,
                             color: itemColor == cPrimaryColor ? cWhiteColor : cBlackColor,
-                            size: height > kSmallDeviceSizeLimit ? kIconSize20 : kIconSize16,
+                            size: isDeviceScreenLarge() ? kIconSize20 : kIconSize16,
                           )
                         : trailing!,
                   ),

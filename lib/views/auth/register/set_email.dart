@@ -1,18 +1,20 @@
-import 'package:bip_hip/controllers/authentication_controller.dart';
+import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
-import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
 class SetEmail extends StatelessWidget {
   SetEmail({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final RegistrationHelper _registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         top: false,
         child: Scaffold(
@@ -20,6 +22,7 @@ class SetEmail extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
+              appBarColor: cTransparentColor,
               title: ksRegistration.tr,
               onBack: () async {
                 Get.back();
@@ -34,7 +37,7 @@ class SetEmail extends StatelessWidget {
               ],
             ),
           ),
-          backgroundColor: cWhiteColor,
+          backgroundColor: cTransparentColor,
           body: SizedBox(
             height: height,
             width: width,
@@ -46,24 +49,23 @@ class SetEmail extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       kH24sizedBox,
-                      const TopTitleAndSubtitle(
-                        title: ksWhatEmail,
-                        subTitle: ksSendCodeToConfirm,
+                      TopTitleAndSubtitle(
+                        title: ksWhatEmail.tr,
+                        subTitle: ksSendCodeToConfirm.tr,
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerEmailTextEditingController,
                         errorText: _authenticationController.registerEmailError.value,
-                        hint: ksEmail,
+                        hint: ksEmail.tr,
+                        textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                        fillColor: cWhiteColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(k4BorderRadius),
+                          borderSide: const BorderSide(width: 1, color: cLineColor2),
+                        ),
                         onChanged: (text) {
-                          _authenticationController.checkEmail();
-                          if (_authenticationController.registerEmailTextEditingController.text.trim() == '') {
-                            _authenticationController.registerEmailError.value = ksEmptyEmailErrorMessage;
-                          } else if (!_authenticationController.registerEmailTextEditingController.text.trim().isValidEmail) {
-                            _authenticationController.registerEmailError.value = ksInvalidEmailErrorMessage;
-                          } else {
-                            _authenticationController.registerEmailError.value = '';
-                          }
+                          _registrationHelper.registerEmailOnChanged();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,
@@ -71,9 +73,10 @@ class SetEmail extends StatelessWidget {
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
-                        label: ksNext,
+                        label: ksNext.tr,
                         onPressed: _authenticationController.checkValidEmail.value
-                            ? () {
+                            ? () async {
+                                unfocus(context);
                                 Get.toNamed(krSetNewPass);
                               }
                             : null,

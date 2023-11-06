@@ -3,21 +3,23 @@ import 'package:bip_hip/utils/constants/imports.dart';
 class CategoryComponent extends StatelessWidget {
   const CategoryComponent({
     super.key,
-    required this.icon,
+    this.icon,
     required this.title,
-    required this.iconColor,
-    required this.iconSize,
+    this.iconColor,
+    this.iconSize,
     required this.titleStyle,
     required this.suffixWidget,
+    this.prefixWidget,
     this.onPress,
   });
 
-  final IconData icon;
+  final IconData? icon;
   final String title;
-  final Color iconColor;
-  final double iconSize;
+  final Color? iconColor;
+  final double? iconSize;
   final TextStyle titleStyle;
   final Widget suffixWidget;
+  final Widget? prefixWidget;
   final Function()? onPress;
 
   @override
@@ -35,11 +37,13 @@ class CategoryComponent extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  icon,
-                  color: iconColor,
-                  size: iconSize,
-                ),
+                if (icon == null && prefixWidget != null) prefixWidget!,
+                if (icon != null)
+                  Icon(
+                    icon,
+                    color: iconColor,
+                    size: iconSize,
+                  ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: Text(

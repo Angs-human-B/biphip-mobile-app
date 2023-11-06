@@ -1,3 +1,6 @@
+import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
@@ -46,7 +49,8 @@ class CustomBottomNavBar extends StatelessWidget {
                 icon: BipHip.homeOutline,
                 iconSelected: BipHip.homeFill,
                 onPressed: () async {
-                  Get.toNamed(krHome);
+                  Get.offAllNamed(krHome);
+                  await Get.find<HomeController>().getPostList();
                 },
               ),
 
@@ -58,7 +62,12 @@ class CustomBottomNavBar extends StatelessWidget {
                 icon: BipHip.friendsOutline,
                 iconSelected: BipHip.friendsFill,
                 onPressed: () async {
+                  Get.find<ProfileController>().resetTapButtonData();
+                  Get.find<ProfileController>().searchController.clear();
+                  Get.find<FriendController>().isFriendSearched.value = false;
+                  Get.find<FriendController>().isRouteFromBottomNavBar.value = true;
                   Get.toNamed(krFriends);
+                  await Get.find<FriendController>().getFriendList();
                 },
               ),
 
@@ -135,14 +144,14 @@ class _BottomNavbarItem extends StatelessWidget {
             isClicked
                 ? Icon(
                     iconSelected,
-                    size: height > kSmallDeviceSizeLimit ? 20 : 16,
+                    size: isDeviceScreenLarge() ? 20 : 16,
                     color: cPrimaryColor,
                   )
                 : Stack(
                     children: [
                       Icon(
                         icon,
-                        size: height > kSmallDeviceSizeLimit ? 20 : 16,
+                        size: isDeviceScreenLarge() ? 20 : 16,
                         color: cIconColor,
                       ),
                       Visibility(

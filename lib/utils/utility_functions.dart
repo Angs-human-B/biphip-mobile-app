@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
 
 void heightWidthKeyboardValue(context) {
   height = MediaQuery.of(context).size.height;
@@ -41,7 +42,6 @@ bool isDeviceScreenLarge() {
   }
 }
 
-
 String ordinal(int number) {
   switch (number) {
     case 1:
@@ -64,6 +64,35 @@ Widget imageLoadingBuilder(context, child, loadingProgress) {
   );
 }
 
+Widget imageLoadingBuilderCover(context, child, loadingProgress) {
+  if (loadingProgress == null) {
+    return child;
+  }
+  return Container(
+    width: width,
+    height: 150,
+    color: cBlackColor,
+    child: const CustomLoadingAnimation(
+      isTextVisible: false,
+    ),
+  );
+}
+
+Widget imageErrorBuilderCover(context, error, stackTrace, icon, iconSize) {
+  return CommonImageErrorBuilder(
+    icon: icon,
+    iconSize: iconSize,
+  );
+}
+
 void unfocus(context) {
   FocusScope.of(context).unfocus();
+}
+
+dynamic checkNullOrStringNull(str) {
+  if (str == null || str == 'null' || str == '' || str == 'NA') {
+    return null;
+  } else {
+    return str;
+  }
 }

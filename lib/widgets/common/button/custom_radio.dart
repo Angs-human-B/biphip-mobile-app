@@ -24,7 +24,7 @@ class CustomRadioButton extends StatelessWidget {
         child: (Theme.of(context).platform == TargetPlatform.iOS && isSelected)
             ? Icon(
                 Icons.check,
-                size: height > kSmallDeviceSizeLimit ? kIconSize20 : kIconSize16,
+                size: isDeviceScreenLarge() ? kIconSize20 : kIconSize16,
                 color: cPrimaryColor,
               )
             : CircleAvatar(radius: 4.5, backgroundColor: isSelected ? cPrimaryColor : cTransparentColor),

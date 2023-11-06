@@ -11,12 +11,14 @@ class CustomSelectionButton extends StatelessWidget {
     this.borderColor,
     this.buttonHeight,
     this.contentPadding,
+    this.trailingIcon,
+    this.prefixIconSize,
   });
   final Function()? onPressed;
-  final IconData? prefixIcon;
+  final IconData? prefixIcon, trailingIcon;
   final String? text, hintText;
   final Color? buttonColor, borderColor;
-  final double? buttonHeight;
+  final double? buttonHeight, prefixIconSize;
   final EdgeInsetsGeometry? contentPadding;
 
   @override
@@ -29,7 +31,7 @@ class CustomSelectionButton extends StatelessWidget {
           decoration:
               BoxDecoration(color: buttonColor ?? cGreyBoxColor, borderRadius: k4CircularBorderRadius, border: Border.all(color: borderColor ?? cWhiteColor)),
           child: Padding(
-            padding: contentPadding ?? const EdgeInsets.symmetric(horizontal: k12Padding, vertical: k12Padding),
+            padding: contentPadding ?? const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k12Padding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,22 +43,23 @@ class CustomSelectionButton extends StatelessWidget {
                       Icon(
                         prefixIcon,
                         color: cIconColor,
+                        size: prefixIconSize,
                       ),
                     if (prefixIcon != null) kW8sizedBox,
                     if (text != '')
                       Text(
                         text ?? '',
-                        style: regular14TextStyle(cBlackColor),
+                        style: regular16TextStyle(cBlackColor),
                       ),
                     if (text == '')
                       Text(
                         hintText ?? '',
-                        style: regular14TextStyle(cPlaceHolderColor),
+                        style: regular14TextStyle(cPlaceHolderColor2),
                       ),
                   ],
                 ),
                 Icon(
-                  BipHip.downArrow,
+                  trailingIcon ?? BipHip.downArrow,
                   color: (text != null) ? cBlackColor : cPlaceHolderColor,
                 )
               ],

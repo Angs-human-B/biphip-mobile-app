@@ -1,20 +1,21 @@
-import 'package:bip_hip/controllers/authentication_controller.dart';
+import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
-import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
 class SelectGender extends StatelessWidget {
   SelectGender({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final RegistrationHelper _registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         top: false,
         child: Scaffold(
@@ -22,6 +23,7 @@ class SelectGender extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
+              appBarColor: cTransparentColor,
               title: ksRegistration.tr,
               onBack: () async {
                 Get.back();
@@ -36,7 +38,7 @@ class SelectGender extends StatelessWidget {
               ],
             ),
           ),
-          backgroundColor: cWhiteColor,
+          backgroundColor: cTransparentColor,
           body: SizedBox(
             height: height,
             width: width,
@@ -48,36 +50,23 @@ class SelectGender extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       kH24sizedBox,
-                      const TopTitleAndSubtitle(
-                        title: ksWhatGender,
-                        subTitle: ksChangeGender,
+                      TopTitleAndSubtitle(
+                        title: ksWhatGender.tr,
+                        subTitle: ksChangeGender.tr,
                       ),
                       kH50sizedBox,
                       CustomSelectionButton(
+                        buttonColor: cWhiteColor,
+                        borderColor: cLineColor2,
                         onPressed: () {
-                          _globalController.commonBottomSheet(
-                            context: context,
-                            content: _GenderListContent(
-                              authenticationController: _authenticationController,
-                            ),
-                            onPressCloseButton: () {
-                              Get.back();
-                            },
-                            onPressRightButton: null,
-                            rightText: '',
-                            rightTextStyle: regular10TextStyle(cBlackColor),
-                            title: ksSelectGender,
-                            isRightButtonShow: false,
-                            isScrollControlled: true,
-                            bottomSheetHeight: 260,
-                          );
+                          _registrationHelper.onPressedSelectGender(context);
                         },
                         text: _authenticationController.gender.value,
-                        hintText: ksSelectGender,
+                        hintText: ksSelectGender.tr,
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
-                        label: ksNext,
+                        label: ksNext.tr,
                         onPressed: _authenticationController.gender.value != ''
                             ? () {
                                 Get.toNamed(krSetEmail);
@@ -96,56 +85,5 @@ class SelectGender extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class _GenderListContent extends StatelessWidget {
-  const _GenderListContent({
-    Key? key,
-    required this.authenticationController,
-  }) : super(key: key);
-
-  final AuthenticationController authenticationController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() => Column(
-          // mainAxisSize: MainAxisSize.min,
-          children: [
-            RadioListTile(
-              title: Text(genders[0]),
-              value: genders[0],
-              activeColor: cPrimaryColor,
-              contentPadding: EdgeInsets.zero,
-              groupValue: authenticationController.gender.value,
-              controlAffinity: ListTileControlAffinity.trailing,
-              onChanged: (value) {
-                authenticationController.gender.value = value;
-              },
-            ),
-            RadioListTile(
-              title: Text(genders[1]),
-              value: genders[1],
-              activeColor: cPrimaryColor,
-              contentPadding: EdgeInsets.zero,
-              groupValue: authenticationController.gender.value,
-              controlAffinity: ListTileControlAffinity.trailing,
-              onChanged: (value) {
-                authenticationController.gender.value = value;
-              },
-            ),
-            RadioListTile(
-              title: Text(genders[2]),
-              value: genders[2],
-              activeColor: cPrimaryColor,
-              contentPadding: EdgeInsets.zero,
-              groupValue: authenticationController.gender.value,
-              controlAffinity: ListTileControlAffinity.trailing,
-              onChanged: (value) {
-                authenticationController.gender.value = value;
-              },
-            ),
-          ],
-        ));
   }
 }

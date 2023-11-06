@@ -13,7 +13,7 @@ class CommonDM {
         code = json['code'],
         _data = json['data'];
 
-  get data => _data;
+  dynamic get data => _data;
 
   @override
   String toString() {

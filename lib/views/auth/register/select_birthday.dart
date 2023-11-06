@@ -1,22 +1,25 @@
-import 'package:bip_hip/controllers/authentication_controller.dart';
+import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
-import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
+import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
 class SelectBirthday extends StatelessWidget {
   SelectBirthday({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final ProfileController _profileController = Get.find<ProfileController>();
+  final RegistrationHelper _registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
 
     return Container(
-      color: cWhiteColor,
+      // color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         top: false,
         child: Scaffold(
@@ -24,21 +27,23 @@ class SelectBirthday extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksRegistration.tr,
+              appBarColor: cTransparentColor,
+              title: _profileController.isRouteFromAboutInfo.value ? ksEditBirthday.tr : ksRegistration.tr,
               onBack: () async {
                 Get.back();
               },
-              action: const [
-                Padding(
-                  padding: EdgeInsets.only(right: 8.0),
-                  child: CustomCircularProgressBar(
-                    percent: 0.32,
+              action: [
+                if (!_profileController.isRouteFromAboutInfo.value)
+                  const Padding(
+                    padding: EdgeInsets.only(right: 8.0),
+                    child: CustomCircularProgressBar(
+                      percent: 0.32,
+                    ),
                   ),
-                ),
               ],
             ),
           ),
-          backgroundColor: cWhiteColor,
+          backgroundColor: cTransparentColor,
           body: SizedBox(
             height: height,
             width: width,
@@ -48,38 +53,28 @@ class SelectBirthday extends StatelessWidget {
                 child: Obx(
                   () => Column(
                     children: [
-                      kH24sizedBox,
-                      kH24sizedBox,
-                      const TopTitleAndSubtitle(
-                        title: ksWhatBirthday,
-                        subTitle: ksChangeBirthday,
+                      if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                      if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                      TopTitleAndSubtitle(
+                        title: !_profileController.isRouteFromAboutInfo.value ? ksWhatBirthday.tr : '',
+                        subTitle: !_profileController.isRouteFromAboutInfo.value ? ksChangeBirthday.tr : ksChangeYourBirthdayFromHere.tr,
                       ),
-                      kH50sizedBox,
+                      _profileController.isRouteFromAboutInfo.value ? kH20sizedBox : kH50sizedBox,
                       CustomSelectionButton(
+                        buttonColor: cWhiteColor,
+                        borderColor: cLineColor2,
                         onPressed: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return SizedBox(
-                                  height: height * 0.4,
-                                  child: CupertinoDatePicker(
-                                    mode: CupertinoDatePickerMode.date,
-                                    onDateTimeChanged: (value) {
-                                      _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(value);
-                                    },
-                                  ),
-                                );
-                              });
+                          _registrationHelper.onPressedSelectBirthday(context);
                         },
-                        text: _authenticationController.birthDay.value,
-                        hintText: ksSelectDOB,
+                        text: _authenticationController.birthDay.value != '' ? _authenticationController.birthDay.value : '',
+                        hintText: ksSelectDOB.tr,
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
-                        label: ksNext,
+                        label: _profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
                         onPressed: _authenticationController.birthDay.value != ''
-                            ? () {
-                                Get.toNamed(krSelectGender);
+                            ? () async {
+                                _registrationHelper.onPressedConfirmBirthday();
                               }
                             : null,
                         buttonWidth: width - 40,

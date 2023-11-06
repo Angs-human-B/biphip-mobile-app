@@ -1,21 +1,22 @@
-import 'package:bip_hip/controllers/authentication_controller.dart';
+import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/utils/custom_container.dart';
 import 'package:bip_hip/widgets/common/button/linkup_text.dart';
-import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
 class Register extends StatelessWidget {
   Register({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final RegistrationHelper _registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
-
     return Container(
-      color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         top: false,
         child: Scaffold(
@@ -23,6 +24,7 @@ class Register extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
+              appBarColor: cTransparentColor,
               title: ksRegistration.tr,
               hasBackButton: false,
               onBack: () async {
@@ -38,7 +40,7 @@ class Register extends StatelessWidget {
               ],
             ),
           ),
-          backgroundColor: cWhiteColor,
+          backgroundColor: cTransparentColor,
           body: SizedBox(
             height: height,
             width: width,
@@ -50,78 +52,57 @@ class Register extends StatelessWidget {
                     children: [
                       kH24sizedBox,
                       if (_authenticationController.isReferredRegistration.value)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                          child: CustomTintContainer(
-                            width: width,
-                            borderRadius: k100CircularBorderRadius,
-                            widget: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k12Padding),
-                              child: RichText(
-                                textAlign: TextAlign.center,
-                                overflow: TextOverflow.clip,
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(text: 'You are registering with ', style: regular14TextStyle(cBlackColor)),
-                                    TextSpan(
-                                      text: 'John Doe',
-                                      style: semiBold14TextStyle(cBlackColor),
-                                    ),
-                                    TextSpan(
-                                      text: '\'s referral link',
-                                      style: regular14TextStyle(cBlackColor),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                        const ReferLinkContainer(
+                          referName: 'John Doe',
                         ),
                       kH24sizedBox,
-                      const TopTitleAndSubtitle(
-                        title: ksWhatFullName,
-                        subTitle: ksWriteRealName,
+                      TopTitleAndSubtitle(
+                        title: ksWhatFullName.tr,
+                        subTitle: ksWriteRealName.tr,
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerFirstNameTextEditingController,
                         errorText: _authenticationController.firstNameError.value,
-                        hint: ksFirstName,
+                        hint: ksFirstName.tr,
+                        textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                        fillColor: cWhiteColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(k4BorderRadius),
+                          borderSide: const BorderSide(width: 1, color: cLineColor2),
+                        ),
                         onChanged: (text) {
-                          _authenticationController.checkName();
-                          if (_authenticationController.registerFirstNameTextEditingController.text.trim() == '') {
-                            _authenticationController.firstNameError.value = ksEmptyFirstNameErrorMessage;
-                          } else {
-                            _authenticationController.firstNameError.value = "";
-                          }
+                          _registrationHelper.registerFirstNameOnChange();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.name,
                       ),
-                      kH12sizedBox,
+                      kH4sizedBox,
                       CustomModifiedTextField(
                         controller: _authenticationController.registerLastNameTextEditingController,
                         errorText: _authenticationController.lastNameError.value,
-                        hint: ksLastName,
+                        hint: ksLastName.tr,
+                        textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                        fillColor: cWhiteColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(k4BorderRadius),
+                          borderSide: const BorderSide(width: 1, color: cLineColor2),
+                        ),
                         onChanged: (text) {
-                          _authenticationController.checkName();
-                          if (_authenticationController.registerLastNameTextEditingController.text.trim() == '') {
-                            _authenticationController.lastNameError.value = ksEmptyLastNameErrorMessage;
-                          } else {
-                            _authenticationController.lastNameError.value = "";
-                          }
+                          _registrationHelper.registerLastNameOnChange();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,
                         inputType: TextInputType.name,
                       ),
-                      kH12sizedBox,
+                      kH24sizedBox,
                       CustomElevatedButton(
-                        label: ksNext,
+                        label: ksNext.tr,
                         onPressed: _authenticationController.checkValidName.value
                             ? () {
-                                Get.toNamed(krSelectBirthday);
+                                unfocus(context);
+                                _registrationHelper.onPressedNext();
                               }
                             : null,
                         buttonWidth: width - 40,
@@ -131,15 +112,54 @@ class Register extends StatelessWidget {
                       ),
                       kH24sizedBox,
                       LinkupTextRow(
-                          prefix: ksAlreadyHaveAccount,
-                          suffix: ksLogin,
-                          onPressed: () {
-                            Get.toNamed(krLogin);
-                          })
+                        prefix: ksAlreadyHaveAccount.tr,
+                        suffix: ksLogin.tr,
+                        onPressed: () {
+                          unfocus(context);
+                          Get.toNamed(krLogin);
+                        },
+                      )
                     ],
                   ),
                 ),
               ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ReferLinkContainer extends StatelessWidget {
+  const ReferLinkContainer({super.key, required this.referName});
+
+  final String referName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+      child: CustomTintContainer(
+        width: width,
+        borderRadius: k100CircularBorderRadius,
+        widget: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k12Padding),
+          child: RichText(
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.clip,
+            text: TextSpan(
+              children: [
+                TextSpan(text: '${ksYouAreRegisteringWith.tr} ', style: regular14TextStyle(cBlackColor)),
+                TextSpan(
+                  text: referName,
+                  style: semiBold14TextStyle(cBlackColor),
+                ),
+                TextSpan(
+                  text: '\'s ${ksReferCodeSmall.tr}',
+                  style: regular14TextStyle(cBlackColor),
+                ),
+              ],
             ),
           ),
         ),

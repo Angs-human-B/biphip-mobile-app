@@ -1,20 +1,21 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class PostUpperContainer extends StatelessWidget {
-  const PostUpperContainer(
-      {super.key,
-      required this.userName,
-      required this.isCategorized,
-      this.category,
-      this.categoryIcon,
-      this.categoryIconColor,
-      required this.privacy,
-      this.brandName,
-      this.kidName,
-      this.kidAge,
-      required this.postTime,
-      this.title,
-      this.price});
+  const PostUpperContainer({
+    super.key,
+    required this.userName,
+    required this.isCategorized,
+    this.category,
+    this.categoryIcon,
+    this.categoryIconColor,
+    required this.privacy,
+    this.brandName,
+    this.kidName,
+    this.kidAge,
+    required this.postTime,
+    this.title,
+    this.price,
+  });
 
   final String userName, postTime;
   final String? category, brandName, kidName, kidAge, title, price;
@@ -32,17 +33,17 @@ class PostUpperContainer extends StatelessWidget {
         Stack(
           children: [
             SizedBox(
-              width: (category == "Kids" || category == "Selling") ? 70 : h45,
+              width: (category == "Kids" || category == "Selling") ? 70 : h44,
               child: Row(
                 children: [
                   Container(
-                    height: h45,
-                    width: h45,
+                    height: h44,
+                    width: h44,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                     ),
                     child: Image.asset(
-                      "assets/images/profileDefault.png",
+                      kiProfileDefaultImageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -61,7 +62,7 @@ class PostUpperContainer extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Image.asset(
-                    "assets/images/profileDefault.png",
+                    kiProfileDefaultImageUrl,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -71,6 +72,7 @@ class PostUpperContainer extends StatelessWidget {
         kW8sizedBox,
         Expanded(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [
@@ -89,7 +91,7 @@ class PostUpperContainer extends StatelessWidget {
                             ),
                             if (isCategorized)
                               TextSpan(
-                                text: ' posted on ',
+                                text: ' ${ksPostedOn.tr} ',
                                 style: regular16TextStyle(cSmallBodyTextColor),
                               ),
                             if (isCategorized)

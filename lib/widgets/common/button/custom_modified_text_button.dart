@@ -29,7 +29,7 @@ class CustomTextButtonV2 extends StatelessWidget {
             text.toString(),
             style: textStyle,
           ),
-          kW4sizedBox,
+          if (suffixWidget != null) kW4sizedBox,
           suffixWidget ?? kEmptySizedBox,
         ],
       ),
