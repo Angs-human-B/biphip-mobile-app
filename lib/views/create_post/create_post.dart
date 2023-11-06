@@ -257,7 +257,7 @@ class CreatePost extends StatelessWidget {
                                                                   ),
                                                                   kW8sizedBox,
                                                                   OutLinedButton(
-                                                                    buttonText: ksSelectCTA.tr,
+                                                                    buttonText: ksSelectAction.tr,
                                                                     buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
                                                                     borderColor: cLineColor,
                                                                     buttonWidth: width * .45 - 20,

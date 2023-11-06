@@ -234,7 +234,7 @@ class AddBrandPage extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 6.0),
                                     child: SvgPicture.asset(
-                                      kiLinkedListSvgImageUrl,
+                                      kiLinkedInSvgImageUrl,
                                       fit: BoxFit.fill,
                                       height: 36,
                                       width: 36,

@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/create_post/create_post_widget/common_category_button.dart';
 import 'package:bip_hip/views/menu/profile/edit_profile.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class PlatformAndAction extends StatelessWidget {
   PlatformAndAction({super.key});
@@ -69,77 +70,74 @@ class PlatformAndAction extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
+                    isDeviceScreenLarge() ? kH16sizedBox : kH8sizedBox,
                     Text(
-                      ksSelectPlatform.tr,
+                      ksSelectPlatform.tr.toUpperCase(),
                       style: regular14TextStyle(cSmallBodyTextColor),
                     ),
                     kH8sizedBox,
                     Wrap(
                       children: [
-                        for (int i = 0; i < _createPostController.categoryList.length - 1; i++)
+                        for (int i = 0; i < _createPostController.platformList.length; i++)
                           Obx(
                             () => CategoryComponent(
                               onPress: () {
-                                _createPostController.selectCategoryStatusChange(i);
+                                _createPostController.selectPlatformStatusChange(i);
                               },
                               suffixWidget: Transform.scale(
                                 scale: .7,
                                 child: CustomRadioButton(
                                   onChanged: () {
-                                    _createPostController.selectCategoryStatusChange(i);
+                                    _createPostController.selectPlatformStatusChange(i);
                                   },
-                                  isSelected: _createPostController.categoryStatusList[i],
+                                  isSelected: _createPostController.platformStatusList[i],
                                 ),
                               ),
-                              icon: _createPostController.categoryList[i]['icon'],
-                              iconColor: _createPostController.categoryList[i]['icon_color'],
-                              iconSize: isDeviceScreenLarge() ? h20 : h16,
-                              title: _createPostController.categoryList[i]['name'],
+                              prefixWidget: SvgPicture.asset(
+                                _createPostController.platformList[i]['image'],
+                                height: isDeviceScreenLarge() ? h20 : h16,
+                                width: isDeviceScreenLarge() ? h20 : h16,
+                              ),
+                              title: _createPostController.platformList[i]['name'],
+                              titleStyle: medium14TextStyle(cBlackColor),
+                            ),
+                          ),
+                      ],
+                    ),
+                    kH16sizedBox,
+                    const CustomDivider(
+                      thickness: 1,
+                    ),
+                    kH16sizedBox,
+                    Text(
+                      ksSelectAction.tr.toUpperCase(),
+                      style: regular14TextStyle(cSmallBodyTextColor),
+                    ),
+                    kH8sizedBox,
+                    Wrap(
+                      children: [
+                        for (int i = 0; i < _createPostController.actionList.length; i++)
+                          Obx(
+                            () => CategoryComponent(
+                              onPress: () {
+                                _createPostController.selectActionStatusChange(i);
+                              },
+                              suffixWidget: Transform.scale(
+                                scale: .7,
+                                child: CustomRadioButton(
+                                  onChanged: () {
+                                    _createPostController.selectActionStatusChange(i);
+                                  },
+                                  isSelected: _createPostController.actionStatusList[i],
+                                ),
+                              ),
+                              title: _createPostController.actionList[i]['title'],
                               titleStyle: medium14TextStyle(cBlackColor),
                             ),
                           ),
                       ],
                     ),
                     kH8sizedBox,
-                    Text(
-                      "*${ksAddKidInstructions.tr}",
-                      style: regular12TextStyle(cPlaceHolderColor),
-                    ),
-                    kH16sizedBox,
-                    const CustomDivider(),
-                    kH16sizedBox,
-                    Text(
-                      ksSellAllCap.tr,
-                      style: regular14TextStyle(cSmallBodyTextColor),
-                    ),
-                    kH8sizedBox,
-                    Obx(
-                      () => CategoryComponent(
-                        onPress: () {
-                          _createPostController.selectCategoryStatusChange(_createPostController.categoryList.length - 1);
-                        },
-                        suffixWidget: Transform.scale(
-                          scale: .7,
-                          child: CustomRadioButton(
-                            onChanged: () {
-                              _createPostController.selectCategoryStatusChange(_createPostController.categoryList.length - 1);
-                            },
-                            isSelected: _createPostController.categoryStatusList[_createPostController.categoryList.length - 1],
-                          ),
-                        ),
-                        icon: _createPostController.categoryList[_createPostController.categoryList.length - 1]['icon'],
-                        iconColor: _createPostController.categoryList[_createPostController.categoryList.length - 1]['icon_color'],
-                        iconSize: isDeviceScreenLarge() ? h20 : h16,
-                        title: _createPostController.categoryList[_createPostController.categoryList.length - 1]['title'],
-                        titleStyle: medium14TextStyle(cBlackColor),
-                      ),
-                    ),
-                    kH8sizedBox,
-                    Text(
-                      "*${ksSellInformation.tr}",
-                      style: regular12TextStyle(cPlaceHolderColor),
-                    ),
                   ],
                 ),
               ),

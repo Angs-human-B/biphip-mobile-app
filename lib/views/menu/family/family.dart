@@ -243,7 +243,7 @@ class AllFamilyList extends StatelessWidget {
                     ),
                   ),
                 )
-              : Expanded(child: Container(alignment: Alignment.center, child: EmptyView(title: ksNofamilyAddedYet.tr))),
+              : Expanded(child: Container(alignment: Alignment.center, child: EmptyView(title: ksNoFamilyAddedYet.tr))),
     );
   }
 }
@@ -315,7 +315,7 @@ class ReceivedFamilyList extends StatelessWidget {
                     ),
                   ),
                 )
-              : Expanded(child: Container(alignment: Alignment.center, child: EmptyView(title: ksNofamilyRequestReceivedYet.tr))),
+              : Expanded(child: Container(alignment: Alignment.center, child: EmptyView(title: ksNoFamilyRequestReceivedYet.tr))),
     );
   }
 }
@@ -385,7 +385,7 @@ class PendingFamilyList extends StatelessWidget {
                     ),
                   ),
                 )
-              : Expanded(child: Container(alignment: Alignment.center, child: EmptyView(title: ksNofamilyRequestSendYet.tr))),
+              : Expanded(child: Container(alignment: Alignment.center, child: EmptyView(title: ksNoFamilyRequestSendYet.tr))),
     );
   }
 }

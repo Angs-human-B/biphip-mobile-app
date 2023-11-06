@@ -61,197 +61,69 @@ class CreatePostController extends GetxController {
   final RxList audienceStatusList = RxList([true, false, false]);
 
   final List audienceTypeList = [
-    {
-      "title": "Public",
-      "subtitle": "Anyone from BipHip",
-      "icon": BipHip.world,
-    },
-    {
-      "title": "Friends",
-      "subtitle": "Your friends from BipHip",
-      "icon": BipHip.friends,
-    },
-    {
-      "title": "Only me",
-      "subtitle": "Only you can see",
-      "icon": BipHip.lock,
-    },
+    {"title": "Public", "subtitle": "Anyone from BipHip", "icon": BipHip.world},
+    {"title": "Friends", "subtitle": "Your friends from BipHip", "icon": BipHip.friends},
+    {"title": "Only me", "subtitle": "Only you can see", "icon": BipHip.lock},
   ];
 
   final List categoryList = [
-    {
-      "id": '',
-      "name": '',
-      "title": "Poetry",
-      "icon": BipHip.poetry,
-      "icon_color": cPoetryColor,
-    },
-    {
-      "id": '',
-      "name": '',
-      "title": "Painting",
-      "icon": BipHip.painting,
-      "icon_color": cPaintingColor,
-    },
-    {
-      "id": '',
-      "name": '',
-      "title": "Kids",
-      "icon": BipHip.kids,
-      "icon_color": cKidsColor,
-    },
-    {
-      "id": '',
-      "name": '',
-      "title": "Storytelling",
-      "icon": BipHip.storytelling,
-      "icon_color": cStoryTellingColor,
-    },
-    {
-      "id": '',
-      "name": '',
-      "title": "Photography",
-      "icon": BipHip.photography,
-      "icon_color": cPhotographyColor,
-    },
-    {
-      "id": '',
-      "name": '',
-      "title": "News",
-      "icon": BipHip.newsFill, // todo:: icon will be changed
-      "icon_color": cBlackColor,
-    },
-    {
-      "id": '',
-      "name": '',
-      "title": "Selling",
-      "icon": BipHip.selling,
-      "icon_color": cSellingColor,
-    },
+    {"id": '', "name": '', "title": "Poetry", "icon": BipHip.poetry, "icon_color": cPoetryColor},
+    {"id": '', "name": '', "title": "Painting", "icon": BipHip.painting, "icon_color": cPaintingColor},
+    {"id": '', "name": '', "title": "Kids", "icon": BipHip.kids, "icon_color": cKidsColor},
+    {"id": '', "name": '', "title": "Storytelling", "icon": BipHip.storytelling, "icon_color": cStoryTellingColor},
+    {"id": '', "name": '', "title": "Photography", "icon": BipHip.photography, "icon_color": cPhotographyColor},
+    {"id": '', "name": '', "title": "News", "icon": BipHip.newsFill, "icon_color": cBlackColor},
+    {"id": '', "name": '', "title": "Selling", "icon": BipHip.selling, "icon_color": cSellingColor},
   ];
 
   final RxList categoryStatusList = RxList([false, false, false, false, false, false, false]);
 
   final List tagFiendList = [
-    {
-      "name": "Takin Ahmed",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed",
-      "image_url": kiLogoImageUrl,
-    },
+    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
   ];
 
   final RxList selectedKidStatusList = RxList([false, false, false, false, false, false, false, false, false]);
-  // final List kidList = [
-  //   {
-  //     "name": "Takin Ahmed 1",
-  //     "image_url": kiLogoImageUrl,
-  //   },
-  //   {
-  //     "name": "Takin Ahmed 2",
-  //     "image_url": kiLogoImageUrl,
-  //   },
-  //   {
-  //     "name": "Takin Ahmed 3",
-  //     "image_url": kiLogoImageUrl,
-  //   },
-  //   {
-  //     "name": "Takin Ahmed 4",
-  //     "image_url": kiLogoImageUrl,
-  //   },
-  //   {
-  //     "name": "Takin Ahmed 5",
-  //     "image_url": kiLogoImageUrl,
-  //   },
-  //   {
-  //     "name": "Takin Ahmed 6",
-  //     "image_url": kiLogoImageUrl,
-  //   },
-  //   {
-  //     "name": "Takin Ahmed 7",
-  //     "image_url": kiLogoImageUrl,
-  //   },
-  //   {
-  //     "name": "Takin Ahmed 8",
-  //     "image_url": kiLogoImageUrl,
-  //   },
-  //   {
-  //     "name": "Takin Ahmed 9",
-  //     "image_url": kiLogoImageUrl,
-  //   },
-  // ];
   final RxList selectedBrandStatusList = RxList([false, false, false, false, false, false, false, false, false]);
   final List brandList = [
-    {
-      "name": "Takin Ahmed 1",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 2",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 3",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 4",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 5",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 6",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 7",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 8",
-      "image_url": kiLogoImageUrl,
-    },
-    {
-      "name": "Takin Ahmed 9",
-      "image_url": kiLogoImageUrl,
-    },
+    {"name": "Takin Ahmed 1", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed 2", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed 3", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed 4", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed 5", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed 6", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed 7", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed 8", "image_url": kiLogoImageUrl},
+    {"name": "Takin Ahmed 9", "image_url": kiLogoImageUrl},
   ];
 
   final RxList allMediaList = RxList([]);
   final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
+
+  final List platformList = [
+    {"id": '', "name": 'Facebook', "title": "Facebook", "image": kiFacebookSvgImageUrl},
+    {"id": '', "name": 'Website', "title": "Website", "image": kiWebSvgImageUrl},
+    {"id": '', "name": 'LinkedIn', "title": "LinkedIn", "image": kiLinkedInSvgImageUrl},
+    {"id": '', "name": 'Twitter', "title": "Twitter", "image": kiTwitterXSvgImageUrl},
+    {"id": '', "name": 'Youtube', "title": "Youtube", "image": kiYoutubeSvgImageUrl},
+  ];
+
+  final RxList platformStatusList = RxList([false, false, false, false, false]);
+  final List actionList = [
+    {"id": '', "name": 'Learn More', "title": "Learn More"},
+    {"id": '', "name": 'Message', "title": "Message"},
+    {"id": '', "name": 'Buy Now', "title": "Buy Now"},
+    {"id": '', "name": 'See Post', "title": "See Post"},
+  ];
+
+  final RxList actionStatusList = RxList([false, false, false, false]);
 //------------------------------
 //! important:: create post related functions start
 //------------------------------
@@ -707,11 +579,78 @@ class CreatePostController extends GetxController {
   }
 
   void initializeCategory() {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < categoryList.length; i++) {
       if (categoryList[i]['title'] == category.value) {
         categoryStatusList[i] = true;
       } else {
         categoryStatusList[i] = false;
+      }
+    }
+  }
+
+  void selectPlatformStatusChange(index) {
+    for (int i = 0; i < platformStatusList.length; i++) {
+      if (index == i) {
+        platformStatusList[i] = true;
+      } else {
+        platformStatusList[i] = false;
+      }
+    }
+  }
+
+  void selectPlatformTextChange(context) {
+    for (int i = 0; i < platformList.length; i++) {
+      if (platformStatusList[i]) {
+        // categoryID.value = categoryList[i]['id'];
+        // category.value = categoryList[i]['title'];
+        // categoryIcon.value = categoryList[i]['icon'];
+        // categoryIconColor.value = categoryList[i]['icon_color'];
+        break;
+      }
+    }
+    // ll(categoryID);
+    Get.back();
+  }
+
+  void initializePlatform() {
+    for (int i = 0; i < platformList.length; i++) {
+      if (platformList[i]['title'] == category.value) {
+        platformStatusList[i] = true;
+      } else {
+        platformStatusList[i] = false;
+      }
+    }
+  }
+
+  void selectActionStatusChange(index) {
+    for (int i = 0; i < actionStatusList.length; i++) {
+      if (index == i) {
+        actionStatusList[i] = true;
+      } else {
+        actionStatusList[i] = false;
+      }
+    }
+  }
+
+  void selectActionTextChange(context) {
+    for (int i = 0; i < actionList.length; i++) {
+      if (actionStatusList[i]) {
+        // categoryID.value = categoryList[i]['id'];
+        // category.value = categoryList[i]['title'];
+        break;
+      }
+    }
+    // ll(categoryID);
+
+    Get.back();
+  }
+
+  void initializeAction() {
+    for (int i = 0; i < actionList.length; i++) {
+      if (actionList[i]['title'] == category.value) {
+        actionStatusList[i] = true;
+      } else {
+        actionStatusList[i] = false;
       }
     }
   }
@@ -725,26 +664,6 @@ class CreatePostController extends GetxController {
       }
     }
   }
-
-  // void selectKidTextChange() {
-  //   for (int i = 0; i < kidList.length; i++) {
-  //     if (selectedKidStatusList[i]) {
-  //       selectedKidName.value = kidList[i]['name'];
-  //       selectedKidImage.value = kidList[i]['image_url'];
-  //       break;
-  //     }
-  //   }
-  // }
-
-  // void initializeKidText() {
-  //   for (int i = 0; i < selectedKidStatusList.length; i++) {
-  //     if (kidList[i]['name'] == selectedKidName.value) {
-  //       selectedKidStatusList[i] = true;
-  //     } else {
-  //       selectedKidStatusList[i] = false;
-  //     }
-  //   }
-  // }
 
   void selectBrandStatusChange(index) {
     for (int i = 0; i < selectedBrandStatusList.length; i++) {
