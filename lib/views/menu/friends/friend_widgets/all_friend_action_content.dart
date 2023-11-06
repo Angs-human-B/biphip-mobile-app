@@ -58,11 +58,7 @@ class AllFriendActionContent extends StatelessWidget {
                         ? (profileController.friendActionSelect.value == profileController.friendActionList[index]['action'])
                         : profileController.friendActionSelect.value == friendController.friendFollowActionList[index]['action'],
                   ),
-                  itemColor: friendController.allFriendFollowStatus.value == 1
-                      ? (profileController.friendActionSelect.value == profileController.friendActionList[index]['action'] ? cPrimaryTint3Color : cWhiteColor)
-                      : (profileController.friendActionSelect.value == friendController.friendFollowActionList[index]['action']
-                          ? cPrimaryTint3Color
-                          : cWhiteColor),
+                  itemColor: _friendHelper.allFriendItemColor(index),
                   onPressed: () {
                     if (friendController.allFriendFollowStatus.value == 1) {
                       profileController.friendActionSelect.value = profileController.friendActionList[index]['action'];

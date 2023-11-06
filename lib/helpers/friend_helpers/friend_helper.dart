@@ -20,6 +20,7 @@ class FriendHelper {
     }
   }
 
+  //*pending friend selected action color
   Color pendingFriendItemColor(int index) {
     if (_friendController.pendingFriendFollowStatus.value == 1) {
       if (_friendController.pendingFriendActionSelect.value == _friendController.pendingFriendActionList[index]['action']) {
@@ -114,13 +115,27 @@ class FriendHelper {
   //*Pending Friend Action on changed
   void pendingFriendActionOnChanged() {
     if (_friendController.pendingFriendFollowStatus.value == 1) {
-      for(int i=0;i<_friendController.pendingFriendActionList.length;i++){
-      _friendController.pendingFriendActionSelect.value = _friendController.pendingFriendActionList[i]['action'];
+      for (int i = 0; i < _friendController.pendingFriendActionList.length; i++) {
+        _friendController.pendingFriendActionSelect.value = _friendController.pendingFriendActionList[i]['action'];
       }
     } else if (_friendController.pendingFriendFollowStatus.value == 0) {
-      for(int i=0;i<_friendController.pendingFollowFriendActionList.length;i++){
-      _friendController.pendingFriendActionSelect.value = _friendController.pendingFollowFriendActionList[i]['action'];
+      for (int i = 0; i < _friendController.pendingFollowFriendActionList.length; i++) {
+        _friendController.pendingFriendActionSelect.value = _friendController.pendingFollowFriendActionList[i]['action'];
       }
     }
+  }
+
+  //*all friend selected action color
+  Color allFriendItemColor(int index) {
+    if (_friendController.allFriendFollowStatus.value == 1) {
+      if (_profileController.friendActionSelect.value == _profileController.friendActionList[index]['action']) {
+        return cPrimaryTint3Color;
+      }
+    } else {
+      if (_profileController.friendActionSelect.value == _friendController.friendFollowActionList[index]['action']) {
+        return cPrimaryTint3Color;
+      }
+    }
+    return cWhiteColor;
   }
 }
