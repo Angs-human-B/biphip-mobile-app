@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/helpers/friend_helpers/friend_helper.dart';
+import 'package:bip_hip/shimmer_views/friends/add_friend_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/menu/friends_family/friend_family_single_button_action.dart';
 import 'package:flutter/rendering.dart';
@@ -60,7 +61,7 @@ class AddFriend extends StatelessWidget {
                           _friendController.isFriendSuffixIconVisible.value = false;
                         },
                         onChanged: (v) {
-                          _friendController.addFriendOnChanged();
+                          _friendHelper.addFriendOnChanged();
                         },
                       ),
                       kH8sizedBox,
@@ -108,7 +109,6 @@ class AddFriend extends StatelessWidget {
                                                         : semiBold14TextStyle(cRedColor),
                                                     buttonOnPressed: () async {
                                                       _friendController.userId.value = _friendController.addFriendRequestList[index].id!;
-
                                                       if (_friendController.addFriendRequestList[index].friendStatus == 0) {
                                                         await _friendController.sendFriendRequest();
                                                       } else if (_friendController.addFriendRequestList[index].friendStatus == 2) {
@@ -145,68 +145,6 @@ class AddFriend extends StatelessWidget {
                   },
                 ),
               ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class AddFriendShimmer extends StatelessWidget {
-  const AddFriendShimmer({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 20,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: k10Padding),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(k8BorderRadius),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            ShimmerCommon(
-                              widget: Container(
-                                decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
-                                height: h40,
-                                width: h40,
-                              ),
-                            ),
-                            kW12sizedBox,
-                            ShimmerCommon(
-                              widget: Container(
-                                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                                height: 16,
-                                width: 100,
-                              ),
-                            ),
-                            const Spacer(),
-                            ShimmerCommon(
-                              widget: Container(
-                                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
-                                height: 30,
-                                width: isDeviceScreenLarge() ? 112 : 120,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
           ],
         ),
       ),

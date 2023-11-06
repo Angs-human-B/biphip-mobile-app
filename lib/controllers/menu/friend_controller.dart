@@ -831,21 +831,6 @@ class FriendController extends GetxController {
 
   Timer? debounce;
 
-  //*Add friend text field on change
-  void addFriendOnChanged() async {
-    if (debounce?.isActive ?? false) debounce!.cancel();
-    if (_profileController.searchController.text.trim() != '') {
-      isFriendSuffixIconVisible.value = true;
-      debounce = Timer(const Duration(milliseconds: 3000), () async {
-        await getAddFriendRequestList();
-      });
-    }
-    if (_profileController.searchController.text.trim() == '') {
-      isFriendSuffixIconVisible.value = false;
-      addFriendRequestList.clear();
-    }
-  }
-
   final RxBool isFriendSearched = RxBool(false);
   final RxList pendingFriendActionList = RxList([
     {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
