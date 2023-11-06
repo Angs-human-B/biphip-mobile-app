@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/friend_helpers/friend_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/menu/friends_family/friend_family_single_button_action.dart';
 import 'package:flutter/rendering.dart';
@@ -8,6 +9,7 @@ class AddFriend extends StatelessWidget {
   AddFriend({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
   final FriendController _friendController = Get.find<FriendController>();
+  final FriendHelper _friendHelper = FriendHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class AddFriend extends StatelessWidget {
                     isCenterTitle: true,
                     onBack: () {
                       unFocus(context);
-                      _friendController.friendTapableButtonReset();
+                      _friendHelper.friendTapableButtonReset();
                       if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
                       Get.back();
                     },

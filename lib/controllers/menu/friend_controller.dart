@@ -830,27 +830,6 @@ class FriendController extends GetxController {
   }
 
   Timer? debounce;
-  void friendTapableButtonReset() {
-    _profileController.searchController.clear();
-    isFriendSuffixIconVisible.value = false;
-    isFriendSearched.value = false;
-  }
-
-  //*Friend text field on change
-  void friendOnChanged() async {
-    if (debounce?.isActive ?? false) debounce!.cancel();
-    if (Get.find<ProfileController>().searchController.text.trim() != '') {
-      isFriendSuffixIconVisible.value = true;
-      debounce = Timer(const Duration(milliseconds: 3000), () async {
-        isFriendSearched.value = true;
-        await getFriendSearchList();
-      });
-    } else {
-      isFriendSuffixIconVisible.value = false;
-      isFriendSearched.value = false;
-      await getFriendList();
-    }
-  }
 
   //*Add friend text field on change
   void addFriendOnChanged() async {
@@ -888,16 +867,4 @@ class FriendController extends GetxController {
   ]);
   final RxBool isFriendSuffixIconVisible = RxBool(false);
   final RxBool isRouteFromBottomNavBar = RxBool(false);
-  Color pendingFriendItemColor(int index) {
-    if (pendingFriendFollowStatus.value == 1) {
-      if (pendingFriendActionSelect.value == pendingFriendActionList[index]['action']) {
-        return cPrimaryTint3Color; // Set the selected item color to cPrimaryTint3Color
-      }
-    } else {
-      if (pendingFriendActionSelect.value == pendingFollowFriendActionList[index]['action']) {
-        return cPrimaryTint3Color; // Set the selected item color to cPrimaryTint3Color
-      }
-    }
-    return cWhiteColor;
-  }
 }
