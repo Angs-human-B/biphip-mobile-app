@@ -3,7 +3,7 @@ import 'package:bip_hip/helpers/friend_helpers/friend_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class PendingFriendActionContent extends StatelessWidget {
-   PendingFriendActionContent({
+  PendingFriendActionContent({
     Key? key,
     required this.friendController,
   }) : super(key: key);
@@ -49,11 +49,7 @@ class PendingFriendActionContent extends StatelessWidget {
                   subTitleTextStyle: regular14TextStyle(cBlackColor),
                   trailing: CustomRadioButton(
                     onChanged: () {
-                      if (friendController.pendingFriendFollowStatus.value == 1) {
-                        friendController.pendingFriendActionSelect.value = friendController.pendingFriendActionList[index]['action'];
-                      } else if (friendController.pendingFriendFollowStatus.value == 0) {
-                        friendController.pendingFriendActionSelect.value = friendController.pendingFollowFriendActionList[index]['action'];
-                      }
+                      _friendHelper.pendingFriendActionOnChanged();
                     },
                     isSelected: friendController.pendingFriendFollowStatus.value == 1
                         ? (friendController.pendingFriendActionSelect.value == friendController.pendingFriendActionList[index]['action'])

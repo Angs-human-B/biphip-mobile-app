@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -99,6 +98,7 @@ class FriendHelper {
     }
   }
 
+  //*All Friend Action on changed
   void allFriendActionOnChanged() {
     if (_friendController.allFriendFollowStatus.value == 1) {
       for (int i = 0; i < _profileController.friendActionList.length; i++) {
@@ -107,6 +107,19 @@ class FriendHelper {
     } else if (_friendController.allFriendFollowStatus.value == 0) {
       for (int i = 0; i < _friendController.friendFollowActionList.length; i++) {
         _profileController.friendActionSelect.value = _friendController.friendFollowActionList[i]['action'];
+      }
+    }
+  }
+
+  //*Pending Friend Action on changed
+  void pendingFriendActionOnChanged() {
+    if (_friendController.pendingFriendFollowStatus.value == 1) {
+      for(int i=0;i<_friendController.pendingFriendActionList.length;i++){
+      _friendController.pendingFriendActionSelect.value = _friendController.pendingFriendActionList[i]['action'];
+      }
+    } else if (_friendController.pendingFriendFollowStatus.value == 0) {
+      for(int i=0;i<_friendController.pendingFollowFriendActionList.length;i++){
+      _friendController.pendingFriendActionSelect.value = _friendController.pendingFollowFriendActionList[i]['action'];
       }
     }
   }
