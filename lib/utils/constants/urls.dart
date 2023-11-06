@@ -131,6 +131,12 @@ const String kuCreatePost = '/mobile/user/store-post';
 const String kuGetAllPosts = '/mobile/user/get-all-posts';
 const String kuGetPostData = '/mobile/user/get-post';
 
+//* kids
+//---------------------------------------
+const String kuDeleteKids = '/mobile/user/delete-kid';
+const String kuUpdateKid = '/mobile/user/update-kid';
+
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls
