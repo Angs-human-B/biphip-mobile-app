@@ -1,6 +1,8 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/shimmer_views/profile/relation_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/profile/edit_about_sections/relationship_section.dart';
 import 'package:intl/intl.dart';
 
 class EditProfileHelper {
@@ -67,6 +69,7 @@ class EditProfileHelper {
       return null;
     }
   }
+
   void addEducationBackground() {
     _profileController.resetTextEditor();
     _profileController.getMethod(5);
@@ -111,5 +114,72 @@ class EditProfileHelper {
     }
     _profileController.getMethod(7);
     _profileController.getSchoolList();
+  }
+
+  //* Relationship Section
+  void setRelationshipStatus(context) async {
+    _profileController.isRelationListLoading.value = true;
+    _profileController.tempRelationshipStatus.value = '';
+    if (_profileController.relationshipStatus.value != '') {
+      _profileController.tempRelationshipStatus.value = _profileController.relationshipStatus.value;
+    } else if (_profileController.userData.value!.relation != null) {
+      _profileController.tempRelationshipStatus.value = checkNullOrStringNull(_profileController.userData.value!.relation);
+    }
+    if (_profileController.tempRelationshipStatus.value == '') {
+      _globalController.isBottomSheetRightButtonActive.value = false;
+    } else {
+      _globalController.isBottomSheetRightButtonActive.value = true;
+    }
+    relationshipBottomSheet(context);
+    await _profileController.getRelationshipList();
+  }
+
+  void relationshipBottomSheet(context) {
+    _globalController.commonBottomSheet(
+      context: context,
+      content: Obx(
+        () => _profileController.isRelationListLoading.value
+            ? const RelationshipStatusListShimmer()
+            : RelationshipStatusListContent(
+                profileController: _profileController,
+              ),
+      ),
+      isScrollControlled: true,
+      bottomSheetHeight: height * 0.6,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        if (_profileController.tempRelationshipStatus.value != '') {
+          _profileController.relationshipStatus.value = _profileController.tempRelationshipStatus.value;
+          _profileController.showEditRelationshipStatus.value = true;
+        }
+        Get.back();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: medium14TextStyle(cPrimaryColor),
+      title: ksSelectRelationshipStatus.tr,
+      isRightButtonShow: true,
+    );
+  }
+
+  void resetRelationshipStatus() {
+    _profileController.relationshipStatus.value = '';
+    _profileController.showEditRelationshipStatus.value = false;
+  }
+
+  void saveRelationshipStatus() async {
+    await _profileController.storeUserSetting('relationship', _profileController.relationshipStatus.value);
+    _profileController.showEditRelationshipStatus.value = false;
+    _profileController.relationshipStatus.value = '';
+  }
+
+  void selectBottomSheetRelationshipContent(index) {
+    _profileController.tempRelationshipStatus.value = _profileController.relationshipStatusList[index];
+    if (_profileController.tempRelationshipStatus.value == '') {
+      _globalController.isBottomSheetRightButtonActive.value = false;
+    } else {
+      _globalController.isBottomSheetRightButtonActive.value = true;
+    }
   }
 }

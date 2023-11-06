@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
-import 'package:bip_hip/shimmer_views/profile/relation_shimmer.dart';
+import 'package:bip_hip/helpers/profile_helpers/edit_profiler_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/edit_about.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
@@ -8,7 +8,7 @@ import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 class RelationshipSection extends StatelessWidget {
   RelationshipSection({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final EditProfileHelper _editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -26,45 +26,7 @@ class RelationshipSection extends StatelessWidget {
           CustomSelectionButton(
             prefixIcon: BipHip.love,
             onPressed: () async {
-              _profileController.isRelationListLoading.value = true;
-              _profileController.tempRelationshipStatus.value = '';
-              if (_profileController.relationshipStatus.value != '') {
-                _profileController.tempRelationshipStatus.value = _profileController.relationshipStatus.value;
-              } else if (_profileController.userData.value!.relation != null) {
-                _profileController.tempRelationshipStatus.value = checkNullOrStringNull(_profileController.userData.value!.relation);
-              }
-              if (_profileController.tempRelationshipStatus.value == '') {
-                _globalController.isBottomSheetRightButtonActive.value = false;
-              } else {
-                _globalController.isBottomSheetRightButtonActive.value = true;
-              }
-              _globalController.commonBottomSheet(
-                context: context,
-                content: Obx(
-                  () => _profileController.isRelationListLoading.value
-                      ? const RelationshipStatusListShimmer()
-                      : _RelationshipStatusListContent(
-                          profileController: _profileController,
-                        ),
-                ),
-                isScrollControlled: true,
-                bottomSheetHeight: height * 0.6,
-                onPressCloseButton: () {
-                  Get.back();
-                },
-                onPressRightButton: () {
-                  if (_profileController.tempRelationshipStatus.value != '') {
-                    _profileController.relationshipStatus.value = _profileController.tempRelationshipStatus.value;
-                    _profileController.showEditRelationshipStatus.value = true;
-                  }
-                  Get.back();
-                },
-                rightText: ksDone.tr,
-                rightTextStyle: medium14TextStyle(cPrimaryColor),
-                title: ksSelectRelationshipStatus.tr,
-                isRightButtonShow: true,
-              );
-              await _profileController.getRelationshipList();
+              _editProfileHelper.setRelationshipStatus(context);
             },
             text: _profileController.relationshipStatus.value != ''
                 ? _profileController.relationshipStatus.value
@@ -75,13 +37,10 @@ class RelationshipSection extends StatelessWidget {
           if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
             CancelSaveButton(
               onPressedCancel: () {
-                _profileController.relationshipStatus.value = '';
-                _profileController.showEditRelationshipStatus.value = false;
+                _editProfileHelper.resetRelationshipStatus();
               },
-              onPressedSave: () async {
-                _profileController.storeUserSetting('relationship', _profileController.relationshipStatus.value);
-                _profileController.showEditRelationshipStatus.value = false;
-                _profileController.relationshipStatus.value = '';
+              onPressedSave: ()  {
+                _editProfileHelper.saveRelationshipStatus();
               },
             ),
           kH16sizedBox,
@@ -91,13 +50,15 @@ class RelationshipSection extends StatelessWidget {
   }
 }
 
-class _RelationshipStatusListContent extends StatelessWidget {
-  const _RelationshipStatusListContent({
+class RelationshipStatusListContent extends StatelessWidget {
+   RelationshipStatusListContent({
     Key? key,
     required this.profileController,
   }) : super(key: key);
 
   final ProfileController profileController;
+  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -126,12 +87,7 @@ class _RelationshipStatusListContent extends StatelessWidget {
                                 ? cPrimaryTint3Color
                                 : cWhiteColor,
                             onPressed: () {
-                              profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
-                              if (profileController.tempRelationshipStatus.value == '') {
-                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                              } else {
-                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                              }
+                              _editProfileHelper.selectBottomSheetRelationshipContent(index);
                             },
                           ),
                         ),
