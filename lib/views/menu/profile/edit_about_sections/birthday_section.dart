@@ -1,5 +1,5 @@
-import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/profile_helpers/edit_profiler_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/edit_about.dart';
 import 'package:intl/intl.dart';
@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 class BirthdaySection extends StatelessWidget {
   BirthdaySection({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final EditProfileHelper _editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +27,7 @@ class BirthdaySection extends StatelessWidget {
             prefixText: DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!),
             isAddButton: false,
             suffixOnPressed: () {
-              _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!);
-              _profileController.isRouteFromAboutInfo.value = true;
-              Get.toNamed(krSelectBirthday);
+              _editProfileHelper.editBirthday();
             },
           ),
           kH16sizedBox,

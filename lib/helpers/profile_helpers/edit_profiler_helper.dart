@@ -235,4 +235,11 @@ class EditProfileHelper {
     _profileController.selectedGender.value = '';
     _profileController.isGenderSelected.value = false;
   }
+
+  //* Birthday Section
+  void editBirthday() {
+    _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!);
+    _profileController.isRouteFromAboutInfo.value = true;
+    Get.toNamed(krSelectBirthday);
+  }
 }
