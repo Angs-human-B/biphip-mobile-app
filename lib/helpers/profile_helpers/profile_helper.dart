@@ -142,4 +142,13 @@ class ProfileHelper {
       Get.toNamed(krViewPhoto);
     }
   }
+
+  void viewCoverPhoto() {
+    if (_profileController.userData.value!.coverPhoto != null) {
+      _profileController.viewOptionEnabled.value = true;
+      _profileController.isProfilePhoto.value = false;
+      _profileController.previewPhoto.value = _profileController.userData.value!.coverPhoto.toString();
+      Get.toNamed(krViewPhoto);
+    }
+  }
 }
