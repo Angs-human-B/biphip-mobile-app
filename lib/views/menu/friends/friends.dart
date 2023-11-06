@@ -39,7 +39,7 @@ class Friends extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () async {
                             FocusScope.of(context).unfocus();
-                            _friendHelper.friendTapableButtonReset();
+                            _friendHelper.friendSearchFieldReset();
                             if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
                             _friendController.addFriendRequestList.clear();
                             Get.toNamed(krAddFriend);
@@ -64,23 +64,17 @@ class Friends extends StatelessWidget {
                           buttonText: _profileController.tapAbleButtonText,
                           buttonState: _profileController.tapAbleButtonState,
                           buttonPress: RxList([
-                            () async {
-                              FocusScope.of(context).unfocus();
-                              _friendHelper.friendTapableButtonReset();
-                              _profileController.toggleType(0);
-                              await _friendController.getFriendList();
+                            () {
+                              unFocus(context);
+                              _friendHelper.allFriendTapableButtOnPressed();
                             },
-                            () async {
-                              FocusScope.of(context).unfocus();
-                              _friendHelper.friendTapableButtonReset();
-                              _profileController.toggleType(1);
-                              await _friendController.getReceivedFriendList();
+                            () {
+                              unFocus(context);
+                              _friendHelper.receivedFriendTapableButtOnPressed();
                             },
-                            () async {
-                              FocusScope.of(context).unfocus();
-                              _friendHelper.friendTapableButtonReset();
-                              _profileController.toggleType(2);
-                              await _friendController.getSendFriendRequestList();
+                            () {
+                              unFocus(context);
+                              _friendHelper.pendingFriendTapableButtOnPressed();
                             },
                           ]),
                         ),
@@ -97,10 +91,8 @@ class Friends extends StatelessWidget {
                                 hint: ksSearch.tr,
                                 contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
                                 textInputStyle: regular16TextStyle(cBlackColor),
-                                onSuffixPress: () async {
-                                  _friendHelper.friendTapableButtonReset();
-                                  if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
-                                  await _friendController.getFriendList();
+                                onSuffixPress: () {
+                                  _friendHelper.friendSuffixPressed();
                                 },
                                 onSubmit: (v) {
                                   unfocus(context);

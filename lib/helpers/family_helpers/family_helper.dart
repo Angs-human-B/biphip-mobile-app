@@ -49,19 +49,19 @@ class FamilyHelper {
     }
   }
 
-  void allFamilyTapableButtonPressed() async {
+  void allFamilyTapableButtOnPressed() async {
     _profileController.toggleType(0);
     familySearchFieldReset();
     await _familyController.getFamilyList();
   }
 
-  void receivedFamilyTapableButtonPressed() async {
+  void receivedFamilyTapableButtOnPressed() async {
     _profileController.toggleType(1);
     familySearchFieldReset();
     await _familyController.getReceivedFamilyList();
   }
 
-  void pendingFamilyTapableButtonPressed() async {
+  void pendingFamilyTapableButtOnPressed() async {
     _profileController.toggleType(2);
     familySearchFieldReset();
     await _familyController.getSendFamilyRequestList();

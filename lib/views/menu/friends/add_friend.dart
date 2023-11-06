@@ -32,9 +32,7 @@ class AddFriend extends StatelessWidget {
                     isCenterTitle: true,
                     onBack: () {
                       unFocus(context);
-                      _friendHelper.friendTapableButtonReset();
-                      if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
-                      Get.back();
+                      _friendHelper.addFriendBackButtonPressed();
                     },
                   ),
                 ),
@@ -52,9 +50,7 @@ class AddFriend extends StatelessWidget {
                         contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
                         textInputStyle: regular16TextStyle(cBlackColor),
                         onSuffixPress: () {
-                          Get.find<ProfileController>().searchController.clear();
-                          _friendController.isFriendSuffixIconVisible.value = false;
-                          _friendController.addFriendRequestList.clear();
+                          _friendHelper.addFriendSuffixPressed();
                         },
                         onSubmit: (v) {
                           unfocus(context);
@@ -107,13 +103,8 @@ class AddFriend extends StatelessWidget {
                                                     textStyle: _friendController.addFriendRequestList[index].friendStatus == 0
                                                         ? semiBold14TextStyle(cWhiteColor)
                                                         : semiBold14TextStyle(cRedColor),
-                                                    buttonOnPressed: () async {
-                                                      _friendController.userId.value = _friendController.addFriendRequestList[index].id!;
-                                                      if (_friendController.addFriendRequestList[index].friendStatus == 0) {
-                                                        await _friendController.sendFriendRequest();
-                                                      } else if (_friendController.addFriendRequestList[index].friendStatus == 2) {
-                                                        await _friendController.cancelFriendRequest();
-                                                      }
+                                                    buttonOnPressed: () {
+                                                      _friendHelper.addFriendOnPressed(index);
                                                     },
                                                   ),
                                                 ),

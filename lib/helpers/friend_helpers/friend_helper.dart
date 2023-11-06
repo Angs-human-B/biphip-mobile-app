@@ -9,7 +9,8 @@ import 'package:bip_hip/views/menu/friends/friend_widgets/received_friend_listvi
 class FriendHelper {
   final ProfileController _profileController = Get.find<ProfileController>();
   final FriendController _friendController = Get.find<FriendController>();
-  //*friends page list data show
+  //!Friend Page
+  //*friends page tapable button views
   StatelessWidget allReceivedPendingFriendsView() {
     if (_profileController.tapAbleButtonState[0] == true) {
       return AllFriendListView();
@@ -20,22 +21,8 @@ class FriendHelper {
     }
   }
 
-  //*pending friend selected action color
-  Color pendingFriendItemColor(int index) {
-    if (_friendController.pendingFriendFollowStatus.value == 1) {
-      if (_friendController.pendingFriendActionSelect.value == _friendController.pendingFriendActionList[index]['action']) {
-        return cPrimaryTint3Color;
-      }
-    } else {
-      if (_friendController.pendingFriendActionSelect.value == _friendController.pendingFollowFriendActionList[index]['action']) {
-        return cPrimaryTint3Color;
-      }
-    }
-    return cWhiteColor;
-  }
-
   //* Friend page tapable button reset
-  void friendTapableButtonReset() {
+  void friendSearchFieldReset() {
     _profileController.searchController.clear();
     _friendController.isFriendSuffixIconVisible.value = false;
     _friendController.isFriendSearched.value = false;
@@ -54,21 +41,6 @@ class FriendHelper {
       _friendController.isFriendSuffixIconVisible.value = false;
       _friendController.isFriendSearched.value = false;
       await _friendController.getFriendList();
-    }
-  }
-
-  //*Add friend text field on change
-  void addFriendOnChanged() async {
-    if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
-    if (_profileController.searchController.text.trim() != '') {
-      _friendController.isFriendSuffixIconVisible.value = true;
-      _friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
-        await _friendController.getAddFriendRequestList();
-      });
-    }
-    if (_profileController.searchController.text.trim() == '') {
-      _friendController.isFriendSuffixIconVisible.value = false;
-      _friendController.addFriendRequestList.clear();
     }
   }
 
@@ -99,6 +71,69 @@ class FriendHelper {
     }
   }
 
+  void allFriendTapableButtOnPressed() async {
+    _profileController.toggleType(0);
+    friendSearchFieldReset();
+    await _friendController.getFriendList();
+  }
+
+  void receivedFriendTapableButtOnPressed() async {
+    _profileController.toggleType(1);
+    friendSearchFieldReset();
+    await _friendController.getReceivedFriendList();
+  }
+
+  void pendingFriendTapableButtOnPressed() async {
+    _profileController.toggleType(2);
+    friendSearchFieldReset();
+    await _friendController.getSendFriendRequestList();
+  }
+
+  void friendSuffixPressed() async {
+    friendSearchFieldReset();
+    if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
+    await _friendController.getFriendList();
+  }
+
+  //!Add Friend Page
+  //*Add Friend
+  void addFriendSuffixPressed() {
+    _profileController.searchController.clear();
+    _friendController.isFriendSuffixIconVisible.value = false;
+    _friendController.addFriendRequestList.clear();
+  }
+
+  void addFriendBackButtonPressed() {
+    friendSearchFieldReset();
+    if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
+    Get.back();
+  }
+
+  void addFriendOnPressed(index) async {
+    _friendController.userId.value = _friendController.addFriendRequestList[index].id!;
+    if (_friendController.addFriendRequestList[index].friendStatus == 0) {
+      await _friendController.sendFriendRequest();
+    } else if (_friendController.addFriendRequestList[index].friendStatus == 2) {
+      await _friendController.cancelFriendRequest();
+    }
+  }
+
+  //*Add friend text field on change
+  void addFriendOnChanged() async {
+    if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
+    if (_profileController.searchController.text.trim() != '') {
+      _friendController.isFriendSuffixIconVisible.value = true;
+      _friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
+        await _friendController.getAddFriendRequestList();
+      });
+    }
+    if (_profileController.searchController.text.trim() == '') {
+      _friendController.isFriendSuffixIconVisible.value = false;
+      _friendController.addFriendRequestList.clear();
+    }
+  }
+
+  //! All Friend Action
   //*All Friend Action on changed
   void allFriendActionOnChanged() {
     if (_friendController.allFriendFollowStatus.value == 1) {
@@ -108,19 +143,6 @@ class FriendHelper {
     } else if (_friendController.allFriendFollowStatus.value == 0) {
       for (int i = 0; i < _friendController.friendFollowActionList.length; i++) {
         _profileController.friendActionSelect.value = _friendController.friendFollowActionList[i]['action'];
-      }
-    }
-  }
-
-  //*Pending Friend Action on changed
-  void pendingFriendActionOnChanged() {
-    if (_friendController.pendingFriendFollowStatus.value == 1) {
-      for (int i = 0; i < _friendController.pendingFriendActionList.length; i++) {
-        _friendController.pendingFriendActionSelect.value = _friendController.pendingFriendActionList[i]['action'];
-      }
-    } else if (_friendController.pendingFriendFollowStatus.value == 0) {
-      for (int i = 0; i < _friendController.pendingFollowFriendActionList.length; i++) {
-        _friendController.pendingFriendActionSelect.value = _friendController.pendingFollowFriendActionList[i]['action'];
       }
     }
   }
@@ -139,20 +161,32 @@ class FriendHelper {
     return cWhiteColor;
   }
 
-  // void allFriendActionOnPressed() {
-  //   if (_friendController.allFriendFollowStatus.value == 1) {
-  //     for (int i = 0; i < _profileController.friendActionList.length; i++) {
-  //       _profileController.friendActionSelect.value = _profileController.friendActionList[i]['action'];
-  //     }
-  //   } else if (_friendController.allFriendFollowStatus.value == 0) {
-  //     for (int i = 0; i < _friendController.friendFollowActionList.length; i++) {
-  //       _profileController.friendActionSelect.value = _friendController.friendFollowActionList[i]['action'];
-  //     }
-  //   }
-  //   if (_profileController.friendActionSelect.value == '') {
-  //     Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-  //   } else {
-  //     Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-  //   }
-  // }
+  //!Pending Friend Action
+  //*Pending Friend Action on changed
+  void pendingFriendActionOnChanged() {
+    if (_friendController.pendingFriendFollowStatus.value == 1) {
+      for (int i = 0; i < _friendController.pendingFriendActionList.length; i++) {
+        _friendController.pendingFriendActionSelect.value = _friendController.pendingFriendActionList[i]['action'];
+      }
+    } else if (_friendController.pendingFriendFollowStatus.value == 0) {
+      for (int i = 0; i < _friendController.pendingFollowFriendActionList.length; i++) {
+        _friendController.pendingFriendActionSelect.value = _friendController.pendingFollowFriendActionList[i]['action'];
+      }
+    }
+  }
+
+  //*pending friend selected action color
+  Color pendingFriendItemColor(int index) {
+    if (_friendController.pendingFriendFollowStatus.value == 1) {
+      if (_friendController.pendingFriendActionSelect.value == _friendController.pendingFriendActionList[index]['action']) {
+        return cPrimaryTint3Color;
+      }
+    } else {
+      if (_friendController.pendingFriendActionSelect.value == _friendController.pendingFollowFriendActionList[index]['action']) {
+        return cPrimaryTint3Color;
+      }
+    }
+    return cWhiteColor;
+  }
+  
 }

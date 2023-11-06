@@ -62,15 +62,15 @@ class Family extends StatelessWidget {
                           buttonPress: RxList([
                             () {
                               unfocus(context);
-                              _familyHelper.allFamilyTapableButtonPressed();
+                              _familyHelper.allFamilyTapableButtOnPressed();
                             },
                             () {
                               unfocus(context);
-                              _familyHelper.receivedFamilyTapableButtonPressed();
+                              _familyHelper.receivedFamilyTapableButtOnPressed();
                             },
                             () {
                               unfocus(context);
-                              _familyHelper.pendingFamilyTapableButtonPressed();
+                              _familyHelper.pendingFamilyTapableButtOnPressed();
                             },
                           ]),
                         ),
