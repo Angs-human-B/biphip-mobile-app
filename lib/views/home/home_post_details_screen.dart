@@ -1,9 +1,12 @@
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/post_upper_container.dart';
 import 'package:bip_hip/views/home/home_post_details.dart';
 
 class HomePostDetailsScreen extends StatelessWidget {
-  const HomePostDetailsScreen({super.key});
+  HomePostDetailsScreen({super.key});
+
+  final HomeController _homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +30,12 @@ class HomePostDetailsScreen extends StatelessWidget {
           ),
           body: SizedBox(
             height: height - kAppBarSize - MediaQuery.of(context).padding.top,
-            child: const SingleChildScrollView(
+            child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.only(top: k12Padding),
                 child: Column(
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: PostUpperContainer(userName: 'Wahid Murad', isCategorized: false, privacy: BipHip.world, postTime: '1hr'),
                     ),
@@ -41,12 +44,11 @@ class HomePostDetailsScreen extends StatelessWidget {
                       isCommented: true,
                       isLiked: true,
                       isTextualPost: true,
-                      mediaList: [kiDummyImage1ImageUrl, kiDummyImage2ImageUrl, kiDummyImage3ImageUrl],
+                      mediaList: _homeController.postData.value!.post.imageUrls,
                       isSelfPost: true,
                       isCommentShown: true,
                       showBottomSection: true,
-                      postText:
-                          'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isnt anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
+                      postText: _homeController.postData.value!.post.content,
                     ),
                   ],
                 ),
@@ -98,7 +100,7 @@ class CommonPostWidget extends StatelessWidget {
               ),
             ),
           ),
-        PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown),
+        PostBottomSection(isCommentShown: isCommentShown),
         if (mediaList.isNotEmpty)
           Container(
             color: cWhiteColor,
@@ -119,13 +121,26 @@ class CommonPostWidget extends StatelessWidget {
                               decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                               height: 300,
                               width: (width - 40),
-                              child: Image.asset(
-                                mediaList[index],
-                                fit: BoxFit.cover,
+                              child: ClipRRect(
+                                borderRadius: k8CircularBorderRadius,
+                                child: Image.network(
+                                  Environment.imageBaseUrl + mediaList[index].path.toString(),
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => const Icon(
+                                    BipHip.imageFile,
+                                    size: kIconSize120,
+                                    color: cIconColor,
+                                  ),
+                                  loadingBuilder: imageLoadingBuilder,
+                                  frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                    return child;
+                                  },
+                                ),
                               ),
                             ),
                           ),
-                          PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown),
+                          kH12sizedBox,
+                          PostBottomSection(isCommentShown: isCommentShown),
                         ],
                       );
                     }),

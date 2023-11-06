@@ -36,6 +36,10 @@ class CommonPostWidget extends StatelessWidget {
     required this.isSharedPost,
     required this.showBottomSection,
     this.postUpperContainerOnpressed,
+    required this.commentCount,
+    required this.shareCount,
+    required this.giftCount,
+    required this.postID,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -46,6 +50,7 @@ class CommonPostWidget extends StatelessWidget {
   final IconData privacy;
   final Color? categoryIconColor;
   final List mediaList;
+  final int commentCount, shareCount, giftCount, postID;
   final VoidCallback? postUpperContainerOnpressed;
   final HomeController _homeController = Get.find<HomeController>();
 
@@ -109,9 +114,10 @@ class CommonPostWidget extends StatelessWidget {
         if (isSharedPost) const CustomDivider(),
         kH10sizedBox,
         InkWell(
-          onTap: () {
+          onTap: () async {
             // ll('Upper container');
             Get.toNamed(krHomePostDetails);
+            await Get.find<HomeController>().getPostData(postID);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -196,6 +202,7 @@ class CommonPostWidget extends StatelessWidget {
                   border: Border.all(color: cLineColor),
                 ),
                 child: CommonPostWidget(
+                  postID: 0,
                   isCommented: false,
                   isLiked: false,
                   mediaList: const [],
@@ -210,6 +217,9 @@ class CommonPostWidget extends StatelessWidget {
                   showBottomSection: false,
                   postText:
                       'When i was sixteen i won a great victory. I thought i would live to be a hundred. Now i know i shall not see thirty. None of us knows how our life may end.',
+                  commentCount: 10,
+                  shareCount: 10,
+                  giftCount: 10,
                 )),
           ),
         if (mediaList.isNotEmpty)
@@ -231,9 +241,21 @@ class CommonPostWidget extends StatelessWidget {
                           decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                           height: mediaList.length < 2 ? 302 : 150,
                           width: mediaList.length > 3 ? (width - 42) / 2 : (width - 40),
-                          child: Image.asset(
-                            mediaList[0],
-                            fit: BoxFit.cover,
+                          child: ClipRRect(
+                            borderRadius: k8CircularBorderRadius,
+                            child: Image.network(
+                              Environment.imageBaseUrl + mediaList[0].path.toString(),
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => const Icon(
+                                BipHip.imageFile,
+                                size: kIconSize120,
+                                color: cIconColor,
+                              ),
+                              loadingBuilder: imageLoadingBuilder,
+                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                return child;
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -249,9 +271,21 @@ class CommonPostWidget extends StatelessWidget {
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
                             width: (width - 42) / 2,
-                            child: Image.asset(
-                              mediaList[1],
-                              fit: BoxFit.cover,
+                            child: ClipRRect(
+                              borderRadius: k8CircularBorderRadius,
+                              child: Image.network(
+                                Environment.imageBaseUrl + mediaList[1].path.toString(),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  BipHip.imageFile,
+                                  size: kIconSize120,
+                                  color: cIconColor,
+                                ),
+                                loadingBuilder: imageLoadingBuilder,
+                                frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                  return child;
+                                },
+                              ),
                             ),
                           ),
                         ),
@@ -271,9 +305,21 @@ class CommonPostWidget extends StatelessWidget {
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
                             width: mediaList.length < 3 ? (width - 40) : (width - 42) / 2,
-                            child: Image.asset(
-                              mediaList[1],
-                              fit: BoxFit.cover,
+                            child: ClipRRect(
+                              borderRadius: k8CircularBorderRadius,
+                              child: Image.network(
+                                Environment.imageBaseUrl + mediaList[1].path.toString(),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  BipHip.imageFile,
+                                  size: kIconSize120,
+                                  color: cIconColor,
+                                ),
+                                loadingBuilder: imageLoadingBuilder,
+                                frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                  return child;
+                                },
+                              ),
                             ),
                           ),
                         ),
@@ -289,9 +335,21 @@ class CommonPostWidget extends StatelessWidget {
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
                             width: mediaList.length > 4 ? (width - 44) / 3 : (width - 42) / 2,
-                            child: Image.asset(
-                              mediaList[2],
-                              fit: BoxFit.cover,
+                            child: ClipRRect(
+                              borderRadius: k8CircularBorderRadius,
+                              child: Image.network(
+                                Environment.imageBaseUrl + mediaList[2].path.toString(),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  BipHip.imageFile,
+                                  size: kIconSize120,
+                                  color: cIconColor,
+                                ),
+                                loadingBuilder: imageLoadingBuilder,
+                                frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                  return child;
+                                },
+                              ),
                             ),
                           ),
                         ),
@@ -307,9 +365,21 @@ class CommonPostWidget extends StatelessWidget {
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
                             width: mediaList.length < 5 ? (width - 42) / 2 : (width - 44) / 3,
-                            child: Image.asset(
-                              mediaList[3],
-                              fit: BoxFit.cover,
+                            child: ClipRRect(
+                              borderRadius: k8CircularBorderRadius,
+                              child: Image.network(
+                                Environment.imageBaseUrl + mediaList[3].path.toString(),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  BipHip.imageFile,
+                                  size: kIconSize120,
+                                  color: cIconColor,
+                                ),
+                                loadingBuilder: imageLoadingBuilder,
+                                frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                  return child;
+                                },
+                              ),
                             ),
                           ),
                         ),
@@ -325,23 +395,34 @@ class CommonPostWidget extends StatelessWidget {
                               style: kTextButtonStyle,
                               onPressed: () {},
                               child: Container(
-                                decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                                height: 150,
-                                width: (width - 44) / 3,
-                                child: Image.asset(
-                                  mediaList[4],
-                                  fit: BoxFit.cover,
-                                  color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
-                                  colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,
-                                ),
-                              ),
+                                  decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
+                                  height: 150,
+                                  width: (width - 44) / 3,
+                                  child: ClipRRect(
+                                    borderRadius: k8CircularBorderRadius,
+                                    child: Image.network(
+                                      Environment.imageBaseUrl + mediaList[4].path.toString(),
+                                      fit: BoxFit.cover,
+                                      color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
+                                      colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,
+                                      errorBuilder: (context, error, stackTrace) => const Icon(
+                                        BipHip.imageFile,
+                                        size: kIconSize120,
+                                        color: cIconColor,
+                                      ),
+                                      loadingBuilder: imageLoadingBuilder,
+                                      frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                        return child;
+                                      },
+                                    ),
+                                  )),
                             ),
                             if (mediaList.length > 5)
                               Positioned(
                                 child: TextButton(
                                   style: kTextButtonStyle,
                                   onPressed: () {
-                                    Get.toNamed(krUploadedImageListPage);
+                                    //Get.toNamed(krUploadedImageListPage);
                                   },
                                   child: Text(
                                     "${mediaList.length - 5} More",
@@ -357,22 +438,29 @@ class CommonPostWidget extends StatelessWidget {
               ),
             ),
           ),
-        if (showBottomSection) PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown),
+        if (showBottomSection)
+          PostBottomSection(
+            isSelfPost: isSelfPost,
+            isCommentShown: isCommentShown,
+            commentCount: commentCount,
+            shareCount: shareCount,
+            giftCount: giftCount,
+          ),
         // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
-      
       ],
     );
   }
 }
 
-
 class PostBottomSection extends StatelessWidget {
-  PostBottomSection({super.key, required this.isSelfPost, required this.isCommentShown});
+  PostBottomSection(
+      {super.key, required this.isSelfPost, required this.isCommentShown, required this.commentCount, required this.shareCount, required this.giftCount});
 
   final GlobalController _globalController = Get.find<GlobalController>();
   final PostReactionController _postReactionController = Get.find<PostReactionController>();
   final bool isSelfPost, isCommentShown;
   final RxBool showComment = RxBool(false);
+  final int commentCount, shareCount, giftCount;
 
   @override
   Widget build(BuildContext context) {
@@ -433,9 +521,9 @@ class PostBottomSection extends StatelessWidget {
                   _globalController.blankBottomSheet(
                       context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
-                giftCount: 50,
-                commentCount: 200,
-                shareCount: 340,
+                giftCount: giftCount,
+                commentCount: commentCount,
+                shareCount: shareCount,
                 isGiftShown: true,
                 giftOnPressed: () {
                   _postReactionController.giftFilter(0);
@@ -491,7 +579,6 @@ class PostBottomSection extends StatelessWidget {
   }
 }
 
-
 class _BiddingInsightsContent extends StatelessWidget {
   const _BiddingInsightsContent({super.key, required this.comment});
 
@@ -529,7 +616,7 @@ class _BiddingInsightsContent extends StatelessWidget {
                   isImageComment: false,
                   isSendMessageShown: true,
                   isHideButtonShown: false,
-                  replyList: [],
+                  replyList: const [],
                 );
               })
         ],
@@ -652,7 +739,6 @@ class _BadgeTabViewContent extends StatelessWidget {
     );
   }
 }
-
 
 class ReactionBottomSheetTab extends StatelessWidget {
   const ReactionBottomSheetTab({super.key, required this.isReactionImageShown, required this.reactionImage, required this.text});
@@ -799,10 +885,10 @@ class _GiftContent extends StatelessWidget {
             ),
             kH16sizedBox,
             SizedBox(
-              height: 380,
+              // height: 380,
               child: GridView.builder(
                 shrinkWrap: true,
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: giftPackages.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: .8,
@@ -1048,7 +1134,7 @@ class _PurchaseStarContent extends StatelessWidget {
           ),
           kH16sizedBox,
           SizedBox(
-            height: 230,
+            // height: 230,
             child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,

@@ -1,12 +1,15 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/profile_helpers/profile_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/profile/profile.dart';
+import 'package:bip_hip/views/menu/profile/profile_widgets/profile_pic_upload_content.dart';
+import 'package:bip_hip/views/menu/profile/profile_widgets/profile_post_tab.dart';
 
 class EditProfile extends StatelessWidget {
   EditProfile({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
+  final ProfileHelper _profileHelper = ProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -50,26 +53,7 @@ class EditProfile extends StatelessWidget {
                                   prefix: ksProfilePicture.tr,
                                   suffix: ksEdit.tr,
                                   onEditPressed: () {
-                                    _profileController.isProfilePicEditor.value = true;
-
-                                    _globalController.commonBottomSheet(
-                                      context: context,
-                                      onPressCloseButton: () {
-                                        Get.back();
-                                      },
-                                      onPressRightButton: () {},
-                                      rightText: '',
-                                      rightTextStyle: regular14TextStyle(cBiddingColor),
-                                      title: ksEditPhoto.tr,
-                                      isRightButtonShow: false,
-                                      isScrollControlled: false,
-                                      bottomSheetHeight: 180,
-                                      content: PictureUploadContent(
-                                        isImageChanged: _profileController.isProfileImageChanged,
-                                        imagePath: _profileController.profileImageLink,
-                                        imageFile: _profileController.profileImageFile,
-                                      ),
-                                    );
+                                    _profileHelper.profilePicUploadBottomSheet(context);
                                   },
                                 ),
                                 kH10sizedBox,
@@ -78,12 +62,7 @@ class EditProfile extends StatelessWidget {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        if (_profileController.userData.value!.profilePicture != null) {
-                                          _profileController.isProfilePhoto.value = true;
-                                          _profileController.viewOptionEnabled.value = true;
-                                          _profileController.previewPhoto.value = _profileController.userData.value!.profilePicture.toString();
-                                          Get.toNamed(krViewPhoto);
-                                        }
+                                        _profileHelper.viewProfilePic();
                                       },
                                       child: Container(
                                         height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
@@ -247,7 +226,6 @@ class EditProfile extends StatelessWidget {
                                     icon: BipHip.address,
                                     prefixText: 'Lives in ',
                                     suffixText: '${_profileController.currentCityData.value?.city}',
-                                    isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.hometownData.value != null)
@@ -255,7 +233,6 @@ class EditProfile extends StatelessWidget {
                                     icon: BipHip.location,
                                     prefixText: 'From ',
                                     suffixText: '${_profileController.hometownData.value?.city}',
-                                    isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.userData.value!.relation != null)
@@ -263,7 +240,6 @@ class EditProfile extends StatelessWidget {
                                     icon: BipHip.love,
                                     suffixText: checkNullOrStringNull(_profileController.userData.value!.relation),
                                     prefixText: '',
-                                    isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.schoolDataList.isNotEmpty)
@@ -271,7 +247,6 @@ class EditProfile extends StatelessWidget {
                                     icon: BipHip.school,
                                     suffixText: checkNullOrStringNull(_profileController.schoolDataList[0].school),
                                     prefixText: _profileController.schoolDataList[0].ended != null ? 'Studied at ' : 'Studies at ',
-                                    isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.collegeDataList.isNotEmpty)
@@ -279,7 +254,6 @@ class EditProfile extends StatelessWidget {
                                     icon: BipHip.school,
                                     suffixText: checkNullOrStringNull(_profileController.collegeDataList[0].school),
                                     prefixText: _profileController.collegeDataList[0].ended != null ? 'Studied at ' : 'Studies at ',
-                                    isLink: false,
                                     onPressed: null,
                                   ),
                                 if (_profileController.currentWorkplace.value != null)
@@ -289,7 +263,6 @@ class EditProfile extends StatelessWidget {
                                     prefixText: _profileController.currentWorkplace.value!.position == null
                                         ? ''
                                         : '${_profileController.currentWorkplace.value!.position} at ',
-                                    isLink: false,
                                     onPressed: null,
                                   ),
                                 const CustomDivider(

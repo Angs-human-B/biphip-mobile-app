@@ -1,11 +1,10 @@
-import 'dart:async';
-
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
+import 'package:bip_hip/widgets/menu/friends_family/friend_family_button_action.dart';
 import 'package:flutter/rendering.dart';
 
 class Friends extends StatelessWidget {
@@ -40,14 +39,11 @@ class Friends extends StatelessWidget {
                         child: TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            //*Common bottom sheet for add friend
-                            _profileController.searchController.clear();
-                            _friendController.isAddFriendSuffixIconVisible.value = false;
-                            _friendController.isFriendSuffixIconVisible.value = false;
                             FocusScope.of(context).unfocus();
+                            _friendController.friendTapableButtonReset();
+                            if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
                             _friendController.addFriendRequestList.clear();
                             Get.toNamed(krAddFriend);
-                            // _profileController.toggleType(0);
                           },
                           child: Text(
                             ksAdd.tr,
@@ -70,27 +66,21 @@ class Friends extends StatelessWidget {
                           buttonState: _profileController.tapAbleButtonState,
                           buttonPress: RxList([
                             () async {
-                              _profileController.searchController.clear();
                               FocusScope.of(context).unfocus();
+                              _friendController.friendTapableButtonReset();
                               _profileController.toggleType(0);
-                              _friendController.isFriendSuffixIconVisible.value = false;
-                              _friendController.isFriendSearched.value = false;
                               await _friendController.getFriendList();
                             },
                             () async {
-                              _profileController.searchController.clear();
                               FocusScope.of(context).unfocus();
+                              _friendController.friendTapableButtonReset();
                               _profileController.toggleType(1);
-                              _friendController.isFriendSuffixIconVisible.value = false;
-                              _friendController.isFriendSearched.value = false;
                               await _friendController.getReceivedFriendList();
                             },
                             () async {
-                              _profileController.searchController.clear();
                               FocusScope.of(context).unfocus();
+                              _friendController.friendTapableButtonReset();
                               _profileController.toggleType(2);
-                              _friendController.isFriendSuffixIconVisible.value = false;
-                              _friendController.isFriendSearched.value = false;
                               await _friendController.getSendFriendRequestList();
                             },
                           ]),
@@ -99,38 +89,28 @@ class Friends extends StatelessWidget {
                       kH12sizedBox,
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                        child: Obx(() => CustomModifiedTextField(
-                            borderRadius: h8,
-                            controller: Get.find<ProfileController>().searchController,
-                            prefixIcon: BipHip.search,
-                            suffixIcon: _friendController.isFriendSuffixIconVisible.value ? BipHip.circleCrossNew : null,
-                            hint: ksSearch.tr,
-                            contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
-                            textInputStyle: regular16TextStyle(cBlackColor),
-                            onSuffixPress: () async {
-                              Get.find<ProfileController>().searchController.clear();
-                              _friendController.isFriendSuffixIconVisible.value = false;
-                              _friendController.isFriendSearched.value = false;
-                              await _friendController.getFriendList();
-                            },
-                            onSubmit: (v) {
-                              unfocus(context);
-                              _friendController.isFriendSuffixIconVisible.value = false;
-                            },
-                            onChanged: (v) async {
-                              if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
-                              if (Get.find<ProfileController>().searchController.text.trim() != '') {
-                                _friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
-                                  _friendController.isFriendSearched.value = true;
-                                  _friendController.isFriendSuffixIconVisible.value = true;
-                                  await _friendController.getFriendSearchList();
-                                });
-                              } else {
-                                _friendController.isFriendSuffixIconVisible.value = false;
-                                _friendController.isFriendSearched.value = false;
-                                await _friendController.getFriendList();
-                              }
-                            })),
+                        child: Obx(() => _profileController.tapAbleButtonState[0]
+                            ? CustomModifiedTextField(
+                                borderRadius: h8,
+                                controller: Get.find<ProfileController>().searchController,
+                                prefixIcon: BipHip.search,
+                                suffixIcon: _friendController.isFriendSuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                                hint: ksSearch.tr,
+                                contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
+                                textInputStyle: regular16TextStyle(cBlackColor),
+                                onSuffixPress: () async {
+                                  _friendController.friendTapableButtonReset();
+                                  if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
+                                  await _friendController.getFriendList();
+                                },
+                                onSubmit: (v) {
+                                  unfocus(context);
+                                  _friendController.isFriendSuffixIconVisible.value = false;
+                                },
+                                onChanged: (v) {
+                                  _friendController.friendOnChanged();
+                                })
+                            : const SizedBox()),
                       ),
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
@@ -206,205 +186,6 @@ class Friends extends StatelessWidget {
   }
 }
 
-//*List item content for two button
-class CustomListViewItem extends StatelessWidget {
-  const CustomListViewItem({
-    super.key,
-    required this.backgroundImage,
-    required this.name,
-    this.firstButtonText,
-    this.secondButtonText,
-    this.firstButtonOnPressed,
-    this.secondButtonOnPressed,
-    this.icon,
-    this.subTitle,
-    this.imageSize,
-  });
-  final String backgroundImage;
-  final double? imageSize;
-  final String name;
-  final String? firstButtonText;
-  final String? secondButtonText;
-  final VoidCallback? firstButtonOnPressed;
-  final VoidCallback? secondButtonOnPressed;
-  final IconData? icon;
-  final String? subTitle;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-          height: imageSize ?? h40,
-          width: imageSize ?? h40,
-          decoration: const BoxDecoration(
-            color: cWhiteColor,
-            shape: BoxShape.circle,
-          ),
-          child: ClipOval(
-            child: Image.network(
-              backgroundImage,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset(kiProfileDefaultImageUrl);
-              },
-              loadingBuilder: imageLoadingBuilder,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: k12Padding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: semiBold16TextStyle(cBlackColor),
-              ),
-              kH4sizedBox,
-              Row(
-                children: [
-                  icon == null
-                      ? const SizedBox()
-                      : Icon(
-                          icon,
-                          size: kIconSize12,
-                          color: cRedColor,
-                        ),
-                  if (icon != null) kW4sizedBox,
-                  subTitle == null
-                      ? const SizedBox()
-                      : Text(
-                          subTitle ?? '',
-                          style: regular12TextStyle(cSmallBodyTextColor),
-                        ),
-                ],
-              ),
-              kH4sizedBox,
-              Row(
-                children: [
-                  if (firstButtonText != null)
-                    CustomElevatedButton(
-                      buttonWidth: isDeviceScreenLarge() ? 112 : 120,
-                      buttonHeight: 30,
-                      label: firstButtonText!,
-                      textStyle: semiBold16TextStyle(cWhiteColor),
-                      onPressed: firstButtonOnPressed,
-                    ),
-                  if (secondButtonText != null)
-                    Padding(
-                      padding: const EdgeInsets.only(left: k20Padding),
-                      child: CustomElevatedButton(
-                        buttonWidth: isDeviceScreenLarge() ? 112 : 120,
-                        buttonHeight: 30,
-                        label: secondButtonText!,
-                        onPressed: secondButtonOnPressed,
-                        buttonColor: cWhiteColor,
-                        borderColor: cRedColor,
-                        textStyle: semiBold16TextStyle(cRedColor),
-                      ),
-                    )
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-//*List item content for single button
-class CustomSingleButtonListViewItem extends StatelessWidget {
-  const CustomSingleButtonListViewItem({
-    super.key,
-    required this.backgroundImage,
-    required this.name,
-    required this.buttonText,
-    required this.buttonOnPressed,
-    this.buttonColor,
-    this.textStyle,
-    this.buttonWidth,
-    this.borderColor,
-    this.buttonHeight,
-    this.subTitle,
-    this.imageSize,
-  });
-  final String backgroundImage;
-  final String name;
-  final String buttonText;
-  final VoidCallback buttonOnPressed;
-  final Color? buttonColor;
-  final Color? borderColor;
-  final TextStyle? textStyle;
-  final double? buttonWidth;
-  final double? buttonHeight;
-  final String? subTitle;
-  final double? imageSize;
-  // final BoxDecoration boxDecoration;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              height: imageSize ?? h40,
-              width: imageSize ?? h40,
-              decoration: const BoxDecoration(
-                color: cWhiteColor,
-                shape: BoxShape.circle,
-              ),
-              child: ClipOval(
-                child: Image.network(
-                  backgroundImage,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Image.asset(kiProfileDefaultImageUrl);
-                  },
-                  loadingBuilder: imageLoadingBuilder,
-                ),
-              ),
-            ),
-            kW12sizedBox,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    overflow: TextOverflow.ellipsis,
-                    style: semiBold16TextStyle(cBlackColor),
-                  ),
-                  kH4sizedBox,
-                  subTitle == null
-                      ? const SizedBox()
-                      : Text(
-                          subTitle ?? '',
-                          style: regular12TextStyle(cSmallBodyTextColor),
-                        ),
-                ],
-              ),
-            ),
-            kW20sizedBox,
-            CustomElevatedButton(
-              label: buttonText,
-              onPressed: buttonOnPressed,
-              buttonColor: buttonColor,
-              textStyle: textStyle,
-              buttonHeight: buttonHeight ?? 32,
-              buttonWidth: buttonWidth ?? (isDeviceScreenLarge() ? 112 : 120),
-              borderColor: borderColor,
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
 //*All friend list
 class AllFriendList extends StatelessWidget {
   AllFriendList({super.key});
@@ -436,7 +217,6 @@ class AllFriendList extends StatelessWidget {
                   child: Expanded(
                     child: SingleChildScrollView(
                       controller: _friendController.friendListScrollController,
-                      // physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -525,7 +305,6 @@ class AllFriendList extends StatelessWidget {
                           ),
                           if (_friendController.friendList.isNotEmpty && !_friendController.friendListScrolled.value)
                             const Center(child: CircularProgressIndicator()),
-                        
                         ],
                       ),
                     ),
@@ -567,7 +346,6 @@ class ReceivedFriendList extends StatelessWidget {
                   child: Expanded(
                     child: SingleChildScrollView(
                       controller: _friendController.receivedFriendListScrollController,
-                      // physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -582,7 +360,7 @@ class ReceivedFriendList extends StatelessWidget {
                                   padding: const EdgeInsets.only(bottom: k16Padding),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(k8BorderRadius),
-                                    child: CustomListViewItem(
+                                    child: FriendFamilyButtonAction(
                                       backgroundImage: Environment.imageBaseUrl + _friendController.receivedFriendList[index].profilePicture.toString(),
                                       name: _friendController.receivedFriendList[index].fullName ?? ksNA.tr,
                                       firstButtonText: ksConfirm.tr,
@@ -642,7 +420,6 @@ class PendingFriendList extends StatelessWidget {
                   child: Expanded(
                     child: SingleChildScrollView(
                       controller: _friendController.sendFriendListScrollController,
-                      // physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
                         children: [
                           Padding(
@@ -878,13 +655,7 @@ class _PendingFriendActionContent extends StatelessWidget {
                         ? (friendController.pendingFriendActionSelect.value == friendController.pendingFriendActionList[index]['action'])
                         : (friendController.pendingFriendActionSelect.value == friendController.pendingFollowFriendActionList[index]['action']),
                   ),
-                  itemColor: friendController.pendingFriendFollowStatus.value == 1
-                      ? (friendController.pendingFriendActionSelect.value == friendController.pendingFriendActionList[index]['action']
-                          ? cPrimaryTint3Color
-                          : cWhiteColor)
-                      : (friendController.pendingFriendActionSelect.value == friendController.pendingFollowFriendActionList[index]['action']
-                          ? cPrimaryTint3Color
-                          : cWhiteColor),
+                  itemColor: friendController.pendingFriendItemColor(index),
                   onPressed: () {
                     if (friendController.pendingFriendFollowStatus.value == 1) {
                       friendController.pendingFriendActionSelect.value = friendController.pendingFriendActionList[index]['action'];
@@ -906,6 +677,7 @@ class _PendingFriendActionContent extends StatelessWidget {
     );
   }
 }
+
 
 //*All and Pending Friend Shimmer
 class AllPendingFriendShimmer extends StatelessWidget {
@@ -1026,7 +798,7 @@ class ReceivedFriendShimmer extends StatelessWidget {
                                         widget: Container(
                                           decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                                           height: 30,
-                                          width: isDeviceScreenLarge() ? 112 : 120,
+                                          width: isDeviceScreenLarge() ? 108 : 112,
                                         ),
                                       ),
                                       kW20sizedBox,
@@ -1034,7 +806,7 @@ class ReceivedFriendShimmer extends StatelessWidget {
                                         widget: Container(
                                           decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                                           height: 30,
-                                          width: isDeviceScreenLarge() ? 112 : 120,
+                                          width: isDeviceScreenLarge() ? 108 : 112,
                                         ),
                                       ),
                                     ],

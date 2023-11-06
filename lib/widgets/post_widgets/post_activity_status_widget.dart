@@ -11,10 +11,11 @@ class PostActivityStatusWidget extends StatelessWidget {
       required this.isGiftShown,
       this.commentOnPressed,
       this.shareOnPressed,
-      this.giftOnPressed, this.reactionOnPressed});
+      this.giftOnPressed,
+      this.reactionOnPressed});
   final int reactCount, commentCount, giftCount, shareCount;
   final bool isGiftShown;
-  final VoidCallback? reactionOnPressed,commentOnPressed, shareOnPressed, giftOnPressed;
+  final VoidCallback? reactionOnPressed, commentOnPressed, shareOnPressed, giftOnPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -115,29 +116,32 @@ class CommentShareRecord extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        InkWell(
-          onTap: commentOnPressed,
-          child: Text(
-            commentCount >= 1000 ? '${(commentCount / 1000).toStringAsFixed(1)}k ${ksComments.tr}' : '$commentCount ${ksComments.tr}',
-            style: regular10TextStyle(cSmallBodyTextColor),
+        if (commentCount != 0)
+          InkWell(
+            onTap: commentOnPressed,
+            child: Text(
+              commentCount >= 1000 ? '${(commentCount / 1000).toStringAsFixed(1)}k ${ksComments.tr}' : '$commentCount ${ksComments.tr}',
+              style: regular10TextStyle(cSmallBodyTextColor),
+            ),
           ),
-        ),
         kW8sizedBox,
-        InkWell(
-          onTap: shareOnPressed,
-          child: Text(
-            shareCount > 1000 ? '${(shareCount / 1000).toStringAsFixed(1)}k ${ksShare.tr}' : '$shareCount $ksShares',
-            style: regular10TextStyle(cSmallBodyTextColor),
+        if (shareCount != 0)
+          InkWell(
+            onTap: shareOnPressed,
+            child: Text(
+              shareCount > 1000 ? '${(shareCount / 1000).toStringAsFixed(1)}k ${ksShare.tr}' : '$shareCount $ksShares',
+              style: regular10TextStyle(cSmallBodyTextColor),
+            ),
           ),
-        ),
         kW8sizedBox,
-        InkWell(
-          onTap: giftOnPressed,
-          child: Text(
-            giftCount > 1000 ? '${(giftCount / 1000).toStringAsFixed(1)}k ${ksGifts.tr}' : '$giftCount ${ksGifts.tr}',
-            style: regular10TextStyle(cSmallBodyTextColor),
+        if (giftCount != 0)
+          InkWell(
+            onTap: giftOnPressed,
+            child: Text(
+              giftCount > 1000 ? '${(giftCount / 1000).toStringAsFixed(1)}k ${ksGifts.tr}' : '$giftCount ${ksGifts.tr}',
+              style: regular10TextStyle(cSmallBodyTextColor),
+            ),
           ),
-        ),
       ],
     );
   }

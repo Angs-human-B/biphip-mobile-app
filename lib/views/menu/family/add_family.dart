@@ -2,8 +2,8 @@ import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/family/family.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+import 'package:bip_hip/widgets/menu/friends_family/relation_content.dart';
 
 class AddFamily extends StatelessWidget {
   AddFamily({super.key});
@@ -31,6 +31,7 @@ class AddFamily extends StatelessWidget {
                     onBack: () {
                       Get.find<ProfileController>().searchController.clear();
                       Get.back();
+                      _familyController.isFamilySuffixIconVisible.value = false;
                     },
                     action: [
                       Obx(() => Padding(
@@ -42,6 +43,7 @@ class AddFamily extends StatelessWidget {
                                   : () async {
                                       unfocus(context);
                                       await _familyController.sendFamilyRequest();
+                                      _familyController.isFamilySuffixIconVisible.value = false;
                                     },
                               child: Text(
                                 ksSend.tr,
@@ -74,7 +76,6 @@ class AddFamily extends StatelessWidget {
                               alignment: Alignment.topLeft,
                               child: SizedBox(
                                 width: width - 40,
-                                // height: 200,
                                 child: Material(
                                   elevation: 4,
                                   child: ListView.separated(
@@ -116,8 +117,7 @@ class AddFamily extends StatelessWidget {
                                   controller: Get.find<ProfileController>().searchController,
                                   focusNode: focusNode,
                                   prefixIcon: BipHip.search,
-                                  suffixIcon:
-                                      _familyController.isAddFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null, 
+                                  suffixIcon: _familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
                                   hint: ksSearch.tr,
                                   contentPadding: const EdgeInsets.symmetric(
                                     vertical: k12Padding,
@@ -125,65 +125,30 @@ class AddFamily extends StatelessWidget {
                                   textInputStyle: regular16TextStyle(cBlackColor),
                                   onSuffixPress: () {
                                     profileController.searchController.clear();
-                                    _familyController.isAddFamilySuffixIconVisible.value = false;
+                                    _familyController.isFamilySuffixIconVisible.value = false;
+                                    _familyController.userId.value = -1;
                                   },
                                   onSubmit: (v) {
                                     unfocus(context);
-                                    _familyController.isAddFamilySuffixIconVisible.value = false;
+                                    _familyController.isFamilySuffixIconVisible.value = false;
                                   },
-                                  onChanged: (v) async {
-                                    // profileController.searchController.text = v;
-                                    if (profileController.searchController.text.trim() != '') {
-                                      _familyController.isAddFamilySuffixIconVisible.value = true;
-                                    } else {
-                                      _familyController.isAddFamilySuffixIconVisible.value = false;
-                                    }
-
-                                    // await _friendController.getFriendList();
-                                    // profileController.searchController.text = v;
-                                    for (int i = 0; i < _friendController.tempFriendList.length; i++) {
-                                      if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
-                                        _familyController.userId.value = _friendController.friendList[i].id!;
-                                      }
-                                      if (_friendController.tempFriendList[i] != profileController.searchController.text) {
-                                        _familyController.userId.value = -1;
-                                      }
-                                    }
-                                    // unfocus(context);
+                                  onChanged: (v) {
+                                    _familyController.addFamilyOnPressed();
                                   },
-                                  // onChanged: (v) async {
-                                  //   if (_familyController.debounce?.isActive ?? false) _familyController.debounce!.cancel();
-                                  //   _familyController.debounce = Timer(const Duration(milliseconds: 2000), () async {
-                                  //     await _friendController.getFriendList();
-                                  //     for (int i = 0; i < _friendController.tempFriendList.length; i++) {
-                                  //       if (_friendController.tempFriendList[i] == profileController.searchController.text.trim()) {
-                                  //         _familyController.userId.value = _friendController.friendList[i].id!;
-                                  //       }
-                                  //       if (_friendController.tempFriendList[i] != profileController.searchController.text) {
-                                  //         _familyController.userId.value = -1;
-                                  //       }
-                                  //     }
-                                  //   });
-                                  // },
                                 ));
                           },
                         ),
-
                         kH12sizedBox,
                         CustomSelectionButton(
                           hintText: ksSelectRelation.tr,
                           text: _familyController.relation.value,
                           onPressed: () async {
-                            if (_familyController.relationId.value != -1) {
-                              _familyController.relationStatusId.value = _familyController.relationId.value - 1;
+                            _familyController.tempRelation.value = _familyController.relation.value;
+                            if (_familyController.tempRelation.value == '') {
+                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
                             } else {
-                              _familyController.relationStatusId.value = -1;
+                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                             }
-                              if (_familyController.relationStatusId.value == -1) {
-                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                                  } else {
-                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                                  }
                             unFocus(context);
                             _familyController.isFamilyRelationListLoading.value = true;
                             Get.find<GlobalController>().commonBottomSheet(
@@ -197,13 +162,12 @@ class AddFamily extends StatelessWidget {
                               },
                               onPressRightButton: () {
                                 _familyController.isFamilyRelationListLoading.value = true;
-                                _familyController.relationId.value = _familyController.relationStatusId.value + 1;
+                                _familyController.relation.value = _familyController.tempRelation.value;
                                 for (int index = 0; index < _familyController.familyRelationList.length; index++) {
-                                  if (_familyController.relationStatusId.value == index) {
-                                    _familyController.relation.value = _familyController.familyRelationList[index].name;
+                                  if (_familyController.tempRelation.value == _familyController.familyRelationList[index].name) {
+                                    _familyController.relationId.value = _familyController.familyRelationList[index].id;
                                   }
                                 }
-
                                 Get.back();
                                 unfocus(context);
                               },
@@ -215,30 +179,6 @@ class AddFamily extends StatelessWidget {
                             await _familyController.getFamilyRelationList();
                           },
                         ),
-                        // kH20sizedBox,
-                        // Row(
-                        //   children: [
-                        //     Obx(
-                        //       () => CustomElevatedButton(
-                        //         isCustomButton: true,
-                        //         label: Get.find<CreatePostController>().postType.value,
-                        //         prefixIcon: Get.find<CreatePostController>().postTypeIcon.value,
-                        //         onPressed: () {
-                        //           unFocus(context);
-                        //           Get.find<CreatePostController>().initializeAudienceText();
-                        //           Get.find<CreatePostController>().showAudienceSheet(context);
-                        //         },
-                        //         buttonHeight: 40,
-                        //         buttonWidth: width * .5,
-                        //         suffixIcon: BipHip.downArrow,
-                        //         buttonColor: cGreyBoxColor,
-                        //         prefixIconColor: cBlackColor,
-                        //         suffixIconColor: cBlackColor,
-                        //         textStyle: medium14TextStyle(cBlackColor),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
                       ],
                     ),
                   ),
