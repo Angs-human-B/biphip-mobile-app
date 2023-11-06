@@ -6,7 +6,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 class FamilyHelper {
   final ProfileController _profileController = Get.find<ProfileController>();
   final FamilyController _familyController = Get.find<FamilyController>();
-  //*Family Search field reset
+  //*Family Page
   void familySearchFieldReset() {
     _profileController.searchController.clear();
     _familyController.isFamilySuffixIconVisible.value = false;
@@ -65,5 +65,46 @@ class FamilyHelper {
     _profileController.toggleType(2);
     familySearchFieldReset();
     await _familyController.getSendFamilyRequestList();
+  }
+
+  void addFamilySendOnPressed() async {
+    await _familyController.sendFamilyRequest();
+    _familyController.isFamilySuffixIconVisible.value = false;
+  }
+
+  //*Add family page
+  void addFamilyOnPressedRightButton() {
+    _familyController.isFamilyRelationListLoading.value = true;
+    _familyController.relation.value = _familyController.tempRelation.value;
+    for (int index = 0; index < _familyController.familyRelationList.length; index++) {
+      if (_familyController.tempRelation.value == _familyController.familyRelationList[index].name) {
+        _familyController.relationId.value = _familyController.familyRelationList[index].id;
+      }
+    }
+    Get.back();
+  }
+
+  void addFamilyOnPressed() {
+    _familyController.tempRelation.value = _familyController.relation.value;
+    if (_familyController.tempRelation.value == '') {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+    } else {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+    }
+  }
+
+  void addFamilySuffixPressed() {
+    _profileController.searchController.clear();
+    _familyController.isFamilySuffixIconVisible.value = false;
+    _familyController.userId.value = -1;
+  }
+
+  void addFamilyRawAutoCompleteOnPressed(option) {
+    _profileController.searchController.text = option.toString();
+    for (int i = 0; i < Get.find<FriendController>().friendListForAddFamily.length; i++) {
+      if (Get.find<FriendController>().friendListForAddFamily[i].fullName == option) {
+        _familyController.userId.value = Get.find<FriendController>().friendListForAddFamily[i].id!;
+      }
+    }
   }
 }

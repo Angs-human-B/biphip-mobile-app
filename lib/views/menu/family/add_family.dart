@@ -1,6 +1,8 @@
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/family_helpers/family_helper.dart';
+import 'package:bip_hip/shimmer_views/family/relation_content_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 import 'package:bip_hip/widgets/menu/friends_family/relation_content.dart';
@@ -10,6 +12,7 @@ class AddFamily extends StatelessWidget {
   final FamilyController _familyController = Get.find<FamilyController>();
   final FriendController _friendController = Get.find<FriendController>();
   final ProfileController profileController = Get.find<ProfileController>();
+  final FamilyHelper _familyHelper = FamilyHelper();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,10 +43,9 @@ class AddFamily extends StatelessWidget {
                               style: kTextButtonStyle,
                               onPressed: (_familyController.relationId.value == -1 || _familyController.userId.value == -1)
                                   ? null
-                                  : () async {
+                                  : () {
                                       unfocus(context);
-                                      await _familyController.sendFamilyRequest();
-                                      _familyController.isFamilySuffixIconVisible.value = false;
+                                      _familyHelper.addFamilySendOnPressed();
                                     },
                               child: Text(
                                 ksSend.tr,
@@ -90,13 +92,7 @@ class AddFamily extends StatelessWidget {
                                         ),
                                         onPressed: () {
                                           onSelected(option.toString());
-                                          profileController.searchController.text = option.toString();
-
-                                          for (int i = 0; i < _friendController.friendListForAddFamily.length; i++) {
-                                            if (_friendController.friendListForAddFamily[i].fullName == option) {
-                                              _familyController.userId.value = _friendController.friendListForAddFamily[i].id!;
-                                            }
-                                          }
+                                          _familyHelper.addFamilyRawAutoCompleteOnPressed(option);
                                           unfocus(context);
                                         },
                                       );
@@ -124,9 +120,7 @@ class AddFamily extends StatelessWidget {
                                   ),
                                   textInputStyle: regular16TextStyle(cBlackColor),
                                   onSuffixPress: () {
-                                    profileController.searchController.clear();
-                                    _familyController.isFamilySuffixIconVisible.value = false;
-                                    _familyController.userId.value = -1;
+                                    _familyHelper.addFamilySuffixPressed();
                                   },
                                   onSubmit: (v) {
                                     unfocus(context);
@@ -143,12 +137,7 @@ class AddFamily extends StatelessWidget {
                           hintText: ksSelectRelation.tr,
                           text: _familyController.relation.value,
                           onPressed: () async {
-                            _familyController.tempRelation.value = _familyController.relation.value;
-                            if (_familyController.tempRelation.value == '') {
-                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                            } else {
-                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                            }
+                            _familyHelper.addFamilyOnPressed();
                             unFocus(context);
                             _familyController.isFamilyRelationListLoading.value = true;
                             Get.find<GlobalController>().commonBottomSheet(
@@ -161,14 +150,7 @@ class AddFamily extends StatelessWidget {
                                 Get.back();
                               },
                               onPressRightButton: () {
-                                _familyController.isFamilyRelationListLoading.value = true;
-                                _familyController.relation.value = _familyController.tempRelation.value;
-                                for (int index = 0; index < _familyController.familyRelationList.length; index++) {
-                                  if (_familyController.tempRelation.value == _familyController.familyRelationList[index].name) {
-                                    _familyController.relationId.value = _familyController.familyRelationList[index].id;
-                                  }
-                                }
-                                Get.back();
+                                _familyHelper.addFamilyOnPressedRightButton();
                                 unfocus(context);
                               },
                               rightText: ksDone.tr,
@@ -199,41 +181,6 @@ class AddFamily extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class RelationContentShimmer extends StatelessWidget {
-  const RelationContentShimmer({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: 50,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: k12Padding),
-          child: CustomListTile(
-            borderColor: cLineColor,
-            title: ShimmerCommon(
-              widget: Container(
-                decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                height: 16,
-                width: 120,
-              ),
-            ),
-            trailing: ShimmerCommon(
-              widget: Container(
-                decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
-                height: 16,
-                width: 16,
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }
