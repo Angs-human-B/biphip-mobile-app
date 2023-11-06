@@ -5,7 +5,6 @@ import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/menu/profile/profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/family/family.dart';
-import 'package:bip_hip/views/menu/friends/friends.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 
@@ -80,16 +79,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   //*Search
   final TextEditingController searchController = TextEditingController();
 
-  //*friends page list data show
-  StatelessWidget allReceivedPendingFriendsView() {
-    if (tapAbleButtonState[0] == true) {
-      return AllFriendList();
-    } else if (tapAbleButtonState[1] == true) {
-      return ReceivedFriendList();
-    } else {
-      return PendingFriendList();
-    }
-  }
+
 
   //*friends page list data show
   StatelessWidget allReceivedPendingFamilyView() {
