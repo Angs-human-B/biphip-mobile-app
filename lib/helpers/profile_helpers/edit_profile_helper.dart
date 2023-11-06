@@ -1,10 +1,13 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/shimmer_views/profile/gender_shimmer.dart';
+import 'package:bip_hip/shimmer_views/profile/link_list_shimmer_view.dart';
 import 'package:bip_hip/shimmer_views/profile/relation_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/profile/edit_about_sections/edit_page_bottom_sheet_content.dart';
 import 'package:bip_hip/views/menu/profile/edit_about_sections/gender_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_about_sections/relationship_section.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class EditProfileHelper {
@@ -394,5 +397,167 @@ class EditProfileHelper {
     _profileController.linkID.value = _profileController.linkDataList[index].id!;
     _profileController.linkSource.value = _profileController.linkDataList[index].type!;
     _profileController.getMethod(16);
+  }
+
+  //* Common Edit page
+  void commonSelectionButtonOnPressed(context) {
+    _profileController.isLinkListLoading.value = true;
+    _profileController.tempLinkSource.value = _profileController.linkSource.value;
+    _profileController.tempEducationBackground.value = _profileController.educationBackground.value;
+    if (_profileController.tempLinkSource.value == '' &&
+        (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)) {
+      _globalController.isBottomSheetRightButtonActive.value = false;
+    } else if (_profileController.tempEducationBackground.value == '' &&
+        (_profileController.commonEditPageTitle.value == ksAddEducationalEvent ||
+            _profileController.commonEditPageTitle.value == ksEditSchool ||
+            _profileController.commonEditPageTitle.value == ksEditCollege)) {
+      _globalController.isBottomSheetRightButtonActive.value = false;
+    } else {
+      _globalController.isBottomSheetRightButtonActive.value = true;
+    }
+    commonSelectionBottomSheet(context);
+    _profileController.getLinkList();
+  }
+
+  void commonSelectionBottomSheet(context) {
+    _globalController.commonBottomSheet(
+      context: context,
+      content: Obx(
+        () => (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
+            ? (_profileController.isLinkListLoading.value ? const LinkListContentShimmer() : LinkListContent(profileController: _profileController))
+            : EducationBackgroundContent(
+                profileController: _profileController,
+              ),
+      ),
+      isScrollControlled: true,
+      bottomSheetHeight:
+          (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink) ? height * 0.9 : 200,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        if (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink) {
+          _profileController.linkSource.value = _profileController.tempLinkSource.value;
+          _profileController.commonEditPageIcon.value = _profileController.getLinkIcon(_profileController.linkSource.value);
+        } else {
+          _profileController.educationBackground.value = _profileController.tempEducationBackground.value;
+        }
+        _profileController.checkSaveButtonActive();
+        Get.back();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: medium14TextStyle(cPrimaryColor),
+      title: (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
+          ? ksSelectLinkSource.tr
+          : ksSelectEducationInstitute.tr,
+      isRightButtonShow: true,
+    );
+  }
+
+  void commonTextfieldSuffixOnPressed() {
+    _profileController.commonEditTextEditingController.clear();
+    _profileController.showCommonEditSuffixIcon.value = false;
+    _profileController.checkSaveButtonActive();
+  }
+
+  void commonTextfieldOnChanged() {
+    if (_profileController.commonEditTextEditingController.text != '') {
+      _profileController.showCommonEditSuffixIcon.value = true;
+    } else {
+      _profileController.showCommonEditSuffixIcon.value = false;
+    }
+    if (_profileController.commonEditTextfieldHintText.value == ksEmail.tr || _profileController.commonEditTextfieldHintText.value == ksEditEmail.tr) {
+      if (!_profileController.commonEditTextEditingController.text.isValidEmail) {
+        _profileController.commonEditTextFieldErrorText.value = ksInvalidEmailErrorMessage.tr;
+      } else {
+        _profileController.commonEditTextFieldErrorText.value = '';
+      }
+    }
+    _profileController.checkSaveButtonActive();
+  }
+
+  void commonSecondaryTextfieldSuffixOnPressed() {
+    _profileController.commonEditSecondaryTextEditingController.clear();
+    _profileController.checkSaveButtonActive();
+    _profileController.showCommonSecondaryEditSuffixIcon.value = false;
+  }
+
+  void commonSecondaryTextfieldOnChanged() {
+    _profileController.checkSaveButtonActive();
+    if (_profileController.commonEditSecondaryTextEditingController.text.isNotEmpty) {
+      _profileController.showCommonSecondaryEditSuffixIcon.value = true;
+    } else {
+      _profileController.showCommonSecondaryEditSuffixIcon.value = false;
+    }
+  }
+
+  void startDateButtonOnPressed(context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height: height * 0.4,
+          child: CupertinoDatePicker(
+            initialDateTime: _profileController.commonStartDate.value != '' ? DateTime.parse(_profileController.commonStartDate.value) : DateTime.now(),
+            mode: CupertinoDatePickerMode.date,
+            onDateTimeChanged: (value) {
+              _profileController.commonStartDate.value = DateFormat("yyyy-MM-dd").format(value);
+              _profileController.checkSaveButtonActive();
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void endDateButtonOnPressed(context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height: height * 0.4,
+          child: CupertinoDatePicker(
+            mode: CupertinoDatePickerMode.date,
+            // maximumDate: DateTime.now(),
+            initialDateTime: _profileController.commonEndDate.value != '' ? DateTime.parse(_profileController.commonEndDate.value) : DateTime.now(),
+            onDateTimeChanged: (value) {
+              _profileController.commonEndDate.value = DateFormat("yyyy-MM-dd").format(value);
+              _profileController.checkSaveButtonActive();
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void commonCheckBoxOnChanged() {
+    _profileController.isCommonEditCheckBoxSelected.value = !_profileController.isCommonEditCheckBoxSelected.value;
+    if (!_profileController.functionFlag.contains('PRESENT')) {
+      if (_profileController.isCommonEditCheckBoxSelected.value) {
+        _profileController.isSingleDatePicker.value = true;
+        _profileController.commonEndDate.value = '';
+      } else {
+        _profileController.isSingleDatePicker.value = false;
+      }
+    }
+    _profileController.checkSaveButtonActive();
+  }
+
+  void onSelectEducationBottomSheet(index) {
+    _profileController.tempEducationBackground.value = _profileController.educationBackgroundList[index];
+    if (_profileController.tempEducationBackground.value == '') {
+      _globalController.isBottomSheetRightButtonActive.value = false;
+    } else {
+      _globalController.isBottomSheetRightButtonActive.value = true;
+    }
+  }
+
+  void onSelectLinkBottomSheet(index) {
+    _profileController.tempLinkSource.value = _profileController.linkSourceList[index];
+    if (_profileController.tempLinkSource.value == '') {
+      _globalController.isBottomSheetRightButtonActive.value = false;
+    } else {
+      _globalController.isBottomSheetRightButtonActive.value = true;
+    }
   }
 }
