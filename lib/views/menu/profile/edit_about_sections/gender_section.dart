@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
-import 'package:bip_hip/shimmer_views/profile/gender_shimmer.dart';
+import 'package:bip_hip/helpers/profile_helpers/edit_profiler_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/edit_about.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
@@ -8,7 +8,7 @@ import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 class GenderSection extends StatelessWidget {
   GenderSection({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final EditProfileHelper _editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -26,39 +26,7 @@ class GenderSection extends StatelessWidget {
           CustomSelectionButton(
             prefixIcon: BipHip.gender,
             onPressed: () async {
-              _profileController.isGenderListLoading.value = true;
-              _profileController.tempSelectedGender.value = checkNullOrStringNull(_profileController.userData.value!.gender);
-              if (_profileController.selectedGender.value != '') {
-                _profileController.tempSelectedGender.value = _profileController.selectedGender.value;
-              }
-
-              _globalController.commonBottomSheet(
-                context: context,
-                content: Obx(
-                  () => _profileController.isGenderListLoading.value
-                      ? const GenderListShimmer()
-                      : GenderListContent(
-                          profileController: _profileController,
-                        ),
-                ),
-                isScrollControlled: true,
-                bottomSheetHeight: isDeviceScreenLarge() ? 255 : 240,
-                onPressCloseButton: () {
-                  Get.back();
-                },
-                onPressRightButton: () {
-                  if (_profileController.tempSelectedGender.value != '') {
-                    _profileController.selectedGender.value = _profileController.tempSelectedGender.value;
-                    _profileController.isGenderSelected.value = true;
-                  }
-                  Get.back();
-                },
-                rightText: ksDone.tr,
-                rightTextStyle: medium14TextStyle(cPrimaryColor),
-                title: ksSelectGender.tr,
-                isRightButtonShow: true,
-              );
-              await _profileController.getGenderList();
+              _editProfileHelper.selectGender(context);
             },
             text: _profileController.selectedGender.value != ''
                 ? _profileController.selectedGender.value
@@ -69,13 +37,10 @@ class GenderSection extends StatelessWidget {
           if (_profileController.isGenderSelected.value)
             CancelSaveButton(
               onPressedCancel: () {
-                _profileController.selectedGender.value = '';
-                _profileController.isGenderSelected.value = false;
+                _editProfileHelper.resetGender();
               },
               onPressedSave: () async {
-                await _profileController.storeUserSetting('gender', _profileController.selectedGender.value);
-                _profileController.selectedGender.value = '';
-                _profileController.isGenderSelected.value = false;
+                _editProfileHelper.saveGender();
               },
             ),
           kH16sizedBox,
