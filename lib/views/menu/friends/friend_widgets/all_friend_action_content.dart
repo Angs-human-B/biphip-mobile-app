@@ -60,16 +60,7 @@ class AllFriendActionContent extends StatelessWidget {
                   ),
                   itemColor: _friendHelper.allFriendItemColor(index),
                   onPressed: () {
-                    if (friendController.allFriendFollowStatus.value == 1) {
-                      profileController.friendActionSelect.value = profileController.friendActionList[index]['action'];
-                    } else if (friendController.allFriendFollowStatus.value == 0) {
-                      profileController.friendActionSelect.value = friendController.friendFollowActionList[index]['action'];
-                    }
-                    if (profileController.friendActionSelect.value == '') {
-                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                    } else {
-                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                    }
+                    _friendHelper.allFriendActionOnPressed(index);
                   },
                 ),
               ),
