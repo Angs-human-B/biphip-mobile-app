@@ -77,12 +77,14 @@ class CreatePost extends StatelessWidget {
                                               Container(
                                                 height: h45,
                                                 width: h45,
-                                                decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                child: Image.asset(
-                                                  kiProfileDefaultImageUrl,
-                                                  fit: BoxFit.cover,
+                                                decoration: const BoxDecoration(shape: BoxShape.circle, color: cBlackColor),
+                                                child: ClipOval(
+                                                  child: Image.network(
+                                                    Environment.imageBaseUrl + Get.find<GlobalController>().userImage.value.toString(),
+                                                    fit: BoxFit.cover,
+                                                    errorBuilder: (context, error, stackTrace) =>
+                                                        imageErrorBuilderCover(context, error, stackTrace, BipHip.user, kIconSize20),
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -139,7 +141,7 @@ class CreatePost extends StatelessWidget {
                                                       text: TextSpan(
                                                         children: [
                                                           TextSpan(
-                                                            text: 'Jane Smith',
+                                                            text: Get.find<GlobalController>().userName.value.toString(),
                                                             style: semiBold16TextStyle(cBlackColor),
                                                           ),
                                                           if (_createPostController.isTagAdded.value)
@@ -311,7 +313,7 @@ class CreatePost extends StatelessWidget {
                                     fillColor: cWhiteColor,
                                     inputAction: TextInputAction.newline,
                                     inputType: TextInputType.multiline,
-                                    hint: "${ksWhatsOnYourMind.tr}, Rana?",
+                                    hint: "${ksWhatsOnYourMind.tr}, ${Get.find<GlobalController>().userLastName.value.toString()}?",
                                     contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k16Padding),
                                     textHintStyle: regular20TextStyle(cPlaceHolderColor),
                                     textInputStyle:

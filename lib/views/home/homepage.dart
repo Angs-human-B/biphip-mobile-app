@@ -99,7 +99,7 @@ class HomePage extends StatelessWidget {
                             width: width,
                             color: cWhiteColor,
                             child: CustomPostButton(
-                              name: Get.find<GlobalController>().userFirstName.value.toString(),
+                              name: Get.find<GlobalController>().userLastName.value.toString(),
                               profilePic: Get.find<GlobalController>().userImage.value.toString(),
                               onPressed: () {
                                 Get.find<CreatePostController>().resetData();
