@@ -54,6 +54,19 @@ class EditProfileHelper {
   }
 
   //* Education Section
+
+  String? schoolSubtitleText(DateTime? startDate, DateTime? endDate) {
+    if (startDate != null && endDate != null) {
+      return '${DateFormat("dd MMMM, yyyy").format(startDate)} - ${DateFormat("dd MMMM, yyyy").format(endDate)}';
+    } else if (startDate == null && endDate != null) {
+      ll(endDate.year);
+      return 'School year ${endDate.year}';
+    } else if (startDate != null && endDate == null) {
+      return '${DateFormat("dd MMMM, yyyy").format(startDate)} to present';
+    } else {
+      return null;
+    }
+  }
   void addEducationBackground() {
     _profileController.resetTextEditor();
     _profileController.getMethod(5);

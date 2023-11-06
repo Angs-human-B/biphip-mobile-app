@@ -34,7 +34,7 @@ class EducationBackgroundSection extends StatelessWidget {
                   suffixText: checkNullOrStringNull(_profileController.schoolDataList[i].school),
                   prefixText: _profileController.schoolDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
                   subtitlePrefixText:
-                      _profileController.schoolSubtitleText(_profileController.schoolDataList[i].started, _profileController.schoolDataList[i].ended),
+                      _editProfileHelper.schoolSubtitleText(_profileController.schoolDataList[i].started, _profileController.schoolDataList[i].ended),
                   isAddButton: false,
                   suffixOnPressed: () async {
                     _editProfileHelper.editSchool(i);
@@ -48,7 +48,7 @@ class EducationBackgroundSection extends StatelessWidget {
                   suffixText: checkNullOrStringNull(_profileController.collegeDataList[i].school),
                   prefixText: _profileController.collegeDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
                   subtitlePrefixText:
-                      _profileController.schoolSubtitleText(_profileController.collegeDataList[i].started, _profileController.collegeDataList[i].ended),
+                      _editProfileHelper.schoolSubtitleText(_profileController.collegeDataList[i].started, _profileController.collegeDataList[i].ended),
                   isAddButton: false,
                   suffixOnPressed: () async {
                     _editProfileHelper.editCollege(i);

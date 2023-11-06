@@ -188,19 +188,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxString tempWorkplaceEndDate = RxString('');
   final RxBool isSingleDatePicker = RxBool(false);
 
-  String? schoolSubtitleText(DateTime? startDate, DateTime? endDate) {
-    if (startDate != null && endDate != null) {
-      return '${DateFormat("dd MMMM, yyyy").format(startDate)} - ${DateFormat("dd MMMM, yyyy").format(endDate)}';
-    } else if (startDate == null && endDate != null) {
-      ll(endDate.year);
-      return 'School year ${endDate.year}';
-    } else if (startDate != null && endDate == null) {
-      return '${DateFormat("dd MMMM, yyyy").format(startDate)} to present';
-    } else {
-      return null;
-    }
-  }
-
   String? currentWorkSubtitleText(DateTime? startDate) {
     if (startDate != null) {
       return '${DateFormat("dd MMMM, yyyy").format(startDate)} - present';
