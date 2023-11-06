@@ -1,11 +1,12 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/profile_helpers/edit_profiler_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/edit_about.dart';
 
 class ProfessionSection extends StatelessWidget {
   ProfessionSection({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final EditProfileHelper _editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +22,7 @@ class ProfessionSection extends StatelessWidget {
             textStyle: semiBold18TextStyle(cBlackColor),
             showAddButton: _profileController.userData.value!.profession.isEmpty ? true : false,
             onPressedAdd: () async {
-              _profileController.isRouteFromAboutInfo.value = true;
-              _globalController.professionIndex.value = -1;
-              Get.toNamed(krSelectProfession);
-              await _profileController.getProfessionList();
+              _editProfileHelper.setProfession();
             },
             buttonWidth: 149,
           ),
@@ -34,16 +32,8 @@ class ProfessionSection extends StatelessWidget {
               suffixText: '',
               prefixText: checkNullOrStringNull(_profileController.userData.value!.profession[0]),
               isAddButton: false,
-              suffixOnPressed: () async {
-                _globalController.professionIndex.value = -1;
-                _profileController.isRouteFromAboutInfo.value = true;
-                Get.toNamed(krSelectProfession);
-                await _profileController.getProfessionList();
-                for (int i = 0; i < _globalController.professionList.length; i++) {
-                  if (_globalController.professionList[i] == _profileController.userData.value!.profession[0]) {
-                    _globalController.professionIndex.value = i;
-                  }
-                }
+              suffixOnPressed: () {
+                _editProfileHelper.editProfession();
               },
             ),
           kH16sizedBox,

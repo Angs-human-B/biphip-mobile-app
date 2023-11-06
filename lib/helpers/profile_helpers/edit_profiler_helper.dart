@@ -242,4 +242,24 @@ class EditProfileHelper {
     _profileController.isRouteFromAboutInfo.value = true;
     Get.toNamed(krSelectBirthday);
   }
+
+  //* Profession Section
+  void setProfession() async {
+    _profileController.isRouteFromAboutInfo.value = true;
+    _globalController.professionIndex.value = -1;
+    Get.toNamed(krSelectProfession);
+    await _profileController.getProfessionList();
+  }
+
+  void editProfession() async {
+    _globalController.professionIndex.value = -1;
+    _profileController.isRouteFromAboutInfo.value = true;
+    Get.toNamed(krSelectProfession);
+    await _profileController.getProfessionList();
+    for (int i = 0; i < _globalController.professionList.length; i++) {
+      if (_globalController.professionList[i] == _profileController.userData.value!.profession[0]) {
+        _globalController.professionIndex.value = i;
+      }
+    }
+  }
 }
