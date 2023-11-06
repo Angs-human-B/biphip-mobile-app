@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
 
 class KidsPage extends StatelessWidget {
   KidsPage({super.key});
@@ -80,77 +81,81 @@ class AllKids extends StatelessWidget {
     return Obx(
       () => _kidsController.isKidsListLoading.value
           ? const AllKidsShimmer()
-          : Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k12Padding).copyWith(bottom: k0Padding),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListView.builder(
-                        itemCount: _kidsController.kidList.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: k12Padding),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(k8BorderRadius),
-                              child: CustomListTile(
-                                padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k8Padding).copyWith(right: k0Padding),
-                                borderColor: cLineColor,
-                                leading: Container(
-                                  height: h40,
-                                  width: h40,
-                                  decoration: const BoxDecoration(
-                                    color: cWhiteColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: ClipOval(
-                                    child: Image.network(
-                                      Environment.imageBaseUrl + _kidsController.kidList[index].kidImage.toString(),
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) {
-                                        return Image.asset(kiProfileDefaultImageUrl);
-                                      },
-                                      loadingBuilder: imageLoadingBuilder,
+          : _kidsController.kidList.isNotEmpty
+              ? Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k12Padding).copyWith(bottom: k0Padding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ListView.builder(
+                            itemCount: _kidsController.kidList.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: k12Padding),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                                  child: CustomListTile(
+                                    padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k8Padding).copyWith(right: k0Padding),
+                                    borderColor: cLineColor,
+                                    leading: Container(
+                                      height: h40,
+                                      width: h40,
+                                      decoration: const BoxDecoration(
+                                        color: cWhiteColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: ClipOval(
+                                        child: Image.network(
+                                          Environment.imageBaseUrl + _kidsController.kidList[index].kidImage.toString(),
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stackTrace) {
+                                            return Image.asset(kiProfileDefaultImageUrl);
+                                          },
+                                          loadingBuilder: imageLoadingBuilder,
+                                        ),
+                                      ),
                                     ),
+                                    title: Text(
+                                      _kidsController.kidList[index].name ?? ksNA.tr,
+                                      style: semiBold16TextStyle(cBlackColor),
+                                    ),
+                                    trailing: CustomIconButton(
+                                        onPress: () {
+                                          _kidsController.kidId.value = _kidsController.kidList[index].id!;
+
+                                          _globalController.commonBottomSheet(
+                                            context: context,
+                                            isScrollControlled: true,
+                                            content: const EditDeleteContent(),
+                                            onPressCloseButton: () {
+                                              Get.back();
+                                            },
+                                            onPressRightButton: null,
+                                            rightText: ksDone.tr,
+                                            rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                            title: ksAction.tr,
+                                            isRightButtonShow: false,
+                                            bottomSheetHeight: 150,
+                                          );
+                                        },
+                                        icon: BipHip.system),
                                   ),
                                 ),
-                                title: Text(
-                                  _kidsController.kidList[index].name ?? ksNA.tr,
-                                  style: semiBold16TextStyle(cBlackColor),
-                                ),
-                                trailing: CustomIconButton(
-                                    onPress: () {
-                                      _kidsController.kidId.value = _kidsController.kidList[index].id!;
-
-                                      _globalController.commonBottomSheet(
-                                        context: context,
-                                        isScrollControlled: true,
-                                        content: const EditDeleteContent(),
-                                        onPressCloseButton: () {
-                                          Get.back();
-                                        },
-                                        onPressRightButton: null,
-                                        rightText: ksDone.tr,
-                                        rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                        title: ksAction.tr,
-                                        isRightButtonShow: false,
-                                        bottomSheetHeight: 150,
-                                      );
-                                    },
-                                    icon: BipHip.system),
-                              ),
-                            ),
-                          );
-                        },
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
+                )
+              : Expanded(
+                  child: Container(alignment: Alignment.center, child: EmptyView(title: ksNoKidsAddedYet.tr)),
                 ),
-              ),
-            ),
     );
   }
 }
