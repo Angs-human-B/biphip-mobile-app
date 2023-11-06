@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/profile_helpers/edit_profiler_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/edit_about.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +7,7 @@ import 'package:intl/intl.dart';
 class PlaceEditSection extends StatelessWidget {
   PlaceEditSection({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
+  final EditProfileHelper _editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +29,7 @@ class PlaceEditSection extends StatelessWidget {
                 suffixText: ksHomeTown.tr,
                 isAddButton: true,
                 suffixOnPressed: () async {
-                  _profileController.resetTextEditor();
-                  _profileController.getCityList();
-                  _profileController.getMethod(9);
+                  _editProfileHelper.setHometown();
                 },
               ),
             if (_profileController.hometownData.value != null)
@@ -38,9 +38,7 @@ class PlaceEditSection extends StatelessWidget {
                 suffixText: checkNullOrStringNull(_profileController.hometownData.value?.city),
                 isAddButton: false,
                 suffixOnPressed: () async {
-                  _profileController.enableSaveButton.value = true;
-                  _profileController.getMethod(0);
-                  _profileController.getCityList();
+                  _editProfileHelper.editHometown();
                 },
               ),
             kH12sizedBox,
@@ -49,10 +47,7 @@ class PlaceEditSection extends StatelessWidget {
                 suffixText: ksPresentAddress.tr,
                 isAddButton: true,
                 suffixOnPressed: () async {
-                  _profileController.resetTextEditor();
-                  _profileController.getMethod(1);
-                  Get.toNamed(krEdit);
-                  _profileController.getCityList();
+                  _editProfileHelper.setCurrentCity();
                 },
               ),
             if (_profileController.currentCityData.value != null)
@@ -61,11 +56,7 @@ class PlaceEditSection extends StatelessWidget {
                 suffixText: checkNullOrStringNull(_profileController.currentCityData.value!.city),
                 isAddButton: false,
                 suffixOnPressed: () async {
-                  _profileController.enableSaveButton.value = true;
-                  _profileController.isCurrentlyLiveHere.value = true;
-                  _profileController.cityID.value = _profileController.currentCityData.value!.id!;
-                  _profileController.getMethod(2);
-                  _profileController.getCityList();
+                  _editProfileHelper.editCurrentCity();
                 },
               ),
             kH12sizedBox,
@@ -74,11 +65,7 @@ class PlaceEditSection extends StatelessWidget {
                 suffixText: ksPreviousPlacesLived.tr,
                 isAddButton: true,
                 suffixOnPressed: () async {
-                  _profileController.resetTextEditor();
-                  _profileController.isSingleDatePicker.value = true;
-                  _profileController.getMethod(3);
-                  Get.toNamed(krEdit);
-                  _profileController.getCityList();
+                  _editProfileHelper.setOtherCity();
                 },
               ),
             if (_profileController.currentCityData.value != null && _profileController.hometownData.value != null) kH12sizedBox,
@@ -88,18 +75,13 @@ class PlaceEditSection extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: k12Padding),
                   child: InfoContainer2(
                     suffixText: _profileController.otherCityList[i].city!,
-                    subtitlePrefixText: _profileController.otherCityList[i].moved != null ? 'Moved in' : null,
+                    subtitlePrefixText: _profileController.otherCityList[i].moved != null ? ksMovedIn.tr : null,
                     subtitleSuffixText: _profileController.otherCityList[i].moved != null
                         ? DateFormat("MMMM dd, yyyy").format(_profileController.otherCityList[i].moved!)
                         : null,
                     isAddButton: false,
                     suffixOnPressed: () async {
-                      _profileController.cityID.value = _profileController.otherCityList[i].id!;
-                      _profileController.presentAddressTextEditingController.text = _profileController.otherCityList[i].city!;
-                      _profileController.enableSaveButton.value = true;
-                      _profileController.isSingleDatePicker.value = true;
-                      _profileController.getMethod(4);
-                      _profileController.getCityList();
+                      _editProfileHelper.editOtherCity(i);
                     },
                   ),
                 ),

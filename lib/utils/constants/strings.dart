@@ -219,6 +219,7 @@ const String ksBornOn = 'Born on';
 const String ksHomeTown = 'Hometown';
 const String ksLivesIn = 'Lives in';
 const String ksFrom = 'From';
+const String ksMovedIn = 'Moved in';
 const String ksStudiedAt = 'Studied at';
 const String ksStudiesAt = 'Studies at';
 const String ksAddHomeTownAddress = 'Add hometown address';
