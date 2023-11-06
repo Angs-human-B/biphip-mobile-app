@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -49,6 +50,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 iconSelected: BipHip.homeFill,
                 onPressed: () async {
                   Get.offAllNamed(krHome);
+                  await Get.find<HomeController>().getPostList();
                 },
               ),
 
@@ -63,6 +65,7 @@ class CustomBottomNavBar extends StatelessWidget {
                   Get.find<ProfileController>().resetTapButtonData();
                   Get.find<ProfileController>().searchController.clear();
                   Get.find<FriendController>().isFriendSearched.value = false;
+                  Get.find<FriendController>().isRouteFromBottomNavBar.value = true;
                   Get.toNamed(krFriends);
                   await Get.find<FriendController>().getFriendList();
                 },

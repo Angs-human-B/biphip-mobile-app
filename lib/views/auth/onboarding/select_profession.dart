@@ -38,7 +38,7 @@ class SelectProfessionScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 16.0),
                     child: CustomTextButton(
                         onPressed: () async {
-                          Get.find<GlobalController>().interestIndex.clear();
+                          _globalController.interestIndex.clear();
                           Get.toNamed(krSelectInterest);
                           _profileController.getInterestList();
                         },
@@ -93,20 +93,7 @@ class SelectProfessionScreen extends StatelessWidget {
                               label: _profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
                               onPressed: _globalController.professionIndex.value != -1
                                   ? () async {
-                                      if (!_profileController.isRouteFromAboutInfo.value) {
-                                        _profileController.isInterestListLoading.value = true;
-                                        Get.find<GlobalController>().interestIndex.clear();
-                                        _globalController.selectedProfession.value = _globalController.professionList[_globalController.professionIndex.value];
-                                        _profileController.setProfession(_globalController.selectedProfession.value);
-                                        Get.toNamed(krSelectInterest);
-                                        await _profileController.getInterestList();
-                                      } else {
-                                        _globalController.selectedProfession.value = _globalController.professionList[_globalController.professionIndex.value];
-
-                                        Get.back();
-                                        await _profileController.setProfession(_globalController.selectedProfession.value);
-                                        _profileController.isRouteFromAboutInfo.value = false;
-                                      }
+                                      
                                     }
                                   : null,
                               buttonWidth: width - 40,

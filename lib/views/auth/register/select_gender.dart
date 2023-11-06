@@ -1,7 +1,6 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/profile/edit_about.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
@@ -10,14 +9,12 @@ class SelectGender extends StatelessWidget {
   SelectGender({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final RegistrationHelper _registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      // color: cRedColor,
       decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         top: false,
@@ -61,39 +58,8 @@ class SelectGender extends StatelessWidget {
                       CustomSelectionButton(
                         buttonColor: cWhiteColor,
                         borderColor: cLineColor2,
-                        onPressed: () async {
-                          if (_authenticationController.gender.value != '') {
-                            _profileController.tempSelectedGender.value = _authenticationController.gender.value;
-                          }
-                          _profileController.isGenderListLoading.value = true;
-                          _globalController.commonBottomSheet(
-                            context: context,
-                            content: Obx(
-                              () => _profileController.isGenderListLoading.value
-                                  ? const GenderListShimmer()
-                                  : GenderListContent(
-                                      profileController: _profileController,
-                                    ),
-                            ),
-                            onPressCloseButton: () {
-                              Get.back();
-                            },
-                            onPressRightButton: () {
-                              _profileController.isGenderListLoading.value = true;
-                              if (_profileController.tempSelectedGender.value != '') {
-                                _authenticationController.gender.value = _profileController.tempSelectedGender.value;
-                                _profileController.isGenderSelected.value = true;
-                              }
-                              Get.back();
-                            },
-                            rightText: ksDone.tr,
-                            rightTextStyle: medium14TextStyle(cPrimaryColor),
-                            title: ksSelectGender.tr,
-                            isRightButtonShow: true,
-                            isScrollControlled: true,
-                            bottomSheetHeight: height * 0.4,
-                          );
-                          await _profileController.getGenderList();
+                        onPressed: () {
+                          _registrationHelper.onPressedSelectGender(context);
                         },
                         text: _authenticationController.gender.value,
                         hintText: ksSelectGender.tr,
@@ -118,47 +84,6 @@ class SelectGender extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class GenderListShimmer extends StatelessWidget {
-  const GenderListShimmer({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: 3,
-          itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: k12Padding),
-              child: CustomListTile(
-                borderColor: cLineColor,
-                title: ShimmerCommon(
-                  widget: Container(
-                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                    height: 16,
-                    width: 120,
-                  ),
-                ),
-                trailing: ShimmerCommon(
-                  widget: Container(
-                    decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
-                    height: 16,
-                    width: 16,
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ],
     );
   }
 }

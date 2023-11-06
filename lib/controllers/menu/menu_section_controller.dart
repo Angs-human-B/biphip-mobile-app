@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -26,6 +27,7 @@ class MenuSectionController extends GetxController {
       Get.find<ProfileController>().resetTapButtonData();
       Get.find<ProfileController>().searchController.clear();
       Get.find<FriendController>().isFriendSearched.value = false;
+      Get.find<FriendController>().isRouteFromBottomNavBar.value = false;
       Get.toNamed(krFriends);
       await Get.find<FriendController>().getFriendList();
     } else if (index == 1) {
@@ -46,11 +48,13 @@ class MenuSectionController extends GetxController {
       Get.to(() => PlatformAndAction());
     } else if (index == 5) {
       ll('Badges');
-    } else if (index == 5) {
+    } else if (index == 6) {
       ll('Earnings');
-    } else if (index == 5) {
+    } else if (index == 7) {
+      Get.toNamed(krKidsPage);
+      await Get.find<KidsController>().getKidsList();
       ll('Kids');
-    } else if (index == 5) {
+    } else if (index == 8) {
       ll('Shop');
     }
   }

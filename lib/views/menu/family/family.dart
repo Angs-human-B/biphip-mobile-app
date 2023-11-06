@@ -2,9 +2,10 @@ import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/friends/friends.dart';
 import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
+import 'package:bip_hip/widgets/menu/friends_family/friend_family_button_action.dart';
+import 'package:bip_hip/widgets/menu/friends_family/friend_family_single_button_action.dart';
 import 'package:flutter/rendering.dart';
 
 class Family extends StatelessWidget {
@@ -40,10 +41,8 @@ class Family extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () async {
                             _profileController.searchController.clear();
-                            _familyController.isAddFamilySuffixIconVisible.value = false;
                             _familyController.isFamilySuffixIconVisible.value = false;
                             unfocus(context);
-                            // _familyController.addFamilyRequestList.clear();
                             _familyController.clearAddFamilyData();
                             Get.toNamed(krAddFamily);
                             Get.find<FriendController>().getFriendListForAddFamily();
@@ -95,31 +94,33 @@ class Family extends StatelessWidget {
                       kH12sizedBox,
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                        child: Obx(() => CustomModifiedTextField(
-                            borderRadius: h8,
-                            controller: Get.find<ProfileController>().searchController,
-                            prefixIcon: BipHip.search,
-                            suffixIcon: _familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
-                            hint: ksSearch.tr,
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: k12Padding,
-                            ),
-                            textInputStyle: regular16TextStyle(cBlackColor),
-                            onSuffixPress: () {
-                              Get.find<ProfileController>().searchController.clear();
-                              _familyController.isFamilySuffixIconVisible.value = false;
-                            },
-                            onSubmit: (v) {
-                              unfocus(context);
-                              _familyController.isFamilySuffixIconVisible.value = false;
-                            },
-                            onChanged: (v) async {
-                              if (Get.find<ProfileController>().searchController.text.trim() != '') {
-                                _familyController.isFamilySuffixIconVisible.value = true;
-                              } else {
-                                _familyController.isFamilySuffixIconVisible.value = false;
-                              }
-                            })),
+                        child: Obx(() => _profileController.tapAbleButtonState[0]
+                            ? CustomModifiedTextField(
+                                borderRadius: h8,
+                                controller: Get.find<ProfileController>().searchController,
+                                prefixIcon: BipHip.search,
+                                suffixIcon: _familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                                hint: ksSearch.tr,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: k12Padding,
+                                ),
+                                textInputStyle: regular16TextStyle(cBlackColor),
+                                onSuffixPress: () {
+                                  Get.find<ProfileController>().searchController.clear();
+                                  _familyController.isFamilySuffixIconVisible.value = false;
+                                },
+                                onSubmit: (v) {
+                                  unfocus(context);
+                                  _familyController.isFamilySuffixIconVisible.value = false;
+                                },
+                                onChanged: (v) async {
+                                  if (Get.find<ProfileController>().searchController.text.trim() != '') {
+                                    _familyController.isFamilySuffixIconVisible.value = true;
+                                  } else {
+                                    _familyController.isFamilySuffixIconVisible.value = false;
+                                  }
+                                })
+                            : const SizedBox()),
                       ),
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
@@ -206,7 +207,6 @@ class AllFamilyList extends StatelessWidget {
                   child: Expanded(
                     child: SingleChildScrollView(
                       controller: _familyController.familyListScrollController,
-                      // physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
                         children: [
                           Padding(
@@ -220,7 +220,7 @@ class AllFamilyList extends StatelessWidget {
                                   padding: const EdgeInsets.only(bottom: k16Padding),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(k8BorderRadius),
-                                    child: CustomListViewItem(
+                                    child: FriendFamilyButtonAction(
                                       backgroundImage: _familyController.familyList[index].profilePicture.toString(),
                                       imageSize: h50,
                                       name: _familyController.familyList[index].fullName ?? ksNA.tr,
@@ -274,7 +274,6 @@ class ReceivedFamilyList extends StatelessWidget {
                   child: Expanded(
                     child: SingleChildScrollView(
                       controller: _familyController.receivedFamilyListScrollController,
-                      // physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
                         children: [
                           Padding(
@@ -288,11 +287,11 @@ class ReceivedFamilyList extends StatelessWidget {
                                   padding: const EdgeInsets.only(bottom: k16Padding),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(k8BorderRadius),
-                                    child: CustomListViewItem(
+                                    child: FriendFamilyButtonAction(
                                       backgroundImage: _familyController.receivedFamilyList[index].profilePicture.toString(),
                                       imageSize: h50,
                                       name: _familyController.receivedFamilyList[index].fullName ?? ksNA.tr,
-                                      subTitle: _familyController.receivedFamilyList[index].familyRelationStatus ?? ksNA.tr,
+                                      subTitle: '${ksGotRequestToBeA.tr} ${_familyController.receivedFamilyList[index].familyRelationStatus}',
                                       firstButtonText: ksConfirm.tr,
                                       secondButtonText: ksCancel.tr,
                                       firstButtonOnPressed: () async {
@@ -347,7 +346,6 @@ class PendingFamilyList extends StatelessWidget {
                   child: Expanded(
                     child: SingleChildScrollView(
                       controller: _familyController.sendFamilyListScrollController,
-                      // physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
                         children: [
                           Padding(
@@ -361,7 +359,7 @@ class PendingFamilyList extends StatelessWidget {
                                   padding: const EdgeInsets.only(bottom: k10Padding),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(k8BorderRadius),
-                                    child: CustomSingleButtonListViewItem(
+                                    child: FriendFamilySingleButtonAction(
                                       backgroundImage: _familyController.sendFamilyRequestList[index].profilePicture.toString(),
                                       imageSize: h45,
                                       name: _familyController.sendFamilyRequestList[index].fullName ?? ksNA.tr,
@@ -388,45 +386,6 @@ class PendingFamilyList extends StatelessWidget {
                   ),
                 )
               : Expanded(child: Container(alignment: Alignment.center, child: EmptyView(title: ksNoFamilyRequestSendYet.tr))),
-    );
-  }
-}
-
-class RelationContent extends StatelessWidget {
-  RelationContent({super.key});
-  final FamilyController _familyController = Get.find<FamilyController>();
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: _familyController.familyRelationList.length,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: k10Padding),
-          child: Obx(
-            () => CustomListTile(
-              itemColor: _familyController.relationStatusId.value == index ? cPrimaryTint3Color : cWhiteColor,
-              onPressed: () {
-                _familyController.relationStatusId.value = index;
-                if (_familyController.relationStatusId.value == -1) {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                } else {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                }
-              },
-              title: _familyController.familyRelationList[index].name,
-              borderColor: _familyController.relationStatusId.value == index ? cPrimaryColor : cLineColor,
-              trailing: CustomRadioButton(
-                onChanged: () {
-                  _familyController.relationStatusId.value = index;
-                },
-                isSelected: _familyController.relationStatusId.value == index,
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }
@@ -496,7 +455,7 @@ class CommonFamilyShimmer extends StatelessWidget {
                                       widget: Container(
                                         decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                                         height: 30,
-                                        width: isDeviceScreenLarge() ? 112 : 120,
+                                        width: isDeviceScreenLarge() ? 108 : 112,
                                       ),
                                     ),
                                     kW20sizedBox,
@@ -504,7 +463,7 @@ class CommonFamilyShimmer extends StatelessWidget {
                                       widget: Container(
                                           decoration: BoxDecoration(color: cWhiteColor, borderRadius: k4CircularBorderRadius),
                                           height: 30,
-                                          width: isDeviceScreenLarge() ? 112 : 120),
+                                          width: isDeviceScreenLarge() ? 108 : 112),
                                     ),
                                   ],
                                 ),

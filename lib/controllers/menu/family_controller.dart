@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/family/common_family_model.dart';
@@ -10,7 +10,6 @@ class FamilyController extends GetxController {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
-  // final ProfileController _profileController = Get.find<ProfileController>();
   //*Scroll controller for pagination
   final ScrollController familyListScrollController = ScrollController();
   //*Family List Api Call
@@ -415,39 +414,6 @@ class FamilyController extends GetxController {
     }
   }
 
-  //* Add Family
-  // Rx<CommonFamilies?> addFamilyRequestData = Rx<CommonFamilies?>(null);
-  // RxList<FriendFamilyUserData> addFamilyRequestList = RxList<FriendFamilyUserData>([]);
-  // final RxBool isAddFamilyRequestListLoading = RxBool(false);
-  // Future<void> getAddFamilyRequestList() async {
-  //   try {
-  //     isAddFamilyRequestListLoading.value = true;
-  //     String? token = await _spController.getBearerToken();
-  //     var response = await _apiController.commonApiCall(
-  //       requestMethod: kGet,
-  //       token: token,
-  //       url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}',
-  //     ) as CommonDM;
-  //     if (response.success == true) {
-  //       addFamilyRequestList.clear();
-  //       addFamilyRequestData.value = CommonFamilies.fromJson(response.data);
-  //       addFamilyRequestList.addAll(addFamilyRequestData.value!.data);
-  //       isAddFamilyRequestListLoading.value = false;
-  //     } else {
-  //       isAddFamilyRequestListLoading.value = false;
-  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
-  //       if (errorModel.errors.isEmpty) {
-  //         _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-  //       } else {
-  //         _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     isAddFamilyRequestListLoading.value = false;
-  //     ll('getAddFamilyRequestList error: $e');
-  //   }
-  // }
-
   //*Send Family Request
   final RxInt relationStatusId = RxInt(-1);
   final RxInt relationId = RxInt(-1);
@@ -520,14 +486,30 @@ class FamilyController extends GetxController {
   }
 
   final RxString relation = RxString("");
+  final RxString tempRelation = RxString("");
   final FocusNode addFamilyFocusNode = FocusNode();
   void clearAddFamilyData() {
     relationStatusId.value = -1;
     userId.value = -1;
     relationId.value = -1;
     relation.value = '';
+    tempRelation.value = '';
   }
-Timer? debounce;
-final RxBool isAddFamilySuffixIconVisible = RxBool(false);
-final RxBool isFamilySuffixIconVisible = RxBool(false);
+
+  Timer? debounce;
+  final RxBool isFamilySuffixIconVisible = RxBool(false);
+  void addFamilyOnPressed() {
+    if (Get.find<ProfileController>().searchController.text.trim() != '') {
+      isFamilySuffixIconVisible.value = true;
+    } else {
+      isFamilySuffixIconVisible.value = false;
+    }
+    for (int i = 0; i < Get.find<FriendController>().tempFriendList.length; i++) {
+      if (Get.find<FriendController>().tempFriendList[i] == Get.find<ProfileController>().searchController.text.trim()) {
+        userId.value = Get.find<FriendController>().friendList[i].id!;
+      } else {
+        userId.value = -1;
+      }
+    }
+  }
 }

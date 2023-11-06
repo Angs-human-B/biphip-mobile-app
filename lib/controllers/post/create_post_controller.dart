@@ -15,7 +15,7 @@ class CreatePostController extends GetxController {
 
   final RxBool isPostButtonActive = RxBool(false);
   final RxBool isTextLimitCrossed = RxBool(false);
-  final TextEditingController createPostTEController = TextEditingController();
+  final TextEditingController createPostController = TextEditingController();
   final RxString postType = RxString('Public');
   final Rx<IconData> postTypeIcon = Rx<IconData>(BipHip.world);
   final RxString category = RxString('');
@@ -46,9 +46,9 @@ class CreatePostController extends GetxController {
   final Rx<File> postSecondaryLocalCirclerAvatar = File('').obs;
 
   void postButtonStateCheck() {
-    if (createPostTEController.text.trim().isNotEmpty) {
+    if (createPostController.text.trim().isNotEmpty) {
       isPostButtonActive.value = true;
-      if (createPostTEController.text.length > 150) {
+      if (createPostController.text.length > 150) {
         isTextLimitCrossed.value = true;
       } else {
         isTextLimitCrossed.value = false;
@@ -178,7 +178,6 @@ class CreatePostController extends GetxController {
         break;
       }
     }
-    ll(categoryID);
     if (category.value == "Kids") {
       selectedKid.value = null;
       resetAddKidPage();
@@ -728,9 +727,9 @@ class CreatePostController extends GetxController {
     isCreatePostVideoChanged.value = false;
     createPostVideoLink.value = "";
     createPostVideoFile.clear();
-
     allMediaList.clear();
     allMediaFileList.clear();
+    resetCreatePost();
   }
 
 //------------------------------
@@ -973,7 +972,7 @@ class CreatePostController extends GetxController {
   }
 
   //Get all post catagories API implementation
-  Rx<PostListModel?> postCategoryData = Rx<PostListModel?>(null);
+  Rx<PostCategoryListModel?> postCategoryData = Rx<PostCategoryListModel?>(null);
   final RxBool isAddKidPageLoading = RxBool(false);
   final RxBool isPostCategoryListLoading = RxBool(false);
   Future<void> getPostCategoryList() async {
@@ -987,7 +986,7 @@ class CreatePostController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         postCategoryList.clear();
-        postCategoryData.value = PostListModel.fromJson(response.data);
+        postCategoryData.value = PostCategoryListModel.fromJson(response.data);
         postCategoryList.addAll(postCategoryData.value!.postCategories);
         for (int i = 0; i < postCategoryList.length; i++) {
           for (int j = 0; j < categoryList.length; j++) {
@@ -1213,5 +1212,52 @@ class CreatePostController extends GetxController {
     } else {
       isSaveBrandButtonEnabled.value = false;
     }
+  }
+
+  // Create post API Implementation
+  final RxBool isCreatePostLoading = RxBool(false);
+  Future<void> createPost() async {
+    ll(allMediaList);
+    try {
+      isCreatePostLoading.value = true;
+      String? token = await _spController.getBearerToken();
+      Map<String, String> body = {
+        'post_category_id': categoryID.value.toString(),
+        'content': createPostController.text.trim(),
+        'is_public': '1',
+      };
+      var response = await _apiController.multiMediaUpload(
+        url: kuCreatePost,
+        body: body,
+        token: token,
+        key: 'images[]',
+        values: allMediaList,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        isCreatePostLoading.value = false;
+        Get.back();
+        resetCreatePost();
+        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isCreatePostLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isCreatePostLoading.value = true;
+      ll('createPost error: $e');
+    }
+  }
+
+  void resetCreatePost() {
+    createPostController.clear();
+    categoryID.value = -1;
+    category.value = '';
+    isPostButtonActive.value = false;
   }
 }

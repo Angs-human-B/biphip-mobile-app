@@ -272,7 +272,6 @@ class GalleryPhotoShimmer extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: 20,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 1.2,
                   crossAxisCount: 2,
                   crossAxisSpacing: k10Padding,
                   mainAxisSpacing: k4Padding,

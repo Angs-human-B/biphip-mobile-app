@@ -237,6 +237,7 @@ class ApiController {
     required String url,
     required dynamic key,
     required dynamic values,
+    Map<String, String>? body,
     int? timer,
   }) async {
     final Uri uri = Uri.parse(Environment.apiUrl + url);
@@ -251,8 +252,9 @@ class ApiController {
       );
       // If image is a file on disk, use fromPath instead of fromBytes
       for (var value in values) {
-        request.files.add(await http.MultipartFile.fromPath(key, value));
+        request.files.add(await http.MultipartFile.fromPath(key, value.value.path));
       }
+      request.fields.addAll(body ?? {});
 
       var response = await request.send();
       ll("response statusCode : ${response.statusCode}");

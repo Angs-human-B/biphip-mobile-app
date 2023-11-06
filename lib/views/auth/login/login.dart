@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/login_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/checkbox_and_container.dart';
 import 'package:bip_hip/widgets/common/button/linkup_text.dart';
@@ -9,6 +10,7 @@ class Login extends StatelessWidget {
   Login({Key? key}) : super(key: key);
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final LoginHelper _loginHelper = LoginHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -62,14 +64,7 @@ class Login extends StatelessWidget {
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
                             onChanged: (text) {
-                              _authenticationController.checkCanLogin();
-                              if (_authenticationController.loginEmailTextEditingController.text.trim() == '') {
-                                _authenticationController.loginEmailErrorText.value = ksEmptyEmailErrorMessage.tr;
-                              } else if (!_authenticationController.loginEmailTextEditingController.text.trim().isValidEmail) {
-                                _authenticationController.loginEmailErrorText.value = ksInvalidEmailErrorMessage.tr;
-                              } else {
-                                _authenticationController.loginEmailErrorText.value = '';
-                              }
+                              _loginHelper.loginEmailEditorOnChanged();
                             },
                             onSubmit: (text) {},
                             inputAction: TextInputAction.next,
@@ -94,14 +89,7 @@ class Login extends StatelessWidget {
                               _authenticationController.isLoginPasswordToggleObscure.value = !_authenticationController.isLoginPasswordToggleObscure.value;
                             },
                             onChanged: (text) {
-                              _authenticationController.checkCanLogin();
-                              if (_authenticationController.loginPasswordTextEditingController.text.trim() == '') {
-                                _authenticationController.loginPasswordErrorText.value = ksEmptyPasswordErrorMessage.tr;
-                              } else if (_authenticationController.loginPasswordTextEditingController.text.length < kMinPasswordLength) {
-                                _authenticationController.loginPasswordErrorText.value = ksPasswordLengthErrorMessage.tr;
-                              } else {
-                                _authenticationController.loginPasswordErrorText.value = '';
-                              }
+                              _loginHelper.loginPasswordEditorOnChanger();
                             },
                             onSubmit: (text) {},
                             obscureText: _authenticationController.isLoginPasswordToggleObscure.value,
@@ -140,49 +128,12 @@ class Login extends StatelessWidget {
                           ),
                         ),
                         kH25sizedBox,
-                        Column(
-                          children: [
-                            Text(
-                              ksOrLoginWith.tr,
-                              style: regular14TextStyle(cBlackColor),
-                            ),
-                            kH8sizedBox,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextButton(
-                                  onPressed: () {},
-                                  style: kTextButtonStyle,
-                                  child: Image.asset(
-                                    kiFacebookImageUrl,
-                                    height: 40,
-                                    width: 40,
-                                  ),
-                                ),
-                                kW8sizedBox,
-                                TextButton(
-                                  onPressed: () {},
-                                  style: kTextButtonStyle,
-                                  child: Image.asset(
-                                    kiGoogleImageUrl,
-                                    height: 40,
-                                    width: 40,
-                                  ),
-                                ),
-                                kW8sizedBox,
-                                TextButton(
-                                  onPressed: () {},
-                                  style: kTextButtonStyle,
-                                  child: Image.asset(
-                                    kiTwitterImageUrl,
-                                    height: 40,
-                                    width: 40,
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
+                        Text(
+                          ksOrLoginWith.tr,
+                          style: regular14TextStyle(cBlackColor),
                         ),
+                        kH8sizedBox,
+                        const OtherLoginPlatform(),
                         kH12sizedBox,
                         LinkupTextRow(
                           prefix: ksDoNotHaveAnyAccount.tr,
@@ -212,6 +163,50 @@ class Login extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class OtherLoginPlatform extends StatelessWidget {
+  const OtherLoginPlatform({super.key, this.onPressedFacebook, this.onPressedTwitter, this.onPressedGoogle});
+
+  final VoidCallback? onPressedFacebook, onPressedTwitter, onPressedGoogle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextButton(
+          onPressed: onPressedFacebook,
+          style: kTextButtonStyle,
+          child: Image.asset(
+            kiFacebookImageUrl,
+            height: 40,
+            width: 40,
+          ),
+        ),
+        kW8sizedBox,
+        TextButton(
+          onPressed: onPressedGoogle,
+          style: kTextButtonStyle,
+          child: Image.asset(
+            kiGoogleImageUrl,
+            height: 40,
+            width: 40,
+          ),
+        ),
+        kW8sizedBox,
+        TextButton(
+          onPressed: onPressedTwitter,
+          style: kTextButtonStyle,
+          child: Image.asset(
+            kiTwitterImageUrl,
+            height: 40,
+            width: 40,
+          ),
+        ),
+      ],
     );
   }
 }

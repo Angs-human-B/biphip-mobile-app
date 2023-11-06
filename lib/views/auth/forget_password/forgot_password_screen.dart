@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
@@ -6,6 +7,7 @@ class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final RegistrationHelper _registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -57,14 +59,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
                             onChanged: (text) {
-                              _authenticationController.checkCanSendOTP();
-                              if (_authenticationController.forgotPasswordEmailTextEditingController.text.trim() == '') {
-                                _authenticationController.forgotPasswordEmailError.value = ksEmptyEmailErrorMessage.tr;
-                              } else if (!_authenticationController.forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
-                                _authenticationController.forgotPasswordEmailError.value = ksInvalidEmailErrorMessage.tr;
-                              } else {
-                                _authenticationController.forgotPasswordEmailError.value = '';
-                              }
+                              _registrationHelper.forgetPasswordEmailOnChanged();
                             },
                             onSubmit: (text) {},
                             inputAction: TextInputAction.done,
