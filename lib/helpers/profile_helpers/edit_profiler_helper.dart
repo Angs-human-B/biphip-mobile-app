@@ -262,4 +262,21 @@ class EditProfileHelper {
       }
     }
   }
+
+  //* Interest section
+  void setInterest() async {
+    _globalController.interestIndex.clear();
+    _profileController.isRouteFromAboutInfo.value = true;
+    Get.toNamed(krSelectInterest);
+    await _profileController.getInterestList();
+    for (int j = 0; j < _profileController.userData.value!.interest.length; j++) {
+      for (int i = 0; i < _globalController.interestList.length; i++) {
+        if (_globalController.interestList[i] == _profileController.userData.value!.interest[j]) {
+          _globalController.interestIndex.add(i);
+        }
+      }
+    }
+  }
+
+  
 }

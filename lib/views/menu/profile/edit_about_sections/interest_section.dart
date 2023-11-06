@@ -1,11 +1,12 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/profile_helpers/edit_profiler_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/edit_about.dart';
 
 class InterestSection extends StatelessWidget {
   InterestSection({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final EditProfileHelper _editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +21,7 @@ class InterestSection extends StatelessWidget {
             suffixTextStyle: semiBold18TextStyle(cBlackColor),
             isAddButton: _profileController.userData.value!.interest.isEmpty ? true : false,
             suffixOnPressed: () async {
-              _globalController.interestIndex.clear();
-              _profileController.isRouteFromAboutInfo.value = true;
-              Get.toNamed(krSelectInterest);
-              await _profileController.getInterestList();
-              for (int j = 0; j < _profileController.userData.value!.interest.length; j++) {
-                for (int i = 0; i < _globalController.interestList.length; i++) {
-                  if (_globalController.interestList[i] == _profileController.userData.value!.interest[j]) {
-                    _globalController.interestIndex.add(i);
-                  }
-                }
-              }
+              _editProfileHelper.setInterest();
             },
           ),
           kH8sizedBox,
