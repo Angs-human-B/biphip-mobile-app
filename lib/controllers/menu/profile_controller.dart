@@ -5,7 +5,6 @@ import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/menu/profile/profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/family/family.dart';
-import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 
 class ProfileController extends GetxController with GetSingleTickerProviderStateMixin {
@@ -188,21 +187,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxString tempWorkplaceEndDate = RxString('');
   final RxBool isSingleDatePicker = RxBool(false);
 
-  String? currentWorkSubtitleText(DateTime? startDate) {
-    if (startDate != null) {
-      return '${DateFormat("dd MMMM, yyyy").format(startDate)} - present';
-    } else {
-      return null;
-    }
-  }
-
-  String? previousWorkSubtitleText(DateTime? startDate, DateTime? endDate) {
-    if (startDate != null && endDate != null) {
-      return '${DateFormat("dd MMMM, yyyy").format(startDate)} - ${DateFormat("dd MMMM, yyyy").format(endDate)}';
-    } else {
-      return null;
-    }
-  }
+  
 
   void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
       showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function, startDate, endDate) {

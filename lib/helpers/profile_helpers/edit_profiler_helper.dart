@@ -278,5 +278,76 @@ class EditProfileHelper {
     }
   }
 
-  
+  //* Workplace section
+  String? currentWorkSubtitleText(DateTime? startDate) {
+    if (startDate != null) {
+      return '${DateFormat("dd MMMM, yyyy").format(startDate)} - present';
+    } else {
+      return null;
+    }
+  }
+
+  String? previousWorkSubtitleText(DateTime? startDate, DateTime? endDate) {
+    if (startDate != null && endDate != null) {
+      return '${DateFormat("dd MMMM, yyyy").format(startDate)} - ${DateFormat("dd MMMM, yyyy").format(endDate)}';
+    } else {
+      return null;
+    }
+  }
+
+  void addCurrentWorkplace() {
+    _profileController.resetTextEditor();
+    _profileController.isSingleDatePicker.value = true;
+    _profileController.getMethod(8);
+    _profileController.getCompanyList();
+  }
+
+  void editCurrentWorkplace() {
+    _profileController.resetTextEditor();
+    _profileController.isSingleDatePicker.value = true;
+    _profileController.enableSaveButton.value = true;
+    if (_profileController.currentWorkplace.value!.started != null) {
+      _profileController.tempWorkplaceStartDate.value = DateFormat("yyyy-MM-dd").format(_profileController.currentWorkplace.value!.started!);
+    }
+    if (_profileController.currentWorkplace.value!.ended != null) {
+      _profileController.tempWorkplaceEndDate.value = DateFormat("yyyy-MM-dd").format(_profileController.currentWorkplace.value!.ended!);
+    }
+    _profileController.officeID.value = _profileController.currentWorkplace.value!.id!;
+    _profileController.companyNameTextEditingController.text = _profileController.currentWorkplace.value!.company!;
+    _profileController.designationTextEditingController.text = _profileController.currentWorkplace.value!.position ?? '';
+    if (_profileController.currentWorkplace.value!.isCurrent == 1) {
+      _profileController.isCurrentlyWorkingHere.value = true;
+    } else {
+      _profileController.isCurrentlyWorkingHere.value = false;
+    }
+    _profileController.getMethod(10);
+    _profileController.getCompanyList();
+  }
+
+  void addPreviousWorkplace() {
+    _profileController.resetTextEditor();
+    _profileController.getMethod(17);
+    _profileController.getCompanyList();
+  }
+
+  void editPreviousWorkplace(index) {
+    _profileController.resetTextEditor();
+    _profileController.enableSaveButton.value = true;
+    _profileController.getCompanyList();
+    if (_profileController.workplaceDataList[index].started != null) {
+      _profileController.tempWorkplaceStartDate.value = DateFormat("yyyy-MM-dd").format(_profileController.workplaceDataList[index].started!);
+    }
+    if (_profileController.workplaceDataList[index].ended != null) {
+      _profileController.tempWorkplaceEndDate.value = DateFormat("yyyy-MM-dd").format(_profileController.workplaceDataList[index].ended!);
+    }
+    _profileController.officeID.value = _profileController.workplaceDataList[index].id!;
+    _profileController.companyNameTextEditingController.text = _profileController.workplaceDataList[index].company!;
+    _profileController.designationTextEditingController.text = _profileController.workplaceDataList[index].position ?? '';
+    if (_profileController.workplaceDataList[index].isCurrent == 1) {
+      _profileController.isCurrentlyWorkingHere.value = true;
+    } else {
+      _profileController.isCurrentlyWorkingHere.value = false;
+    }
+    _profileController.getMethod(10);
+  }
 }
