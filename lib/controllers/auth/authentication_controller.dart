@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/auth/common_unverify_model.dart';
 import 'package:bip_hip/models/auth/forget_pass_model.dart';
@@ -62,15 +63,6 @@ class AuthenticationController extends GetxController {
 
   final RxBool canLogin = RxBool(false);
 
-  void checkCanLogin() {
-    if (loginEmailTextEditingController.text.trim().isNotEmpty &&
-        loginPasswordTextEditingController.text.trim().isNotEmpty &&
-        loginPasswordTextEditingController.text.length >= kMinPasswordLength) {
-      canLogin.value = true;
-    } else {
-      canLogin.value = false;
-    }
-  }
 
   final RxBool isLoginLoading = RxBool(false);
   Future<void> userLogin() async {
@@ -111,6 +103,7 @@ class AuthenticationController extends GetxController {
         // await setDeviceID(loginData.user.id);
         isLoginLoading.value = false;
         Get.offAllNamed(krHome);
+        await Get.find<HomeController>().getPostList();
         // final HomeController homeController = Get.find<HomeController>();
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
         // await homeController.getUserHome();
@@ -184,31 +177,6 @@ class AuthenticationController extends GetxController {
     registerConfirmPasswordError.value = '';
   }
 
-  void checkName() {
-    if (registerFirstNameTextEditingController.text.trim() != '' && registerLastNameTextEditingController.text.trim() != '') {
-      checkValidName.value = true;
-    } else {
-      checkValidName.value = false;
-    }
-  }
-
-  void checkEmail() {
-    if (registerEmailTextEditingController.text.trim() != '' && registerEmailTextEditingController.text.isValidEmail) {
-      checkValidEmail.value = true;
-    } else {
-      checkValidEmail.value = false;
-    }
-  }
-
-  void checkPassword() {
-    if (registerPasswordTextEditingController.text.length >= kMinPasswordLength &&
-        registerPasswordTextEditingController.text == registerConfirmPasswordTextEditingController.text) {
-      checkValidPassword.value = true;
-    } else {
-      checkValidPassword.value = false;
-    }
-  }
-
   final RxBool isRegisterLoading = RxBool(false);
   Future<void> userRegister() async {
     try {
@@ -269,13 +237,7 @@ class AuthenticationController extends GetxController {
     canSendOTP.value = false;
   }
 
-  void checkCanSendOTP() {
-    if (forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
-      canSendOTP.value = true;
-    } else {
-      canSendOTP.value = false;
-    }
-  }
+  
 
   final RxBool isForgetPasswordLoading = RxBool(false);
   Future<void> forgetPassword() async {
@@ -335,14 +297,7 @@ class AuthenticationController extends GetxController {
     canResetPassword.value = false;
   }
 
-  void checkCanResetPassword() {
-    if (resetNewPasswordTextEditingController.text.trim().length >= kMinPasswordLength &&
-        resetNewPasswordTextEditingController.text.trim() == resetConfirmPasswordTextEditingController.text.trim()) {
-      canResetPassword.value = true;
-    } else {
-      canResetPassword.value = false;
-    }
-  }
+  
 
   final RxBool isResetPasswordLoading = RxBool(false);
   Future<void> resetPassword() async {
@@ -395,13 +350,7 @@ class AuthenticationController extends GetxController {
     canOTPVerifyNow.value = false;
   }
 
-  void checkCanOTPVerifyNow() {
-    if (otpTextEditingController.text.length == kOTPLength) {
-      canOTPVerifyNow.value = true;
-    } else {
-      canOTPVerifyNow.value = false;
-    }
-  }
+  
 
   Future<void> signUpVerify() async {
     try {
@@ -440,12 +389,12 @@ class AuthenticationController extends GetxController {
         });
         await _globalController.getUserInfo();
         // await setDeviceID(otpData.user.id);
-        // Get.offAllNamed(krHome);
         // final HomeController homeController = Get.find<HomeController>();
         // await homeController.getUserHome();
         if (parentRoute.value == "login") {
           isOTPLoading.value = false;
           Get.offAllNamed(krHome);
+          await Get.find<HomeController>().getPostList();
         } else if (parentRoute.value == "register") {
           isOTPLoading.value = false;
           Get.offAllNamed(krSelectProfession);

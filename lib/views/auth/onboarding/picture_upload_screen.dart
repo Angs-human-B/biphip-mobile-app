@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
@@ -7,7 +8,7 @@ class PictureUploadScreen extends StatelessWidget {
   PictureUploadScreen({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final RegistrationHelper _registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -93,62 +94,8 @@ class PictureUploadScreen extends StatelessWidget {
                           const Spacer(),
                           CustomElevatedButton(
                             label: _authenticationController.isProfileImageChanged.value ? ksSavePhoto.tr : ksAddPhoto.tr,
-                            onPressed: () async {
-                              if (!_authenticationController.isProfileImageChanged.value) {
-                                _globalController.commonBottomSheet(
-                                    context: context,
-                                    onPressCloseButton: () {
-                                      Get.back();
-                                    },
-                                    onPressRightButton: () {},
-                                    rightText: '',
-                                    rightTextStyle: regular14TextStyle(cBiddingColor),
-                                    title: ksUploadPhoto.tr,
-                                    isRightButtonShow: false,
-                                    isScrollControlled: false,
-                                    bottomSheetHeight: 180,
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        CustomElevatedButton(
-                                          label: ksAddPhoto.tr,
-                                          prefixIcon: BipHip.camera,
-                                          prefixIconColor: cIconColor,
-                                          suffixIconColor: cIconColor,
-                                          onPressed: () async {
-                                            ll(_authenticationController.isProfileImageChanged.value);
-                                            await _globalController.selectImageSource(_authenticationController.isProfileImageChanged,
-                                                _authenticationController.profileLink, _authenticationController.profileFile, 'camera', true);
-                                          },
-                                          buttonHeight: h32,
-                                          buttonWidth: width - 40,
-                                          buttonColor: cWhiteColor,
-                                          borderColor: cLineColor,
-                                          textStyle: semiBold14TextStyle(cBlackColor),
-                                        ),
-                                        kH16sizedBox,
-                                        CustomElevatedButton(
-                                          label: ksChooseFromGallery.tr,
-                                          prefixIcon: BipHip.photo,
-                                          prefixIconColor: cIconColor,
-                                          suffixIconColor: cIconColor,
-                                          onPressed: () async {
-                                            await _globalController.selectImageSource(_authenticationController.isProfileImageChanged,
-                                                _authenticationController.profileLink, _authenticationController.profileFile, 'gallery', true);
-                                          },
-                                          buttonHeight: h32,
-                                          buttonWidth: width - 40,
-                                          buttonColor: cWhiteColor,
-                                          borderColor: cLineColor,
-                                          textStyle: semiBold14TextStyle(cBlackColor),
-                                        ),
-                                      ],
-                                    ));
-                              } else {
-                                _authenticationController.isImageUploadLoading.value = true;
-                                await Get.find<ProfileController>().uploadProfileAndCover(_authenticationController.profileFile.value, 'profile', false);
-                                _authenticationController.isImageUploadLoading.value = false;
-                              }
+                            onPressed: () {
+                              _registrationHelper.onPressedSavePhoto(context);
                             },
                             buttonWidth: width - 40,
                             textStyle: semiBold16TextStyle(cWhiteColor),
@@ -158,8 +105,9 @@ class PictureUploadScreen extends StatelessWidget {
                             CustomElevatedButton(
                               buttonWidth: width - 40,
                               buttonColor: cWhiteColor,
-                              onPressed: () {
+                              onPressed: () async {
                                 Get.offAllNamed(krHome);
+                                await Get.find<HomeController>().getPostList();
                               },
                               label: ksSkip.tr,
                               textStyle: semiBold16TextStyle(cPrimaryColor),

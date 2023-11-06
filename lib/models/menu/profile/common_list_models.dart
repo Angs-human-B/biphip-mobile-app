@@ -1,15 +1,15 @@
 import 'package:bip_hip/models/common/common_user_model.dart';
 
 class CommonUserDataModel {
-    User? user;
+  User? user;
 
-    CommonUserDataModel({
-        required this.user,
-    });
+  CommonUserDataModel({
+    required this.user,
+  });
 
-    factory CommonUserDataModel.fromJson(Map<String, dynamic> json) => CommonUserDataModel(
-        user: json["user"]==null?null:User.fromJson(json["user"]),
-    );
+  factory CommonUserDataModel.fromJson(Map<String, dynamic> json) => CommonUserDataModel(
+        user: json["user"] == null ? null : User.fromJson(json["user"]),
+      );
 }
 
 class ProfessionListModel {
@@ -120,72 +120,71 @@ class SchoolListModel {
       );
 }
 
-class PostListModel {
-    List<PostCategory> postCategories;
+class PostCategoryListModel {
+  List<PostCategory> postCategories;
 
-    PostListModel({
-        required this.postCategories,
-    });
+  PostCategoryListModel({
+    required this.postCategories,
+  });
 
-    factory PostListModel.fromJson(Map<String, dynamic> json) => PostListModel(
+  factory PostCategoryListModel.fromJson(Map<String, dynamic> json) => PostCategoryListModel(
         postCategories: List<PostCategory>.from(json["postCategories"].map((x) => PostCategory.fromJson(x))),
-    );
+      );
 }
 
 class PostCategory {
-    int? id;
-    String? name;
-    int? isActive;
+  int? id;
+  String? name;
+  int? isActive;
 
-    PostCategory({
-        required this.id,
-        required this.name,
-        required this.isActive,
-    });
+  PostCategory({
+    required this.id,
+    required this.name,
+    required this.isActive,
+  });
 
-    factory PostCategory.fromJson(Map<String, dynamic> json) => PostCategory(
+  factory PostCategory.fromJson(Map<String, dynamic> json) => PostCategory(
         id: json["id"],
         name: json["name"],
         isActive: json["is_active"],
-    );
+      );
 }
 
 class KidListModel {
-    List<Kid> kids;
+  List<Kid> kids;
 
-    KidListModel({
-        required this.kids,
-    });
+  KidListModel({
+    required this.kids,
+  });
 
-    factory KidListModel.fromJson(Map<String, dynamic> json) => KidListModel(
+  factory KidListModel.fromJson(Map<String, dynamic> json) => KidListModel(
         kids: List<Kid>.from(json["kids"].map((x) => Kid.fromJson(x))),
-    );
+      );
 }
 
 class Kid {
-    int? id;
-    int? userId;
-    String? name;
-    String? image;
-    int? age;
-    String kidImage;
+  int? id;
+  int? userId;
+  String? name;
+  String? image;
+  int? age;
+  String kidImage;
 
-    Kid({
-        required this.id,
-        required this.userId,
-        required this.name,
-        required this.image,
-        required this.age,
-        required this.kidImage,
-    });
+  Kid({
+    required this.id,
+    required this.userId,
+    required this.name,
+    required this.image,
+    required this.age,
+    required this.kidImage,
+  });
 
-    factory Kid.fromJson(Map<String, dynamic> json) => Kid(
+  factory Kid.fromJson(Map<String, dynamic> json) => Kid(
         id: json["id"],
         userId: json["user_id"],
         name: json["name"],
         image: json["image"],
         age: json["age"],
         kidImage: json["kid_image"],
-    );
+      );
 }
-

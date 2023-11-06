@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/login_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/logo_and_text_widget.dart';
 
@@ -98,6 +99,7 @@ class CustomUserListContainer extends StatelessWidget {
 
   final Map<String, dynamic> _item;
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final LoginHelper _loginHelper = LoginHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -105,16 +107,7 @@ class CustomUserListContainer extends StatelessWidget {
       itemColor: cWhiteColor,
       borderColor: cLineColor2,
       onPressed: () async {
-        final SpController spController = SpController();
-        await spController.saveBearerToken(_item['token']);
-        await spController.saveRememberMe(true);
-        await spController.saveUserName(_item['name'].toString());
-        await spController.saveUserFirstName(_item['first_name'].toString());
-        await spController.saveUserLastName(_item['last_name'].toString());
-        await spController.saveUserImage(_item['image_url'].toString());
-        await spController.saveUserEmail(_item['email'].toString());
-        await Get.find<GlobalController>().getUserInfo();
-        Get.offAllNamed(krHome);
+        _loginHelper.getSaveUserDetails(_item);
       },
       leading: Container(
         height: h40,

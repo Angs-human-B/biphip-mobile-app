@@ -31,7 +31,7 @@ class ViewPhoto extends StatelessWidget {
           body: Stack(
             children: [
               SizedBox(
-                height: height,
+                height: height - kAppBarSize,
                 width: width,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +49,7 @@ class ViewPhoto extends StatelessWidget {
                         ),
                         loadingBuilder: imageLoadingBuilder,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

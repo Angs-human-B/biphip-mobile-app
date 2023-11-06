@@ -125,10 +125,17 @@ const String kuAddBrand = '/mobile/user/store-brand';
 const String kuCreatePost = '/mobile/user/store-post';
 
 //---------------------------------------
+//* Home page
+//---------------------------------------
+
+const String kuGetAllPosts = '/mobile/user/get-all-posts';
+const String kuGetPostData = '/mobile/user/get-post';
+
 //* kids
 //---------------------------------------
 const String kuDeleteKids = '/mobile/user/delete-kid';
 const String kuUpdateKid = '/mobile/user/update-kid';
+
 
 /*
 |--------------------------------------------------------------------------

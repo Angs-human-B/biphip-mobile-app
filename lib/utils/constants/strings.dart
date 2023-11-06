@@ -120,7 +120,7 @@ const String ksSeeAll = 'See all';
 //* Home
 //---------------------------------------
 const String ksDailyQuiz = 'Daily Quiz';
-const String ksWeeklyWinner = 'Weekly winner';
+const String ksWeeklyWinner = 'Winner';
 
 //---------------------------------------
 //* Home widget
@@ -215,6 +215,7 @@ const String ksCHooseInterestSubtitle =
 const String ksEditInterestSubtitle = 'This will help us to provide you a nice experience while you will use our system.';
 const String ksAddress = 'Address';
 const String ksDetails = 'Details';
+const String ksBornOn = 'Born on';
 const String ksHomeTown = 'Hometown';
 const String ksLivesIn = 'Lives in';
 const String ksAddHomeTownAddress = 'Add hometown address';

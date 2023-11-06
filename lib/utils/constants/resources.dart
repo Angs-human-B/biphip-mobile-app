@@ -42,8 +42,6 @@ List friendsList = [
   },
 ];
 
-
-
 List stories = [
   {'name': 'Rick Sanchez', 'profileImage': kiDummyImage1ImageUrl, 'storyImage': kiDummyImage3ImageUrl, 'isSeen': false},
   {'name': 'Stewie Griffin', 'profileImage': kiDummyImage1ImageUrl, 'storyImage': kiDummyImage3ImageUrl, 'isSeen': true},

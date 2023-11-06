@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/count_down.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
@@ -11,13 +11,12 @@ class OTPVerifyScreen extends StatelessWidget {
   OTPVerifyScreen({super.key});
 
   final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final ProfileController _profileController = Get.find<ProfileController>();
+  final RegistrationHelper _registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      // color: cWhiteColor,
       decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
@@ -67,24 +66,15 @@ class OTPVerifyScreen extends StatelessWidget {
                           OtpTextField(
                             controller: _authenticationController.otpTextEditingController,
                             onChange: (value) {
-                              _authenticationController.checkCanOTPVerifyNow();
+                              _registrationHelper.checkCanOTPVerifyNow();
                             },
                           ),
                           kH24sizedBox,
                           CustomElevatedButton(
                             label: ksNext.tr,
                             onPressed: _authenticationController.canOTPVerifyNow.value
-                                ? () async {
-                                    if (_authenticationController.parentRoute.value == "login") {
-                                      await _authenticationController.signUpVerify();
-                                    } else if (_authenticationController.parentRoute.value == "register") {
-                                      _profileController.isRouteFromAboutInfo.value = false;
-                                      Get.find<GlobalController>().professionIndex.value = -1;
-                                      await _authenticationController.signUpVerify();
-                                      await _profileController.getProfessionList();
-                                    } else {
-                                      await _authenticationController.forgetPasswordVerify();
-                                    }
+                                ? () {
+                                    _registrationHelper.onPressedVerifyOTP();
                                   }
                                 : null,
                             buttonWidth: width - 40,

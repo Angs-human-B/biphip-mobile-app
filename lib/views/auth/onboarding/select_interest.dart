@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
@@ -8,6 +9,7 @@ class SelectInterestScreen extends StatelessWidget {
 
   final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
+  final RegistrationHelper _registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -80,12 +82,7 @@ class SelectInterestScreen extends StatelessWidget {
                                     label: _globalController.interestList[i],
                                     isSelected: (_globalController.interestIndex.contains(i)),
                                     onSelected: (value) {
-                                      if (!_globalController.interestIndex.contains(i)) {
-                                        _globalController.interestIndex.add(i);
-                                      } else {
-                                        _globalController.interestIndex.remove(i);
-                                      }
-                                      ll(_globalController.interestIndex);
+                                     _registrationHelper.onSelectingInterest(i);
                                     },
                                   )
                               ],
@@ -95,24 +92,7 @@ class SelectInterestScreen extends StatelessWidget {
                               label: _profileController.isRouteFromAboutInfo.value ? ksSave : ksNext.tr,
                               onPressed: _globalController.interestIndex.isNotEmpty
                                   ? () async {
-                                      if (!_profileController.isRouteFromAboutInfo.value) {
-                                        for (int i = 0; i < _globalController.interestIndex.length; i++) {
-                                          _globalController.selectedInterests.add(_globalController.interestList[_globalController.interestIndex[i]]);
-                                        }
-                                        Get.toNamed(krUploadPicture);
-                                        await _profileController.setInterest(_globalController.selectedInterests);
-
-                                        _globalController.resetChipSelection();
-                                      } else {
-                                        _globalController.selectedInterests.clear();
-                                        for (int i = 0; i < _globalController.interestIndex.length; i++) {
-                                          _globalController.selectedInterests.add(_globalController.interestList[_globalController.interestIndex[i]]);
-                                        }
-                                        Get.back();
-                                        await _profileController.setInterest(_globalController.selectedInterests);
-
-                                        _profileController.isRouteFromAboutInfo.value = false;
-                                      }
+                                      _registrationHelper.onPressedSaveInterest();
                                     }
                                   : null,
                               buttonWidth: width - 40,
