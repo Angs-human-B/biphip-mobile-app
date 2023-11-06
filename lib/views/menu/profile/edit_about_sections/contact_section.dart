@@ -1,10 +1,12 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/profile_helpers/edit_profiler_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/edit_about.dart';
 
 class ContactSection extends StatelessWidget {
   ContactSection({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
+  final EditProfileHelper _editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +29,7 @@ class ContactSection extends StatelessWidget {
                 suffixText: ksPhone.tr,
                 isAddButton: true,
                 suffixOnPressed: () {
-                  _profileController.resetTextEditor();
-                  _profileController.getMethod(11);
+                  _editProfileHelper.addPhone();
                 },
               ),
             ),
@@ -41,11 +42,7 @@ class ContactSection extends StatelessWidget {
                     prefixText: checkNullOrStringNull(_profileController.contactDataList[i].value),
                     isAddButton: false,
                     suffixOnPressed: () {
-                      _profileController.resetTextEditor();
-                      _profileController.enableSaveButton.value = true;
-                      _profileController.phoneID.value = _profileController.contactDataList[i].id!;
-                      _profileController.phoneTextEditingController.text = _profileController.contactDataList[i].value!;
-                      _profileController.getMethod(12);
+                      _editProfileHelper.editPhone(i);
                     },
                   ),
                 ),
@@ -55,8 +52,7 @@ class ContactSection extends StatelessWidget {
                 suffixText: ksEmail.tr,
                 isAddButton: true,
                 suffixOnPressed: () {
-                  _profileController.resetTextEditor();
-                  _profileController.getMethod(13);
+                  _editProfileHelper.addEmail();
                 },
               ),
             ),
@@ -69,11 +65,7 @@ class ContactSection extends StatelessWidget {
                     prefixText: checkNullOrStringNull(_profileController.contactDataList[i].value),
                     isAddButton: false,
                     suffixOnPressed: () {
-                      _profileController.resetTextEditor();
-                      _profileController.enableSaveButton.value = true;
-                      _profileController.emailID.value = _profileController.contactDataList[i].id!;
-                      _profileController.emailTextEditingController.text = _profileController.contactDataList[i].value!;
-                      _profileController.getMethod(14);
+                      _editProfileHelper.editEmail(i);
                     },
                   ),
                 ),

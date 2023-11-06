@@ -350,4 +350,31 @@ class EditProfileHelper {
     }
     _profileController.getMethod(10);
   }
+
+  //* Contact Section
+  void addPhone() {
+    _profileController.resetTextEditor();
+    _profileController.getMethod(11);
+  }
+
+  void editPhone(index) {
+    _profileController.resetTextEditor();
+    _profileController.enableSaveButton.value = true;
+    _profileController.phoneID.value = _profileController.contactDataList[index].id!;
+    _profileController.phoneTextEditingController.text = _profileController.contactDataList[index].value!;
+    _profileController.getMethod(12);
+  }
+
+  void addEmail() {
+    _profileController.resetTextEditor();
+    _profileController.getMethod(13);
+  }
+
+  void editEmail(index) {
+    _profileController.resetTextEditor();
+    _profileController.enableSaveButton.value = true;
+    _profileController.emailID.value = _profileController.contactDataList[index].id!;
+    _profileController.emailTextEditingController.text = _profileController.contactDataList[index].value!;
+    _profileController.getMethod(14);
+  }
 }
