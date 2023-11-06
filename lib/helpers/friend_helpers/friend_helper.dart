@@ -160,6 +160,7 @@ class FriendHelper {
     }
     return cWhiteColor;
   }
+
   //*All friend action on Pressed
   void allFriendActionOnPressed(index) {
     if (_friendController.allFriendFollowStatus.value == 1) {
@@ -200,5 +201,19 @@ class FriendHelper {
       }
     }
     return cWhiteColor;
+  }
+
+  //*pending friend action on pressed
+  void pendingFriendOnPressed(index) {
+    if (_friendController.pendingFriendFollowStatus.value == 1) {
+      _friendController.pendingFriendActionSelect.value = _friendController.pendingFriendActionList[index]['action'];
+    } else if (_friendController.pendingFriendFollowStatus.value == 0) {
+      _friendController.pendingFriendActionSelect.value = _friendController.pendingFollowFriendActionList[index]['action'];
+    }
+    if (_friendController.pendingFriendActionSelect.value == '') {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+    } else {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+    }
   }
 }

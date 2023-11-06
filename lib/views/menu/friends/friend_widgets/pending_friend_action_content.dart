@@ -57,16 +57,7 @@ class PendingFriendActionContent extends StatelessWidget {
                   ),
                   itemColor: _friendHelper.pendingFriendItemColor(index),
                   onPressed: () {
-                    if (friendController.pendingFriendFollowStatus.value == 1) {
-                      friendController.pendingFriendActionSelect.value = friendController.pendingFriendActionList[index]['action'];
-                    } else if (friendController.pendingFriendFollowStatus.value == 0) {
-                      friendController.pendingFriendActionSelect.value = friendController.pendingFollowFriendActionList[index]['action'];
-                    }
-                    if (friendController.pendingFriendActionSelect.value == '') {
-                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                    } else {
-                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                    }
+                    _friendHelper.pendingFriendOnPressed(index);
                   },
                 ),
               ),
