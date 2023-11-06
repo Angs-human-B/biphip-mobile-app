@@ -123,7 +123,7 @@ class Friends extends StatelessWidget {
                                       width: 120,
                                     ),
                                   )
-                                : _friendHelper.totalFriendValueShow()),
+                                : _friendHelper.totalFriendCountShow()),
                       if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
                       if (_profileController.tapAbleButtonState[2]) kH4sizedBox,
                       //*All friend, Receive friend request and Pending friend request ui
