@@ -1,9 +1,7 @@
-import 'dart:async';
-
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/friends/friends.dart';
+import 'package:bip_hip/widgets/menu/friends_family/friend_family_single_button_action.dart';
 import 'package:flutter/rendering.dart';
 
 class AddFriend extends StatelessWidget {
@@ -30,8 +28,9 @@ class AddFriend extends StatelessWidget {
                     hasBackButton: true,
                     isCenterTitle: true,
                     onBack: () {
-                      _profileController.searchController.clear();
-                      FocusScope.of(context).unfocus();
+                      unFocus(context);
+                      _friendController.friendTapableButtonReset();
+                      if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
                       Get.back();
                     },
                   ),
@@ -45,31 +44,21 @@ class AddFriend extends StatelessWidget {
                         borderRadius: h8,
                         controller: _profileController.searchController,
                         prefixIcon: BipHip.search,
-                        suffixIcon: _friendController.isAddFriendSuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                        suffixIcon: _friendController.isFriendSuffixIconVisible.value ? BipHip.circleCrossNew : null,
                         hint: ksSearch.tr,
                         contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
                         textInputStyle: regular16TextStyle(cBlackColor),
                         onSuffixPress: () {
                           Get.find<ProfileController>().searchController.clear();
-                          _friendController.isAddFriendSuffixIconVisible.value = false;
+                          _friendController.isFriendSuffixIconVisible.value = false;
                           _friendController.addFriendRequestList.clear();
                         },
                         onSubmit: (v) {
                           unfocus(context);
-                          _friendController.isAddFriendSuffixIconVisible.value = false;
+                          _friendController.isFriendSuffixIconVisible.value = false;
                         },
-                        onChanged: (v) async {
-                          if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
-                          if (_profileController.searchController.text.trim() != '') {
-                            _friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
-                              _friendController.isAddFriendSuffixIconVisible.value = true;
-                              await _friendController.getAddFriendRequestList();
-                            });
-                          }
-                          if (_profileController.searchController.text.trim() == '') {
-                            _friendController.isAddFriendSuffixIconVisible.value = false;
-                            _friendController.addFriendRequestList.clear();
-                          }
+                        onChanged: (v) {
+                          _friendController.addFriendOnChanged();
                         },
                       ),
                       kH8sizedBox,
@@ -92,7 +81,6 @@ class AddFriend extends StatelessWidget {
                                 child: Expanded(
                                   child: SingleChildScrollView(
                                     controller: _friendController.addFriendListScrollController,
-                                    // physics: const AlwaysScrollableScrollPhysics(),
                                     child: Column(
                                       children: [
                                         ListView.builder(
@@ -105,7 +93,7 @@ class AddFriend extends StatelessWidget {
                                               child: ClipRRect(
                                                 borderRadius: BorderRadius.circular(k8BorderRadius),
                                                 child: Obx(
-                                                  () => CustomSingleButtonListViewItem(
+                                                  () => FriendFamilySingleButtonAction(
                                                     backgroundImage:
                                                         Environment.imageBaseUrl + _friendController.addFriendRequestList[index].profilePicture.toString(),
                                                     name: _friendController.addFriendRequestList[index].fullName ?? ksNA.tr,

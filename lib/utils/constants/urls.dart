@@ -124,7 +124,11 @@ const String kuAddKid = '/mobile/user/store-kid';
 const String kuAddBrand = '/mobile/user/store-brand';
 const String kuCreatePost = '/mobile/user/store-post';
 
-
+//---------------------------------------
+//* kids
+//---------------------------------------
+const String kuDeleteKids = '/mobile/user/delete-kid';
+const String kuUpdateKid = '/mobile/user/update-kid';
 
 /*
 |--------------------------------------------------------------------------

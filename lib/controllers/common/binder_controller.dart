@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
@@ -23,6 +24,7 @@ class BinderController implements Bindings {
     Get.put<CreatePostController>(CreatePostController());
     Get.put<PostReactionController>(PostReactionController());
     Get.put<GalleryController>(GalleryController());
+    Get.put<KidsController>(KidsController());
     Get.put<MenuSectionController>(MenuSectionController());
   }
 }
