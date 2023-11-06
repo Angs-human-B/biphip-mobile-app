@@ -98,4 +98,16 @@ class FriendHelper {
       }
     }
   }
+
+  void allFriendActionOnChanged() {
+    if (_friendController.allFriendFollowStatus.value == 1) {
+      for (int i = 0; i < _profileController.friendActionList.length; i++) {
+        _profileController.friendActionSelect.value = _profileController.friendActionList[i]['action'];
+      }
+    } else if (_friendController.allFriendFollowStatus.value == 0) {
+      for (int i = 0; i < _friendController.friendFollowActionList.length; i++) {
+        _profileController.friendActionSelect.value = _friendController.friendFollowActionList[i]['action'];
+      }
+    }
+  }
 }

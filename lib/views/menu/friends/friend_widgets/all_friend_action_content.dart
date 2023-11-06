@@ -1,10 +1,10 @@
-
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/friend_helpers/friend_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class AllFriendActionContent extends StatelessWidget {
-  const AllFriendActionContent({
+  AllFriendActionContent({
     Key? key,
     required this.profileController,
     required this.friendController,
@@ -12,6 +12,7 @@ class AllFriendActionContent extends StatelessWidget {
 
   final ProfileController profileController;
   final FriendController friendController;
+  final FriendHelper _friendHelper = FriendHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +52,7 @@ class AllFriendActionContent extends StatelessWidget {
                   subTitleTextStyle: regular14TextStyle(cBlackColor),
                   trailing: CustomRadioButton(
                     onChanged: () {
-                      if (friendController.allFriendFollowStatus.value == 1) {
-                        profileController.friendActionSelect.value = profileController.friendActionList[index]['action'];
-                      } else if (friendController.allFriendFollowStatus.value == 0) {
-                        profileController.friendActionSelect.value = friendController.friendFollowActionList[index]['action'];
-                      }
+                      _friendHelper.allFriendActionOnChanged();
                     },
                     isSelected: friendController.allFriendFollowStatus.value == 1
                         ? (profileController.friendActionSelect.value == profileController.friendActionList[index]['action'])
