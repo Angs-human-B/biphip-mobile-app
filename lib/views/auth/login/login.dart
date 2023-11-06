@@ -1,9 +1,9 @@
-import 'package:bip_hip/controllers/authentication_controller.dart';
+import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/button/checkbox_and_container.dart';
+import 'package:bip_hip/widgets/auth/checkbox_and_container.dart';
 import 'package:bip_hip/widgets/common/button/linkup_text.dart';
-import 'package:bip_hip/widgets/common/button/logo_and_text_widget.dart';
-import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/auth/logo_and_text_widget.dart';
+import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
 class Login extends StatelessWidget {
   Login({Key? key}) : super(key: key);
@@ -14,13 +14,14 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoarding4xImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
           children: [
             SafeArea(
+              top: false,
               child: Scaffold(
-                backgroundColor: cWhiteColor,
+                backgroundColor: cTransparentColor,
                 body: SizedBox(
                   height: height,
                   width: width,
@@ -31,8 +32,8 @@ class Login extends StatelessWidget {
                           padding:
                               isDeviceScreenLarge() ? EdgeInsets.only(top: getPaddingTop(context) + h60) : EdgeInsets.only(top: getPaddingTop(context) + h40),
                           child: const LogoAndText(
-                            size: h50,
-                            fontSize: h18,
+                            size: 80,
+                            fontSize: h26,
                             mainAxisAlignment: MainAxisAlignment.start,
                           ),
                         ),
@@ -54,6 +55,12 @@ class Login extends StatelessWidget {
                             errorText: _authenticationController.loginEmailErrorText.isEmpty ? null : _authenticationController.loginEmailErrorText.value,
                             controller: _authenticationController.loginEmailTextEditingController,
                             hint: ksEmailOrPhone.tr,
+                            textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                            fillColor: cWhiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(k4BorderRadius),
+                              borderSide: const BorderSide(width: 1, color: cLineColor2),
+                            ),
                             onChanged: (text) {
                               _authenticationController.checkCanLogin();
                               if (_authenticationController.loginEmailTextEditingController.text.trim() == '') {
@@ -76,7 +83,13 @@ class Login extends StatelessWidget {
                             errorText: _authenticationController.loginPasswordErrorText.value,
                             controller: _authenticationController.loginPasswordTextEditingController,
                             hint: ksPassword.tr,
-                            suffixIcon: _authenticationController.isLoginPasswordToggleObscure.value ? BipHip.closedEye : BipHip.openedEye,
+                            textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                            fillColor: cWhiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(k4BorderRadius),
+                              borderSide: const BorderSide(width: 1, color: cLineColor2),
+                            ),
+                            suffixIcon: _authenticationController.isLoginPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
                             onSuffixPress: () {
                               _authenticationController.isLoginPasswordToggleObscure.value = !_authenticationController.isLoginPasswordToggleObscure.value;
                             },

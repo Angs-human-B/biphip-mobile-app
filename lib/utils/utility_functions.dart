@@ -41,7 +41,6 @@ bool isDeviceScreenLarge() {
   }
 }
 
-
 String ordinal(int number) {
   switch (number) {
     case 1:
@@ -64,14 +63,28 @@ Widget imageLoadingBuilder(context, child, loadingProgress) {
   );
 }
 
+Widget imageLoadingBuilderCover(context, child, loadingProgress) {
+  if (loadingProgress == null) {
+    return child;
+  }
+  return Container(
+    width: width,
+    height: 150,
+    color: cBlackColor,
+    child: const CustomLoadingAnimation(
+      isTextVisible: false,
+    ),
+  );
+}
+
 void unfocus(context) {
   FocusScope.of(context).unfocus();
 }
 
 dynamic checkNullOrStringNull(str) {
- if (str == null || str == 'null' || str == '' || str == 'NA') {
- return null;
- } else {
- return str;
- }
+  if (str == null || str == 'null' || str == '' || str == 'NA') {
+    return null;
+  } else {
+    return str;
+  }
 }

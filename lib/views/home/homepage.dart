@@ -1,13 +1,13 @@
-import 'package:bip_hip/controllers/create_post_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
-import 'package:bip_hip/views/profile/profile_widgets/post_button_widget.dart';
-import 'package:bip_hip/views/profile/profile_widgets/stories_widget.dart';
+import 'package:bip_hip/widgets/post_widgets/post_button_widget.dart';
+import 'package:bip_hip/widgets/post_widgets/stories_widget.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
         top: false,
         child: Scaffold(
           resizeToAvoidBottomInset: true,
-          backgroundColor: cGreyBoxColor,
+          backgroundColor: cBackgroundColor,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
@@ -86,7 +86,9 @@ class HomePage extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
-                  kH16sizedBox,
+                  const SizedBox(
+                    height: 2,
+                  ),
                   Container(
                     width: width,
                     color: cWhiteColor,
@@ -104,7 +106,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  kH16sizedBox,
+                  kH8sizedBox,
                   Container(
                     color: cWhiteColor,
                     width: width,
@@ -114,30 +116,43 @@ class HomePage extends StatelessWidget {
                       ),
                       child: DefaultTabController(
                         length: 3,
-                        child: TabBar(
-                          tabs: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                              child: Text(
-                                ksSelfie.tr,
-                                style: semiBold12TextStyle(cPrimaryColor),
-                              ),
+                        child: DecoratedBox(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: cLineColor, width: 1),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                              child: Text(
-                                ksDailyQuiz.tr,
-                                style: semiBold12TextStyle(cPrimaryColor),
+                          ),
+                          child: TabBar(
+                            indicatorColor: cPrimaryColor,
+                            indicatorWeight: 1,
+                            unselectedLabelColor: cSmallBodyTextColor,
+                            unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
+                            labelStyle: medium14TextStyle(cPrimaryColor),
+                            labelColor: cPrimaryColor,
+                            tabs: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                child: Text(
+                                  ksSelfie.tr,
+                                  // style: semiBold12TextStyle(cPrimaryColor),
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                              child: Text(
-                                ksWeeklyWinner.tr,
-                                style: semiBold12TextStyle(cPrimaryColor),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                child: Text(
+                                  ksDailyQuiz.tr,
+                                  // style: semiBold12TextStyle(cPrimaryColor),
+                                ),
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                child: Text(
+                                  ksWeeklyWinner.tr,
+                                  // style: semiBold12TextStyle(cPrimaryColor),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -147,11 +162,11 @@ class HomePage extends StatelessWidget {
                     width: width,
                     child: const StoriesWidget(),
                   ),
-                  kH16sizedBox,
+                  kH8sizedBox,
                   ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      separatorBuilder: (context, index) => kH20sizedBox,
+                      separatorBuilder: (context, index) => kH8sizedBox,
                       itemCount: homePagePost.length,
                       itemBuilder: (context, index) {
                         var item = homePagePost[index];
@@ -183,7 +198,8 @@ class HomePage extends StatelessWidget {
                           ),
                         );
                       }),
-                  kH20sizedBox,
+                
+                  kH8sizedBox,
                 ],
               ),
             ),

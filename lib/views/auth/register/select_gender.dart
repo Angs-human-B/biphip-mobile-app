@@ -1,10 +1,10 @@
-import 'package:bip_hip/controllers/authentication_controller.dart';
-import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/profile/edit_about.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
-import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
 class SelectGender extends StatelessWidget {
   SelectGender({super.key});
@@ -17,7 +17,8 @@ class SelectGender extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      // color: cRedColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         top: false,
         child: Scaffold(
@@ -25,6 +26,7 @@ class SelectGender extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
+              appBarColor: cTransparentColor,
               title: ksRegistration.tr,
               onBack: () async {
                 Get.back();
@@ -39,7 +41,7 @@ class SelectGender extends StatelessWidget {
               ],
             ),
           ),
-          backgroundColor: cWhiteColor,
+          backgroundColor: cTransparentColor,
           body: SizedBox(
             height: height,
             width: width,
@@ -57,6 +59,8 @@ class SelectGender extends StatelessWidget {
                       ),
                       kH50sizedBox,
                       CustomSelectionButton(
+                        buttonColor: cWhiteColor,
+                        borderColor: cLineColor2,
                         onPressed: () async {
                           if (_authenticationController.gender.value != '') {
                             _profileController.tempSelectedGender.value = _authenticationController.gender.value;
@@ -67,7 +71,7 @@ class SelectGender extends StatelessWidget {
                             content: Obx(
                               () => _profileController.isGenderListLoading.value
                                   ? const GenderListShimmer()
-                                  : _GenderListContent(
+                                  : GenderListContent(
                                       profileController: _profileController,
                                     ),
                             ),
@@ -75,6 +79,7 @@ class SelectGender extends StatelessWidget {
                               Get.back();
                             },
                             onPressRightButton: () {
+                              _profileController.isGenderListLoading.value = true;
                               if (_profileController.tempSelectedGender.value != '') {
                                 _authenticationController.gender.value = _profileController.tempSelectedGender.value;
                                 _profileController.isGenderSelected.value = true;
@@ -117,43 +122,6 @@ class SelectGender extends StatelessWidget {
   }
 }
 
-class _GenderListContent extends StatelessWidget {
-  const _GenderListContent({
-    Key? key,
-    required this.profileController,
-  }) : super(key: key);
-
-  final ProfileController profileController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: profileController.genderList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Obx(
-              () => RadioListTile(
-                title: Text(profileController.genderList[index]),
-                value: profileController.genderList[index],
-                activeColor: cPrimaryColor,
-                contentPadding: EdgeInsets.zero,
-                groupValue: profileController.tempSelectedGender.value,
-                controlAffinity: ListTileControlAffinity.trailing,
-                onChanged: (value) {
-                  profileController.tempSelectedGender.value = value;
-                },
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
 class GenderListShimmer extends StatelessWidget {
   const GenderListShimmer({
     Key? key,
@@ -168,19 +136,25 @@ class GenderListShimmer extends StatelessWidget {
           shrinkWrap: true,
           itemCount: 3,
           itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Shimmer.fromColors(
-                baseColor: cWhiteColor,
-                highlightColor: Colors.grey,
-                child: Container(
-                  height: 20,
-                  decoration: BoxDecoration(
-                    borderRadius: k8CircularBorderRadius,
-                    color: cWhiteColor,
+            return Padding(
+              padding: const EdgeInsets.only(bottom: k12Padding),
+              child: CustomListTile(
+                borderColor: cLineColor,
+                title: ShimmerCommon(
+                  widget: Container(
+                    decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                    height: 16,
+                    width: 120,
+                  ),
+                ),
+                trailing: ShimmerCommon(
+                  widget: Container(
+                    decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                    height: 16,
+                    width: 16,
                   ),
                 ),
               ),
-              contentPadding: EdgeInsets.zero,
             );
           },
         ),

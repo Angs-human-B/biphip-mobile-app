@@ -1,13 +1,13 @@
-import 'package:bip_hip/controllers/home_controller.dart';
-import 'package:bip_hip/controllers/post_reaction_controller.dart';
+import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/post_upper_container.dart';
-import 'package:bip_hip/views/profile/edit_profile.dart';
-import 'package:bip_hip/views/profile/post_widgets/biding_insight.dart';
-import 'package:bip_hip/views/profile/post_widgets/biding_widget.dart';
-import 'package:bip_hip/views/profile/post_widgets/comment_widget.dart';
-import 'package:bip_hip/views/profile/post_widgets/like_section_widget.dart';
-import 'package:bip_hip/views/profile/post_widgets/post_activity_status_widget.dart';
+import 'package:bip_hip/views/menu/profile/edit_profile.dart';
+import 'package:bip_hip/widgets/post_widgets/biding_insight.dart';
+import 'package:bip_hip/widgets/post_widgets/biding_widget.dart';
+import 'package:bip_hip/widgets/post_widgets/comment_widget.dart';
+import 'package:bip_hip/widgets/post_widgets/like_section_widget.dart';
+import 'package:bip_hip/widgets/post_widgets/post_activity_status_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -35,6 +35,7 @@ class CommonPostWidget extends StatelessWidget {
     required this.isCommentShown,
     required this.isSharedPost,
     required this.showBottomSection,
+    this.postUpperContainerOnpressed,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -45,6 +46,7 @@ class CommonPostWidget extends StatelessWidget {
   final IconData privacy;
   final Color? categoryIconColor;
   final List mediaList;
+  final VoidCallback? postUpperContainerOnpressed;
   final HomeController _homeController = Get.find<HomeController>();
 
   @override
@@ -106,20 +108,26 @@ class CommonPostWidget extends StatelessWidget {
           ),
         if (isSharedPost) const CustomDivider(),
         kH10sizedBox,
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          child: PostUpperContainer(
-            userName: userName,
-            postTime: postTime,
-            isCategorized: isCategorized,
-            category: category,
-            categoryIcon: categoryIcon,
-            categoryIconColor: categoryIconColor,
-            privacy: privacy,
-            brandName: brandName,
-            kidName: kidName,
-            kidAge: kidAge,
-            title: title,
+        InkWell(
+          onTap: () {
+            // ll('Upper container');
+            Get.toNamed(krHomePostDetails);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: PostUpperContainer(
+              userName: userName,
+              postTime: postTime,
+              isCategorized: isCategorized,
+              category: category,
+              categoryIcon: categoryIcon,
+              categoryIconColor: categoryIconColor,
+              privacy: privacy,
+              brandName: brandName,
+              kidName: kidName,
+              kidAge: kidAge,
+              title: title,
+            ),
           ),
         ),
         kH8sizedBox,
@@ -190,7 +198,7 @@ class CommonPostWidget extends StatelessWidget {
                 child: CommonPostWidget(
                   isCommented: false,
                   isLiked: false,
-                  mediaList: [],
+                  mediaList: const [],
                   isCategorized: false,
                   userName: 'Steve Sanchez',
                   postTime: '5 hrs ago',
@@ -351,10 +359,12 @@ class CommonPostWidget extends StatelessWidget {
           ),
         if (showBottomSection) PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown),
         // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
+      
       ],
     );
   }
 }
+
 
 class PostBottomSection extends StatelessWidget {
   PostBottomSection({super.key, required this.isSelfPost, required this.isCommentShown});
@@ -480,6 +490,7 @@ class PostBottomSection extends StatelessWidget {
         ));
   }
 }
+
 
 class _BiddingInsightsContent extends StatelessWidget {
   const _BiddingInsightsContent({super.key, required this.comment});
@@ -642,6 +653,7 @@ class _BadgeTabViewContent extends StatelessWidget {
   }
 }
 
+
 class ReactionBottomSheetTab extends StatelessWidget {
   const ReactionBottomSheetTab({super.key, required this.isReactionImageShown, required this.reactionImage, required this.text});
 
@@ -790,7 +802,7 @@ class _GiftContent extends StatelessWidget {
               height: 380,
               child: GridView.builder(
                 shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 itemCount: giftPackages.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: .8,

@@ -1,7 +1,7 @@
-import 'package:bip_hip/controllers/authentication_controller.dart';
-import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
 class PictureUploadScreen extends StatelessWidget {
   PictureUploadScreen({super.key});
@@ -13,7 +13,8 @@ class PictureUploadScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      // color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
           children: [
@@ -24,11 +25,12 @@ class PictureUploadScreen extends StatelessWidget {
                   preferredSize: const Size.fromHeight(kAppBarSize),
                   //* info:: appBar
                   child: CustomAppBar(
+                    appBarColor: cTransparentColor,
                     hasBackButton: false,
                     onBack: () {},
                   ),
                 ),
-                backgroundColor: cWhiteColor,
+                backgroundColor: cTransparentColor,
                 body: SizedBox(
                   height: height,
                   width: width,
@@ -51,12 +53,15 @@ class PictureUploadScreen extends StatelessWidget {
                                   width: h134,
                                   decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
+                                    color: cBlackColor,
                                   ),
                                   child: Image.file(
                                     _authenticationController.profileFile.value,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => ClipOval(
-                                      child: Image.asset(kiProfileDefaultImageUrl),
+                                    errorBuilder: (context, error, stackTrace) => const Icon(
+                                      BipHip.user,
+                                      size: kIconSize70,
+                                      color: cIconColor,
                                     ),
                                   ),
                                 ),

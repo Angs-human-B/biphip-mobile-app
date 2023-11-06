@@ -1,9 +1,9 @@
-import 'package:bip_hip/controllers/authentication_controller.dart';
-import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
-import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
@@ -18,7 +18,8 @@ class SelectBirthday extends StatelessWidget {
     heightWidthKeyboardValue(context);
 
     return Container(
-      color: cWhiteColor,
+      // color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         top: false,
         child: Scaffold(
@@ -26,7 +27,8 @@ class SelectBirthday extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: _profileController.isRouteFromAboutInfo.value ? ksEditYourBirthday.tr : ksRegistration.tr,
+              appBarColor: cTransparentColor,
+              title: _profileController.isRouteFromAboutInfo.value ? ksEditBirthday.tr : ksRegistration.tr,
               onBack: () async {
                 Get.back();
               },
@@ -41,7 +43,7 @@ class SelectBirthday extends StatelessWidget {
               ],
             ),
           ),
-          backgroundColor: cWhiteColor,
+          backgroundColor: cTransparentColor,
           body: SizedBox(
             height: height,
             width: width,
@@ -59,6 +61,8 @@ class SelectBirthday extends StatelessWidget {
                       ),
                       _profileController.isRouteFromAboutInfo.value ? kH20sizedBox : kH50sizedBox,
                       CustomSelectionButton(
+                        buttonColor: cWhiteColor,
+                        borderColor: cLineColor2,
                         onPressed: () {
                           showModalBottomSheet(
                               context: context,

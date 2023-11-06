@@ -1,5 +1,5 @@
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/button/logo_and_text_widget.dart';
+import 'package:bip_hip/widgets/auth/logo_and_text_widget.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);

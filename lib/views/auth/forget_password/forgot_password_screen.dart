@@ -1,7 +1,6 @@
-import 'package:bip_hip/controllers/authentication_controller.dart';
+import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
-import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});
@@ -12,7 +11,8 @@ class ForgotPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      // color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
           children: [
@@ -23,21 +23,14 @@ class ForgotPasswordScreen extends StatelessWidget {
                   preferredSize: const Size.fromHeight(kAppBarSize),
                   //* info:: appBar
                   child: CustomAppBar(
+                    appBarColor: cTransparentColor,
                     title: ksForgetPassword.tr,
                     onBack: () async {
                       Get.back();
                     },
-                    action: const [
-                      Padding(
-                        padding: EdgeInsets.only(right: 8.0),
-                        child: CustomCircularProgressBar(
-                          percent: .33,
-                        ),
-                      ),
-                    ],
                   ),
                 ),
-                backgroundColor: cWhiteColor,
+                backgroundColor: cTransparentColor,
                 body: SizedBox(
                   height: height,
                   width: width,
@@ -57,6 +50,12 @@ class ForgotPasswordScreen extends StatelessWidget {
                             controller: _authenticationController.forgotPasswordEmailTextEditingController,
                             errorText: _authenticationController.forgotPasswordEmailError.value,
                             hint: ksEmail.tr,
+                            textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                            fillColor: cWhiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(k4BorderRadius),
+                              borderSide: const BorderSide(width: 1, color: cLineColor2),
+                            ),
                             onChanged: (text) {
                               _authenticationController.checkCanSendOTP();
                               if (_authenticationController.forgotPasswordEmailTextEditingController.text.trim() == '') {

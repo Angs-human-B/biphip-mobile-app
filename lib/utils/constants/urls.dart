@@ -10,14 +10,16 @@
 
 const String kuGetAllProfessions = '/mobile/get-all-professions'; //DONE
 const String kuGetAllInterests = '/mobile/get-all-interests'; //DONE
-const String kuGetAllLinkTypes = '/mobile/get-all-link-types';
+const String kuGetAllLinkTypes = '/mobile/get-all-link-types'; //DONE
 const String kuGetAllRelationShips = '/mobile/get-all-relationships'; //DONE
 const String kuGetAllGenders = '/mobile/get-all-genders'; //DONE
-const String kuGetAllCities = '/mobile/get-all-cities';
-const String kuGetAllSchools = '/mobile/get-all-schools';
-const String kuGetAllCompanies = '/mobile/get-all-companies';
+const String kuGetAllCities = '/mobile/get-all-cities'; //DONE
+const String kuGetAllSchools = '/mobile/get-all-schools'; //DONE
+const String kuGetAllCompanies = '/mobile/get-all-companies'; //DONE
 const String kuGetAllDegrees = '/mobile/get-all-degrees';
-const String kuGetAllPositions = '/mobile/get-all-positions';
+const String kuGetAllPositions = '/mobile/get-all-positions'; //DONE
+const String kuGetAllPostCatagories = '/mobile/get-all-post-categories'; //DONE
+const String kuGetAllKidList = '/mobile/user/get-all-kids';
 
 //---------------------------------------
 //* authentication story
@@ -84,8 +86,6 @@ const String kuAlbumList = '/mobile/user/get-my-albums';
 
 //---------------------------------------
 //* Friends and Family
-const String kuFriendList = '/mobile/user/friends';
-const String kuReceivedFriendList = '/mobile/user/my-friend-requests';
 //---------------------------------------
 
 const String kuCommonUserSearch = '/mobile/user/search-users';
@@ -111,6 +111,21 @@ const String kuCancelFamilyRequest = '/mobile/user/cancel-family-request';
 const String kuAcceptFamilyRequest = '/mobile/user/accept-family-request';
 const String kuRejectFamilyRequest = '/mobile/user/reject-family-request';
 
+//* Family Relation Status
+const String kuGetAllFamilyRelations = '/mobile/get-all-family-relations';
+//*Friend Search
+const String kuGetSearchFriends = '/mobile/user/search-friends';
+
+//---------------------------------------
+//* Create Post
+//---------------------------------------
+
+const String kuAddKid = '/mobile/user/store-kid';
+const String kuAddBrand = '/mobile/user/store-brand';
+const String kuCreatePost = '/mobile/user/store-post';
+
+
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls
@@ -133,6 +148,8 @@ const String kiDummyImage2ImageUrl = 'assets/images/pic5.jpeg';
 const String kiDummyImage3ImageUrl = 'assets/images/pic12.jpeg';
 const String kiBoostPost1xImage3ImageUrl = 'assets/images/boost1x.png';
 const String kiBoostPost4xImage3ImageUrl = 'assets/images/boost4x.png';
+const String kiOnBoardingImageUrl = 'assets/images/onBoarding.png';
+const String kiOnBoarding4xImageUrl = 'assets/images/onBoarding4x.png';
 
 //* svg images
 const String kiBadgeSvgImageUrl = 'assets/svg/badge.svg';
@@ -148,3 +165,4 @@ const String kiLinkedListSvgImageUrl = 'assets/svg/linkedin.svg';
 const String kiTwitterSvgImageUrl = 'assets/svg/twitter.svg';
 const String kiWebSvgImageUrl = 'assets/svg/web.svg';
 const String kiYoutubeSvgImageUrl = 'assets/svg/youtube.svg';
+const String kiOnBoardingSvgUrl = 'assets/svg/onbording.svg';

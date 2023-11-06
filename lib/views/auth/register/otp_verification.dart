@@ -1,10 +1,10 @@
-import 'package:bip_hip/controllers/authentication_controller.dart';
-import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/utils/count_down.dart';
+import 'package:bip_hip/widgets/auth/count_down.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/button/linkup_text.dart';
-import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 import 'package:bip_hip/widgets/common/textfields/otp_textfield.dart';
 
 class OTPVerifyScreen extends StatelessWidget {
@@ -17,7 +17,8 @@ class OTPVerifyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      // color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
           children: [
@@ -29,11 +30,12 @@ class OTPVerifyScreen extends StatelessWidget {
                   //* info:: appBar
                   child: Obx(
                     () => CustomAppBar(
+                      appBarColor: cTransparentColor,
                       title: _authenticationController.parentRoute.value == "register" ? ksRegistration.tr : ksForgetPassword.tr,
                       onBack: () async {
                         Get.back();
                       },
-                      action: (_authenticationController.parentRoute.value == "register" || _authenticationController.parentRoute.value == "forget-password")
+                      action: (_authenticationController.parentRoute.value == "register")
                           ? [
                               Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
@@ -46,7 +48,7 @@ class OTPVerifyScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                backgroundColor: cWhiteColor,
+                backgroundColor: cTransparentColor,
                 body: SizedBox(
                   height: height,
                   width: width,

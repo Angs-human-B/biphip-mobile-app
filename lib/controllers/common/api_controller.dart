@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:bip_hip/models/common/common_data_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
@@ -28,7 +27,6 @@ class ApiController {
     required Uri uri,
     int? timer,
     required http.Client client,
-    bool? contentType,
   }) async {
     if (method == "GET") {
       return await client.get(
@@ -49,7 +47,6 @@ class ApiController {
         body: body,
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
-          if (contentType != null) 'content-Type': 'multipart/form-data',
         },
       ).timeout(
         Duration(seconds: timer ?? 30),
@@ -82,7 +79,6 @@ class ApiController {
     Map<String, dynamic>? body,
     required String requestMethod,
     int? timer,
-    bool? contentType,
   }) async {
     ll("Url : $url");
     final http.Client client = http.Client();
@@ -100,7 +96,6 @@ class ApiController {
         uri: uri,
         timer: timer,
         client: client,
-        contentType: contentType,
       );
       ll("response statusCode : ${response.statusCode}");
       if (response.statusCode == 200) {
@@ -192,6 +187,7 @@ class ApiController {
     required String url,
     required dynamic key,
     required dynamic value,
+    Map<String, String>? body,
     int? timer,
   }) async {
     final Uri uri = Uri.parse(Environment.apiUrl + url);
@@ -206,6 +202,7 @@ class ApiController {
       );
       // If image is a file on disk, use fromPath instead of fromBytes
       request.files.add(await http.MultipartFile.fromPath(key, value));
+      request.fields.addAll(body ?? {});
 
       var response = await request.send();
       ll("response statusCode : ${response.statusCode}");
@@ -240,6 +237,7 @@ class ApiController {
     required String url,
     required dynamic key,
     required dynamic values,
+    Map<String, String>? body,
     int? timer,
   }) async {
     final Uri uri = Uri.parse(Environment.apiUrl + url);
@@ -254,8 +252,9 @@ class ApiController {
       );
       // If image is a file on disk, use fromPath instead of fromBytes
       for (var value in values) {
-        request.files.add(await http.MultipartFile.fromPath(key, value));
+        request.files.add(await http.MultipartFile.fromPath(key, value.value.path));
       }
+      request.fields.addAll(body ?? {});
 
       var response = await request.send();
       ll("response statusCode : ${response.statusCode}");

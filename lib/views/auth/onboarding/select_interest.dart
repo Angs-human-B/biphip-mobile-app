@@ -1,7 +1,7 @@
-import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
-import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
 class SelectInterestScreen extends StatelessWidget {
   SelectInterestScreen({super.key});
@@ -13,7 +13,10 @@ class SelectInterestScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      color: _profileController.isRouteFromAboutInfo.value ? cWhiteColor : null,
+      decoration: !_profileController.isRouteFromAboutInfo.value
+          ? const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover))
+          : null,
       child: SafeArea(
         top: false,
         child: Scaffold(
@@ -25,6 +28,7 @@ class SelectInterestScreen extends StatelessWidget {
               hasBackButton: _profileController.isRouteFromAboutInfo.value,
               isCenterTitle: _profileController.isRouteFromAboutInfo.value,
               title: _profileController.isRouteFromAboutInfo.value ? 'Edit Interest' : '',
+              appBarColor: _profileController.isRouteFromAboutInfo.value ? cWhiteColor : cTransparentColor,
               onBack: () {
                 Get.back();
               },
@@ -42,7 +46,7 @@ class SelectInterestScreen extends StatelessWidget {
               ],
             ),
           ),
-          backgroundColor: cWhiteColor,
+          backgroundColor: _profileController.isRouteFromAboutInfo.value ? cWhiteColor : cTransparentColor,
           body: Obx(
             () => _profileController.isInterestListLoading.value
                 ? CommonLoadingAnimation(
@@ -96,6 +100,8 @@ class SelectInterestScreen extends StatelessWidget {
                                           _globalController.selectedInterests.add(_globalController.interestList[_globalController.interestIndex[i]]);
                                         }
                                         Get.toNamed(krUploadPicture);
+                                        await _profileController.setInterest(_globalController.selectedInterests);
+
                                         _globalController.resetChipSelection();
                                       } else {
                                         _globalController.selectedInterests.clear();
@@ -103,9 +109,10 @@ class SelectInterestScreen extends StatelessWidget {
                                           _globalController.selectedInterests.add(_globalController.interestList[_globalController.interestIndex[i]]);
                                         }
                                         Get.back();
+                                        await _profileController.setInterest(_globalController.selectedInterests);
+
                                         _profileController.isRouteFromAboutInfo.value = false;
                                       }
-                                      await _profileController.setInterest(_globalController.selectedInterests);
                                     }
                                   : null,
                               buttonWidth: width - 40,

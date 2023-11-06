@@ -12,45 +12,40 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/create_post/add_kid.dart';
 import 'package:bip_hip/views/create_post/create_post.dart';
 import 'package:bip_hip/views/create_post/upload_media_list.dart';
+import 'package:bip_hip/views/home/home_post_details.dart';
+import 'package:bip_hip/views/home/home_post_details_screen.dart';
 import 'package:bip_hip/views/home/homepage.dart';
-import 'package:bip_hip/views/profile/edit_about_info/edit_about.dart';
-import 'package:bip_hip/views/profile/edit_about_info/edit_page.dart';
-import 'package:bip_hip/views/profile/edit_bio.dart';
-import 'package:bip_hip/views/profile/edit_profile.dart';
+import 'package:bip_hip/views/menu/family/add_family.dart';
+import 'package:bip_hip/views/menu/family/family.dart';
+import 'package:bip_hip/views/menu/friends/add_friend.dart';
+import 'package:bip_hip/views/menu/friends/friends.dart';
+import 'package:bip_hip/views/menu/profile/edit_about.dart';
+import 'package:bip_hip/views/menu/profile/edit_page.dart';
+import 'package:bip_hip/views/menu/profile/edit_bio.dart';
+import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 import 'package:bip_hip/views/create_post/select_category.dart';
-import 'package:bip_hip/views/profile/menu/family/add_family.dart';
-import 'package:bip_hip/views/profile/menu/family/family.dart';
-import 'package:bip_hip/views/profile/menu/friends/add_friend.dart';
-import 'package:bip_hip/views/profile/menu/friends/friends.dart';
-import 'package:bip_hip/views/profile/menu/menu.dart';
-import 'package:bip_hip/views/profile/menu/settings/settings.dart';
-import 'package:bip_hip/views/profile/photo_details.dart';
-import 'package:bip_hip/views/profile/photo_preview.dart';
-import 'package:bip_hip/views/profile/photos.dart';
-import 'package:bip_hip/views/profile/profile.dart';
-import 'package:bip_hip/views/profile/profile_widgets/gallery_photos.dart';
-import 'package:bip_hip/views/profile/profile_widgets/gallery_videos.dart';
-import 'package:bip_hip/views/profile/video_details.dart';
-import 'package:bip_hip/views/profile/videos.dart';
+import 'package:bip_hip/views/menu/menu.dart';
+import 'package:bip_hip/views/menu/settings/settings.dart';
+import 'package:bip_hip/views/menu/photos/photo_details.dart';
+import 'package:bip_hip/views/menu/photos/photo_preview.dart';
+import 'package:bip_hip/views/menu/profile/photo_view.dart';
+import 'package:bip_hip/views/menu/photos/photos.dart';
+import 'package:bip_hip/views/menu/profile/profile.dart';
+import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
+import 'package:bip_hip/views/menu/videos/gallery_videos.dart';
+import 'package:bip_hip/views/menu/videos/video_details.dart';
+import 'package:bip_hip/views/menu/videos/videos.dart';
 import 'package:bip_hip/views/splash_and_intro/splash_screen.dart';
 import 'package:get/get.dart';
 
+const String krSplashScreen = '/splash-screen';
+const String krIntroductionScreen = '/introduction-screen';
+
 const String krLogin = '/login';
 const String krSavedUserLogin = '/saved-user-login';
-const String krForgotPassword = '/forgot-password';
-const String krResetPass = '/reset-pass';
-const String krSetNewPass = '/set-new-pass';
-const String krOTP = '/otp-verify';
-
-const String krIntroductionScreen = '/introduction-screen';
-const String krSplashScreen = '/splash-screen';
-const String krHome = '/home';
-const String krNotification = '/notification';
-const String krChangePassword = '/change-password';
-const String krChangeLanguage = '/change-language';
-
 const String krRegister = '/register';
 const String krSelectBirthday = '/birthday';
 const String krSelectGender = '/gender';
@@ -58,31 +53,43 @@ const String krSetEmail = '/set-email';
 const String krSelectProfession = '/select-profession';
 const String krSelectInterest = '/select-interest';
 const String krUploadPicture = '/upload-picture';
+const String krForgotPassword = '/forgot-password';
+const String krResetPass = '/reset-pass';
+const String krSetNewPass = '/set-new-pass';
+const String krOTP = '/otp-verify';
+
+const String krHome = '/home';
+const String krNotification = '/notification';
+const String krChangePassword = '/change-password';
+const String krChangeLanguage = '/change-language';
+const String krHomePostDetails = '/home-post-details';
+const String krHomePostDetailsScreen = '/home-post-details-screen';
 
 const String krMenu = '/menu';
 const String krProfile = '/profile';
-const String krFriends = '/friends';
-const String krFamily = '/family';
-const String krEditProfile = '/edit-profile';
 const String krEditBio = '/edit-bio';
-const String krPhotos = '/photos';
-const String krPhotoDetails = '/photo-details';
-const String krVideos = '/videos';
-const String krVideoDetails = '/video-details';
-const String krPhotoPreview = '/photo-preview';
-const String krSettings = '/settings';
 const String krEditAboutInfo = '/edit-about-info';
 const String krEdit = '/edit';
-const String krAddFamily = '/add-family';
+const String krEditProfile = '/edit-profile';
+const String krPhotoPreview = '/photo-preview';
+const String krFriends = '/friends';
 const String krAddFriend = '/add-friend';
+const String krFamily = '/family';
+const String krAddFamily = '/add-family';
+const String krPhotos = '/photos';
+const String krPhotoDetails = '/photo-details';
+const String krViewPhoto = '/view-photo';
+const String krVideos = '/videos';
+const String krVideoDetails = '/video-details';
+const String krSettings = '/settings';
 
 const String krCreatePost = '/create-post';
 const String krSelectCategory = '/create-post/select-category';
 const String krUploadedImageListPage = '/create-post/uploaded-image-list';
+const String krAddKid = '/create-post/select-category/add-kid';
 //*newly Added for gallery photos and videos
 const String krGalleryPhotos = '/gallery-photos';
 const String krGalleryVideos = '/gallery-videos';
-
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -120,6 +127,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krEdit, page: () => EditPage(), transition: Transition.noTransition),
   GetPage(name: krAddFamily, page: () => AddFamily(), transition: Transition.noTransition),
   GetPage(name: krAddFriend, page: () => AddFriend(), transition: Transition.noTransition),
+  GetPage(name: krViewPhoto, page: () => ViewPhoto(), transition: Transition.noTransition),
 
   //* info:: other screens
   GetPage(name: krSplashScreen, page: () => const SplashScreen(), transition: Transition.noTransition),
@@ -128,10 +136,13 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krCreatePost, page: () => CreatePost(), transition: Transition.downToUp),
   GetPage(name: krSelectCategory, page: () => SelectCategory(), transition: Transition.downToUp),
   GetPage(name: krUploadedImageListPage, page: () => UploadImageListPage(), transition: Transition.rightToLeft),
+  GetPage(name: krAddKid, page: () => AddKidPage(), transition: Transition.noTransition),
 
   //* home
   GetPage(name: krHome, page: () => HomePage(), transition: Transition.noTransition),
-  //*newly added for galler image and videos
+  GetPage(name: krHomePostDetails, page: () => HomePostDetails(), transition: Transition.noTransition),
+  GetPage(name: krHomePostDetailsScreen, page: () => HomePostDetailsScreen(), transition: Transition.noTransition),
+  //*newly added for gallery image and videos
   GetPage(name: krGalleryPhotos, page: () => GalleryPhotos(), transition: Transition.noTransition),
   GetPage(name: krGalleryVideos, page: () => GalleryVideos(), transition: Transition.noTransition)
 ];

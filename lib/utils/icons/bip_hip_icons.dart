@@ -12,6 +12,9 @@ class BipHip {
   static const _kBipHip5FontFam = 'BipHip5';
   static const String? _kBipHip5FontPkg = null;
 
+  static const _kBipHip6FontFam = 'BipHip6';
+  static const String? _kBipHip6FontPkg = null;
+
   static const IconData add = IconData(0xe800, fontFamily: _kBipHipFontFam, fontPackage: _kBipHipFontPkg);
   static const IconData addImage = IconData(0xe801, fontFamily: _kBipHipFontFam, fontPackage: _kBipHipFontPkg);
   static const IconData addPhotos = IconData(0xe802, fontFamily: _kBipHipFontFam, fontPackage: _kBipHipFontPkg);
@@ -182,4 +185,10 @@ class BipHip {
   static const IconData profession = IconData(0xe812, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
   static const IconData warningOutline = IconData(0xe814, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
   static const IconData warningFill = IconData(0xe816, fontFamily: _kBipHip5FontFam, fontPackage: _kBipHip5FontPkg);
+
+  static const IconData addLink = IconData(0xe800, fontFamily: _kBipHip6FontFam, fontPackage: _kBipHip6FontPkg);
+  static const IconData passwordHide = IconData(0xe802, fontFamily: _kBipHip6FontFam, fontPackage: _kBipHip6FontPkg);
+  static const IconData passwordShow = IconData(0xe803, fontFamily: _kBipHip6FontFam, fontPackage: _kBipHip6FontPkg);
+  static const IconData twitterX = IconData(0xe804, fontFamily: _kBipHip6FontFam, fontPackage: _kBipHip6FontPkg);
+  static const IconData follow = IconData(0xe805, fontFamily: _kBipHip6FontFam, fontPackage: _kBipHip6FontPkg);
 }

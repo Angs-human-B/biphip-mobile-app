@@ -1,6 +1,6 @@
-import 'package:bip_hip/controllers/authentication_controller.dart';
+import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/button/logo_and_text_widget.dart';
+import 'package:bip_hip/widgets/auth/logo_and_text_widget.dart';
 
 class SavedUserLogin extends StatelessWidget {
   SavedUserLogin({Key? key}) : super(key: key);
@@ -11,10 +11,10 @@ class SavedUserLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: cWhiteColor,
+          backgroundColor: cTransparentColor,
           body: Obx(
             () => Stack(
               alignment: AlignmentDirectional.topCenter,
@@ -102,7 +102,8 @@ class CustomUserListContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomListTile(
-      itemColor: cGreyBoxColor,
+      itemColor: cWhiteColor,
+      borderColor: cLineColor2,
       onPressed: () async {
         final SpController spController = SpController();
         await spController.saveBearerToken(_item['token']);

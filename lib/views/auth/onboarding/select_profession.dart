@@ -1,7 +1,7 @@
-import 'package:bip_hip/controllers/profile_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
-import 'package:bip_hip/widgets/common/utils/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 
 class SelectProfessionScreen extends StatelessWidget {
   SelectProfessionScreen({super.key});
@@ -13,7 +13,10 @@ class SelectProfessionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: cWhiteColor,
+      color: _profileController.isRouteFromAboutInfo.value ? cWhiteColor : null,
+      decoration: !_profileController.isRouteFromAboutInfo.value
+          ? const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover))
+          : null,
       child: SafeArea(
         top: false,
         child: Scaffold(
@@ -23,8 +26,9 @@ class SelectProfessionScreen extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               isCenterTitle: _profileController.isRouteFromAboutInfo.value,
+              appBarColor: _profileController.isRouteFromAboutInfo.value ? cWhiteColor : cTransparentColor,
               hasBackButton: _profileController.isRouteFromAboutInfo.value,
-              title: _profileController.isRouteFromAboutInfo.value ? ksEditYourProfession.tr : '',
+              title: _profileController.isRouteFromAboutInfo.value ? ksEditProfession.tr : '',
               onBack: () {
                 Get.back();
               },
@@ -44,7 +48,7 @@ class SelectProfessionScreen extends StatelessWidget {
               ],
             ),
           ),
-          backgroundColor: cWhiteColor,
+          backgroundColor: _profileController.isRouteFromAboutInfo.value ? cWhiteColor : cTransparentColor,
           body: Obx(
             () => _profileController.isProfessionListLoading.value
                 ? CommonLoadingAnimation(
@@ -90,17 +94,19 @@ class SelectProfessionScreen extends StatelessWidget {
                               onPressed: _globalController.professionIndex.value != -1
                                   ? () async {
                                       if (!_profileController.isRouteFromAboutInfo.value) {
+                                        _profileController.isInterestListLoading.value = true;
                                         Get.find<GlobalController>().interestIndex.clear();
                                         _globalController.selectedProfession.value = _globalController.professionList[_globalController.professionIndex.value];
+                                        _profileController.setProfession(_globalController.selectedProfession.value);
                                         Get.toNamed(krSelectInterest);
                                         await _profileController.getInterestList();
                                       } else {
                                         _globalController.selectedProfession.value = _globalController.professionList[_globalController.professionIndex.value];
-                                        Get.back();
 
+                                        Get.back();
+                                        await _profileController.setProfession(_globalController.selectedProfession.value);
                                         _profileController.isRouteFromAboutInfo.value = false;
                                       }
-                                      await _profileController.setProfession(_globalController.selectedProfession.value);
                                     }
                                   : null,
                               buttonWidth: width - 40,
