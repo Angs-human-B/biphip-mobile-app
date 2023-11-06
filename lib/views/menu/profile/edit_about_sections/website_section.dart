@@ -1,10 +1,12 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/profile_helpers/edit_profiler_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/edit_about.dart';
 
 class WebsiteSection extends StatelessWidget {
   WebsiteSection({super.key});
   final ProfileController _profileController = Get.find<ProfileController>();
+  final EditProfileHelper _editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +25,7 @@ class WebsiteSection extends StatelessWidget {
                 suffixTextStyle: semiBold18TextStyle(cBlackColor),
                 isAddButton: true,
                 suffixOnPressed: () {
-                  _profileController.resetTextEditor();
-                  _profileController.linkSource.value = '';
-                  _profileController.commonEditPageIcon.value = null;
-                  _profileController.getMethod(15);
+                  _editProfileHelper.addWebsite();
                 },
               ),
             ),
@@ -39,13 +38,7 @@ class WebsiteSection extends StatelessWidget {
                     prefixText: checkNullOrStringNull(_profileController.linkDataList[i].link),
                     isAddButton: false,
                     suffixOnPressed: () {
-                      _profileController.resetTextEditor();
-                      _profileController.enableSaveButton.value = true;
-                      _profileController.commonEditPageIcon.value = null;
-                      _profileController.linkTextEditingController.text = _profileController.linkDataList[i].link!;
-                      _profileController.linkID.value = _profileController.linkDataList[i].id!;
-                      _profileController.linkSource.value = _profileController.linkDataList[i].type!;
-                      _profileController.getMethod(16);
+                      _editProfileHelper.editWebsite(i);
                     },
                   ),
                 ),

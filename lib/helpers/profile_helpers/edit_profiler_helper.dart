@@ -377,4 +377,22 @@ class EditProfileHelper {
     _profileController.emailTextEditingController.text = _profileController.contactDataList[index].value!;
     _profileController.getMethod(14);
   }
+
+  //* Website Section
+  void addWebsite() {
+    _profileController.resetTextEditor();
+    _profileController.linkSource.value = '';
+    _profileController.commonEditPageIcon.value = null;
+    _profileController.getMethod(15);
+  }
+
+  void editWebsite(index) {
+    _profileController.resetTextEditor();
+    _profileController.enableSaveButton.value = true;
+    _profileController.commonEditPageIcon.value = null;
+    _profileController.linkTextEditingController.text = _profileController.linkDataList[index].link!;
+    _profileController.linkID.value = _profileController.linkDataList[index].id!;
+    _profileController.linkSource.value = _profileController.linkDataList[index].type!;
+    _profileController.getMethod(16);
+  }
 }
