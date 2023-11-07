@@ -42,7 +42,7 @@ class KidsController extends GetxController {
     }
   }
 
-  //*Delete Kid
+  //*Delete Kid Api Call
   final RxBool isKidDeleteLoading = RxBool(false);
   Future<void> kidDelete() async {
     try {
@@ -119,6 +119,7 @@ class KidsController extends GetxController {
     checkCanEditKidInfo();
   }
 
+  //*Edit Kid Api Call
   final RxBool isEditKidLoading = RxBool(false);
   Future<void> editKid() async {
     try {
@@ -133,7 +134,6 @@ class KidsController extends GetxController {
       var response;
       if (isKidImageChanged.value) {
         response = await _apiController.mediaUpload(
-          // requestMethod: kPost,
           url: kuUpdateKid,
           body: body,
           token: token,

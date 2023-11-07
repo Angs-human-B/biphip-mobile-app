@@ -1,14 +1,12 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/helpers/profile_helpers/profile_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/profile/profile_widgets/profile_pic_upload_content.dart';
 import 'package:bip_hip/views/menu/profile/profile_widgets/profile_post_tab.dart';
 
 class EditProfile extends StatelessWidget {
   EditProfile({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
   final ProfileHelper _profileHelper = ProfileHelper();
 
   @override
@@ -96,37 +94,13 @@ class EditProfile extends StatelessWidget {
                                   prefix: ksCoverPhoto.tr,
                                   suffix: ksEdit.tr,
                                   onEditPressed: () {
-                                    _profileController.isProfilePicEditor.value = false;
-
-                                    _globalController.commonBottomSheet(
-                                      context: context,
-                                      onPressCloseButton: () {
-                                        Get.back();
-                                      },
-                                      onPressRightButton: () {},
-                                      rightText: '',
-                                      rightTextStyle: regular14TextStyle(cBiddingColor),
-                                      title: ksEditPhoto.tr,
-                                      isRightButtonShow: false,
-                                      isScrollControlled: false,
-                                      bottomSheetHeight: 180,
-                                      content: PictureUploadContent(
-                                        isImageChanged: _profileController.isCoverImageChanged,
-                                        imagePath: _profileController.coverImageLink,
-                                        imageFile: _profileController.coverImageFile,
-                                      ),
-                                    );
+                                    _profileHelper.coverPhotoUploadBottomSheet(context);
                                   },
                                 ),
                                 kH16sizedBox,
                                 InkWell(
                                   onTap: () {
-                                    if (_profileController.userData.value!.coverPhoto != null) {
-                                      _profileController.viewOptionEnabled.value = true;
-                                      _profileController.isProfilePhoto.value = false;
-                                      _profileController.previewPhoto.value = _profileController.userData.value!.coverPhoto.toString();
-                                      Get.toNamed(krViewPhoto);
-                                    }
+                                    _profileHelper.viewCoverPhoto();
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -139,7 +113,6 @@ class EditProfile extends StatelessWidget {
                                       child: Image.network(
                                         Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
                                         height: 150,
-                                        // color: cBlackColor,
                                         width: width,
                                         fit: BoxFit.cover,
                                         errorBuilder: (context, error, stackTrace) => Container(

@@ -2,7 +2,7 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
-import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
+import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:bip_hip/widgets/post_widgets/post_button_widget.dart';
 import 'package:bip_hip/widgets/post_widgets/stories_widget.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
@@ -99,7 +99,7 @@ class HomePage extends StatelessWidget {
                             width: width,
                             color: cWhiteColor,
                             child: CustomPostButton(
-                              name: Get.find<GlobalController>().userFirstName.value.toString(),
+                              name: Get.find<GlobalController>().userLastName.value.toString(),
                               profilePic: Get.find<GlobalController>().userImage.value.toString(),
                               onPressed: () {
                                 Get.find<CreatePostController>().resetData();

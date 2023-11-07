@@ -4,8 +4,9 @@ import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/menu/profile/profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/family/family.dart';
-import 'package:bip_hip/views/menu/friends/friends.dart';
+import 'package:bip_hip/views/menu/family/family_widgets/all_family_listview.dart';
+import 'package:bip_hip/views/menu/family/family_widgets/pending_family_listview.dart';
+import 'package:bip_hip/views/menu/family/family_widgets/received_family_listview.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 
@@ -80,25 +81,16 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   //*Search
   final TextEditingController searchController = TextEditingController();
 
-  //*friends page list data show
-  StatelessWidget allReceivedPendingFriendsView() {
-    if (tapAbleButtonState[0] == true) {
-      return AllFriendList();
-    } else if (tapAbleButtonState[1] == true) {
-      return ReceivedFriendList();
-    } else {
-      return PendingFriendList();
-    }
-  }
+
 
   //*friends page list data show
   StatelessWidget allReceivedPendingFamilyView() {
     if (tapAbleButtonState[0] == true) {
-      return AllFamilyList();
+      return AllFamilyListView();
     } else if (tapAbleButtonState[1] == true) {
-      return ReceivedFamilyList();
+      return ReceivedFamilyListView();
     } else {
-      return PendingFamilyList();
+      return PendingFamilyListView();
     }
   }
 
