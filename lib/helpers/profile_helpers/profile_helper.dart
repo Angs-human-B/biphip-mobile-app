@@ -151,4 +151,23 @@ class ProfileHelper {
       Get.toNamed(krViewPhoto);
     }
   }
+
+  //* Bio edit 
+  void editBio() {
+    if (_profileController.userData.value!.bio == null) {
+      _profileController.bioCount.value = 0;
+      _profileController.bioEditingController.text = '';
+      _profileController.bio.value = '';
+    } else {
+      _profileController.bio.value = _profileController.userData.value!.bio!;
+      _profileController.bioCount.value = _profileController.userData.value!.bio.toString().length;
+      _profileController.bioEditingController.text = _profileController.userData.value!.bio!;
+    }
+    Get.toNamed(krEditBio);
+  }
+
+  void saveBio() async {
+    _profileController.bio.value = _profileController.bioEditingController.text.trim();
+    await _profileController.updateBio();
+  }
 }

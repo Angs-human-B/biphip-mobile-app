@@ -4,6 +4,7 @@ import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/menu/profile/profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/family/family.dart';
 import 'package:bip_hip/views/menu/family/family_widgets/all_family_listview.dart';
 import 'package:bip_hip/views/menu/family/family_widgets/pending_family_listview.dart';
 import 'package:bip_hip/views/menu/family/family_widgets/received_family_listview.dart';
@@ -190,34 +191,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxString tempWorkplaceEndDate = RxString('');
   final RxBool isSingleDatePicker = RxBool(false);
 
-  String? schoolSubtitleText(DateTime? startDate, DateTime? endDate) {
-    if (startDate != null && endDate != null) {
-      return '${DateFormat("dd MMMM, yyyy").format(startDate)} - ${DateFormat("dd MMMM, yyyy").format(endDate)}';
-    } else if (startDate == null && endDate != null) {
-      ll(endDate.year);
-      return 'School year ${endDate.year}';
-    } else if (startDate != null && endDate == null) {
-      return '${DateFormat("dd MMMM, yyyy").format(startDate)} to present';
-    } else {
-      return null;
-    }
-  }
-
-  String? currentWorkSubtitleText(DateTime? startDate) {
-    if (startDate != null) {
-      return '${DateFormat("dd MMMM, yyyy").format(startDate)} - present';
-    } else {
-      return null;
-    }
-  }
-
-  String? previousWorkSubtitleText(DateTime? startDate, DateTime? endDate) {
-    if (startDate != null && endDate != null) {
-      return '${DateFormat("dd MMMM, yyyy").format(startDate)} - ${DateFormat("dd MMMM, yyyy").format(endDate)}';
-    } else {
-      return null;
-    }
-  }
+  
 
   void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
       showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function, startDate, endDate) {

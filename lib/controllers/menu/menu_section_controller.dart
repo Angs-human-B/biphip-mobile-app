@@ -1,13 +1,6 @@
-import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/menu/gallery_controller.dart';
-import 'package:bip_hip/controllers/menu/kids_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
-import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/create_post/platform_action.dart';
 
 class MenuSectionController extends GetxController {
-  final GalleryController _galleryController = Get.find<GalleryController>();
 
   List shortcutButtonContent = [
     {'text': 'Friend', 'icon': BipHip.friends},
@@ -20,44 +13,6 @@ class MenuSectionController extends GetxController {
     {'text': 'Kids', 'icon': BipHip.kids},
     {'text': 'Shop', 'icon': BipHip.shopFill},
   ];
-
-  void menuPressFunction(index) async {
-    if (index == 0) {
-      ll('Friend');
-      Get.find<ProfileController>().resetTapButtonData();
-      Get.find<ProfileController>().searchController.clear();
-      Get.find<FriendController>().isFriendSearched.value = false;
-      Get.find<FriendController>().isRouteFromBottomNavBar.value = false;
-      Get.toNamed(krFriends);
-      await Get.find<FriendController>().getFriendList();
-    } else if (index == 1) {
-      ll('Family');
-      Get.find<ProfileController>().resetTapButtonData();
-      Get.toNamed(krFamily);
-      await Get.find<FamilyController>().getFamilyList();
-    } else if (index == 2) {
-      ll('Image');
-      _galleryController.resetTapButtonData();
-      Get.toNamed(krGalleryPhotos);
-      await _galleryController.getGalleryAlbumList();
-    } else if (index == 3) {
-      ll('Videos');
-      Get.toNamed(krGalleryVideos); //*new changes for gallery Videos
-    } else if (index == 4) {
-      ll('Stars');
-      Get.to(() => PlatformAndAction());
-    } else if (index == 5) {
-      ll('Badges');
-    } else if (index == 6) {
-      ll('Earnings');
-    } else if (index == 7) {
-      Get.toNamed(krKidsPage);
-      await Get.find<KidsController>().getKidsList();
-      ll('Kids');
-    } else if (index == 8) {
-      ll('Shop');
-    }
-  }
 
   List supportButtonContent = [
     {
