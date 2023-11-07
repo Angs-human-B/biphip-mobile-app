@@ -104,7 +104,7 @@ class AddFriend extends StatelessWidget {
                                                         ? semiBold14TextStyle(cWhiteColor)
                                                         : semiBold14TextStyle(cRedColor),
                                                     buttonOnPressed: () {
-                                                      _friendHelper.addFriendOnPressed(index);
+                                                      _friendHelper.addFriendOnPressed(index: index);
                                                     },
                                                   ),
                                                 ),

@@ -9,7 +9,7 @@ import 'package:bip_hip/views/menu/friends/friend_widgets/received_friend_listvi
 class FriendHelper {
   final ProfileController _profileController = Get.find<ProfileController>();
   final FriendController _friendController = Get.find<FriendController>();
-  //!Friend Page
+  
   //*friends page tapable button views
   StatelessWidget allReceivedPendingFriendsView() {
     if (_profileController.tapAbleButtonState[0] == true) {
@@ -95,7 +95,6 @@ class FriendHelper {
     await _friendController.getFriendList();
   }
 
-  //!Add Friend Page
   //*Add Friend
   void addFriendSuffixPressed() {
     _profileController.searchController.clear();
@@ -109,7 +108,7 @@ class FriendHelper {
     Get.back();
   }
 
-  void addFriendOnPressed(index) async {
+  void addFriendOnPressed({required int index}) async {
     _friendController.userId.value = _friendController.addFriendRequestList[index].id!;
     if (_friendController.addFriendRequestList[index].friendStatus == 0) {
       await _friendController.sendFriendRequest();
