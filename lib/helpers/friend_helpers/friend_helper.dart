@@ -134,7 +134,7 @@ class FriendHelper {
   }
 
   //* All Friend Action
-  void allFriendActionOnChanged(index) {
+  void allFriendActionOnChanged({required int index}) {
     if (_friendController.allFriendFollowStatus.value == 1) {
       _profileController.friendActionSelect.value = _profileController.friendActionList[index]['action'];
     } else if (_friendController.allFriendFollowStatus.value == 0) {
@@ -142,7 +142,7 @@ class FriendHelper {
     }
   }
 
-  Color allFriendItemColor(int index) {
+  Color allFriendItemColor({required int index}) {
     if (_friendController.allFriendFollowStatus.value == 1) {
       if (_profileController.friendActionSelect.value == _profileController.friendActionList[index]['action']) {
         return cPrimaryTint3Color;
@@ -155,7 +155,7 @@ class FriendHelper {
     return cWhiteColor;
   }
 
-  void allFriendActionOnPressed(index) {
+  void allFriendActionOnPressed({required int index}) {
     if (_friendController.allFriendFollowStatus.value == 1) {
       _profileController.friendActionSelect.value = _profileController.friendActionList[index]['action'];
     } else if (_friendController.allFriendFollowStatus.value == 0) {
@@ -169,7 +169,7 @@ class FriendHelper {
   }
 
   //*Pending Friend Action
-  void pendingFriendActionOnChanged(index) {
+  void pendingFriendActionOnChanged({required int index}) {
     if (_friendController.pendingFriendFollowStatus.value == 1) {
       _friendController.pendingFriendActionSelect.value = _friendController.pendingFriendActionList[index]['action'];
     } else if (_friendController.pendingFriendFollowStatus.value == 0) {
@@ -177,7 +177,7 @@ class FriendHelper {
     }
   }
 
-  Color pendingFriendItemColor(int index) {
+  Color pendingFriendItemColor({required int index}) {
     if (_friendController.pendingFriendFollowStatus.value == 1) {
       if (_friendController.pendingFriendActionSelect.value == _friendController.pendingFriendActionList[index]['action']) {
         return cPrimaryTint3Color;
@@ -190,7 +190,7 @@ class FriendHelper {
     return cWhiteColor;
   }
 
-  void pendingFriendOnPressed(index) {
+  void pendingFriendOnPressed({required int index}) {
     if (_friendController.pendingFriendFollowStatus.value == 1) {
       _friendController.pendingFriendActionSelect.value = _friendController.pendingFriendActionList[index]['action'];
     } else if (_friendController.pendingFriendFollowStatus.value == 0) {

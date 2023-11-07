@@ -52,15 +52,15 @@ class AllFriendActionContent extends StatelessWidget {
                   subTitleTextStyle: regular14TextStyle(cBlackColor),
                   trailing: CustomRadioButton(
                     onChanged: () {
-                      _friendHelper.allFriendActionOnChanged(index);
+                      _friendHelper.allFriendActionOnChanged(index: index);
                     },
                     isSelected: friendController.allFriendFollowStatus.value == 1
                         ? (profileController.friendActionSelect.value == profileController.friendActionList[index]['action'])
                         : profileController.friendActionSelect.value == friendController.friendFollowActionList[index]['action'],
                   ),
-                  itemColor: _friendHelper.allFriendItemColor(index),
+                  itemColor: _friendHelper.allFriendItemColor(index: index),
                   onPressed: () {
-                    _friendHelper.allFriendActionOnPressed(index);
+                    _friendHelper.allFriendActionOnPressed(index: index);
                   },
                 ),
               ),
