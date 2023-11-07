@@ -99,7 +99,7 @@ class FamilyHelper {
     _familyController.userId.value = -1;
   }
 
-  void addFamilyRawAutoCompleteOnPressed(option) {
+  void addFamilyRawAutoCompleteOnPressed({required String option}) {
     _profileController.searchController.text = option.toString();
     for (int i = 0; i < Get.find<FriendController>().friendListForAddFamily.length; i++) {
       if (Get.find<FriendController>().friendListForAddFamily[i].fullName == option) {

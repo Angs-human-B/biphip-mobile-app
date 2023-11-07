@@ -92,7 +92,7 @@ class AddFamily extends StatelessWidget {
                                         ),
                                         onPressed: () {
                                           onSelected(option.toString());
-                                          _familyHelper.addFamilyRawAutoCompleteOnPressed(option);
+                                          _familyHelper.addFamilyRawAutoCompleteOnPressed(option: option);
                                           unfocus(context);
                                         },
                                       );
