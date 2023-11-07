@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
@@ -8,6 +9,7 @@ class SelectProfessionScreen extends StatelessWidget {
 
   final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
+  final RegistrationHelper _registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +85,6 @@ class SelectProfessionScreen extends StatelessWidget {
                                     isSelected: (_globalController.professionIndex.value == i),
                                     onSelected: (value) {
                                       _globalController.professionIndex.value = i;
-                                      // _globalController.isProfessionSelected.value = value;
                                     },
                                   )
                               ],
@@ -93,7 +94,7 @@ class SelectProfessionScreen extends StatelessWidget {
                               label: _profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
                               onPressed: _globalController.professionIndex.value != -1
                                   ? () async {
-                                      
+                                      _registrationHelper.onPressedSaveProfession();
                                     }
                                   : null,
                               buttonWidth: width - 40,

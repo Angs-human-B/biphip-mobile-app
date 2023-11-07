@@ -1,14 +1,14 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/helpers/profile_helpers/profile_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/profile/profile_widgets/profile_pic_upload_content.dart';
 import 'package:bip_hip/views/menu/profile/profile_widgets/profile_post_tab.dart';
+import 'package:bip_hip/widgets/common/utils/common_divider.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
 
 class EditProfile extends StatelessWidget {
   EditProfile({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
   final ProfileHelper _profileHelper = ProfileHelper();
 
   @override
@@ -96,37 +96,13 @@ class EditProfile extends StatelessWidget {
                                   prefix: ksCoverPhoto.tr,
                                   suffix: ksEdit.tr,
                                   onEditPressed: () {
-                                    _profileController.isProfilePicEditor.value = false;
-
-                                    _globalController.commonBottomSheet(
-                                      context: context,
-                                      onPressCloseButton: () {
-                                        Get.back();
-                                      },
-                                      onPressRightButton: () {},
-                                      rightText: '',
-                                      rightTextStyle: regular14TextStyle(cBiddingColor),
-                                      title: ksEditPhoto.tr,
-                                      isRightButtonShow: false,
-                                      isScrollControlled: false,
-                                      bottomSheetHeight: 180,
-                                      content: PictureUploadContent(
-                                        isImageChanged: _profileController.isCoverImageChanged,
-                                        imagePath: _profileController.coverImageLink,
-                                        imageFile: _profileController.coverImageFile,
-                                      ),
-                                    );
+                                    _profileHelper.coverPhotoUploadBottomSheet(context);
                                   },
                                 ),
                                 kH16sizedBox,
                                 InkWell(
                                   onTap: () {
-                                    if (_profileController.userData.value!.coverPhoto != null) {
-                                      _profileController.viewOptionEnabled.value = true;
-                                      _profileController.isProfilePhoto.value = false;
-                                      _profileController.previewPhoto.value = _profileController.userData.value!.coverPhoto.toString();
-                                      Get.toNamed(krViewPhoto);
-                                    }
+                                    _profileHelper.viewCoverPhoto();
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -139,17 +115,15 @@ class EditProfile extends StatelessWidget {
                                       child: Image.network(
                                         Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
                                         height: 150,
-                                        // color: cBlackColor,
                                         width: width,
                                         fit: BoxFit.cover,
                                         errorBuilder: (context, error, stackTrace) => Container(
                                           width: width,
                                           height: 150,
                                           color: cBlackColor,
-                                          child: const Icon(
-                                            BipHip.imageFile,
-                                            size: kIconSize120,
-                                            color: cIconColor,
+                                          child: const CommonImageErrorBuilder(
+                                            icon: BipHip.imageFile,
+                                            iconSize: kIconSize120,
                                           ),
                                         ),
                                         loadingBuilder: imageLoadingBuilderCover,
@@ -166,41 +140,18 @@ class EditProfile extends StatelessWidget {
                                   prefix: ksBio.tr,
                                   suffix: _profileController.userData.value!.bio == null ? ksAdd.tr : ksEdit.tr,
                                   onEditPressed: () {
-                                    if (_profileController.userData.value!.bio == null) {
-                                      _profileController.bioCount.value = 0;
-                                      _profileController.bioEditingController.text = '';
-                                      _profileController.bio.value = '';
-                                    } else {
-                                      _profileController.bio.value = _profileController.userData.value!.bio!;
-                                      _profileController.bioCount.value = _profileController.userData.value!.bio.toString().length;
-                                      _profileController.bioEditingController.text = _profileController.userData.value!.bio!;
-                                    }
-                                    Get.toNamed(krEditBio);
-                                    // else {
-                                    //   _globalController.commonBottomSheet(
-                                    //       context: context,
-                                    //       onPressCloseButton: () {
-                                    //         Get.back();
-                                    //       },
-                                    //       onPressRightButton: () {},
-                                    //       rightText: '',
-                                    //       rightTextStyle: regular14TextStyle(cBiddingColor),
-                                    //       title: ksEditBio.tr,
-                                    //       isRightButtonShow: false,
-                                    //       isScrollControlled: false,
-                                    //       bottomSheetHeight: 190,
-                                    //       content: EditBioModalSheet(
-                                    //         profileController: _profileController,
-                                    //       ));
-                                    // }
+                                    _profileHelper.editBio();
                                   },
                                 ),
-                                if (_profileController.userData.value!.bio != null) kH16sizedBox,
-                                Text(
-                                  _profileController.userData.value!.bio ?? '',
-                                  style: regular14TextStyle(cIconColor),
-                                ),
-                                if (_profileController.userData.value!.bio != null) kH16sizedBox,
+                                if (_profileController.userData.value!.bio != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: k16Padding),
+                                    child: Text(
+                                      _profileController.userData.value!.bio ?? '',
+                                      style: regular14TextStyle(cIconColor),
+                                    ),
+                                  ),
+                                kH16sizedBox,
                                 const CustomDivider(
                                   thickness: 2,
                                 ),
@@ -215,56 +166,7 @@ class EditProfile extends StatelessWidget {
                                   },
                                 ),
                                 kH16sizedBox,
-                                // for (int i = 0; i < editProfileInfoContent.length; i++)
-                                //   LinkUpIconTextRow(
-                                //     icon: profileInfoContent[i]['icon'],
-                                //     text: profileInfoContent[i]['text'],
-                                //     isLink: profileInfoContent[i]['isLink'],
-                                //   ),
-                                if (_profileController.currentCityData.value?.city != null && _profileController.currentCityData.value?.isCurrent == 1)
-                                  LinkUpIconTextRow(
-                                    icon: BipHip.address,
-                                    prefixText: 'Lives in ',
-                                    suffixText: '${_profileController.currentCityData.value?.city}',
-                                    onPressed: null,
-                                  ),
-                                if (_profileController.hometownData.value != null)
-                                  LinkUpIconTextRow(
-                                    icon: BipHip.location,
-                                    prefixText: 'From ',
-                                    suffixText: '${_profileController.hometownData.value?.city}',
-                                    onPressed: null,
-                                  ),
-                                if (_profileController.userData.value!.relation != null)
-                                  LinkUpIconTextRow(
-                                    icon: BipHip.love,
-                                    suffixText: checkNullOrStringNull(_profileController.userData.value!.relation),
-                                    prefixText: '',
-                                    onPressed: null,
-                                  ),
-                                if (_profileController.schoolDataList.isNotEmpty)
-                                  LinkUpIconTextRow(
-                                    icon: BipHip.school,
-                                    suffixText: checkNullOrStringNull(_profileController.schoolDataList[0].school),
-                                    prefixText: _profileController.schoolDataList[0].ended != null ? 'Studied at ' : 'Studies at ',
-                                    onPressed: null,
-                                  ),
-                                if (_profileController.collegeDataList.isNotEmpty)
-                                  LinkUpIconTextRow(
-                                    icon: BipHip.school,
-                                    suffixText: checkNullOrStringNull(_profileController.collegeDataList[0].school),
-                                    prefixText: _profileController.collegeDataList[0].ended != null ? 'Studied at ' : 'Studies at ',
-                                    onPressed: null,
-                                  ),
-                                if (_profileController.currentWorkplace.value != null)
-                                  LinkUpIconTextRow(
-                                    icon: BipHip.work,
-                                    suffixText: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
-                                    prefixText: _profileController.currentWorkplace.value!.position == null
-                                        ? ''
-                                        : '${_profileController.currentWorkplace.value!.position} at ',
-                                    onPressed: null,
-                                  ),
+                                IntroContents(),
                                 const CustomDivider(
                                   thickness: 2,
                                 ),
@@ -291,7 +193,7 @@ class EditProfile extends StatelessWidget {
                       const Positioned(
                         top: 1,
                         child: CustomDivider(
-                          thickness: 2,
+                          thickness: 1,
                         ),
                       ),
                     ],
@@ -315,18 +217,57 @@ class EditProfile extends StatelessWidget {
   }
 }
 
-class CustomDivider extends StatelessWidget {
-  const CustomDivider({super.key, this.thickness});
-  final double? thickness;
+class IntroContents extends StatelessWidget {
+  IntroContents({super.key});
+  final ProfileController _profileController = Get.find<ProfileController>();
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      child: Divider(
-        thickness: thickness ?? 2,
-        height: 1,
-        color: cLineColor,
-      ),
+    return Column(
+      children: [
+        if (_profileController.currentCityData.value?.city != null && _profileController.currentCityData.value?.isCurrent == 1)
+          LinkUpIconTextRow(
+            icon: BipHip.address,
+            prefixText: '${ksLivesIn.tr} ',
+            suffixText: '${_profileController.currentCityData.value?.city}',
+            onPressed: null,
+          ),
+        if (_profileController.hometownData.value != null)
+          LinkUpIconTextRow(
+            icon: BipHip.location,
+            prefixText: '${ksFrom.tr} ',
+            suffixText: '${_profileController.hometownData.value?.city}',
+            onPressed: null,
+          ),
+        if (_profileController.userData.value!.relation != null)
+          LinkUpIconTextRow(
+            icon: BipHip.love,
+            suffixText: checkNullOrStringNull(_profileController.userData.value!.relation),
+            prefixText: '',
+            onPressed: null,
+          ),
+        if (_profileController.schoolDataList.isNotEmpty)
+          LinkUpIconTextRow(
+            icon: BipHip.school,
+            suffixText: checkNullOrStringNull(_profileController.schoolDataList[0].school),
+            prefixText: _profileController.schoolDataList[0].ended != null ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
+            onPressed: null,
+          ),
+        if (_profileController.collegeDataList.isNotEmpty)
+          LinkUpIconTextRow(
+            icon: BipHip.school,
+            suffixText: checkNullOrStringNull(_profileController.collegeDataList[0].school),
+            prefixText: _profileController.collegeDataList[0].ended != null ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
+            onPressed: null,
+          ),
+        if (_profileController.currentWorkplace.value != null)
+          LinkUpIconTextRow(
+            icon: BipHip.work,
+            suffixText: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
+            prefixText: _profileController.currentWorkplace.value!.position == null ? '' : '${_profileController.currentWorkplace.value!.position} at ',
+            onPressed: null,
+          ),
+      ],
     );
   }
 }
@@ -354,50 +295,6 @@ class RowTextEdit extends StatelessWidget {
             suffix,
             style: semiBold16TextStyle(cPrimaryColor),
           ),
-        ),
-      ],
-    );
-  }
-}
-
-class EditBioModalSheet extends StatelessWidget {
-  const EditBioModalSheet({super.key, required this.profileController});
-  final ProfileController profileController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        CustomElevatedButton(
-          onPressed: () {
-            Get.back();
-            profileController.bioEditingController.text = profileController.userData.value!.bio!;
-            Get.toNamed(krEditBio);
-          },
-          label: ksEditBio.tr,
-          buttonColor: cWhiteColor,
-          borderColor: cBlackColor,
-          buttonWidth: width - 40,
-          textStyle: semiBold14TextStyle(cBlackColor),
-          prefixIcon: BipHip.edit,
-          prefixIconColor: cBlackColor,
-        ),
-        kH12sizedBox,
-        CustomElevatedButton(
-          onPressed: () async {
-            Get.back();
-            profileController.bioEditingController.text = '';
-            await profileController.updateBio(false);
-          },
-          label: ksRemoveBio.tr,
-          buttonColor: cWhiteColor,
-          borderColor: cBlackColor,
-          buttonWidth: width - 40,
-          textStyle: semiBold14TextStyle(cBlackColor),
-          prefixIcon: BipHip.delete,
-          prefixIconColor: cBlackColor,
         ),
       ],
     );

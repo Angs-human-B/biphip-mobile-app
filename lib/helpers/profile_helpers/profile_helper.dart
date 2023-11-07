@@ -115,30 +115,59 @@ class ProfileHelper {
     _profileController.viewOptionEnabled.value = false;
     resetImage();
     _globalController.commonBottomSheet(
-        context: context,
-        onPressCloseButton: () {
-          Get.back();
-        },
-        onPressRightButton: () {},
-        rightText: '',
-        rightTextStyle: regular14TextStyle(cBiddingColor),
-        title: ksUploadImage.tr,
-        isRightButtonShow: false,
-        isScrollControlled: false,
-        bottomSheetHeight: 170,
-        content: PictureUploadContent(
-          isImageChanged: _profileController.isCoverImageChanged,
-          imagePath: _profileController.coverImageLink,
-          imageFile: _profileController.coverImageFile,
-        ),);
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {},
+      rightText: '',
+      rightTextStyle: regular14TextStyle(cBiddingColor),
+      title: ksUploadImage.tr,
+      isRightButtonShow: false,
+      isScrollControlled: false,
+      bottomSheetHeight: 170,
+      content: PictureUploadContent(
+        isImageChanged: _profileController.isCoverImageChanged,
+        imagePath: _profileController.coverImageLink,
+        imageFile: _profileController.coverImageFile,
+      ),
+    );
   }
 
-  void viewProfilePic(){
+  void viewProfilePic() {
     if (_profileController.userData.value!.profilePicture != null) {
-                                          _profileController.isProfilePhoto.value = true;
-                                          _profileController.viewOptionEnabled.value = true;
-                                          _profileController.previewPhoto.value = _profileController.userData.value!.profilePicture.toString();
-                                          Get.toNamed(krViewPhoto);
-                                        }
+      _profileController.isProfilePhoto.value = true;
+      _profileController.viewOptionEnabled.value = true;
+      _profileController.previewPhoto.value = _profileController.userData.value!.profilePicture.toString();
+      Get.toNamed(krViewPhoto);
+    }
+  }
+
+  void viewCoverPhoto() {
+    if (_profileController.userData.value!.coverPhoto != null) {
+      _profileController.viewOptionEnabled.value = true;
+      _profileController.isProfilePhoto.value = false;
+      _profileController.previewPhoto.value = _profileController.userData.value!.coverPhoto.toString();
+      Get.toNamed(krViewPhoto);
+    }
+  }
+
+  //* Bio edit 
+  void editBio() {
+    if (_profileController.userData.value!.bio == null) {
+      _profileController.bioCount.value = 0;
+      _profileController.bioEditingController.text = '';
+      _profileController.bio.value = '';
+    } else {
+      _profileController.bio.value = _profileController.userData.value!.bio!;
+      _profileController.bioCount.value = _profileController.userData.value!.bio.toString().length;
+      _profileController.bioEditingController.text = _profileController.userData.value!.bio!;
+    }
+    Get.toNamed(krEditBio);
+  }
+
+  void saveBio() async {
+    _profileController.bio.value = _profileController.bioEditingController.text.trim();
+    await _profileController.updateBio();
   }
 }

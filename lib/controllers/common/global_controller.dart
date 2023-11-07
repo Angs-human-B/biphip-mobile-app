@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/profile/edit_profile.dart';
+import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
@@ -127,7 +127,7 @@ class GlobalController extends GetxController {
                     width: width * .1,
                   ),
                   kH40sizedBox,
-                  const CustomDivider(),
+                  const CustomDivider(thickness: 1,),
                   if (isSearchShow == true)
                     Padding(
                       padding: const EdgeInsets.only(left: k16Padding, right: k16Padding, top: k16Padding),

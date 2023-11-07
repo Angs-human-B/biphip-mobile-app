@@ -1,10 +1,12 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/profile_helpers/profile_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class EditBio extends StatelessWidget {
   EditBio({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
+  final ProfileHelper _profileHelper = ProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +31,13 @@ class EditBio extends StatelessWidget {
                         Get.back();
                       },
                       action: [
-                        // if (_profileController.bioEditingController.text != _profileController.bio.value)
                         Padding(
                           padding: const EdgeInsets.only(right: k8Padding),
                           child: CustomTextButton(
                               onPressed: _profileController.bioEditingController.text != _profileController.bio.value
                                   ? () async {
-                                      _profileController.bio.value = _profileController.bioEditingController.text.trim();
                                       unfocus(context);
-                                      await _profileController.updateBio();
-                                      // Get.back();
+                                      _profileHelper.saveBio();
                                     }
                                   : null,
                               text: ksSave.tr,

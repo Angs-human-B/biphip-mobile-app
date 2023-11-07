@@ -1,15 +1,16 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
+import 'package:bip_hip/helpers/menu_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
-import 'package:bip_hip/widgets/common/utils/search.dart';
 
 class Menu extends StatelessWidget {
   Menu({super.key});
 
   final ProfileController _profileController = Get.find<ProfileController>();
   final MenuSectionController _menuController = Get.find<MenuSectionController>();
+  final MenuHelper _menuHelper = MenuHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -39,18 +40,7 @@ class Menu extends StatelessWidget {
                         child: TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            final spController = SpController();
-                            Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
-                            // FirebaseCrashlytics.instance.crash();
-                            Get.find<GlobalController>().searchController.clear();
-                            Get.to(
-                              () => Search(
-                                searchController: Get.find<GlobalController>().searchController,
-                                recentSearchList: Get.find<GlobalController>().recentSearch,
-                                onSubmit: () {},
-                              ),
-                              transition: Transition.rightToLeft,
-                            );
+                            _menuHelper.menuSearch();
                           },
                           child: Icon(
                             BipHip.search,
@@ -128,7 +118,7 @@ class Menu extends StatelessWidget {
                                       text: _menuController.shortcutButtonContent[i]['text'],
                                       textStyle: semiBold16TextStyle(cBlackColor),
                                       onPressed: () {
-                                        _menuController.menuPressFunction(i);
+                                        _menuHelper.menuPressFunction(i);
                                       },
                                     ),
                                   ),
@@ -185,18 +175,8 @@ class Menu extends StatelessWidget {
                             kH20sizedBox,
                             CustomElevatedButton(
                               label: ksLogout.tr,
-                              onPressed: () async {
-                                var status = await SpController().getRememberMe();
-                                if (status == true) {
-                                  await Get.find<AuthenticationController>().getSavedUsers();
-                                  Get.offAllNamed(krSavedUserLogin);
-                                  await SpController().onLogout();
-                                  Get.find<AuthenticationController>().resetLoginScreen();
-                                  _profileController.isSupportButtonPressed.value = false;
-                                  _profileController.isSettingButtonPressed.value = false;
-                                } else {
-                                  await Get.find<AuthenticationController>().logout();
-                                }
+                              onPressed: () {
+                                _menuHelper.logout();
                               },
                               buttonHeight: 42,
                               buttonWidth: width - 40,
