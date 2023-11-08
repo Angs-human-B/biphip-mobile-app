@@ -1,15 +1,13 @@
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class FamilyHelper {
-  final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
   final FamilyController _familyController = Get.find<FamilyController>();
   //*Family Page
   void familySearchFieldReset() {
-    _profileController.searchController.clear();
+    _globalController.searchController.clear();
     _familyController.isFamilySuffixIconVisible.value = false;
   }
 
@@ -43,7 +41,7 @@ class FamilyHelper {
   }
 
   void familyOnChanged() {
-    if (_profileController.searchController.text.trim() != '') {
+    if (_globalController.searchController.text.trim() != '') {
       _familyController.isFamilySuffixIconVisible.value = true;
     } else {
       _familyController.isFamilySuffixIconVisible.value = false;
@@ -95,13 +93,13 @@ class FamilyHelper {
   }
 
   void addFamilySuffixPressed() {
-    _profileController.searchController.clear();
+    _globalController.searchController.clear();
     _familyController.isFamilySuffixIconVisible.value = false;
     _familyController.userId.value = -1;
   }
 
   void addFamilyRawAutoCompleteOnPressed({required String option}) {
-    _profileController.searchController.text = option.toString();
+    _globalController.searchController.text = option.toString();
     for (int i = 0; i < Get.find<FriendController>().friendListForAddFamily.length; i++) {
       if (Get.find<FriendController>().friendListForAddFamily[i].fullName == option) {
         _familyController.userId.value = Get.find<FriendController>().friendListForAddFamily[i].id!;

@@ -34,7 +34,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxBool isProfilePicEditor = RxBool(true);
   final Rx<IconData?> commonEditPageIcon = Rx<IconData?>(null);
   final RxBool isEditProfileLoading = RxBool(false);
-  // final RxBool isProfileSeeMore = RxBool(false);
 
   void playVideo(
     String videoUrl, {
@@ -54,9 +53,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       postSectionVisible.value = false;
     }
   }
-
-  //*Search
-  final TextEditingController searchController = TextEditingController();
 
   void clearBio() {
     bioCount.value = 0;

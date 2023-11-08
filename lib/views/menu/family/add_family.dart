@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/helpers/family_helpers/family_helper.dart';
 import 'package:bip_hip/shimmer_views/family/relation_content_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -11,7 +10,7 @@ class AddFamily extends StatelessWidget {
   AddFamily({super.key});
   final FamilyController _familyController = Get.find<FamilyController>();
   final FriendController _friendController = Get.find<FriendController>();
-  final ProfileController profileController = Get.find<ProfileController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
   final FamilyHelper _familyHelper = FamilyHelper();
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class AddFamily extends StatelessWidget {
                     hasBackButton: true,
                     isCenterTitle: true,
                     onBack: () {
-                      Get.find<ProfileController>().searchController.clear();
+                      _globalController.searchController.clear();
                       Get.back();
                       _familyController.isFamilySuffixIconVisible.value = false;
                     },
@@ -65,13 +64,13 @@ class AddFamily extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         RawAutocomplete(
-                          textEditingController: profileController.searchController,
+                          textEditingController: _globalController.searchController,
                           focusNode: _familyController.addFamilyFocusNode,
                           optionsBuilder: (TextEditingValue textEditingValue) {
                             return _friendController.tempFriendList.where((word) => word.toLowerCase().contains(textEditingValue.text.toLowerCase()));
                           },
                           onSelected: (option) {
-                            profileController.searchController.text = option;
+                            _globalController.searchController.text = option;
                           },
                           optionsViewBuilder: (context, Function(String) onSelected, options) {
                             return Align(
@@ -110,7 +109,7 @@ class AddFamily extends StatelessWidget {
                           fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
                             return Obx(() => CustomModifiedTextField(
                                   borderRadius: h8,
-                                  controller: Get.find<ProfileController>().searchController,
+                                  controller: _globalController.searchController,
                                   focusNode: focusNode,
                                   prefixIcon: BipHip.search,
                                   suffixIcon: _familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,

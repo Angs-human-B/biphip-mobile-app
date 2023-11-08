@@ -1,5 +1,4 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/helpers/friend_helpers/friend_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
@@ -85,7 +84,7 @@ class Friends extends StatelessWidget {
                         child: Obx(() => _globalController.tapAbleButtonState[0]
                             ? CustomModifiedTextField(
                                 borderRadius: h8,
-                                controller: Get.find<ProfileController>().searchController,
+                                controller: _globalController.searchController,
                                 prefixIcon: BipHip.search,
                                 suffixIcon: _friendController.isFriendSuffixIconVisible.value ? BipHip.circleCrossNew : null,
                                 hint: ksSearch.tr,

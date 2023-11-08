@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/friend/common_friend_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -7,7 +6,6 @@ import 'package:bip_hip/utils/constants/imports.dart';
 class FriendController extends GetxController {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
-  final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
@@ -562,7 +560,7 @@ class FriendController extends GetxController {
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}$suffixUrl',
+        url: '$kuCommonUserSearch?key=${_globalController.searchController.text.trim()}$suffixUrl',
       ) as CommonDM;
       if (response.success == true) {
         addFriendRequestList.clear();
@@ -615,7 +613,7 @@ class FriendController extends GetxController {
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}$addFriendListSuffixUrl',
+        url: '$kuCommonUserSearch?key=${_globalController.searchController.text.trim()}$addFriendListSuffixUrl',
       ) as CommonDM;
       if (response.success == true) {
         addFriendRequestData.value = CommonFriends.fromJson(response.data);
@@ -749,7 +747,7 @@ class FriendController extends GetxController {
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: '$kuGetSearchFriends?key=${_profileController.searchController.text.trim()}$suffixUrl',
+        url: '$kuGetSearchFriends?key=${_globalController.searchController.text.trim()}$suffixUrl',
       ) as CommonDM;
       if (response.success == true) {
         friendList.clear();
@@ -799,7 +797,7 @@ class FriendController extends GetxController {
       var response = await _apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: '$kuGetSearchFriends?key=${_profileController.searchController.text}$friendListSuffixUrl',
+        url: '$kuGetSearchFriends?key=${_globalController.searchController.text}$friendListSuffixUrl',
       ) as CommonDM;
 
       if (response.success == true) {

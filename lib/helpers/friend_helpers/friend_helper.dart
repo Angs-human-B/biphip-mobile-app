@@ -24,7 +24,7 @@ class FriendHelper {
 
   //* Friend page tapable button reset
   void friendSearchFieldReset() {
-    _profileController.searchController.clear();
+    _globalController.searchController.clear();
     _friendController.isFriendSuffixIconVisible.value = false;
     _friendController.isFriendSearched.value = false;
   }
@@ -32,7 +32,7 @@ class FriendHelper {
   //*Friend text field on change
   void friendOnChanged() async {
     if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
-    if (Get.find<ProfileController>().searchController.text.trim() != '') {
+    if (_globalController.searchController.text.trim() != '') {
       _friendController.isFriendSuffixIconVisible.value = true;
       _friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
         _friendController.isFriendSearched.value = true;
@@ -98,7 +98,7 @@ class FriendHelper {
 
   //*Add Friend
   void addFriendSuffixPressed() {
-    _profileController.searchController.clear();
+    _globalController.searchController.clear();
     _friendController.isFriendSuffixIconVisible.value = false;
     _friendController.addFriendRequestList.clear();
   }
@@ -121,13 +121,13 @@ class FriendHelper {
   //*Add friend text field on change
   void addFriendOnChanged() async {
     if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
-    if (_profileController.searchController.text.trim() != '') {
+    if (_globalController.searchController.text.trim() != '') {
       _friendController.isFriendSuffixIconVisible.value = true;
       _friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
         await _friendController.getAddFriendRequestList();
       });
     }
-    if (_profileController.searchController.text.trim() == '') {
+    if (_globalController.searchController.text.trim() == '') {
       _friendController.isFriendSuffixIconVisible.value = false;
       _friendController.addFriendRequestList.clear();
     }

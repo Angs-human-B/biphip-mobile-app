@@ -1,4 +1,3 @@
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/helpers/family_helpers/family_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -81,7 +80,7 @@ class Family extends StatelessWidget {
                         child: Obx(() => _globalController.tapAbleButtonState[0]
                             ? CustomModifiedTextField(
                                 borderRadius: h8,
-                                controller: Get.find<ProfileController>().searchController,
+                                controller: _globalController.searchController,
                                 prefixIcon: BipHip.search,
                                 suffixIcon: _familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
                                 hint: ksSearch.tr,

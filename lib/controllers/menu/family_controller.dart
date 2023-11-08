@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/family/common_family_model.dart';
 import 'package:bip_hip/models/menu/family/family_relation_model.dart';
@@ -434,7 +433,7 @@ class FamilyController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         isSendFamilyRequestLoading.value = false;
-        Get.find<ProfileController>().searchController.clear();
+        _globalController.searchController.clear();
         Get.back();
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor);
       } else {
@@ -499,13 +498,13 @@ class FamilyController extends GetxController {
   Timer? debounce;
   final RxBool isFamilySuffixIconVisible = RxBool(false);
   void addFamilyOnPressed() {
-    if (Get.find<ProfileController>().searchController.text.trim() != '') {
+    if (_globalController.searchController.text.trim() != '') {
       isFamilySuffixIconVisible.value = true;
     } else {
       isFamilySuffixIconVisible.value = false;
     }
     for (int i = 0; i < Get.find<FriendController>().tempFriendList.length; i++) {
-      if (Get.find<FriendController>().tempFriendList[i] == Get.find<ProfileController>().searchController.text.trim()) {
+      if (Get.find<FriendController>().tempFriendList[i] == _globalController.searchController.text.trim()) {
         userId.value = Get.find<FriendController>().friendList[i].id!;
       } else {
         userId.value = -1;

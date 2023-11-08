@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/family/family_widgets/all_family_listview.dart';
 import 'package:bip_hip/views/menu/family/family_widgets/pending_family_listview.dart';
@@ -165,7 +164,7 @@ class GlobalController extends GetxController {
                       padding: const EdgeInsets.only(left: k16Padding, right: k16Padding, top: k16Padding),
                       child: CustomModifiedTextField(
                         borderRadius: h8,
-                        controller: Get.find<ProfileController>().searchController,
+                        controller: searchController,
                         prefixIcon: BipHip.search,
                         suffixIcon: BipHip.voiceFill,
                         hint: ksSearch.tr,
