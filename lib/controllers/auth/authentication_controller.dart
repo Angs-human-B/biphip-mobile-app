@@ -1,6 +1,6 @@
 import 'dart:io';
-
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/auth/common_unverify_model.dart';
 import 'package:bip_hip/models/auth/forget_pass_model.dart';
@@ -515,8 +515,8 @@ class AuthenticationController extends GetxController {
         await SpController().onLogout();
         resetLoginScreen();
         isLogoutLoading.value = false;
-        Get.find<ProfileController>().isSupportButtonPressed.value = false;
-        Get.find<ProfileController>().isSettingButtonPressed.value = false;
+        Get.find<MenuSectionController>().isSupportButtonPressed.value = false;
+        Get.find<MenuSectionController>().isSettingButtonPressed.value = false;
         Get.offAllNamed(krLogin);
         _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {

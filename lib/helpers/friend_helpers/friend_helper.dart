@@ -1,20 +1,19 @@
 import 'dart:async';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/friends/friend_widgets/all_friend_listview.dart';
 import 'package:bip_hip/views/menu/friends/friend_widgets/pending_friend_listview.dart';
 import 'package:bip_hip/views/menu/friends/friend_widgets/received_friend_listview.dart';
 
 class FriendHelper {
-  final ProfileController _profileController = Get.find<ProfileController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
   final FriendController _friendController = Get.find<FriendController>();
   
   //*friends page tapable button views
   StatelessWidget allReceivedPendingFriendsView() {
-    if (_profileController.tapAbleButtonState[0] == true) {
+    if (_globalController.tapAbleButtonState[0] == true) {
       return AllFriendListView();
-    } else if (_profileController.tapAbleButtonState[1] == true) {
+    } else if (_globalController.tapAbleButtonState[1] == true) {
       return ReceivedFriendListView();
     } else {
       return PendingFriendListView();
@@ -23,7 +22,7 @@ class FriendHelper {
 
   //* Friend page tapable button reset
   void friendSearchFieldReset() {
-    _profileController.searchController.clear();
+    _globalController.searchController.clear();
     _friendController.isFriendSuffixIconVisible.value = false;
     _friendController.isFriendSearched.value = false;
   }
@@ -31,7 +30,7 @@ class FriendHelper {
   //*Friend text field on change
   void friendOnChanged() async {
     if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
-    if (Get.find<ProfileController>().searchController.text.trim() != '') {
+    if (_globalController.searchController.text.trim() != '') {
       _friendController.isFriendSuffixIconVisible.value = true;
       _friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
         _friendController.isFriendSearched.value = true;
@@ -46,7 +45,7 @@ class FriendHelper {
 
   //*All and Received friend count value show
   Widget totalFriendCountShow() {
-    if (_profileController.tapAbleButtonState[0]) {
+    if (_globalController.tapAbleButtonState[0]) {
       if (_friendController.allFriendCount.value == 0 || (_friendController.isFriendSearched.value && _friendController.searchedFriendCount.value == 0)) {
         return const SizedBox();
       } else {
@@ -72,19 +71,19 @@ class FriendHelper {
   }
 
   void allFriendTapableButtOnPressed() async {
-    _profileController.toggleType(0);
+    _globalController.toggleType(0);
     friendSearchFieldReset();
     await _friendController.getFriendList();
   }
 
   void receivedFriendTapableButtOnPressed() async {
-    _profileController.toggleType(1);
+    _globalController.toggleType(1);
     friendSearchFieldReset();
     await _friendController.getReceivedFriendList();
   }
 
   void pendingFriendTapableButtOnPressed() async {
-    _profileController.toggleType(2);
+    _globalController.toggleType(2);
     friendSearchFieldReset();
     await _friendController.getSendFriendRequestList();
   }
@@ -97,7 +96,7 @@ class FriendHelper {
 
   //*Add Friend
   void addFriendSuffixPressed() {
-    _profileController.searchController.clear();
+    _globalController.searchController.clear();
     _friendController.isFriendSuffixIconVisible.value = false;
     _friendController.addFriendRequestList.clear();
   }
@@ -120,13 +119,13 @@ class FriendHelper {
   //*Add friend text field on change
   void addFriendOnChanged() async {
     if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
-    if (_profileController.searchController.text.trim() != '') {
+    if (_globalController.searchController.text.trim() != '') {
       _friendController.isFriendSuffixIconVisible.value = true;
       _friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
         await _friendController.getAddFriendRequestList();
       });
     }
-    if (_profileController.searchController.text.trim() == '') {
+    if (_globalController.searchController.text.trim() == '') {
       _friendController.isFriendSuffixIconVisible.value = false;
       _friendController.addFriendRequestList.clear();
     }
@@ -135,19 +134,19 @@ class FriendHelper {
   //* All Friend Action
   void allFriendActionOnChanged({required int index}) {
     if (_friendController.allFriendFollowStatus.value == 1) {
-      _profileController.friendActionSelect.value = _profileController.friendActionList[index]['action'];
+      _friendController.friendActionSelect.value = _friendController.friendActionList[index]['action'];
     } else if (_friendController.allFriendFollowStatus.value == 0) {
-      _profileController.friendActionSelect.value = _friendController.friendFollowActionList[index]['action'];
+      _friendController.friendActionSelect.value = _friendController.friendFollowActionList[index]['action'];
     }
   }
 
   Color allFriendItemColor({required int index}) {
     if (_friendController.allFriendFollowStatus.value == 1) {
-      if (_profileController.friendActionSelect.value == _profileController.friendActionList[index]['action']) {
+      if (_friendController.friendActionSelect.value == _friendController.friendActionList[index]['action']) {
         return cPrimaryTint3Color;
       }
     } else {
-      if (_profileController.friendActionSelect.value == _friendController.friendFollowActionList[index]['action']) {
+      if (_friendController.friendActionSelect.value == _friendController.friendFollowActionList[index]['action']) {
         return cPrimaryTint3Color;
       }
     }
@@ -156,11 +155,11 @@ class FriendHelper {
 
   void allFriendActionOnPressed({required int index}) {
     if (_friendController.allFriendFollowStatus.value == 1) {
-      _profileController.friendActionSelect.value = _profileController.friendActionList[index]['action'];
+      _friendController.friendActionSelect.value = _friendController.friendActionList[index]['action'];
     } else if (_friendController.allFriendFollowStatus.value == 0) {
-      _profileController.friendActionSelect.value = _friendController.friendFollowActionList[index]['action'];
+      _friendController.friendActionSelect.value = _friendController.friendFollowActionList[index]['action'];
     }
-    if (_profileController.friendActionSelect.value == '') {
+    if (_friendController.friendActionSelect.value == '') {
       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
     } else {
       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;

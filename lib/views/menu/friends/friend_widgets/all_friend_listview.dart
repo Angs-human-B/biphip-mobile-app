@@ -1,5 +1,4 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/shimmer_views/friends/all_pending_friend_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/friends/friend_widgets/all_friend_action_content.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/rendering.dart';
 
 class AllFriendListView extends StatelessWidget {
   AllFriendListView({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
   final FriendController _friendController = Get.find<FriendController>();
   final GlobalController _globalController = Get.find<GlobalController>();
   @override
@@ -77,9 +75,9 @@ class AllFriendListView extends StatelessWidget {
                                       ),
                                       trailing: CustomIconButton(
                                           onPress: () {
-                                            _profileController.friendActionSelect.value = '';
+                                            _friendController.friendActionSelect.value = '';
                                             _friendController.allFriendFollowStatus.value = _friendController.friendList[index].followStatus!;
-                                            if (_profileController.friendActionSelect.value == '') {
+                                            if (_friendController.friendActionSelect.value == '') {
                                               _globalController.isBottomSheetRightButtonActive.value = false;
                                             } else {
                                               _globalController.isBottomSheetRightButtonActive.value = true;
@@ -88,7 +86,6 @@ class AllFriendListView extends StatelessWidget {
                                               context: context,
                                               isScrollControlled: true,
                                               content: AllFriendActionContent(
-                                                profileController: _profileController,
                                                 friendController: _friendController,
                                               ),
                                               onPressCloseButton: () {
@@ -97,16 +94,16 @@ class AllFriendListView extends StatelessWidget {
                                               onPressRightButton: () async {
                                                 _friendController.userId.value = _friendController.friendList[index].id!;
                                                 Get.back();
-                                                if (_profileController.friendActionSelect.value == 'Unfriend') {
+                                                if (_friendController.friendActionSelect.value == 'Unfriend') {
                                                   await _friendController.unfriendUserRequest();
                                                 }
-                                                if (_profileController.friendActionSelect.value == 'Unfollow') {
+                                                if (_friendController.friendActionSelect.value == 'Unfollow') {
                                                   await _friendController.unfollowUser();
                                                 }
-                                                if (_profileController.friendActionSelect.value == 'Follow') {
+                                                if (_friendController.friendActionSelect.value == 'Follow') {
                                                   await _friendController.followUser();
                                                 }
-                                                _profileController.friendActionSelect.value = '';
+                                                _friendController.friendActionSelect.value = '';
                                               },
                                               rightText: ksDone.tr,
                                               rightTextStyle: semiBold16TextStyle(cPrimaryColor),

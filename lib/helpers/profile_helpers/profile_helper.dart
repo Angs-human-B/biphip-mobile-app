@@ -170,4 +170,5 @@ class ProfileHelper {
     _profileController.bio.value = _profileController.bioEditingController.text.trim();
     await _profileController.updateBio();
   }
+
 }

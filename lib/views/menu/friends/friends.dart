@@ -1,5 +1,4 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/helpers/friend_helpers/friend_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
@@ -7,7 +6,7 @@ import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 
 class Friends extends StatelessWidget {
   Friends({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
   final FriendController _friendController = Get.find<FriendController>();
   final FriendHelper _friendHelper = FriendHelper();
 
@@ -61,8 +60,8 @@ class Friends extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                         child: TapAbleButtonContainer(
-                          buttonText: _profileController.tapAbleButtonText,
-                          buttonState: _profileController.tapAbleButtonState,
+                          buttonText: _globalController.tapAbleButtonText,
+                          buttonState: _globalController.tapAbleButtonState,
                           buttonPress: RxList([
                             () {
                               unFocus(context);
@@ -82,10 +81,10 @@ class Friends extends StatelessWidget {
                       kH12sizedBox,
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                        child: Obx(() => _profileController.tapAbleButtonState[0]
+                        child: Obx(() => _globalController.tapAbleButtonState[0]
                             ? CustomModifiedTextField(
                                 borderRadius: h8,
-                                controller: Get.find<ProfileController>().searchController,
+                                controller: _globalController.searchController,
                                 prefixIcon: BipHip.search,
                                 suffixIcon: _friendController.isFriendSuffixIconVisible.value ? BipHip.circleCrossNew : null,
                                 hint: ksSearch.tr,
@@ -103,8 +102,8 @@ class Friends extends StatelessWidget {
                                 })
                             : const SizedBox()),
                       ),
-                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
-                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
+                      if (_globalController.tapAbleButtonState[0] || _globalController.tapAbleButtonState[1]) kH4sizedBox,
+                      if (_globalController.tapAbleButtonState[0] || _globalController.tapAbleButtonState[1])
                         Padding(
                             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                             child: (_friendController.isFriendListLoading.value || _friendController.isReceivedFriendListLoading.value)
@@ -116,8 +115,8 @@ class Friends extends StatelessWidget {
                                     ),
                                   )
                                 : _friendHelper.totalFriendCountShow()),
-                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
-                      if (_profileController.tapAbleButtonState[2]) kH4sizedBox,
+                      if (_globalController.tapAbleButtonState[0] || _globalController.tapAbleButtonState[1]) kH12sizedBox,
+                      if (_globalController.tapAbleButtonState[2]) kH4sizedBox,
                       //*All friend, Receive friend request and Pending friend request ui
                       _friendHelper.allReceivedPendingFriendsView(),
                     ],

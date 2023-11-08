@@ -4,18 +4,14 @@ import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/menu/profile/profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/family/family_widgets/all_family_listview.dart';
-import 'package:bip_hip/views/menu/family/family_widgets/pending_family_listview.dart';
-import 'package:bip_hip/views/menu/family/family_widgets/received_family_listview.dart';
 import 'package:video_player/video_player.dart';
 
 class ProfileController extends GetxController with GetSingleTickerProviderStateMixin {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
+
   final RxBool showAllEditOption = RxBool(true);
-  final RxBool isSupportButtonPressed = RxBool(false);
-  final RxBool isSettingButtonPressed = RxBool(false);
   final RxInt interestCatagoriesIndex = RxInt(0);
   final RxBool isInterestSelected = RxBool(false);
   final RxString profileImageLink = RxString('');
@@ -27,8 +23,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final Rx<File> newCoverImageFile = File('').obs;
   final RxBool isCoverImageChanged = RxBool(false);
   final TextEditingController bioEditingController = TextEditingController();
-  final TextEditingController firstNameEditingController = TextEditingController();
-  final TextEditingController lastNameEditingController = TextEditingController();
+  
   final RxInt bioCount = 0.obs;
   final RxString bio = RxString('');
   final RxString photoLink = RxString('');
@@ -37,10 +32,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxBool isSharedToNewFeed = RxBool(false);
   final RxBool isProfilePicEditor = RxBool(true);
   final Rx<IconData?> commonEditPageIcon = Rx<IconData?>(null);
-  final RxList tapAbleButtonState = RxList([true, false, false]);
-  final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
   final RxBool isEditProfileLoading = RxBool(false);
-  // final RxBool isProfileSeeMore = RxBool(false);
 
   void playVideo(
     String videoUrl, {
@@ -61,43 +53,10 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     }
   }
 
-  //*For tapAble button
-  void toggleType(int index) {
-    for (int i = 0; i < 3; i++) {
-      if (index == i) {
-        tapAbleButtonState[i] = true;
-      } else {
-        tapAbleButtonState[i] = false;
-      }
-    }
-  }
-
-  void resetTapButtonData() {
-    tapAbleButtonState.clear();
-    tapAbleButtonState.addAll([true, false, false]);
-  }
-
-  //*Search
-  final TextEditingController searchController = TextEditingController();
-
-
-
-  //*friends page list data show
-  StatelessWidget allReceivedPendingFamilyView() {
-    if (tapAbleButtonState[0] == true) {
-      return AllFamilyListView();
-    } else if (tapAbleButtonState[1] == true) {
-      return ReceivedFamilyListView();
-    } else {
-      return PendingFamilyListView();
-    }
-  }
-
   void clearBio() {
     bioCount.value = 0;
     bioEditingController.clear();
   }
-
 
   //-----------------
   // !Edit About info
@@ -130,10 +89,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final TextEditingController linkTextEditingController = TextEditingController();
   final RxString commonStartDate = RxString('');
   final RxString commonEndDate = RxString('');
-  final RxString joiningYearEducation = RxString('');
-  final RxString leavingYearEducation = RxString('');
-  final RxString joiningYearJob = RxString('');
-  final RxString leavingYearJob = RxString('');
   final RxBool isCurrentlyLiveHere = RxBool(false);
   final RxBool isCurrentlyStudyingHere = RxBool(false);
   final RxBool isCurrentlyWorkingHere = RxBool(false);
@@ -145,17 +100,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxString commonEditTextFieldErrorText = RxString('');
   final RxBool showCommonEditSuffixIcon = RxBool(false);
   final RxBool showCommonSecondaryEditSuffixIcon = RxBool(false);
-  final RxInt cityListIndex = RxInt(-1);
   final RxList relationshipStatusList = RxList([]);
   final RxList genderList = RxList([]);
   final List<String> positionList = [];
-
-  final RxList friendActionList = RxList([
-    {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
-    {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow your friend'},
-    {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
-  ]);
-  final RxString friendActionSelect = RxString('');
   final RxList educationBackgroundList = RxList(['School', 'College']);
   final RxList linkSourceList = RxList([]);
   final RxString relationshipStatus = RxString('');
@@ -164,13 +111,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxBool isGenderSelected = RxBool(false);
   final RxString tempRelationshipStatus = RxString('');
   final RxInt schoolID = RxInt(-1);
-  final RxList collegeList = RxList([]);
   final RxInt collegeID = RxInt(-1);
-  final RxList<Map> officeList = RxList<Map>([]);
   final RxInt officeID = RxInt(-1);
-  final RxList phoneList = RxList([]);
   final RxInt phoneID = RxInt(-1);
-  final RxList emailList = RxList([]);
   final RxInt emailID = RxInt(-1);
   final RxString educationBackground = RxString('');
   final RxString tempEducationBackground = RxString('');
@@ -190,25 +133,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxBool isSingleDatePicker = RxBool(false);
 
   
-
-  void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
-      showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function, startDate, endDate) {
-    commonEditPageTitle.value = pageTitle;
-    isDropdownShown.value = showDropDown;
-    commonEditIconData.value = iconData;
-    commonEditTextEditingController = textEditingController;
-    isSecondaryTextfieldShown.value = showSecondaryTextfield;
-    commonEditSecondaryTextEditingController = secondaryTextEditingController;
-    commonEditTextfieldHintText.value = textfieldHintText;
-    isCommonEditDatePickerShown.value = showDatePickerRow;
-    isCommonEditPrivacyShown.value = showEditPrivacy;
-    isCommonEditCheckBoxShown.value = showCheckBox;
-    isCommonEditCheckBoxSelected.value = checkBoxSelect;
-    commonEditCheckBoxText.value = checkBoxText;
-    functionFlag.value = function;
-    commonStartDate.value = startDate;
-    commonEndDate.value = endDate;
-  }
 
   void resetTextEditor() {
     tempListCommon.clear();
@@ -362,132 +286,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     selectedGender.value = '';
   }
 
-  void getMethod(methodID) {
-    showCommonEditSuffixIcon.value = false;
-    showCommonSecondaryEditSuffixIcon.value = false;
-    if (methodID == 0) {
-      homeID.value = hometownData.value!.id!;
-      homeTownTextEditingController.text = hometownData.value!.city!;
-      setEditPageValue(ksEditHometownAddress.tr, false, BipHip.location, homeTownTextEditingController, false, homeTownTextEditingController,
-          ksEditHometownAddress.tr, false, true, false, false, 'checkBoxText', 'EDIT HOMETOWN', '', '');
-      // Get.back();
-    } else if (methodID == 1) {
-      setEditPageValue(ksAddPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksAddLocation.tr, false, true, false, true, ksCurrentlyLivingHere.tr, 'ADD PRESENT', '', '');
-    } else if (methodID == 2) {
-      presentAddressTextEditingController.text = currentCityData.value!.city!;
-      setEditPageValue(ksEditPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksEditLocation.tr, false, true, false, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
-      // Get.back();
-    } else if (methodID == 3) {
-      setEditPageValue(ksAddOtherAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksAddLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'ADD PRESENT', '', '');
-    } else if (methodID == 4) {
-      setEditPageValue(ksEditAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksEditLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
-      // Get.back();
-    } else if (methodID == 5) {
-      setEditPageValue(
-          ksAddEducationalEvent.tr,
-          true,
-          BipHip.schoolNew,
-          educationInstituteTextEditingController,
-          false,
-          educationInstituteTextEditingController,
-          'Institute name',
-          true,
-          true,
-          true,
-          isCurrentlyStudyingHere.value,
-          'Currently studying here',
-          'ADD SCHOOL',
-          '',
-          '');
-    } else if (methodID == 6) {
-      setEditPageValue(
-          ksEditSchool.tr,
-          false,
-          BipHip.schoolNew,
-          educationInstituteTextEditingController,
-          false,
-          educationInstituteTextEditingController,
-          ksEditSchool.tr,
-          true,
-          true,
-          true,
-          isCurrentlyStudyingHere.value,
-          ksCurrentlyStudyingHere.tr,
-          'EDIT SCHOOL',
-          tempSchoolStartDate.value,
-          tempSchoolEndDate.value);
-    } else if (methodID == 7) {
-      setEditPageValue(
-          ksEditCollege.tr,
-          false,
-          BipHip.schoolNew,
-          educationInstituteTextEditingController,
-          false,
-          educationInstituteTextEditingController,
-          ksEditCollege.tr,
-          true,
-          true,
-          true,
-          isCurrentlyStudyingHere.value,
-          ksCurrentlyStudyingHere.tr,
-          'EDIT COLLEGE',
-          tempSchoolStartDate.value,
-          tempSchoolEndDate.value);
-    } else if (methodID == 8) {
-      setEditPageValue(ksAddWorkplace.tr, false, BipHip.officeFill, companyNameTextEditingController, true, designationTextEditingController, ksOfficeName.tr,
-          true, true, false, true, ksCurrentlyWorkingHere.tr, 'ADD WORKPLACE', '', '');
-    } else if (methodID == 9) {
-      setEditPageValue(ksAddHomeTownAddress.tr, false, BipHip.location, homeTownTextEditingController, false, homeTownTextEditingController,
-          ksEnterHometownAddress.tr, false, true, false, false, '', 'HOMETOWN', '', '');
-    } else if (methodID == 10) {
-      setEditPageValue(
-          ksEditWorkplace.tr,
-          false,
-          BipHip.officeFill,
-          companyNameTextEditingController,
-          true,
-          designationTextEditingController,
-          ksEditWorkplace.tr,
-          true,
-          true,
-          true,
-          isCurrentlyWorkingHere.value,
-          ksCurrentlyWorkingHere.tr,
-          'EDIT WORKPLACE',
-          tempWorkplaceStartDate.value,
-          tempWorkplaceEndDate.value);
-      // Get.back();
-    } else if (methodID == 11) {
-      setEditPageValue(ksAddPhoneNumber.tr, false, BipHip.phoneFill, phoneTextEditingController, false, phoneTextEditingController, ksPhone.tr, false, true,
-          false, false, '', 'ADD PHONE', '', '');
-    } else if (methodID == 12) {
-      setEditPageValue(ksEditPhone.tr, false, BipHip.phoneFill, phoneTextEditingController, false, phoneTextEditingController, ksEditPhone.tr, false, true,
-          false, false, '', 'EDIT PHONE', '', '');
-      // Get.back();
-    } else if (methodID == 13) {
-      setEditPageValue(ksAddEmail.tr, false, BipHip.mail, emailTextEditingController, false, emailTextEditingController, ksEmail.tr, false, true, false, false,
-          '', 'ADD EMAIL', '', '');
-    } else if (methodID == 14) {
-      setEditPageValue(ksEditEmail.tr, false, BipHip.mail, emailTextEditingController, false, emailTextEditingController, ksEditEmail.tr, false, true, false,
-          false, '', 'EDIT EMAIL', '', '');
-      // Get.back();
-    } else if (methodID == 15) {
-      setEditPageValue(ksAddLink, true, BipHip.webLink, linkTextEditingController, false, emailTextEditingController, ksAddLink, false, true, false, false, '',
-          'ADD LINK', '', '');
-    } else if (methodID == 16) {
-      setEditPageValue(ksEditLink.tr, true, getLinkIcon(linkSource.value), linkTextEditingController, false, linkTextEditingController, ksEditLink.tr, false,
-          true, false, false, '', 'EDIT LINK', '', '');
-      // Get.back();
-    } else if (methodID == 17) {
-      setEditPageValue(ksAddWorkplace.tr, false, BipHip.officeFill, companyNameTextEditingController, true, designationTextEditingController, ksOfficeName.tr,
-          true, true, true, isCurrentlyStudyingHere.value, ksCurrentlyWorkingHere.tr, 'ADD WORKPLACE', '', '');
-    }
-    Get.toNamed(krEdit);
-  }
+  
 
   void clearDataList() {
     otherCityList.clear();
@@ -497,34 +296,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     emailDataList.clear();
     phoneDataList.clear();
     linkDataList.clear();
-  }
-
-  bool buttonActivation(String functionFlag) {
-    if (functionFlag.contains('LINK')) {
-      if (commonEditTextEditingController.text.trim() != '' && linkSource.value != '') {
-        return true;
-      } else {
-        return false;
-      }
-    } else if (functionFlag == 'ADD SCHOOL') {
-      if (commonEditTextEditingController.text.trim() != '' && educationBackground.value != '') {
-        return true;
-      } else {
-        return false;
-      }
-    } else if (functionFlag.contains('EMAIL')) {
-      if (commonEditTextEditingController.text.trim() != '' && commonEditTextEditingController.text.isValidEmail) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      if (commonEditTextEditingController.text.trim() != '') {
-        return true;
-      } else {
-        return false;
-      }
-    }
   }
 
   void checkSaveButtonActive() {
@@ -1545,59 +1316,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     } catch (e) {
       isEditProfileLoading.value = false;
       ll('storeUserSetting error: $e');
-    }
-  }
-
-  //* name change API Implementation
-  RxBool isChangeNameLoading = RxBool(false);
-  Future<void> changeName() async {
-    try {
-      isChangeNameLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      Map<String, dynamic> body = {
-        'first_name': firstNameEditingController.text.trim(),
-        'last_name': lastNameEditingController.text.trim(),
-      };
-      var response = await _apiController.commonApiCall(
-        requestMethod: kPost,
-        url: kuUpdateUserFullName,
-        body: body,
-        token: token,
-      ) as CommonDM;
-
-      if (response.success == true) {
-        ll(response.data);
-        commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
-        userData.value = commonUserLayeredData.value!.user;
-        var rememberMe = await _spController.getRememberMe();
-        if (rememberMe == true) {
-          await _spController.saveUserList({
-            "email": userData.value!.email.toString(),
-            "name": userData.value!.fullName.toString(),
-            "first_name": userData.value!.firstName.toString(),
-            "last_name": userData.value!.lastName.toString(),
-            "image_url": userData.value!.profilePicture.toString(),
-            "token": token.toString(),
-          });
-        }
-        await _spController.saveUserFirstName(userData.value!.firstName.toString());
-        await _spController.saveUserLastName(userData.value!.lastName.toString());
-        await _spController.saveUserName(userData.value!.fullName.toString());
-        await _globalController.getUserInfo();
-        isChangeNameLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-      } else {
-        isChangeNameLoading.value = false;
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-        } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-        }
-      }
-    } catch (e) {
-      isChangeNameLoading.value = false;
-      ll('changeName error: $e');
     }
   }
 

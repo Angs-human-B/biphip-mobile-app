@@ -1,4 +1,3 @@
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/helpers/family_helpers/family_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -6,7 +5,7 @@ import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 
 class Family extends StatelessWidget {
   Family({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
   final FamilyController _familyController = Get.find<FamilyController>();
   final FamilyHelper _familyHelper = FamilyHelper();
 
@@ -57,8 +56,8 @@ class Family extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                         child: TapAbleButtonContainer(
-                          buttonText: _profileController.tapAbleButtonText,
-                          buttonState: _profileController.tapAbleButtonState,
+                          buttonText: _globalController.tapAbleButtonText,
+                          buttonState: _globalController.tapAbleButtonState,
                           buttonPress: RxList([
                             () {
                               unfocus(context);
@@ -78,10 +77,10 @@ class Family extends StatelessWidget {
                       kH12sizedBox,
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                        child: Obx(() => _profileController.tapAbleButtonState[0]
+                        child: Obx(() => _globalController.tapAbleButtonState[0]
                             ? CustomModifiedTextField(
                                 borderRadius: h8,
-                                controller: Get.find<ProfileController>().searchController,
+                                controller: _globalController.searchController,
                                 prefixIcon: BipHip.search,
                                 suffixIcon: _familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
                                 hint: ksSearch.tr,
@@ -101,8 +100,8 @@ class Family extends StatelessWidget {
                                 })
                             : const SizedBox()),
                       ),
-                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
-                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
+                      if (_globalController.tapAbleButtonState[0] || _globalController.tapAbleButtonState[1]) kH4sizedBox,
+                      if (_globalController.tapAbleButtonState[0] || _globalController.tapAbleButtonState[1])
                         (_familyController.isFamilyListLoading.value || _familyController.isReceivedFamilyListLoading.value)
                             ? Padding(
                                 padding: const EdgeInsets.only(left: kHorizontalPadding),
@@ -115,9 +114,9 @@ class Family extends StatelessWidget {
                                 ),
                               )
                             : Padding(padding: const EdgeInsets.symmetric(horizontal: k20Padding), child: _familyHelper.totalFamilyCountShow()),
-                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
-                      if (_profileController.tapAbleButtonState[2]) kH4sizedBox,
-                      _profileController.allReceivedPendingFamilyView(),
+                      if (_globalController.tapAbleButtonState[0] || _globalController.tapAbleButtonState[1]) kH12sizedBox,
+                      if (_globalController.tapAbleButtonState[2]) kH4sizedBox,
+                      _globalController.allReceivedPendingFamilyView(),
                     ],
                   ),
                 ),

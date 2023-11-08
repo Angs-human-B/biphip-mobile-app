@@ -1,5 +1,4 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/helpers/friend_helpers/friend_helper.dart';
 import 'package:bip_hip/shimmer_views/friends/add_friend_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/rendering.dart';
 
 class AddFriend extends StatelessWidget {
   AddFriend({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
   final FriendController _friendController = Get.find<FriendController>();
   final FriendHelper _friendHelper = FriendHelper();
 
@@ -43,7 +41,7 @@ class AddFriend extends StatelessWidget {
                     children: [
                       CustomModifiedTextField(
                         borderRadius: h8,
-                        controller: _profileController.searchController,
+                        controller: Get.find<GlobalController>().searchController,
                         prefixIcon: BipHip.search,
                         suffixIcon: _friendController.isFriendSuffixIconVisible.value ? BipHip.circleCrossNew : null,
                         hint: ksSearch.tr,

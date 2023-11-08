@@ -19,18 +19,18 @@ class EditProfileHelper {
   void setHometown() {
     _profileController.resetTextEditor();
     _profileController.getCityList();
-    _profileController.getMethod(9);
+    getMethod(9);
   }
 
   void editHometown() {
     _profileController.enableSaveButton.value = true;
-    _profileController.getMethod(0);
+    getMethod(0);
     _profileController.getCityList();
   }
 
   void setCurrentCity() {
     _profileController.resetTextEditor();
-    _profileController.getMethod(1);
+    getMethod(1);
     Get.toNamed(krEdit);
     _profileController.getCityList();
   }
@@ -39,14 +39,14 @@ class EditProfileHelper {
     _profileController.enableSaveButton.value = true;
     _profileController.isCurrentlyLiveHere.value = true;
     _profileController.cityID.value = _profileController.currentCityData.value!.id!;
-    _profileController.getMethod(2);
+    getMethod(2);
     _profileController.getCityList();
   }
 
   void setOtherCity() {
     _profileController.resetTextEditor();
     _profileController.isSingleDatePicker.value = true;
-    _profileController.getMethod(3);
+    getMethod(3);
     Get.toNamed(krEdit);
     _profileController.getCityList();
   }
@@ -56,7 +56,7 @@ class EditProfileHelper {
     _profileController.presentAddressTextEditingController.text = _profileController.otherCityList[index].city!;
     _profileController.enableSaveButton.value = true;
     _profileController.isSingleDatePicker.value = true;
-    _profileController.getMethod(4);
+    getMethod(4);
     _profileController.getCityList();
   }
 
@@ -77,7 +77,7 @@ class EditProfileHelper {
 
   void addEducationBackground() {
     _profileController.resetTextEditor();
-    _profileController.getMethod(5);
+    getMethod(5);
     _profileController.getSchoolList();
   }
 
@@ -97,7 +97,7 @@ class EditProfileHelper {
     } else {
       _profileController.isCurrentlyStudyingHere.value = false;
     }
-    _profileController.getMethod(6);
+    getMethod(6);
     _profileController.getSchoolList();
   }
 
@@ -117,7 +117,7 @@ class EditProfileHelper {
     } else {
       _profileController.isCurrentlyStudyingHere.value = false;
     }
-    _profileController.getMethod(7);
+    getMethod(7);
     _profileController.getSchoolList();
   }
 
@@ -301,7 +301,7 @@ class EditProfileHelper {
   void addCurrentWorkplace() {
     _profileController.resetTextEditor();
     _profileController.isSingleDatePicker.value = true;
-    _profileController.getMethod(8);
+    getMethod(8);
     _profileController.getCompanyList();
   }
 
@@ -323,13 +323,13 @@ class EditProfileHelper {
     } else {
       _profileController.isCurrentlyWorkingHere.value = false;
     }
-    _profileController.getMethod(10);
+    getMethod(10);
     _profileController.getCompanyList();
   }
 
   void addPreviousWorkplace() {
     _profileController.resetTextEditor();
-    _profileController.getMethod(17);
+    getMethod(17);
     _profileController.getCompanyList();
   }
 
@@ -351,13 +351,13 @@ class EditProfileHelper {
     } else {
       _profileController.isCurrentlyWorkingHere.value = false;
     }
-    _profileController.getMethod(10);
+    getMethod(10);
   }
 
   //* Contact Section
   void addPhone() {
     _profileController.resetTextEditor();
-    _profileController.getMethod(11);
+    getMethod(11);
   }
 
   void editPhone(index) {
@@ -365,12 +365,12 @@ class EditProfileHelper {
     _profileController.enableSaveButton.value = true;
     _profileController.phoneID.value = _profileController.contactDataList[index].id!;
     _profileController.phoneTextEditingController.text = _profileController.contactDataList[index].value!;
-    _profileController.getMethod(12);
+    getMethod(12);
   }
 
   void addEmail() {
     _profileController.resetTextEditor();
-    _profileController.getMethod(13);
+    getMethod(13);
   }
 
   void editEmail(index) {
@@ -378,7 +378,7 @@ class EditProfileHelper {
     _profileController.enableSaveButton.value = true;
     _profileController.emailID.value = _profileController.contactDataList[index].id!;
     _profileController.emailTextEditingController.text = _profileController.contactDataList[index].value!;
-    _profileController.getMethod(14);
+    getMethod(14);
   }
 
   //* Website Section
@@ -386,7 +386,7 @@ class EditProfileHelper {
     _profileController.resetTextEditor();
     _profileController.linkSource.value = '';
     _profileController.commonEditPageIcon.value = null;
-    _profileController.getMethod(15);
+    getMethod(15);
   }
 
   void editWebsite(index) {
@@ -396,7 +396,7 @@ class EditProfileHelper {
     _profileController.linkTextEditingController.text = _profileController.linkDataList[index].link!;
     _profileController.linkID.value = _profileController.linkDataList[index].id!;
     _profileController.linkSource.value = _profileController.linkDataList[index].type!;
-    _profileController.getMethod(16);
+    getMethod(16);
   }
 
   //* Common Edit page
@@ -559,5 +559,149 @@ class EditProfileHelper {
     } else {
       _globalController.isBottomSheetRightButtonActive.value = true;
     }
+  }
+
+  //* profile edit methods
+  void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
+      showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function, startDate, endDate) {
+    _profileController.commonEditPageTitle.value = pageTitle;
+    _profileController.isDropdownShown.value = showDropDown;
+    _profileController.commonEditIconData.value = iconData;
+    _profileController.commonEditTextEditingController = textEditingController;
+    _profileController.isSecondaryTextfieldShown.value = showSecondaryTextfield;
+    _profileController.commonEditSecondaryTextEditingController = secondaryTextEditingController;
+    _profileController.commonEditTextfieldHintText.value = textfieldHintText;
+    _profileController.isCommonEditDatePickerShown.value = showDatePickerRow;
+    _profileController.isCommonEditPrivacyShown.value = showEditPrivacy;
+    _profileController.isCommonEditCheckBoxShown.value = showCheckBox;
+    _profileController.isCommonEditCheckBoxSelected.value = checkBoxSelect;
+    _profileController.commonEditCheckBoxText.value = checkBoxText;
+    _profileController.functionFlag.value = function;
+    _profileController.commonStartDate.value = startDate;
+    _profileController.commonEndDate.value = endDate;
+  }
+
+  void getMethod(methodID) {
+    _profileController.showCommonEditSuffixIcon.value = false;
+    _profileController.showCommonSecondaryEditSuffixIcon.value = false;
+    if (methodID == 0) {
+      _profileController.homeID.value = _profileController.hometownData.value!.id!;
+      _profileController.homeTownTextEditingController.text = _profileController.hometownData.value!.city!;
+      setEditPageValue(ksEditHometownAddress.tr, false, BipHip.location, _profileController.homeTownTextEditingController, false, _profileController.homeTownTextEditingController,
+          ksEditHometownAddress.tr, false, true, false, false, 'checkBoxText', 'EDIT HOMETOWN', '', '');
+    } else if (methodID == 1) {
+      setEditPageValue(ksAddPresentAddress.tr, false, BipHip.location, _profileController.presentAddressTextEditingController, false, _profileController.presentAddressTextEditingController,
+          ksAddLocation.tr, false, true, false, true, ksCurrentlyLivingHere.tr, 'ADD PRESENT', '', '');
+    } else if (methodID == 2) {
+      _profileController.presentAddressTextEditingController.text = _profileController.currentCityData.value!.city!;
+      setEditPageValue(ksEditPresentAddress.tr, false, BipHip.location, _profileController.presentAddressTextEditingController, false, _profileController.presentAddressTextEditingController,
+          ksEditLocation.tr, false, true, false, _profileController.isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
+    } else if (methodID == 3) {
+      setEditPageValue(ksAddOtherAddress.tr, false, BipHip.location, _profileController.presentAddressTextEditingController, false, _profileController.presentAddressTextEditingController,
+          ksAddLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'ADD PRESENT', '', '');
+    } else if (methodID == 4) {
+      setEditPageValue(ksEditAddress.tr, false, BipHip.location, _profileController.presentAddressTextEditingController, false, _profileController.presentAddressTextEditingController,
+          ksEditLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
+    } else if (methodID == 5) {
+      setEditPageValue(
+          ksAddEducationalEvent.tr,
+          true,
+          BipHip.schoolNew,
+          _profileController.educationInstituteTextEditingController,
+          false,
+          _profileController.educationInstituteTextEditingController,
+          'Institute name',
+          true,
+          true,
+          true,
+          _profileController.isCurrentlyStudyingHere.value,
+          'Currently studying here',
+          'ADD SCHOOL',
+          '',
+          '');
+    } else if (methodID == 6) {
+      setEditPageValue(
+          ksEditSchool.tr,
+          false,
+          BipHip.schoolNew,
+          _profileController.educationInstituteTextEditingController,
+          false,
+          _profileController.educationInstituteTextEditingController,
+          ksEditSchool.tr,
+          true,
+          true,
+          true,
+          _profileController.isCurrentlyStudyingHere.value,
+          ksCurrentlyStudyingHere.tr,
+          'EDIT SCHOOL',
+          _profileController.tempSchoolStartDate.value,
+          _profileController.tempSchoolEndDate.value);
+    } else if (methodID == 7) {
+      setEditPageValue(
+          ksEditCollege.tr,
+          false,
+          BipHip.schoolNew,
+          _profileController.educationInstituteTextEditingController,
+          false,
+          _profileController.educationInstituteTextEditingController,
+          ksEditCollege.tr,
+          true,
+          true,
+          true,
+          _profileController.isCurrentlyStudyingHere.value,
+          ksCurrentlyStudyingHere.tr,
+          'EDIT COLLEGE',
+          _profileController.tempSchoolStartDate.value,
+          _profileController.tempSchoolEndDate.value);
+    } else if (methodID == 8) {
+      setEditPageValue(ksAddWorkplace.tr, false, BipHip.officeFill, _profileController.companyNameTextEditingController, true, _profileController.designationTextEditingController, ksOfficeName.tr,
+          true, true, false, true, ksCurrentlyWorkingHere.tr, 'ADD WORKPLACE', '', '');
+    } else if (methodID == 9) {
+      setEditPageValue(ksAddHomeTownAddress.tr, false, BipHip.location, _profileController.homeTownTextEditingController, false, _profileController.homeTownTextEditingController,
+          ksEnterHometownAddress.tr, false, true, false, false, '', 'HOMETOWN', '', '');
+    } else if (methodID == 10) {
+      setEditPageValue(
+          ksEditWorkplace.tr,
+          false,
+          BipHip.officeFill,
+          _profileController.companyNameTextEditingController,
+          true,
+          _profileController.designationTextEditingController,
+          ksEditWorkplace.tr,
+          true,
+          true,
+          true,
+          _profileController.isCurrentlyWorkingHere.value,
+          ksCurrentlyWorkingHere.tr,
+          'EDIT WORKPLACE',
+          _profileController.tempWorkplaceStartDate.value,
+          _profileController.tempWorkplaceEndDate.value);
+      // Get.back();
+    } else if (methodID == 11) {
+      setEditPageValue(ksAddPhoneNumber.tr, false, BipHip.phoneFill, _profileController.phoneTextEditingController, false, _profileController.phoneTextEditingController, ksPhone.tr, false, true,
+          false, false, '', 'ADD PHONE', '', '');
+    } else if (methodID == 12) {
+      setEditPageValue(ksEditPhone.tr, false, BipHip.phoneFill, _profileController.phoneTextEditingController, false, _profileController.phoneTextEditingController, ksEditPhone.tr, false, true,
+          false, false, '', 'EDIT PHONE', '', '');
+      // Get.back();
+    } else if (methodID == 13) {
+      setEditPageValue(ksAddEmail.tr, false, BipHip.mail, _profileController.emailTextEditingController, false, _profileController.emailTextEditingController, ksEmail.tr, false, true, false, false,
+          '', 'ADD EMAIL', '', '');
+    } else if (methodID == 14) {
+      setEditPageValue(ksEditEmail.tr, false, BipHip.mail, _profileController.emailTextEditingController, false, _profileController.emailTextEditingController, ksEditEmail.tr, false, true, false,
+          false, '', 'EDIT EMAIL', '', '');
+      // Get.back();
+    } else if (methodID == 15) {
+      setEditPageValue(ksAddLink, true, BipHip.webLink, _profileController.linkTextEditingController, false, _profileController.emailTextEditingController, ksAddLink, false, true, false, false, '',
+          'ADD LINK', '', '');
+    } else if (methodID == 16) {
+      setEditPageValue(ksEditLink.tr, true, _profileController.getLinkIcon(_profileController.linkSource.value), _profileController.linkTextEditingController, false, _profileController.linkTextEditingController, ksEditLink.tr, false,
+          true, false, false, '', 'EDIT LINK', '', '');
+      // Get.back();
+    } else if (methodID == 17) {
+      setEditPageValue(ksAddWorkplace.tr, false, BipHip.officeFill, _profileController.companyNameTextEditingController, true, _profileController.designationTextEditingController, ksOfficeName.tr,
+          true, true, true, _profileController.isCurrentlyStudyingHere.value, ksCurrentlyWorkingHere.tr, 'ADD WORKPLACE', '', '');
+    }
+    Get.toNamed(krEdit);
   }
 }
