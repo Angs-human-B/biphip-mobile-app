@@ -51,8 +51,7 @@ class VideoDetails extends StatelessWidget {
                         child: VideoPlayer(_profileController.videoPlayerController),
                       ),
                     ),
-                    // kH20sizedBox,
-                    // const CustomDivider(),
+          
                     kH20sizedBox,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -181,38 +180,24 @@ class VideoDetails extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // kH20sizedBox,
-                    // const CustomDivider(),
                     kH20sizedBox,
-                    // const Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [InteractionStats(), UserInteractionView()],
-                    // ),
                     PostActivityStatusWidget(
                       reactCount: 440,
                       reactionOnPressed: () {
-                        // _postReactionController.giftFilter(0);
-                        // _globalController.blankBottomSheet(
-                        //     context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                       },
                       giftCount: 50,
                       commentCount: 200,
                       shareCount: 340,
                       isGiftShown: true,
                       giftOnPressed: () {
-                        // _postReactionController.giftFilter(0);
-                        // _globalController.blankBottomSheet(
-                        //     context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                       },
                     ),
                     LikeSectionWidget(
                       isGiftShown: true,
                       giftOnPressed: () {
-                        // _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                       },
                       commentOnPressed: () {
-                        // showComment.value = !showComment.value;
-                        // ll(showComment);
+                 
                       },
                     ),
                     const CustomDivider(),
