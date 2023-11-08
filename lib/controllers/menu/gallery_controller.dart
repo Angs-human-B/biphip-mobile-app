@@ -104,7 +104,6 @@ class GalleryController extends GetxController {
         GalleryPhotoHelper().resetTapButtonData();
         imageDataList.clear();
         albumData.value = AlbumListModel.fromJson(response.data);
-        // imageDataList.addAll(albumData.value!.imageAlbums!.data);
         imageDataList.clear();
         for (var album in albumData.value!.imageAlbums!.data) {
           if (album.title!.toLowerCase() == 'profile picture' || album.title!.toLowerCase() == 'cover photo') {
