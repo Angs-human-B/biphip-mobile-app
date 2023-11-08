@@ -23,10 +23,8 @@ class CreatePostController extends GetxController {
   final Rx<IconData?> categoryIcon = Rx<IconData?>(null);
   final Rx<Color?> categoryIconColor = Rx<Color?>(null);
   final RxBool isTagAdded = RxBool(false);
-
-  final RxString selectedKidName = RxString('');
-  final RxString selectedKidImage = RxString('');
-
+  // final RxString selectedKidName = RxString('');
+  // final RxString selectedKidImage = RxString('');
   final RxString selectedBrandName = RxString('');
   final RxString selectedBrandImage = RxString('');
 
@@ -128,50 +126,13 @@ class CreatePostController extends GetxController {
 //! important:: create post related functions start
 //------------------------------
 
-  void selectAudienceStatusChange(index) {
-    for (int i = 0; i < audienceStatusList.length; i++) {
-      if (index == i) {
-        audienceStatusList[i] = true;
-      } else {
-        audienceStatusList[i] = false;
-      }
-    }
-  }
-
-  void selectAudienceTextChange() {
-    for (int i = 0; i < audienceTypeList.length; i++) {
-      if (audienceStatusList[i]) {
-        postType.value = audienceTypeList[i]['title'];
-        postTypeIcon.value = audienceTypeList[i]['icon'];
-        break;
-      }
-    }
-  }
-
-  void initializeAudienceText() {
-    for (int i = 0; i < audienceStatusList.length; i++) {
-      if (audienceTypeList[i]['title'] == postType.value) {
-        audienceStatusList[i] = true;
-      } else {
-        audienceStatusList[i] = false;
-      }
-    }
-  }
-
-  void selectCategoryStatusChange(index) {
-    for (int i = 0; i < categoryStatusList.length; i++) {
-      if (index == i) {
-        categoryStatusList[i] = true;
-      } else {
-        categoryStatusList[i] = false;
-      }
-    }
-  }
+  
 
   void selectCategoryTextChange(context) {
     for (int i = 0; i < categoryList.length; i++) {
       if (categoryStatusList[i]) {
-        categoryID.value = categoryList[i]['id'];
+        ll(categoryList[i]['id'].runtimeType);
+        // categoryID.value = categoryList[i]['id'];
         category.value = categoryList[i]['title'];
         categoryIcon.value = categoryList[i]['icon'];
         categoryIconColor.value = categoryList[i]['icon_color'];
@@ -578,93 +539,6 @@ class CreatePostController extends GetxController {
     }
   }
 
-  void initializeCategory() {
-    for (int i = 0; i < categoryList.length; i++) {
-      if (categoryList[i]['title'] == category.value) {
-        categoryStatusList[i] = true;
-      } else {
-        categoryStatusList[i] = false;
-      }
-    }
-  }
-
-  void selectPlatformStatusChange(index) {
-    for (int i = 0; i < platformStatusList.length; i++) {
-      if (index == i) {
-        platformStatusList[i] = true;
-      } else {
-        platformStatusList[i] = false;
-      }
-    }
-  }
-
-  void selectPlatformTextChange(context) {
-    for (int i = 0; i < platformList.length; i++) {
-      if (platformStatusList[i]) {
-        // categoryID.value = categoryList[i]['id'];
-        // category.value = categoryList[i]['title'];
-        // categoryIcon.value = categoryList[i]['icon'];
-        // categoryIconColor.value = categoryList[i]['icon_color'];
-        break;
-      }
-    }
-    // ll(categoryID);
-    Get.back();
-  }
-
-  void initializePlatform() {
-    for (int i = 0; i < platformList.length; i++) {
-      if (platformList[i]['title'] == category.value) {
-        platformStatusList[i] = true;
-      } else {
-        platformStatusList[i] = false;
-      }
-    }
-  }
-
-  void selectActionStatusChange(index) {
-    for (int i = 0; i < actionStatusList.length; i++) {
-      if (index == i) {
-        actionStatusList[i] = true;
-      } else {
-        actionStatusList[i] = false;
-      }
-    }
-  }
-
-  void selectActionTextChange(context) {
-    for (int i = 0; i < actionList.length; i++) {
-      if (actionStatusList[i]) {
-        // categoryID.value = categoryList[i]['id'];
-        // category.value = categoryList[i]['title'];
-        break;
-      }
-    }
-    // ll(categoryID);
-
-    Get.back();
-  }
-
-  void initializeAction() {
-    for (int i = 0; i < actionList.length; i++) {
-      if (actionList[i]['title'] == category.value) {
-        actionStatusList[i] = true;
-      } else {
-        actionStatusList[i] = false;
-      }
-    }
-  }
-
-  void selectKidStatusChange(index) {
-    for (int i = 0; i < selectedKidStatusList.length; i++) {
-      if (index == i) {
-        selectedKidStatusList[i] = true;
-      } else {
-        selectedKidStatusList[i] = false;
-      }
-    }
-  }
-
   void selectBrandStatusChange(index) {
     for (int i = 0; i < selectedBrandStatusList.length; i++) {
       if (index == i) {
@@ -673,32 +547,6 @@ class CreatePostController extends GetxController {
         selectedBrandStatusList[i] = false;
       }
     }
-  }
-
-  void selectBrandTextChange() {
-    for (int i = 0; i < brandList.length; i++) {
-      if (selectedBrandStatusList[i]) {
-        selectedBrandName.value = brandList[i]['name'];
-        selectedBrandImage.value = brandList[i]['image_url'];
-        break;
-      }
-    }
-  }
-
-  void initializeBrandText() {
-    for (int i = 0; i < selectedBrandStatusList.length; i++) {
-      if (brandList[i]['name'] == selectedBrandName.value) {
-        selectedBrandStatusList[i] = true;
-      } else {
-        selectedBrandStatusList[i] = false;
-      }
-    }
-  }
-
-  void resetCategoryData() {
-    category.value = "";
-    categoryIcon.value = null;
-    categoryIconColor.value = null;
   }
 
   void insertMedia(mediaLink, mediaFile) {
@@ -900,76 +748,6 @@ class CreatePostController extends GetxController {
       return cSecondaryColor;
     }
   }
-//------------------------------
-//! important:: create post bottom option functions end
-//------------------------------
-
-  void showAudienceSheet(context) {
-    Get.find<GlobalController>().commonBottomSheet(
-      bottomSheetHeight: height * .51,
-      context: context,
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "${ksWhoCanSeeYourPost.tr}?",
-            style: semiBold16TextStyle(cBlackColor),
-          ),
-          kH8sizedBox,
-          Text(
-            ksAudienceInformation.tr,
-            style: regular14TextStyle(cBlackColor),
-          ),
-          kH8sizedBox,
-          for (int i = 1; i <= 3; i++)
-            Padding(
-              padding: EdgeInsets.only(bottom: i == 3 ? 0.0 : 8.0),
-              child: Obx(
-                () => CustomListTile(
-                  onPressed: () {
-                    selectAudienceStatusChange(i - 1);
-                  },
-                  itemColor: audienceStatusList[i - 1] ? cPrimaryTint3Color : cWhiteColor,
-                  title: audienceTypeList[i - 1]['title'],
-                  subtitle: audienceTypeList[i - 1]['subtitle'],
-                  leading: Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: cNeutralColor,
-                    ),
-                    height: h28,
-                    width: h28,
-                    child: Icon(
-                      audienceTypeList[i - 1]['icon'],
-                      color: cBlackColor,
-                      size: isDeviceScreenLarge() ? h18 : h14,
-                    ),
-                  ),
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      selectAudienceStatusChange(i - 1);
-                    },
-                    isSelected: audienceStatusList[i - 1],
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
-      onPressCloseButton: () {
-        Get.back();
-      },
-      onPressRightButton: () {
-        ll("message");
-        selectAudienceTextChange();
-        Get.back();
-      },
-      rightText: ksDone.tr,
-      rightTextStyle: medium14TextStyle(cPrimaryColor),
-      title: ksEditAudience.tr,
-      isRightButtonShow: true,
-    );
-  }
 
   //Get all post catagories API implementation
   Rx<PostCategoryListModel?> postCategoryData = Rx<PostCategoryListModel?>(null);
@@ -990,7 +768,7 @@ class CreatePostController extends GetxController {
         postCategoryList.addAll(postCategoryData.value!.postCategories);
         for (int i = 0; i < postCategoryList.length; i++) {
           for (int j = 0; j < categoryList.length; j++) {
-            if (postCategoryList[i].name!.toLowerCase() == categoryList[j]['title'].toLowerCase()) {
+            if (categoryList[j]['title'].toLowerCase() == postCategoryList[i].name!.toLowerCase()) {
               categoryList[j]['name'] = postCategoryList[i].name!;
               categoryList[j]['id'] = postCategoryList[i].id!;
             }
@@ -1185,19 +963,6 @@ class CreatePostController extends GetxController {
       brandSocialLinkList.add({'Youtube': brandYoutubeLinkTextEditingController.text.trim()});
     }
     ll(brandSocialLinkList);
-  }
-
-  void resetAddBrandPage() {
-    brandImageLink.value = '';
-    brandImageFile.value = File('');
-    isBrandImageChanged.value = false;
-    isSaveBrandButtonEnabled.value = false;
-    brandNameTextEditingController.clear();
-    brandWebLinkTextEditingController.clear();
-    brandFacebookLinkTextEditingController.clear();
-    brandTwitterTextEditingController.clear();
-    brandLinkedInLinkTextEditingController.clear();
-    brandYoutubeLinkTextEditingController.clear();
   }
 
   void checkCanSaveBrand() {
