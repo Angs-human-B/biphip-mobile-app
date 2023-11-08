@@ -26,38 +26,35 @@ class GalleryVideos extends StatelessWidget {
               },
             ),
           ),
-          body: SizedBox(
-            height: height - kAppBarSize,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(left: kHorizontalPadding, top: k12Padding, bottom: k12Padding),
-                child: Column(
-                  children: [
-                    GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: _galleryController.galleryVideos.length,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 1.2,
-                          crossAxisCount: 2,
-                          mainAxisSpacing: k12Padding,
-                        ),
-                        itemBuilder: (context, index) {
-                          return Row(children: [
-                            GalleryVideoContainer(
-                              title: _galleryController.galleryVideos[index]['title'],
-                              subTitle: _galleryController.galleryVideos[index]['items'],
-                              video1: _galleryController.galleryVideos[index]['video1'],
-                              video2: _galleryController.galleryVideos[index]['video2'],
-                              video3: _galleryController.galleryVideos[index]['video3'],
-                              onPressed: () {
-                                Get.toNamed(krVideos);
-                              },
-                            ),
-                          ]);
-                        }),
-                  ],
-                ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(left: kHorizontalPadding, top: k12Padding, bottom: k12Padding),
+              child: Column(
+                children: [
+                  GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _galleryController.galleryVideos.length,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 1.2,
+                        crossAxisCount: 2,
+                        mainAxisSpacing: k12Padding,
+                      ),
+                      itemBuilder: (context, index) {
+                        return Row(children: [
+                          GalleryVideoContainer(
+                            title: _galleryController.galleryVideos[index]['title'],
+                            subTitle: _galleryController.galleryVideos[index]['items'],
+                            video1: _galleryController.galleryVideos[index]['video1'],
+                            video2: _galleryController.galleryVideos[index]['video2'],
+                            video3: _galleryController.galleryVideos[index]['video3'],
+                            onPressed: () {
+                              Get.toNamed(krVideos);
+                            },
+                          ),
+                        ]);
+                      }),
+                ],
               ),
             ),
           ),
