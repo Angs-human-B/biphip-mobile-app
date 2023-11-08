@@ -6,7 +6,6 @@ class GalleryController extends GetxController {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
-  final GalleryPhotoHelper _galleryPhotoHelper = GalleryPhotoHelper();
   final RxList tapAbleButtonState = RxList([true, false]);
   final RxList tapAbleButtonText = RxList(["Your Photos", "Albums"]);
 
@@ -22,8 +21,18 @@ class GalleryController extends GetxController {
         }
       }
     }
+    toggleType(0);
+  }
 
-    _galleryPhotoHelper.toggleType(0);
+  //*For tapAble button
+  void toggleType(int index) {
+    for (int i = 0; i < 2; i++) {
+      if (index == i) {
+       tapAbleButtonState[i] = true;
+      } else {
+       tapAbleButtonState[i] = false;
+      }
+    }
   }
 
   final List galleryVideos = [
@@ -92,7 +101,7 @@ class GalleryController extends GetxController {
         url: kuAlbumList,
       ) as CommonDM;
       if (response.success == true) {
-        _galleryPhotoHelper.resetTapButtonData();
+        GalleryPhotoHelper().resetTapButtonData();
         imageDataList.clear();
         albumData.value = AlbumListModel.fromJson(response.data);
         // imageDataList.addAll(albumData.value!.imageAlbums!.data);
@@ -103,7 +112,7 @@ class GalleryController extends GetxController {
           }
         }
 
-        _galleryPhotoHelper.toggleType(0);
+        toggleType(0);
 
         isAlbumListLoading.value = false;
       } else {
