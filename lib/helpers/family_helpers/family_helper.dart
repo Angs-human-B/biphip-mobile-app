@@ -5,6 +5,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class FamilyHelper {
   final ProfileController _profileController = Get.find<ProfileController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
   final FamilyController _familyController = Get.find<FamilyController>();
   //*Family Page
   void familySearchFieldReset() {
@@ -13,7 +14,7 @@ class FamilyHelper {
   }
 
   Widget totalFamilyCountShow() {
-    if (_profileController.tapAbleButtonState[0]) {
+    if (_globalController.tapAbleButtonState[0]) {
       if (_familyController.allFamilyCount.value == 0) {
         return const SizedBox();
       } else {
@@ -50,19 +51,19 @@ class FamilyHelper {
   }
 
   void allFamilyTapableButtOnPressed() async {
-    _profileController.toggleType(0);
+    _globalController.toggleType(0);
     familySearchFieldReset();
     await _familyController.getFamilyList();
   }
 
   void receivedFamilyTapableButtOnPressed() async {
-    _profileController.toggleType(1);
+    _globalController.toggleType(1);
     familySearchFieldReset();
     await _familyController.getReceivedFamilyList();
   }
 
   void pendingFamilyTapableButtOnPressed() async {
-    _profileController.toggleType(2);
+    _globalController.toggleType(2);
     familySearchFieldReset();
     await _familyController.getSendFamilyRequestList();
   }

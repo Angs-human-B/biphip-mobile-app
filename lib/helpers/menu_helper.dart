@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/create_post/platform_action.dart';
@@ -15,7 +16,7 @@ class MenuHelper {
   void menuPressFunction(index) async {
     if (index == 0) {
       ll('Friend');
-      _profileController.resetTapButtonData();
+      Get.find<GlobalController>().resetTapButtonData();
       _profileController.searchController.clear();
       Get.find<FriendController>().isFriendSearched.value = false;
       Get.find<FriendController>().isRouteFromBottomNavBar.value = false;
@@ -23,7 +24,7 @@ class MenuHelper {
       await Get.find<FriendController>().getFriendList();
     } else if (index == 1) {
       ll('Family');
-      _profileController.resetTapButtonData();
+      Get.find<GlobalController>().resetTapButtonData();
       Get.toNamed(krFamily);
       await Get.find<FamilyController>().getFamilyList();
     } else if (index == 2) {
@@ -70,8 +71,8 @@ class MenuHelper {
       Get.offAllNamed(krSavedUserLogin);
       await _spController.onLogout();
       Get.find<AuthenticationController>().resetLoginScreen();
-      _profileController.isSupportButtonPressed.value = false;
-      _profileController.isSettingButtonPressed.value = false;
+      Get.find<MenuSectionController>().isSupportButtonPressed.value = false;
+      Get.find<MenuSectionController>().isSettingButtonPressed.value = false;
     } else {
       await Get.find<AuthenticationController>().logout();
     }

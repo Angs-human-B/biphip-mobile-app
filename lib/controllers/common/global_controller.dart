@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/family/family_widgets/all_family_listview.dart';
+import 'package:bip_hip/views/menu/family/family_widgets/pending_family_listview.dart';
+import 'package:bip_hip/views/menu/family/family_widgets/received_family_listview.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,6 +20,8 @@ class GlobalController extends GetxController {
   final RxInt professionIndex = RxInt(-1);
   RxString selectedProfession = RxString('');
   RxList selectedInterests = RxList([]);
+  final RxList tapAbleButtonState = RxList([true, false, false]);
+  final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
   final RxList languages = RxList([
     {'langCode': 'bn', 'countryCode': 'BD', 'langName': 'Bengali'},
     {'langCode': 'en', 'countryCode': 'US', 'langName': 'English'},
@@ -24,6 +29,33 @@ class GlobalController extends GetxController {
   void resetChipSelection() {
     professionIndex.value = -1;
     interestIndex.clear();
+  }
+
+  //*For tapAble button
+  void toggleType(int index) {
+    for (int i = 0; i < 3; i++) {
+      if (index == i) {
+        tapAbleButtonState[i] = true;
+      } else {
+        tapAbleButtonState[i] = false;
+      }
+    }
+  }
+
+  void resetTapButtonData() {
+    tapAbleButtonState.clear();
+    tapAbleButtonState.addAll([true, false, false]);
+  }
+
+  //*friends page list data show
+  StatelessWidget allReceivedPendingFamilyView() {
+    if (tapAbleButtonState[0] == true) {
+      return AllFamilyListView();
+    } else if (tapAbleButtonState[1] == true) {
+      return ReceivedFamilyListView();
+    } else {
+      return PendingFamilyListView();
+    }
   }
 
   //* info:: show loading

@@ -8,13 +8,14 @@ import 'package:bip_hip/views/menu/friends/friend_widgets/received_friend_listvi
 
 class FriendHelper {
   final ProfileController _profileController = Get.find<ProfileController>();
+  final GlobalController _globalController = Get.find<GlobalController>();
   final FriendController _friendController = Get.find<FriendController>();
   
   //*friends page tapable button views
   StatelessWidget allReceivedPendingFriendsView() {
-    if (_profileController.tapAbleButtonState[0] == true) {
+    if (_globalController.tapAbleButtonState[0] == true) {
       return AllFriendListView();
-    } else if (_profileController.tapAbleButtonState[1] == true) {
+    } else if (_globalController.tapAbleButtonState[1] == true) {
       return ReceivedFriendListView();
     } else {
       return PendingFriendListView();
@@ -46,7 +47,7 @@ class FriendHelper {
 
   //*All and Received friend count value show
   Widget totalFriendCountShow() {
-    if (_profileController.tapAbleButtonState[0]) {
+    if (_globalController.tapAbleButtonState[0]) {
       if (_friendController.allFriendCount.value == 0 || (_friendController.isFriendSearched.value && _friendController.searchedFriendCount.value == 0)) {
         return const SizedBox();
       } else {
@@ -72,19 +73,19 @@ class FriendHelper {
   }
 
   void allFriendTapableButtOnPressed() async {
-    _profileController.toggleType(0);
+    _globalController.toggleType(0);
     friendSearchFieldReset();
     await _friendController.getFriendList();
   }
 
   void receivedFriendTapableButtOnPressed() async {
-    _profileController.toggleType(1);
+    _globalController.toggleType(1);
     friendSearchFieldReset();
     await _friendController.getReceivedFriendList();
   }
 
   void pendingFriendTapableButtOnPressed() async {
-    _profileController.toggleType(2);
+    _globalController.toggleType(2);
     friendSearchFieldReset();
     await _friendController.getSendFriendRequestList();
   }

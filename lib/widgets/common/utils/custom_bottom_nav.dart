@@ -62,7 +62,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 icon: BipHip.friendsOutline,
                 iconSelected: BipHip.friendsFill,
                 onPressed: () async {
-                  Get.find<ProfileController>().resetTapButtonData();
+                  Get.find<GlobalController>().resetTapButtonData();
                   Get.find<ProfileController>().searchController.clear();
                   Get.find<FriendController>().isFriendSearched.value = false;
                   Get.find<FriendController>().isRouteFromBottomNavBar.value = true;

@@ -4,18 +4,14 @@ import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/menu/profile/profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/family/family_widgets/all_family_listview.dart';
-import 'package:bip_hip/views/menu/family/family_widgets/pending_family_listview.dart';
-import 'package:bip_hip/views/menu/family/family_widgets/received_family_listview.dart';
 import 'package:video_player/video_player.dart';
 
 class ProfileController extends GetxController with GetSingleTickerProviderStateMixin {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
+
   final RxBool showAllEditOption = RxBool(true);
-  final RxBool isSupportButtonPressed = RxBool(false);
-  final RxBool isSettingButtonPressed = RxBool(false);
   final RxInt interestCatagoriesIndex = RxInt(0);
   final RxBool isInterestSelected = RxBool(false);
   final RxString profileImageLink = RxString('');
@@ -37,8 +33,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxBool isSharedToNewFeed = RxBool(false);
   final RxBool isProfilePicEditor = RxBool(true);
   final Rx<IconData?> commonEditPageIcon = Rx<IconData?>(null);
-  final RxList tapAbleButtonState = RxList([true, false, false]);
-  final RxList tapAbleButtonText = RxList(["All", "Received", "Pending"]);
   final RxBool isEditProfileLoading = RxBool(false);
   // final RxBool isProfileSeeMore = RxBool(false);
 
@@ -61,43 +55,13 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     }
   }
 
-  //*For tapAble button
-  void toggleType(int index) {
-    for (int i = 0; i < 3; i++) {
-      if (index == i) {
-        tapAbleButtonState[i] = true;
-      } else {
-        tapAbleButtonState[i] = false;
-      }
-    }
-  }
-
-  void resetTapButtonData() {
-    tapAbleButtonState.clear();
-    tapAbleButtonState.addAll([true, false, false]);
-  }
-
   //*Search
   final TextEditingController searchController = TextEditingController();
-
-
-
-  //*friends page list data show
-  StatelessWidget allReceivedPendingFamilyView() {
-    if (tapAbleButtonState[0] == true) {
-      return AllFamilyListView();
-    } else if (tapAbleButtonState[1] == true) {
-      return ReceivedFamilyListView();
-    } else {
-      return PendingFamilyListView();
-    }
-  }
 
   void clearBio() {
     bioCount.value = 0;
     bioEditingController.clear();
   }
-
 
   //-----------------
   // !Edit About info
@@ -188,8 +152,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxString tempWorkplaceStartDate = RxString('');
   final RxString tempWorkplaceEndDate = RxString('');
   final RxBool isSingleDatePicker = RxBool(false);
-
-  
 
   void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
       showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function, startDate, endDate) {

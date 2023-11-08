@@ -135,21 +135,21 @@ class Menu extends StatelessWidget {
                               text: ksHelpSupport.tr,
                               icon: BipHip.helpFill,
                               onPressed: () {
-                                _profileController.isSupportButtonPressed.value = !_profileController.isSupportButtonPressed.value;
+                                _menuController.isSupportButtonPressed.value = !_menuController.isSupportButtonPressed.value;
                               },
                             ),
-                            if (_profileController.isSupportButtonPressed.value || _profileController.isSettingButtonPressed.value)
+                            if (_menuController.isSupportButtonPressed.value || _menuController.isSettingButtonPressed.value)
                               Container(
                                 width: width,
                                 height: 1,
                                 color: cLineColor,
                               ),
-                            if (_profileController.isSupportButtonPressed.value)
+                            if (_menuController.isSupportButtonPressed.value)
                               ListOfButtons(
                                 list: _menuController.supportButtonContent,
                               ),
-                            if (_profileController.isSupportButtonPressed.value) kH10sizedBox,
-                            if (_profileController.isSupportButtonPressed.value || !_profileController.isSettingButtonPressed.value)
+                            if (_menuController.isSupportButtonPressed.value) kH10sizedBox,
+                            if (_menuController.isSupportButtonPressed.value || !_menuController.isSettingButtonPressed.value)
                               Container(
                                 width: width,
                                 height: 1,
@@ -157,7 +157,7 @@ class Menu extends StatelessWidget {
                               ),
                             CustomExpandableMenuButton(
                               onPressed: () {
-                                _profileController.isSettingButtonPressed.value = !_profileController.isSettingButtonPressed.value;
+                                _menuController.isSettingButtonPressed.value = !_menuController.isSettingButtonPressed.value;
                               },
                               height: h50,
                               text: ksSettingsPrivacy.tr,
@@ -168,7 +168,7 @@ class Menu extends StatelessWidget {
                               height: 1,
                               color: cLineColor,
                             ),
-                            if (_profileController.isSettingButtonPressed.value)
+                            if (_menuController.isSettingButtonPressed.value)
                               ListOfButtons(
                                 list: _menuController.settingsButtonContent,
                               ),
