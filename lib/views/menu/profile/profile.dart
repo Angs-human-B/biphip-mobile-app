@@ -273,7 +273,7 @@ class Profile extends StatelessWidget {
                                         ),
                                         child: TabBar(
                                           onTap: (value) {
-                                            _profileController.showProfileTabSection(value);
+                                            _profileHelper.showProfileTabSection(value);
                                           },
                                           indicatorColor: cPrimaryColor,
                                           indicatorWeight: 1,

@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/profile_helpers/edit_profile_helper.dart';
 import 'package:bip_hip/helpers/profile_helpers/profile_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/profile_widgets/profile_post_tab.dart';
@@ -10,6 +11,7 @@ class EditProfile extends StatelessWidget {
 
   final ProfileController _profileController = Get.find<ProfileController>();
   final ProfileHelper _profileHelper = ProfileHelper();
+  final EditProfileHelper _editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +162,7 @@ class EditProfile extends StatelessWidget {
                                   prefix: ksIntro.tr,
                                   suffix: ksEdit.tr,
                                   onEditPressed: () {
-                                    _profileController.resetEditAboutPage();
+                                    _editProfileHelper.resetEditAboutPage();
                                     _profileController.showAllEditOption.value = false;
                                     Get.toNamed(krEditAboutInfo);
                                   },
@@ -179,7 +181,7 @@ class EditProfile extends StatelessWidget {
                                   textStyle: semiBold14TextStyle(cWhiteColor),
                                   onPressed: () async {
                                     _profileController.showAllEditOption.value = true;
-                                    _profileController.resetEditAboutPage();
+                                    _editProfileHelper.resetEditAboutPage();
                                     Get.toNamed(krEditAboutInfo);
                                     await _profileController.getPositionList();
                                   },

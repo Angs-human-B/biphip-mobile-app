@@ -7,6 +7,14 @@ class ProfileHelper {
   final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
 
+  void showProfileTabSection(index) {
+    if (index == 0) {
+      _profileController.postSectionVisible.value = true;
+    } else if (index == 1) {
+      _profileController.postSectionVisible.value = false;
+    }
+  }
+
   void initialDataCoverPhoto() {
     if (_profileController.userData.value!.coverPhoto != null) {
       _profileController.viewOptionEnabled.value = true;

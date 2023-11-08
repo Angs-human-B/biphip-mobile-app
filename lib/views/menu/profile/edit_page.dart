@@ -35,7 +35,7 @@ class EditPage extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 8.0),
                     child: CustomTextButton(
                         onPressed: () {
-                          _profileController.selectFunction("${_profileController.functionFlag.value} DELETE", _profileController.deleteIndex.value);
+                          _editProfileHelper.selectFunction("${_profileController.functionFlag.value} DELETE", _profileController.deleteIndex.value);
                           Get.back();
                         },
                         text: ksDelete,
@@ -104,7 +104,7 @@ class EditPage extends StatelessWidget {
                                         onPressed: () {
                                           onSelected(option.toString());
                                           _profileController.commonEditTextEditingController.text = option.toString();
-                                          _profileController.checkSaveButtonActive();
+                                          _editProfileHelper.checkSaveButtonActive();
                                           unfocus(context);
                                         },
                                       );
@@ -189,7 +189,7 @@ class EditPage extends StatelessWidget {
                                             onPressed: () {
                                               onSelected(option.toString());
                                               _profileController.commonEditSecondaryTextEditingController.text = option.toString();
-                                              _profileController.checkSaveButtonActive();
+                                              _editProfileHelper.checkSaveButtonActive();
                                               unfocus(context);
                                             },
                                           );
@@ -312,7 +312,7 @@ class EditPage extends StatelessWidget {
                         onPressed: _profileController.enableSaveButton.value
                             ? () {
                                 ll(_profileController.functionFlag.value);
-                                _profileController.selectFunction(_profileController.functionFlag.value);
+                                _editProfileHelper.selectFunction(_profileController.functionFlag.value);
                                 Get.back();
                                 //_profileController.clearCommonEditPageData();
                               }

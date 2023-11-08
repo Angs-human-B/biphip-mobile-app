@@ -23,7 +23,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final Rx<File> newCoverImageFile = File('').obs;
   final RxBool isCoverImageChanged = RxBool(false);
   final TextEditingController bioEditingController = TextEditingController();
-  
   final RxInt bioCount = 0.obs;
   final RxString bio = RxString('');
   final RxString photoLink = RxString('');
@@ -33,6 +32,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxBool isProfilePicEditor = RxBool(true);
   final Rx<IconData?> commonEditPageIcon = Rx<IconData?>(null);
   final RxBool isEditProfileLoading = RxBool(false);
+  final RxBool postSectionVisible = RxBool(true);
 
   void playVideo(
     String videoUrl, {
@@ -42,15 +42,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       ..addListener(() {})
       ..setLooping(true)
       ..initialize().then((value) => videoPlayerController.play());
-  }
-
-  final RxBool postSectionVisible = RxBool(true);
-  void showProfileTabSection(index) {
-    if (index == 0) {
-      postSectionVisible.value = true;
-    } else if (index == 1) {
-      postSectionVisible.value = false;
-    }
   }
 
   void clearBio() {
@@ -132,162 +123,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxString tempWorkplaceEndDate = RxString('');
   final RxBool isSingleDatePicker = RxBool(false);
 
-  
-
-  void resetTextEditor() {
-    tempListCommon.clear();
-    homeTownTextEditingController.clear();
-    presentAddressTextEditingController.clear();
-    educationInstituteTextEditingController.clear();
-    educationBackground.value = '';
-    companyNameTextEditingController.clear();
-    designationTextEditingController.clear();
-    phoneTextEditingController.clear();
-    emailTextEditingController.clear();
-    linkTextEditingController.clear();
-    commonEditPageIcon.value = null;
-    isCurrentlyLiveHere.value = false;
-    isCurrentlyStudyingHere.value = false;
-    isCurrentlyWorkingHere.value = false;
-    enableSaveButton.value = false;
-    tempSchoolEndDate.value = '';
-    tempSchoolStartDate.value = '';
-    tempWorkplaceEndDate.value = '';
-    tempWorkplaceStartDate.value = '';
-    isSingleDatePicker.value = false;
-  }
-
-  void selectFunction(functionFlag, [index]) async {
-    if (functionFlag == 'HOMETOWN') {
-      await setHometown();
-      homeTownTextEditingController.clear();
-    } else if (functionFlag == 'EDIT HOMETOWN') {
-      await setHometown();
-      homeTownTextEditingController.clear();
-    } else if (functionFlag == 'ADD PRESENT') {
-      await setCity();
-      commonEditTextEditingController.clear();
-      presentAddressTextEditingController.clear();
-    } else if (functionFlag == 'EDIT PRESENT') {
-      ll(cityID.value);
-      await updateCity(cityID.value);
-      presentAddressTextEditingController.clear();
-      commonEditTextEditingController.clear();
-    } else if (functionFlag == 'ADD SCHOOL') {
-      if (educationBackground.value == 'School') {
-        await storeSchool();
-      } else {
-        await storeCollege();
-      }
-      commonEditTextEditingController.clear();
-      educationInstituteTextEditingController.clear();
-      educationBackground.value = '';
-    } else if (functionFlag == 'EDIT SCHOOL') {
-      await updateSchool(schoolID.value);
-      educationInstituteTextEditingController.clear();
-      commonEditTextEditingController.clear();
-    } else if (functionFlag == 'EDIT COLLEGE') {
-      await updateCollege(collegeID.value);
-      educationInstituteTextEditingController.clear();
-      commonEditTextEditingController.clear();
-    } else if (functionFlag == 'ADD WORKPLACE') {
-      await storeWork();
-      companyNameTextEditingController.clear();
-      commonEditTextEditingController.clear();
-      commonEditSecondaryTextEditingController.clear();
-      isCommonEditCheckBoxSelected.value = false;
-    } else if (functionFlag == 'EDIT WORKPLACE') {
-      await updateWork(officeID.value);
-      companyNameTextEditingController.clear();
-      commonEditTextEditingController.clear();
-      commonEditSecondaryTextEditingController.clear();
-      isCommonEditCheckBoxSelected.value = false;
-    } else if (functionFlag == 'ADD PHONE') {
-      await storeContact('phone');
-      commonEditTextEditingController.clear();
-    } else if (functionFlag == 'EDIT PHONE') {
-      await updateContact(phoneID.value, 'phone');
-      commonEditTextEditingController.clear();
-    } else if (functionFlag == 'ADD EMAIL') {
-      await storeContact('email');
-      commonEditTextEditingController.clear();
-    } else if (functionFlag == 'EDIT EMAIL') {
-      await updateContact(emailID.value, 'email');
-      commonEditTextEditingController.clear();
-    } else if (functionFlag == 'ADD LINK') {
-      await storeLink(linkSource.value);
-      linkTextEditingController.clear();
-      commonEditTextEditingController.clear();
-      linkSource.value = '';
-    } else if (functionFlag == 'EDIT LINK') {
-      ll(linkSource);
-      await updateLink(linkID.value, linkSource.value);
-      commonEditTextEditingController.clear();
-    } else if (functionFlag == 'EDIT HOMETOWN DELETE') {
-      await deleteCity(hometownData.value!.id);
-      homeTownTextEditingController.clear();
-    } else if (functionFlag == 'EDIT PRESENT DELETE') {
-      await deleteCity(cityID.value);
-      commonEditTextEditingController.clear();
-      presentAddressTextEditingController.clear();
-    } else if (functionFlag == 'EDIT SCHOOL DELETE') {
-      await deleteSchool(schoolID.value);
-      educationInstituteTextEditingController.clear();
-      commonEditTextEditingController.clear();
-    } else if (functionFlag == 'EDIT COLLEGE DELETE') {
-      await deleteCollege(collegeID.value);
-      educationInstituteTextEditingController.clear();
-      commonEditTextEditingController.clear();
-    } else if (functionFlag == 'EDIT WORKPLACE DELETE') {
-      await deleteWork(officeID.value);
-      companyNameTextEditingController.clear();
-      commonEditTextEditingController.clear();
-      commonEditSecondaryTextEditingController.clear();
-      isCommonEditCheckBoxSelected.value = false;
-    } else if (functionFlag == 'EDIT PHONE DELETE') {
-      await deleteContact(phoneID.value);
-      commonEditTextEditingController.clear();
-    } else if (functionFlag == 'EDIT EMAIL DELETE') {
-      await deleteContact(emailID.value);
-      commonEditTextEditingController.clear();
-    } else if (functionFlag == 'EDIT LINK DELETE') {
-      await deleteLink(linkID.value);
-      commonEditTextEditingController.clear();
-    }
-  }
-
-  IconData getLinkIcon(String type) {
-    if (type.toLowerCase() == "facebook") {
-      return BipHip.facebook;
-    } else if (type.toLowerCase() == "linkedin") {
-      return BipHip.linkedin;
-    } else if (type.toLowerCase() == "twitter") {
-      return BipHip.twitterX;
-    } else if (type.toLowerCase() == "instagram") {
-      return BipHip.instagram;
-    } else if (type.toLowerCase() == "twitch") {
-      return BipHip.twitchFill;
-    } else if (type.toLowerCase() == "youtube") {
-      return BipHip.youtube;
-    } else if (type.toLowerCase() == "snapchat") {
-      return BipHip.snapchatFill;
-    } else if (type.toLowerCase() == "whatsapp") {
-      return BipHip.whatsappFill;
-    } else {
-      return BipHip.webLink;
-    }
-  }
-
-  void resetEditAboutPage() {
-    isGenderSelected.value = false;
-    showEditRelationshipStatus.value = false;
-    relationshipStatus.value = '';
-    tempSelectedGender.value = '';
-    selectedGender.value = '';
-  }
-
-  
-
   void clearDataList() {
     otherCityList.clear();
     schoolDataList.clear();
@@ -296,56 +131,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     emailDataList.clear();
     phoneDataList.clear();
     linkDataList.clear();
-  }
-
-  void checkSaveButtonActive() {
-    if (functionFlag.value.contains('LINK')) {
-      if (commonEditTextEditingController.text.trim() != '' && linkSource.value != '') {
-        enableSaveButton.value = true;
-      } else {
-        enableSaveButton.value = false;
-      }
-    } else if (functionFlag.value == 'ADD SCHOOL') {
-      if (commonEditTextEditingController.text.trim() != '' && educationBackground.value != '') {
-        enableSaveButton.value = true;
-      } else {
-        enableSaveButton.value = false;
-      }
-    } else if (functionFlag.value.contains('EMAIL')) {
-      if (commonEditTextEditingController.text.trim() != '' && commonEditTextEditingController.text.isValidEmail) {
-        enableSaveButton.value = true;
-      } else {
-        enableSaveButton.value = false;
-      }
-    } else if (functionFlag.value.contains('WORKPLACE')) {
-      if (commonEditTextEditingController.text.trim() != '') {
-        if (!isCommonEditCheckBoxSelected.value) {
-          if (commonStartDate.value == '' && commonEndDate.value == '') {
-            enableSaveButton.value = true;
-          } else if (commonStartDate.value != '' && commonEndDate.value == '') {
-            enableSaveButton.value = false;
-          } else if (commonStartDate.value != '' && commonEndDate.value != '') {
-            enableSaveButton.value = true;
-          } else if (commonStartDate.value == '' && commonEndDate.value != '') {
-            enableSaveButton.value = false;
-          }
-        } else {
-          if (commonStartDate.value != '') {
-            enableSaveButton.value = true;
-          } else {
-            enableSaveButton.value = false;
-          }
-        }
-      } else {
-        enableSaveButton.value = false;
-      }
-    } else {
-      if (commonEditTextEditingController.text.trim() != '') {
-        enableSaveButton.value = true;
-      } else {
-        enableSaveButton.value = false;
-      }
-    }
   }
 
   //* Profile overview API Implementation
@@ -480,7 +265,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         'id': id.toString(),
         'city': presentAddressTextEditingController.text.trim(),
         if (isSingleDatePicker.value) 'moved': commonStartDate.value
-        // 'is_current': isCommonEditCheckBoxSelected.value ? '1' : '0'
       };
       var response = await _apiController.commonApiCall(
         requestMethod: kPost,
