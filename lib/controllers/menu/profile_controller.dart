@@ -23,8 +23,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final Rx<File> newCoverImageFile = File('').obs;
   final RxBool isCoverImageChanged = RxBool(false);
   final TextEditingController bioEditingController = TextEditingController();
-  final TextEditingController firstNameEditingController = TextEditingController();
-  final TextEditingController lastNameEditingController = TextEditingController();
+  
   final RxInt bioCount = 0.obs;
   final RxString bio = RxString('');
   final RxString photoLink = RxString('');
@@ -1456,59 +1455,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     } catch (e) {
       isEditProfileLoading.value = false;
       ll('storeUserSetting error: $e');
-    }
-  }
-
-  //* name change API Implementation
-  RxBool isChangeNameLoading = RxBool(false);
-  Future<void> changeName() async {
-    try {
-      isChangeNameLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      Map<String, dynamic> body = {
-        'first_name': firstNameEditingController.text.trim(),
-        'last_name': lastNameEditingController.text.trim(),
-      };
-      var response = await _apiController.commonApiCall(
-        requestMethod: kPost,
-        url: kuUpdateUserFullName,
-        body: body,
-        token: token,
-      ) as CommonDM;
-
-      if (response.success == true) {
-        ll(response.data);
-        commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
-        userData.value = commonUserLayeredData.value!.user;
-        var rememberMe = await _spController.getRememberMe();
-        if (rememberMe == true) {
-          await _spController.saveUserList({
-            "email": userData.value!.email.toString(),
-            "name": userData.value!.fullName.toString(),
-            "first_name": userData.value!.firstName.toString(),
-            "last_name": userData.value!.lastName.toString(),
-            "image_url": userData.value!.profilePicture.toString(),
-            "token": token.toString(),
-          });
-        }
-        await _spController.saveUserFirstName(userData.value!.firstName.toString());
-        await _spController.saveUserLastName(userData.value!.lastName.toString());
-        await _spController.saveUserName(userData.value!.fullName.toString());
-        await _globalController.getUserInfo();
-        isChangeNameLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-      } else {
-        isChangeNameLoading.value = false;
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-        } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-        }
-      }
-    } catch (e) {
-      isChangeNameLoading.value = false;
-      ll('changeName error: $e');
     }
   }
 
