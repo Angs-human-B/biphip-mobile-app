@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/friends/friend_widgets/all_friend_listview.dart';
 import 'package:bip_hip/views/menu/friends/friend_widgets/pending_friend_listview.dart';
 import 'package:bip_hip/views/menu/friends/friend_widgets/received_friend_listview.dart';
 
 class FriendHelper {
-  final ProfileController _profileController = Get.find<ProfileController>();
   final GlobalController _globalController = Get.find<GlobalController>();
   final FriendController _friendController = Get.find<FriendController>();
   
@@ -136,19 +134,19 @@ class FriendHelper {
   //* All Friend Action
   void allFriendActionOnChanged({required int index}) {
     if (_friendController.allFriendFollowStatus.value == 1) {
-      _profileController.friendActionSelect.value = _profileController.friendActionList[index]['action'];
+      _friendController.friendActionSelect.value = _friendController.friendActionList[index]['action'];
     } else if (_friendController.allFriendFollowStatus.value == 0) {
-      _profileController.friendActionSelect.value = _friendController.friendFollowActionList[index]['action'];
+      _friendController.friendActionSelect.value = _friendController.friendFollowActionList[index]['action'];
     }
   }
 
   Color allFriendItemColor({required int index}) {
     if (_friendController.allFriendFollowStatus.value == 1) {
-      if (_profileController.friendActionSelect.value == _profileController.friendActionList[index]['action']) {
+      if (_friendController.friendActionSelect.value == _friendController.friendActionList[index]['action']) {
         return cPrimaryTint3Color;
       }
     } else {
-      if (_profileController.friendActionSelect.value == _friendController.friendFollowActionList[index]['action']) {
+      if (_friendController.friendActionSelect.value == _friendController.friendFollowActionList[index]['action']) {
         return cPrimaryTint3Color;
       }
     }
@@ -157,11 +155,11 @@ class FriendHelper {
 
   void allFriendActionOnPressed({required int index}) {
     if (_friendController.allFriendFollowStatus.value == 1) {
-      _profileController.friendActionSelect.value = _profileController.friendActionList[index]['action'];
+      _friendController.friendActionSelect.value = _friendController.friendActionList[index]['action'];
     } else if (_friendController.allFriendFollowStatus.value == 0) {
-      _profileController.friendActionSelect.value = _friendController.friendFollowActionList[index]['action'];
+      _friendController.friendActionSelect.value = _friendController.friendFollowActionList[index]['action'];
     }
-    if (_profileController.friendActionSelect.value == '') {
+    if (_friendController.friendActionSelect.value == '') {
       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
     } else {
       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;

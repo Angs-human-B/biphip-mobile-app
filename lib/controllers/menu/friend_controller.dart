@@ -7,6 +7,13 @@ class FriendController extends GetxController {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
+
+  final RxList friendActionList = RxList([
+    {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
+    {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow your friend'},
+    {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
+  ]);
+  final RxString friendActionSelect = RxString('');
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
 

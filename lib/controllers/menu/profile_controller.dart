@@ -90,10 +90,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final TextEditingController linkTextEditingController = TextEditingController();
   final RxString commonStartDate = RxString('');
   final RxString commonEndDate = RxString('');
-  final RxString joiningYearEducation = RxString('');
-  final RxString leavingYearEducation = RxString('');
-  final RxString joiningYearJob = RxString('');
-  final RxString leavingYearJob = RxString('');
   final RxBool isCurrentlyLiveHere = RxBool(false);
   final RxBool isCurrentlyStudyingHere = RxBool(false);
   final RxBool isCurrentlyWorkingHere = RxBool(false);
@@ -105,17 +101,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxString commonEditTextFieldErrorText = RxString('');
   final RxBool showCommonEditSuffixIcon = RxBool(false);
   final RxBool showCommonSecondaryEditSuffixIcon = RxBool(false);
-  final RxInt cityListIndex = RxInt(-1);
   final RxList relationshipStatusList = RxList([]);
   final RxList genderList = RxList([]);
   final List<String> positionList = [];
-
-  final RxList friendActionList = RxList([
-    {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
-    {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow your friend'},
-    {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
-  ]);
-  final RxString friendActionSelect = RxString('');
   final RxList educationBackgroundList = RxList(['School', 'College']);
   final RxList linkSourceList = RxList([]);
   final RxString relationshipStatus = RxString('');
@@ -124,13 +112,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxBool isGenderSelected = RxBool(false);
   final RxString tempRelationshipStatus = RxString('');
   final RxInt schoolID = RxInt(-1);
-  final RxList collegeList = RxList([]);
   final RxInt collegeID = RxInt(-1);
-  final RxList<Map> officeList = RxList<Map>([]);
   final RxInt officeID = RxInt(-1);
-  final RxList phoneList = RxList([]);
   final RxInt phoneID = RxInt(-1);
-  final RxList emailList = RxList([]);
   final RxInt emailID = RxInt(-1);
   final RxString educationBackground = RxString('');
   final RxString tempEducationBackground = RxString('');
@@ -328,7 +312,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       homeTownTextEditingController.text = hometownData.value!.city!;
       setEditPageValue(ksEditHometownAddress.tr, false, BipHip.location, homeTownTextEditingController, false, homeTownTextEditingController,
           ksEditHometownAddress.tr, false, true, false, false, 'checkBoxText', 'EDIT HOMETOWN', '', '');
-      // Get.back();
     } else if (methodID == 1) {
       setEditPageValue(ksAddPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
           ksAddLocation.tr, false, true, false, true, ksCurrentlyLivingHere.tr, 'ADD PRESENT', '', '');
@@ -336,14 +319,12 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       presentAddressTextEditingController.text = currentCityData.value!.city!;
       setEditPageValue(ksEditPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
           ksEditLocation.tr, false, true, false, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
-      // Get.back();
     } else if (methodID == 3) {
       setEditPageValue(ksAddOtherAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
           ksAddLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'ADD PRESENT', '', '');
     } else if (methodID == 4) {
       setEditPageValue(ksEditAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
           ksEditLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
-      // Get.back();
     } else if (methodID == 5) {
       setEditPageValue(
           ksAddEducationalEvent.tr,
@@ -455,34 +436,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     emailDataList.clear();
     phoneDataList.clear();
     linkDataList.clear();
-  }
-
-  bool buttonActivation(String functionFlag) {
-    if (functionFlag.contains('LINK')) {
-      if (commonEditTextEditingController.text.trim() != '' && linkSource.value != '') {
-        return true;
-      } else {
-        return false;
-      }
-    } else if (functionFlag == 'ADD SCHOOL') {
-      if (commonEditTextEditingController.text.trim() != '' && educationBackground.value != '') {
-        return true;
-      } else {
-        return false;
-      }
-    } else if (functionFlag.contains('EMAIL')) {
-      if (commonEditTextEditingController.text.trim() != '' && commonEditTextEditingController.text.isValidEmail) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      if (commonEditTextEditingController.text.trim() != '') {
-        return true;
-      } else {
-        return false;
-      }
-    }
   }
 
   void checkSaveButtonActive() {

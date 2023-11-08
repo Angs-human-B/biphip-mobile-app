@@ -2,7 +2,6 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class MenuSectionController extends GetxController {
 
-
   final RxBool isSupportButtonPressed = RxBool(false);
   final RxBool isSettingButtonPressed = RxBool(false);
   List shortcutButtonContent = [
