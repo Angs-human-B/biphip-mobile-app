@@ -132,24 +132,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxString tempWorkplaceEndDate = RxString('');
   final RxBool isSingleDatePicker = RxBool(false);
 
-  void setEditPageValue(pageTitle, showDropDown, iconData, textEditingController, showSecondaryTextfield, secondaryTextEditingController, textfieldHintText,
-      showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function, startDate, endDate) {
-    commonEditPageTitle.value = pageTitle;
-    isDropdownShown.value = showDropDown;
-    commonEditIconData.value = iconData;
-    commonEditTextEditingController = textEditingController;
-    isSecondaryTextfieldShown.value = showSecondaryTextfield;
-    commonEditSecondaryTextEditingController = secondaryTextEditingController;
-    commonEditTextfieldHintText.value = textfieldHintText;
-    isCommonEditDatePickerShown.value = showDatePickerRow;
-    isCommonEditPrivacyShown.value = showEditPrivacy;
-    isCommonEditCheckBoxShown.value = showCheckBox;
-    isCommonEditCheckBoxSelected.value = checkBoxSelect;
-    commonEditCheckBoxText.value = checkBoxText;
-    functionFlag.value = function;
-    commonStartDate.value = startDate;
-    commonEndDate.value = endDate;
-  }
+  
 
   void resetTextEditor() {
     tempListCommon.clear();
@@ -303,129 +286,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     selectedGender.value = '';
   }
 
-  void getMethod(methodID) {
-    showCommonEditSuffixIcon.value = false;
-    showCommonSecondaryEditSuffixIcon.value = false;
-    if (methodID == 0) {
-      homeID.value = hometownData.value!.id!;
-      homeTownTextEditingController.text = hometownData.value!.city!;
-      setEditPageValue(ksEditHometownAddress.tr, false, BipHip.location, homeTownTextEditingController, false, homeTownTextEditingController,
-          ksEditHometownAddress.tr, false, true, false, false, 'checkBoxText', 'EDIT HOMETOWN', '', '');
-    } else if (methodID == 1) {
-      setEditPageValue(ksAddPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksAddLocation.tr, false, true, false, true, ksCurrentlyLivingHere.tr, 'ADD PRESENT', '', '');
-    } else if (methodID == 2) {
-      presentAddressTextEditingController.text = currentCityData.value!.city!;
-      setEditPageValue(ksEditPresentAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksEditLocation.tr, false, true, false, isCurrentlyLiveHere.value, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
-    } else if (methodID == 3) {
-      setEditPageValue(ksAddOtherAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksAddLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'ADD PRESENT', '', '');
-    } else if (methodID == 4) {
-      setEditPageValue(ksEditAddress.tr, false, BipHip.location, presentAddressTextEditingController, false, presentAddressTextEditingController,
-          ksEditLocation.tr, true, true, true, false, ksCurrentlyLivingHere.tr, 'EDIT PRESENT', '', '');
-    } else if (methodID == 5) {
-      setEditPageValue(
-          ksAddEducationalEvent.tr,
-          true,
-          BipHip.schoolNew,
-          educationInstituteTextEditingController,
-          false,
-          educationInstituteTextEditingController,
-          'Institute name',
-          true,
-          true,
-          true,
-          isCurrentlyStudyingHere.value,
-          'Currently studying here',
-          'ADD SCHOOL',
-          '',
-          '');
-    } else if (methodID == 6) {
-      setEditPageValue(
-          ksEditSchool.tr,
-          false,
-          BipHip.schoolNew,
-          educationInstituteTextEditingController,
-          false,
-          educationInstituteTextEditingController,
-          ksEditSchool.tr,
-          true,
-          true,
-          true,
-          isCurrentlyStudyingHere.value,
-          ksCurrentlyStudyingHere.tr,
-          'EDIT SCHOOL',
-          tempSchoolStartDate.value,
-          tempSchoolEndDate.value);
-    } else if (methodID == 7) {
-      setEditPageValue(
-          ksEditCollege.tr,
-          false,
-          BipHip.schoolNew,
-          educationInstituteTextEditingController,
-          false,
-          educationInstituteTextEditingController,
-          ksEditCollege.tr,
-          true,
-          true,
-          true,
-          isCurrentlyStudyingHere.value,
-          ksCurrentlyStudyingHere.tr,
-          'EDIT COLLEGE',
-          tempSchoolStartDate.value,
-          tempSchoolEndDate.value);
-    } else if (methodID == 8) {
-      setEditPageValue(ksAddWorkplace.tr, false, BipHip.officeFill, companyNameTextEditingController, true, designationTextEditingController, ksOfficeName.tr,
-          true, true, false, true, ksCurrentlyWorkingHere.tr, 'ADD WORKPLACE', '', '');
-    } else if (methodID == 9) {
-      setEditPageValue(ksAddHomeTownAddress.tr, false, BipHip.location, homeTownTextEditingController, false, homeTownTextEditingController,
-          ksEnterHometownAddress.tr, false, true, false, false, '', 'HOMETOWN', '', '');
-    } else if (methodID == 10) {
-      setEditPageValue(
-          ksEditWorkplace.tr,
-          false,
-          BipHip.officeFill,
-          companyNameTextEditingController,
-          true,
-          designationTextEditingController,
-          ksEditWorkplace.tr,
-          true,
-          true,
-          true,
-          isCurrentlyWorkingHere.value,
-          ksCurrentlyWorkingHere.tr,
-          'EDIT WORKPLACE',
-          tempWorkplaceStartDate.value,
-          tempWorkplaceEndDate.value);
-      // Get.back();
-    } else if (methodID == 11) {
-      setEditPageValue(ksAddPhoneNumber.tr, false, BipHip.phoneFill, phoneTextEditingController, false, phoneTextEditingController, ksPhone.tr, false, true,
-          false, false, '', 'ADD PHONE', '', '');
-    } else if (methodID == 12) {
-      setEditPageValue(ksEditPhone.tr, false, BipHip.phoneFill, phoneTextEditingController, false, phoneTextEditingController, ksEditPhone.tr, false, true,
-          false, false, '', 'EDIT PHONE', '', '');
-      // Get.back();
-    } else if (methodID == 13) {
-      setEditPageValue(ksAddEmail.tr, false, BipHip.mail, emailTextEditingController, false, emailTextEditingController, ksEmail.tr, false, true, false, false,
-          '', 'ADD EMAIL', '', '');
-    } else if (methodID == 14) {
-      setEditPageValue(ksEditEmail.tr, false, BipHip.mail, emailTextEditingController, false, emailTextEditingController, ksEditEmail.tr, false, true, false,
-          false, '', 'EDIT EMAIL', '', '');
-      // Get.back();
-    } else if (methodID == 15) {
-      setEditPageValue(ksAddLink, true, BipHip.webLink, linkTextEditingController, false, emailTextEditingController, ksAddLink, false, true, false, false, '',
-          'ADD LINK', '', '');
-    } else if (methodID == 16) {
-      setEditPageValue(ksEditLink.tr, true, getLinkIcon(linkSource.value), linkTextEditingController, false, linkTextEditingController, ksEditLink.tr, false,
-          true, false, false, '', 'EDIT LINK', '', '');
-      // Get.back();
-    } else if (methodID == 17) {
-      setEditPageValue(ksAddWorkplace.tr, false, BipHip.officeFill, companyNameTextEditingController, true, designationTextEditingController, ksOfficeName.tr,
-          true, true, true, isCurrentlyStudyingHere.value, ksCurrentlyWorkingHere.tr, 'ADD WORKPLACE', '', '');
-    }
-    Get.toNamed(krEdit);
-  }
+  
 
   void clearDataList() {
     otherCityList.clear();
