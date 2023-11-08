@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/helpers/kids_helper/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 
@@ -7,6 +8,7 @@ class EditKidPage extends StatelessWidget {
 
   final KidsController _kidsController = Get.find<KidsController>();
   final GlobalController _globalController = Get.find<GlobalController>();
+  final KidHelper _kidHelper = KidHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,6 @@ class EditKidPage extends StatelessWidget {
                   height: height,
                   width: width,
                   child: SingleChildScrollView(
-                    // physics: const AlwaysScrollableScrollPhysics(),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: Column(
@@ -106,10 +107,8 @@ class EditKidPage extends StatelessWidget {
                                         prefixIcon: BipHip.camera,
                                         prefixIconColor: cIconColor,
                                         suffixIconColor: cIconColor,
-                                        onPressed: () async {
-                                          await _globalController.selectImageSource(
-                                              _kidsController.isKidImageChanged, _kidsController.kidImageLink, _kidsController.kidImageFile, 'camera', true);
-                                          _kidsController.checkCanEditKidInfo();
+                                        onPressed: () {
+                                       _kidHelper.editKidCameraOnPressed();
                                         },
                                         buttonHeight: h32,
                                         buttonWidth: width - 40,
@@ -123,10 +122,8 @@ class EditKidPage extends StatelessWidget {
                                         prefixIcon: BipHip.photo,
                                         prefixIconColor: cIconColor,
                                         suffixIconColor: cIconColor,
-                                        onPressed: () async {
-                                          await _globalController.selectImageSource(
-                                              _kidsController.isKidImageChanged, _kidsController.kidImageLink, _kidsController.kidImageFile, 'gallery', true);
-                                          _kidsController.checkCanEditKidInfo();
+                                        onPressed: ()  {
+                                         
                                         },
                                         buttonHeight: h32,
                                         buttonWidth: width - 40,
@@ -158,7 +155,7 @@ class EditKidPage extends StatelessWidget {
                                 controller: _kidsController.kidNameTextEditingController,
                                 hint: ksWriteKidName.tr,
                                 onChanged: (text) {
-                                  _kidsController.checkCanEditKidInfo();
+                                  _kidHelper.checkCanEditKidInfo();
                                 },
                                 onSubmit: (text) {},
                                 inputAction: TextInputAction.next,
@@ -170,7 +167,7 @@ class EditKidPage extends StatelessWidget {
                                 controller: _kidsController.kidAgeTextEditingController,
                                 hint: ksWriteAge.tr,
                                 onChanged: (text) {
-                                  _kidsController.checkCanEditKidInfo();
+                                  _kidHelper.checkCanEditKidInfo();
                                 },
                                 onSubmit: (text) {},
                                 inputAction: TextInputAction.done,

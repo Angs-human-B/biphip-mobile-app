@@ -92,33 +92,6 @@ class KidsController extends GetxController {
   final RxString kidName = RxString('');
   final RxString kidAge = RxString('');
 
-  void checkCanEditKidInfo() {
-    if ((kidNameTextEditingController.text.trim() != '' &&
-            kidNameTextEditingController.text.trim() != kidName.value &&
-            kidNameTextEditingController.text.trim().length > 2) ||
-        (kidAgeTextEditingController.text.trim() != '' &&
-            kidAgeTextEditingController.text.trim() != kidAge.value &&
-            kidAgeTextEditingController.text.trim() != '0') ||
-        isKidImageChanged.value) {
-      isSaveKidButtonEnabled.value = true;
-    } else {
-      isSaveKidButtonEnabled.value = false;
-    }
-  }
-
-  void setupEditKid() {
-    for (int i = 0; i < kidList.length; i++) {
-      if (kidId.value == kidList[i].id) {
-        kidNameTextEditingController.text = kidList[i].name ?? '';
-        kidAgeTextEditingController.text = kidList[i].age.toString();
-        kidImageLink.value = kidList[i].kidImage.toString();
-        kidName.value = kidNameTextEditingController.text;
-        kidAge.value = kidAgeTextEditingController.text;
-      }
-    }
-    checkCanEditKidInfo();
-  }
-
   //*Edit Kid Api Call
   final RxBool isEditKidLoading = RxBool(false);
   Future<void> editKid() async {
