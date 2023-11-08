@@ -4,6 +4,7 @@ import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/gallery_photo_helpers/gallery_photo_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/create_post/platform_action.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
@@ -28,7 +29,7 @@ class MenuHelper {
       await Get.find<FamilyController>().getFamilyList();
     } else if (index == 2) {
       ll('Image');
-      Get.find<GalleryController>().resetTapButtonData();
+      GalleryPhotoHelper().resetTapButtonData();
       Get.toNamed(krGalleryPhotos);
       await Get.find<GalleryController>().getGalleryAlbumList();
     } else if (index == 3) {

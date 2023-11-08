@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
+import 'package:bip_hip/helpers/gallery_photo_helpers/gallery_photo_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
@@ -46,7 +47,7 @@ class GalleryPhotos extends StatelessWidget {
                                 }
                               }
 
-                              _galleryController.toggleType(0);
+                              GalleryPhotoHelper().toggleType(0);
                             },
                       _galleryController.isAlbumListLoading.value
                           ? null
@@ -58,7 +59,7 @@ class GalleryPhotos extends StatelessWidget {
                                 }
                               }
 
-                              _galleryController.toggleType(1);
+                              GalleryPhotoHelper().toggleType(1);
                             },
                     ]),
                   ),

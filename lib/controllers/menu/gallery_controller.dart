@@ -1,3 +1,4 @@
+import 'package:bip_hip/helpers/gallery_photo_helpers/gallery_photo_helper.dart';
 import 'package:bip_hip/models/menu/album/album_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -5,24 +6,9 @@ class GalleryController extends GetxController {
   final ApiController _apiController = ApiController();
   final SpController _spController = SpController();
   final GlobalController _globalController = Get.find<GlobalController>();
+  final GalleryPhotoHelper _galleryPhotoHelper = GalleryPhotoHelper();
   final RxList tapAbleButtonState = RxList([true, false]);
   final RxList tapAbleButtonText = RxList(["Your Photos", "Albums"]);
-
-  //*For tapAble button
-  void toggleType(int index) {
-    for (int i = 0; i < 2; i++) {
-      if (index == i) {
-        tapAbleButtonState[i] = true;
-      } else {
-        tapAbleButtonState[i] = false;
-      }
-    }
-  }
-
-  void resetTapButtonData() {
-    tapAbleButtonState.clear();
-    tapAbleButtonState.addAll([true, false]);
-  }
 
   @override
   void onInit() {
@@ -37,9 +23,7 @@ class GalleryController extends GetxController {
       }
     }
 
-    // resetTapButtonData();
-
-    toggleType(0);
+    _galleryPhotoHelper.toggleType(0);
   }
 
   final List galleryVideos = [
@@ -94,7 +78,7 @@ class GalleryController extends GetxController {
     },
   ];
 
-//*Album List Data
+//*Album List Data Api Call
   Rx<AlbumListModel?> albumData = Rx<AlbumListModel?>(null);
   RxList<ImageData> imageDataList = RxList<ImageData>([]);
   final RxBool isAlbumListLoading = RxBool(false);
@@ -108,7 +92,7 @@ class GalleryController extends GetxController {
         url: kuAlbumList,
       ) as CommonDM;
       if (response.success == true) {
-        resetTapButtonData();
+        _galleryPhotoHelper.resetTapButtonData();
         imageDataList.clear();
         albumData.value = AlbumListModel.fromJson(response.data);
         // imageDataList.addAll(albumData.value!.imageAlbums!.data);
@@ -119,7 +103,7 @@ class GalleryController extends GetxController {
           }
         }
 
-        toggleType(0);
+        _galleryPhotoHelper.toggleType(0);
 
         isAlbumListLoading.value = false;
       } else {
