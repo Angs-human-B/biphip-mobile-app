@@ -7,13 +7,6 @@ class FriendController extends GetxController {
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
-
-  final RxList friendActionList = RxList([
-    {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
-    {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow your friend'},
-    {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
-  ]);
-  final RxString friendActionSelect = RxString('');
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
 
@@ -39,7 +32,6 @@ class FriendController extends GetxController {
         friendListScrolled.value = false;
         friendListData.value = CommonFriendModel.fromJson(response.data);
         friendList.addAll(friendListData.value!.friends!.data);
-
         allFriendCount.value = friendListData.value!.friends!.total!;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
@@ -50,7 +42,7 @@ class FriendController extends GetxController {
 
         isFriendListLoading.value = false;
       } else {
-        isFriendListLoading.value = false;
+        isFriendListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -59,7 +51,7 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isFriendListLoading.value = false;
+      isFriendListLoading.value = true;
       ll('getFriendList error: $e');
     }
   }
@@ -99,7 +91,7 @@ class FriendController extends GetxController {
 
         isFriendListLoading.value = false;
       } else {
-        isFriendListLoading.value = false;
+        isFriendListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -108,7 +100,7 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isFriendListLoading.value = false;
+      isFriendListLoading.value = true;
       ll('getMoreFriendList error: $e');
     }
   }
@@ -146,7 +138,7 @@ class FriendController extends GetxController {
         }
         isReceivedFriendListLoading.value = false;
       } else {
-        isReceivedFriendListLoading.value = false;
+        isReceivedFriendListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -155,7 +147,7 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isReceivedFriendListLoading.value = false;
+      isReceivedFriendListLoading.value = true;
       ll('getReceivedFriendList error: $e');
     }
   }
@@ -194,7 +186,7 @@ class FriendController extends GetxController {
         }
         isReceivedFriendListLoading.value = false;
       } else {
-        isReceivedFriendListLoading.value = false;
+        isReceivedFriendListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -203,7 +195,7 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isReceivedFriendListLoading.value = false;
+      isReceivedFriendListLoading.value = true;
       ll('getMoreReceivedFriendList error: $e');
     }
   }
@@ -444,7 +436,7 @@ class FriendController extends GetxController {
         }
         isSendFriendRequestListLoading.value = false;
       } else {
-        isSendFriendRequestListLoading.value = false;
+         isSendFriendRequestListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -453,7 +445,7 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isSendFriendRequestListLoading.value = false;
+       isSendFriendRequestListLoading.value = true;
       ll('getSendFriendRequest error: $e');
     }
   }
@@ -491,7 +483,7 @@ class FriendController extends GetxController {
         }
         isSendFriendRequestListLoading.value = false;
       } else {
-        isSendFriendRequestListLoading.value = false;
+         isSendFriendRequestListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -500,7 +492,7 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isSendFriendRequestListLoading.value = false;
+      isSendFriendRequestListLoading.value = true;
       ll('getMoreSendFriendRequestList error: $e');
     }
   }
@@ -587,7 +579,7 @@ class FriendController extends GetxController {
 
         isAddFriendRequestListLoading.value = false;
       } else {
-        isAddFriendRequestListLoading.value = false;
+        isAddFriendRequestListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -596,7 +588,7 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isAddFriendRequestListLoading.value = false;
+      isAddFriendRequestListLoading.value = true;
       ll('getAddFriendRequestList error: $e');
     }
   }
@@ -643,7 +635,7 @@ class FriendController extends GetxController {
         }
         isAddFriendRequestListLoading.value = false;
       } else {
-        isAddFriendRequestListLoading.value = false;
+        isAddFriendRequestListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -652,7 +644,7 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isAddFriendRequestListLoading.value = false;
+      isAddFriendRequestListLoading.value = true;
       ll('getMoreAddFriendRequestList error: $e');
     }
   }
@@ -727,7 +719,7 @@ class FriendController extends GetxController {
         }
         isFriendListForAddFamilyLoading.value = false;
       } else {
-        isFriendListForAddFamilyLoading.value = false;
+        isFriendListForAddFamilyLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -736,7 +728,7 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isFriendListForAddFamilyLoading.value = false;
+      isFriendListForAddFamilyLoading.value = true;
       ll('getFriendListForAddFamily error: $e');
     }
   }
@@ -771,7 +763,7 @@ class FriendController extends GetxController {
 
         isFriendListLoading.value = false;
       } else {
-        isFriendListLoading.value = false;
+       isFriendListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -780,7 +772,7 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isFriendListLoading.value = false;
+      isFriendListLoading.value = true;
       ll('getFriendSearchList error: $e');
     }
   }
@@ -820,7 +812,7 @@ class FriendController extends GetxController {
 
         isFriendListLoading.value = false;
       } else {
-        isFriendListLoading.value = false;
+        isFriendListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -829,7 +821,7 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isFriendListLoading.value = false;
+      isFriendListLoading.value = true;
       ll('getMoreFriendSearchList error: $e');
     }
   }
@@ -837,24 +829,31 @@ class FriendController extends GetxController {
   Timer? debounce;
 
   final RxBool isFriendSearched = RxBool(false);
+  //*Pending friend Action
+  final RxString pendingFriendActionSelect = RxString('');
+  final RxInt pendingFriendFollowStatus = RxInt(-1);
   final RxList pendingFriendActionList = RxList([
     {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
     {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow this user'}
   ]);
-  final RxString pendingFriendActionSelect = RxString('');
-  //*Follow Pending friend list
   final RxList pendingFollowFriendActionList = RxList([
     {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
     {'icon': BipHip.follow, 'action': 'Follow', 'actionSubtitle': 'Follow this user'}
   ]);
+  //*All friend Action 
+  final RxString friendActionSelect = RxString('');
   final RxInt allFriendFollowStatus = RxInt(-1);
-  final RxInt pendingFriendFollowStatus = RxInt(-1);
-  //*Follow All friend list
+  final RxList friendActionList = RxList([
+    {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
+    {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow your friend'},
+    {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
+  ]);
   final RxList friendFollowActionList = RxList([
     {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
     {'icon': BipHip.follow, 'action': 'Follow', 'actionSubtitle': 'Follow your friend'},
     {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
   ]);
+  //*Search suffix icon and bottom nav route bool value 
   final RxBool isFriendSuffixIconVisible = RxBool(false);
   final RxBool isRouteFromBottomNavBar = RxBool(false);
 }
