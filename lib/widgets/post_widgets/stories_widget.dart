@@ -17,7 +17,7 @@ class StoriesWidget extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               if (index == 0) {
-                return const _StoryCard(
+                return const StoryCard(
                   isStory: false,
                   storyImage: '',
                   profileImage: kiDummyImage2ImageUrl,
@@ -25,7 +25,7 @@ class StoriesWidget extends StatelessWidget {
                   isSeen: false,
                 );
               } else {
-                return _StoryCard(
+                return StoryCard(
                   isStory: true,
                   storyImage: stories[index - 1]['storyImage'],
                   profileImage: stories[index - 1]['profileImage'],
@@ -39,8 +39,8 @@ class StoriesWidget extends StatelessWidget {
   }
 }
 
-class _StoryCard extends StatelessWidget {
-  const _StoryCard(
+class StoryCard extends StatelessWidget {
+  const StoryCard(
       {super.key, required this.isStory, required this.storyImage, required this.profileImage, required this.userName, required this.isSeen, this.onPressed});
 
   final bool isStory;

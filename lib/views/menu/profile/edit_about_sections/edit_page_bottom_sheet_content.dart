@@ -63,7 +63,7 @@ class LinkListContent extends StatelessWidget {
   }) : super(key: key);
 
   final ProfileController profileController;
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +91,7 @@ class LinkListContent extends StatelessWidget {
                           ),
                           itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
                           onPressed: () {
-                            _editProfileHelper.onSelectLinkBottomSheet(index);
+                            editProfileHelper.onSelectLinkBottomSheet(index);
                           },
                         ),
                       ),

@@ -183,7 +183,7 @@ class EditProfile extends StatelessWidget {
                                     profileController.showAllEditOption.value = true;
                                     editProfileHelper.resetEditAboutPage();
                                     Get.toNamed(krEditAboutInfo);
-                                    await profileController.getPositionList();
+                                    // await profileController.getPositionList();
                                   },
                                 ),
                                 kH20sizedBox
@@ -221,56 +221,56 @@ class EditProfile extends StatelessWidget {
 
 class IntroContents extends StatelessWidget {
   IntroContents({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
+  final ProfileController profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (_profileController.currentCityData.value?.city != null && _profileController.currentCityData.value?.isCurrent == 1)
-          LinkUpIconTextRow(
-            icon: BipHip.address,
-            prefixText: '${ksLivesIn.tr} ',
-            suffixText: '${_profileController.currentCityData.value?.city}',
-            onPressed: null,
-          ),
-        if (_profileController.hometownData.value != null)
-          LinkUpIconTextRow(
-            icon: BipHip.location,
-            prefixText: '${ksFrom.tr} ',
-            suffixText: '${_profileController.hometownData.value?.city}',
-            onPressed: null,
-          ),
-        if (_profileController.userData.value!.relation != null)
-          LinkUpIconTextRow(
-            icon: BipHip.love,
-            suffixText: checkNullOrStringNull(_profileController.userData.value!.relation),
-            prefixText: '',
-            onPressed: null,
-          ),
-        if (_profileController.schoolDataList.isNotEmpty)
-          LinkUpIconTextRow(
-            icon: BipHip.school,
-            suffixText: checkNullOrStringNull(_profileController.schoolDataList[0].school),
-            prefixText: _profileController.schoolDataList[0].ended != null ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
-            onPressed: null,
-          ),
-        if (_profileController.collegeDataList.isNotEmpty)
-          LinkUpIconTextRow(
-            icon: BipHip.school,
-            suffixText: checkNullOrStringNull(_profileController.collegeDataList[0].school),
-            prefixText: _profileController.collegeDataList[0].ended != null ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
-            onPressed: null,
-          ),
-        if (_profileController.currentWorkplace.value != null)
-          LinkUpIconTextRow(
-            icon: BipHip.work,
-            suffixText: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
-            prefixText: _profileController.currentWorkplace.value!.position == null ? '' : '${_profileController.currentWorkplace.value!.position} at ',
-            onPressed: null,
-          ),
-      ],
-    );
+    return Obx(() => Column(
+          children: [
+            if (profileController.currentCityData.value?.city != null && profileController.currentCityData.value?.isCurrent == 1)
+              LinkUpIconTextRow(
+                icon: BipHip.address,
+                prefixText: '${ksLivesIn.tr} ',
+                suffixText: '${profileController.currentCityData.value?.city}',
+                onPressed: null,
+              ),
+            if (profileController.hometownData.value != null)
+              LinkUpIconTextRow(
+                icon: BipHip.location,
+                prefixText: '${ksFrom.tr} ',
+                suffixText: '${profileController.hometownData.value?.city}',
+                onPressed: null,
+              ),
+            if (profileController.userData.value!.relation != null)
+              LinkUpIconTextRow(
+                icon: BipHip.love,
+                suffixText: checkNullOrStringNull(profileController.userData.value!.relation),
+                prefixText: '',
+                onPressed: null,
+              ),
+            if (profileController.schoolDataList.isNotEmpty)
+              LinkUpIconTextRow(
+                icon: BipHip.school,
+                suffixText: checkNullOrStringNull(profileController.schoolDataList[0].school),
+                prefixText: profileController.schoolDataList[0].ended != null ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
+                onPressed: null,
+              ),
+            if (profileController.collegeDataList.isNotEmpty)
+              LinkUpIconTextRow(
+                icon: BipHip.school,
+                suffixText: checkNullOrStringNull(profileController.collegeDataList[0].school),
+                prefixText: profileController.collegeDataList[0].ended != null ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
+                onPressed: null,
+              ),
+            if (profileController.currentWorkplace.value != null)
+              LinkUpIconTextRow(
+                icon: BipHip.work,
+                suffixText: checkNullOrStringNull(profileController.currentWorkplace.value!.company),
+                prefixText: profileController.currentWorkplace.value!.position == null ? '' : '${profileController.currentWorkplace.value!.position} at ',
+                onPressed: null,
+              ),
+          ],
+        ));
   }
 }
 
