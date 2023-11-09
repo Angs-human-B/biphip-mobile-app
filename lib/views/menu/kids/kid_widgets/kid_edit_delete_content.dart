@@ -5,7 +5,7 @@ class EditDeleteContent extends StatelessWidget {
    EditDeleteContent({
     super.key,
   });
-  final KidHelper _kidHelper = KidHelper();
+  final KidHelper kidHelper = KidHelper();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -17,7 +17,7 @@ class EditDeleteContent extends StatelessWidget {
           prefixIconColor: cIconColor,
           suffixIconColor: cIconColor,
           onPressed: () {
-          _kidHelper.kidEditButtonOnPressed();
+          kidHelper.kidEditButtonOnPressed();
             Get.toNamed(krEditKidPage);
           },
           buttonHeight: h32,
@@ -33,7 +33,7 @@ class EditDeleteContent extends StatelessWidget {
           prefixIconColor: cIconColor,
           suffixIconColor: cIconColor,
           onPressed: () {
-            _kidHelper.kidDeleteButtonOnPressed();
+            kidHelper.kidDeleteButtonOnPressed();
           },
           buttonHeight: h32,
           buttonWidth: width - 40,

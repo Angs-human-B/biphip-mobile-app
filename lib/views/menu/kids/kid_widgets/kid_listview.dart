@@ -6,14 +6,14 @@ import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 
 class KidsListView extends StatelessWidget {
   KidsListView({super.key});
-  final KidsController _kidsController = Get.find<KidsController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final KidsController kidsController = Get.find<KidsController>();
+  final GlobalController globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => _kidsController.isKidsListLoading.value
+      () => kidsController.isKidsListLoading.value
           ? const AllPendingFriendShimmer()
-          : _kidsController.kidList.isNotEmpty
+          : kidsController.kidList.isNotEmpty
               ? Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
@@ -22,7 +22,7 @@ class KidsListView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ListView.builder(
-                            itemCount: _kidsController.kidList.length,
+                            itemCount: kidsController.kidList.length,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
@@ -42,7 +42,7 @@ class KidsListView extends StatelessWidget {
                                       ),
                                       child: ClipOval(
                                         child: Image.network(
-                                          Environment.imageBaseUrl + _kidsController.kidList[index].kidImage.toString(),
+                                          Environment.imageBaseUrl + kidsController.kidList[index].kidImage.toString(),
                                           fit: BoxFit.cover,
                                           errorBuilder: (context, error, stackTrace) {
                                             return Image.asset(kiProfileDefaultImageUrl);
@@ -52,13 +52,13 @@ class KidsListView extends StatelessWidget {
                                       ),
                                     ),
                                     title: Text(
-                                      _kidsController.kidList[index].name ?? ksNA.tr,
+                                      kidsController.kidList[index].name ?? ksNA.tr,
                                       style: semiBold16TextStyle(cBlackColor),
                                     ),
                                     trailing: CustomIconButton(
                                         onPress: () {
-                                          _kidsController.kidId.value = _kidsController.kidList[index].id!;
-                                          _globalController.commonBottomSheet(
+                                          kidsController.kidId.value = kidsController.kidList[index].id!;
+                                          globalController.commonBottomSheet(
                                             context: context,
                                             isScrollControlled: true,
                                             content: EditDeleteContent(),

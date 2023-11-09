@@ -6,9 +6,9 @@ import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 class EditKidPage extends StatelessWidget {
   EditKidPage({super.key});
 
-  final KidsController _kidsController = Get.find<KidsController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
-  final KidHelper _kidHelper = KidHelper();
+  final KidsController kidsController = Get.find<KidsController>();
+  final GlobalController globalController = Get.find<GlobalController>();
+  final KidHelper kidHelper = KidHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +37,15 @@ class EditKidPage extends StatelessWidget {
                         padding: const EdgeInsets.only(right: h20),
                         child: TextButton(
                           style: kTextButtonStyle,
-                          onPressed: _kidsController.isSaveKidButtonEnabled.value
+                          onPressed: kidsController.isSaveKidButtonEnabled.value
                               ? () async {
                                   unFocus(context);
-                                  await _kidsController.editKid();
+                                  await kidsController.editKid();
                                 }
                               : null,
                           child: Text(
                             ksSave.tr,
-                            style: _kidsController.isSaveKidButtonEnabled.value ? medium14TextStyle(cPrimaryColor) : medium14TextStyle(cIconColor),
+                            style: kidsController.isSaveKidButtonEnabled.value ? medium14TextStyle(cPrimaryColor) : medium14TextStyle(cIconColor),
                           ),
                         ),
                       ),
@@ -71,9 +71,9 @@ class EditKidPage extends StatelessWidget {
                                 shape: BoxShape.circle,
                                 color: cBlackColor,
                               ),
-                              child: _kidsController.isKidImageChanged.value
+                              child: kidsController.isKidImageChanged.value
                                   ? Image.file(
-                                      _kidsController.kidImageFile.value,
+                                      kidsController.kidImageFile.value,
                                       fit: BoxFit.cover,
                                       errorBuilder: (context, error, stackTrace) => const Icon(
                                         BipHip.user,
@@ -81,13 +81,13 @@ class EditKidPage extends StatelessWidget {
                                         color: cIconColor,
                                       ),
                                     )
-                                  : Image.network(Environment.imageBaseUrl + _kidsController.kidImageLink.value),
+                                  : Image.network(Environment.imageBaseUrl + kidsController.kidImageLink.value),
                             ),
                           ),
                           isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
                           OutLinedButton(
                             onPress: () {
-                              _globalController.commonBottomSheet(
+                              globalController.commonBottomSheet(
                                   context: context,
                                   onPressCloseButton: () {
                                     Get.back();
@@ -108,7 +108,7 @@ class EditKidPage extends StatelessWidget {
                                         prefixIconColor: cIconColor,
                                         suffixIconColor: cIconColor,
                                         onPressed: () {
-                                       _kidHelper.editKidCameraOnPressed();
+                                       kidHelper.editKidCameraOnPressed();
                                         },
                                         buttonHeight: h32,
                                         buttonWidth: width - 40,
@@ -152,10 +152,10 @@ class EditKidPage extends StatelessWidget {
                             children: [
                               isDeviceScreenLarge() ? kH40sizedBox : kH30sizedBox,
                               CustomModifiedTextField(
-                                controller: _kidsController.kidNameTextEditingController,
+                                controller: kidsController.kidNameTextEditingController,
                                 hint: ksWriteKidName.tr,
                                 onChanged: (text) {
-                                  _kidHelper.checkCanEditKidInfo();
+                                  kidHelper.checkCanEditKidInfo();
                                 },
                                 onSubmit: (text) {},
                                 inputAction: TextInputAction.next,
@@ -164,10 +164,10 @@ class EditKidPage extends StatelessWidget {
                               ),
                               kH8sizedBox,
                               CustomModifiedTextField(
-                                controller: _kidsController.kidAgeTextEditingController,
+                                controller: kidsController.kidAgeTextEditingController,
                                 hint: ksWriteAge.tr,
                                 onChanged: (text) {
-                                  _kidHelper.checkCanEditKidInfo();
+                                  kidHelper.checkCanEditKidInfo();
                                 },
                                 onSubmit: (text) {},
                                 inputAction: TextInputAction.done,
@@ -186,11 +186,11 @@ class EditKidPage extends StatelessWidget {
               ),
             ),
           ),
-          if (_kidsController.isEditKidLoading.value == true)
+          if (kidsController.isEditKidLoading.value == true)
             Positioned(
               child: CommonLoadingAnimation(
                 onWillPop: () async {
-                  if (_kidsController.isEditKidLoading.value) {
+                  if (kidsController.isEditKidLoading.value) {
                     return false;
                   }
                   return true;

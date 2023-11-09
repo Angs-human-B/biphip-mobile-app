@@ -6,8 +6,8 @@ import 'package:bip_hip/views/menu/kids/kid_widgets/kid_listview.dart';
 
 class KidsPage extends StatelessWidget {
   KidsPage({super.key});
-  final KidsController _kidsController = Get.find<KidsController>();
-  final KidHelper _kidHelper = KidHelper();
+  final KidsController kidsController = Get.find<KidsController>();
+  final KidHelper kidHelper = KidHelper();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,7 +49,7 @@ class KidsPage extends StatelessWidget {
             children: [
               Obx(() => Padding(
                     padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                    child: _kidsController.isKidsListLoading.value
+                    child: kidsController.isKidsListLoading.value
                         ? Padding(
                             padding: const EdgeInsets.only(bottom: k12Padding),
                             child: ShimmerCommon(
@@ -60,7 +60,7 @@ class KidsPage extends StatelessWidget {
                               ),
                             ),
                           )
-                        : _kidHelper.totalKidShow(),
+                        : kidHelper.totalKidShow(),
                   )),
               KidsListView(),
             ],
