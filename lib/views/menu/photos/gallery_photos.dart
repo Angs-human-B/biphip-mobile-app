@@ -8,8 +8,8 @@ import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 
 class GalleryPhotos extends StatelessWidget {
   GalleryPhotos({super.key});
-  final GalleryController _galleryController = Get.find<GalleryController>();
-  final GalleryPhotoHelper _galleryPhotoHelper = GalleryPhotoHelper();
+  final GalleryController galleryController = Get.find<GalleryController>();
+  final GalleryPhotoHelper galleryPhotoHelper = GalleryPhotoHelper();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,27 +37,27 @@ class GalleryPhotos extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                   child: TapAbleButtonContainer(
-                    buttonText: _galleryController.tapAbleButtonText,
-                    buttonState: _galleryController.tapAbleButtonState,
+                    buttonText: galleryController.tapAbleButtonText,
+                    buttonState: galleryController.tapAbleButtonState,
                     buttonPress: RxList([
-                      _galleryController.isAlbumListLoading.value
+                      galleryController.isAlbumListLoading.value
                           ? null
                           : () {
-                              _galleryPhotoHelper.galleryPhotoFirstTapableButton();
-                              _galleryController.toggleType(0);
+                              galleryPhotoHelper.galleryPhotoFirstTapableButton();
+                              galleryController.toggleType(0);
                             },
-                      _galleryController.isAlbumListLoading.value
+                      galleryController.isAlbumListLoading.value
                           ? null
                           : () {
-                              _galleryPhotoHelper.galleryPhotoSecondTapableButton();
-                              _galleryController.toggleType(1);
+                              galleryPhotoHelper.galleryPhotoSecondTapableButton();
+                              galleryController.toggleType(1);
                             },
                     ]),
                   ),
                 ),
-                _galleryController.isAlbumListLoading.value
+                galleryController.isAlbumListLoading.value
                     ? const GalleryPhotoShimmer()
-                    : _galleryController.imageDataList.isEmpty
+                    : galleryController.imageDataList.isEmpty
                         ? Expanded(
                             child: Center(
                               child: Container(
@@ -76,7 +76,7 @@ class GalleryPhotos extends StatelessWidget {
                                 child: GridView.builder(
                                     shrinkWrap: true,
                                     physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: _galleryController.imageDataList.length,
+                                    itemCount: galleryController.imageDataList.length,
                                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisSpacing: k4Padding + k2Padding,
                                       crossAxisCount: 2,
@@ -86,12 +86,12 @@ class GalleryPhotos extends StatelessWidget {
                                         children: [
                                           Row(children: [
                                             GalleryPhotoContainer(
-                                              title: _galleryController.imageDataList[index].title ?? ksNA.tr,
-                                              subTitle: _galleryController.imageDataList[index].totalImage.toString(),
-                                              image: _galleryController.imageDataList[index].preview,
+                                              title: galleryController.imageDataList[index].title ?? ksNA.tr,
+                                              subTitle: galleryController.imageDataList[index].totalImage.toString(),
+                                              image: galleryController.imageDataList[index].preview,
                                               onPressed: () {
-                                                _galleryController.selectedImageList = _galleryController.imageDataList[index].imageList;
-                                                _galleryController.selectedTitle.value = _galleryController.imageDataList[index].title ?? ksNA;
+                                                galleryController.selectedImageList = galleryController.imageDataList[index].imageList;
+                                                galleryController.selectedTitle.value = galleryController.imageDataList[index].title ?? ksNA;
                                                 Get.toNamed(krPhotos);
                                               },
                                             ),
