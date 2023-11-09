@@ -115,7 +115,7 @@ class GalleryController extends GetxController {
 
         isAlbumListLoading.value = false;
       } else {
-        isAlbumListLoading.value = false;
+        isAlbumListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -124,7 +124,7 @@ class GalleryController extends GetxController {
         }
       }
     } catch (e) {
-      isAlbumListLoading.value = false;
+      isAlbumListLoading.value = true;
       ll('getAlbumListData error: $e');
     }
   }
