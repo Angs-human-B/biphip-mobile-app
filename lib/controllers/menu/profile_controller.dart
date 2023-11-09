@@ -7,9 +7,9 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:video_player/video_player.dart';
 
 class ProfileController extends GetxController with GetSingleTickerProviderStateMixin {
-  final ApiController _apiController = ApiController();
-  final SpController _spController = SpController();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final ApiController apiController = ApiController();
+  final SpController spController = SpController();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   final RxBool showAllEditOption = RxBool(true);
   final RxInt interestCatagoriesIndex = RxInt(0);
@@ -143,8 +143,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> getProfileOverview() async {
     try {
       isProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetProfileOverView,
@@ -174,9 +174,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -188,11 +188,11 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> setHometown() async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'city': homeTownTextEditingController.text.trim(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuSetHomeTown,
         body: body,
@@ -202,14 +202,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         hometownData.value = CurrentCity.fromJson(response.data);
         otherCityList.add(CurrentCity.fromJson(response.data));
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -223,9 +223,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> setCity() async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {'city': presentAddressTextEditingController.text.trim(), 'moved': commonStartDate.value};
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: isCommonEditCheckBoxSelected.value ? kuSetCurrentCity : kuOtherCity,
         body: body,
@@ -240,14 +240,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           otherCityList.add(CurrentCity.fromJson(response.data));
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -260,13 +260,13 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> updateCity(id) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'id': id.toString(),
         'city': presentAddressTextEditingController.text.trim(),
         if (isSingleDatePicker.value) 'moved': commonStartDate.value
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuUpdateCity,
         body: body,
@@ -283,14 +283,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           }
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -303,8 +303,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> deleteCity(id) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kDelete,
         url: '$kuDeleteCity/$id',
         token: token,
@@ -323,14 +323,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           }
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -344,14 +344,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> storeSchool() async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'school': educationInstituteTextEditingController.text.trim(),
         'graduated': isCommonEditCheckBoxSelected.value ? '0' : '1',
         'started': commonStartDate.value,
         'ended': commonEndDate.value
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuStoreSchool,
         body: body,
@@ -361,14 +361,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       if (response.success == true) {
         schoolDataList.add(College.fromJson(response.data));
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -381,7 +381,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> updateSchool(id) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'id': id.toString(),
         'school': educationInstituteTextEditingController.text.trim(),
@@ -389,7 +389,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         'started': commonStartDate.value,
         'ended': commonEndDate.value
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuUpdateSchool,
         body: body,
@@ -403,14 +403,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           }
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -423,8 +423,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> deleteSchool(id) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kDelete,
         url: '$kuDeleteSchool/${id.toString()}',
         token: token,
@@ -437,14 +437,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           }
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -458,14 +458,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> storeCollege() async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'school': educationInstituteTextEditingController.text.trim(),
         'graduated': isCommonEditCheckBoxSelected.value ? '0' : '1',
         'started': commonStartDate.value,
         'ended': commonEndDate.value
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuStoreCollege,
         body: body,
@@ -475,14 +475,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       if (response.success == true) {
         collegeDataList.add(College.fromJson(response.data));
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -495,7 +495,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> updateCollege(id) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'id': id.toString(),
         'school': educationInstituteTextEditingController.text.trim(),
@@ -503,7 +503,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         'started': commonStartDate.value,
         'ended': commonEndDate.value
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuUpdateCollege,
         body: body,
@@ -517,14 +517,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           }
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -537,8 +537,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> deleteCollege(id) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kDelete,
         url: '$kuDeleteCollege/${id.toString()}',
         token: token,
@@ -551,14 +551,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           }
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -572,7 +572,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> storeWork() async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'company': companyNameTextEditingController.text.trim(),
         'position': designationTextEditingController.text.trim(),
@@ -580,7 +580,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         'started': commonStartDate.value,
         'ended': commonEndDate.value
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuStoreWork,
         body: body,
@@ -593,14 +593,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           currentWorkplace.value = Workplace.fromJson(response.data);
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -613,7 +613,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> updateWork(id) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'id': id.toString(),
         'company': companyNameTextEditingController.text.trim(),
@@ -623,7 +623,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         'ended': commonEndDate.value
       };
       ll(body);
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuUpdateWork,
         body: body,
@@ -640,14 +640,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           }
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -660,8 +660,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> deleteWork(id) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kDelete,
         url: '$kuDeleteWork/${id.toString()}',
         token: token,
@@ -677,14 +677,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           }
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -700,12 +700,12 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> storeContact(type) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'type': type,
         'value': type == 'phone' ? phoneTextEditingController.text.trim() : emailTextEditingController.text.trim(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuStoreContact,
         body: body,
@@ -724,14 +724,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           }
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -744,13 +744,13 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> updateContact(id, type) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'id': id.toString(),
         'type': type,
         'value': type == 'phone' ? phoneTextEditingController.text.trim() : emailTextEditingController.text.trim(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuUpdateContact,
         body: body,
@@ -764,14 +764,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           }
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -784,8 +784,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> deleteContact(id) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kDelete,
         url: '$kuDeleteContact/${id.toString()}',
         token: token,
@@ -807,14 +807,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           }
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -828,12 +828,12 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> storeLink(type) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'type': type,
         'link': linkTextEditingController.text.trim(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuStoreLink,
         body: body,
@@ -843,14 +843,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       if (response.success == true) {
         linkDataList.add(Link.fromJson(response.data));
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -863,13 +863,13 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> updateLink(id, type) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'id': id.toString(),
         'type': type.toString(),
         'link': linkTextEditingController.text.trim(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuUpdateLink,
         body: body,
@@ -883,14 +883,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           }
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -903,8 +903,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> deleteLink(id) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kDelete,
         url: '$kuDeleteLink/${id.toString()}',
         token: token,
@@ -917,14 +917,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           }
         }
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -939,11 +939,11 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> updateBio([isUpdate = true]) async {
     try {
       isBioLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'bio': bioEditingController.text.trim(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuUpdateBio,
         body: body,
@@ -959,14 +959,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         }
         clearBio();
         isBioLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isBioLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -979,11 +979,11 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> updateDOB() async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'dob': birthday.value,
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuUpdateDateOfBirth,
         body: body,
@@ -995,14 +995,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
         userData.value = commonUserLayeredData.value!.user;
         ll(userData.value!.dob);
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -1017,8 +1017,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       if (isFromProfile == true) {
         isImageUploadPageLoading.value = true;
       }
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.mediaUpload(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.mediaUpload(
         url: type == 'profile' ? kuSetProfilePicture : kuSetCoverPhoto,
         token: token,
         key: 'image',
@@ -1029,9 +1029,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         ll(response.data.toString());
         CommonUserDataModel commonUserDataModel = CommonUserDataModel.fromJson(response.data);
         userData.value = commonUserDataModel.user;
-        var rememberMe = await _spController.getRememberMe();
+        var rememberMe = await spController.getRememberMe();
         if (rememberMe == true) {
-          await _spController.saveUserList({
+          await spController.saveUserList({
             "email": userData.value!.email.toString(),
             "name": userData.value!.fullName.toString(),
             "first_name": userData.value!.firstName.toString(),
@@ -1040,8 +1040,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
             "token": token.toString(),
           });
         }
-        await _spController.saveUserImage(userData.value!.profilePicture.toString());
-        await _globalController.getUserInfo();
+        await spController.saveUserImage(userData.value!.profilePicture.toString());
+        await globalController.getUserInfo();
         if (isFromProfile == true) {
           Get.back();
           isImageUploadPageLoading.value = false;
@@ -1049,16 +1049,16 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           Get.offAllNamed(krHome);
           await Get.find<HomeController>().getPostList();
         }
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         if (isFromProfile == true) {
           isImageUploadPageLoading.value = false;
         }
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -1073,9 +1073,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> storeUserSetting(key, value) async {
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {'key': key.toString(), 'value': value.toString()};
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuSetGeneralSetting,
         body: body,
@@ -1087,14 +1087,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         userData.value = commonUserLayeredData.value!.user;
 
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -1109,24 +1109,24 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> getProfessionList() async {
     try {
       isProfessionListLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetAllProfessions,
       ) as CommonDM;
       if (response.success == true) {
-        _globalController.professionList.clear();
+        globalController.professionList.clear();
         professionListData.value = ProfessionListModel.fromJson(response.data);
-        _globalController.professionList.addAll(professionListData.value!.professions);
+        globalController.professionList.addAll(professionListData.value!.professions);
         isProfessionListLoading.value = false;
       } else {
         isProfessionListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -1142,20 +1142,20 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> getInterestList() async {
     try {
       isInterestListLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetAllInterests,
       ) as CommonDM;
       if (response.success == true) {
         tempInterestList.clear();
-        _globalController.interestList.clear();
+        globalController.interestList.clear();
         interestListData.value = InterestListModel.fromJson(response.data);
         tempInterestList.addAll(interestListData.value!.interests);
         for (int i = 0; i < tempInterestList.length; i++) {
-          if (!_globalController.interestList.contains(tempInterestList[i])) {
-            _globalController.interestList.add(tempInterestList[i]);
+          if (!globalController.interestList.contains(tempInterestList[i])) {
+            globalController.interestList.add(tempInterestList[i]);
           }
         }
         isInterestListLoading.value = false;
@@ -1163,9 +1163,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         isInterestListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -1181,10 +1181,10 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     ll(professionList);
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {'key': 'profession', 'value': professionList};
       ll(body);
-      var response = await _apiController.commonPostDio(
+      var response = await apiController.commonPostDio(
         url: kuSetGeneralSetting,
         body: body,
         token: token,
@@ -1195,14 +1195,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
         userData.value = commonUserLayeredData.value!.user;
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -1216,10 +1216,10 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     ll(interest);
     try {
       isEditProfileLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {'key': 'interest', 'value': interest};
       ll(body);
-      var response = await _apiController.commonPostDio(
+      var response = await apiController.commonPostDio(
         url: kuSetGeneralSetting,
         body: body,
         token: token,
@@ -1230,14 +1230,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
         userData.value = commonUserLayeredData.value!.user;
         isEditProfileLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -1252,8 +1252,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> getGenderList() async {
     try {
       isGenderListLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetAllGenders,
@@ -1267,9 +1267,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         isGenderListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -1284,8 +1284,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> getRelationshipList() async {
     try {
       isRelationListLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetAllRelationShips,
@@ -1299,9 +1299,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         isRelationListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -1315,8 +1315,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   RxList<String> temp = RxList<String>();
   Future<void> getPositionList() async {
     try {
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetAllPositions,
@@ -1330,9 +1330,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -1355,8 +1355,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> getLinkList() async {
     try {
       isLinkListLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetAllLinkTypes,
@@ -1370,9 +1370,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         isLinkListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -1386,8 +1386,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> getCityList() async {
     try {
       isLinkListLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetAllCities,
@@ -1402,9 +1402,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         isLinkListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -1418,8 +1418,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> getCompanyList() async {
     try {
       isLinkListLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetAllCompanies,
@@ -1434,9 +1434,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         isLinkListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -1449,8 +1449,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Rx<SchoolListModel?> schoolListData = Rx<SchoolListModel?>(null);
   Future<void> getSchoolList() async {
     try {
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetAllSchools,
@@ -1463,9 +1463,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {

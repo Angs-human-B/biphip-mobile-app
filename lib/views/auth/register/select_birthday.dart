@@ -9,9 +9,9 @@ import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 class SelectBirthday extends StatelessWidget {
   SelectBirthday({super.key});
 
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final RegistrationHelper _registrationHelper = RegistrationHelper();
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final RegistrationHelper registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +28,12 @@ class SelectBirthday extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cTransparentColor,
-              title: _profileController.isRouteFromAboutInfo.value ? ksEditBirthday.tr : ksRegistration.tr,
+              title: profileController.isRouteFromAboutInfo.value ? ksEditBirthday.tr : ksRegistration.tr,
               onBack: () async {
                 Get.back();
               },
               action: [
-                if (!_profileController.isRouteFromAboutInfo.value)
+                if (!profileController.isRouteFromAboutInfo.value)
                   const Padding(
                     padding: EdgeInsets.only(right: 8.0),
                     child: CustomCircularProgressBar(
@@ -53,32 +53,32 @@ class SelectBirthday extends StatelessWidget {
                 child: Obx(
                   () => Column(
                     children: [
-                      if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
-                      if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                      if (!profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                      if (!profileController.isRouteFromAboutInfo.value) kH24sizedBox,
                       TopTitleAndSubtitle(
-                        title: !_profileController.isRouteFromAboutInfo.value ? ksWhatBirthday.tr : '',
-                        subTitle: !_profileController.isRouteFromAboutInfo.value ? ksChangeBirthday.tr : ksChangeYourBirthdayFromHere.tr,
+                        title: !profileController.isRouteFromAboutInfo.value ? ksWhatBirthday.tr : '',
+                        subTitle: !profileController.isRouteFromAboutInfo.value ? ksChangeBirthday.tr : ksChangeYourBirthdayFromHere.tr,
                       ),
-                      _profileController.isRouteFromAboutInfo.value ? kH20sizedBox : kH50sizedBox,
+                      profileController.isRouteFromAboutInfo.value ? kH20sizedBox : kH50sizedBox,
                       CustomSelectionButton(
                         buttonColor: cWhiteColor,
                         borderColor: cLineColor2,
                         onPressed: () {
-                          _registrationHelper.onPressedSelectBirthday(context);
+                          registrationHelper.onPressedSelectBirthday(context);
                         },
-                        text: _authenticationController.birthDay.value != '' ? _authenticationController.birthDay.value : '',
+                        text: authenticationController.birthDay.value != '' ? authenticationController.birthDay.value : '',
                         hintText: ksSelectDOB.tr,
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
-                        label: _profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
-                        onPressed: _authenticationController.birthDay.value != ''
+                        label: profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
+                        onPressed: authenticationController.birthDay.value != ''
                             ? () async {
-                                _registrationHelper.onPressedConfirmBirthday();
+                                registrationHelper.onPressedConfirmBirthday();
                               }
                             : null,
                         buttonWidth: width - 40,
-                        textStyle: _authenticationController.birthDay.value != ''
+                        textStyle: authenticationController.birthDay.value != ''
                             ? semiBold16TextStyle(cWhiteColor)
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),

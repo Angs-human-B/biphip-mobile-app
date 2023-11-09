@@ -8,9 +8,9 @@ import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
 class Menu extends StatelessWidget {
   Menu({super.key});
 
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final MenuSectionController _menuController = Get.find<MenuSectionController>();
-  final MenuHelper _menuHelper = MenuHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final MenuSectionController menuController = Get.find<MenuSectionController>();
+  final MenuHelper menuHelper = MenuHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class Menu extends StatelessWidget {
                         child: TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            _menuHelper.menuSearch();
+                            menuHelper.menuSearch();
                           },
                           child: Icon(
                             BipHip.search,
@@ -69,7 +69,7 @@ class Menu extends StatelessWidget {
                               height: 64,
                               onPressed: () async {
                                 Get.toNamed(krProfile);
-                                await _profileController.getProfileOverview();
+                                await profileController.getProfileOverview();
                               },
                               leading: ClipOval(
                                 child: Container(
@@ -105,20 +105,20 @@ class Menu extends StatelessWidget {
                               direction: Axis.horizontal,
                               spacing: 17.0,
                               children: [
-                                for (int i = 0; i < _menuController.shortcutButtonContent.length; i++)
+                                for (int i = 0; i < menuController.shortcutButtonContent.length; i++)
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: k16Padding),
                                     child: CustomMenuContainer(
                                       height: 64,
                                       width: (width / 2) - (kHorizontalPadding + 9),
                                       leading: Icon(
-                                        _menuController.shortcutButtonContent[i]['icon'],
+                                        menuController.shortcutButtonContent[i]['icon'],
                                         color: cPrimaryColor,
                                       ),
-                                      text: _menuController.shortcutButtonContent[i]['text'],
+                                      text: menuController.shortcutButtonContent[i]['text'],
                                       textStyle: semiBold16TextStyle(cBlackColor),
                                       onPressed: () {
-                                        _menuHelper.menuPressFunction(i);
+                                        menuHelper.menuPressFunction(i);
                                       },
                                     ),
                                   ),
@@ -135,21 +135,21 @@ class Menu extends StatelessWidget {
                               text: ksHelpSupport.tr,
                               icon: BipHip.helpFill,
                               onPressed: () {
-                                _menuController.isSupportButtonPressed.value = !_menuController.isSupportButtonPressed.value;
+                                menuController.isSupportButtonPressed.value = !menuController.isSupportButtonPressed.value;
                               },
                             ),
-                            if (_menuController.isSupportButtonPressed.value || _menuController.isSettingButtonPressed.value)
+                            if (menuController.isSupportButtonPressed.value || menuController.isSettingButtonPressed.value)
                               Container(
                                 width: width,
                                 height: 1,
                                 color: cLineColor,
                               ),
-                            if (_menuController.isSupportButtonPressed.value)
+                            if (menuController.isSupportButtonPressed.value)
                               ListOfButtons(
-                                list: _menuController.supportButtonContent,
+                                list: menuController.supportButtonContent,
                               ),
-                            if (_menuController.isSupportButtonPressed.value) kH10sizedBox,
-                            if (_menuController.isSupportButtonPressed.value || !_menuController.isSettingButtonPressed.value)
+                            if (menuController.isSupportButtonPressed.value) kH10sizedBox,
+                            if (menuController.isSupportButtonPressed.value || !menuController.isSettingButtonPressed.value)
                               Container(
                                 width: width,
                                 height: 1,
@@ -157,7 +157,7 @@ class Menu extends StatelessWidget {
                               ),
                             CustomExpandableMenuButton(
                               onPressed: () {
-                                _menuController.isSettingButtonPressed.value = !_menuController.isSettingButtonPressed.value;
+                                menuController.isSettingButtonPressed.value = !menuController.isSettingButtonPressed.value;
                               },
                               height: h50,
                               text: ksSettingsPrivacy.tr,
@@ -168,15 +168,15 @@ class Menu extends StatelessWidget {
                               height: 1,
                               color: cLineColor,
                             ),
-                            if (_menuController.isSettingButtonPressed.value)
+                            if (menuController.isSettingButtonPressed.value)
                               ListOfButtons(
-                                list: _menuController.settingsButtonContent,
+                                list: menuController.settingsButtonContent,
                               ),
                             kH20sizedBox,
                             CustomElevatedButton(
                               label: ksLogout.tr,
                               onPressed: () {
-                                _menuHelper.logout();
+                                menuHelper.logout();
                               },
                               buttonHeight: 42,
                               buttonWidth: width - 40,

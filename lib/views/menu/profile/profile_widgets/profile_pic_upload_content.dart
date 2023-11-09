@@ -6,7 +6,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 class PictureUploadContent extends StatelessWidget {
   PictureUploadContent({super.key, required this.isImageChanged, required this.imageFile, required this.imagePath, this.viewPhoto});
 
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final GlobalController globalController = Get.find<GlobalController>();
   final RxBool isImageChanged;
   final Rx<File> imageFile;
   final RxString imagePath;
@@ -42,7 +42,7 @@ class PictureUploadContent extends StatelessWidget {
           prefixIconColor: cIconColor,
           suffixIconColor: cIconColor,
           onPressed: () async {
-            var status = await _globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'camera');
+            var status = await globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'camera');
             if (status) {
               Get.toNamed(krPhotoPreview);
             }
@@ -60,7 +60,7 @@ class PictureUploadContent extends StatelessWidget {
           prefixIconColor: cIconColor,
           suffixIconColor: cIconColor,
           onPressed: () async {
-            var status = await _globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'gallery');
+            var status = await globalController.selectImageSource(isImageChanged, imagePath, imageFile, 'gallery');
             if (status) {
               Get.toNamed(krPhotoPreview);
             }

@@ -6,8 +6,8 @@ import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});
 
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final RegistrationHelper _registrationHelper = RegistrationHelper();
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+  final RegistrationHelper registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +49,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                           ),
                           kH50sizedBox,
                           CustomModifiedTextField(
-                            controller: _authenticationController.forgotPasswordEmailTextEditingController,
-                            errorText: _authenticationController.forgotPasswordEmailError.value,
+                            controller: authenticationController.forgotPasswordEmailTextEditingController,
+                            errorText: authenticationController.forgotPasswordEmailError.value,
                             hint: ksEmail.tr,
                             textHintStyle: regular16TextStyle(cPlaceHolderColor2),
                             fillColor: cWhiteColor,
@@ -59,7 +59,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
                             onChanged: (text) {
-                              _registrationHelper.forgetPasswordEmailOnChanged();
+                              registrationHelper.forgetPasswordEmailOnChanged();
                             },
                             onSubmit: (text) {},
                             inputAction: TextInputAction.done,
@@ -68,14 +68,14 @@ class ForgotPasswordScreen extends StatelessWidget {
                           kH24sizedBox,
                           CustomElevatedButton(
                             label: ksNext.tr,
-                            onPressed: _authenticationController.canSendOTP.value
+                            onPressed: authenticationController.canSendOTP.value
                                 ? () async {
                                     unfocus(context);
-                                    await _authenticationController.forgetPassword();
+                                    await authenticationController.forgetPassword();
                                   }
                                 : null,
                             buttonWidth: width - 40,
-                            textStyle: _authenticationController.canSendOTP.value
+                            textStyle: authenticationController.canSendOTP.value
                                 ? semiBold16TextStyle(cWhiteColor)
                                 : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                           ),
@@ -86,11 +86,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ),
               ),
             ),
-            if (_authenticationController.isForgetPasswordLoading.value == true)
+            if (authenticationController.isForgetPasswordLoading.value == true)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (_authenticationController.isForgetPasswordLoading.value) {
+                    if (authenticationController.isForgetPasswordLoading.value) {
                       return false;
                     }
                     return true;

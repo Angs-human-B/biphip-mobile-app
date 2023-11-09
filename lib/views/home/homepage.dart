@@ -11,7 +11,7 @@ import 'package:bip_hip/widgets/common/utils/search.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  final HomeController _homeController = Get.find<HomeController>();
+  final HomeController homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class HomePage extends StatelessWidget {
             isFifthButtonClicked: false,
           ),
           body: Obx(
-            () => _homeController.isHomePageLoading.value
+            () => homeController.isHomePageLoading.value
                 ? const HomePageShimmer()
                 : SizedBox(
                     height: height,
@@ -168,15 +168,15 @@ class HomePage extends StatelessWidget {
                             child: const StoriesWidget(),
                           ),
                           kH8sizedBox,
-                          if (_homeController.allPostList.isEmpty) const SizedBox(height: 300, child: EmptyView(title: ksNoDataAvailable)),
-                          if (_homeController.allPostList.isNotEmpty)
+                          if (homeController.allPostList.isEmpty) const SizedBox(height: 300, child: EmptyView(title: ksNoDataAvailable)),
+                          if (homeController.allPostList.isNotEmpty)
                             ListView.separated(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 separatorBuilder: (context, index) => kH8sizedBox,
-                                itemCount: _homeController.allPostList.length,
+                                itemCount: homeController.allPostList.length,
                                 itemBuilder: (context, index) {
-                                  var item = _homeController.allPostList[index];
+                                  var item = homeController.allPostList[index];
                                   return Container(
                                     color: cWhiteColor,
                                     width: width,
@@ -190,8 +190,8 @@ class HomePage extends StatelessWidget {
                                       isCategorized: true,
                                       isTextualPost: item.content == null ? false : true, //API
                                       category: item.postCategory!.name, //API
-                                      categoryIcon: _homeController.getCategoryIcon(item.postCategory!.id), // need change API
-                                      categoryIconColor: _homeController.getCategoryColor(item.postCategory!.id), // Based on API
+                                      categoryIcon: homeController.getCategoryIcon(item.postCategory!.id), // need change API
+                                      categoryIconColor: homeController.getCategoryColor(item.postCategory!.id), // Based on API
                                       privacy: BipHip.world,
                                       brandName: item.brand == null ? null : item.brand!.name, //API
                                       kidName: item.kid == null ? null : item.kid!.name, //API

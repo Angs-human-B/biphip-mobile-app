@@ -3,30 +3,30 @@ import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class FamilyHelper {
-  final GlobalController _globalController = Get.find<GlobalController>();
-  final FamilyController _familyController = Get.find<FamilyController>();
+  final GlobalController globalController = Get.find<GlobalController>();
+  final FamilyController familyController = Get.find<FamilyController>();
   //*Family Page
   void familySearchFieldReset() {
-    _globalController.searchController.clear();
-    _familyController.isFamilySuffixIconVisible.value = false;
+    globalController.searchController.clear();
+    familyController.isFamilySuffixIconVisible.value = false;
   }
 
   Widget totalFamilyCountShow() {
-    if (_globalController.tapAbleButtonState[0]) {
-      if (_familyController.allFamilyCount.value == 0) {
+    if (globalController.tapAbleButtonState[0]) {
+      if (familyController.allFamilyCount.value == 0) {
         return const SizedBox();
       } else {
         return Text(
-          '${ksTotalFamilyMembers.tr}: ${_familyController.allFamilyCount.value}',
+          '${ksTotalFamilyMembers.tr}: ${familyController.allFamilyCount.value}',
           style: semiBold14TextStyle(cBlackColor),
         );
       }
     } else {
-      if (_familyController.receivedRequestCount.value == 0) {
+      if (familyController.receivedRequestCount.value == 0) {
         return const SizedBox();
       } else {
         return Text(
-          '${ksFamilyRequests.tr}: ${_familyController.receivedRequestCount.value}',
+          '${ksFamilyRequests.tr}: ${familyController.receivedRequestCount.value}',
           style: semiBold14TextStyle(cBlackColor),
         );
       }
@@ -35,57 +35,57 @@ class FamilyHelper {
 
   void familyAddButtonOnPressed() {
     familySearchFieldReset();
-    _familyController.clearAddFamilyData();
+    familyController.clearAddFamilyData();
     Get.toNamed(krAddFamily);
     Get.find<FriendController>().getFriendListForAddFamily();
   }
 
   void familyOnChanged() {
-    if (_globalController.searchController.text.trim() != '') {
-      _familyController.isFamilySuffixIconVisible.value = true;
+    if (globalController.searchController.text.trim() != '') {
+      familyController.isFamilySuffixIconVisible.value = true;
     } else {
-      _familyController.isFamilySuffixIconVisible.value = false;
+      familyController.isFamilySuffixIconVisible.value = false;
     }
   }
 
   void allFamilyTapableButtOnPressed() async {
-    _globalController.toggleType(0);
+    globalController.toggleType(0);
     familySearchFieldReset();
-    await _familyController.getFamilyList();
+    await familyController.getFamilyList();
   }
 
   void receivedFamilyTapableButtOnPressed() async {
-    _globalController.toggleType(1);
+    globalController.toggleType(1);
     familySearchFieldReset();
-    await _familyController.getReceivedFamilyList();
+    await familyController.getReceivedFamilyList();
   }
 
   void pendingFamilyTapableButtOnPressed() async {
-    _globalController.toggleType(2);
+    globalController.toggleType(2);
     familySearchFieldReset();
-    await _familyController.getSendFamilyRequestList();
+    await familyController.getSendFamilyRequestList();
   }
 
   void addFamilySendOnPressed() async {
-    await _familyController.sendFamilyRequest();
-    _familyController.isFamilySuffixIconVisible.value = false;
+    await familyController.sendFamilyRequest();
+    familyController.isFamilySuffixIconVisible.value = false;
   }
 
   //*Add family page
   void addFamilyOnPressedRightButton() {
-    _familyController.isFamilyRelationListLoading.value = true;
-    _familyController.relation.value = _familyController.tempRelation.value;
-    for (int index = 0; index < _familyController.familyRelationList.length; index++) {
-      if (_familyController.tempRelation.value == _familyController.familyRelationList[index].name) {
-        _familyController.relationId.value = _familyController.familyRelationList[index].id;
+    familyController.isFamilyRelationListLoading.value = true;
+    familyController.relation.value = familyController.tempRelation.value;
+    for (int index = 0; index < familyController.familyRelationList.length; index++) {
+      if (familyController.tempRelation.value == familyController.familyRelationList[index].name) {
+        familyController.relationId.value = familyController.familyRelationList[index].id;
       }
     }
     Get.back();
   }
 
   void addFamilyOnPressed() {
-    _familyController.tempRelation.value = _familyController.relation.value;
-    if (_familyController.tempRelation.value == '') {
+    familyController.tempRelation.value = familyController.relation.value;
+    if (familyController.tempRelation.value == '') {
       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
     } else {
       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
@@ -93,16 +93,16 @@ class FamilyHelper {
   }
 
   void addFamilySuffixPressed() {
-    _globalController.searchController.clear();
-    _familyController.isFamilySuffixIconVisible.value = false;
-    _familyController.userId.value = -1;
+    globalController.searchController.clear();
+    familyController.isFamilySuffixIconVisible.value = false;
+    familyController.userId.value = -1;
   }
 
   void addFamilyRawAutoCompleteOnPressed({required String option}) {
-    _globalController.searchController.text = option.toString();
+    globalController.searchController.text = option.toString();
     for (int i = 0; i < Get.find<FriendController>().friendListForAddFamily.length; i++) {
       if (Get.find<FriendController>().friendListForAddFamily[i].fullName == option) {
-        _familyController.userId.value = Get.find<FriendController>().friendListForAddFamily[i].id!;
+        familyController.userId.value = Get.find<FriendController>().friendListForAddFamily[i].id!;
       }
     }
   }

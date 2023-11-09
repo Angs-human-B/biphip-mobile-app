@@ -7,69 +7,69 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class RegistrationHelper {
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
-  final ProfileController _profileController = Get.find<ProfileController>();
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+  final GlobalController globalController = Get.find<GlobalController>();
+  final ProfileController profileController = Get.find<ProfileController>();
 
   void checkName() {
-    if (_authenticationController.registerFirstNameTextEditingController.text.trim() != '' &&
-        _authenticationController.registerLastNameTextEditingController.text.trim() != '') {
-      _authenticationController.checkValidName.value = true;
+    if (authenticationController.registerFirstNameTextEditingController.text.trim() != '' &&
+        authenticationController.registerLastNameTextEditingController.text.trim() != '') {
+      authenticationController.checkValidName.value = true;
     } else {
-      _authenticationController.checkValidName.value = false;
+      authenticationController.checkValidName.value = false;
     }
   }
 
   void checkEmail() {
-    if (_authenticationController.registerEmailTextEditingController.text.trim() != '' &&
-        _authenticationController.registerEmailTextEditingController.text.isValidEmail) {
-      _authenticationController.checkValidEmail.value = true;
+    if (authenticationController.registerEmailTextEditingController.text.trim() != '' &&
+        authenticationController.registerEmailTextEditingController.text.isValidEmail) {
+      authenticationController.checkValidEmail.value = true;
     } else {
-      _authenticationController.checkValidEmail.value = false;
+      authenticationController.checkValidEmail.value = false;
     }
   }
 
   void checkPassword() {
-    if (_authenticationController.registerPasswordTextEditingController.text.length >= kMinPasswordLength &&
-        _authenticationController.registerPasswordTextEditingController.text == _authenticationController.registerConfirmPasswordTextEditingController.text) {
-      _authenticationController.checkValidPassword.value = true;
+    if (authenticationController.registerPasswordTextEditingController.text.length >= kMinPasswordLength &&
+        authenticationController.registerPasswordTextEditingController.text == authenticationController.registerConfirmPasswordTextEditingController.text) {
+      authenticationController.checkValidPassword.value = true;
     } else {
-      _authenticationController.checkValidPassword.value = false;
+      authenticationController.checkValidPassword.value = false;
     }
   }
 
   void registerFirstNameOnChange() {
     checkName();
-    if (_authenticationController.registerFirstNameTextEditingController.text.trim() == '') {
-      _authenticationController.firstNameError.value = ksEmptyFirstNameErrorMessage.tr;
+    if (authenticationController.registerFirstNameTextEditingController.text.trim() == '') {
+      authenticationController.firstNameError.value = ksEmptyFirstNameErrorMessage.tr;
     } else {
-      _authenticationController.firstNameError.value = "";
+      authenticationController.firstNameError.value = "";
     }
   }
 
   void registerLastNameOnChange() {
     checkName();
-    if (_authenticationController.registerLastNameTextEditingController.text.trim() == '') {
-      _authenticationController.lastNameError.value = ksEmptyLastNameErrorMessage.tr;
+    if (authenticationController.registerLastNameTextEditingController.text.trim() == '') {
+      authenticationController.lastNameError.value = ksEmptyLastNameErrorMessage.tr;
     } else {
-      _authenticationController.lastNameError.value = "";
+      authenticationController.lastNameError.value = "";
     }
   }
 
   void onPressedNext() {
     Get.find<ProfileController>().isRouteFromAboutInfo.value = false;
-    _authenticationController.birthDay.value = '';
+    authenticationController.birthDay.value = '';
     Get.toNamed(krSelectBirthday);
   }
 
   void registerEmailOnChanged() {
     checkEmail();
-    if (_authenticationController.registerEmailTextEditingController.text.trim() == '') {
-      _authenticationController.registerEmailError.value = ksEmptyEmailErrorMessage.tr;
-    } else if (!_authenticationController.registerEmailTextEditingController.text.trim().isValidEmail) {
-      _authenticationController.registerEmailError.value = ksInvalidEmailErrorMessage.tr;
+    if (authenticationController.registerEmailTextEditingController.text.trim() == '') {
+      authenticationController.registerEmailError.value = ksEmptyEmailErrorMessage.tr;
+    } else if (!authenticationController.registerEmailTextEditingController.text.trim().isValidEmail) {
+      authenticationController.registerEmailError.value = ksInvalidEmailErrorMessage.tr;
     } else {
-      _authenticationController.registerEmailError.value = '';
+      authenticationController.registerEmailError.value = '';
     }
   }
 
@@ -81,12 +81,12 @@ class RegistrationHelper {
           height: height * 0.4,
           child: CupertinoDatePicker(
             maximumDate: DateTime.now().subtract(const Duration(days: 15 * 365)),
-            initialDateTime: _authenticationController.birthDay.value != ''
-                ? DateTime.parse(_authenticationController.birthDay.value)
+            initialDateTime: authenticationController.birthDay.value != ''
+                ? DateTime.parse(authenticationController.birthDay.value)
                 : DateTime.now().subtract(const Duration(days: 16 * 365)),
             mode: CupertinoDatePickerMode.date,
             onDateTimeChanged: (value) {
-              _authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(value);
+              authenticationController.birthDay.value = DateFormat("yyyy-MM-dd").format(value);
             },
           ),
         );
@@ -95,38 +95,38 @@ class RegistrationHelper {
   }
 
   void onPressedConfirmBirthday() async {
-    if (!_profileController.isRouteFromAboutInfo.value) {
+    if (!profileController.isRouteFromAboutInfo.value) {
       Get.toNamed(krSelectGender);
     } else {
-      _profileController.birthday.value = _authenticationController.birthDay.value;
+      profileController.birthday.value = authenticationController.birthDay.value;
       Get.back();
-      await _profileController.updateDOB();
-      _profileController.isRouteFromAboutInfo.value = false;
+      await profileController.updateDOB();
+      profileController.isRouteFromAboutInfo.value = false;
     }
   }
 
   void onPressedSelectGender(context) async {
-    if (_authenticationController.gender.value != '') {
-      _profileController.tempSelectedGender.value = _authenticationController.gender.value;
+    if (authenticationController.gender.value != '') {
+      profileController.tempSelectedGender.value = authenticationController.gender.value;
     }
-    _profileController.isGenderListLoading.value = true;
-    _globalController.commonBottomSheet(
+    profileController.isGenderListLoading.value = true;
+    globalController.commonBottomSheet(
       context: context,
       content: Obx(
-        () => _profileController.isGenderListLoading.value
+        () => profileController.isGenderListLoading.value
             ? const GenderListShimmer()
             : GenderListContent(
-                profileController: _profileController,
+                profileController: profileController,
               ),
       ),
       onPressCloseButton: () {
         Get.back();
       },
       onPressRightButton: () {
-        _profileController.isGenderListLoading.value = true;
-        if (_profileController.tempSelectedGender.value != '') {
-          _authenticationController.gender.value = _profileController.tempSelectedGender.value;
-          _profileController.isGenderSelected.value = true;
+        profileController.isGenderListLoading.value = true;
+        if (profileController.tempSelectedGender.value != '') {
+          authenticationController.gender.value = profileController.tempSelectedGender.value;
+          profileController.isGenderSelected.value = true;
         }
         Get.back();
       },
@@ -137,61 +137,61 @@ class RegistrationHelper {
       isScrollControlled: true,
       bottomSheetHeight: height * 0.4,
     );
-    await _profileController.getGenderList();
+    await profileController.getGenderList();
   }
 
   void passwordOnChanged() {
     checkPassword();
-    if (_authenticationController.registerPasswordTextEditingController.text.trim() == '') {
-      _authenticationController.registerPasswordError.value = ksEmptyPasswordErrorMessage.tr;
-    } else if (_authenticationController.registerPasswordTextEditingController.text.length < kMinPasswordLength) {
-      _authenticationController.registerPasswordError.value = ksPasswordLengthErrorMessage.tr;
-    } else if ((_authenticationController.registerConfirmPasswordTextEditingController.text !=
-            _authenticationController.registerPasswordTextEditingController.text) &&
-        _authenticationController.registerConfirmPasswordTextEditingController.text.isNotEmpty) {
-      _authenticationController.registerConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
+    if (authenticationController.registerPasswordTextEditingController.text.trim() == '') {
+      authenticationController.registerPasswordError.value = ksEmptyPasswordErrorMessage.tr;
+    } else if (authenticationController.registerPasswordTextEditingController.text.length < kMinPasswordLength) {
+      authenticationController.registerPasswordError.value = ksPasswordLengthErrorMessage.tr;
+    } else if ((authenticationController.registerConfirmPasswordTextEditingController.text !=
+            authenticationController.registerPasswordTextEditingController.text) &&
+        authenticationController.registerConfirmPasswordTextEditingController.text.isNotEmpty) {
+      authenticationController.registerConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
     } else {
-      _authenticationController.registerPasswordError.value = '';
-      _authenticationController.registerConfirmPasswordError.value = '';
+      authenticationController.registerPasswordError.value = '';
+      authenticationController.registerConfirmPasswordError.value = '';
     }
   }
 
   void confirmPasswordOnChanged() {
     checkPassword();
-    if (_authenticationController.registerConfirmPasswordTextEditingController.text.trim() == '') {
-      _authenticationController.registerConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage.tr;
-    } else if (_authenticationController.registerConfirmPasswordTextEditingController.text !=
-        _authenticationController.registerPasswordTextEditingController.text) {
-      _authenticationController.registerConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
+    if (authenticationController.registerConfirmPasswordTextEditingController.text.trim() == '') {
+      authenticationController.registerConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage.tr;
+    } else if (authenticationController.registerConfirmPasswordTextEditingController.text !=
+        authenticationController.registerPasswordTextEditingController.text) {
+      authenticationController.registerConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
     } else {
-      _authenticationController.registerConfirmPasswordError.value = '';
+      authenticationController.registerConfirmPasswordError.value = '';
     }
   }
 
   void checkCanOTPVerifyNow() {
-    if (_authenticationController.otpTextEditingController.text.length == kOTPLength) {
-      _authenticationController.canOTPVerifyNow.value = true;
+    if (authenticationController.otpTextEditingController.text.length == kOTPLength) {
+      authenticationController.canOTPVerifyNow.value = true;
     } else {
-      _authenticationController.canOTPVerifyNow.value = false;
+      authenticationController.canOTPVerifyNow.value = false;
     }
   }
 
   void onPressedVerifyOTP() async {
-    if (_authenticationController.parentRoute.value == "login") {
-      await _authenticationController.signUpVerify();
-    } else if (_authenticationController.parentRoute.value == "register") {
-      _profileController.isRouteFromAboutInfo.value = false;
+    if (authenticationController.parentRoute.value == "login") {
+      await authenticationController.signUpVerify();
+    } else if (authenticationController.parentRoute.value == "register") {
+      profileController.isRouteFromAboutInfo.value = false;
       Get.find<GlobalController>().professionIndex.value = -1;
-      await _authenticationController.signUpVerify();
-      await _profileController.getProfessionList();
+      await authenticationController.signUpVerify();
+      await profileController.getProfessionList();
     } else {
-      await _authenticationController.forgetPasswordVerify();
+      await authenticationController.forgetPasswordVerify();
     }
   }
 
   void onPressedSavePhoto(context) async {
-    if (!_authenticationController.isProfileImageChanged.value) {
-      _globalController.commonBottomSheet(
+    if (!authenticationController.isProfileImageChanged.value) {
+      globalController.commonBottomSheet(
           context: context,
           onPressCloseButton: () {
             Get.back();
@@ -212,8 +212,8 @@ class RegistrationHelper {
                 prefixIconColor: cIconColor,
                 suffixIconColor: cIconColor,
                 onPressed: () async {
-                  await _globalController.selectImageSource(_authenticationController.isProfileImageChanged, _authenticationController.profileLink,
-                      _authenticationController.profileFile, 'camera', true);
+                  await globalController.selectImageSource(authenticationController.isProfileImageChanged, authenticationController.profileLink,
+                      authenticationController.profileFile, 'camera', true);
                 },
                 buttonHeight: h32,
                 buttonWidth: width - 40,
@@ -228,8 +228,8 @@ class RegistrationHelper {
                 prefixIconColor: cIconColor,
                 suffixIconColor: cIconColor,
                 onPressed: () async {
-                  await _globalController.selectImageSource(_authenticationController.isProfileImageChanged, _authenticationController.profileLink,
-                      _authenticationController.profileFile, 'gallery', true);
+                  await globalController.selectImageSource(authenticationController.isProfileImageChanged, authenticationController.profileLink,
+                      authenticationController.profileFile, 'gallery', true);
                 },
                 buttonHeight: h32,
                 buttonWidth: width - 40,
@@ -240,105 +240,105 @@ class RegistrationHelper {
             ],
           ));
     } else {
-      _authenticationController.isImageUploadLoading.value = true;
-      await Get.find<ProfileController>().uploadProfileAndCover(_authenticationController.profileFile.value, 'profile', false);
-      _authenticationController.isImageUploadLoading.value = false;
+      authenticationController.isImageUploadLoading.value = true;
+      await Get.find<ProfileController>().uploadProfileAndCover(authenticationController.profileFile.value, 'profile', false);
+      authenticationController.isImageUploadLoading.value = false;
     }
   }
 
   void onSelectingInterest(index) {
-    if (!_globalController.interestIndex.contains(index)) {
-      _globalController.interestIndex.add(index);
+    if (!globalController.interestIndex.contains(index)) {
+      globalController.interestIndex.add(index);
     } else {
-      _globalController.interestIndex.remove(index);
+      globalController.interestIndex.remove(index);
     }
   }
 
   void onPressedSaveInterest() async {
-    if (!_profileController.isRouteFromAboutInfo.value) {
-      for (int i = 0; i < _globalController.interestIndex.length; i++) {
-        _globalController.selectedInterests.add(_globalController.interestList[_globalController.interestIndex[i]]);
+    if (!profileController.isRouteFromAboutInfo.value) {
+      for (int i = 0; i < globalController.interestIndex.length; i++) {
+        globalController.selectedInterests.add(globalController.interestList[globalController.interestIndex[i]]);
       }
       Get.toNamed(krUploadPicture);
-      await _profileController.setInterest(_globalController.selectedInterests);
-      _globalController.resetChipSelection();
+      await profileController.setInterest(globalController.selectedInterests);
+      globalController.resetChipSelection();
     } else {
-      _globalController.selectedInterests.clear();
-      for (int i = 0; i < _globalController.interestIndex.length; i++) {
-        _globalController.selectedInterests.add(_globalController.interestList[_globalController.interestIndex[i]]);
+      globalController.selectedInterests.clear();
+      for (int i = 0; i < globalController.interestIndex.length; i++) {
+        globalController.selectedInterests.add(globalController.interestList[globalController.interestIndex[i]]);
       }
       Get.back();
-      await _profileController.setInterest(_globalController.selectedInterests);
-      _profileController.isRouteFromAboutInfo.value = false;
+      await profileController.setInterest(globalController.selectedInterests);
+      profileController.isRouteFromAboutInfo.value = false;
     }
   }
 
   void onPressedSaveProfession() async {
-    if (!_profileController.isRouteFromAboutInfo.value) {
-      _profileController.isInterestListLoading.value = true;
+    if (!profileController.isRouteFromAboutInfo.value) {
+      profileController.isInterestListLoading.value = true;
       Get.find<GlobalController>().interestIndex.clear();
-      _globalController.selectedProfession.value = _globalController.professionList[_globalController.professionIndex.value];
-      _profileController.setProfession(_globalController.selectedProfession.value);
+      globalController.selectedProfession.value = globalController.professionList[globalController.professionIndex.value];
+      profileController.setProfession(globalController.selectedProfession.value);
       Get.toNamed(krSelectInterest);
-      await _profileController.getInterestList();
+      await profileController.getInterestList();
     } else {
-      _globalController.selectedProfession.value = _globalController.professionList[_globalController.professionIndex.value];
+      globalController.selectedProfession.value = globalController.professionList[globalController.professionIndex.value];
 
       Get.back();
-      await _profileController.setProfession(_globalController.selectedProfession.value);
-      _profileController.isRouteFromAboutInfo.value = false;
+      await profileController.setProfession(globalController.selectedProfession.value);
+      profileController.isRouteFromAboutInfo.value = false;
     }
   }
 
   void checkCanSendOTP() {
-    if (_authenticationController.forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
-      _authenticationController.canSendOTP.value = true;
+    if (authenticationController.forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
+      authenticationController.canSendOTP.value = true;
     } else {
-      _authenticationController.canSendOTP.value = false;
+      authenticationController.canSendOTP.value = false;
     }
   }
 
   void forgetPasswordEmailOnChanged() {
     checkCanSendOTP();
-    if (_authenticationController.forgotPasswordEmailTextEditingController.text.trim() == '') {
-      _authenticationController.forgotPasswordEmailError.value = ksEmptyEmailErrorMessage.tr;
-    } else if (!_authenticationController.forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
-      _authenticationController.forgotPasswordEmailError.value = ksInvalidEmailErrorMessage.tr;
+    if (authenticationController.forgotPasswordEmailTextEditingController.text.trim() == '') {
+      authenticationController.forgotPasswordEmailError.value = ksEmptyEmailErrorMessage.tr;
+    } else if (!authenticationController.forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
+      authenticationController.forgotPasswordEmailError.value = ksInvalidEmailErrorMessage.tr;
     } else {
-      _authenticationController.forgotPasswordEmailError.value = '';
+      authenticationController.forgotPasswordEmailError.value = '';
     }
   }
 
   void checkCanResetPassword() {
-    if (_authenticationController.resetNewPasswordTextEditingController.text.trim().length >= kMinPasswordLength &&
-        _authenticationController.resetNewPasswordTextEditingController.text.trim() ==
-            _authenticationController.resetConfirmPasswordTextEditingController.text.trim()) {
-      _authenticationController.canResetPassword.value = true;
+    if (authenticationController.resetNewPasswordTextEditingController.text.trim().length >= kMinPasswordLength &&
+        authenticationController.resetNewPasswordTextEditingController.text.trim() ==
+            authenticationController.resetConfirmPasswordTextEditingController.text.trim()) {
+      authenticationController.canResetPassword.value = true;
     } else {
-      _authenticationController.canResetPassword.value = false;
+      authenticationController.canResetPassword.value = false;
     }
   }
 
   void forgetPasswordNewPasswordOnChanged() {
     checkCanResetPassword();
-    if (_authenticationController.resetNewPasswordTextEditingController.text.trim() == '') {
-      _authenticationController.resetPasswordError.value = ksEmptyPasswordErrorMessage.tr;
-    } else if (_authenticationController.resetNewPasswordTextEditingController.text.length < kMinPasswordLength) {
-      _authenticationController.resetPasswordError.value = ksPasswordLengthErrorMessage.tr;
+    if (authenticationController.resetNewPasswordTextEditingController.text.trim() == '') {
+      authenticationController.resetPasswordError.value = ksEmptyPasswordErrorMessage.tr;
+    } else if (authenticationController.resetNewPasswordTextEditingController.text.length < kMinPasswordLength) {
+      authenticationController.resetPasswordError.value = ksPasswordLengthErrorMessage.tr;
     } else {
-      _authenticationController.resetPasswordError.value = '';
+      authenticationController.resetPasswordError.value = '';
     }
   }
 
   void forgetPasswordConfirmPasswordOnChanged() {
     checkCanResetPassword();
-    if (_authenticationController.resetConfirmPasswordTextEditingController.text.trim() == '') {
-      _authenticationController.resetConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage.tr;
-    } else if (_authenticationController.resetConfirmPasswordTextEditingController.text !=
-        _authenticationController.resetNewPasswordTextEditingController.text) {
-      _authenticationController.resetConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
+    if (authenticationController.resetConfirmPasswordTextEditingController.text.trim() == '') {
+      authenticationController.resetConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage.tr;
+    } else if (authenticationController.resetConfirmPasswordTextEditingController.text !=
+        authenticationController.resetNewPasswordTextEditingController.text) {
+      authenticationController.resetConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
     } else {
-      _authenticationController.resetConfirmPasswordError.value = '';
+      authenticationController.resetConfirmPasswordError.value = '';
     }
   }
 }

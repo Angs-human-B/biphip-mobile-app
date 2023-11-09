@@ -9,8 +9,8 @@ import 'package:intl/intl.dart';
 
 class PostTab extends StatelessWidget {
   PostTab({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final HomeController _homeController = Get.find<HomeController>();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final HomeController homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +35,13 @@ class PostTab extends StatelessWidget {
                         icon: BipHip.birthday,
                         onPressed: null,
                         prefixText: '${ksBornOn.tr} ',
-                        suffixText: DateFormat("MMMM dd, yyyy").format(_profileController.userData.value!.dob!),
+                        suffixText: DateFormat("MMMM dd, yyyy").format(profileController.userData.value!.dob!),
                       ),
-                      if (_profileController.currentCityData.value?.city != null && _profileController.currentCityData.value?.isCurrent == 1)
+                      if (profileController.currentCityData.value?.city != null && profileController.currentCityData.value?.isCurrent == 1)
                         LinkUpIconTextRow(
                           icon: BipHip.address,
                           prefixText: '${ksLivesIn.tr} ',
-                          suffixText: '${_profileController.currentCityData.value?.city}',
+                          suffixText: '${profileController.currentCityData.value?.city}',
                           onPressed: null,
                         ),
                       CustomTextButton(
@@ -98,10 +98,10 @@ class PostTab extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: k4Padding),
                             child: CustomChoiceChips(
                               label: interestProfile[i],
-                              isSelected: (_profileController.interestCatagoriesIndex.value == i && _profileController.isInterestSelected.value),
+                              isSelected: (profileController.interestCatagoriesIndex.value == i && profileController.isInterestSelected.value),
                               onSelected: (value) {
-                                _profileController.interestCatagoriesIndex.value = i;
-                                _profileController.isInterestSelected.value = value;
+                                profileController.interestCatagoriesIndex.value = i;
+                                profileController.isInterestSelected.value = value;
                               },
                             ),
                           ),
@@ -117,9 +117,9 @@ class PostTab extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 separatorBuilder: (context, index) => kH8sizedBox,
-                itemCount: _homeController.allPostList.length,
+                itemCount: homeController.allPostList.length,
                 itemBuilder: (context, index) {
-                  var item = _homeController.allPostList[index];
+                  var item = homeController.allPostList[index];
                   return Container(
                     color: cWhiteColor,
                     width: width,
@@ -133,8 +133,8 @@ class PostTab extends StatelessWidget {
                       isCategorized: true,
                       isTextualPost: item.content == null ? false : true, //API
                       category: item.postCategory!.name, //API
-                      categoryIcon: _homeController.getCategoryIcon(item.postCategory!.id), // need change API
-                      categoryIconColor: _homeController.getCategoryColor(item.postCategory!.id), // Based on API
+                      categoryIcon: homeController.getCategoryIcon(item.postCategory!.id), // need change API
+                      categoryIconColor: homeController.getCategoryColor(item.postCategory!.id), // Based on API
                       privacy: BipHip.world,
                       brandName: item.brand == null ? null : item.brand!.name, //API
                       kidName: item.kid == null ? null : item.kid!.name, //API

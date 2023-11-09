@@ -6,9 +6,9 @@ import 'package:bip_hip/models/menu/family/family_relation_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class FamilyController extends GetxController {
-  final ApiController _apiController = ApiController();
-  final SpController _spController = SpController();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final ApiController apiController = ApiController();
+  final SpController spController = SpController();
+  final GlobalController globalController = Get.find<GlobalController>();
   //*Scroll controller for pagination
   final ScrollController familyListScrollController = ScrollController();
   //*Family List Api Call
@@ -22,8 +22,8 @@ class FamilyController extends GetxController {
     try {
       isFamilyListLoading.value = true;
       String suffixUrl = '?take=15';
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetFamilyList + suffixUrl,
@@ -46,9 +46,9 @@ class FamilyController extends GetxController {
         isFamilyListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -60,7 +60,7 @@ class FamilyController extends GetxController {
   //*Get More Family List for pagination
   Future<void> getMoreFamilyList(take) async {
     try {
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       dynamic familyListSub;
 
       if (familyListSubLink.value == null) {
@@ -73,7 +73,7 @@ class FamilyController extends GetxController {
 
       familyListSuffixUrl = '?${familyListSub[1]}&take=15';
 
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetFamilyList + familyListSuffixUrl,
@@ -95,9 +95,9 @@ class FamilyController extends GetxController {
         isFamilyListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -118,8 +118,8 @@ class FamilyController extends GetxController {
     try {
       isReceivedFamilyListLoading.value = true;
       String suffixUrl = '?take=15';
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetFamilyRequestReceiveList + suffixUrl,
@@ -141,9 +141,9 @@ class FamilyController extends GetxController {
         isReceivedFamilyListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -155,7 +155,7 @@ class FamilyController extends GetxController {
   //*Get More Received Family List for pagination
   Future<void> getMoreReceivedFamilyList(take) async {
     try {
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       dynamic receivedFamilyListSub;
 
       if (receivedFamilyListSubLink.value == null) {
@@ -168,7 +168,7 @@ class FamilyController extends GetxController {
 
       receivedFamilyListSuffixUrl = '?${receivedFamilyListSub[1]}&take=15';
 
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetFamilyRequestReceiveList + receivedFamilyListSuffixUrl,
@@ -190,9 +190,9 @@ class FamilyController extends GetxController {
         isReceivedFamilyListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -207,11 +207,11 @@ class FamilyController extends GetxController {
   Future<void> acceptFamilyRequest() async {
     try {
       isAcceptFamilyRequestLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'family_id': userId.value.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuAcceptFamilyRequest,
         body: body,
@@ -225,14 +225,14 @@ class FamilyController extends GetxController {
           }
         }
         isAcceptFamilyRequestLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isAcceptFamilyRequestLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -247,11 +247,11 @@ class FamilyController extends GetxController {
   Future<void> rejectFamilyRequest() async {
     try {
       isRejectFamilyRequestLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'family_id': userId.value.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuRejectFamilyRequest,
         body: body,
@@ -267,14 +267,14 @@ class FamilyController extends GetxController {
           }
         }
 
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isRejectFamilyRequestLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -295,8 +295,8 @@ class FamilyController extends GetxController {
     try {
       isSendFamilyRequestListLoading.value = true;
       String suffixUrl = '?take=15';
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetFamilyRequestSendList + suffixUrl,
@@ -317,9 +317,9 @@ class FamilyController extends GetxController {
         isSendFamilyRequestListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -331,7 +331,7 @@ class FamilyController extends GetxController {
   //*Get More Received Family List for pagination
   Future<void> getMoreSendFamilyList(take) async {
     try {
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       dynamic sendFamilyListSub;
 
       if (sendFamilyListSubLink.value == null) {
@@ -344,7 +344,7 @@ class FamilyController extends GetxController {
 
       sendFamilyListSuffixUrl = '?${sendFamilyListSub[1]}&take=15';
 
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetFamilyRequestSendList + sendFamilyListSuffixUrl,
@@ -364,9 +364,9 @@ class FamilyController extends GetxController {
         isSendFamilyRequestListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -380,11 +380,11 @@ class FamilyController extends GetxController {
   Future<void> cancelFamilyRequest() async {
     try {
       isCancelFamilyRequestLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'user_id': userId.value.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuCancelFamilyRequest,
         body: body,
@@ -397,14 +397,14 @@ class FamilyController extends GetxController {
           }
         }
         isCancelFamilyRequestLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isCancelFamilyRequestLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -420,12 +420,12 @@ class FamilyController extends GetxController {
   Future<void> sendFamilyRequest() async {
     try {
       isSendFamilyRequestLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'family_id': userId.value.toString(),
         'relation_id': relationId.value.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuSendFamilyRequest,
         body: body,
@@ -433,16 +433,16 @@ class FamilyController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         isSendFamilyRequestLoading.value = false;
-        _globalController.searchController.clear();
+        globalController.searchController.clear();
         Get.back();
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor);
       } else {
         isSendFamilyRequestLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -458,8 +458,8 @@ class FamilyController extends GetxController {
   Future<void> getFamilyRelationList() async {
     try {
       isFamilyRelationListLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetAllFamilyRelations,
@@ -473,9 +473,9 @@ class FamilyController extends GetxController {
         isFamilyRelationListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -498,13 +498,13 @@ class FamilyController extends GetxController {
   Timer? debounce;
   final RxBool isFamilySuffixIconVisible = RxBool(false);
   void addFamilyOnPressed() {
-    if (_globalController.searchController.text.trim() != '') {
+    if (globalController.searchController.text.trim() != '') {
       isFamilySuffixIconVisible.value = true;
     } else {
       isFamilySuffixIconVisible.value = false;
     }
     for (int i = 0; i < Get.find<FriendController>().tempFriendList.length; i++) {
-      if (Get.find<FriendController>().tempFriendList[i] == _globalController.searchController.text.trim()) {
+      if (Get.find<FriendController>().tempFriendList[i] == globalController.searchController.text.trim()) {
         userId.value = Get.find<FriendController>().friendList[i].id!;
       } else {
         userId.value = -1;

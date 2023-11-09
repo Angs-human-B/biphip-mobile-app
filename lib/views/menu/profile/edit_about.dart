@@ -15,7 +15,7 @@ import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
 class EditAboutInfo extends StatelessWidget {
   EditAboutInfo({super.key});
 
-  final ProfileController _profileController = Get.find<ProfileController>();
+  final ProfileController profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,20 +55,20 @@ class EditAboutInfo extends StatelessWidget {
                         EducationBackgroundSection(),
                         kH8sizedBox,
                         RelationshipSection(),
-                        if (_profileController.showAllEditOption.value) kH8sizedBox,
-                        if (_profileController.showAllEditOption.value) GenderSection(),
-                        if (_profileController.showAllEditOption.value) kH8sizedBox,
-                        if (_profileController.showAllEditOption.value) BirthdaySection(),
-                        if (_profileController.showAllEditOption.value) kH8sizedBox,
-                        if (_profileController.showAllEditOption.value) ProfessionSection(),
-                        if (_profileController.showAllEditOption.value) kH8sizedBox,
-                        if (_profileController.showAllEditOption.value) InterestSection(),
+                        if (profileController.showAllEditOption.value) kH8sizedBox,
+                        if (profileController.showAllEditOption.value) GenderSection(),
+                        if (profileController.showAllEditOption.value) kH8sizedBox,
+                        if (profileController.showAllEditOption.value) BirthdaySection(),
+                        if (profileController.showAllEditOption.value) kH8sizedBox,
+                        if (profileController.showAllEditOption.value) ProfessionSection(),
+                        if (profileController.showAllEditOption.value) kH8sizedBox,
+                        if (profileController.showAllEditOption.value) InterestSection(),
                         kH8sizedBox,
                         WorkplaceSection(),
                         kH8sizedBox,
-                        if (_profileController.showAllEditOption.value) ContactSection(),
+                        if (profileController.showAllEditOption.value) ContactSection(),
                         kH8sizedBox,
-                        if (_profileController.showAllEditOption.value) WebsiteSection(),
+                        if (profileController.showAllEditOption.value) WebsiteSection(),
                         kH12sizedBox
                       ],
                     ),
@@ -76,11 +76,11 @@ class EditAboutInfo extends StatelessWidget {
                 ),
               ),
             ),
-            if (_profileController.isEditProfileLoading.value == true)
+            if (profileController.isEditProfileLoading.value == true)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (_profileController.isEditProfileLoading.value) {
+                    if (profileController.isEditProfileLoading.value) {
                       return false;
                     }
                     return true;

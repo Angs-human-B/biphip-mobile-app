@@ -5,8 +5,8 @@ import 'package:bip_hip/views/menu/profile/edit_about.dart';
 
 class EducationBackgroundSection extends StatelessWidget {
   EducationBackgroundSection({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -23,35 +23,35 @@ class EducationBackgroundSection extends StatelessWidget {
               suffixTextStyle: semiBold18TextStyle(cBlackColor),
               isAddButton: true,
               suffixOnPressed: () {
-               _editProfileHelper.addEducationBackground();
+               editProfileHelper.addEducationBackground();
               },
             ),
             kH12sizedBox,
-            for (int i = 0; i < _profileController.schoolDataList.length; i++)
+            for (int i = 0; i < profileController.schoolDataList.length; i++)
               Padding(
                 padding: const EdgeInsets.only(bottom: k12Padding),
                 child: InfoContainer2(
-                  suffixText: checkNullOrStringNull(_profileController.schoolDataList[i].school),
-                  prefixText: _profileController.schoolDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
+                  suffixText: checkNullOrStringNull(profileController.schoolDataList[i].school),
+                  prefixText: profileController.schoolDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
                   subtitlePrefixText:
-                      _editProfileHelper.schoolSubtitleText(_profileController.schoolDataList[i].started, _profileController.schoolDataList[i].ended),
+                      editProfileHelper.schoolSubtitleText(profileController.schoolDataList[i].started, profileController.schoolDataList[i].ended),
                   isAddButton: false,
                   suffixOnPressed: () async {
-                    _editProfileHelper.editSchool(i);
+                    editProfileHelper.editSchool(i);
                   },
                 ),
               ),
-            for (int i = 0; i < _profileController.collegeDataList.length; i++)
+            for (int i = 0; i < profileController.collegeDataList.length; i++)
               Padding(
                 padding: const EdgeInsets.only(bottom: k12Padding),
                 child: InfoContainer2(
-                  suffixText: checkNullOrStringNull(_profileController.collegeDataList[i].school),
-                  prefixText: _profileController.collegeDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
+                  suffixText: checkNullOrStringNull(profileController.collegeDataList[i].school),
+                  prefixText: profileController.collegeDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
                   subtitlePrefixText:
-                      _editProfileHelper.schoolSubtitleText(_profileController.collegeDataList[i].started, _profileController.collegeDataList[i].ended),
+                      editProfileHelper.schoolSubtitleText(profileController.collegeDataList[i].started, profileController.collegeDataList[i].ended),
                   isAddButton: false,
                   suffixOnPressed: () async {
-                    _editProfileHelper.editCollege(i);
+                    editProfileHelper.editCollege(i);
                   },
                 ),
               ),

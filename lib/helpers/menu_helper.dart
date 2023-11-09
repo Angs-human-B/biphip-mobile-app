@@ -8,7 +8,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
 
 class MenuHelper {
-  final SpController _spController = SpController();
+  final SpController spController = SpController();
 
   void menuPressFunction(index) async {
     if (index == 0) {
@@ -49,7 +49,7 @@ class MenuHelper {
   }
 
   void menuSearch() async {
-    Get.find<GlobalController>().recentSearch.value = await _spController.getRecentSearchList();
+    Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
     Get.find<GlobalController>().searchController.clear();
     Get.to(
       () => Search(
@@ -62,11 +62,11 @@ class MenuHelper {
   }
 
   void logout() async {
-    var status = await _spController.getRememberMe();
+    var status = await spController.getRememberMe();
     if (status == true) {
       await Get.find<AuthenticationController>().getSavedUsers();
       Get.offAllNamed(krSavedUserLogin);
-      await _spController.onLogout();
+      await spController.onLogout();
       Get.find<AuthenticationController>().resetLoginScreen();
       Get.find<MenuSectionController>().isSupportButtonPressed.value = false;
       Get.find<MenuSectionController>().isSettingButtonPressed.value = false;

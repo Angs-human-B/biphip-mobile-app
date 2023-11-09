@@ -10,7 +10,7 @@ class EducationBackgroundContent extends StatelessWidget {
   }) : super(key: key);
 
   final ProfileController profileController;
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class EducationBackgroundContent extends StatelessWidget {
                                 ? cPrimaryTint3Color
                                 : cWhiteColor,
                             onPressed: () {
-                              _editProfileHelper.onSelectEducationBottomSheet(index);
+                              editProfileHelper.onSelectEducationBottomSheet(index);
                             },
                           )),
                     );

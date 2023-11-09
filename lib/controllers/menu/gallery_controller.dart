@@ -2,9 +2,9 @@ import 'package:bip_hip/models/menu/album/album_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class GalleryController extends GetxController {
-  final ApiController _apiController = ApiController();
-  final SpController _spController = SpController();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final ApiController apiController = ApiController();
+  final SpController spController = SpController();
+  final GlobalController globalController = Get.find<GlobalController>();
   final RxList tapAbleButtonState = RxList([true, false]);
   final RxList tapAbleButtonText = RxList(["Your Photos", "Albums"]);
 
@@ -101,8 +101,8 @@ class GalleryController extends GetxController {
   Future<void> getGalleryAlbumList() async {
     try {
       isAlbumListLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuAlbumList,
@@ -126,9 +126,9 @@ class GalleryController extends GetxController {
         isAlbumListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {

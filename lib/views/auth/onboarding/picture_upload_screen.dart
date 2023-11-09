@@ -7,8 +7,8 @@ import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 class PictureUploadScreen extends StatelessWidget {
   PictureUploadScreen({super.key});
 
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final RegistrationHelper _registrationHelper = RegistrationHelper();
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+  final RegistrationHelper registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class PictureUploadScreen extends StatelessWidget {
                                     color: cBlackColor,
                                   ),
                                   child: Image.file(
-                                    _authenticationController.profileFile.value,
+                                    authenticationController.profileFile.value,
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => const Icon(
                                       BipHip.user,
@@ -67,13 +67,13 @@ class PictureUploadScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              if (_authenticationController.isProfileImageChanged.value)
+                              if (authenticationController.isProfileImageChanged.value)
                                 Positioned(
                                   top: 5,
                                   right: 5,
                                   child: TextButton(
                                     onPressed: () {
-                                      _authenticationController.resetProfileImage();
+                                      authenticationController.resetProfileImage();
                                     },
                                     style: kTextButtonStyle,
                                     child: Container(
@@ -93,15 +93,15 @@ class PictureUploadScreen extends StatelessWidget {
                           ),
                           const Spacer(),
                           CustomElevatedButton(
-                            label: _authenticationController.isProfileImageChanged.value ? ksSavePhoto.tr : ksAddPhoto.tr,
+                            label: authenticationController.isProfileImageChanged.value ? ksSavePhoto.tr : ksAddPhoto.tr,
                             onPressed: () {
-                              _registrationHelper.onPressedSavePhoto(context);
+                              registrationHelper.onPressedSavePhoto(context);
                             },
                             buttonWidth: width - 40,
                             textStyle: semiBold16TextStyle(cWhiteColor),
                           ),
-                          if (!_authenticationController.isProfileImageChanged.value) kH20sizedBox,
-                          if (!_authenticationController.isProfileImageChanged.value)
+                          if (!authenticationController.isProfileImageChanged.value) kH20sizedBox,
+                          if (!authenticationController.isProfileImageChanged.value)
                             CustomElevatedButton(
                               buttonWidth: width - 40,
                               buttonColor: cWhiteColor,
@@ -120,11 +120,11 @@ class PictureUploadScreen extends StatelessWidget {
                 ),
               ),
             ),
-            if (_authenticationController.isImageUploadLoading.value)
+            if (authenticationController.isImageUploadLoading.value)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (_authenticationController.isImageUploadLoading.value) {
+                    if (authenticationController.isImageUploadLoading.value) {
                       return false;
                     }
                     return true;

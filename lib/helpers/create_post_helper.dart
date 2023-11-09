@@ -1,47 +1,46 @@
 import 'dart:io';
-
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class CreatePostHelper{
-  final CreatePostController _createPostController = Get.find<CreatePostController>();
+  final CreatePostController createPostController = Get.find<CreatePostController>();
 
   void selectAudienceStatusChange(index) {
-    for (int i = 0; i < _createPostController.audienceStatusList.length; i++) {
+    for (int i = 0; i < createPostController.audienceStatusList.length; i++) {
       if (index == i) {
-        _createPostController.audienceStatusList[i] = true;
+        createPostController.audienceStatusList[i] = true;
       } else {
-        _createPostController.audienceStatusList[i] = false;
+        createPostController.audienceStatusList[i] = false;
       }
     }
   }
 
   void selectAudienceTextChange() {
-    for (int i = 0; i < _createPostController.audienceTypeList.length; i++) {
-      if (_createPostController.audienceStatusList[i]) {
-        _createPostController.postType.value = _createPostController.audienceTypeList[i]['title'];
-        _createPostController.postTypeIcon.value = _createPostController.audienceTypeList[i]['icon'];
+    for (int i = 0; i < createPostController.audienceTypeList.length; i++) {
+      if (createPostController.audienceStatusList[i]) {
+        createPostController.postType.value = createPostController.audienceTypeList[i]['title'];
+        createPostController.postTypeIcon.value = createPostController.audienceTypeList[i]['icon'];
         break;
       }
     }
   }
 
   void initializeAudienceText() {
-    for (int i = 0; i < _createPostController.audienceStatusList.length; i++) {
-      if (_createPostController.audienceTypeList[i]['title'] == _createPostController.postType.value) {
-        _createPostController.audienceStatusList[i] = true;
+    for (int i = 0; i < createPostController.audienceStatusList.length; i++) {
+      if (createPostController.audienceTypeList[i]['title'] == createPostController.postType.value) {
+        createPostController.audienceStatusList[i] = true;
       } else {
-        _createPostController.audienceStatusList[i] = false;
+        createPostController.audienceStatusList[i] = false;
       }
     }
   }
 
   void selectCategoryStatusChange(index) {
-    for (int i = 0; i < _createPostController.categoryStatusList.length; i++) {
+    for (int i = 0; i < createPostController.categoryStatusList.length; i++) {
       if (index == i) {
-        _createPostController.categoryStatusList[i] = true;
+        createPostController.categoryStatusList[i] = true;
       } else {
-        _createPostController.categoryStatusList[i] = false;
+        createPostController.categoryStatusList[i] = false;
       }
     }
   }
@@ -74,9 +73,9 @@ class CreatePostHelper{
                   onPressed: () {
                     selectAudienceStatusChange(i - 1);
                   },
-                  itemColor: _createPostController.audienceStatusList[i - 1] ? cPrimaryTint3Color : cWhiteColor,
-                  title: _createPostController.audienceTypeList[i - 1]['title'],
-                  subtitle: _createPostController.audienceTypeList[i - 1]['subtitle'],
+                  itemColor: createPostController.audienceStatusList[i - 1] ? cPrimaryTint3Color : cWhiteColor,
+                  title: createPostController.audienceTypeList[i - 1]['title'],
+                  subtitle: createPostController.audienceTypeList[i - 1]['subtitle'],
                   leading: Container(
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
@@ -85,7 +84,7 @@ class CreatePostHelper{
                     height: h28,
                     width: h28,
                     child: Icon(
-                      _createPostController.audienceTypeList[i - 1]['icon'],
+                      createPostController.audienceTypeList[i - 1]['icon'],
                       color: cBlackColor,
                       size: isDeviceScreenLarge() ? h18 : h14,
                     ),
@@ -94,7 +93,7 @@ class CreatePostHelper{
                     onChanged: () {
                       selectAudienceStatusChange(i - 1);
                     },
-                    isSelected: _createPostController.audienceStatusList[i - 1],
+                    isSelected: createPostController.audienceStatusList[i - 1],
                   ),
                 ),
               ),
@@ -117,27 +116,27 @@ class CreatePostHelper{
   }
 
    void initializeCategory() {
-    for (int i = 0; i < _createPostController.categoryList.length; i++) {
-      if (_createPostController.categoryList[i]['title'] == _createPostController.category.value) {
-        _createPostController.categoryStatusList[i] = true;
+    for (int i = 0; i < createPostController.categoryList.length; i++) {
+      if (createPostController.categoryList[i]['title'] == createPostController.category.value) {
+        createPostController.categoryStatusList[i] = true;
       } else {
-        _createPostController.categoryStatusList[i] = false;
+        createPostController.categoryStatusList[i] = false;
       }
     }
   }
 
   void selectPlatformStatusChange(index) {
-    for (int i = 0; i < _createPostController.platformStatusList.length; i++) {
+    for (int i = 0; i < createPostController.platformStatusList.length; i++) {
       if (index == i) {
-        _createPostController.platformStatusList[i] = true;
+        createPostController.platformStatusList[i] = true;
       } else {
-        _createPostController.platformStatusList[i] = false;
+        createPostController.platformStatusList[i] = false;
       }
     }
   }
   void selectPlatformTextChange(context) {
-    for (int i = 0; i < _createPostController.platformList.length; i++) {
-      if (_createPostController.platformStatusList[i]) {
+    for (int i = 0; i < createPostController.platformList.length; i++) {
+      if (createPostController.platformStatusList[i]) {
         // categoryID.value = categoryList[i]['id'];
         // category.value = categoryList[i]['title'];
         // categoryIcon.value = categoryList[i]['icon'];
@@ -150,81 +149,81 @@ class CreatePostHelper{
   }
 
   void initializePlatform() {
-    for (int i = 0; i < _createPostController.platformList.length; i++) {
-      if (_createPostController.platformList[i]['title'] == _createPostController.category.value) {
-        _createPostController.platformStatusList[i] = true;
+    for (int i = 0; i < createPostController.platformList.length; i++) {
+      if (createPostController.platformList[i]['title'] == createPostController.category.value) {
+        createPostController.platformStatusList[i] = true;
       } else {
-        _createPostController.platformStatusList[i] = false;
+        createPostController.platformStatusList[i] = false;
       }
     }
   }
 
   void selectActionStatusChange(index) {
-    for (int i = 0; i < _createPostController.actionStatusList.length; i++) {
+    for (int i = 0; i < createPostController.actionStatusList.length; i++) {
       if (index == i) {
-        _createPostController.actionStatusList[i] = true;
+        createPostController.actionStatusList[i] = true;
       } else {
-        _createPostController.actionStatusList[i] = false;
+        createPostController.actionStatusList[i] = false;
       }
     }
   }
 
   void initializeAction() {
-    for (int i = 0; i < _createPostController.actionList.length; i++) {
-      if (_createPostController.actionList[i]['title'] == _createPostController.category.value) {
-        _createPostController.actionStatusList[i] = true;
+    for (int i = 0; i < createPostController.actionList.length; i++) {
+      if (createPostController.actionList[i]['title'] == createPostController.category.value) {
+        createPostController.actionStatusList[i] = true;
       } else {
-        _createPostController.actionStatusList[i] = false;
+        createPostController.actionStatusList[i] = false;
       }
     }
   }
 
   void selectKidStatusChange(index) {
-    for (int i = 0; i < _createPostController.selectedKidStatusList.length; i++) {
+    for (int i = 0; i < createPostController.selectedKidStatusList.length; i++) {
       if (index == i) {
-        _createPostController.selectedKidStatusList[i] = true;
+        createPostController.selectedKidStatusList[i] = true;
       } else {
-        _createPostController.selectedKidStatusList[i] = false;
+        createPostController.selectedKidStatusList[i] = false;
       }
     }
   }
 
    void selectBrandTextChange() {
-    for (int i = 0; i < _createPostController.brandList.length; i++) {
-      if (_createPostController.selectedBrandStatusList[i]) {
-        _createPostController.selectedBrandName.value = _createPostController.brandList[i]['name'];
-        _createPostController.selectedBrandImage.value = _createPostController.brandList[i]['image_url'];
+    for (int i = 0; i < createPostController.brandList.length; i++) {
+      if (createPostController.selectedBrandStatusList[i]) {
+        createPostController.selectedBrandName.value = createPostController.brandList[i]['name'];
+        createPostController.selectedBrandImage.value = createPostController.brandList[i]['image_url'];
         break;
       }
     }
   }
 
   void initializeBrandText() {
-    for (int i = 0; i < _createPostController.selectedBrandStatusList.length; i++) {
-      if (_createPostController.brandList[i]['name'] == _createPostController.selectedBrandName.value) {
-        _createPostController.selectedBrandStatusList[i] = true;
+    for (int i = 0; i < createPostController.selectedBrandStatusList.length; i++) {
+      if (createPostController.brandList[i]['name'] == createPostController.selectedBrandName.value) {
+        createPostController.selectedBrandStatusList[i] = true;
       } else {
-        _createPostController.selectedBrandStatusList[i] = false;
+        createPostController.selectedBrandStatusList[i] = false;
       }
     }
   }
 
   void resetCategoryData() {
-    _createPostController.category.value = "";
-    _createPostController.categoryIcon.value = null;
-    _createPostController.categoryIconColor.value = null;
+    createPostController.category.value = "";
+    createPostController.categoryIcon.value = null;
+    createPostController.categoryIconColor.value = null;
   }
 
    void resetAddBrandPage() {
-    _createPostController.brandImageLink.value = '';
-    _createPostController.brandImageFile.value = File('');
-    _createPostController.isBrandImageChanged.value = false;
-    _createPostController.isSaveBrandButtonEnabled.value = false;
-    _createPostController.brandNameTextEditingController.clear();
-    _createPostController.brandWebLinkTextEditingController.clear();
-    _createPostController.brandFacebookLinkTextEditingController.clear();
-    _createPostController.brandTwitterTextEditingController.clear();
-    _createPostController.brandLinkedInLinkTextEditingController.clear();
-    _createPostController.brandYoutubeLinkTextEditingController.clear();
+    createPostController.brandImageLink.value = '';
+    createPostController.brandImageFile.value = File('');
+    createPostController.isBrandImageChanged.value = false;
+    createPostController.isSaveBrandButtonEnabled.value = false;
+    createPostController.brandNameTextEditingController.clear();
+    createPostController.brandWebLinkTextEditingController.clear();
+    createPostController.brandFacebookLinkTextEditingController.clear();
+    createPostController.brandTwitterTextEditingController.clear();
+    createPostController.brandLinkedInLinkTextEditingController.clear();
+    createPostController.brandYoutubeLinkTextEditingController.clear();
   }
 }

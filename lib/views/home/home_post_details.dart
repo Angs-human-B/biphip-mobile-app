@@ -12,11 +12,11 @@ import 'package:bip_hip/widgets/post_widgets/post_activity_status_widget.dart';
 class HomePostDetails extends StatelessWidget {
   HomePostDetails({super.key});
 
-  final HomeController _homeController = Get.find<HomeController>();
+  final HomeController homeController = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => _homeController.isPostDetailsPageLoading.value
+      () => homeController.isPostDetailsPageLoading.value
           ? const HomePostDetailsShimmer()
           : Container(
               color: cWhiteColor,
@@ -66,10 +66,10 @@ class HomePostDetails extends StatelessWidget {
                               kH12sizedBox,
                               CommonPostDetailsWidget(
                                 isTextualPost: true,
-                                mediaList: _homeController.postData.value!.post.imageUrls,
+                                mediaList: homeController.postData.value!.post.imageUrls,
                                 isCommentShown: true,
                                 showBottomSection: true,
-                                postText: _homeController.postData.value!.post.content,
+                                postText: homeController.postData.value!.post.content,
                               ),
                               const SizedBox(
                                 height: 110,

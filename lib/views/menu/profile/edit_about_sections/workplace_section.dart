@@ -5,8 +5,8 @@ import 'package:bip_hip/views/menu/profile/edit_about.dart';
 
 class WorkplaceSection extends StatelessWidget {
   WorkplaceSection({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -21,27 +21,27 @@ class WorkplaceSection extends StatelessWidget {
             style: semiBold18TextStyle(cBlackColor),
           ),
           kH12sizedBox,
-          if (_profileController.currentWorkplace.value == null)
+          if (profileController.currentWorkplace.value == null)
             Padding(
               padding: const EdgeInsets.only(bottom: k12Padding),
               child: InfoContainer2(
                 suffixText: ksCurrentWorkplace.tr,
                 isAddButton: true,
                 suffixOnPressed: () async {
-                  _editProfileHelper.addCurrentWorkplace();
+                  editProfileHelper.addCurrentWorkplace();
                 },
               ),
             ),
-          if (_profileController.currentWorkplace.value != null)
+          if (profileController.currentWorkplace.value != null)
             Padding(
               padding: const EdgeInsets.only(bottom: k12Padding),
               child: InfoContainer2(
-                prefixText: _profileController.currentWorkplace.value!.position == null ? null : '${_profileController.currentWorkplace.value!.position} at',
-                suffixText: checkNullOrStringNull(_profileController.currentWorkplace.value!.company),
-                subtitlePrefixText: _editProfileHelper.currentWorkSubtitleText(_profileController.currentWorkplace.value!.started),
+                prefixText: profileController.currentWorkplace.value!.position == null ? null : '${profileController.currentWorkplace.value!.position} at',
+                suffixText: checkNullOrStringNull(profileController.currentWorkplace.value!.company),
+                subtitlePrefixText: editProfileHelper.currentWorkSubtitleText(profileController.currentWorkplace.value!.started),
                 isAddButton: false,
                 suffixOnPressed: () async {
-                  _editProfileHelper.editCurrentWorkplace();
+                  editProfileHelper.editCurrentWorkplace();
                 },
               ),
             ),
@@ -51,22 +51,22 @@ class WorkplaceSection extends StatelessWidget {
               suffixText: ksPreviousWorkPlaces.tr,
               isAddButton: true,
               suffixOnPressed: () {
-                _editProfileHelper.addPreviousWorkplace();
+                editProfileHelper.addPreviousWorkplace();
               },
             ),
           ),
-          for (int i = 0; i < _profileController.workplaceDataList.length; i++)
-            if (_profileController.workplaceDataList[i].isCurrent != 1)
+          for (int i = 0; i < profileController.workplaceDataList.length; i++)
+            if (profileController.workplaceDataList[i].isCurrent != 1)
               Padding(
                 padding: const EdgeInsets.only(bottom: k12Padding),
                 child: InfoContainer2(
-                  prefixText: _profileController.workplaceDataList[i].position == null ? null : 'Former ${_profileController.workplaceDataList[i].position} at',
-                  suffixText: _profileController.workplaceDataList[i].company!,
-                  subtitlePrefixText: _editProfileHelper.previousWorkSubtitleText(
-                      _profileController.workplaceDataList[i].started, _profileController.workplaceDataList[i].ended),
+                  prefixText: profileController.workplaceDataList[i].position == null ? null : 'Former ${profileController.workplaceDataList[i].position} at',
+                  suffixText: profileController.workplaceDataList[i].company!,
+                  subtitlePrefixText: editProfileHelper.previousWorkSubtitleText(
+                      profileController.workplaceDataList[i].started, profileController.workplaceDataList[i].ended),
                   isAddButton: false,
                   suffixOnPressed: () async {
-                    _editProfileHelper.editPreviousWorkplace(i);
+                    editProfileHelper.editPreviousWorkplace(i);
                   },
                 ),
               ),

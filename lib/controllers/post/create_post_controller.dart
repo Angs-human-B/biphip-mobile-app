@@ -9,9 +9,9 @@ import 'package:bip_hip/views/create_post/select_category.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 
 class CreatePostController extends GetxController {
-  final ApiController _apiController = ApiController();
-  final SpController _spController = SpController();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final ApiController apiController = ApiController();
+  final SpController spController = SpController();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   final RxBool isPostButtonActive = RxBool(false);
   final RxBool isTextLimitCrossed = RxBool(false);
@@ -143,11 +143,11 @@ class CreatePostController extends GetxController {
       selectedKid.value = null;
       resetAddKidPage();
       if (selectedKid.value == null || isKidAdded.value) {
-        _globalController.isBottomSheetRightButtonActive.value = false;
+        globalController.isBottomSheetRightButtonActive.value = false;
       } else {
-        _globalController.isBottomSheetRightButtonActive.value = true;
+        globalController.isBottomSheetRightButtonActive.value = true;
       }
-      _globalController.commonBottomSheet(
+      globalController.commonBottomSheet(
         context: context,
         content: Obx(() => Column(
               children: [
@@ -162,11 +162,11 @@ class CreatePostController extends GetxController {
                             tempSelectedKid.value = null;
                             kidID.value = -1;
                             if (tempSelectedKid.value == null) {
-                              _globalController.isBottomSheetRightButtonActive.value = false;
+                              globalController.isBottomSheetRightButtonActive.value = false;
                             } else {
-                              _globalController.isBottomSheetRightButtonActive.value = true;
+                              globalController.isBottomSheetRightButtonActive.value = true;
                             }
-                            _globalController.commonBottomSheet(
+                            globalController.commonBottomSheet(
                               isScrollControlled: true,
                               bottomSheetHeight: height * .7,
                               context: context,
@@ -187,9 +187,9 @@ class CreatePostController extends GetxController {
                                                   kidID.value = kidList[i].id!;
                                                   tempSelectedKid.value = kidList[i];
                                                   if (tempSelectedKid.value == null) {
-                                                    _globalController.isBottomSheetRightButtonActive.value = false;
+                                                    globalController.isBottomSheetRightButtonActive.value = false;
                                                   } else {
-                                                    _globalController.isBottomSheetRightButtonActive.value = true;
+                                                    globalController.isBottomSheetRightButtonActive.value = true;
                                                   }
                                                 },
                                                 itemColor: kidID.value == kidList[i].id! ? cPrimaryTint3Color : cWhiteColor,
@@ -221,9 +221,9 @@ class CreatePostController extends GetxController {
                                                     kidID.value = kidList[i].id!;
                                                     tempSelectedKid.value = kidList[i];
                                                     if (tempSelectedKid.value == null) {
-                                                      _globalController.isBottomSheetRightButtonActive.value = false;
+                                                      globalController.isBottomSheetRightButtonActive.value = false;
                                                     } else {
-                                                      _globalController.isBottomSheetRightButtonActive.value = true;
+                                                      globalController.isBottomSheetRightButtonActive.value = true;
                                                     }
                                                   },
                                                   isSelected: kidID.value == kidList[i].id!,
@@ -242,9 +242,9 @@ class CreatePostController extends GetxController {
                                 Get.back();
                                 tempSelectedKid.value = null;
                                 if (selectedKid.value == null || isKidAdded.value) {
-                                  _globalController.isBottomSheetRightButtonActive.value = false;
+                                  globalController.isBottomSheetRightButtonActive.value = false;
                                 } else {
-                                  _globalController.isBottomSheetRightButtonActive.value = true;
+                                  globalController.isBottomSheetRightButtonActive.value = true;
                                 }
                               },
                               rightText: ksDone.tr,
@@ -297,9 +297,9 @@ class CreatePostController extends GetxController {
                       onTap: () {
                         selectedKid.value = null;
                         if (selectedKid.value == null || isKidAdded.value) {
-                          _globalController.isBottomSheetRightButtonActive.value = false;
+                          globalController.isBottomSheetRightButtonActive.value = false;
                         } else {
-                          _globalController.isBottomSheetRightButtonActive.value = true;
+                          globalController.isBottomSheetRightButtonActive.value = true;
                         }
                       },
                       child: const Icon(
@@ -381,9 +381,9 @@ class CreatePostController extends GetxController {
                       onTap: () {
                         resetAddKidPage();
                         if (selectedKid.value == null || isKidAdded.value) {
-                          _globalController.isBottomSheetRightButtonActive.value = false;
+                          globalController.isBottomSheetRightButtonActive.value = false;
                         } else {
-                          _globalController.isBottomSheetRightButtonActive.value = true;
+                          globalController.isBottomSheetRightButtonActive.value = true;
                         }
                       },
                       child: const Icon(
@@ -417,14 +417,14 @@ class CreatePostController extends GetxController {
         isRightButtonShow: true,
       );
     } else if (category.value == "Selling") {
-      _globalController.commonBottomSheet(
+      globalController.commonBottomSheet(
         context: context,
         content: Column(
           children: [
             kH8sizedBox,
             OutLinedButton(
               onPress: () {
-                _globalController.commonBottomSheet(
+                globalController.commonBottomSheet(
                   isScrollControlled: true,
                   bottomSheetHeight: height * .7,
                   context: context,
@@ -589,7 +589,7 @@ class CreatePostController extends GetxController {
   void getBottomRowOnPressed(index, [context]) async {
     ll(index);
     if (index == 1) {
-      var status = await _globalController.selectMultiMediaSource(isMediaChanged, mediaLinkList, mediaFileList);
+      var status = await globalController.selectMultiMediaSource(isMediaChanged, mediaLinkList, mediaFileList);
       if (status) {
         ll("media list length : ${mediaLinkList.length}");
         insertMedia(mediaLinkList, mediaFileList);
@@ -598,7 +598,7 @@ class CreatePostController extends GetxController {
         mediaFileList.clear();
       }
     } else if (index == 2) {
-      var status = await _globalController.selectImageSource(isCreatePostImageChanged, createPostImageLink, createPostImageFile, 'camera', false, true);
+      var status = await globalController.selectImageSource(isCreatePostImageChanged, createPostImageLink, createPostImageFile, 'camera', false, true);
       if (status) {
         insertMedia([createPostImageLink], createPostImageFile);
         isCreatePostImageChanged.value = false;
@@ -614,7 +614,7 @@ class CreatePostController extends GetxController {
       //   createPostVideoFile.clear();
       // }
     } else {
-      _globalController.commonBottomSheet(
+      globalController.commonBottomSheet(
         isScrollControlled: true,
         bottomSheetHeight: height * .9,
         context: context,
@@ -756,8 +756,8 @@ class CreatePostController extends GetxController {
   Future<void> getPostCategoryList() async {
     try {
       isPostCategoryListLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetAllPostCatagories,
@@ -779,9 +779,9 @@ class CreatePostController extends GetxController {
         isPostCategoryListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -826,12 +826,12 @@ class CreatePostController extends GetxController {
   Future<void> addKid() async {
     try {
       isAddKidPageLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, String> body = {
         'name': kidNameTextEditingController.text.trim(),
         'age': kidAgeTextEditingController.text.trim(),
       };
-      var response = await _apiController.mediaUpload(
+      var response = await apiController.mediaUpload(
         url: kuAddKid,
         body: body,
         token: token,
@@ -844,15 +844,15 @@ class CreatePostController extends GetxController {
         ll(kidData.value!.name);
         isAddKidPageLoading.value = false;
         Get.back();
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isAddKidPageLoading.value = true;
 
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -871,8 +871,8 @@ class CreatePostController extends GetxController {
   Future<void> getKidList() async {
     try {
       isKidListLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetAllKidList,
@@ -886,9 +886,9 @@ class CreatePostController extends GetxController {
         isKidListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -913,12 +913,12 @@ class CreatePostController extends GetxController {
   Future<void> addBrand() async {
     try {
       isAddBrandPageLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, String> body = {
         'name': brandNameTextEditingController.text.trim(),
         'social_links': json.encode(brandSocialLinkList),
       };
-      var response = await _apiController.mediaUpload(
+      var response = await apiController.mediaUpload(
         url: kuAddBrand,
         body: body,
         token: token,
@@ -929,14 +929,14 @@ class CreatePostController extends GetxController {
       if (response.success == true) {
         isAddBrandPageLoading.value = false;
         Get.back();
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isAddBrandPageLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -985,13 +985,13 @@ class CreatePostController extends GetxController {
     ll(allMediaList);
     try {
       isCreatePostLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, String> body = {
         'post_category_id': categoryID.value.toString(),
         'content': createPostController.text.trim(),
         'is_public': '1',
       };
-      var response = await _apiController.multiMediaUpload(
+      var response = await apiController.multiMediaUpload(
         url: kuCreatePost,
         body: body,
         token: token,
@@ -1003,14 +1003,14 @@ class CreatePostController extends GetxController {
         isCreatePostLoading.value = false;
         Get.back();
         resetCreatePost();
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isCreatePostLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {

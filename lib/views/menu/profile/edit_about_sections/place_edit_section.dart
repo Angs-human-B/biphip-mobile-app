@@ -6,8 +6,8 @@ import 'package:intl/intl.dart';
 
 class PlaceEditSection extends StatelessWidget {
   PlaceEditSection({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -24,64 +24,64 @@ class PlaceEditSection extends StatelessWidget {
               style: semiBold18TextStyle(cBlackColor),
             ),
             kH12sizedBox,
-            if (_profileController.hometownData.value == null)
+            if (profileController.hometownData.value == null)
               InfoContainer2(
                 suffixText: ksHomeTown.tr,
                 isAddButton: true,
                 suffixOnPressed: () async {
-                  _editProfileHelper.setHometown();
+                  editProfileHelper.setHometown();
                 },
               ),
-            if (_profileController.hometownData.value != null)
+            if (profileController.hometownData.value != null)
               InfoContainer2(
                 subtitlePrefixText: ksHomeTown.tr,
-                suffixText: checkNullOrStringNull(_profileController.hometownData.value?.city),
+                suffixText: checkNullOrStringNull(profileController.hometownData.value?.city),
                 isAddButton: false,
                 suffixOnPressed: () async {
-                  _editProfileHelper.editHometown();
+                  editProfileHelper.editHometown();
                 },
               ),
             kH12sizedBox,
-            if (_profileController.currentCityData.value == null)
+            if (profileController.currentCityData.value == null)
               InfoContainer2(
                 suffixText: ksPresentAddress.tr,
                 isAddButton: true,
                 suffixOnPressed: () async {
-                  _editProfileHelper.setCurrentCity();
+                  editProfileHelper.setCurrentCity();
                 },
               ),
-            if (_profileController.currentCityData.value != null)
+            if (profileController.currentCityData.value != null)
               InfoContainer2(
                 subtitlePrefixText: ksCurrentCity.tr,
-                suffixText: checkNullOrStringNull(_profileController.currentCityData.value!.city),
+                suffixText: checkNullOrStringNull(profileController.currentCityData.value!.city),
                 isAddButton: false,
                 suffixOnPressed: () async {
-                  _editProfileHelper.editCurrentCity();
+                  editProfileHelper.editCurrentCity();
                 },
               ),
             kH12sizedBox,
-            if (_profileController.currentCityData.value != null && _profileController.hometownData.value != null)
+            if (profileController.currentCityData.value != null && profileController.hometownData.value != null)
               InfoContainer2(
                 suffixText: ksPreviousPlacesLived.tr,
                 isAddButton: true,
                 suffixOnPressed: () async {
-                  _editProfileHelper.setOtherCity();
+                  editProfileHelper.setOtherCity();
                 },
               ),
-            if (_profileController.currentCityData.value != null && _profileController.hometownData.value != null) kH12sizedBox,
-            for (int i = 0; i < _profileController.otherCityList.length; i++)
-              if (_profileController.otherCityList[i].isCurrent == 0 && _profileController.otherCityList[i].isHometown == 0)
+            if (profileController.currentCityData.value != null && profileController.hometownData.value != null) kH12sizedBox,
+            for (int i = 0; i < profileController.otherCityList.length; i++)
+              if (profileController.otherCityList[i].isCurrent == 0 && profileController.otherCityList[i].isHometown == 0)
                 Padding(
                   padding: const EdgeInsets.only(bottom: k12Padding),
                   child: InfoContainer2(
-                    suffixText: _profileController.otherCityList[i].city!,
-                    subtitlePrefixText: _profileController.otherCityList[i].moved != null ? ksMovedIn.tr : null,
-                    subtitleSuffixText: _profileController.otherCityList[i].moved != null
-                        ? DateFormat("MMMM dd, yyyy").format(_profileController.otherCityList[i].moved!)
+                    suffixText: profileController.otherCityList[i].city!,
+                    subtitlePrefixText: profileController.otherCityList[i].moved != null ? ksMovedIn.tr : null,
+                    subtitleSuffixText: profileController.otherCityList[i].moved != null
+                        ? DateFormat("MMMM dd, yyyy").format(profileController.otherCityList[i].moved!)
                         : null,
                     isAddButton: false,
                     suffixOnPressed: () async {
-                      _editProfileHelper.editOtherCity(i);
+                      editProfileHelper.editOtherCity(i);
                     },
                   ),
                 ),

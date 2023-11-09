@@ -5,7 +5,7 @@ import 'package:bip_hip/widgets/post_widgets/like_section_widget.dart';
 class ViewPhoto extends StatelessWidget {
   ViewPhoto({super.key});
 
-  final ProfileController _profileController = Get.find<ProfileController>();
+  final ProfileController profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +38,9 @@ class ViewPhoto extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: width,
-                      height: _profileController.isProfilePhoto.value ? height * 0.6 : height * 0.3,
+                      height: profileController.isProfilePhoto.value ? height * 0.6 : height * 0.3,
                       child: Image.network(
-                        Environment.imageBaseUrl + _profileController.previewPhoto.value,
+                        Environment.imageBaseUrl + profileController.previewPhoto.value,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) => const Icon(
                           BipHip.imageFile,

@@ -3,9 +3,9 @@ import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class MenuSectionController extends GetxController {
-  final SpController _spController = SpController();
-  final ApiController _apiController = ApiController();
-  final ProfileController _profileController = Get.find<ProfileController>();
+  final SpController spController = SpController();
+  final ApiController apiController = ApiController();
+  final ProfileController profileController = Get.find<ProfileController>();
 
   final RxBool isSupportButtonPressed = RxBool(false);
   final RxBool isSettingButtonPressed = RxBool(false);
@@ -121,12 +121,12 @@ class MenuSectionController extends GetxController {
   Future<void> changeName() async {
     try {
       isChangeNameLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'first_name': firstNameEditingController.text.trim(),
         'last_name': lastNameEditingController.text.trim(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuUpdateUserFullName,
         body: body,
@@ -135,22 +135,22 @@ class MenuSectionController extends GetxController {
 
       if (response.success == true) {
         ll(response.data);
-        _profileController.commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
-        _profileController.userData.value = _profileController.commonUserLayeredData.value!.user;
-        var rememberMe = await _spController.getRememberMe();
+        profileController.commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
+        profileController.userData.value = profileController.commonUserLayeredData.value!.user;
+        var rememberMe = await spController.getRememberMe();
         if (rememberMe == true) {
-          await _spController.saveUserList({
-            "email": _profileController.userData.value!.email.toString(),
-            "name": _profileController.userData.value!.fullName.toString(),
-            "first_name": _profileController.userData.value!.firstName.toString(),
-            "last_name": _profileController.userData.value!.lastName.toString(),
-            "image_url": _profileController.userData.value!.profilePicture.toString(),
+          await spController.saveUserList({
+            "email": profileController.userData.value!.email.toString(),
+            "name": profileController.userData.value!.fullName.toString(),
+            "first_name": profileController.userData.value!.firstName.toString(),
+            "last_name": profileController.userData.value!.lastName.toString(),
+            "image_url": profileController.userData.value!.profilePicture.toString(),
             "token": token.toString(),
           });
         }
-        await _spController.saveUserFirstName(_profileController.userData.value!.firstName.toString());
-        await _spController.saveUserLastName(_profileController.userData.value!.lastName.toString());
-        await _spController.saveUserName(_profileController.userData.value!.fullName.toString());
+        await spController.saveUserFirstName(profileController.userData.value!.firstName.toString());
+        await spController.saveUserLastName(profileController.userData.value!.lastName.toString());
+        await spController.saveUserName(profileController.userData.value!.fullName.toString());
         await Get.find<GlobalController>().getUserInfo();
         isChangeNameLoading.value = false;
         Get.find<GlobalController>().showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
