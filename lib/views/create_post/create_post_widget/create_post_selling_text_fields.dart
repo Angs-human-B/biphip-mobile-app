@@ -3,14 +3,14 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class SellingNewsTextfield extends StatelessWidget {
   SellingNewsTextfield({super.key});
-  final CreatePostController _createPostController = Get.find<CreatePostController>();
+  final CreatePostController createPostController = Get.find<CreatePostController>();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (_createPostController.allMediaList.isNotEmpty) kH20sizedBox,
+        if (createPostController.allMediaList.isNotEmpty) kH20sizedBox,
         Text(
           ksRequiredFields.tr,
           style: medium14TextStyle(cBlackColor),
@@ -25,8 +25,8 @@ class SellingNewsTextfield extends StatelessWidget {
           inputType: TextInputType.number,
           maxLength: 100,
         ),
-        if (_createPostController.category.value == "Selling") kH8sizedBox,
-        if (_createPostController.category.value == "Selling")
+        if (createPostController.category.value == "Selling") kH8sizedBox,
+        if (createPostController.category.value == "Selling")
           CustomModifiedTextField(
             controller: TextEditingController(),
             hint: ksPrice.tr,

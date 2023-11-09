@@ -4,7 +4,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class CreatePostMediaSection extends StatelessWidget {
   CreatePostMediaSection({super.key});
-  final CreatePostController _createPostController = Get.find<CreatePostController>();
+  final CreatePostController createPostController = Get.find<CreatePostController>();
   final CreatePostHelper createPostHelper = CreatePostHelper();
 
   @override
@@ -23,10 +23,10 @@ class CreatePostMediaSection extends StatelessWidget {
                   onPressed: () {},
                   child: Container(
                     color: cWhiteColor,
-                    height: _createPostController.allMediaList.length < 2 ? 302 : 150,
+                    height: createPostController.allMediaList.length < 2 ? 302 : 150,
                     width: width - 40,
                     child: Image.file(
-                      _createPostController.allMediaFileList[0].value,
+                      createPostController.allMediaFileList[0].value,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -47,13 +47,13 @@ class CreatePostMediaSection extends StatelessWidget {
                 ),
               ],
             ),
-            if (_createPostController.allMediaList.length > 1)
+            if (createPostController.allMediaList.length > 1)
               const SizedBox(
                 height: 2,
               ),
             Row(
               children: [
-                if (_createPostController.allMediaList.length > 1)
+                if (createPostController.allMediaList.length > 1)
                   Stack(
                     children: [
                       TextButton(
@@ -62,9 +62,9 @@ class CreatePostMediaSection extends StatelessWidget {
                         child: Container(
                           color: cWhiteColor,
                           height: 150,
-                          width: _createPostController.allMediaList.length < 3 ? (width - 40) : (width - 42) / 2,
+                          width: createPostController.allMediaList.length < 3 ? (width - 40) : (width - 42) / 2,
                           child: Image.file(
-                            _createPostController.allMediaFileList[1].value,
+                            createPostController.allMediaFileList[1].value,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -85,18 +85,18 @@ class CreatePostMediaSection extends StatelessWidget {
                       ),
                     ],
                   ),
-                if (_createPostController.allMediaList.length > 2)
+                if (createPostController.allMediaList.length > 2)
                   const SizedBox(
                     width: 2,
                   ),
-                if (_createPostController.allMediaList.length > 2)
+                if (createPostController.allMediaList.length > 2)
                   Stack(
                     alignment: AlignmentDirectional.center,
                     children: [
                       TextButton(
                         style: kTextButtonStyle,
                         onPressed: () {
-                          if (_createPostController.allMediaList.length > 3) {
+                          if (createPostController.allMediaList.length > 3) {
                             Get.toNamed(krUploadedImageListPage);
                           }
                         },
@@ -105,14 +105,14 @@ class CreatePostMediaSection extends StatelessWidget {
                           height: 150,
                           width: (width - 42) / 2,
                           child: Image.file(
-                            _createPostController.allMediaFileList[2].value,
+                            createPostController.allMediaFileList[2].value,
                             fit: BoxFit.cover,
                             color: cBlackColor.withOpacity(0.3),
                             colorBlendMode: BlendMode.multiply,
                           ),
                         ),
                       ),
-                      if (_createPostController.allMediaList.length == 3)
+                      if (createPostController.allMediaList.length == 3)
                         Positioned(
                           top: 5,
                           right: 5,
@@ -127,7 +127,7 @@ class CreatePostMediaSection extends StatelessWidget {
                             ),
                           ),
                         ),
-                      if (_createPostController.allMediaList.length > 3)
+                      if (createPostController.allMediaList.length > 3)
                         Positioned(
                           child: TextButton(
                             style: kTextButtonStyle,
@@ -135,7 +135,7 @@ class CreatePostMediaSection extends StatelessWidget {
                               Get.toNamed(krUploadedImageListPage);
                             },
                             child: Text(
-                              "${_createPostController.allMediaList.length - 2} ${ksMore.tr}",
+                              "${createPostController.allMediaList.length - 2} ${ksMore.tr}",
                               style: semiBold16TextStyle(cWhiteColor),
                             ),
                           ),

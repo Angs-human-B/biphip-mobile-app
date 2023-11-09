@@ -5,8 +5,8 @@ import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 
 class CreatePostUpperSection extends StatelessWidget {
   CreatePostUpperSection({super.key});
-  final CreatePostController _createPostController = Get.find<CreatePostController>();
-  final CreatePostHelper _createPostHelper = Get.find<CreatePostHelper>();
+  final CreatePostController createPostController = Get.find<CreatePostController>();
+  final CreatePostHelper createPostHelper = CreatePostHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class CreatePostUpperSection extends StatelessWidget {
           Stack(
             children: [
               SizedBox(
-                width: (_createPostController.category.value == "Kids" || _createPostController.category.value == "Selling") ? 70 : h45,
+                width: (createPostController.category.value == "Kids" || createPostController.category.value == "Selling") ? 70 : h45,
                 child: Row(
                   children: [
                     Container(
@@ -36,7 +36,7 @@ class CreatePostUpperSection extends StatelessWidget {
                   ],
                 ),
               ),
-              if (_createPostController.category.value == "Kids" || _createPostController.category.value == "Selling")
+              if (createPostController.category.value == "Kids" || createPostController.category.value == "Selling")
                 Positioned(
                   right: 0,
                   bottom: 0,
@@ -48,9 +48,9 @@ class CreatePostUpperSection extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: ClipOval(
-                      child: _createPostController.selectedKid.value != null
+                      child: createPostController.selectedKid.value != null
                           ? Image.network(
-                              Environment.imageBaseUrl + _createPostController.postSecondaryCircleAvatar.value,
+                              Environment.imageBaseUrl + createPostController.postSecondaryCircleAvatar.value,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) => const Icon(
                                 BipHip.imageFile,
@@ -61,7 +61,7 @@ class CreatePostUpperSection extends StatelessWidget {
                             )
                           : ClipOval(
                               child: Image.file(
-                                _createPostController.postSecondaryLocalCirclerAvatar.value,
+                                createPostController.postSecondaryLocalCirclerAvatar.value,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -90,12 +90,12 @@ class CreatePostUpperSection extends StatelessWidget {
                                   text: Get.find<GlobalController>().userName.value.toString(),
                                   style: semiBold16TextStyle(cBlackColor),
                                 ),
-                                if (_createPostController.isTagAdded.value)
+                                if (createPostController.isTagAdded.value)
                                   TextSpan(
                                     text: ' ${ksIsWithSmall.tr} ',
                                     style: regular16TextStyle(cBlackColor),
                                   ),
-                                if (_createPostController.isTagAdded.value)
+                                if (createPostController.isTagAdded.value)
                                   TextSpan(
                                     text: 'Shohag Jalal & 8 ${ksOthersSmall.tr}',
                                     style: semiBold16TextStyle(cBlackColor),
@@ -114,11 +114,11 @@ class CreatePostUpperSection extends StatelessWidget {
                     children: [
                       CustomElevatedButton(
                         isCustomButton: true,
-                        label: _createPostController.postType.value,
-                        prefixIcon: _createPostController.postTypeIcon.value,
+                        label: createPostController.postType.value,
+                        prefixIcon: createPostController.postTypeIcon.value,
                         onPressed: () {
-                          _createPostHelper.initializeAudienceText();
-                          _createPostHelper.showAudienceSheet(context);
+                          createPostHelper.initializeAudienceText();
+                          createPostHelper.showAudienceSheet(context);
                         },
                         buttonHeight: 22,
                         suffixIcon: BipHip.downArrow,
@@ -129,23 +129,23 @@ class CreatePostUpperSection extends StatelessWidget {
                       ),
                       kW8sizedBox,
                       CustomElevatedButton(
-                        label: _createPostController.category.value == "" ? "Select Category" : _createPostController.category.value,
-                        prefixIcon: _createPostController.category.value == "" ? null : _createPostController.categoryIcon.value,
-                        prefixIconColor: _createPostController.category.value == "" ? null : _createPostController.categoryIconColor.value,
+                        label: createPostController.category.value == "" ? "Select Category" : createPostController.category.value,
+                        prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
+                        prefixIconColor: createPostController.category.value == "" ? null : createPostController.categoryIconColor.value,
                         onPressed: () async {
-                          _createPostHelper.initializeCategory();
+                          createPostHelper.initializeCategory();
                           Get.toNamed(krSelectCategory);
-                          await _createPostController.getPostCategoryList();
+                          await createPostController.getPostCategoryList();
                         },
                         buttonHeight: 22,
                         isCustomButton: true,
-                        suffixIcon: _createPostController.category.value == "" ? BipHip.plus : BipHip.edit,
+                        suffixIcon: createPostController.category.value == "" ? BipHip.plus : BipHip.edit,
                         buttonColor: cGreyBoxColor,
                         suffixIconColor: cBlackColor,
                         textStyle: medium12TextStyle(cBlackColor),
                       ),
-                      if (_createPostController.category.value == "Selling") kW8sizedBox,
-                      if (_createPostController.category.value == "Selling")
+                      if (createPostController.category.value == "Selling") kW8sizedBox,
+                      if (createPostController.category.value == "Selling")
                         Expanded(
                           child: CustomElevatedButton(
                             label: ksPostType.tr,

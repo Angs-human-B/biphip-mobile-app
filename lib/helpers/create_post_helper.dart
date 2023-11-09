@@ -729,6 +729,7 @@ class CreatePostHelper {
       return cSecondaryColor;
     }
   }
+
   void getBottomRowOnPressed(index, [context]) async {
     ll(index);
     if (index == 1) {
@@ -873,4 +874,18 @@ class CreatePostHelper {
   //------------------------------
   //! important:: create post bottom option functions end
   //------------------------------
+
+  void addKid() async {
+    if (createPostController.saveKidInfo.value) {
+      await createPostController.addKid();
+    } else {
+      Get.back();
+    }
+    createPostController.isKidAdded.value = true;
+    if (!createPostController.isKidAdded.value) {
+      globalController.isBottomSheetRightButtonActive.value = false;
+    } else {
+      globalController.isBottomSheetRightButtonActive.value = true;
+    }
+  }
 }

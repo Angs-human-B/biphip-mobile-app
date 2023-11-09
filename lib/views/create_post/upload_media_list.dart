@@ -5,7 +5,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 class UploadImageListPage extends StatelessWidget {
   UploadImageListPage({super.key});
 
-  final CreatePostController _createPostController = Get.find<CreatePostController>();
+  final CreatePostController createPostController = Get.find<CreatePostController>();
   final CreatePostHelper createPostHelper = CreatePostHelper();
 
   @override
@@ -51,7 +51,7 @@ class UploadImageListPage extends StatelessWidget {
                 () => Column(
                   children: [
                     kH8sizedBox,
-                    for (int i = 0; i < _createPostController.allMediaFileList.length; i++)
+                    for (int i = 0; i < createPostController.allMediaFileList.length; i++)
                       Stack(
                         children: [
                           Padding(
@@ -64,7 +64,7 @@ class UploadImageListPage extends StatelessWidget {
                                 height: 150,
                                 width: width - 40,
                                 child: Image.file(
-                                  _createPostController.allMediaFileList[i].value,
+                                  createPostController.allMediaFileList[i].value,
                                   fit: BoxFit.cover,
                                 ),
                               ),
