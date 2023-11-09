@@ -106,8 +106,16 @@ class RegistrationHelper {
   }
 
   void onPressedSelectGender(context) async {
+    ll(profileController.tempSelectedGender.value);
     if (authenticationController.gender.value != '') {
       profileController.tempSelectedGender.value = authenticationController.gender.value;
+    } else {
+      profileController.tempSelectedGender.value = '';
+    }
+    if (profileController.tempSelectedGender.value == '') {
+      globalController.isBottomSheetRightButtonActive.value = false;
+    } else {
+      globalController.isBottomSheetRightButtonActive.value = true;
     }
     profileController.isGenderListLoading.value = true;
     globalController.commonBottomSheet(
@@ -334,8 +342,7 @@ class RegistrationHelper {
     checkCanResetPassword();
     if (authenticationController.resetConfirmPasswordTextEditingController.text.trim() == '') {
       authenticationController.resetConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage.tr;
-    } else if (authenticationController.resetConfirmPasswordTextEditingController.text !=
-        authenticationController.resetNewPasswordTextEditingController.text) {
+    } else if (authenticationController.resetConfirmPasswordTextEditingController.text != authenticationController.resetNewPasswordTextEditingController.text) {
       authenticationController.resetConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
     } else {
       authenticationController.resetConfirmPasswordError.value = '';
