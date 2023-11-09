@@ -9,7 +9,7 @@ class AllFriendActionContent extends StatelessWidget {
   }) : super(key: key);
 
   final FriendController friendController;
-  final FriendHelper _friendHelper = FriendHelper();
+  final FriendHelper friendHelper = FriendHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -49,15 +49,15 @@ class AllFriendActionContent extends StatelessWidget {
                   subTitleTextStyle: regular14TextStyle(cBlackColor),
                   trailing: CustomRadioButton(
                     onChanged: () {
-                      _friendHelper.allFriendActionOnChanged(index: index);
+                      friendHelper.allFriendActionOnChanged(index: index);
                     },
                     isSelected: friendController.allFriendFollowStatus.value == 1
                         ? (friendController.friendActionSelect.value == friendController.friendActionList[index]['action'])
                         : friendController.friendActionSelect.value == friendController.friendFollowActionList[index]['action'],
                   ),
-                  itemColor: _friendHelper.allFriendItemColor(index: index),
+                  itemColor: friendHelper.allFriendItemColor(index: index),
                   onPressed: () {
-                    _friendHelper.allFriendActionOnPressed(index: index);
+                    friendHelper.allFriendActionOnPressed(index: index);
                   },
                 ),
               ),

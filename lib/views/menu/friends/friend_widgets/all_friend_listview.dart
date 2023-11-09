@@ -7,25 +7,25 @@ import 'package:flutter/rendering.dart';
 
 class AllFriendListView extends StatelessWidget {
   AllFriendListView({super.key});
-  final FriendController _friendController = Get.find<FriendController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final FriendController friendController = Get.find<FriendController>();
+  final GlobalController globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => (_friendController.isFriendListLoading.value)
+      () => (friendController.isFriendListLoading.value)
           ? const AllPendingFriendShimmer()
-          : _friendController.friendList.isNotEmpty
+          : friendController.friendList.isNotEmpty
               ? NotificationListener<ScrollNotification>(
                   onNotification: (scrollNotification) {
-                    if (_friendController.friendListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                    if (friendController.friendListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
                         scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
-                        !_friendController.friendListScrolled.value) {
-                      _friendController.friendListScrolled.value = true;
-                      if (_friendController.friendList.isNotEmpty) {
-                        _friendController.getMoreFriendList(null);
+                        !friendController.friendListScrolled.value) {
+                      friendController.friendListScrolled.value = true;
+                      if (friendController.friendList.isNotEmpty) {
+                        friendController.getMoreFriendList(null);
                       }
-                      if (_friendController.friendList.isNotEmpty && _friendController.isFriendSearched.value) {
-                        _friendController.getMoreFriendSearchList(null);
+                      if (friendController.friendList.isNotEmpty && friendController.isFriendSearched.value) {
+                        friendController.getMoreFriendSearchList(null);
                       }
                       return true;
                     }
@@ -33,14 +33,14 @@ class AllFriendListView extends StatelessWidget {
                   },
                   child: Expanded(
                     child: SingleChildScrollView(
-                      controller: _friendController.friendListScrollController,
+                      controller: friendController.friendListScrollController,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                             child: ListView.builder(
-                              itemCount: _friendController.friendList.length,
+                              itemCount: friendController.friendList.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
@@ -60,7 +60,7 @@ class AllFriendListView extends StatelessWidget {
                                         ),
                                         child: ClipOval(
                                           child: Image.network(
-                                            Environment.imageBaseUrl + _friendController.friendList[index].profilePicture.toString(),
+                                            Environment.imageBaseUrl + friendController.friendList[index].profilePicture.toString(),
                                             fit: BoxFit.cover,
                                             errorBuilder: (context, error, stackTrace) {
                                               return Image.asset(kiProfileDefaultImageUrl);
@@ -70,40 +70,40 @@ class AllFriendListView extends StatelessWidget {
                                         ),
                                       ),
                                       title: Text(
-                                        _friendController.friendList[index].fullName ?? ksNA.tr,
+                                        friendController.friendList[index].fullName ?? ksNA.tr,
                                         style: semiBold16TextStyle(cBlackColor),
                                       ),
                                       trailing: CustomIconButton(
                                           onPress: () {
-                                            _friendController.friendActionSelect.value = '';
-                                            _friendController.allFriendFollowStatus.value = _friendController.friendList[index].followStatus!;
-                                            if (_friendController.friendActionSelect.value == '') {
-                                              _globalController.isBottomSheetRightButtonActive.value = false;
+                                            friendController.friendActionSelect.value = '';
+                                            friendController.allFriendFollowStatus.value = friendController.friendList[index].followStatus!;
+                                            if (friendController.friendActionSelect.value == '') {
+                                              globalController.isBottomSheetRightButtonActive.value = false;
                                             } else {
-                                              _globalController.isBottomSheetRightButtonActive.value = true;
+                                              globalController.isBottomSheetRightButtonActive.value = true;
                                             }
-                                            _globalController.commonBottomSheet(
+                                            globalController.commonBottomSheet(
                                               context: context,
                                               isScrollControlled: true,
                                               content: AllFriendActionContent(
-                                                friendController: _friendController,
+                                                friendController: friendController,
                                               ),
                                               onPressCloseButton: () {
                                                 Get.back();
                                               },
                                               onPressRightButton: () async {
-                                                _friendController.userId.value = _friendController.friendList[index].id!;
+                                                friendController.userId.value = friendController.friendList[index].id!;
                                                 Get.back();
-                                                if (_friendController.friendActionSelect.value == 'Unfriend') {
-                                                  await _friendController.unfriendUserRequest();
+                                                if (friendController.friendActionSelect.value == 'Unfriend') {
+                                                  await friendController.unfriendUserRequest();
                                                 }
-                                                if (_friendController.friendActionSelect.value == 'Unfollow') {
-                                                  await _friendController.unfollowUser();
+                                                if (friendController.friendActionSelect.value == 'Unfollow') {
+                                                  await friendController.unfollowUser();
                                                 }
-                                                if (_friendController.friendActionSelect.value == 'Follow') {
-                                                  await _friendController.followUser();
+                                                if (friendController.friendActionSelect.value == 'Follow') {
+                                                  await friendController.followUser();
                                                 }
-                                                _friendController.friendActionSelect.value = '';
+                                                friendController.friendActionSelect.value = '';
                                               },
                                               rightText: ksDone.tr,
                                               rightTextStyle: semiBold16TextStyle(cPrimaryColor),
@@ -119,7 +119,7 @@ class AllFriendListView extends StatelessWidget {
                               },
                             ),
                           ),
-                          if (_friendController.friendList.isNotEmpty && !_friendController.friendListScrolled.value)
+                          if (friendController.friendList.isNotEmpty && !friendController.friendListScrolled.value)
                             const Center(child: CircularProgressIndicator()),
                         ],
                       ),
@@ -131,7 +131,7 @@ class AllFriendListView extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Container(
                           alignment: Alignment.center,
-                          child: EmptyView(title: _friendController.allFriendCount.value == 0 ? ksNoFriendAddedYet.tr : ksNoSearchedFriendsAvailable.tr)))),
+                          child: EmptyView(title: friendController.allFriendCount.value == 0 ? ksNoFriendAddedYet.tr : ksNoSearchedFriendsAvailable.tr)))),
     );
   }
 }

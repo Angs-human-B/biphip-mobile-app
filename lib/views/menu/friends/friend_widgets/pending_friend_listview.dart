@@ -7,22 +7,22 @@ import 'package:flutter/rendering.dart';
 
 class PendingFriendListView extends StatelessWidget {
   PendingFriendListView({super.key});
-  final FriendController _friendController = Get.find<FriendController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final FriendController friendController = Get.find<FriendController>();
+  final GlobalController globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => _friendController.isSendFriendRequestListLoading.value
+      () => friendController.isSendFriendRequestListLoading.value
           ? const AllPendingFriendShimmer()
-          : _friendController.sendFriendRequestList.isNotEmpty
+          : friendController.sendFriendRequestList.isNotEmpty
               ? NotificationListener<ScrollNotification>(
                   onNotification: (scrollNotification) {
-                    if (_friendController.sendFriendListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                    if (friendController.sendFriendListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
                         scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
-                        !_friendController.sendFriendListScrolled.value) {
-                      _friendController.sendFriendListScrolled.value = true;
-                      if (_friendController.sendFriendRequestList.isNotEmpty) {
-                        _friendController.getMoreSendFriendRequestList(null);
+                        !friendController.sendFriendListScrolled.value) {
+                      friendController.sendFriendListScrolled.value = true;
+                      if (friendController.sendFriendRequestList.isNotEmpty) {
+                        friendController.getMoreSendFriendRequestList(null);
                       }
                       return true;
                     }
@@ -30,13 +30,13 @@ class PendingFriendListView extends StatelessWidget {
                   },
                   child: Expanded(
                     child: SingleChildScrollView(
-                      controller: _friendController.sendFriendListScrollController,
+                      controller: friendController.sendFriendListScrollController,
                       child: Column(
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: k20Padding, vertical: k4Padding).copyWith(bottom: k0Padding),
                             child: ListView.builder(
-                              itemCount: _friendController.sendFriendRequestList.length,
+                              itemCount: friendController.sendFriendRequestList.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
@@ -56,7 +56,7 @@ class PendingFriendListView extends StatelessWidget {
                                         ),
                                         child: ClipOval(
                                           child: Image.network(
-                                            Environment.imageBaseUrl + _friendController.sendFriendRequestList[index].profilePicture.toString(),
+                                            Environment.imageBaseUrl + friendController.sendFriendRequestList[index].profilePicture.toString(),
                                             fit: BoxFit.cover,
                                             errorBuilder: (context, error, stackTrace) {
                                               return Image.asset(kiProfileDefaultImageUrl);
@@ -66,40 +66,40 @@ class PendingFriendListView extends StatelessWidget {
                                         ),
                                       ),
                                       title: Text(
-                                        _friendController.sendFriendRequestList[index].fullName ?? ksNA.tr,
+                                        friendController.sendFriendRequestList[index].fullName ?? ksNA.tr,
                                         style: semiBold16TextStyle(cBlackColor),
                                       ),
                                       trailing: CustomIconButton(
                                           onPress: () {
-                                            _friendController.pendingFriendActionSelect.value = '';
-                                            _friendController.pendingFriendFollowStatus.value = _friendController.sendFriendRequestList[index].followStatus!;
-                                            if (_friendController.pendingFriendActionSelect.value == '') {
-                                              _globalController.isBottomSheetRightButtonActive.value = false;
+                                            friendController.pendingFriendActionSelect.value = '';
+                                            friendController.pendingFriendFollowStatus.value = friendController.sendFriendRequestList[index].followStatus!;
+                                            if (friendController.pendingFriendActionSelect.value == '') {
+                                              globalController.isBottomSheetRightButtonActive.value = false;
                                             } else {
-                                              _globalController.isBottomSheetRightButtonActive.value = true;
+                                              globalController.isBottomSheetRightButtonActive.value = true;
                                             }
-                                            _globalController.commonBottomSheet(
+                                            globalController.commonBottomSheet(
                                               context: context,
                                               isScrollControlled: true,
                                               content: PendingFriendActionContent(
-                                                friendController: _friendController,
+                                                friendController: friendController,
                                               ),
                                               onPressCloseButton: () {
                                                 Get.back();
                                               },
                                               onPressRightButton: () async {
-                                                _friendController.userId.value = _friendController.sendFriendRequestList[index].id!;
+                                                friendController.userId.value = friendController.sendFriendRequestList[index].id!;
                                                 Get.back();
-                                                if (_friendController.pendingFriendActionSelect.value == 'Cancel Request') {
-                                                  await _friendController.cancelFriendRequest();
+                                                if (friendController.pendingFriendActionSelect.value == 'Cancel Request') {
+                                                  await friendController.cancelFriendRequest();
                                                 }
-                                                if (_friendController.pendingFriendActionSelect.value == 'Unfollow') {
-                                                  await _friendController.unfollowUser();
+                                                if (friendController.pendingFriendActionSelect.value == 'Unfollow') {
+                                                  await friendController.unfollowUser();
                                                 }
-                                                if (_friendController.pendingFriendActionSelect.value == 'Follow') {
-                                                  await _friendController.followUser();
+                                                if (friendController.pendingFriendActionSelect.value == 'Follow') {
+                                                  await friendController.followUser();
                                                 }
-                                                _friendController.pendingFriendActionSelect.value = '';
+                                                friendController.pendingFriendActionSelect.value = '';
                                               },
                                               rightText: ksDone.tr,
                                               rightTextStyle: semiBold16TextStyle(cPrimaryColor),
