@@ -10,8 +10,8 @@ import 'package:video_player/video_player.dart';
 class VideoDetails extends StatelessWidget {
   VideoDetails({super.key});
 
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final CreatePostController _createPostController = Get.find<CreatePostController>();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final CreatePostController createPostController = Get.find<CreatePostController>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class VideoDetails extends StatelessWidget {
                       width: width,
                       child: ClipRRect(
                         borderRadius: k8CircularBorderRadius,
-                        child: VideoPlayer(_profileController.videoPlayerController),
+                        child: VideoPlayer(profileController.videoPlayerController),
                       ),
                     ),
           
@@ -61,7 +61,7 @@ class VideoDetails extends StatelessWidget {
                         Stack(
                           children: [
                             SizedBox(
-                              width: (_createPostController.category.value == "Kids" || _createPostController.category.value == "Selling") ? 70 : h45,
+                              width: (createPostController.category.value == "Kids" || createPostController.category.value == "Selling") ? 70 : h45,
                               child: Row(
                                 children: [
                                   Container(
@@ -78,7 +78,7 @@ class VideoDetails extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            if (_createPostController.category.value == "Kids" || _createPostController.category.value == "Selling")
+                            if (createPostController.category.value == "Kids" || createPostController.category.value == "Selling")
                               Positioned(
                                 right: 0,
                                 bottom: 0,
@@ -117,12 +117,12 @@ class VideoDetails extends StatelessWidget {
                                                 text: 'Jane Smith',
                                                 style: semiBold16TextStyle(cBlackColor),
                                               ),
-                                              if (_createPostController.isTagAdded.value)
+                                              if (createPostController.isTagAdded.value)
                                                 TextSpan(
                                                   text: ' is with ',
                                                   style: regular16TextStyle(cBlackColor),
                                                 ),
-                                              if (_createPostController.isTagAdded.value)
+                                              if (createPostController.isTagAdded.value)
                                                 TextSpan(
                                                   text: 'Shohag Jalal & 8 others',
                                                   style: semiBold16TextStyle(cBlackColor),
@@ -141,8 +141,8 @@ class VideoDetails extends StatelessWidget {
                                   children: [
                                     CustomElevatedButton(
                                       isCustomButton: true,
-                                      label: _createPostController.postType.value,
-                                      prefixIcon: _createPostController.postTypeIcon.value,
+                                      label: createPostController.postType.value,
+                                      prefixIcon: createPostController.postTypeIcon.value,
                                       onPressed: () {},
                                       buttonHeight: 22,
                                       buttonColor: cGreyBoxColor,
@@ -151,17 +151,17 @@ class VideoDetails extends StatelessWidget {
                                     ),
                                     kW8sizedBox,
                                     CustomElevatedButton(
-                                      label: _createPostController.category.value == "" ? ksSelectCategory.tr : _createPostController.category.value,
-                                      prefixIcon: _createPostController.category.value == "" ? null : _createPostController.categoryIcon.value,
-                                      prefixIconColor: _createPostController.category.value == "" ? null : _createPostController.categoryIconColor.value,
+                                      label: createPostController.category.value == "" ? ksSelectCategory.tr : createPostController.category.value,
+                                      prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
+                                      prefixIconColor: createPostController.category.value == "" ? null : createPostController.categoryIconColor.value,
                                       onPressed: () {},
                                       buttonHeight: 22,
                                       isCustomButton: true,
                                       buttonColor: cGreyBoxColor,
                                       textStyle: medium12TextStyle(cBlackColor),
                                     ),
-                                    if (_createPostController.category.value == "Selling") kW8sizedBox,
-                                    if (_createPostController.category.value == "Selling")
+                                    if (createPostController.category.value == "Selling") kW8sizedBox,
+                                    if (createPostController.category.value == "Selling")
                                       CustomElevatedButton(
                                         label: ksPostType.tr,
                                         onPressed: () {},

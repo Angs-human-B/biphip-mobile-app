@@ -4,7 +4,7 @@ import 'package:bip_hip/views/menu/videos/gallery_video_widgets/gallery_video_co
 
 class GalleryVideos extends StatelessWidget {
   GalleryVideos({super.key});
-  final GalleryController _galleryController = Get.find<GalleryController>();
+  final GalleryController galleryController = Get.find<GalleryController>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,7 +34,7 @@ class GalleryVideos extends StatelessWidget {
                   GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: _galleryController.galleryVideos.length,
+                      itemCount: galleryController.galleryVideos.length,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: 1.2,
                         crossAxisCount: 2,
@@ -43,11 +43,11 @@ class GalleryVideos extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return Row(children: [
                           GalleryVideoContainer(
-                            title: _galleryController.galleryVideos[index]['title'],
-                            subTitle: _galleryController.galleryVideos[index]['items'],
-                            video1: _galleryController.galleryVideos[index]['video1'],
-                            video2: _galleryController.galleryVideos[index]['video2'],
-                            video3: _galleryController.galleryVideos[index]['video3'],
+                            title: galleryController.galleryVideos[index]['title'],
+                            subTitle: galleryController.galleryVideos[index]['items'],
+                            video1: galleryController.galleryVideos[index]['video1'],
+                            video2: galleryController.galleryVideos[index]['video2'],
+                            video3: galleryController.galleryVideos[index]['video3'],
                             onPressed: () {
                               Get.toNamed(krVideos);
                             },
