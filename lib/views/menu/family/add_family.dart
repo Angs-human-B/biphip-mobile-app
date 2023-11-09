@@ -11,7 +11,7 @@ class AddFamily extends StatelessWidget {
   final FamilyController familyController = Get.find<FamilyController>();
   final FriendController friendController = Get.find<FriendController>();
   final GlobalController globalController = Get.find<GlobalController>();
-  final FamilyHelper _familyHelper = FamilyHelper();
+  final FamilyHelper familyHelper = FamilyHelper();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,7 +44,7 @@ class AddFamily extends StatelessWidget {
                                   ? null
                                   : () {
                                       unfocus(context);
-                                      _familyHelper.addFamilySendOnPressed();
+                                      familyHelper.addFamilySendOnPressed();
                                     },
                               child: Text(
                                 ksSend.tr,
@@ -91,7 +91,7 @@ class AddFamily extends StatelessWidget {
                                         ),
                                         onPressed: () {
                                           onSelected(option.toString());
-                                          _familyHelper.addFamilyRawAutoCompleteOnPressed(option: option);
+                                          familyHelper.addFamilyRawAutoCompleteOnPressed(option: option);
                                           unfocus(context);
                                         },
                                       );
@@ -119,14 +119,14 @@ class AddFamily extends StatelessWidget {
                                   ),
                                   textInputStyle: regular16TextStyle(cBlackColor),
                                   onSuffixPress: () {
-                                    _familyHelper.addFamilySuffixPressed();
+                                    familyHelper.addFamilySuffixPressed();
                                   },
                                   onSubmit: (v) {
                                     unfocus(context);
                                     familyController.isFamilySuffixIconVisible.value = false;
                                   },
                                   onChanged: (v) {
-                                    familyController.addFamilyOnPressed();
+                                    familyHelper.addFamilyButtonOnChanged();
                                   },
                                 ));
                           },
@@ -136,7 +136,7 @@ class AddFamily extends StatelessWidget {
                           hintText: ksSelectRelation.tr,
                           text: familyController.relation.value,
                           onPressed: () async {
-                            _familyHelper.addFamilyOnPressed();
+                            familyHelper.addFamilyOnPressed();
                             unFocus(context);
                             familyController.isFamilyRelationListLoading.value = true;
                             Get.find<GlobalController>().commonBottomSheet(
@@ -149,7 +149,7 @@ class AddFamily extends StatelessWidget {
                                 Get.back();
                               },
                               onPressRightButton: () {
-                                _familyHelper.addFamilyOnPressedRightButton();
+                                familyHelper.addFamilyOnPressedRightButton();
                                 unfocus(context);
                               },
                               rightText: ksDone.tr,

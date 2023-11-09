@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/family/common_family_model.dart';
 import 'package:bip_hip/models/menu/family/family_relation_model.dart';
@@ -43,7 +42,7 @@ class FamilyController extends GetxController {
 
         isFamilyListLoading.value = false;
       } else {
-        isFamilyListLoading.value = false;
+        isFamilyListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -52,7 +51,7 @@ class FamilyController extends GetxController {
         }
       }
     } catch (e) {
-      isFamilyListLoading.value = false;
+      isFamilyListLoading.value = true;
       ll('getFamilyList error: $e');
     }
   }
@@ -92,7 +91,7 @@ class FamilyController extends GetxController {
 
         isFamilyListLoading.value = false;
       } else {
-        isFamilyListLoading.value = false;
+        isFamilyListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -101,7 +100,7 @@ class FamilyController extends GetxController {
         }
       }
     } catch (e) {
-      isFamilyListLoading.value = false;
+      isFamilyListLoading.value = true;
       ll('getMoreFamilyList error: $e');
     }
   }
@@ -138,7 +137,7 @@ class FamilyController extends GetxController {
         }
         isReceivedFamilyListLoading.value = false;
       } else {
-        isReceivedFamilyListLoading.value = false;
+        isReceivedFamilyListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -147,7 +146,7 @@ class FamilyController extends GetxController {
         }
       }
     } catch (e) {
-      isReceivedFamilyListLoading.value = false;
+      isReceivedFamilyListLoading.value = true;
       ll('getReceivedFamilyList error: $e');
     }
   }
@@ -187,7 +186,7 @@ class FamilyController extends GetxController {
 
         isReceivedFamilyListLoading.value = false;
       } else {
-        isReceivedFamilyListLoading.value = false;
+        isReceivedFamilyListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -196,7 +195,7 @@ class FamilyController extends GetxController {
         }
       }
     } catch (e) {
-      isReceivedFamilyListLoading.value = false;
+      isReceivedFamilyListLoading.value = true;
       ll('getMoreReceivedFamilyList error: $e');
     }
   }
@@ -314,7 +313,7 @@ class FamilyController extends GetxController {
         }
         isSendFamilyRequestListLoading.value = false;
       } else {
-        isSendFamilyRequestListLoading.value = false;
+        isSendFamilyRequestListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -323,7 +322,7 @@ class FamilyController extends GetxController {
         }
       }
     } catch (e) {
-      isSendFamilyRequestListLoading.value = false;
+      isSendFamilyRequestListLoading.value = true;
       ll('getSendFamilyRequestList error: $e');
     }
   }
@@ -361,7 +360,7 @@ class FamilyController extends GetxController {
         }
         isSendFamilyRequestListLoading.value = false;
       } else {
-        isSendFamilyRequestListLoading.value = false;
+        isSendFamilyRequestListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -370,7 +369,7 @@ class FamilyController extends GetxController {
         }
       }
     } catch (e) {
-      isSendFamilyRequestListLoading.value = false;
+      isSendFamilyRequestListLoading.value = true;
       ll('getMoreSendFamilyList error: $e');
     }
   }
@@ -470,7 +469,7 @@ class FamilyController extends GetxController {
         familyRelationList.addAll(familyRelationListData.value!.relations);
         isFamilyRelationListLoading.value = false;
       } else {
-        isFamilyRelationListLoading.value = false;
+        isFamilyRelationListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -479,7 +478,7 @@ class FamilyController extends GetxController {
         }
       }
     } catch (e) {
-      isFamilyRelationListLoading.value = false;
+      isFamilyRelationListLoading.value = true;
       ll('getFamilyRelationList error: $e');
     }
   }
@@ -497,18 +496,4 @@ class FamilyController extends GetxController {
 
   Timer? debounce;
   final RxBool isFamilySuffixIconVisible = RxBool(false);
-  void addFamilyOnPressed() {
-    if (globalController.searchController.text.trim() != '') {
-      isFamilySuffixIconVisible.value = true;
-    } else {
-      isFamilySuffixIconVisible.value = false;
-    }
-    for (int i = 0; i < Get.find<FriendController>().tempFriendList.length; i++) {
-      if (Get.find<FriendController>().tempFriendList[i] == globalController.searchController.text.trim()) {
-        userId.value = Get.find<FriendController>().friendList[i].id!;
-      } else {
-        userId.value = -1;
-      }
-    }
-  }
 }
