@@ -846,7 +846,7 @@ class CreatePostController extends GetxController {
         Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isAddKidPageLoading.value = true;
+        isAddKidPageLoading.value = false;
 
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
@@ -856,7 +856,7 @@ class CreatePostController extends GetxController {
         }
       }
     } catch (e) {
-      isAddKidPageLoading.value = true;
+      isAddKidPageLoading.value = false;
       ll('addKid error: $e');
     }
   }
@@ -931,7 +931,7 @@ class CreatePostController extends GetxController {
         Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isAddBrandPageLoading.value = true;
+        isAddBrandPageLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -940,7 +940,7 @@ class CreatePostController extends GetxController {
         }
       }
     } catch (e) {
-      isAddBrandPageLoading.value = true;
+      isAddBrandPageLoading.value = false;
       ll('addBrand error: $e');
     }
   }
@@ -1005,7 +1005,7 @@ class CreatePostController extends GetxController {
         resetCreatePost();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isCreatePostLoading.value = true;
+        isCreatePostLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1014,7 +1014,7 @@ class CreatePostController extends GetxController {
         }
       }
     } catch (e) {
-      isCreatePostLoading.value = true;
+      isCreatePostLoading.value = false;
       ll('createPost error: $e');
     }
   }
