@@ -65,15 +65,15 @@ class Friends extends StatelessWidget {
                           buttonPress: RxList([
                             () {
                               unFocus(context);
-                              friendHelper.allFriendTapableButtOnPressed();
+                              friendHelper.allFriendTapableButtonOnPressed();
                             },
                             () {
                               unFocus(context);
-                              friendHelper.receivedFriendTapableButtOnPressed();
+                              friendHelper.receivedFriendTapableButtonOnPressed();
                             },
                             () {
                               unFocus(context);
-                              friendHelper.pendingFriendTapableButtOnPressed();
+                              friendHelper.pendingFriendTapableButtonOnPressed();
                             },
                           ]),
                         ),

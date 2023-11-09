@@ -8,7 +8,7 @@ import 'package:bip_hip/views/menu/friends/friend_widgets/received_friend_listvi
 class FriendHelper {
   final GlobalController globalController = Get.find<GlobalController>();
   final FriendController friendController = Get.find<FriendController>();
-  
+
   //*friends page tapable button views
   StatelessWidget allReceivedPendingFriendsView() {
     if (globalController.tapAbleButtonState[0] == true) {
@@ -70,19 +70,19 @@ class FriendHelper {
     }
   }
 
-  void allFriendTapableButtOnPressed() async {
+  void allFriendTapableButtonOnPressed() async {
     globalController.toggleType(0);
     friendSearchFieldReset();
     await friendController.getFriendList();
   }
 
-  void receivedFriendTapableButtOnPressed() async {
+  void receivedFriendTapableButtonOnPressed() async {
     globalController.toggleType(1);
     friendSearchFieldReset();
     await friendController.getReceivedFriendList();
   }
 
-  void pendingFriendTapableButtOnPressed() async {
+  void pendingFriendTapableButtonOnPressed() async {
     globalController.toggleType(2);
     friendSearchFieldReset();
     await friendController.getSendFriendRequestList();
