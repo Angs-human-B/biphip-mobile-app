@@ -1,9 +1,11 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/helpers/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class CreatePostMediaSection extends StatelessWidget {
   CreatePostMediaSection({super.key});
   final CreatePostController _createPostController = Get.find<CreatePostController>();
+  final CreatePostHelper createPostHelper = CreatePostHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class CreatePostMediaSection extends StatelessWidget {
                   child: TextButton(
                     style: kTextButtonStyle,
                     onPressed: () {
-                      _createPostController.removeMedia(0);
+                      createPostHelper.removeMedia(0);
                     },
                     child: const Icon(
                       BipHip.circleCrossNew,
@@ -73,7 +75,7 @@ class CreatePostMediaSection extends StatelessWidget {
                         child: TextButton(
                           style: kTextButtonStyle,
                           onPressed: () {
-                            _createPostController.removeMedia(1);
+                            createPostHelper.removeMedia(1);
                           },
                           child: const Icon(
                             BipHip.circleCrossNew,
@@ -117,7 +119,7 @@ class CreatePostMediaSection extends StatelessWidget {
                           child: TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
-                              _createPostController.removeMedia(2);
+                              createPostHelper.removeMedia(2);
                             },
                             child: const Icon(
                               BipHip.circleCrossNew,

@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/helpers/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/create_post/create_post_widget/create_post_bottom_section.dart';
 import 'package:bip_hip/views/create_post/create_post_widget/create_post_media_section.dart';
@@ -9,6 +10,7 @@ import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 class CreatePost extends StatelessWidget {
   CreatePost({super.key});
   final CreatePostController _createPostController = Get.find<CreatePostController>();
+  final CreatePostHelper createPostHelper = CreatePostHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +83,7 @@ class CreatePost extends StatelessWidget {
                                     textInputStyle:
                                         _createPostController.isTextLimitCrossed.value ? regular16TextStyle(cBlackColor) : regular20TextStyle(cBlackColor),
                                     onChanged: (v) {
-                                      _createPostController.postButtonStateCheck();
+                                      createPostHelper.postButtonStateCheck();
                                     },
                                   ),
                                 ),

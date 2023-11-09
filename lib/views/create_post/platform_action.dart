@@ -9,7 +9,7 @@ class PlatformAndAction extends StatelessWidget {
   PlatformAndAction({super.key});
 
   final CreatePostController _createPostController = Get.find<CreatePostController>();
-  final CreatePostHelper _createPostHelper = CreatePostHelper();
+  final CreatePostHelper createPostHelper = CreatePostHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class PlatformAndAction extends StatelessWidget {
                       TextButton(
                     style: kTextButtonStyle,
                     onPressed: () {
-                      _createPostController.selectCategoryTextChange(context);
+                      createPostHelper.selectCategoryTextChange(context);
                     },
                     child: Text(
                       ksNext.tr,
@@ -84,13 +84,13 @@ class PlatformAndAction extends StatelessWidget {
                           Obx(
                             () => CategoryComponent(
                               onPress: () {
-                                _createPostHelper.selectPlatformStatusChange(i);
+                                createPostHelper.selectPlatformStatusChange(i);
                               },
                               suffixWidget: Transform.scale(
                                 scale: .7,
                                 child: CustomRadioButton(
                                   onChanged: () {
-                                    _createPostHelper.selectPlatformStatusChange(i);
+                                    createPostHelper.selectPlatformStatusChange(i);
                                   },
                                   isSelected: _createPostController.platformStatusList[i],
                                 ),
@@ -122,13 +122,13 @@ class PlatformAndAction extends StatelessWidget {
                           Obx(
                             () => CategoryComponent(
                               onPress: () {
-                                _createPostHelper.selectActionStatusChange(i);
+                                createPostHelper.selectActionStatusChange(i);
                               },
                               suffixWidget: Transform.scale(
                                 scale: .7,
                                 child: CustomRadioButton(
                                   onChanged: () {
-                                    _createPostHelper.selectActionStatusChange(i);
+                                    createPostHelper.selectActionStatusChange(i);
                                   },
                                   isSelected: _createPostController.actionStatusList[i],
                                 ),

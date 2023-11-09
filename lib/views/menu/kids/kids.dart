@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
-import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/helpers/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 
@@ -31,7 +31,7 @@ class KidsPage extends StatelessWidget {
                   child: TextButton(
                     style: kTextButtonStyle,
                     onPressed: () {
-                      Get.find<CreatePostController>().resetAddKidPage();
+                      CreatePostHelper().resetAddKidPage();
                       Get.toNamed(krAddKid);
                     },
                     child: Text(

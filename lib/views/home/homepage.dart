@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
-import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/helpers/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
@@ -102,7 +102,7 @@ class HomePage extends StatelessWidget {
                               name: Get.find<GlobalController>().userLastName.value.toString(),
                               profilePic: Get.find<GlobalController>().userImage.value.toString(),
                               onPressed: () {
-                                Get.find<CreatePostController>().resetData();
+                                CreatePostHelper().resetData();
                                 Get.toNamed(krCreatePost);
                               },
                               prefixWidget: const Icon(

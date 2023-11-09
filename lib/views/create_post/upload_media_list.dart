@@ -1,10 +1,12 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/helpers/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class UploadImageListPage extends StatelessWidget {
   UploadImageListPage({super.key});
 
   final CreatePostController _createPostController = Get.find<CreatePostController>();
+  final CreatePostHelper createPostHelper = CreatePostHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,7 @@ class UploadImageListPage extends StatelessWidget {
                             child: TextButton(
                               style: kTextButtonStyle,
                               onPressed: () {
-                                _createPostController.removeMedia(i);
+                                createPostHelper.removeMedia(i);
                               },
                               child: const Icon(
                                 BipHip.circleCrossNew,
