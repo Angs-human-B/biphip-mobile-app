@@ -28,7 +28,7 @@ class KidsController extends GetxController {
         totalKidsCount.value = kidList.length;
         isKidsListLoading.value = false;
       } else {
-        isKidsListLoading.value = false;
+       isKidsListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -37,7 +37,7 @@ class KidsController extends GetxController {
         }
       }
     } catch (e) {
-      isKidsListLoading.value = false;
+     isKidsListLoading.value = true;
       ll('getKidsList error: $e');
     }
   }
