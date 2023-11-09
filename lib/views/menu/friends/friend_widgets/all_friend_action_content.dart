@@ -40,12 +40,12 @@ class AllFriendActionContent extends StatelessWidget {
                     ),
                   ),
                   title: friendController.allFriendFollowStatus.value == 1
-                      ? friendController.friendActionList[index]['action'].tr
-                      : friendController.friendFollowActionList[index]['action'].tr,
+                      ? friendController.friendActionList[index]['action'].toString().tr
+                      : friendController.friendFollowActionList[index]['action'].toString().tr,
                   titleTextStyle: semiBold16TextStyle(cBlackColor),
                   subtitle: friendController.allFriendFollowStatus.value == 1
-                      ? friendController.friendActionList[index]['actionSubtitle'].tr
-                      : friendController.friendFollowActionList[index]['actionSubtitle'].tr,
+                      ? friendController.friendActionList[index]['actionSubtitle'].toString().tr
+                      : friendController.friendFollowActionList[index]['actionSubtitle'].toString().tr,
                   subTitleTextStyle: regular14TextStyle(cBlackColor),
                   trailing: CustomRadioButton(
                     onChanged: () {

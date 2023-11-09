@@ -40,12 +40,12 @@ class PendingFriendActionContent extends StatelessWidget {
                     ),
                   ),
                   title: friendController.pendingFriendFollowStatus.value == 1
-                      ? friendController.pendingFriendActionList[index]['action'].tr
-                      : friendController.pendingFollowFriendActionList[index]['action'].tr,
+                      ? friendController.pendingFriendActionList[index]['action'].toString().tr
+                      : friendController.pendingFollowFriendActionList[index]['action'].toString().tr,
                   titleTextStyle: semiBold16TextStyle(cBlackColor),
                   subtitle: friendController.pendingFriendFollowStatus.value == 1
-                      ? friendController.pendingFriendActionList[index]['actionSubtitle'].tr
-                      : friendController.pendingFollowFriendActionList[index]['actionSubtitle'].tr,
+                      ? friendController.pendingFriendActionList[index]['actionSubtitle'].toString().tr
+                      : friendController.pendingFollowFriendActionList[index]['actionSubtitle'].toString().tr,
                   subTitleTextStyle: regular14TextStyle(cBlackColor),
                   trailing: CustomRadioButton(
                     onChanged: () {
