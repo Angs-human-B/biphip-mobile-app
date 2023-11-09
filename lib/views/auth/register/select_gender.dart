@@ -8,8 +8,8 @@ import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 class SelectGender extends StatelessWidget {
   SelectGender({super.key});
 
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final RegistrationHelper _registrationHelper = RegistrationHelper();
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+  final RegistrationHelper registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -59,22 +59,22 @@ class SelectGender extends StatelessWidget {
                         buttonColor: cWhiteColor,
                         borderColor: cLineColor2,
                         onPressed: () {
-                          _registrationHelper.onPressedSelectGender(context);
+                          registrationHelper.onPressedSelectGender(context);
                         },
-                        text: _authenticationController.gender.value,
+                        text: authenticationController.gender.value,
                         hintText: ksSelectGender.tr,
                       ),
                       kH24sizedBox,
                       CustomElevatedButton(
                         label: ksNext.tr,
-                        onPressed: _authenticationController.gender.value != ''
+                        onPressed: authenticationController.gender.value != ''
                             ? () {
                                 Get.toNamed(krSetEmail);
                               }
                             : null,
                         buttonWidth: width - 40,
                         textStyle:
-                            _authenticationController.gender.value != '' ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
+                            authenticationController.gender.value != '' ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
                     ],
                   ),

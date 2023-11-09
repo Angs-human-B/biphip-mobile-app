@@ -5,8 +5,8 @@ import 'package:bip_hip/views/menu/menu.dart';
 class Settings extends StatelessWidget {
   Settings({super.key});
 
-  final MenuSectionController _menuController = Get.find<MenuSectionController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final MenuSectionController menuController = Get.find<MenuSectionController>();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +44,13 @@ class Settings extends StatelessWidget {
                           color: cIconColor,
                         ),
                         onPressed: () {
-                          _menuController.firstNameEditingController.text = _globalController.userFirstName.value ?? '';
-                          _menuController.lastNameEditingController.text = _globalController.userLastName.value ?? '';
-                          _globalController.commonBottomSheet(
+                          menuController.firstNameEditingController.text = globalController.userFirstName.value ?? '';
+                          menuController.lastNameEditingController.text = globalController.userLastName.value ?? '';
+                          globalController.commonBottomSheet(
                               context: context,
                               isScrollControlled: true,
                               content: _ChangeNameBottomSheetContent(
-                                menuController: _menuController,
+                                menuController: menuController,
                               ),
                               onPressCloseButton: () {
                                 Get.back();
@@ -58,7 +58,7 @@ class Settings extends StatelessWidget {
                               onPressRightButton: () async {
                                 unfocus(context);
                                 Get.back();
-                                await _menuController.changeName();
+                                await menuController.changeName();
                               },
                               rightText: ksDone.tr,
                               rightTextStyle: medium14TextStyle(cPrimaryColor),
@@ -73,11 +73,11 @@ class Settings extends StatelessWidget {
                 ),
               ),
             ),
-            if (_menuController.isChangeNameLoading.value == true)
+            if (menuController.isChangeNameLoading.value == true)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (_menuController.isChangeNameLoading.value) {
+                    if (menuController.isChangeNameLoading.value) {
                       return false;
                     }
                     return true;

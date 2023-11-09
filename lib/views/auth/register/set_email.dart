@@ -7,8 +7,8 @@ import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 class SetEmail extends StatelessWidget {
   SetEmail({super.key});
 
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final RegistrationHelper _registrationHelper = RegistrationHelper();
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+  final RegistrationHelper registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +55,8 @@ class SetEmail extends StatelessWidget {
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
-                        controller: _authenticationController.registerEmailTextEditingController,
-                        errorText: _authenticationController.registerEmailError.value,
+                        controller: authenticationController.registerEmailTextEditingController,
+                        errorText: authenticationController.registerEmailError.value,
                         hint: ksEmail.tr,
                         textHintStyle: regular16TextStyle(cPlaceHolderColor2),
                         fillColor: cWhiteColor,
@@ -65,7 +65,7 @@ class SetEmail extends StatelessWidget {
                           borderSide: const BorderSide(width: 1, color: cLineColor2),
                         ),
                         onChanged: (text) {
-                          _registrationHelper.registerEmailOnChanged();
+                          registrationHelper.registerEmailOnChanged();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,
@@ -74,14 +74,14 @@ class SetEmail extends StatelessWidget {
                       kH24sizedBox,
                       CustomElevatedButton(
                         label: ksNext.tr,
-                        onPressed: _authenticationController.checkValidEmail.value
+                        onPressed: authenticationController.checkValidEmail.value
                             ? () async {
                                 unfocus(context);
                                 Get.toNamed(krSetNewPass);
                               }
                             : null,
                         buttonWidth: width - 40,
-                        textStyle: _authenticationController.checkValidEmail.value
+                        textStyle: authenticationController.checkValidEmail.value
                             ? semiBold16TextStyle(cWhiteColor)
                             : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),

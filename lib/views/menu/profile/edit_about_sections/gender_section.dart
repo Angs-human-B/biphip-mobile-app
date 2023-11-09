@@ -7,8 +7,8 @@ import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 
 class GenderSection extends StatelessWidget {
   GenderSection({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -27,21 +27,21 @@ class GenderSection extends StatelessWidget {
             CustomSelectionButton(
               prefixIcon: BipHip.gender,
               onPressed: () async {
-                _editProfileHelper.selectGender(context);
+                editProfileHelper.selectGender(context);
               },
-              text: _profileController.selectedGender.value != ''
-                  ? _profileController.selectedGender.value
-                  : checkNullOrStringNull(_profileController.userData.value!.gender) ?? ksSelectGender.tr,
+              text: profileController.selectedGender.value != ''
+                  ? profileController.selectedGender.value
+                  : checkNullOrStringNull(profileController.userData.value!.gender) ?? ksSelectGender.tr,
               hintText: ksSelectGender.tr,
             ),
-            if (_profileController.isGenderSelected.value) kH12sizedBox,
-            if (_profileController.isGenderSelected.value)
+            if (profileController.isGenderSelected.value) kH12sizedBox,
+            if (profileController.isGenderSelected.value)
               CancelSaveButton(
                 onPressedCancel: () {
-                  _editProfileHelper.resetGender();
+                  editProfileHelper.resetGender();
                 },
                 onPressedSave: () async {
-                  _editProfileHelper.saveGender();
+                  editProfileHelper.saveGender();
                 },
               ),
             kH16sizedBox,

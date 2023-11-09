@@ -9,8 +9,8 @@ import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 class Register extends StatelessWidget {
   Register({super.key});
 
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final RegistrationHelper _registrationHelper = RegistrationHelper();
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+  final RegistrationHelper registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class Register extends StatelessWidget {
                   child: Column(
                     children: [
                       kH24sizedBox,
-                      if (_authenticationController.isReferredRegistration.value)
+                      if (authenticationController.isReferredRegistration.value)
                         const ReferLinkContainer(
                           referName: 'John Doe',
                         ),
@@ -62,8 +62,8 @@ class Register extends StatelessWidget {
                       ),
                       kH50sizedBox,
                       CustomModifiedTextField(
-                        controller: _authenticationController.registerFirstNameTextEditingController,
-                        errorText: _authenticationController.firstNameError.value,
+                        controller: authenticationController.registerFirstNameTextEditingController,
+                        errorText: authenticationController.firstNameError.value,
                         hint: ksFirstName.tr,
                         textHintStyle: regular16TextStyle(cPlaceHolderColor2),
                         fillColor: cWhiteColor,
@@ -72,7 +72,7 @@ class Register extends StatelessWidget {
                           borderSide: const BorderSide(width: 1, color: cLineColor2),
                         ),
                         onChanged: (text) {
-                          _registrationHelper.registerFirstNameOnChange();
+                          registrationHelper.registerFirstNameOnChange();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
@@ -80,8 +80,8 @@ class Register extends StatelessWidget {
                       ),
                       kH4sizedBox,
                       CustomModifiedTextField(
-                        controller: _authenticationController.registerLastNameTextEditingController,
-                        errorText: _authenticationController.lastNameError.value,
+                        controller: authenticationController.registerLastNameTextEditingController,
+                        errorText: authenticationController.lastNameError.value,
                         hint: ksLastName.tr,
                         textHintStyle: regular16TextStyle(cPlaceHolderColor2),
                         fillColor: cWhiteColor,
@@ -90,7 +90,7 @@ class Register extends StatelessWidget {
                           borderSide: const BorderSide(width: 1, color: cLineColor2),
                         ),
                         onChanged: (text) {
-                          _registrationHelper.registerLastNameOnChange();
+                          registrationHelper.registerLastNameOnChange();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,
@@ -99,16 +99,15 @@ class Register extends StatelessWidget {
                       kH24sizedBox,
                       CustomElevatedButton(
                         label: ksNext.tr,
-                        onPressed: _authenticationController.checkValidName.value
+                        onPressed: authenticationController.checkValidName.value
                             ? () {
                                 unfocus(context);
-                                _registrationHelper.onPressedNext();
+                                registrationHelper.onPressedNext();
                               }
                             : null,
                         buttonWidth: width - 40,
-                        textStyle: _authenticationController.checkValidName.value
-                            ? semiBold16TextStyle(cWhiteColor)
-                            : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
+                        textStyle:
+                            authenticationController.checkValidName.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
                       kH24sizedBox,
                       LinkupTextRow(

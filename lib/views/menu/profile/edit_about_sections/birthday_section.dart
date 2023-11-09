@@ -6,8 +6,8 @@ import 'package:intl/intl.dart';
 
 class BirthdaySection extends StatelessWidget {
   BirthdaySection({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +24,10 @@ class BirthdaySection extends StatelessWidget {
           kH12sizedBox,
           InfoContainer2(
             suffixText: '',
-            prefixText: DateFormat("yyyy-MM-dd").format(_profileController.userData.value!.dob!),
+            prefixText: DateFormat("yyyy-MM-dd").format(profileController.userData.value!.dob!),
             isAddButton: false,
             suffixOnPressed: () {
-              _editProfileHelper.editBirthday();
+              editProfileHelper.editBirthday();
             },
           ),
           kH16sizedBox,

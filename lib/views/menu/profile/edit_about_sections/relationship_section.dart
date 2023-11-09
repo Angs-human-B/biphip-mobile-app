@@ -7,8 +7,8 @@ import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 
 class RelationshipSection extends StatelessWidget {
   RelationshipSection({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -29,21 +29,21 @@ class RelationshipSection extends StatelessWidget {
               CustomSelectionButton(
                 prefixIcon: BipHip.love,
                 onPressed: () async {
-                  _editProfileHelper.setRelationshipStatus(context);
+                  editProfileHelper.setRelationshipStatus(context);
                 },
-                text: _profileController.relationshipStatus.value != ''
-                    ? _profileController.relationshipStatus.value
-                    : checkNullOrStringNull(_profileController.userData.value!.relation) ?? ksSelectRelationshipStatus,
+                text: profileController.relationshipStatus.value != ''
+                    ? profileController.relationshipStatus.value
+                    : checkNullOrStringNull(profileController.userData.value!.relation) ?? ksSelectRelationshipStatus,
                 hintText: ksSelectRelationshipStatus.tr,
               ),
-              if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value) kH12sizedBox,
-              if (_profileController.relationshipStatus.value != '' && _profileController.showEditRelationshipStatus.value)
+              if (profileController.relationshipStatus.value != '' && profileController.showEditRelationshipStatus.value) kH12sizedBox,
+              if (profileController.relationshipStatus.value != '' && profileController.showEditRelationshipStatus.value)
                 CancelSaveButton(
                   onPressedCancel: () {
-                    _editProfileHelper.resetRelationshipStatus();
+                    editProfileHelper.resetRelationshipStatus();
                   },
                   onPressedSave: () {
-                    _editProfileHelper.saveRelationshipStatus();
+                    editProfileHelper.saveRelationshipStatus();
                   },
                 ),
               kH16sizedBox,
@@ -62,7 +62,7 @@ class RelationshipStatusListContent extends StatelessWidget {
   }) : super(key: key);
 
   final ProfileController profileController;
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +91,7 @@ class RelationshipStatusListContent extends StatelessWidget {
                                 ? cPrimaryTint3Color
                                 : cWhiteColor,
                             onPressed: () {
-                              _editProfileHelper.selectBottomSheetRelationshipContent(index);
+                              editProfileHelper.selectBottomSheetRelationshipContent(index);
                             },
                           ),
                         ),

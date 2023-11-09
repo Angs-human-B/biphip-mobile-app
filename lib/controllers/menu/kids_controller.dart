@@ -4,9 +4,9 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class KidsController extends GetxController {
   final RxInt kidId = RxInt(-1);
-  final ApiController _apiController = ApiController();
-  final SpController _spController = SpController();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final ApiController apiController = ApiController();
+  final SpController spController = SpController();
+  final GlobalController globalController = Get.find<GlobalController>();
   //   //*Kids List Api Call
   final Rx<AllKidsModel?> kidsListData = Rx<AllKidsModel?>(null);
   final RxList<Kid> kidList = RxList<Kid>([]);
@@ -15,8 +15,8 @@ class KidsController extends GetxController {
   Future<void> getKidsList() async {
     try {
       isKidsListLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetAllKidList,
@@ -31,9 +31,9 @@ class KidsController extends GetxController {
         isKidsListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -47,9 +47,9 @@ class KidsController extends GetxController {
   Future<void> kidDelete() async {
     try {
       isKidDeleteLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {};
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kDelete,
         url: '$kuDeleteKids/${kidId.value.toString()}',
         body: body,
@@ -63,14 +63,14 @@ class KidsController extends GetxController {
           }
         }
         isKidDeleteLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isKidDeleteLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -97,7 +97,7 @@ class KidsController extends GetxController {
   Future<void> editKid() async {
     try {
       isEditKidLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
 
       Map<String, String> body = {
         'id': kidId.value.toString(),
@@ -106,7 +106,7 @@ class KidsController extends GetxController {
       };
       var response;
       if (isKidImageChanged.value) {
-        response = await _apiController.mediaUpload(
+        response = await apiController.mediaUpload(
           url: kuUpdateKid,
           body: body,
           token: token,
@@ -114,7 +114,7 @@ class KidsController extends GetxController {
           value: kidImageFile.value.path,
         ) as CommonDM;
       } else {
-        response = await _apiController.commonApiCall(
+        response = await apiController.commonApiCall(
           requestMethod: kPost,
           url: kuUpdateKid,
           body: body,
@@ -127,14 +127,14 @@ class KidsController extends GetxController {
         isEditKidLoading.value = false;
         isKidImageChanged.value = false;
         Get.back();
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditKidLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {

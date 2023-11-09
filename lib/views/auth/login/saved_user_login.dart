@@ -6,7 +6,7 @@ import 'package:bip_hip/widgets/auth/logo_and_text_widget.dart';
 class SavedUserLogin extends StatelessWidget {
   SavedUserLogin({Key? key}) : super(key: key);
 
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +43,10 @@ class SavedUserLogin extends StatelessWidget {
                             width: width,
                             child: ListView.separated(
                                 separatorBuilder: (context, index) => kH8sizedBox,
-                                itemCount: _authenticationController.users.length,
+                                itemCount: authenticationController.users.length,
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
-                                  var item = _authenticationController.users;
+                                  var item = authenticationController.users;
                                   return CustomUserListContainer(
                                     item: item[index],
                                   );

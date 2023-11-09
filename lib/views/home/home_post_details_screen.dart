@@ -6,7 +6,7 @@ import 'package:bip_hip/views/home/home_post_details.dart';
 class HomePostDetailsScreen extends StatelessWidget {
   HomePostDetailsScreen({super.key});
 
-  final HomeController _homeController = Get.find<HomeController>();
+  final HomeController homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +44,11 @@ class HomePostDetailsScreen extends StatelessWidget {
                       isCommented: true,
                       isLiked: true,
                       isTextualPost: true,
-                      mediaList: _homeController.postData.value!.post.imageUrls,
+                      mediaList: homeController.postData.value!.post.imageUrls,
                       isSelfPost: true,
                       isCommentShown: true,
                       showBottomSection: true,
-                      postText: _homeController.postData.value!.post.content,
+                      postText: homeController.postData.value!.post.content,
                     ),
                   ],
                 ),

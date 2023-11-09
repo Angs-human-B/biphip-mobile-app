@@ -10,8 +10,8 @@ import 'package:bip_hip/widgets/common/textfields/otp_textfield.dart';
 class OTPVerifyScreen extends StatelessWidget {
   OTPVerifyScreen({super.key});
 
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final RegistrationHelper _registrationHelper = RegistrationHelper();
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+  final RegistrationHelper registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +30,16 @@ class OTPVerifyScreen extends StatelessWidget {
                   child: Obx(
                     () => CustomAppBar(
                       appBarColor: cTransparentColor,
-                      title: _authenticationController.parentRoute.value == "register" ? ksRegistration.tr : ksForgetPassword.tr,
+                      title: authenticationController.parentRoute.value == "register" ? ksRegistration.tr : ksForgetPassword.tr,
                       onBack: () async {
                         Get.back();
                       },
-                      action: (_authenticationController.parentRoute.value == "register")
+                      action: (authenticationController.parentRoute.value == "register")
                           ? [
                               Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: CustomCircularProgressBar(
-                                  percent: _authenticationController.parentRoute.value == "register" ? 1.0 : .66,
+                                  percent: authenticationController.parentRoute.value == "register" ? 1.0 : .66,
                                 ),
                               ),
                             ]
@@ -64,38 +64,38 @@ class OTPVerifyScreen extends StatelessWidget {
                           ),
                           kH50sizedBox,
                           OtpTextField(
-                            controller: _authenticationController.otpTextEditingController,
+                            controller: authenticationController.otpTextEditingController,
                             onChange: (value) {
-                              _registrationHelper.checkCanOTPVerifyNow();
+                              registrationHelper.checkCanOTPVerifyNow();
                             },
                           ),
                           kH24sizedBox,
                           CustomElevatedButton(
                             label: ksNext.tr,
-                            onPressed: _authenticationController.canOTPVerifyNow.value
+                            onPressed: authenticationController.canOTPVerifyNow.value
                                 ? () {
-                                    _registrationHelper.onPressedVerifyOTP();
+                                    registrationHelper.onPressedVerifyOTP();
                                   }
                                 : null,
                             buttonWidth: width - 40,
-                            textStyle: _authenticationController.canOTPVerifyNow.value
+                            textStyle: authenticationController.canOTPVerifyNow.value
                                 ? semiBold16TextStyle(cWhiteColor)
                                 : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                           ),
                           kH25sizedBox,
-                          _authenticationController.isOTPResendClick.value
+                          authenticationController.isOTPResendClick.value
                               ? LinkupTextRow(
                                   prefix: ksResendCode.tr,
                                   suffix: ksResend.tr,
                                   onPressed: () async {
                                     unfocus(context);
-                                    await _authenticationController.resendOTP();
+                                    await authenticationController.resendOTP();
                                   },
                                 )
                               : CountDown(
                                   seconds: 120,
                                   onEnd: () {
-                                    _authenticationController.isOTPResendClick.value = true;
+                                    authenticationController.isOTPResendClick.value = true;
                                   },
                                 ),
                         ],
@@ -105,11 +105,11 @@ class OTPVerifyScreen extends StatelessWidget {
                 ),
               ),
             ),
-            if (_authenticationController.isOTPLoading.value == true)
+            if (authenticationController.isOTPLoading.value == true)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (_authenticationController.isOTPLoading.value) {
+                    if (authenticationController.isOTPLoading.value) {
                       return false;
                     }
                     return true;
