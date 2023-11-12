@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
-import 'package:bip_hip/helpers/profile_helpers/profile_helper.dart';
+import 'package:bip_hip/helpers/profile/profile_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class PhotoPreview extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
-import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
+import 'package:bip_hip/helpers/auth/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';

@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/helpers/friend_helpers/friend_helper.dart';
+import 'package:bip_hip/helpers/menu/friend/friend_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class AllFriendActionContent extends StatelessWidget {

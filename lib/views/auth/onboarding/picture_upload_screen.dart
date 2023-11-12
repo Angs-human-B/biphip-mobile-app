@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
-import 'package:bip_hip/helpers/auth_helpers/registration_helper.dart';
+import 'package:bip_hip/helpers/auth/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 

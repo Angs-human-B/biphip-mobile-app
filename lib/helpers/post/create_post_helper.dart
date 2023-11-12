@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/create_post/add_brand.dart';
-import 'package:bip_hip/views/create_post/add_kid.dart';
-import 'package:bip_hip/views/create_post/select_category.dart';
+import 'package:bip_hip/views/post/add_brand.dart';
+import 'package:bip_hip/views/post/add_kid.dart';
+import 'package:bip_hip/views/post/select_category.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 
 class CreatePostHelper {

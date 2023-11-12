@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/menu/family_controller.dart';
-import 'package:bip_hip/shimmer_views/family/all_received_family_shimmer.dart';
+import 'package:bip_hip/shimmer/menu/family/all_received_family_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:bip_hip/widgets/menu/friends_family/friend_family_button_action.dart';

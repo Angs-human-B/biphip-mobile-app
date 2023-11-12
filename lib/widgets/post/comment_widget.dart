@@ -1,6 +1,6 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/post_widgets/post_activity_status_widget.dart';
+import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 
 class CommentWidget extends StatelessWidget {
   const CommentWidget(

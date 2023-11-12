@@ -1,7 +1,7 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
-import 'package:bip_hip/helpers/create_post_helper.dart';
+import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/create_post/create_post_widget/common_category_button.dart';
+import 'package:bip_hip/views/post/create_post_widget/common_category_button.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
