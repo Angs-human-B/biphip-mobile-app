@@ -1,8 +1,8 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
-import 'package:bip_hip/shimmer/profile/gender_shimmer.dart';
-import 'package:bip_hip/shimmer/profile/link_list_shimmer_view.dart';
-import 'package:bip_hip/shimmer/profile/relation_shimmer.dart';
+import 'package:bip_hip/shimmers/profile/gender_shimmer.dart';
+import 'package:bip_hip/shimmers/profile/link_list_shimmer_view.dart';
+import 'package:bip_hip/shimmers/profile/relation_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/edit_page_bottom_sheet_content.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/gender_section.dart';
