@@ -5,8 +5,8 @@ import 'package:bip_hip/views/menu/profile/edit_about.dart';
 
 class ProfessionSection extends StatelessWidget {
   ProfessionSection({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -20,20 +20,20 @@ class ProfessionSection extends StatelessWidget {
             text: ksProfession.tr,
             buttonText: ksAdd.tr,
             textStyle: semiBold18TextStyle(cBlackColor),
-            showAddButton: _profileController.userData.value!.profession.isEmpty ? true : false,
+            showAddButton: profileController.userData.value!.profession.isEmpty ? true : false,
             onPressedAdd: () async {
-              _editProfileHelper.setProfession();
+              editProfileHelper.setProfession();
             },
             buttonWidth: 149,
           ),
-          if (_profileController.userData.value!.profession.isNotEmpty && _profileController.showAllEditOption.value) kH12sizedBox,
-          if (_profileController.userData.value!.profession.isNotEmpty && _profileController.showAllEditOption.value)
+          if (profileController.userData.value!.profession.isNotEmpty && profileController.showAllEditOption.value) kH12sizedBox,
+          if (profileController.userData.value!.profession.isNotEmpty && profileController.showAllEditOption.value)
             InfoContainer2(
               suffixText: '',
-              prefixText: checkNullOrStringNull(_profileController.userData.value!.profession[0]),
+              prefixText: checkNullOrStringNull(profileController.userData.value!.profession[0]),
               isAddButton: false,
               suffixOnPressed: () {
-                _editProfileHelper.editProfession();
+                editProfileHelper.editProfession();
               },
             ),
           kH16sizedBox,

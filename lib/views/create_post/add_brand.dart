@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/helpers/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,6 +8,7 @@ class AddBrandPage extends StatelessWidget {
   AddBrandPage({super.key});
 
   final CreatePostController _createPostController = Get.find<CreatePostController>();
+  final CreatePostHelper _createHelper = CreatePostHelper();
   final GlobalController _globalController = Get.find<GlobalController>();
 
   @override
@@ -40,7 +42,7 @@ class AddBrandPage extends StatelessWidget {
                               ? () async {
                                   _createPostController.createLinkList();
                                   await _createPostController.addBrand();
-                                  _createPostController.resetAddBrandPage();
+                                  _createHelper.resetAddBrandPage();
                                 }
                               : null,
                           child: Text(

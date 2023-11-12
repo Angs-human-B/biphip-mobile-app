@@ -7,7 +7,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 class Photos extends StatelessWidget {
   Photos({super.key});
 
-  final GalleryController _galleryController = Get.find<GalleryController>();
+  final GalleryController galleryController = Get.find<GalleryController>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class Photos extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: _galleryController.selectedTitle.value,
+              title: galleryController.selectedTitle.value,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -35,7 +35,7 @@ class Photos extends StatelessWidget {
             width: width,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k8Padding),
-              child: _galleryController.selectedImageList.isEmpty
+              child: galleryController.selectedImageList.isEmpty
                   ? Expanded(
                       child: Center(
                         child: Container(
@@ -70,13 +70,11 @@ class Photos extends StatelessWidget {
                         ],
                       ),
                       childrenDelegate: SliverChildBuilderDelegate(
-                        childCount: _galleryController.selectedImageList.length,
+                        childCount: galleryController.selectedImageList.length,
                         (context, index) {
-                          // var item = _galleryController.selectedImageList[index];
-                          String imageUrl = _galleryController.selectedImageList[index].fullPath;
+                          String imageUrl = galleryController.selectedImageList[index].fullPath;
                           return InkWell(
                             // onTap: () {
-                            //   _profileController.photoLink.value = item;
                             //   Get.toNamed(krPhotoDetails);
                             // },
                             onTap: null,

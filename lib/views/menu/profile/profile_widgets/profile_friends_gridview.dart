@@ -3,7 +3,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class FriendFamilyTab extends StatelessWidget {
   FriendFamilyTab({super.key});
-  final MenuSectionController _menuController = Get.find<MenuSectionController>();
+  final MenuSectionController menuController = Get.find<MenuSectionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +14,8 @@ class FriendFamilyTab extends StatelessWidget {
           color: cWhiteColor,
           child: FriendsFamilyGridView(
             header: ksFriends.tr,
-            count: _menuController.friendList.length.toString(),
-            friendList: _menuController.friendList,
+            count: menuController.friendList.length.toString(),
+            friendList: menuController.friendList,
           ),
         ),
         kH12sizedBox,
@@ -23,8 +23,8 @@ class FriendFamilyTab extends StatelessWidget {
           color: cWhiteColor,
           child: FriendsFamilyGridView(
             header: ksFamily.tr,
-            count: _menuController.familyList.length.toString(),
-            friendList: _menuController.familyList,
+            count: menuController.familyList.length.toString(),
+            friendList: menuController.familyList,
           ),
         ),
       ],

@@ -1,7 +1,14 @@
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class MenuSectionController extends GetxController {
+  final SpController spController = SpController();
+  final ApiController apiController = ApiController();
+  final ProfileController profileController = Get.find<ProfileController>();
 
+  final RxBool isSupportButtonPressed = RxBool(false);
+  final RxBool isSettingButtonPressed = RxBool(false);
   List shortcutButtonContent = [
     {'text': 'Friend', 'icon': BipHip.friends},
     {'text': 'Family', 'icon': BipHip.addFamily},
@@ -106,4 +113,59 @@ class MenuSectionController extends GetxController {
     {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
     {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl}
   ];
+
+  final TextEditingController firstNameEditingController = TextEditingController();
+  final TextEditingController lastNameEditingController = TextEditingController();
+  //* name change API Implementation
+  RxBool isChangeNameLoading = RxBool(false);
+  Future<void> changeName() async {
+    try {
+      isChangeNameLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'first_name': firstNameEditingController.text.trim(),
+        'last_name': lastNameEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateUserFullName,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        ll(response.data);
+        profileController.commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
+        profileController.userData.value = profileController.commonUserLayeredData.value!.user;
+        var rememberMe = await spController.getRememberMe();
+        if (rememberMe == true) {
+          await spController.saveUserList({
+            "email": profileController.userData.value!.email.toString(),
+            "name": profileController.userData.value!.fullName.toString(),
+            "first_name": profileController.userData.value!.firstName.toString(),
+            "last_name": profileController.userData.value!.lastName.toString(),
+            "image_url": profileController.userData.value!.profilePicture.toString(),
+            "token": token.toString(),
+          });
+        }
+        await spController.saveUserFirstName(profileController.userData.value!.firstName.toString());
+        await spController.saveUserLastName(profileController.userData.value!.lastName.toString());
+        await spController.saveUserName(profileController.userData.value!.fullName.toString());
+        await Get.find<GlobalController>().getUserInfo();
+        isChangeNameLoading.value = false;
+        Get.find<GlobalController>().showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isChangeNameLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          Get.find<GlobalController>().showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          Get.find<GlobalController>().showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isChangeNameLoading.value = false;
+      ll('changeName error: $e');
+    }
+  }
 }

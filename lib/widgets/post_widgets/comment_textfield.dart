@@ -7,7 +7,7 @@ class CommentTextField extends StatelessWidget {
   final VoidCallback? onPressEmoji, onPressedCamera, onPressedSend;
   final String? hintText;
 
-  final PostReactionController _postReactionController = Get.find<PostReactionController>();
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class CommentTextField extends StatelessWidget {
         child: Column(
           children: [
             CustomModifiedTextField(
-              controller: _postReactionController.commentTextEditingController,
+              controller: postReactionController.commentTextEditingController,
               hint: hintText ?? ksWriteAReply.tr,
               inputType: TextInputType.multiline,
               minLines: 1,

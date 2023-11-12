@@ -1,5 +1,4 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/helpers/friend_helpers/friend_helper.dart';
 import 'package:bip_hip/shimmer_views/friends/add_friend_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -8,9 +7,8 @@ import 'package:flutter/rendering.dart';
 
 class AddFriend extends StatelessWidget {
   AddFriend({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final FriendController _friendController = Get.find<FriendController>();
-  final FriendHelper _friendHelper = FriendHelper();
+  final FriendController friendController = Get.find<FriendController>();
+  final FriendHelper friendHelper = FriendHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +30,7 @@ class AddFriend extends StatelessWidget {
                     isCenterTitle: true,
                     onBack: () {
                       unFocus(context);
-                      _friendHelper.addFriendBackButtonPressed();
+                      friendHelper.addFriendBackButtonPressed();
                     },
                   ),
                 ),
@@ -43,35 +41,35 @@ class AddFriend extends StatelessWidget {
                     children: [
                       CustomModifiedTextField(
                         borderRadius: h8,
-                        controller: _profileController.searchController,
+                        controller: Get.find<GlobalController>().searchController,
                         prefixIcon: BipHip.search,
-                        suffixIcon: _friendController.isFriendSuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                        suffixIcon: friendController.isFriendSuffixIconVisible.value ? BipHip.circleCrossNew : null,
                         hint: ksSearch.tr,
                         contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
                         textInputStyle: regular16TextStyle(cBlackColor),
                         onSuffixPress: () {
-                          _friendHelper.addFriendSuffixPressed();
+                          friendHelper.addFriendSuffixPressed();
                         },
                         onSubmit: (v) {
                           unfocus(context);
-                          _friendController.isFriendSuffixIconVisible.value = false;
+                          friendController.isFriendSuffixIconVisible.value = false;
                         },
                         onChanged: (v) {
-                          _friendHelper.addFriendOnChanged();
+                          friendHelper.addFriendOnChanged();
                         },
                       ),
                       kH8sizedBox,
                       Obx(
-                        () => _friendController.isAddFriendRequestListLoading.value
+                        () => friendController.isAddFriendRequestListLoading.value
                             ? const AddFriendShimmer()
                             : NotificationListener<ScrollNotification>(
                                 onNotification: (scrollNotification) {
-                                  if (_friendController.addFriendListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                                  if (friendController.addFriendListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
                                       scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
-                                      !_friendController.addFriendListScrolled.value) {
-                                    _friendController.addFriendListScrolled.value = true;
-                                    if (_friendController.addFriendRequestList.isNotEmpty) {
-                                      _friendController.getMoreAddFriendRequestList(null);
+                                      !friendController.addFriendListScrolled.value) {
+                                    friendController.addFriendListScrolled.value = true;
+                                    if (friendController.addFriendRequestList.isNotEmpty) {
+                                      friendController.getMoreAddFriendRequestList(null);
                                     }
                                     return true;
                                   }
@@ -79,13 +77,13 @@ class AddFriend extends StatelessWidget {
                                 },
                                 child: Expanded(
                                   child: SingleChildScrollView(
-                                    controller: _friendController.addFriendListScrollController,
+                                    controller: friendController.addFriendListScrollController,
                                     child: Column(
                                       children: [
                                         ListView.builder(
                                           shrinkWrap: true,
                                           physics: const NeverScrollableScrollPhysics(),
-                                          itemCount: _friendController.addFriendRequestList.length,
+                                          itemCount: friendController.addFriendRequestList.length,
                                           itemBuilder: (context, index) {
                                             return Padding(
                                               padding: const EdgeInsets.only(bottom: k10Padding),
@@ -94,17 +92,17 @@ class AddFriend extends StatelessWidget {
                                                 child: Obx(
                                                   () => FriendFamilySingleButtonAction(
                                                     backgroundImage:
-                                                        Environment.imageBaseUrl + _friendController.addFriendRequestList[index].profilePicture.toString(),
-                                                    name: _friendController.addFriendRequestList[index].fullName ?? ksNA.tr,
+                                                        Environment.imageBaseUrl + friendController.addFriendRequestList[index].profilePicture.toString(),
+                                                    name: friendController.addFriendRequestList[index].fullName ?? ksNA.tr,
                                                     buttonText:
-                                                        _friendController.addFriendRequestList[index].friendStatus == 0 ? ksSendRequest.tr : ksCancelRequest.tr,
-                                                    buttonColor: _friendController.addFriendRequestList[index].friendStatus == 0 ? cPrimaryColor : cWhiteColor,
-                                                    borderColor: _friendController.addFriendRequestList[index].friendStatus == 0 ? null : cRedColor,
-                                                    textStyle: _friendController.addFriendRequestList[index].friendStatus == 0
+                                                        friendController.addFriendRequestList[index].friendStatus == 0 ? ksSendRequest.tr : ksCancelRequest.tr,
+                                                    buttonColor: friendController.addFriendRequestList[index].friendStatus == 0 ? cPrimaryColor : cWhiteColor,
+                                                    borderColor: friendController.addFriendRequestList[index].friendStatus == 0 ? null : cRedColor,
+                                                    textStyle: friendController.addFriendRequestList[index].friendStatus == 0
                                                         ? semiBold14TextStyle(cWhiteColor)
                                                         : semiBold14TextStyle(cRedColor),
                                                     buttonOnPressed: () {
-                                                      _friendHelper.addFriendOnPressed(index: index);
+                                                      friendHelper.addFriendOnPressed(index: index);
                                                     },
                                                   ),
                                                 ),
@@ -112,7 +110,7 @@ class AddFriend extends StatelessWidget {
                                             );
                                           },
                                         ),
-                                        if (_friendController.addFriendRequestList.isNotEmpty && !_friendController.addFriendListScrolled.value)
+                                        if (friendController.addFriendRequestList.isNotEmpty && !friendController.addFriendListScrolled.value)
                                           const Center(child: CircularProgressIndicator()),
                                       ],
                                     ),
@@ -125,11 +123,11 @@ class AddFriend extends StatelessWidget {
                 ),
               ),
             ),
-            if (_friendController.isSendFriendRequestLoading.value || _friendController.isCancelFriendRequestLoading.value)
+            if (friendController.isSendFriendRequestLoading.value || friendController.isCancelFriendRequestLoading.value)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (_friendController.isSendFriendRequestLoading.value || _friendController.isCancelFriendRequestLoading.value) {
+                    if (friendController.isSendFriendRequestLoading.value || friendController.isCancelFriendRequestLoading.value) {
                       return false;
                     }
                     return true;

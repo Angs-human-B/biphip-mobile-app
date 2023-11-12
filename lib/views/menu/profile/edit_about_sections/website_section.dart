@@ -5,8 +5,8 @@ import 'package:bip_hip/views/menu/profile/edit_about.dart';
 
 class WebsiteSection extends StatelessWidget {
   WebsiteSection({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +25,20 @@ class WebsiteSection extends StatelessWidget {
                 suffixTextStyle: semiBold18TextStyle(cBlackColor),
                 isAddButton: true,
                 suffixOnPressed: () {
-                  _editProfileHelper.addWebsite();
+                  editProfileHelper.addWebsite();
                 },
               ),
             ),
-            for (int i = 0; i < _profileController.linkDataList.length; i++)
-              if (_profileController.showAllEditOption.value)
+            for (int i = 0; i < profileController.linkDataList.length; i++)
+              if (profileController.showAllEditOption.value)
                 Padding(
                   padding: const EdgeInsets.only(bottom: k12Padding),
                   child: InfoContainer2(
                     suffixText: '',
-                    prefixText: checkNullOrStringNull(_profileController.linkDataList[i].link),
+                    prefixText: checkNullOrStringNull(profileController.linkDataList[i].link),
                     isAddButton: false,
                     suffixOnPressed: () {
-                      _editProfileHelper.editWebsite(i);
+                      editProfileHelper.editWebsite(i);
                     },
                   ),
                 ),

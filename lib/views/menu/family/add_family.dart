@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/helpers/family_helpers/family_helper.dart';
 import 'package:bip_hip/shimmer_views/family/relation_content_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -9,10 +8,10 @@ import 'package:bip_hip/widgets/menu/friends_family/relation_content.dart';
 
 class AddFamily extends StatelessWidget {
   AddFamily({super.key});
-  final FamilyController _familyController = Get.find<FamilyController>();
-  final FriendController _friendController = Get.find<FriendController>();
-  final ProfileController profileController = Get.find<ProfileController>();
-  final FamilyHelper _familyHelper = FamilyHelper();
+  final FamilyController familyController = Get.find<FamilyController>();
+  final FriendController friendController = Get.find<FriendController>();
+  final GlobalController globalController = Get.find<GlobalController>();
+  final FamilyHelper familyHelper = FamilyHelper();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,24 +31,24 @@ class AddFamily extends StatelessWidget {
                     hasBackButton: true,
                     isCenterTitle: true,
                     onBack: () {
-                      Get.find<ProfileController>().searchController.clear();
+                      globalController.searchController.clear();
                       Get.back();
-                      _familyController.isFamilySuffixIconVisible.value = false;
+                      familyController.isFamilySuffixIconVisible.value = false;
                     },
                     action: [
                       Obx(() => Padding(
                             padding: const EdgeInsets.only(right: h20),
                             child: TextButton(
                               style: kTextButtonStyle,
-                              onPressed: (_familyController.relationId.value == -1 || _familyController.userId.value == -1)
+                              onPressed: (familyController.relationId.value == -1 || familyController.userId.value == -1)
                                   ? null
                                   : () {
                                       unfocus(context);
-                                      _familyHelper.addFamilySendOnPressed();
+                                      familyHelper.addFamilySendOnPressed();
                                     },
                               child: Text(
                                 ksSend.tr,
-                                style: (_familyController.relationId.value == -1 || _familyController.userId.value == -1)
+                                style: (familyController.relationId.value == -1 || familyController.userId.value == -1)
                                     ? semiBold16TextStyle(cIconColor)
                                     : semiBold16TextStyle(cPrimaryColor),
                               ),
@@ -65,13 +64,13 @@ class AddFamily extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         RawAutocomplete(
-                          textEditingController: profileController.searchController,
-                          focusNode: _familyController.addFamilyFocusNode,
+                          textEditingController: globalController.searchController,
+                          focusNode: familyController.addFamilyFocusNode,
                           optionsBuilder: (TextEditingValue textEditingValue) {
-                            return _friendController.tempFriendList.where((word) => word.toLowerCase().contains(textEditingValue.text.toLowerCase()));
+                            return friendController.tempFriendList.where((word) => word.toLowerCase().contains(textEditingValue.text.toLowerCase()));
                           },
                           onSelected: (option) {
-                            profileController.searchController.text = option;
+                            globalController.searchController.text = option;
                           },
                           optionsViewBuilder: (context, Function(String) onSelected, options) {
                             return Align(
@@ -92,7 +91,7 @@ class AddFamily extends StatelessWidget {
                                         ),
                                         onPressed: () {
                                           onSelected(option.toString());
-                                          _familyHelper.addFamilyRawAutoCompleteOnPressed(option: option);
+                                          familyHelper.addFamilyRawAutoCompleteOnPressed(option: option);
                                           unfocus(context);
                                         },
                                       );
@@ -110,24 +109,24 @@ class AddFamily extends StatelessWidget {
                           fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
                             return Obx(() => CustomModifiedTextField(
                                   borderRadius: h8,
-                                  controller: Get.find<ProfileController>().searchController,
+                                  controller: globalController.searchController,
                                   focusNode: focusNode,
                                   prefixIcon: BipHip.search,
-                                  suffixIcon: _familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                                  suffixIcon: familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
                                   hint: ksSearch.tr,
                                   contentPadding: const EdgeInsets.symmetric(
                                     vertical: k12Padding,
                                   ),
                                   textInputStyle: regular16TextStyle(cBlackColor),
                                   onSuffixPress: () {
-                                    _familyHelper.addFamilySuffixPressed();
+                                    familyHelper.addFamilySuffixPressed();
                                   },
                                   onSubmit: (v) {
                                     unfocus(context);
-                                    _familyController.isFamilySuffixIconVisible.value = false;
+                                    familyController.isFamilySuffixIconVisible.value = false;
                                   },
                                   onChanged: (v) {
-                                    _familyController.addFamilyOnPressed();
+                                    familyHelper.addFamilyButtonOnChanged();
                                   },
                                 ));
                           },
@@ -135,22 +134,22 @@ class AddFamily extends StatelessWidget {
                         kH12sizedBox,
                         CustomSelectionButton(
                           hintText: ksSelectRelation.tr,
-                          text: _familyController.relation.value,
+                          text: familyController.relation.value,
                           onPressed: () async {
-                            _familyHelper.addFamilyOnPressed();
+                            familyHelper.addFamilyOnPressed();
                             unFocus(context);
-                            _familyController.isFamilyRelationListLoading.value = true;
+                            familyController.isFamilyRelationListLoading.value = true;
                             Get.find<GlobalController>().commonBottomSheet(
                               context: context,
                               isScrollControlled: true,
                               isSearchShow: false,
                               bottomSheetHeight: height * .9,
-                              content: Obx(() => _familyController.isFamilyRelationListLoading.value ? const RelationContentShimmer() : RelationContent()),
+                              content: Obx(() => familyController.isFamilyRelationListLoading.value ? const RelationContentShimmer() : RelationContent()),
                               onPressCloseButton: () {
                                 Get.back();
                               },
                               onPressRightButton: () {
-                                _familyHelper.addFamilyOnPressedRightButton();
+                                familyHelper.addFamilyOnPressedRightButton();
                                 unfocus(context);
                               },
                               rightText: ksDone.tr,
@@ -158,7 +157,7 @@ class AddFamily extends StatelessWidget {
                               title: ksSelectRelation.tr,
                               isRightButtonShow: true,
                             );
-                            await _familyController.getFamilyRelationList();
+                            await familyController.getFamilyRelationList();
                           },
                         ),
                       ],
@@ -167,11 +166,11 @@ class AddFamily extends StatelessWidget {
                 ),
               ),
             ),
-            if (_familyController.isSendFamilyRequestLoading.value == true)
+            if (familyController.isSendFamilyRequestLoading.value == true)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (_familyController.isSendFamilyRequestLoading.value) {
+                    if (familyController.isSendFamilyRequestLoading.value) {
                       return false;
                     }
                     return true;

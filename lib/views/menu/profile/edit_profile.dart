@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/helpers/profile_helpers/edit_profile_helper.dart';
 import 'package:bip_hip/helpers/profile_helpers/profile_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/profile_widgets/profile_post_tab.dart';
@@ -8,8 +9,9 @@ import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
 class EditProfile extends StatelessWidget {
   EditProfile({super.key});
 
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final ProfileHelper _profileHelper = ProfileHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final ProfileHelper profileHelper = ProfileHelper();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class EditProfile extends StatelessWidget {
                                   prefix: ksProfilePicture.tr,
                                   suffix: ksEdit.tr,
                                   onEditPressed: () {
-                                    _profileHelper.profilePicUploadBottomSheet(context);
+                                    profileHelper.profilePicUploadBottomSheet(context);
                                   },
                                 ),
                                 kH10sizedBox,
@@ -62,7 +64,7 @@ class EditProfile extends StatelessWidget {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        _profileHelper.viewProfilePic();
+                                        profileHelper.viewProfilePic();
                                       },
                                       child: Container(
                                         height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
@@ -73,7 +75,7 @@ class EditProfile extends StatelessWidget {
                                         ),
                                         child: ClipOval(
                                           child: Image.network(
-                                            Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
+                                            Environment.imageBaseUrl + profileController.userData.value!.profilePicture.toString(),
                                             fit: BoxFit.cover,
                                             errorBuilder: (context, error, stackTrace) => const Icon(
                                               BipHip.user,
@@ -96,13 +98,13 @@ class EditProfile extends StatelessWidget {
                                   prefix: ksCoverPhoto.tr,
                                   suffix: ksEdit.tr,
                                   onEditPressed: () {
-                                    _profileHelper.coverPhotoUploadBottomSheet(context);
+                                    profileHelper.coverPhotoUploadBottomSheet(context);
                                   },
                                 ),
                                 kH16sizedBox,
                                 InkWell(
                                   onTap: () {
-                                    _profileHelper.viewCoverPhoto();
+                                    profileHelper.viewCoverPhoto();
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -113,7 +115,7 @@ class EditProfile extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: k8CircularBorderRadius,
                                       child: Image.network(
-                                        Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
+                                        Environment.imageBaseUrl + profileController.userData.value!.coverPhoto.toString(),
                                         height: 150,
                                         width: width,
                                         fit: BoxFit.cover,
@@ -138,16 +140,16 @@ class EditProfile extends StatelessWidget {
                                 kH16sizedBox,
                                 RowTextEdit(
                                   prefix: ksBio.tr,
-                                  suffix: _profileController.userData.value!.bio == null ? ksAdd.tr : ksEdit.tr,
+                                  suffix: profileController.userData.value!.bio == null ? ksAdd.tr : ksEdit.tr,
                                   onEditPressed: () {
-                                    _profileHelper.editBio();
+                                    profileHelper.editBio();
                                   },
                                 ),
-                                if (_profileController.userData.value!.bio != null)
+                                if (profileController.userData.value!.bio != null)
                                   Padding(
                                     padding: const EdgeInsets.only(top: k16Padding),
                                     child: Text(
-                                      _profileController.userData.value!.bio ?? '',
+                                      profileController.userData.value!.bio ?? '',
                                       style: regular14TextStyle(cIconColor),
                                     ),
                                   ),
@@ -160,8 +162,8 @@ class EditProfile extends StatelessWidget {
                                   prefix: ksIntro.tr,
                                   suffix: ksEdit.tr,
                                   onEditPressed: () {
-                                    _profileController.resetEditAboutPage();
-                                    _profileController.showAllEditOption.value = false;
+                                    editProfileHelper.resetEditAboutPage();
+                                    profileController.showAllEditOption.value = false;
                                     Get.toNamed(krEditAboutInfo);
                                   },
                                 ),
@@ -178,10 +180,10 @@ class EditProfile extends StatelessWidget {
                                   buttonColor: cPrimaryColor,
                                   textStyle: semiBold14TextStyle(cWhiteColor),
                                   onPressed: () async {
-                                    _profileController.showAllEditOption.value = true;
-                                    _profileController.resetEditAboutPage();
+                                    profileController.showAllEditOption.value = true;
+                                    editProfileHelper.resetEditAboutPage();
                                     Get.toNamed(krEditAboutInfo);
-                                    await _profileController.getPositionList();
+                                    await profileController.getPositionList();
                                   },
                                 ),
                                 kH20sizedBox
@@ -200,11 +202,11 @@ class EditProfile extends StatelessWidget {
                   ),
                 ),
               ),
-              if (_profileController.isBioLoading.value == true)
+              if (profileController.isBioLoading.value == true)
                 Positioned(
                   child: CommonLoadingAnimation(
                     onWillPop: () async {
-                      if (_profileController.isBioLoading.value) {
+                      if (profileController.isBioLoading.value) {
                         return false;
                       }
                       return true;

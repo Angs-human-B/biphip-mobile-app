@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/helpers/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/create_post/create_post_widget/common_category_button.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
@@ -8,6 +9,7 @@ class PlatformAndAction extends StatelessWidget {
   PlatformAndAction({super.key});
 
   final CreatePostController _createPostController = Get.find<CreatePostController>();
+  final CreatePostHelper _createPostHelper = CreatePostHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +84,13 @@ class PlatformAndAction extends StatelessWidget {
                           Obx(
                             () => CategoryComponent(
                               onPress: () {
-                                _createPostController.selectPlatformStatusChange(i);
+                                _createPostHelper.selectPlatformStatusChange(i);
                               },
                               suffixWidget: Transform.scale(
                                 scale: .7,
                                 child: CustomRadioButton(
                                   onChanged: () {
-                                    _createPostController.selectPlatformStatusChange(i);
+                                    _createPostHelper.selectPlatformStatusChange(i);
                                   },
                                   isSelected: _createPostController.platformStatusList[i],
                                 ),
@@ -120,13 +122,13 @@ class PlatformAndAction extends StatelessWidget {
                           Obx(
                             () => CategoryComponent(
                               onPress: () {
-                                _createPostController.selectActionStatusChange(i);
+                                _createPostHelper.selectActionStatusChange(i);
                               },
                               suffixWidget: Transform.scale(
                                 scale: .7,
                                 child: CustomRadioButton(
                                   onChanged: () {
-                                    _createPostController.selectActionStatusChange(i);
+                                    _createPostHelper.selectActionStatusChange(i);
                                   },
                                   isSelected: _createPostController.actionStatusList[i],
                                 ),

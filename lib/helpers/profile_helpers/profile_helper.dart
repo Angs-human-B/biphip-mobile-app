@@ -4,45 +4,53 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/profile_widgets/profile_pic_upload_content.dart';
 
 class ProfileHelper {
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final GlobalController globalController = Get.find<GlobalController>();
+
+  void showProfileTabSection(index) {
+    if (index == 0) {
+      profileController.postSectionVisible.value = true;
+    } else if (index == 1) {
+      profileController.postSectionVisible.value = false;
+    }
+  }
 
   void initialDataCoverPhoto() {
-    if (_profileController.userData.value!.coverPhoto != null) {
-      _profileController.viewOptionEnabled.value = true;
-      _profileController.isProfilePhoto.value = false;
-      _profileController.previewPhoto.value = _profileController.userData.value!.coverPhoto.toString();
+    if (profileController.userData.value!.coverPhoto != null) {
+      profileController.viewOptionEnabled.value = true;
+      profileController.isProfilePhoto.value = false;
+      profileController.previewPhoto.value = profileController.userData.value!.coverPhoto.toString();
     } else {
-      _profileController.viewOptionEnabled.value = false;
+      profileController.viewOptionEnabled.value = false;
     }
-    _profileController.isProfilePicEditor.value = false;
+    profileController.isProfilePicEditor.value = false;
   }
 
   void initialDataProfilePic() {
-    if (_profileController.userData.value!.profilePicture != null) {
-      _profileController.isProfilePhoto.value = true;
-      _profileController.viewOptionEnabled.value = true;
-      _profileController.previewPhoto.value = _profileController.userData.value!.profilePicture.toString();
+    if (profileController.userData.value!.profilePicture != null) {
+      profileController.isProfilePhoto.value = true;
+      profileController.viewOptionEnabled.value = true;
+      profileController.previewPhoto.value = profileController.userData.value!.profilePicture.toString();
     } else {
-      _profileController.viewOptionEnabled.value = false;
+      profileController.viewOptionEnabled.value = false;
     }
-    _profileController.isProfilePicEditor.value = true;
+    profileController.isProfilePicEditor.value = true;
   }
 
   void resetImage() {
-    _profileController.profileImageFile.value = File('');
-    _profileController.profileImageLink.value = '';
-    _profileController.isProfileImageChanged.value = false;
-    _profileController.isSharedToNewFeed.value = false;
-    _profileController.coverImageFile.value = File('');
-    _profileController.coverImageLink.value = '';
-    _profileController.isCoverImageChanged.value = false;
+    profileController.profileImageFile.value = File('');
+    profileController.profileImageLink.value = '';
+    profileController.isProfileImageChanged.value = false;
+    profileController.isSharedToNewFeed.value = false;
+    profileController.coverImageFile.value = File('');
+    profileController.coverImageLink.value = '';
+    profileController.isCoverImageChanged.value = false;
   }
 
   void coverPhotoEditBottomSheet(context) {
     initialDataCoverPhoto();
     resetImage();
-    _globalController.commonBottomSheet(
+    globalController.commonBottomSheet(
       context: context,
       onPressCloseButton: () {
         Get.back();
@@ -56,9 +64,9 @@ class ProfileHelper {
       bottomSheetHeight: 210,
       content: PictureUploadContent(
         viewPhoto: ksViewCoverPhoto.tr,
-        isImageChanged: _profileController.isCoverImageChanged,
-        imagePath: _profileController.coverImageLink,
-        imageFile: _profileController.coverImageFile,
+        isImageChanged: profileController.isCoverImageChanged,
+        imagePath: profileController.coverImageLink,
+        imageFile: profileController.coverImageFile,
       ),
     );
   }
@@ -66,7 +74,7 @@ class ProfileHelper {
   void profilePicEditBottomSheet(context) {
     initialDataProfilePic();
     resetImage();
-    _globalController.commonBottomSheet(
+    globalController.commonBottomSheet(
         context: context,
         onPressCloseButton: () {
           Get.back();
@@ -80,17 +88,17 @@ class ProfileHelper {
         bottomSheetHeight: 210,
         content: PictureUploadContent(
           viewPhoto: ksViewProfilePicture.tr,
-          isImageChanged: _profileController.isProfileImageChanged,
-          imagePath: _profileController.profileImageLink,
-          imageFile: _profileController.profileImageFile,
+          isImageChanged: profileController.isProfileImageChanged,
+          imagePath: profileController.profileImageLink,
+          imageFile: profileController.profileImageFile,
         ));
   }
 
   void profilePicUploadBottomSheet(context) {
-    _profileController.isProfilePicEditor.value = true;
-    _profileController.viewOptionEnabled.value = false;
+    profileController.isProfilePicEditor.value = true;
+    profileController.viewOptionEnabled.value = false;
     resetImage();
-    _globalController.commonBottomSheet(
+    globalController.commonBottomSheet(
       context: context,
       onPressCloseButton: () {
         Get.back();
@@ -103,18 +111,18 @@ class ProfileHelper {
       isScrollControlled: false,
       bottomSheetHeight: 170,
       content: PictureUploadContent(
-        isImageChanged: _profileController.isProfileImageChanged,
-        imagePath: _profileController.profileImageLink,
-        imageFile: _profileController.profileImageFile,
+        isImageChanged: profileController.isProfileImageChanged,
+        imagePath: profileController.profileImageLink,
+        imageFile: profileController.profileImageFile,
       ),
     );
   }
 
   void coverPhotoUploadBottomSheet(context) {
-    _profileController.isProfilePicEditor.value = false;
-    _profileController.viewOptionEnabled.value = false;
+    profileController.isProfilePicEditor.value = false;
+    profileController.viewOptionEnabled.value = false;
     resetImage();
-    _globalController.commonBottomSheet(
+    globalController.commonBottomSheet(
       context: context,
       onPressCloseButton: () {
         Get.back();
@@ -127,47 +135,48 @@ class ProfileHelper {
       isScrollControlled: false,
       bottomSheetHeight: 170,
       content: PictureUploadContent(
-        isImageChanged: _profileController.isCoverImageChanged,
-        imagePath: _profileController.coverImageLink,
-        imageFile: _profileController.coverImageFile,
+        isImageChanged: profileController.isCoverImageChanged,
+        imagePath: profileController.coverImageLink,
+        imageFile: profileController.coverImageFile,
       ),
     );
   }
 
   void viewProfilePic() {
-    if (_profileController.userData.value!.profilePicture != null) {
-      _profileController.isProfilePhoto.value = true;
-      _profileController.viewOptionEnabled.value = true;
-      _profileController.previewPhoto.value = _profileController.userData.value!.profilePicture.toString();
+    if (profileController.userData.value!.profilePicture != null) {
+      profileController.isProfilePhoto.value = true;
+      profileController.viewOptionEnabled.value = true;
+      profileController.previewPhoto.value = profileController.userData.value!.profilePicture.toString();
       Get.toNamed(krViewPhoto);
     }
   }
 
   void viewCoverPhoto() {
-    if (_profileController.userData.value!.coverPhoto != null) {
-      _profileController.viewOptionEnabled.value = true;
-      _profileController.isProfilePhoto.value = false;
-      _profileController.previewPhoto.value = _profileController.userData.value!.coverPhoto.toString();
+    if (profileController.userData.value!.coverPhoto != null) {
+      profileController.viewOptionEnabled.value = true;
+      profileController.isProfilePhoto.value = false;
+      profileController.previewPhoto.value = profileController.userData.value!.coverPhoto.toString();
       Get.toNamed(krViewPhoto);
     }
   }
 
   //* Bio edit 
   void editBio() {
-    if (_profileController.userData.value!.bio == null) {
-      _profileController.bioCount.value = 0;
-      _profileController.bioEditingController.text = '';
-      _profileController.bio.value = '';
+    if (profileController.userData.value!.bio == null) {
+      profileController.bioCount.value = 0;
+      profileController.bioEditingController.text = '';
+      profileController.bio.value = '';
     } else {
-      _profileController.bio.value = _profileController.userData.value!.bio!;
-      _profileController.bioCount.value = _profileController.userData.value!.bio.toString().length;
-      _profileController.bioEditingController.text = _profileController.userData.value!.bio!;
+      profileController.bio.value = profileController.userData.value!.bio!;
+      profileController.bioCount.value = profileController.userData.value!.bio.toString().length;
+      profileController.bioEditingController.text = profileController.userData.value!.bio!;
     }
     Get.toNamed(krEditBio);
   }
 
   void saveBio() async {
-    _profileController.bio.value = _profileController.bioEditingController.text.trim();
-    await _profileController.updateBio();
+    profileController.bio.value = profileController.bioEditingController.text.trim();
+    await profileController.updateBio();
   }
+
 }

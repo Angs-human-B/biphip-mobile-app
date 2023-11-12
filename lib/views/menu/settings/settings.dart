@@ -1,12 +1,12 @@
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/menu.dart';
 
 class Settings extends StatelessWidget {
   Settings({super.key});
 
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final MenuSectionController menuController = Get.find<MenuSectionController>();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +44,13 @@ class Settings extends StatelessWidget {
                           color: cIconColor,
                         ),
                         onPressed: () {
-                          _profileController.firstNameEditingController.text = _globalController.userFirstName.value ?? '';
-                          _profileController.lastNameEditingController.text = _globalController.userLastName.value ?? '';
-                          _globalController.commonBottomSheet(
+                          menuController.firstNameEditingController.text = globalController.userFirstName.value ?? '';
+                          menuController.lastNameEditingController.text = globalController.userLastName.value ?? '';
+                          globalController.commonBottomSheet(
                               context: context,
                               isScrollControlled: true,
                               content: _ChangeNameBottomSheetContent(
-                                profileController: _profileController,
+                                menuController: menuController,
                               ),
                               onPressCloseButton: () {
                                 Get.back();
@@ -58,7 +58,7 @@ class Settings extends StatelessWidget {
                               onPressRightButton: () async {
                                 unfocus(context);
                                 Get.back();
-                                await _profileController.changeName();
+                                await menuController.changeName();
                               },
                               rightText: ksDone.tr,
                               rightTextStyle: medium14TextStyle(cPrimaryColor),
@@ -73,11 +73,11 @@ class Settings extends StatelessWidget {
                 ),
               ),
             ),
-            if (_profileController.isChangeNameLoading.value == true)
+            if (menuController.isChangeNameLoading.value == true)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (_profileController.isChangeNameLoading.value) {
+                    if (menuController.isChangeNameLoading.value) {
                       return false;
                     }
                     return true;
@@ -92,8 +92,8 @@ class Settings extends StatelessWidget {
 }
 
 class _ChangeNameBottomSheetContent extends StatelessWidget {
-  const _ChangeNameBottomSheetContent({super.key, required this.profileController});
-  final ProfileController profileController;
+  const _ChangeNameBottomSheetContent({super.key, required this.menuController});
+  final MenuSectionController menuController;
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +106,7 @@ class _ChangeNameBottomSheetContent extends StatelessWidget {
         ),
         kH8sizedBox,
         CustomModifiedTextField(
-          controller: profileController.firstNameEditingController,
+          controller: menuController.firstNameEditingController,
           hint: ksFirstName.tr,
         ),
         Text(
@@ -115,7 +115,7 @@ class _ChangeNameBottomSheetContent extends StatelessWidget {
         ),
         kH8sizedBox,
         CustomModifiedTextField(
-          controller: profileController.lastNameEditingController,
+          controller: menuController.lastNameEditingController,
           hint: ksLastName.tr,
         ),
         kH8sizedBox,

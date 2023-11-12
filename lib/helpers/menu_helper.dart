@@ -3,32 +3,31 @@ import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
+import 'package:bip_hip/helpers/gallery_photo_helpers/gallery_photo_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/create_post/platform_action.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
 
 class MenuHelper {
-  final SpController _spController = SpController();
-  final ProfileController _profileController = Get.find<ProfileController>();
+  final SpController spController = SpController();
 
   void menuPressFunction(index) async {
     if (index == 0) {
       ll('Friend');
-      _profileController.resetTapButtonData();
-      _profileController.searchController.clear();
+      Get.find<GlobalController>().resetTapButtonData();
+      Get.find<GlobalController>().searchController.clear();
       Get.find<FriendController>().isFriendSearched.value = false;
       Get.find<FriendController>().isRouteFromBottomNavBar.value = false;
       Get.toNamed(krFriends);
       await Get.find<FriendController>().getFriendList();
     } else if (index == 1) {
       ll('Family');
-      _profileController.resetTapButtonData();
+      Get.find<GlobalController>().resetTapButtonData();
       Get.toNamed(krFamily);
       await Get.find<FamilyController>().getFamilyList();
     } else if (index == 2) {
       ll('Image');
-      Get.find<GalleryController>().resetTapButtonData();
+      GalleryPhotoHelper().resetTapButtonData();
       Get.toNamed(krGalleryPhotos);
       await Get.find<GalleryController>().getGalleryAlbumList();
     } else if (index == 3) {
@@ -36,7 +35,7 @@ class MenuHelper {
       Get.toNamed(krGalleryVideos); //*new changes for gallery Videos
     } else if (index == 4) {
       ll('Stars');
-      Get.to(() => PlatformAndAction());
+      // Get.to(() => PlatformAndAction());
     } else if (index == 5) {
       ll('Badges');
     } else if (index == 6) {
@@ -51,7 +50,7 @@ class MenuHelper {
   }
 
   void menuSearch() async {
-    Get.find<GlobalController>().recentSearch.value = await _spController.getRecentSearchList();
+    Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
     Get.find<GlobalController>().searchController.clear();
     Get.to(
       () => Search(
@@ -64,14 +63,14 @@ class MenuHelper {
   }
 
   void logout() async {
-    var status = await _spController.getRememberMe();
+    var status = await spController.getRememberMe();
     if (status == true) {
       await Get.find<AuthenticationController>().getSavedUsers();
       Get.offAllNamed(krSavedUserLogin);
-      await _spController.onLogout();
+      await spController.onLogout();
       Get.find<AuthenticationController>().resetLoginScreen();
-      _profileController.isSupportButtonPressed.value = false;
-      _profileController.isSettingButtonPressed.value = false;
+      Get.find<MenuSectionController>().isSupportButtonPressed.value = false;
+      Get.find<MenuSectionController>().isSettingButtonPressed.value = false;
     } else {
       await Get.find<AuthenticationController>().logout();
     }

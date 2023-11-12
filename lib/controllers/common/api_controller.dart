@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 class ApiController {
-  final _globalController = Get.find<GlobalController>();
+  final globalController = Get.find<GlobalController>();
 
   CommonDM convertToCommonObject(apiResponse) {
     return CommonDM.fromJson(apiResponse);
@@ -16,7 +16,7 @@ class ApiController {
   void timeOutFunction() {
     String error = ksConnectionTimeoutMessage.tr;
     if (!Get.isSnackbarOpen) {
-      _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+      globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
     }
   }
 
@@ -106,24 +106,24 @@ class ApiController {
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
         Get.offAllNamed(krLogin);
-        _globalController.showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
+        globalController.showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
         return null;
       } else {
         if (!Get.isSnackbarOpen) {
-          _globalController.showSnackBar(title: "${response.statusCode} ${ksError.tr}", message: error, color: cRedColor);
+          globalController.showSnackBar(title: "${response.statusCode} ${ksError.tr}", message: error, color: cRedColor);
         }
         return null;
       }
     } on SocketException {
       error = ksNoInternetConnectionMessage.tr;
       if (!Get.isSnackbarOpen) {
-        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
       }
       return null;
     } catch (e) {
       log(e.toString());
       if (!Get.isSnackbarOpen) {
-        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
       }
       return null;
     } finally {
@@ -146,7 +146,7 @@ class ApiController {
     try {
       var response = await dio.post(Environment.apiUrl + url, data: body).timeout(Duration(seconds: timer ?? 60), onTimeout: () {
         error = ksConnectionTimeoutMessage.tr;
-        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
         throw TimeoutException(ksConnectionTimeoutMessage.tr);
       });
       ll("response statusCode : ${response.statusCode}");
@@ -158,23 +158,23 @@ class ApiController {
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
         Get.offAllNamed(krLogin);
-        _globalController.showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
+        globalController.showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
         return null;
       } else {
         if (!Get.isSnackbarOpen) {
-          _globalController.showSnackBar(title: "${ksError.tr}${response.statusCode}", message: error, color: cRedColor);
+          globalController.showSnackBar(title: "${ksError.tr}${response.statusCode}", message: error, color: cRedColor);
         }
         return null;
       }
     } on DioException catch (e) {
       if (e.error is SocketException) {
         error = ksNoInternetConnectionMessage.tr;
-        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
 
         return null;
       } else {
         log(e.toString());
-        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
         return null;
       }
     } finally {
@@ -215,18 +215,18 @@ class ApiController {
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
         Get.offAllNamed(krLogin);
-        _globalController.showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
+        globalController.showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
         return null;
       } else {
         if (!Get.isSnackbarOpen) {
-          _globalController.showSnackBar(title: "${response.statusCode} ${ksError.tr}", message: error, color: cRedColor);
+          globalController.showSnackBar(title: "${response.statusCode} ${ksError.tr}", message: error, color: cRedColor);
         }
         return null;
       }
     } catch (e) {
       log(e.toString());
       if (!Get.isSnackbarOpen) {
-        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
       }
       return null;
     }
@@ -267,18 +267,18 @@ class ApiController {
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
         Get.offAllNamed(krLogin);
-        _globalController.showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
+        globalController.showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
         return null;
       } else {
         if (!Get.isSnackbarOpen) {
-          _globalController.showSnackBar(title: "${response.statusCode} ${ksError.tr}", message: error, color: cRedColor);
+          globalController.showSnackBar(title: "${response.statusCode} ${ksError.tr}", message: error, color: cRedColor);
         }
         return null;
       }
     } catch (e) {
       log(e.toString());
       if (!Get.isSnackbarOpen) {
-        _globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
       }
       return null;
     }

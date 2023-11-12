@@ -9,7 +9,7 @@ class PendingFriendActionContent extends StatelessWidget {
   }) : super(key: key);
 
   final FriendController friendController;
-  final FriendHelper _friendHelper = FriendHelper();
+  final FriendHelper friendHelper = FriendHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -40,24 +40,24 @@ class PendingFriendActionContent extends StatelessWidget {
                     ),
                   ),
                   title: friendController.pendingFriendFollowStatus.value == 1
-                      ? friendController.pendingFriendActionList[index]['action']
-                      : friendController.pendingFollowFriendActionList[index]['action'],
+                      ? friendController.pendingFriendActionList[index]['action'].toString().tr
+                      : friendController.pendingFollowFriendActionList[index]['action'].toString().tr,
                   titleTextStyle: semiBold16TextStyle(cBlackColor),
                   subtitle: friendController.pendingFriendFollowStatus.value == 1
-                      ? friendController.pendingFriendActionList[index]['actionSubtitle']
-                      : friendController.pendingFollowFriendActionList[index]['actionSubtitle'],
+                      ? friendController.pendingFriendActionList[index]['actionSubtitle'].toString().tr
+                      : friendController.pendingFollowFriendActionList[index]['actionSubtitle'].toString().tr,
                   subTitleTextStyle: regular14TextStyle(cBlackColor),
                   trailing: CustomRadioButton(
                     onChanged: () {
-                      _friendHelper.pendingFriendActionOnChanged(index: index);
+                      friendHelper.pendingFriendActionOnChanged(index: index);
                     },
                     isSelected: friendController.pendingFriendFollowStatus.value == 1
                         ? (friendController.pendingFriendActionSelect.value == friendController.pendingFriendActionList[index]['action'])
                         : (friendController.pendingFriendActionSelect.value == friendController.pendingFollowFriendActionList[index]['action']),
                   ),
-                  itemColor: _friendHelper.pendingFriendItemColor(index: index),
+                  itemColor: friendHelper.pendingFriendItemColor(index: index),
                   onPressed: () {
-                    _friendHelper.pendingFriendOnPressed(index: index);
+                    friendHelper.pendingFriendOnPressed(index: index);
                   },
                 ),
               ),

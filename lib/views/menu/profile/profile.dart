@@ -10,15 +10,15 @@ import 'package:flutter_svg/svg.dart';
 class Profile extends StatelessWidget {
   Profile({super.key});
 
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final ProfileHelper _profileHelper = ProfileHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final ProfileHelper profileHelper = ProfileHelper();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: cWhiteColor,
       child: Obx(
-        () => _profileController.isProfileLoading.value
+        () => profileController.isProfileLoading.value
             ? const ProfilePageShimmer2()
             : SafeArea(
                 top: false,
@@ -30,7 +30,7 @@ class Profile extends StatelessWidget {
                     //* info:: appBar
                     child: CustomAppBar(
                       appBarColor: cWhiteColor,
-                      title: '${(_profileController.userData.value?.firstName)} ${_profileController.userData.value?.lastName}',
+                      title: '${(profileController.userData.value?.firstName)} ${profileController.userData.value?.lastName}',
                       hasBackButton: true,
                       isCenterTitle: true,
                       onBack: () {
@@ -55,14 +55,14 @@ class Profile extends StatelessWidget {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    _profileHelper.coverPhotoEditBottomSheet(context);
+                                    profileHelper.coverPhotoEditBottomSheet(context);
                                   },
                                   child: Container(
                                     height: 150,
                                     width: width,
                                     decoration: const BoxDecoration(color: cBlackColor, border: Border(bottom: BorderSide(color: cLineColor))),
                                     child: Image.network(
-                                      Environment.imageBaseUrl + _profileController.userData.value!.coverPhoto.toString(),
+                                      Environment.imageBaseUrl + profileController.userData.value!.coverPhoto.toString(),
                                       fit: BoxFit.cover,
                                       errorBuilder: (context, error, stackTrace) =>
                                           imageErrorBuilderCover(context, error, stackTrace, BipHip.imageFile, kIconSize120),
@@ -80,7 +80,7 @@ class Profile extends StatelessWidget {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          _profileHelper.profilePicEditBottomSheet(context);
+                                          profileHelper.profilePicEditBottomSheet(context);
                                         },
                                         child: Container(
                                           height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
@@ -92,7 +92,7 @@ class Profile extends StatelessWidget {
                                           ),
                                           child: ClipOval(
                                             child: Image.network(
-                                              Environment.imageBaseUrl + _profileController.userData.value!.profilePicture.toString(),
+                                              Environment.imageBaseUrl + profileController.userData.value!.profilePicture.toString(),
                                               fit: BoxFit.cover,
                                               errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(
                                                 context,
@@ -112,7 +112,7 @@ class Profile extends StatelessWidget {
                                         child: TextButton(
                                           style: kTextButtonStyle,
                                           onPressed: () {
-                                            _profileHelper.profilePicUploadBottomSheet(context);
+                                            profileHelper.profilePicUploadBottomSheet(context);
                                           },
                                           child: Container(
                                             height: h28,
@@ -154,7 +154,7 @@ class Profile extends StatelessWidget {
                                   child: TextButton(
                                     style: kTextButtonStyle,
                                     onPressed: () {
-                                      _profileHelper.coverPhotoUploadBottomSheet(context);
+                                      profileHelper.coverPhotoUploadBottomSheet(context);
                                     },
                                     child: Container(
                                       height: h28,
@@ -185,7 +185,7 @@ class Profile extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                     child: Text(
-                                      '${_profileController.userData.value!.firstName} ${_profileController.userData.value!.lastName}',
+                                      '${profileController.userData.value!.firstName} ${profileController.userData.value!.lastName}',
                                       style: medium24TextStyle(cBlackColor),
                                     ),
                                   ),
@@ -257,7 +257,7 @@ class Profile extends StatelessWidget {
                             kH12sizedBox,
                             DefaultTabController(
                               length: 2,
-                              initialIndex: _profileController.postSectionVisible.value ? 0 : 1,
+                              initialIndex: profileController.postSectionVisible.value ? 0 : 1,
                               child: Column(
                                 children: [
                                   Container(
@@ -273,7 +273,7 @@ class Profile extends StatelessWidget {
                                         ),
                                         child: TabBar(
                                           onTap: (value) {
-                                            _profileController.showProfileTabSection(value);
+                                            profileHelper.showProfileTabSection(value);
                                           },
                                           indicatorColor: cPrimaryColor,
                                           indicatorWeight: 1,
@@ -302,8 +302,8 @@ class Profile extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            if (_profileController.postSectionVisible.value) PostTab(),
-                            if (!_profileController.postSectionVisible.value) FriendFamilyTab(),
+                            if (profileController.postSectionVisible.value) PostTab(),
+                            if (!profileController.postSectionVisible.value) FriendFamilyTab(),
                             kHBottomSizedBox
                           ],
                         ),

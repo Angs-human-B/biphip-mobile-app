@@ -1,14 +1,12 @@
 import 'dart:async';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/friend/common_friend_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class FriendController extends GetxController {
-  final ApiController _apiController = ApiController();
-  final SpController _spController = SpController();
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final ApiController apiController = ApiController();
+  final SpController spController = SpController();
+  final GlobalController globalController = Get.find<GlobalController>();
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
 
@@ -23,8 +21,8 @@ class FriendController extends GetxController {
     try {
       isFriendListLoading.value = true;
       String suffixUrl = '?take=15';
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetFriendList + suffixUrl,
@@ -34,7 +32,6 @@ class FriendController extends GetxController {
         friendListScrolled.value = false;
         friendListData.value = CommonFriendModel.fromJson(response.data);
         friendList.addAll(friendListData.value!.friends!.data);
-
         allFriendCount.value = friendListData.value!.friends!.total!;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
@@ -45,16 +42,16 @@ class FriendController extends GetxController {
 
         isFriendListLoading.value = false;
       } else {
-        isFriendListLoading.value = false;
+        isFriendListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
-      isFriendListLoading.value = false;
+      isFriendListLoading.value = true;
       ll('getFriendList error: $e');
     }
   }
@@ -62,7 +59,7 @@ class FriendController extends GetxController {
   //*Get More Friend List for pagination
   Future<void> getMoreFriendList(take) async {
     try {
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       dynamic friendListSub;
 
       if (friendListSubLink.value == null) {
@@ -75,7 +72,7 @@ class FriendController extends GetxController {
 
       friendListSuffixUrl = '?${friendListSub[1]}&take=15';
 
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetFriendList + friendListSuffixUrl,
@@ -94,16 +91,16 @@ class FriendController extends GetxController {
 
         isFriendListLoading.value = false;
       } else {
-        isFriendListLoading.value = false;
+        isFriendListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
-      isFriendListLoading.value = false;
+      isFriendListLoading.value = true;
       ll('getMoreFriendList error: $e');
     }
   }
@@ -121,8 +118,8 @@ class FriendController extends GetxController {
     try {
       isReceivedFriendListLoading.value = true;
       String suffixUrl = '?take=15';
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetFriendRequestReceiveList + suffixUrl,
@@ -141,16 +138,16 @@ class FriendController extends GetxController {
         }
         isReceivedFriendListLoading.value = false;
       } else {
-        isReceivedFriendListLoading.value = false;
+        isReceivedFriendListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
-      isReceivedFriendListLoading.value = false;
+      isReceivedFriendListLoading.value = true;
       ll('getReceivedFriendList error: $e');
     }
   }
@@ -158,7 +155,7 @@ class FriendController extends GetxController {
   //*Get More Received Friend List for pagination
   Future<void> getMoreReceivedFriendList(take) async {
     try {
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       dynamic receivedFriendListSub;
 
       if (receivedFriendListSubLink.value == null) {
@@ -171,7 +168,7 @@ class FriendController extends GetxController {
 
       receivedFriendListSuffixUrl = '?${receivedFriendListSub[1]}&take=15';
 
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetFriendRequestReceiveList + receivedFriendListSuffixUrl,
@@ -189,16 +186,16 @@ class FriendController extends GetxController {
         }
         isReceivedFriendListLoading.value = false;
       } else {
-        isReceivedFriendListLoading.value = false;
+        isReceivedFriendListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
-      isReceivedFriendListLoading.value = false;
+      isReceivedFriendListLoading.value = true;
       ll('getMoreReceivedFriendList error: $e');
     }
   }
@@ -209,11 +206,11 @@ class FriendController extends GetxController {
   Future<void> acceptFriendRequest() async {
     try {
       isAcceptFriendRequestLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'user_id': userId.value.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuAcceptFriendRequest,
         body: body,
@@ -227,14 +224,14 @@ class FriendController extends GetxController {
           }
         }
         isAcceptFriendRequestLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isAcceptFriendRequestLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -248,11 +245,11 @@ class FriendController extends GetxController {
   Future<void> rejectFriendRequest() async {
     try {
       isRejectFriendRequestLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'user_id': userId.value.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuRejectFriendRequest,
         body: body,
@@ -267,14 +264,14 @@ class FriendController extends GetxController {
             receivedRequestCount.value--;
           }
         }
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isRejectFriendRequestLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -288,11 +285,11 @@ class FriendController extends GetxController {
   Future<void> unfriendUserRequest() async {
     try {
       isUnfriendUserRequestLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'user_id': userId.value.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuUnFriendUser,
         body: body,
@@ -306,14 +303,14 @@ class FriendController extends GetxController {
             allFriendCount.value--;
           }
         }
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isUnfriendUserRequestLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -327,11 +324,11 @@ class FriendController extends GetxController {
   Future<void> unfollowUser() async {
     try {
       isUnfollowUserLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'user_id': userId.value.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuUnFollowUser,
         body: body,
@@ -349,14 +346,14 @@ class FriendController extends GetxController {
           }
         }
         isUnfollowUserLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isUnfollowUserLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -370,11 +367,11 @@ class FriendController extends GetxController {
   Future<void> followUser() async {
     try {
       isFollowUserLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'user_id': userId.value.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuFollowUser,
         body: body,
@@ -392,14 +389,14 @@ class FriendController extends GetxController {
           }
         }
         isFollowUserLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isFollowUserLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -420,8 +417,8 @@ class FriendController extends GetxController {
     try {
       isSendFriendRequestListLoading.value = true;
       String suffixUrl = '?take=15';
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetFriendRequestSendList + suffixUrl,
@@ -439,16 +436,16 @@ class FriendController extends GetxController {
         }
         isSendFriendRequestListLoading.value = false;
       } else {
-        isSendFriendRequestListLoading.value = false;
+         isSendFriendRequestListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
-      isSendFriendRequestListLoading.value = false;
+       isSendFriendRequestListLoading.value = true;
       ll('getSendFriendRequest error: $e');
     }
   }
@@ -456,7 +453,7 @@ class FriendController extends GetxController {
   //*Get More Send Friend Request List(Pending) for pagination
   Future<void> getMoreSendFriendRequestList(take) async {
     try {
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       dynamic sendFriendListSub;
 
       if (sendFriendListSubLink.value == null) {
@@ -469,7 +466,7 @@ class FriendController extends GetxController {
 
       sendFriendListSuffixUrl = '?${sendFriendListSub[1]}&take=15';
 
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetFriendRequestSendList + sendFriendListSuffixUrl,
@@ -486,16 +483,16 @@ class FriendController extends GetxController {
         }
         isSendFriendRequestListLoading.value = false;
       } else {
-        isSendFriendRequestListLoading.value = false;
+         isSendFriendRequestListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
-      isSendFriendRequestListLoading.value = false;
+      isSendFriendRequestListLoading.value = true;
       ll('getMoreSendFriendRequestList error: $e');
     }
   }
@@ -505,11 +502,11 @@ class FriendController extends GetxController {
   Future<dynamic> cancelFriendRequest() async {
     try {
       isCancelFriendRequestLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'user_id': userId.value.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuCancelFriendRequest,
         body: body,
@@ -527,15 +524,15 @@ class FriendController extends GetxController {
           }
         }
         isCancelFriendRequestLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
         return true;
       } else {
         isCancelFriendRequestLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
       return false;
@@ -558,11 +555,11 @@ class FriendController extends GetxController {
     try {
       isAddFriendRequestListLoading.value = true;
       String suffixUrl = '&take=15';
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}$suffixUrl',
+        url: '$kuCommonUserSearch?key=${globalController.searchController.text.trim()}$suffixUrl',
       ) as CommonDM;
       if (response.success == true) {
         addFriendRequestList.clear();
@@ -582,16 +579,16 @@ class FriendController extends GetxController {
 
         isAddFriendRequestListLoading.value = false;
       } else {
-        isAddFriendRequestListLoading.value = false;
+        isAddFriendRequestListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
-      isAddFriendRequestListLoading.value = false;
+      isAddFriendRequestListLoading.value = true;
       ll('getAddFriendRequestList error: $e');
     }
   }
@@ -599,7 +596,7 @@ class FriendController extends GetxController {
   //*Get More Add Friend Request List for pagination
   Future<void> getMoreAddFriendRequestList(take) async {
     try {
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       dynamic addFriendListSub;
 
       if (addFriendListSubLink.value == null) {
@@ -612,10 +609,10 @@ class FriendController extends GetxController {
 
       addFriendListSuffixUrl = '&${addFriendListSub[1]}&take=15';
 
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: '$kuCommonUserSearch?key=${_profileController.searchController.text.trim()}$addFriendListSuffixUrl',
+        url: '$kuCommonUserSearch?key=${globalController.searchController.text.trim()}$addFriendListSuffixUrl',
       ) as CommonDM;
       if (response.success == true) {
         addFriendRequestData.value = CommonFriends.fromJson(response.data);
@@ -638,16 +635,16 @@ class FriendController extends GetxController {
         }
         isAddFriendRequestListLoading.value = false;
       } else {
-        isAddFriendRequestListLoading.value = false;
+        isAddFriendRequestListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
-      isAddFriendRequestListLoading.value = false;
+      isAddFriendRequestListLoading.value = true;
       ll('getMoreAddFriendRequestList error: $e');
     }
   }
@@ -657,11 +654,11 @@ class FriendController extends GetxController {
   Future<dynamic> sendFriendRequest() async {
     try {
       isSendFriendRequestLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'friend_id': userId.value.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuSendFriendRequest,
         body: body,
@@ -674,15 +671,15 @@ class FriendController extends GetxController {
           }
         }
         isSendFriendRequestLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
         return true;
       } else {
         isSendFriendRequestLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
         return false;
       }
@@ -704,8 +701,8 @@ class FriendController extends GetxController {
     try {
       isFriendListForAddFamilyLoading.value = true;
       String suffixUrl = '?take=100';
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetFriendList + suffixUrl,
@@ -722,16 +719,16 @@ class FriendController extends GetxController {
         }
         isFriendListForAddFamilyLoading.value = false;
       } else {
-        isFriendListForAddFamilyLoading.value = false;
+        isFriendListForAddFamilyLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
-      isFriendListForAddFamilyLoading.value = false;
+      isFriendListForAddFamilyLoading.value = true;
       ll('getFriendListForAddFamily error: $e');
     }
   }
@@ -745,11 +742,11 @@ class FriendController extends GetxController {
     try {
       isFriendListLoading.value = true;
       String suffixUrl = '&take=15';
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: '$kuGetSearchFriends?key=${_profileController.searchController.text.trim()}$suffixUrl',
+        url: '$kuGetSearchFriends?key=${globalController.searchController.text.trim()}$suffixUrl',
       ) as CommonDM;
       if (response.success == true) {
         friendList.clear();
@@ -766,16 +763,16 @@ class FriendController extends GetxController {
 
         isFriendListLoading.value = false;
       } else {
-        isFriendListLoading.value = false;
+       isFriendListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
-      isFriendListLoading.value = false;
+      isFriendListLoading.value = true;
       ll('getFriendSearchList error: $e');
     }
   }
@@ -783,7 +780,7 @@ class FriendController extends GetxController {
   //*Get More Friend Search List for pagination
   Future<void> getMoreFriendSearchList(take) async {
     try {
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       dynamic friendListSub;
 
       if (friendListSubLink.value == null) {
@@ -796,10 +793,10 @@ class FriendController extends GetxController {
 
       friendListSuffixUrl = '&${friendListSub[1]}&take=15';
 
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: '$kuGetSearchFriends?key=${_profileController.searchController.text}$friendListSuffixUrl',
+        url: '$kuGetSearchFriends?key=${globalController.searchController.text}$friendListSuffixUrl',
       ) as CommonDM;
 
       if (response.success == true) {
@@ -815,16 +812,16 @@ class FriendController extends GetxController {
 
         isFriendListLoading.value = false;
       } else {
-        isFriendListLoading.value = false;
+        isFriendListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
-      isFriendListLoading.value = false;
+      isFriendListLoading.value = true;
       ll('getMoreFriendSearchList error: $e');
     }
   }
@@ -832,24 +829,31 @@ class FriendController extends GetxController {
   Timer? debounce;
 
   final RxBool isFriendSearched = RxBool(false);
+  //*Pending friend Action
+  final RxString pendingFriendActionSelect = RxString('');
+  final RxInt pendingFriendFollowStatus = RxInt(-1);
   final RxList pendingFriendActionList = RxList([
     {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
     {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow this user'}
   ]);
-  final RxString pendingFriendActionSelect = RxString('');
-  //*Follow Pending friend list
   final RxList pendingFollowFriendActionList = RxList([
     {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
     {'icon': BipHip.follow, 'action': 'Follow', 'actionSubtitle': 'Follow this user'}
   ]);
+  //*All friend Action 
+  final RxString friendActionSelect = RxString('');
   final RxInt allFriendFollowStatus = RxInt(-1);
-  final RxInt pendingFriendFollowStatus = RxInt(-1);
-  //*Follow All friend list
+  final RxList friendActionList = RxList([
+    {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
+    {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow your friend'},
+    {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
+  ]);
   final RxList friendFollowActionList = RxList([
     {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
     {'icon': BipHip.follow, 'action': 'Follow', 'actionSubtitle': 'Follow your friend'},
     {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
   ]);
+  //*Search suffix icon and bottom nav route bool value 
   final RxBool isFriendSuffixIconVisible = RxBool(false);
   final RxBool isRouteFromBottomNavBar = RxBool(false);
 }

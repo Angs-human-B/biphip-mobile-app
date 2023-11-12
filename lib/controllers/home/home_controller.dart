@@ -2,9 +2,9 @@ import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class HomeController extends GetxController {
-  final ApiController _apiController = ApiController();
-  final SpController _spController = SpController();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final ApiController apiController = ApiController();
+  final SpController spController = SpController();
+  final GlobalController globalController = Get.find<GlobalController>();
   final Rx<Color> categoryIconColor = Rx<Color>(cWhiteColor);
   final Rx<IconData> categoryIcon = Rx<IconData>(BipHip.add);
   // final RxBool showSeeMore = RxBool(false);
@@ -52,8 +52,8 @@ class HomeController extends GetxController {
   Future<void> getPostList() async {
     try {
       isHomePageLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
         url: kuGetAllPosts,
@@ -68,9 +68,9 @@ class HomeController extends GetxController {
 
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -122,8 +122,8 @@ class HomeController extends GetxController {
   Future<void> getPostData(id) async {
     try {
       isPostDetailsPageLoading.value = true;
-      String? token = await _spController.getBearerToken();
-      var response = await _apiController.commonApiCall(
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
         requestMethod: kGet,
         url: '$kuGetPostData/$id',
         token: token,
@@ -138,9 +138,9 @@ class HomeController extends GetxController {
 
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
