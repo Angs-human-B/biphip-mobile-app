@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
-import 'package:bip_hip/shimmer_views/friends/all_pending_friend_shimmer.dart';
+import 'package:bip_hip/shimmer/menu/friends/all_pending_friend_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/kid_widgets/kid_edit_delete_content.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';

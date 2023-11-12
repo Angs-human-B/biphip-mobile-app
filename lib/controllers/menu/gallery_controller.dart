@@ -1,4 +1,4 @@
-import 'package:bip_hip/helpers/gallery_photo_helpers/gallery_photo_helper.dart';
+import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/models/menu/album/album_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 

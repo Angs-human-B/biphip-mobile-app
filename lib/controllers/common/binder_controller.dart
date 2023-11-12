@@ -8,7 +8,7 @@ import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
-import 'package:bip_hip/controllers/splash_screen/splash_screen_controller.dart';
+import 'package:bip_hip/controllers/intro/splash_screen_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class BinderController implements Bindings {

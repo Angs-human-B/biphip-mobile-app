@@ -1,11 +1,11 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
-import 'package:bip_hip/helpers/create_post_helper.dart';
-import 'package:bip_hip/shimmer_views/home_page/home_page_shimmer.dart';
+import 'package:bip_hip/helpers/post/create_post_helper.dart';
+import 'package:bip_hip/shimmer/home/home_page_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
-import 'package:bip_hip/widgets/post_widgets/post_button_widget.dart';
-import 'package:bip_hip/widgets/post_widgets/stories_widget.dart';
+import 'package:bip_hip/widgets/post/post_button_widget.dart';
+import 'package:bip_hip/widgets/post/stories_widget.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
 

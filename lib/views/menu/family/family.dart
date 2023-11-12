@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/menu/family_controller.dart';
-import 'package:bip_hip/helpers/family_helpers/family_helper.dart';
+import 'package:bip_hip/helpers/menu/family/family_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 

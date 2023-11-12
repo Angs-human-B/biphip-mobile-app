@@ -1,6 +1,6 @@
 
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/shimmer_views/friends/rtreceived_friend_shimmer.dart';
+import 'package:bip_hip/shimmer/menu/friends/rtreceived_friend_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:bip_hip/widgets/menu/friends_family/friend_family_button_action.dart';

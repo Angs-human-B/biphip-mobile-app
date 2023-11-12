@@ -1,4 +1,4 @@
-import 'package:bip_hip/helpers/kids_helper/kid_helper.dart';
+import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class EditDeleteContent extends StatelessWidget {

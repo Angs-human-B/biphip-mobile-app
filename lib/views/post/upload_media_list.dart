@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
-import 'package:bip_hip/helpers/create_post_helper.dart';
+import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class UploadImageListPage extends StatelessWidget {

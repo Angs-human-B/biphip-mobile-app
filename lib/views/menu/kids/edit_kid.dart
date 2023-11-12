@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
-import 'package:bip_hip/helpers/kids_helper/kid_helper.dart';
+import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 
