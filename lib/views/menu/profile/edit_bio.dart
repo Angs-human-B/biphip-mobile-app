@@ -5,8 +5,8 @@ import 'package:bip_hip/utils/constants/imports.dart';
 class EditBio extends StatelessWidget {
   EditBio({super.key});
 
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final ProfileHelper _profileHelper = ProfileHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final ProfileHelper profileHelper = ProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class EditBio extends StatelessWidget {
                     //* info:: appBar
                     child: CustomAppBar(
                       appBarColor: cWhiteColor,
-                      title: _profileController.bio.value == '' ? ksAddBio.tr : ksEditBio.tr,
+                      title: profileController.bio.value == '' ? ksAddBio.tr : ksEditBio.tr,
                       hasBackButton: true,
                       isCenterTitle: true,
                       onBack: () {
@@ -34,14 +34,14 @@ class EditBio extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(right: k8Padding),
                           child: CustomTextButton(
-                              onPressed: _profileController.bioEditingController.text != _profileController.bio.value
+                              onPressed: profileController.bioEditingController.text != profileController.bio.value
                                   ? () async {
                                       unfocus(context);
-                                      _profileHelper.saveBio();
+                                      profileHelper.saveBio();
                                     }
                                   : null,
                               text: ksSave.tr,
-                              textStyle: _profileController.bioEditingController.text != _profileController.bio.value
+                              textStyle: profileController.bioEditingController.text != profileController.bio.value
                                   ? regular14TextStyle(cPrimaryColor)
                                   : regular14TextStyle(cIconColor)),
                         )
@@ -62,19 +62,19 @@ class EditBio extends StatelessWidget {
                               children: [
                                 kH20sizedBox,
                                 CustomModifiedTextField(
-                                  controller: _profileController.bioEditingController,
+                                  controller: profileController.bioEditingController,
                                   hint: ksEnterYourBio.tr,
                                   maxLength: 255,
                                   maxLines: 5,
                                   onChanged: (text) {
-                                    _profileController.bioCount.value = text.length;
+                                    profileController.bioCount.value = text.length;
                                   },
                                   onSubmit: (text) {},
                                   inputAction: TextInputAction.newline,
                                   inputType: TextInputType.name,
                                 ),
                                 Text(
-                                  '${_profileController.bioCount}/255',
+                                  '${profileController.bioCount}/255',
                                   style: regular14TextStyle(cIconColor),
                                 )
                               ],
@@ -85,11 +85,11 @@ class EditBio extends StatelessWidget {
                     ],
                   )),
             ),
-            if (_profileController.isBioLoading.value == true)
+            if (profileController.isBioLoading.value == true)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (_profileController.isBioLoading.value) {
+                    if (profileController.isBioLoading.value) {
                       return false;
                     }
                     return true;

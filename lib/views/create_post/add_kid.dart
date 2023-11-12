@@ -1,12 +1,14 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/helpers/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 
 class AddKidPage extends StatelessWidget {
   AddKidPage({super.key});
 
-  final CreatePostController _createPostController = Get.find<CreatePostController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final CreatePostController createPostController = Get.find<CreatePostController>();
+  final CreatePostHelper createPostHelper = CreatePostHelper();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,24 +37,14 @@ class AddKidPage extends StatelessWidget {
                         padding: const EdgeInsets.only(right: h20),
                         child: TextButton(
                           style: kTextButtonStyle,
-                          onPressed: _createPostController.isSaveKidButtonEnabled.value
-                              ? () async {
-                                  if (_createPostController.saveKidInfo.value) {
-                                    await _createPostController.addKid();
-                                  } else {
-                                    Get.back();
-                                  }
-                                  _createPostController.isKidAdded.value = true;
-                                  if (!_createPostController.isKidAdded.value) {
-                                    _globalController.isBottomSheetRightButtonActive.value = false;
-                                  } else {
-                                    _globalController.isBottomSheetRightButtonActive.value = true;
-                                  }
+                          onPressed: createPostController.isSaveKidButtonEnabled.value
+                              ? () {
+                                  createPostHelper.addKid();
                                 }
                               : null,
                           child: Text(
                             ksAdd.tr,
-                            style: _createPostController.isSaveKidButtonEnabled.value ? medium14TextStyle(cPrimaryColor) : medium14TextStyle(cIconColor),
+                            style: createPostController.isSaveKidButtonEnabled.value ? medium14TextStyle(cPrimaryColor) : medium14TextStyle(cIconColor),
                           ),
                         ),
                       ),
@@ -80,7 +72,7 @@ class AddKidPage extends StatelessWidget {
                                 color: cBlackColor,
                               ),
                               child: Image.file(
-                                _createPostController.kidImageFile.value,
+                                createPostController.kidImageFile.value,
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.user,
@@ -93,7 +85,7 @@ class AddKidPage extends StatelessWidget {
                           isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
                           OutLinedButton(
                             onPress: () {
-                              _globalController.commonBottomSheet(
+                              globalController.commonBottomSheet(
                                   context: context,
                                   onPressCloseButton: () {
                                     Get.back();
@@ -114,9 +106,9 @@ class AddKidPage extends StatelessWidget {
                                         prefixIconColor: cIconColor,
                                         suffixIconColor: cIconColor,
                                         onPressed: () async {
-                                          await _globalController.selectImageSource(_createPostController.isKidImageChanged, _createPostController.kidImageLink,
-                                              _createPostController.kidImageFile, 'camera', true);
-                                          _createPostController.checkCanAddKidInfo();
+                                          await globalController.selectImageSource(createPostController.isKidImageChanged, createPostController.kidImageLink,
+                                              createPostController.kidImageFile, 'camera', true);
+                                          createPostController.checkCanAddKidInfo();
                                         },
                                         buttonHeight: h32,
                                         buttonWidth: width - 40,
@@ -131,9 +123,9 @@ class AddKidPage extends StatelessWidget {
                                         prefixIconColor: cIconColor,
                                         suffixIconColor: cIconColor,
                                         onPressed: () async {
-                                          await _globalController.selectImageSource(_createPostController.isKidImageChanged, _createPostController.kidImageLink,
-                                              _createPostController.kidImageFile, 'gallery', true);
-                                          _createPostController.checkCanAddKidInfo();
+                                          await globalController.selectImageSource(createPostController.isKidImageChanged, createPostController.kidImageLink,
+                                              createPostController.kidImageFile, 'gallery', true);
+                                          createPostController.checkCanAddKidInfo();
                                         },
                                         buttonHeight: h32,
                                         buttonWidth: width - 40,
@@ -162,10 +154,10 @@ class AddKidPage extends StatelessWidget {
                             children: [
                               isDeviceScreenLarge() ? kH40sizedBox : kH30sizedBox,
                               CustomModifiedTextField(
-                                controller: _createPostController.kidNameTextEditingController,
+                                controller: createPostController.kidNameTextEditingController,
                                 hint: ksWriteKidName.tr,
                                 onChanged: (text) {
-                                  _createPostController.checkCanAddKidInfo();
+                                  createPostController.checkCanAddKidInfo();
                                 },
                                 onSubmit: (text) {},
                                 inputAction: TextInputAction.next,
@@ -174,10 +166,10 @@ class AddKidPage extends StatelessWidget {
                               ),
                               kH8sizedBox,
                               CustomModifiedTextField(
-                                controller: _createPostController.kidAgeTextEditingController,
+                                controller: createPostController.kidAgeTextEditingController,
                                 hint: ksWriteAge.tr,
                                 onChanged: (text) {
-                                  _createPostController.checkCanAddKidInfo();
+                                  createPostController.checkCanAddKidInfo();
                                 },
                                 onSubmit: (text) {},
                                 inputAction: TextInputAction.done,
@@ -187,9 +179,9 @@ class AddKidPage extends StatelessWidget {
                               ),
                               kH8sizedBox,
                               CustomCheckBox(
-                                value: _createPostController.saveKidInfo.value,
+                                value: createPostController.saveKidInfo.value,
                                 onChanged: (v) {
-                                  _createPostController.saveKidInfo.value = !_createPostController.saveKidInfo.value;
+                                  createPostController.saveKidInfo.value = !createPostController.saveKidInfo.value;
                                 },
                                 label: ksSaveKidInformation.tr,
                                 textStyle: regular14TextStyle(cBlackColor),
@@ -205,11 +197,11 @@ class AddKidPage extends StatelessWidget {
               ),
             ),
           ),
-          if (_createPostController.isAddKidPageLoading.value == true)
+          if (createPostController.isAddKidPageLoading.value == true)
             Positioned(
               child: CommonLoadingAnimation(
                 onWillPop: () async {
-                  if (_createPostController.isAddKidPageLoading.value) {
+                  if (createPostController.isAddKidPageLoading.value) {
                     return false;
                   }
                   return true;

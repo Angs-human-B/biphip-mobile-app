@@ -1,6 +1,6 @@
 import 'dart:io';
-
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/auth/common_unverify_model.dart';
 import 'package:bip_hip/models/auth/forget_pass_model.dart';
@@ -14,15 +14,15 @@ class AuthenticationController extends GetxController {
   final RxBool isImageUploadLoading = RxBool(false);
   final RxList users = RxList([]);
 
-  final ApiController _apiController = ApiController();
-  final SpController _spController = SpController();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final ApiController apiController = ApiController();
+  final SpController spController = SpController();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   final RxString parentRoute = RxString("register");
   final RxString verificationToken = RxString('');
 
   Future<void> getSavedUsers() async {
-    List userList = await _spController.getUserList();
+    List userList = await spController.getUserList();
     users.clear();
     users.addAll(userList);
     ll("user list length : ${users.length}");
@@ -73,7 +73,7 @@ class AuthenticationController extends GetxController {
         "password": loginPasswordTextEditingController.text.toString(),
       };
       ll("body : $body");
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         url: kuLogin,
         body: body,
         requestMethod: kPost,
@@ -82,15 +82,15 @@ class AuthenticationController extends GetxController {
       if (response.success == true) {
         LoginModel loginData = LoginModel.fromJson(response.data);
         Get.find<ProfileController>().userData.value = loginData.user;
-        await _spController.saveBearerToken(loginData.token);
-        await _spController.saveRememberMe(isLoginRememberCheck.value);
-        await _spController.saveUserName(loginData.user.fullName.toString());
-        await _spController.saveUserFirstName(loginData.user.firstName.toString());
-        await _spController.saveUserLastName(loginData.user.lastName.toString());
-        await _spController.saveUserImage(loginData.user.image.toString());
-        await _spController.saveUserEmail(loginData.user.email.toString());
+        await spController.saveBearerToken(loginData.token);
+        await spController.saveRememberMe(isLoginRememberCheck.value);
+        await spController.saveUserName(loginData.user.fullName.toString());
+        await spController.saveUserFirstName(loginData.user.firstName.toString());
+        await spController.saveUserLastName(loginData.user.lastName.toString());
+        await spController.saveUserImage(loginData.user.image.toString());
+        await spController.saveUserEmail(loginData.user.email.toString());
         if (isLoginRememberCheck.value) {
-          await _spController.saveUserList({
+          await spController.saveUserList({
             "email": loginData.user.email.toString(),
             "name": loginData.user.fullName.toString(),
             "first_name": loginData.user.firstName.toString(),
@@ -99,13 +99,13 @@ class AuthenticationController extends GetxController {
             "token": loginData.token.toString(),
           });
         }
-        await _globalController.getUserInfo();
+        await globalController.getUserInfo();
         // await setDeviceID(loginData.user.id);
         isLoginLoading.value = false;
         Get.offAllNamed(krHome);
         await Get.find<HomeController>().getPostList();
         // final HomeController homeController = Get.find<HomeController>();
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
         // await homeController.getUserHome();
       } else {
         if (response.code == 410) {
@@ -115,14 +115,14 @@ class AuthenticationController extends GetxController {
           resetOTPScreen();
           isLoginLoading.value = false;
           Get.toNamed(krOTP);
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
           ErrorModel errorModel = ErrorModel.fromJson(response.data);
           isLoginLoading.value = false;
           if (errorModel.errors.isEmpty) {
-            _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+            globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
           } else {
-            _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+            globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
           }
         }
       }
@@ -190,7 +190,7 @@ class AuthenticationController extends GetxController {
         "password": registerPasswordTextEditingController.text,
         "password_confirmation": registerConfirmPasswordTextEditingController.text,
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuRegistration,
         body: body,
@@ -205,14 +205,14 @@ class AuthenticationController extends GetxController {
         isRegisterLoading.value = false;
         Get.toNamed(krOTP);
 
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isRegisterLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -246,7 +246,7 @@ class AuthenticationController extends GetxController {
       Map<String, dynamic> body = {
         'email': forgotPasswordEmailTextEditingController.text.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuForgetPassword,
         body: body,
@@ -257,14 +257,14 @@ class AuthenticationController extends GetxController {
         resetOTPScreen();
         isForgetPasswordLoading.value = false;
         Get.toNamed(krOTP);
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isForgetPasswordLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -307,7 +307,7 @@ class AuthenticationController extends GetxController {
         "password": resetNewPasswordTextEditingController.text,
         "password_confirmation": resetConfirmPasswordTextEditingController.text,
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         token: verificationToken.value,
         url: kuResetPassword,
@@ -318,14 +318,14 @@ class AuthenticationController extends GetxController {
         resetLoginScreen();
         isResetPasswordLoading.value = false;
         Get.offAllNamed(krLogin);
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isResetPasswordLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -361,7 +361,7 @@ class AuthenticationController extends GetxController {
       Map<String, dynamic> body = {
         'otp': otpTextEditingController.text.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuRegistrationVerifyOTP,
         body: body,
@@ -372,14 +372,14 @@ class AuthenticationController extends GetxController {
         LoginModel otpData = LoginModel.fromJson(response.data);
         // log('verified_user_data : ${otpData.user.isVerified}');
 
-        await _spController.saveBearerToken(otpData.token);
-        await _spController.saveRememberMe(true);
-        await _spController.saveUserName(otpData.user.fullName.toString());
-        await _spController.saveUserFirstName(otpData.user.firstName.toString());
-        await _spController.saveUserLastName(otpData.user.lastName.toString());
-        await _spController.saveUserImage(otpData.user.image.toString());
-        await _spController.saveUserEmail(otpData.user.email.toString());
-        await _spController.saveUserList({
+        await spController.saveBearerToken(otpData.token);
+        await spController.saveRememberMe(true);
+        await spController.saveUserName(otpData.user.fullName.toString());
+        await spController.saveUserFirstName(otpData.user.firstName.toString());
+        await spController.saveUserLastName(otpData.user.lastName.toString());
+        await spController.saveUserImage(otpData.user.image.toString());
+        await spController.saveUserEmail(otpData.user.email.toString());
+        await spController.saveUserList({
           "email": otpData.user.email.toString(),
           "name": otpData.user.fullName.toString(),
           "first_name": otpData.user.firstName.toString(),
@@ -387,7 +387,7 @@ class AuthenticationController extends GetxController {
           "image_url": otpData.user.image,
           "token": otpData.token.toString(),
         });
-        await _globalController.getUserInfo();
+        await globalController.getUserInfo();
         // await setDeviceID(otpData.user.id);
         // final HomeController homeController = Get.find<HomeController>();
         // await homeController.getUserHome();
@@ -401,14 +401,14 @@ class AuthenticationController extends GetxController {
           resetRegisterScreen();
           resetOTPScreen();
         }
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isOTPLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -424,7 +424,7 @@ class AuthenticationController extends GetxController {
         "email": forgotPasswordEmailTextEditingController.text,
         'otp': otpTextEditingController.text.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuForgetPasswordVerifyOTP,
         body: body,
@@ -437,14 +437,14 @@ class AuthenticationController extends GetxController {
         resetResetPasswordScreen();
         isOTPLoading.value = false;
         Get.toNamed(krResetPass);
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isOTPLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -461,7 +461,7 @@ class AuthenticationController extends GetxController {
       };
       ll(body.toString());
       ll(parentRoute.value.toString());
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         token: (parentRoute.value == "login" || parentRoute.value == "register") ? verificationToken.value : null,
         url: (parentRoute.value == "login" || parentRoute.value == "register") ? kuRegistrationResendOTP : kuForgetPasswordResendOTP,
@@ -475,14 +475,14 @@ class AuthenticationController extends GetxController {
         isOTPResendClick.value = false;
         // log('data : ${response.data}');
         isOTPLoading.value = false;
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isOTPLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {
@@ -500,11 +500,11 @@ class AuthenticationController extends GetxController {
   Future<void> logout() async {
     try {
       isLogoutLoading.value = true;
-      String? token = await _spController.getBearerToken();
+      String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         "all_devices": 0.toString(),
       };
-      var response = await _apiController.commonApiCall(
+      var response = await apiController.commonApiCall(
         requestMethod: kPost,
         token: token,
         url: kuLogOut,
@@ -515,17 +515,17 @@ class AuthenticationController extends GetxController {
         await SpController().onLogout();
         resetLoginScreen();
         isLogoutLoading.value = false;
-        Get.find<ProfileController>().isSupportButtonPressed.value = false;
-        Get.find<ProfileController>().isSettingButtonPressed.value = false;
+        Get.find<MenuSectionController>().isSupportButtonPressed.value = false;
+        Get.find<MenuSectionController>().isSettingButtonPressed.value = false;
         Get.offAllNamed(krLogin);
-        _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isLogoutLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          _globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          _globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
     } catch (e) {

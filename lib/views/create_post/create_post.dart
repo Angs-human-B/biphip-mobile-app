@@ -1,11 +1,16 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/helpers/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
+import 'package:bip_hip/views/create_post/create_post_widget/create_post_bottom_section.dart';
+import 'package:bip_hip/views/create_post/create_post_widget/create_post_media_section.dart';
+import 'package:bip_hip/views/create_post/create_post_widget/create_post_selling_text_fields.dart';
+import 'package:bip_hip/views/create_post/create_post_widget/create_post_upper_section.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 
 class CreatePost extends StatelessWidget {
   CreatePost({super.key});
-  final CreatePostController _createPostController = Get.find<CreatePostController>();
+  final CreatePostController createPostController = Get.find<CreatePostController>();
+  final CreatePostHelper createPostHelper = CreatePostHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +41,9 @@ class CreatePost extends StatelessWidget {
                         child: Obx(
                           () => CustomElevatedButton(
                             label: ksPost.tr,
-                            onPressed: _createPostController.isPostButtonActive.value
+                            onPressed: createPostController.isPostButtonActive.value
                                 ? () async {
-                                    await _createPostController.createPost();
-                                    // unfocus(context);
+                                    await createPostController.createPost();
                                   }
                                 : null,
                             buttonWidth: 60,
@@ -62,250 +66,10 @@ class CreatePost extends StatelessWidget {
                           child: Obx(
                             () => Column(
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // kW8sizedBox,
-                                    Stack(
-                                      children: [
-                                        SizedBox(
-                                          width:
-                                              (_createPostController.category.value == "Kids" || _createPostController.category.value == "Selling") ? 70 : h45,
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                height: h45,
-                                                width: h45,
-                                                decoration: const BoxDecoration(shape: BoxShape.circle, color: cBlackColor),
-                                                child: ClipOval(
-                                                  child: Image.network(
-                                                    Environment.imageBaseUrl + Get.find<GlobalController>().userImage.value.toString(),
-                                                    fit: BoxFit.cover,
-                                                    errorBuilder: (context, error, stackTrace) =>
-                                                        imageErrorBuilderCover(context, error, stackTrace, BipHip.user, kIconSize20),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        if (_createPostController.category.value == "Kids" || _createPostController.category.value == "Selling")
-                                          Positioned(
-                                            right: 0,
-                                            bottom: 0,
-                                            top: 0,
-                                            child: Container(
-                                              height: h45,
-                                              width: h45,
-                                              decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: ClipOval(
-                                                child: _createPostController.selectedKid.value != null
-                                                    ? Image.network(
-                                                        Environment.imageBaseUrl + _createPostController.postSecondaryCircleAvatar.value,
-                                                        fit: BoxFit.cover,
-                                                        errorBuilder: (context, error, stackTrace) => const Icon(
-                                                          BipHip.imageFile,
-                                                          size: kIconSize120,
-                                                          color: cIconColor,
-                                                        ),
-                                                        // loadingBuilder: imageLoadingBuilder,
-                                                      )
-                                                    : ClipOval(
-                                                        child: Image.file(
-                                                          _createPostController.postSecondaryLocalCirclerAvatar.value,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                              ),
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                    kW8sizedBox,
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: Obx(
-                                                  () => Padding(
-                                                    padding: const EdgeInsets.only(top: 2.0),
-                                                    child: RichText(
-                                                      textAlign: TextAlign.left,
-                                                      overflow: TextOverflow.clip,
-                                                      maxLines: 2,
-                                                      text: TextSpan(
-                                                        children: [
-                                                          TextSpan(
-                                                            text: Get.find<GlobalController>().userName.value.toString(),
-                                                            style: semiBold16TextStyle(cBlackColor),
-                                                          ),
-                                                          if (_createPostController.isTagAdded.value)
-                                                            TextSpan(
-                                                              text: ' ${ksIsWithSmall.tr} ',
-                                                              style: regular16TextStyle(cBlackColor),
-                                                            ),
-                                                          if (_createPostController.isTagAdded.value)
-                                                            TextSpan(
-                                                              text: 'Shohag Jalal & 8 ${ksOthersSmall.tr}',
-                                                              style: semiBold16TextStyle(cBlackColor),
-                                                            ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          kH4sizedBox,
-                                          Obx(
-                                            () => Row(
-                                              children: [
-                                                CustomElevatedButton(
-                                                  isCustomButton: true,
-                                                  label: _createPostController.postType.value,
-                                                  prefixIcon: _createPostController.postTypeIcon.value,
-                                                  onPressed: () {
-                                                    _createPostController.initializeAudienceText();
-                                                    _createPostController.showAudienceSheet(context);
-                                                  },
-                                                  buttonHeight: 22,
-                                                  suffixIcon: BipHip.downArrow,
-                                                  buttonColor: cGreyBoxColor,
-                                                  prefixIconColor: cBlackColor,
-                                                  suffixIconColor: cBlackColor,
-                                                  textStyle: medium12TextStyle(cBlackColor),
-                                                ),
-                                                kW8sizedBox,
-                                                CustomElevatedButton(
-                                                  label: _createPostController.category.value == "" ? "Select Category" : _createPostController.category.value,
-                                                  prefixIcon: _createPostController.category.value == "" ? null : _createPostController.categoryIcon.value,
-                                                  prefixIconColor:
-                                                      _createPostController.category.value == "" ? null : _createPostController.categoryIconColor.value,
-                                                  onPressed: () async {
-                                                    _createPostController.initializeCategory();
-                                                    Get.toNamed(krSelectCategory);
-                                                    await _createPostController.getPostCategoryList();
-                                                  },
-                                                  buttonHeight: 22,
-                                                  isCustomButton: true,
-                                                  suffixIcon: _createPostController.category.value == "" ? BipHip.plus : BipHip.edit,
-                                                  buttonColor: cGreyBoxColor,
-                                                  suffixIconColor: cBlackColor,
-                                                  textStyle: medium12TextStyle(cBlackColor),
-                                                ),
-                                                if (_createPostController.category.value == "Selling") kW8sizedBox,
-                                                if (_createPostController.category.value == "Selling")
-                                                  Expanded(
-                                                    child: CustomElevatedButton(
-                                                      label: ksPostType.tr,
-                                                      onPressed: () {
-                                                        Get.find<GlobalController>().commonBottomSheet(
-                                                          context: context,
-                                                          content: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            children: [
-                                                              kH8sizedBox,
-                                                              CustomCheckBox(
-                                                                value: true,
-                                                                onChanged: (v) {},
-                                                                label: ksBiddingPost.tr,
-                                                                textStyle: medium14TextStyle(cBlackColor),
-                                                              ),
-                                                              kH8sizedBox,
-                                                              Row(
-                                                                children: [
-                                                                  Expanded(
-                                                                    child: Text(
-                                                                      ksBiddingPostDescription.tr,
-                                                                      style: regular12TextStyle(cSmallBodyTextColor),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              kH16sizedBox,
-                                                              Text(
-                                                                ksOr.tr,
-                                                                style: regular16TextStyle(cPlaceHolderColor),
-                                                              ),
-                                                              kH16sizedBox,
-                                                              Row(
-                                                                children: [
-                                                                  Text(
-                                                                    ksPlatformAndAction.tr,
-                                                                    style: medium14TextStyle(cBlackColor),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              kH8sizedBox,
-                                                              Row(
-                                                                children: [
-                                                                  OutLinedButton(
-                                                                    buttonText: ksSelectPlatform.tr,
-                                                                    buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
-                                                                    borderColor: cLineColor,
-                                                                    buttonWidth: width * .55 - 20,
-                                                                    buttonHeight: 44,
-                                                                    widget: const Icon(
-                                                                      BipHip.downArrow,
-                                                                      color: cPlaceHolderColor,
-                                                                    ),
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                  ),
-                                                                  kW8sizedBox,
-                                                                  OutLinedButton(
-                                                                    buttonText: ksSelectAction.tr,
-                                                                    buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
-                                                                    borderColor: cLineColor,
-                                                                    buttonWidth: width * .45 - 20,
-                                                                    buttonHeight: 44,
-                                                                    widget: const Icon(
-                                                                      BipHip.downArrow,
-                                                                      color: cPlaceHolderColor,
-                                                                    ),
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                  ),
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                          onPressCloseButton: () {
-                                                            Get.back();
-                                                          },
-                                                          onPressRightButton: () {
-                                                            Get.back();
-                                                          },
-                                                          rightText: ksDone.tr,
-                                                          rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                                          title: ksPostType.tr,
-                                                          isRightButtonShow: true,
-                                                        );
-                                                      },
-                                                      buttonHeight: 22,
-                                                      isCustomButton: true,
-                                                      prefixIcon: BipHip.plus,
-                                                      buttonColor: cGreyBoxColor,
-                                                      suffixIconColor: cBlackColor,
-                                                      prefixIconColor: cBlackColor,
-                                                      textStyle: medium12TextStyle(cBlackColor),
-                                                    ),
-                                                  ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                CreatePostUpperSection(),
                                 Obx(
                                   () => CustomModifiedTextField(
-                                    controller: _createPostController.createPostController,
+                                    controller: createPostController.createPostController,
                                     maxLength: 1000,
                                     maxLines: 100,
                                     minLines: 1,
@@ -317,198 +81,16 @@ class CreatePost extends StatelessWidget {
                                     contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k16Padding),
                                     textHintStyle: regular20TextStyle(cPlaceHolderColor),
                                     textInputStyle:
-                                        _createPostController.isTextLimitCrossed.value ? regular16TextStyle(cBlackColor) : regular20TextStyle(cBlackColor),
+                                        createPostController.isTextLimitCrossed.value ? regular16TextStyle(cBlackColor) : regular20TextStyle(cBlackColor),
                                     onChanged: (v) {
-                                      _createPostController.postButtonStateCheck();
+                                      createPostHelper.postButtonStateCheck();
                                     },
                                   ),
                                 ),
-                                // if (_createPostController.isCreatePostImageChanged.value)
-                                if (_createPostController.allMediaList.isNotEmpty)
-                                  Obx(
-                                    () => Container(
-                                      color: cWhiteColor,
-                                      height: 302,
-                                      width: width - 40,
-                                      child: Column(
-                                        children: [
-                                          Stack(
-                                            children: [
-                                              TextButton(
-                                                style: kTextButtonStyle,
-                                                onPressed: () {},
-                                                child: Container(
-                                                  color: cWhiteColor,
-                                                  height: _createPostController.allMediaList.length < 2 ? 302 : 150,
-                                                  width: width - 40,
-                                                  child: Image.file(
-                                                    _createPostController.allMediaFileList[0].value,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                              Positioned(
-                                                top: 5,
-                                                right: 5,
-                                                child: TextButton(
-                                                  style: kTextButtonStyle,
-                                                  onPressed: () {
-                                                    _createPostController.removeMedia(0);
-                                                  },
-                                                  child: const Icon(
-                                                    BipHip.circleCrossNew,
-                                                    color: cWhiteColor,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          if (_createPostController.allMediaList.length > 1)
-                                            const SizedBox(
-                                              height: 2,
-                                            ),
-                                          Row(
-                                            children: [
-                                              if (_createPostController.allMediaList.length > 1)
-                                                Stack(
-                                                  children: [
-                                                    TextButton(
-                                                      style: kTextButtonStyle,
-                                                      onPressed: () {},
-                                                      child: Container(
-                                                        color: cWhiteColor,
-                                                        height: 150,
-                                                        width: _createPostController.allMediaList.length < 3 ? (width - 40) : (width - 42) / 2,
-                                                        child: Image.file(
-                                                          _createPostController.allMediaFileList[1].value,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Positioned(
-                                                      top: 5,
-                                                      right: 5,
-                                                      child: TextButton(
-                                                        style: kTextButtonStyle,
-                                                        onPressed: () {
-                                                          _createPostController.removeMedia(1);
-                                                        },
-                                                        child: const Icon(
-                                                          BipHip.circleCrossNew,
-                                                          color: cWhiteColor,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              if (_createPostController.allMediaList.length > 2)
-                                                const SizedBox(
-                                                  width: 2,
-                                                ),
-                                              if (_createPostController.allMediaList.length > 2)
-                                                Stack(
-                                                  alignment: AlignmentDirectional.center,
-                                                  children: [
-                                                    TextButton(
-                                                      style: kTextButtonStyle,
-                                                      onPressed: () {
-                                                        if (_createPostController.allMediaList.length > 3) {
-                                                          Get.toNamed(krUploadedImageListPage);
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                        color: cWhiteColor,
-                                                        height: 150,
-                                                        width: (width - 42) / 2,
-                                                        child: Image.file(
-                                                          _createPostController.allMediaFileList[2].value,
-                                                          fit: BoxFit.cover,
-                                                          color: cBlackColor.withOpacity(0.3),
-                                                          colorBlendMode: BlendMode.multiply,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    if (_createPostController.allMediaList.length == 3)
-                                                      Positioned(
-                                                        top: 5,
-                                                        right: 5,
-                                                        child: TextButton(
-                                                          style: kTextButtonStyle,
-                                                          onPressed: () {
-                                                            _createPostController.removeMedia(2);
-                                                          },
-                                                          child: const Icon(
-                                                            BipHip.circleCrossNew,
-                                                            color: cWhiteColor,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    if (_createPostController.allMediaList.length > 3)
-                                                      Positioned(
-                                                        child: TextButton(
-                                                          style: kTextButtonStyle,
-                                                          onPressed: () {
-                                                            Get.toNamed(krUploadedImageListPage);
-                                                          },
-                                                          child: Text(
-                                                            "${_createPostController.allMediaList.length - 2} ${ksMore.tr}",
-                                                            style: semiBold16TextStyle(cWhiteColor),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                  ],
-                                                ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-
-                                if (_createPostController.category.value == "Selling" || _createPostController.category.value == "News")
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      if (_createPostController.allMediaList.isNotEmpty) kH20sizedBox,
-                                      Text(
-                                        ksRequiredFields.tr,
-                                        style: medium14TextStyle(cBlackColor),
-                                      ),
-                                      kH8sizedBox,
-                                      CustomModifiedTextField(
-                                        controller: TextEditingController(),
-                                        hint: ksTitle.tr,
-                                        onChanged: (text) {},
-                                        onSubmit: (text) {},
-                                        inputAction: TextInputAction.next,
-                                        inputType: TextInputType.number,
-                                        maxLength: 100,
-                                      ),
-                                      if (_createPostController.category.value == "Selling") kH8sizedBox,
-                                      if (_createPostController.category.value == "Selling")
-                                        CustomModifiedTextField(
-                                          controller: TextEditingController(),
-                                          hint: ksPrice.tr,
-                                          onChanged: (text) {},
-                                          onSubmit: (text) {},
-                                          inputAction: TextInputAction.next,
-                                          inputType: TextInputType.number,
-                                          maxLength: 10,
-                                        ),
-                                      kH8sizedBox,
-                                      CustomModifiedTextField(
-                                        controller: TextEditingController(),
-                                        hint: ksDescription.tr,
-                                        onChanged: (text) {},
-                                        onSubmit: (text) {},
-                                        inputAction: TextInputAction.next,
-                                        inputType: TextInputType.number,
-                                        maxLength: 512,
-                                        maxLines: 7,
-                                      ),
-                                    ],
-                                  ),
-
+                                if (createPostController.allMediaList.isNotEmpty)
+                                  CreatePostMediaSection(),
+                                if (createPostController.category.value == "Selling" || createPostController.category.value == "News")
+                                  SellingNewsTextfield(),
                                 kH50sizedBox,
                               ],
                             ),
@@ -532,43 +114,18 @@ class CreatePost extends StatelessWidget {
                     ),
                     Positioned(
                       bottom: 0,
-                      child: Container(
-                        color: cWhiteColor,
-                        width: width,
-                        height: 44,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            for (int i = 0; i < 4; i++)
-                              TextButton(
-                                onPressed: () {
-                                  _createPostController.getBottomRowOnPressed(i + 1, context);
-                                },
-                                style: kTextButtonStyle,
-                                child: SizedBox(
-                                  width: width * .25,
-                                  height: 40,
-                                  child: Icon(
-                                    _createPostController.getBottomRowIcon(i + 1),
-                                    color: _createPostController.getBottomIconColor(i + 1),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
+                      child: CreatePostBottomSection(),
                     )
                   ],
                 ),
               ),
             ),
           ),
-          if (_createPostController.isCreatePostLoading.value == true)
+          if (createPostController.isCreatePostLoading.value == true)
             Positioned(
               child: CommonLoadingAnimation(
                 onWillPop: () async {
-                  if (_createPostController.isCreatePostLoading.value) {
+                  if (createPostController.isCreatePostLoading.value) {
                     return false;
                   }
                   return true;

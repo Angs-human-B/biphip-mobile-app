@@ -5,10 +5,10 @@ import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 
 class EditPage extends StatelessWidget {
   EditPage({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
-  final FocusNode _commonSecondaryFocusNode = FocusNode();
-  final FocusNode _commonFocusNode = FocusNode();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
+  final FocusNode commonSecondaryFocusNode = FocusNode();
+  final FocusNode commonFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +23,19 @@ class EditPage extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: '${_profileController.commonEditPageTitle}'.tr,
+              title: '${profileController.commonEditPageTitle}'.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
                 Get.back();
               },
               action: [
-                if (_profileController.functionFlag.contains('EDIT'))
+                if (profileController.functionFlag.contains('EDIT'))
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: CustomTextButton(
                         onPressed: () {
-                          _profileController.selectFunction("${_profileController.functionFlag.value} DELETE", _profileController.deleteIndex.value);
+                          editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
                           Get.back();
                         },
                         text: ksDelete,
@@ -55,7 +55,7 @@ class EditPage extends StatelessWidget {
                     child: Column(
                       children: [
                         kH16sizedBox,
-                        if (_profileController.isDropdownShown.value)
+                        if (profileController.isDropdownShown.value)
                           Padding(
                             padding: const EdgeInsets.only(bottom: k16Padding),
                             child: CustomSelectionButton(
@@ -64,25 +64,25 @@ class EditPage extends StatelessWidget {
                               borderColor: cLineColor,
                               contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding),
                               onPressed: () async {
-                                _editProfileHelper.commonSelectionButtonOnPressed(context);
+                                editProfileHelper.commonSelectionButtonOnPressed(context);
                               },
-                              text: (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
-                                  ? _profileController.linkSource.value
-                                  : _profileController.educationBackground.value,
+                              text: (profileController.commonEditPageTitle.value == ksAddLink || profileController.commonEditPageTitle.value == ksEditLink)
+                                  ? profileController.linkSource.value
+                                  : profileController.educationBackground.value,
                               hintText:
-                                  (_profileController.commonEditPageTitle.value == ksAddLink || _profileController.commonEditPageTitle.value == ksEditLink)
+                                  (profileController.commonEditPageTitle.value == ksAddLink || profileController.commonEditPageTitle.value == ksEditLink)
                                       ? ksSelectLinkSource.tr
                                       : ksSelectEducationInstitute.tr,
                             ),
                           ),
                         RawAutocomplete(
-                          textEditingController: _profileController.commonEditTextEditingController,
-                          focusNode: _commonFocusNode,
+                          textEditingController: profileController.commonEditTextEditingController,
+                          focusNode: commonFocusNode,
                           optionsBuilder: (TextEditingValue textEditingValue) {
-                            return _profileController.tempListCommon.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
+                            return profileController.tempListCommon.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
                           },
                           onSelected: (option) {
-                            _profileController.commonEditTextEditingController.text = option;
+                            profileController.commonEditTextEditingController.text = option;
                           },
                           optionsViewBuilder: (context, Function(String) onSelected, options) {
                             return Align(
@@ -103,8 +103,8 @@ class EditPage extends StatelessWidget {
                                         ),
                                         onPressed: () {
                                           onSelected(option.toString());
-                                          _profileController.commonEditTextEditingController.text = option.toString();
-                                          _profileController.checkSaveButtonActive();
+                                          profileController.commonEditTextEditingController.text = option.toString();
+                                          editProfileHelper.checkSaveButtonActive();
                                           unfocus(context);
                                         },
                                       );
@@ -123,49 +123,49 @@ class EditPage extends StatelessWidget {
                             return Obx(
                               () => CustomModifiedTextField(
                                 focusNode: focusNode,
-                                errorText: _profileController.commonEditTextFieldErrorText.value,
-                                controller: _profileController.commonEditTextEditingController,
-                                maxLength: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
-                                        _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                                errorText: profileController.commonEditTextFieldErrorText.value,
+                                controller: profileController.commonEditTextEditingController,
+                                maxLength: (profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                        profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
                                     ? 15
                                     : 120,
-                                hint: _profileController.commonEditTextfieldHintText.value,
-                                prefixIcon: _profileController.commonEditPageIcon.value ?? _profileController.commonEditIconData.value,
-                                suffixIcon: _profileController.showCommonEditSuffixIcon.value ? BipHip.circleCrossNew : null,
-                                inputType: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
-                                        _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                                hint: profileController.commonEditTextfieldHintText.value,
+                                prefixIcon: profileController.commonEditPageIcon.value ?? profileController.commonEditIconData.value,
+                                suffixIcon: profileController.showCommonEditSuffixIcon.value ? BipHip.circleCrossNew : null,
+                                inputType: (profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                        profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
                                     ? TextInputType.number
                                     : TextInputType.text,
                                 borderRadius: k8BorderRadius,
-                                inputFormatters: (_profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
-                                        _profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
+                                inputFormatters: (profileController.commonEditTextfieldHintText.value == ksPhone.tr ||
+                                        profileController.commonEditTextfieldHintText.value == ksEditPhone.tr)
                                     ? [FilteringTextInputFormatter.digitsOnly]
                                     : null,
                                 onSuffixPress: () {
-                                 _editProfileHelper.commonTextfieldSuffixOnPressed();
+                                 editProfileHelper.commonTextfieldSuffixOnPressed();
                                 },
                                 onSubmit: (value) {
                                   unFocus(context);
-                                  _profileController.showCommonEditSuffixIcon.value = false;
+                                  profileController.showCommonEditSuffixIcon.value = false;
                                 },
                                 onChanged: (value) {
-                                  _editProfileHelper.commonTextfieldOnChanged();
+                                  editProfileHelper.commonTextfieldOnChanged();
                                 },
                               ),
                             );
                           },
                         ),
-                        if (_profileController.isSecondaryTextfieldShown.value)
+                        if (profileController.isSecondaryTextfieldShown.value)
                           Padding(
                             padding: const EdgeInsets.only(bottom: k8Padding),
                             child: RawAutocomplete(
-                              textEditingController: _profileController.commonEditSecondaryTextEditingController,
-                              focusNode: _commonSecondaryFocusNode,
+                              textEditingController: profileController.commonEditSecondaryTextEditingController,
+                              focusNode: commonSecondaryFocusNode,
                               optionsBuilder: (TextEditingValue textEditingValue) {
-                                return _profileController.temp.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
+                                return profileController.temp.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
                               },
                               onSelected: (option) {
-                                _profileController.designationTextEditingController.text = option;
+                                profileController.designationTextEditingController.text = option;
 
                                 ll(option);
                               },
@@ -188,8 +188,8 @@ class EditPage extends StatelessWidget {
                                             ),
                                             onPressed: () {
                                               onSelected(option.toString());
-                                              _profileController.commonEditSecondaryTextEditingController.text = option.toString();
-                                              _profileController.checkSaveButtonActive();
+                                              profileController.commonEditSecondaryTextEditingController.text = option.toString();
+                                              editProfileHelper.checkSaveButtonActive();
                                               unfocus(context);
                                             },
                                           );
@@ -211,58 +211,58 @@ class EditPage extends StatelessWidget {
                                     focusNode: focusNode,
                                     hint: ksDesignation.tr,
                                     prefixIcon: BipHip.work,
-                                    suffixIcon: _profileController.showCommonSecondaryEditSuffixIcon.value ? BipHip.circleCrossNew : null,
+                                    suffixIcon: profileController.showCommonSecondaryEditSuffixIcon.value ? BipHip.circleCrossNew : null,
                                     borderRadius: k8BorderRadius,
                                     onSuffixPress: () {
-                                      _editProfileHelper.commonSecondaryTextfieldSuffixOnPressed();
+                                      editProfileHelper.commonSecondaryTextfieldSuffixOnPressed();
                                     },
                                     onSubmit: (value) {
                                       unFocus(context);
-                                      _profileController.showCommonSecondaryEditSuffixIcon.value = false;
+                                      profileController.showCommonSecondaryEditSuffixIcon.value = false;
                                     },
                                     onChanged: (value) {
-                                      _editProfileHelper.commonSecondaryTextfieldOnChanged();
+                                      editProfileHelper.commonSecondaryTextfieldOnChanged();
                                     },
                                   ),
                                 );
                               },
                             ),
                           ),
-                        if (_profileController.isCommonEditDatePickerShown.value)
+                        if (profileController.isCommonEditDatePickerShown.value)
                           Padding(
                             padding: const EdgeInsets.only(bottom: k16Padding),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SizedBox(
-                                  width: _profileController.isSingleDatePicker.value ? width - 40 : (width / 2) - 30,
+                                  width: profileController.isSingleDatePicker.value ? width - 40 : (width / 2) - 30,
                                   child: CustomSelectionButton(
                                     prefixIcon: BipHip.calendarFill,
                                     prefixIconSize: screenWiseSize(kIconSize20, 4),
                                     onPressed: () {
-                                      _editProfileHelper.startDateButtonOnPressed(context);
+                                      editProfileHelper.startDateButtonOnPressed(context);
                                     },
-                                    text: _profileController.commonStartDate.value,
-                                    hintText: _profileController.isSingleDatePicker.value ? ksDate.tr : ksStartDate.tr,
+                                    text: profileController.commonStartDate.value,
+                                    hintText: profileController.isSingleDatePicker.value ? ksDate.tr : ksStartDate.tr,
                                   ),
                                 ),
-                                if (!_profileController.isSingleDatePicker.value)
+                                if (!profileController.isSingleDatePicker.value)
                                   SizedBox(
                                     width: (width / 2) - 30,
                                     child: CustomSelectionButton(
                                       prefixIcon: BipHip.calendarFill,
                                       prefixIconSize: screenWiseSize(kIconSize20, 4),
                                       onPressed: () {
-                                       _editProfileHelper.endDateButtonOnPressed(context);
+                                       editProfileHelper.endDateButtonOnPressed(context);
                                       },
-                                      text: _profileController.commonEndDate.value,
+                                      text: profileController.commonEndDate.value,
                                       hintText: ksEndDate.tr,
                                     ),
                                   ),
                               ],
                             ),
                           ),
-                        if (_profileController.isCommonEditPrivacyShown.value || _profileController.isCommonEditCheckBoxShown.value)
+                        if (profileController.isCommonEditPrivacyShown.value || profileController.isCommonEditCheckBoxShown.value)
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -283,14 +283,14 @@ class EditPage extends StatelessWidget {
                               //       ),
                               //     ),
                               //   ),
-                              if (_profileController.isCommonEditCheckBoxShown.value)
+                              if (profileController.isCommonEditCheckBoxShown.value)
                                 SizedBox(
-                                  width: _profileController.commonEditCheckBoxText.value == 'Currently living here' ? width / 2 : width / 2,
+                                  width: profileController.commonEditCheckBoxText.value == 'Currently living here' ? width / 2 : width / 2,
                                   child: CustomCheckBox(
-                                      value: _profileController.isCommonEditCheckBoxSelected.value,
-                                      label: _profileController.commonEditCheckBoxText.value,
+                                      value: profileController.isCommonEditCheckBoxSelected.value,
+                                      label: profileController.commonEditCheckBoxText.value,
                                       onChanged: (v) {
-                                        _editProfileHelper.commonCheckBoxOnChanged();
+                                        editProfileHelper.commonCheckBoxOnChanged();
                                       },
                                       textStyle: regular14TextStyle(cBlackColor)),
                                 )
@@ -309,10 +309,10 @@ class EditPage extends StatelessWidget {
                         textStyle: semiBold14TextStyle(cWhiteColor),
                         buttonHeight: h32,
                         buttonWidth: width - 40,
-                        onPressed: _profileController.enableSaveButton.value
+                        onPressed: profileController.enableSaveButton.value
                             ? () {
-                                ll(_profileController.functionFlag.value);
-                                _profileController.selectFunction(_profileController.functionFlag.value);
+                                ll(profileController.functionFlag.value);
+                                editProfileHelper.selectFunction(profileController.functionFlag.value);
                                 Get.back();
                                 //_profileController.clearCommonEditPageData();
                               }

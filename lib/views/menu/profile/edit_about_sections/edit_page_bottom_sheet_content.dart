@@ -10,7 +10,7 @@ class EducationBackgroundContent extends StatelessWidget {
   }) : super(key: key);
 
   final ProfileController profileController;
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -32,16 +32,14 @@ class EducationBackgroundContent extends StatelessWidget {
                                 : cLineColor,
                             trailing: CustomRadioButton(
                               onChanged: () {
-                                profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
+                                // profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
+                                editProfileHelper.onSelectEducationBottomSheet(index);
                               },
                               isSelected: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index],
                             ),
                             itemColor: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index]
                                 ? cPrimaryTint3Color
                                 : cWhiteColor,
-                            onPressed: () {
-                              _editProfileHelper.onSelectEducationBottomSheet(index);
-                            },
                           )),
                     );
                   },
@@ -63,7 +61,7 @@ class LinkListContent extends StatelessWidget {
   }) : super(key: key);
 
   final ProfileController profileController;
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +83,12 @@ class LinkListContent extends StatelessWidget {
                           borderColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryColor : cLineColor,
                           trailing: CustomRadioButton(
                             onChanged: () {
-                              profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                              // profileController.tempLinkSource.value = profileController.linkSourceList[index];
+                              editProfileHelper.onSelectLinkBottomSheet(index);
                             },
                             isSelected: profileController.tempLinkSource.value == profileController.linkSourceList[index],
                           ),
                           itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
-                          onPressed: () {
-                            _editProfileHelper.onSelectLinkBottomSheet(index);
-                          },
                         ),
                       ),
                     );

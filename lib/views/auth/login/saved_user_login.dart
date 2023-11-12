@@ -6,7 +6,7 @@ import 'package:bip_hip/widgets/auth/logo_and_text_widget.dart';
 class SavedUserLogin extends StatelessWidget {
   SavedUserLogin({Key? key}) : super(key: key);
 
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +43,10 @@ class SavedUserLogin extends StatelessWidget {
                             width: width,
                             child: ListView.separated(
                                 separatorBuilder: (context, index) => kH8sizedBox,
-                                itemCount: _authenticationController.users.length,
+                                itemCount: authenticationController.users.length,
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
-                                  var item = _authenticationController.users;
+                                  var item = authenticationController.users;
                                   return CustomUserListContainer(
                                     item: item[index],
                                   );
@@ -91,15 +91,11 @@ class SavedUserLogin extends StatelessWidget {
 }
 
 class CustomUserListContainer extends StatelessWidget {
-  CustomUserListContainer({
-    Key? key,
-    required item,
-  })  : _item = item,
-        super(key: key);
+  CustomUserListContainer({Key? key, required this.item}) : super(key: key);
 
-  final Map<String, dynamic> _item;
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final LoginHelper _loginHelper = LoginHelper();
+  final Map<String, dynamic> item;
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+  final LoginHelper loginHelper = LoginHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +103,7 @@ class CustomUserListContainer extends StatelessWidget {
       itemColor: cWhiteColor,
       borderColor: cLineColor2,
       onPressed: () async {
-        _loginHelper.getSaveUserDetails(_item);
+        loginHelper.getSaveUserDetails(item);
       },
       leading: Container(
         height: h40,
@@ -118,7 +114,7 @@ class CustomUserListContainer extends StatelessWidget {
         ),
         child: ClipOval(
           child: Image.network(
-            Environment.imageBaseUrl + _item['image_url'].toString(),
+            Environment.imageBaseUrl + item['image_url'].toString(),
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) {
               return Image.asset(kiProfileDefaultImageUrl);
@@ -127,7 +123,7 @@ class CustomUserListContainer extends StatelessWidget {
         ),
       ),
       title: Text(
-        '${_item['name'] ?? ''}',
+        '${item['name'] ?? ''}',
         style: medium16TextStyle(cBlackColor),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
@@ -136,11 +132,11 @@ class CustomUserListContainer extends StatelessWidget {
         child: TextButton(
           style: kTextButtonStyle,
           onPressed: () async {
-            _authenticationController.users.remove(_item);
-            await SpController().removeUser(_item);
-            if (_authenticationController.users.isEmpty) {
+            authenticationController.users.remove(item);
+            await SpController().removeUser(item);
+            if (authenticationController.users.isEmpty) {
               await SpController().onLogout();
-              _authenticationController.resetLoginScreen();
+              authenticationController.resetLoginScreen();
               Get.offAllNamed(krLogin);
             }
           },

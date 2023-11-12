@@ -5,8 +5,8 @@ import 'package:bip_hip/views/menu/profile/edit_about.dart';
 
 class InterestSection extends StatelessWidget {
   InterestSection({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +19,9 @@ class InterestSection extends StatelessWidget {
           InfoContainer2(
             suffixText: ksInterest.tr,
             suffixTextStyle: semiBold18TextStyle(cBlackColor),
-            isAddButton: _profileController.userData.value!.interest.isEmpty ? true : false,
+            isAddButton: profileController.userData.value!.interest.isEmpty ? true : false,
             suffixOnPressed: () async {
-              _editProfileHelper.setInterest();
+              editProfileHelper.setInterest();
             },
           ),
           kH8sizedBox,
@@ -30,7 +30,7 @@ class InterestSection extends StatelessWidget {
             direction: Axis.horizontal,
             spacing: 8.0,
             children: [
-              for (int i = 0; i < _profileController.userData.value!.interest.length; i++)
+              for (int i = 0; i < profileController.userData.value!.interest.length; i++)
                 Padding(
                   padding: const EdgeInsets.only(bottom: k8Padding),
                   child: Container(
@@ -43,7 +43,7 @@ class InterestSection extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(k8Padding),
                       child: Text(
-                        _profileController.userData.value!.interest[i],
+                        profileController.userData.value!.interest[i],
                         style: regular14TextStyle(cBlackColor),
                       ),
                     ),

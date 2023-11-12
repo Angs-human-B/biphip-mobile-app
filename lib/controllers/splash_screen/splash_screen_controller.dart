@@ -5,7 +5,7 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class SplashScreenController extends GetxController {
-  final SpController _spController = SpController();
+  final SpController spController = SpController();
 
   @override
   void onInit() async {
@@ -16,7 +16,7 @@ class SplashScreenController extends GetxController {
 
   bool rememberStatus = false;
   Future<void> getRemember() async {
-    bool? state = await _spController.getRememberMe();
+    bool? state = await spController.getRememberMe();
     if (state == null || state == false) {
       rememberStatus = false;
     } else {

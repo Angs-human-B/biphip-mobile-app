@@ -7,16 +7,16 @@ import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 class SelectProfessionScreen extends StatelessWidget {
   SelectProfessionScreen({super.key});
 
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
-  final RegistrationHelper _registrationHelper = RegistrationHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final GlobalController globalController = Get.find<GlobalController>();
+  final RegistrationHelper registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: _profileController.isRouteFromAboutInfo.value ? cWhiteColor : null,
-      decoration: !_profileController.isRouteFromAboutInfo.value
+      color: profileController.isRouteFromAboutInfo.value ? cWhiteColor : null,
+      decoration: !profileController.isRouteFromAboutInfo.value
           ? const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover))
           : null,
       child: SafeArea(
@@ -27,22 +27,22 @@ class SelectProfessionScreen extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              isCenterTitle: _profileController.isRouteFromAboutInfo.value,
-              appBarColor: _profileController.isRouteFromAboutInfo.value ? cWhiteColor : cTransparentColor,
-              hasBackButton: _profileController.isRouteFromAboutInfo.value,
-              title: _profileController.isRouteFromAboutInfo.value ? ksEditProfession.tr : '',
+              isCenterTitle: profileController.isRouteFromAboutInfo.value,
+              appBarColor: profileController.isRouteFromAboutInfo.value ? cWhiteColor : cTransparentColor,
+              hasBackButton: profileController.isRouteFromAboutInfo.value,
+              title: profileController.isRouteFromAboutInfo.value ? ksEditProfession.tr : '',
               onBack: () {
                 Get.back();
               },
               action: [
-                if (!_profileController.isRouteFromAboutInfo.value)
+                if (!profileController.isRouteFromAboutInfo.value)
                   Padding(
                     padding: const EdgeInsets.only(right: 16.0),
                     child: CustomTextButton(
                         onPressed: () async {
-                          _globalController.interestIndex.clear();
+                          globalController.interestIndex.clear();
                           Get.toNamed(krSelectInterest);
-                          _profileController.getInterestList();
+                          profileController.getInterestList();
                         },
                         text: ksSkip.tr,
                         textStyle: regular14TextStyle(cPrimaryColor)),
@@ -50,9 +50,9 @@ class SelectProfessionScreen extends StatelessWidget {
               ],
             ),
           ),
-          backgroundColor: _profileController.isRouteFromAboutInfo.value ? cWhiteColor : cTransparentColor,
+          backgroundColor: profileController.isRouteFromAboutInfo.value ? cWhiteColor : cTransparentColor,
           body: Obx(
-            () => _profileController.isProfessionListLoading.value
+            () => profileController.isProfessionListLoading.value
                 ? CommonLoadingAnimation(
                     backgroundColor: cWhiteColor,
                     onWillPop: () async {
@@ -67,11 +67,11 @@ class SelectProfessionScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                         child: Column(
                           children: [
-                            if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
-                            if (!_profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                            if (!profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                            if (!profileController.isRouteFromAboutInfo.value) kH24sizedBox,
                             TopTitleAndSubtitle(
-                              title: !_profileController.isRouteFromAboutInfo.value ? ksChooseProfession.tr : '',
-                              subTitle: _profileController.isRouteFromAboutInfo.value ? ksEditInterestSubtitle : ksChooseProfessionSubtitle.tr,
+                              title: !profileController.isRouteFromAboutInfo.value ? ksChooseProfession.tr : '',
+                              subTitle: profileController.isRouteFromAboutInfo.value ? ksEditInterestSubtitle : ksChooseProfessionSubtitle.tr,
                             ),
                             kH16sizedBox,
                             Wrap(
@@ -79,22 +79,22 @@ class SelectProfessionScreen extends StatelessWidget {
                               direction: Axis.horizontal,
                               spacing: 8.0,
                               children: [
-                                for (int i = 0; i < _globalController.professionList.length; i++)
+                                for (int i = 0; i < globalController.professionList.length; i++)
                                   CustomChoiceChips(
-                                    label: _globalController.professionList[i],
-                                    isSelected: (_globalController.professionIndex.value == i),
+                                    label: globalController.professionList[i],
+                                    isSelected: (globalController.professionIndex.value == i),
                                     onSelected: (value) {
-                                      _globalController.professionIndex.value = i;
+                                      globalController.professionIndex.value = i;
                                     },
                                   )
                               ],
                             ),
                             kH16sizedBox,
                             CustomElevatedButton(
-                              label: _profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
-                              onPressed: _globalController.professionIndex.value != -1
+                              label: profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
+                              onPressed: globalController.professionIndex.value != -1
                                   ? () async {
-                                      _registrationHelper.onPressedSaveProfession();
+                                      registrationHelper.onPressedSaveProfession();
                                     }
                                   : null,
                               buttonWidth: width - 40,

@@ -3,7 +3,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class FriendFamilyTab extends StatelessWidget {
   FriendFamilyTab({super.key});
-  final MenuSectionController _menuController = Get.find<MenuSectionController>();
+  final MenuSectionController menuController = Get.find<MenuSectionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +14,8 @@ class FriendFamilyTab extends StatelessWidget {
           color: cWhiteColor,
           child: FriendsFamilyGridView(
             header: ksFriends.tr,
-            count: _menuController.friendList.length.toString(),
-            friendList: _menuController.friendList,
+            count: menuController.friendList.length.toString(),
+            friendList: menuController.friendList,
           ),
         ),
         kH12sizedBox,
@@ -23,8 +23,8 @@ class FriendFamilyTab extends StatelessWidget {
           color: cWhiteColor,
           child: FriendsFamilyGridView(
             header: ksFamily.tr,
-            count: _menuController.familyList.length.toString(),
-            friendList: _menuController.familyList,
+            count: menuController.familyList.length.toString(),
+            friendList: menuController.familyList,
           ),
         ),
       ],
@@ -89,13 +89,9 @@ class FriendsFamilyGridView extends StatelessWidget {
 }
 
 class CustomGridViewContainer extends StatelessWidget {
-  const CustomGridViewContainer({
-    Key? key,
-    required item,
-  })  : _item = item,
-        super(key: key);
+  const CustomGridViewContainer({Key? key, required this.item}) : super(key: key);
 
-  final Map _item;
+  final Map item;
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +103,7 @@ class CustomGridViewContainer extends StatelessWidget {
           ClipRRect(
             borderRadius: k8CircularBorderRadius,
             child: Image.asset(
-              _item['image'],
+              item['image'],
               height: 100,
               width: ((width - 72) / 3),
               filterQuality: FilterQuality.high,
@@ -116,7 +112,7 @@ class CustomGridViewContainer extends StatelessWidget {
           ),
           kH4sizedBox,
           Text(
-            _item['name'],
+            item['name'],
             style: semiBold14TextStyle(cBlackColor),
             overflow: TextOverflow.clip,
             maxLines: 2,

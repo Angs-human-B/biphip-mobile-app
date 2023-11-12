@@ -14,7 +14,7 @@ class CustomCheckBox extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  Widget _buildCheckBox() {
+  Widget buildCheckBox() {
     return Container(
       width: isDeviceScreenLarge() ? h18 : h14,
       height: isDeviceScreenLarge() ? h18 : h14,
@@ -33,7 +33,7 @@ class CustomCheckBox extends StatelessWidget {
     );
   }
 
-  Widget _buildLabel() {
+  Widget buildLabel() {
     return Expanded(
       child: Text(
         label.toString(),
@@ -54,9 +54,9 @@ class CustomCheckBox extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildCheckBox(),
+              buildCheckBox(),
               const SizedBox(width: 10),
-              _buildLabel(),
+              buildLabel(),
               kEmptySizedBox,
             ],
           ),

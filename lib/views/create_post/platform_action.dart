@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/helpers/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/create_post/create_post_widget/common_category_button.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
@@ -7,7 +8,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 class PlatformAndAction extends StatelessWidget {
   PlatformAndAction({super.key});
 
-  final CreatePostController _createPostController = Get.find<CreatePostController>();
+  final CreatePostController createPostController = Get.find<CreatePostController>();
+  final CreatePostHelper createPostHelper = CreatePostHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +34,10 @@ class PlatformAndAction extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: h20, top: 15, bottom: 15),
                   child:
-                      // _createPostController.isPostCategoryListLoading.value
-                      //     ? ShimmerCommon(
-                      //         widget: Container(
-                      //           decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                      //           width: 30,
-                      //         ),
-                      //       )
-                      //     :
                       TextButton(
                     style: kTextButtonStyle,
                     onPressed: () {
-                      _createPostController.selectCategoryTextChange(context);
+                      createPostHelper.selectCategoryTextChange(context);
                     },
                     child: Text(
                       ksNext.tr,
@@ -55,10 +49,6 @@ class PlatformAndAction extends StatelessWidget {
             ),
           ),
           body:
-              // Obx(
-              //   () => _createPostController.isPostCategoryListLoading.value
-              //       ? const SelectCategoryShimmer()
-              //       :
               SizedBox(
             height: height,
             width: width,
@@ -78,27 +68,27 @@ class PlatformAndAction extends StatelessWidget {
                     kH8sizedBox,
                     Wrap(
                       children: [
-                        for (int i = 0; i < _createPostController.platformList.length; i++)
+                        for (int i = 0; i < createPostController.platformList.length; i++)
                           Obx(
                             () => CategoryComponent(
                               onPress: () {
-                                _createPostController.selectPlatformStatusChange(i);
+                                createPostHelper.selectPlatformStatusChange(i);
                               },
                               suffixWidget: Transform.scale(
                                 scale: .7,
                                 child: CustomRadioButton(
                                   onChanged: () {
-                                    _createPostController.selectPlatformStatusChange(i);
+                                    createPostHelper.selectPlatformStatusChange(i);
                                   },
-                                  isSelected: _createPostController.platformStatusList[i],
+                                  isSelected: createPostController.platformStatusList[i],
                                 ),
                               ),
                               prefixWidget: SvgPicture.asset(
-                                _createPostController.platformList[i]['image'],
+                                createPostController.platformList[i]['image'],
                                 height: isDeviceScreenLarge() ? h20 : h16,
                                 width: isDeviceScreenLarge() ? h20 : h16,
                               ),
-                              title: _createPostController.platformList[i]['name'],
+                              title: createPostController.platformList[i]['name'],
                               titleStyle: medium14TextStyle(cBlackColor),
                             ),
                           ),
@@ -116,22 +106,22 @@ class PlatformAndAction extends StatelessWidget {
                     kH8sizedBox,
                     Wrap(
                       children: [
-                        for (int i = 0; i < _createPostController.actionList.length; i++)
+                        for (int i = 0; i < createPostController.actionList.length; i++)
                           Obx(
                             () => CategoryComponent(
                               onPress: () {
-                                _createPostController.selectActionStatusChange(i);
+                                createPostHelper.selectActionStatusChange(i);
                               },
                               suffixWidget: Transform.scale(
                                 scale: .7,
                                 child: CustomRadioButton(
                                   onChanged: () {
-                                    _createPostController.selectActionStatusChange(i);
+                                    createPostHelper.selectActionStatusChange(i);
                                   },
-                                  isSelected: _createPostController.actionStatusList[i],
+                                  isSelected: createPostController.actionStatusList[i],
                                 ),
                               ),
-                              title: _createPostController.actionList[i]['title'],
+                              title: createPostController.actionList[i]['title'],
                               titleStyle: medium14TextStyle(cBlackColor),
                             ),
                           ),

@@ -5,8 +5,8 @@ import 'package:bip_hip/views/menu/profile/edit_about.dart';
 
 class ContactSection extends StatelessWidget {
   ContactSection({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final EditProfileHelper _editProfileHelper = EditProfileHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -29,20 +29,20 @@ class ContactSection extends StatelessWidget {
                 suffixText: ksPhone.tr,
                 isAddButton: true,
                 suffixOnPressed: () {
-                  _editProfileHelper.addPhone();
+                  editProfileHelper.addPhone();
                 },
               ),
             ),
-            for (int i = 0; i < _profileController.contactDataList.length; i++)
-              if (_profileController.contactDataList[i].type == 'phone')
+            for (int i = 0; i < profileController.contactDataList.length; i++)
+              if (profileController.contactDataList[i].type == 'phone')
                 Padding(
                   padding: const EdgeInsets.only(bottom: k12Padding),
                   child: InfoContainer2(
                     suffixText: '',
-                    prefixText: checkNullOrStringNull(_profileController.contactDataList[i].value),
+                    prefixText: checkNullOrStringNull(profileController.contactDataList[i].value),
                     isAddButton: false,
                     suffixOnPressed: () {
-                      _editProfileHelper.editPhone(i);
+                      editProfileHelper.editPhone(i);
                     },
                   ),
                 ),
@@ -52,20 +52,20 @@ class ContactSection extends StatelessWidget {
                 suffixText: ksEmail.tr,
                 isAddButton: true,
                 suffixOnPressed: () {
-                  _editProfileHelper.addEmail();
+                  editProfileHelper.addEmail();
                 },
               ),
             ),
-            for (int i = 0; i < _profileController.contactDataList.length; i++)
-              if (_profileController.contactDataList[i].type == 'email')
+            for (int i = 0; i < profileController.contactDataList.length; i++)
+              if (profileController.contactDataList[i].type == 'email')
                 Padding(
                   padding: const EdgeInsets.only(bottom: k12Padding),
                   child: InfoContainer2(
                     suffixText: '',
-                    prefixText: checkNullOrStringNull(_profileController.contactDataList[i].value),
+                    prefixText: checkNullOrStringNull(profileController.contactDataList[i].value),
                     isAddButton: false,
                     suffixOnPressed: () {
-                      _editProfileHelper.editEmail(i);
+                      editProfileHelper.editEmail(i);
                     },
                   ),
                 ),

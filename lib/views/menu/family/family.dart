@@ -1,4 +1,3 @@
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/helpers/family_helpers/family_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -6,9 +5,9 @@ import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 
 class Family extends StatelessWidget {
   Family({super.key});
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final FamilyController _familyController = Get.find<FamilyController>();
-  final FamilyHelper _familyHelper = FamilyHelper();
+  final GlobalController globalController = Get.find<GlobalController>();
+  final FamilyController familyController = Get.find<FamilyController>();
+  final FamilyHelper familyHelper = FamilyHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,7 @@ class Family extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () {
                             unfocus(context);
-                            _familyHelper.familyAddButtonOnPressed();
+                            familyHelper.familyAddButtonOnPressed();
                           },
                           child: Text(
                             ksAdd.tr,
@@ -57,20 +56,20 @@ class Family extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                         child: TapAbleButtonContainer(
-                          buttonText: _profileController.tapAbleButtonText,
-                          buttonState: _profileController.tapAbleButtonState,
+                          buttonText: globalController.tapAbleButtonText,
+                          buttonState: globalController.tapAbleButtonState,
                           buttonPress: RxList([
                             () {
                               unfocus(context);
-                              _familyHelper.allFamilyTapableButtOnPressed();
+                              familyHelper.allFamilyTapableButtOnPressed();
                             },
                             () {
                               unfocus(context);
-                              _familyHelper.receivedFamilyTapableButtOnPressed();
+                              familyHelper.receivedFamilyTapableButtOnPressed();
                             },
                             () {
                               unfocus(context);
-                              _familyHelper.pendingFamilyTapableButtOnPressed();
+                              familyHelper.pendingFamilyTapableButtOnPressed();
                             },
                           ]),
                         ),
@@ -78,32 +77,32 @@ class Family extends StatelessWidget {
                       kH12sizedBox,
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                        child: Obx(() => _profileController.tapAbleButtonState[0]
+                        child: Obx(() => globalController.tapAbleButtonState[0]
                             ? CustomModifiedTextField(
                                 borderRadius: h8,
-                                controller: Get.find<ProfileController>().searchController,
+                                controller: globalController.searchController,
                                 prefixIcon: BipHip.search,
-                                suffixIcon: _familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                                suffixIcon: familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
                                 hint: ksSearch.tr,
                                 contentPadding: const EdgeInsets.symmetric(
                                   vertical: k12Padding,
                                 ),
                                 textInputStyle: regular16TextStyle(cBlackColor),
                                 onSuffixPress: () {
-                                  _familyHelper.familySearchFieldReset();
+                                  familyHelper.familySearchFieldReset();
                                 },
                                 onSubmit: (v) {
                                   unfocus(context);
-                                  _familyController.isFamilySuffixIconVisible.value = false;
+                                  familyController.isFamilySuffixIconVisible.value = false;
                                 },
                                 onChanged: (v) {
-                                  _familyHelper.familyOnChanged();
+                                  familyHelper.familyOnChanged();
                                 })
                             : const SizedBox()),
                       ),
-                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH4sizedBox,
-                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1])
-                        (_familyController.isFamilyListLoading.value || _familyController.isReceivedFamilyListLoading.value)
+                      if (globalController.tapAbleButtonState[0] || globalController.tapAbleButtonState[1]) kH4sizedBox,
+                      if (globalController.tapAbleButtonState[0] || globalController.tapAbleButtonState[1])
+                        (familyController.isFamilyListLoading.value || familyController.isReceivedFamilyListLoading.value)
                             ? Padding(
                                 padding: const EdgeInsets.only(left: kHorizontalPadding),
                                 child: ShimmerCommon(
@@ -114,24 +113,24 @@ class Family extends StatelessWidget {
                                   ),
                                 ),
                               )
-                            : Padding(padding: const EdgeInsets.symmetric(horizontal: k20Padding), child: _familyHelper.totalFamilyCountShow()),
-                      if (_profileController.tapAbleButtonState[0] || _profileController.tapAbleButtonState[1]) kH12sizedBox,
-                      if (_profileController.tapAbleButtonState[2]) kH4sizedBox,
-                      _profileController.allReceivedPendingFamilyView(),
+                            : Padding(padding: const EdgeInsets.symmetric(horizontal: k20Padding), child: familyHelper.totalFamilyCountShow()),
+                      if (globalController.tapAbleButtonState[0] || globalController.tapAbleButtonState[1]) kH12sizedBox,
+                      if (globalController.tapAbleButtonState[2]) kH4sizedBox,
+                      globalController.allReceivedPendingFamilyView(),
                     ],
                   ),
                 ),
               ),
             ),
-            if (_familyController.isCancelFamilyRequestLoading.value == true ||
-                _familyController.isAcceptFamilyRequestLoading.value == true ||
-                _familyController.isRejectFamilyRequestLoading.value == true)
+            if (familyController.isCancelFamilyRequestLoading.value == true ||
+                familyController.isAcceptFamilyRequestLoading.value == true ||
+                familyController.isRejectFamilyRequestLoading.value == true)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (_familyController.isCancelFamilyRequestLoading.value ||
-                        _familyController.isAcceptFamilyRequestLoading.value ||
-                        _familyController.isRejectFamilyRequestLoading.value) {
+                    if (familyController.isCancelFamilyRequestLoading.value ||
+                        familyController.isAcceptFamilyRequestLoading.value ||
+                        familyController.isRejectFamilyRequestLoading.value) {
                       return false;
                     }
                     return true;

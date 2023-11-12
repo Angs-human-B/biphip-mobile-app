@@ -9,8 +9,8 @@ import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 class Login extends StatelessWidget {
   Login({Key? key}) : super(key: key);
 
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final LoginHelper _loginHelper = LoginHelper();
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+  final LoginHelper loginHelper = LoginHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +54,8 @@ class Login extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: h20),
                           child: CustomModifiedTextField(
-                            errorText: _authenticationController.loginEmailErrorText.isEmpty ? null : _authenticationController.loginEmailErrorText.value,
-                            controller: _authenticationController.loginEmailTextEditingController,
+                            errorText: authenticationController.loginEmailErrorText.isEmpty ? null : authenticationController.loginEmailErrorText.value,
+                            controller: authenticationController.loginEmailTextEditingController,
                             hint: ksEmailOrPhone.tr,
                             textHintStyle: regular16TextStyle(cPlaceHolderColor2),
                             fillColor: cWhiteColor,
@@ -64,7 +64,7 @@ class Login extends StatelessWidget {
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
                             onChanged: (text) {
-                              _loginHelper.loginEmailEditorOnChanged();
+                              loginHelper.loginEmailEditorOnChanged();
                             },
                             onSubmit: (text) {},
                             inputAction: TextInputAction.next,
@@ -75,8 +75,8 @@ class Login extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: h20),
                           child: CustomModifiedTextField(
-                            errorText: _authenticationController.loginPasswordErrorText.value,
-                            controller: _authenticationController.loginPasswordTextEditingController,
+                            errorText: authenticationController.loginPasswordErrorText.value,
+                            controller: authenticationController.loginPasswordTextEditingController,
                             hint: ksPassword.tr,
                             textHintStyle: regular16TextStyle(cPlaceHolderColor2),
                             fillColor: cWhiteColor,
@@ -84,15 +84,15 @@ class Login extends StatelessWidget {
                               borderRadius: BorderRadius.circular(k4BorderRadius),
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
-                            suffixIcon: _authenticationController.isLoginPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
+                            suffixIcon: authenticationController.isLoginPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
                             onSuffixPress: () {
-                              _authenticationController.isLoginPasswordToggleObscure.value = !_authenticationController.isLoginPasswordToggleObscure.value;
+                              authenticationController.isLoginPasswordToggleObscure.value = !authenticationController.isLoginPasswordToggleObscure.value;
                             },
                             onChanged: (text) {
-                              _loginHelper.loginPasswordEditorOnChanger();
+                              loginHelper.loginPasswordEditorOnChanger();
                             },
                             onSubmit: (text) {},
-                            obscureText: _authenticationController.isLoginPasswordToggleObscure.value,
+                            obscureText: authenticationController.isLoginPasswordToggleObscure.value,
                             inputAction: TextInputAction.done,
                             inputType: TextInputType.visiblePassword,
                           ),
@@ -101,12 +101,12 @@ class Login extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: h20),
                           child: CheckBoxAndContainer(
-                            isChecked: _authenticationController.isLoginRememberCheck,
+                            isChecked: authenticationController.isLoginRememberCheck,
                             onTapCheckBox: (v) {
-                              _authenticationController.isLoginRememberCheck.value = !_authenticationController.isLoginRememberCheck.value;
+                              authenticationController.isLoginRememberCheck.value = !authenticationController.isLoginRememberCheck.value;
                             },
                             onPressForgetButton: () {
-                              _authenticationController.resetForgotPasswordScreen();
+                              authenticationController.resetForgotPasswordScreen();
                               Get.toNamed(krForgotPassword);
                             },
                           ),
@@ -116,15 +116,15 @@ class Login extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: h20),
                           child: CustomElevatedButton(
                             label: ksLogin.tr,
-                            onPressed: _authenticationController.canLogin.value
+                            onPressed: authenticationController.canLogin.value
                                 ? () async {
                                     unFocus(context);
-                                    await _authenticationController.userLogin();
+                                    await authenticationController.userLogin();
                                   }
                                 : null,
                             buttonWidth: width - 40,
                             textStyle:
-                                _authenticationController.canLogin.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
+                                authenticationController.canLogin.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                           ),
                         ),
                         kH25sizedBox,
@@ -149,11 +149,11 @@ class Login extends StatelessWidget {
                 ),
               ),
             ),
-            if (_authenticationController.isLoginLoading.value == true)
+            if (authenticationController.isLoginLoading.value == true)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (_authenticationController.isLoginLoading.value) {
+                    if (authenticationController.isLoginLoading.value) {
                       return false;
                     }
                     return true;

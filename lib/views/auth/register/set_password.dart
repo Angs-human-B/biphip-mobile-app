@@ -7,9 +7,9 @@ import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 class SetPassword extends StatelessWidget {
   SetPassword({super.key});
 
-  final FocusNode _confirmPasswordFocusNode = FocusNode();
-  final AuthenticationController _authenticationController = Get.find<AuthenticationController>();
-  final RegistrationHelper _registrationHelper = RegistrationHelper();
+  final FocusNode confirmPasswordFocusNode = FocusNode();
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+  final RegistrationHelper registrationHelper = RegistrationHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +59,8 @@ class SetPassword extends StatelessWidget {
                           ),
                           kH50sizedBox,
                           CustomModifiedTextField(
-                            controller: _authenticationController.registerPasswordTextEditingController,
-                            errorText: _authenticationController.registerPasswordError.value,
+                            controller: authenticationController.registerPasswordTextEditingController,
+                            errorText: authenticationController.registerPasswordError.value,
                             hint: ksPassword.tr,
                             textHintStyle: regular16TextStyle(cPlaceHolderColor2),
                             fillColor: cWhiteColor,
@@ -68,26 +68,25 @@ class SetPassword extends StatelessWidget {
                               borderRadius: BorderRadius.circular(k4BorderRadius),
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
-                            suffixIcon: _authenticationController.isRegisterPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
+                            suffixIcon: authenticationController.isRegisterPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
                             onSuffixPress: () {
-                              _authenticationController.isRegisterPasswordToggleObscure.value =
-                                  !_authenticationController.isRegisterPasswordToggleObscure.value;
+                              authenticationController.isRegisterPasswordToggleObscure.value = !authenticationController.isRegisterPasswordToggleObscure.value;
                             },
                             onChanged: (text) {
-                              _registrationHelper.passwordOnChanged();
+                              registrationHelper.passwordOnChanged();
                             },
                             onSubmit: (text) {
-                              FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
+                              FocusScope.of(context).requestFocus(confirmPasswordFocusNode);
                             },
-                            obscureText: _authenticationController.isRegisterPasswordToggleObscure.value,
+                            obscureText: authenticationController.isRegisterPasswordToggleObscure.value,
                             inputAction: TextInputAction.next,
                             inputType: TextInputType.visiblePassword,
                           ),
                           kH4sizedBox,
                           CustomModifiedTextField(
-                            controller: _authenticationController.registerConfirmPasswordTextEditingController,
-                            focusNode: _confirmPasswordFocusNode,
-                            errorText: _authenticationController.registerConfirmPasswordError.value,
+                            controller: authenticationController.registerConfirmPasswordTextEditingController,
+                            focusNode: confirmPasswordFocusNode,
+                            errorText: authenticationController.registerConfirmPasswordError.value,
                             hint: ksConfirmPassword.tr,
                             textHintStyle: regular16TextStyle(cPlaceHolderColor2),
                             fillColor: cWhiteColor,
@@ -95,32 +94,32 @@ class SetPassword extends StatelessWidget {
                               borderRadius: BorderRadius.circular(k4BorderRadius),
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
-                            suffixIcon: _authenticationController.isRegisterConfirmPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
+                            suffixIcon: authenticationController.isRegisterConfirmPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
                             onSuffixPress: () {
-                              _authenticationController.isRegisterConfirmPasswordToggleObscure.value =
-                                  !_authenticationController.isRegisterConfirmPasswordToggleObscure.value;
+                              authenticationController.isRegisterConfirmPasswordToggleObscure.value =
+                                  !authenticationController.isRegisterConfirmPasswordToggleObscure.value;
                             },
                             onChanged: (text) {
-                              _registrationHelper.confirmPasswordOnChanged();
+                              registrationHelper.confirmPasswordOnChanged();
                             },
                             onSubmit: (text) {
                               FocusScope.of(context).unfocus();
                             },
-                            obscureText: _authenticationController.isRegisterConfirmPasswordToggleObscure.value,
+                            obscureText: authenticationController.isRegisterConfirmPasswordToggleObscure.value,
                             inputAction: TextInputAction.done,
                             inputType: TextInputType.visiblePassword,
                           ),
                           kH24sizedBox,
                           CustomElevatedButton(
                             label: ksNext.tr,
-                            onPressed: _authenticationController.checkValidPassword.value
+                            onPressed: authenticationController.checkValidPassword.value
                                 ? () async {
                                     unfocus(context);
-                                    await _authenticationController.userRegister();
+                                    await authenticationController.userRegister();
                                   }
                                 : null,
                             buttonWidth: width - 40,
-                            textStyle: _authenticationController.checkValidPassword.value
+                            textStyle: authenticationController.checkValidPassword.value
                                 ? semiBold16TextStyle(cWhiteColor)
                                 : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                           ),
@@ -131,11 +130,11 @@ class SetPassword extends StatelessWidget {
                 ),
               ),
             ),
-            if (_authenticationController.isRegisterLoading.value == true)
+            if (authenticationController.isRegisterLoading.value == true)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (_authenticationController.isRegisterLoading.value) {
+                    if (authenticationController.isRegisterLoading.value) {
                       return false;
                     }
                     return true;

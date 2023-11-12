@@ -5,8 +5,8 @@ import 'package:bip_hip/utils/constants/imports.dart';
 class PhotoPreview extends StatelessWidget {
   PhotoPreview({super.key});
 
-  final ProfileController _profileController = Get.find<ProfileController>();
-  final ProfileHelper _profileHelper = ProfileHelper();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final ProfileHelper profileHelper = ProfileHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class PhotoPreview extends StatelessWidget {
                   //* info:: appBar
                   child: CustomAppBar(
                     appBarColor: cWhiteColor,
-                    title: _profileController.isProfilePicEditor.value ? ksPreviewProfilePicture.tr : ksPreviewCoverPicture.tr,
+                    title: profileController.isProfilePicEditor.value ? ksPreviewProfilePicture.tr : ksPreviewCoverPicture.tr,
                     hasBackButton: true,
                     isCenterTitle: true,
                     onBack: () {
@@ -37,7 +37,7 @@ class PhotoPreview extends StatelessWidget {
                             style: kTextButtonStyle,
                             onPressed: () {
                               Get.back();
-                              _profileHelper.resetImage();
+                              profileHelper.resetImage();
                             },
                             child: Text(
                               ksDiscard.tr,
@@ -55,7 +55,7 @@ class PhotoPreview extends StatelessWidget {
                       () => Column(
                         children: [
                           kH10sizedBox,
-                          _profileController.isProfilePicEditor.value
+                          profileController.isProfilePicEditor.value
                               ? Container(
                                   width: width,
                                   color: cBlackColor,
@@ -63,11 +63,10 @@ class PhotoPreview extends StatelessWidget {
                                       height: width,
                                       width: width,
                                       decoration: const BoxDecoration(
-                                          // borderRadius: BorderRadius.circular(width / 2),
                                           shape: BoxShape.circle),
                                       child: ClipOval(
                                         child: Image.file(
-                                          _profileController.profileImageFile.value,
+                                          profileController.profileImageFile.value,
                                           fit: BoxFit.cover,
                                           errorBuilder: (context, error, stackTrace) => ClipOval(
                                             child: Image.asset(
@@ -87,7 +86,7 @@ class PhotoPreview extends StatelessWidget {
                                       height: 150,
                                       width: width,
                                       child: Image.file(
-                                        _profileController.coverImageFile.value,
+                                        profileController.coverImageFile.value,
                                         fit: BoxFit.cover,
                                         errorBuilder: (context, error, stackTrace) => const Icon(
                                           BipHip.imageFile,
@@ -109,9 +108,9 @@ class PhotoPreview extends StatelessWidget {
                                   style: regular18TextStyle(cBlackColor),
                                 ),
                                 Checkbox(
-                                  value: _profileController.isSharedToNewFeed.value,
+                                  value: profileController.isSharedToNewFeed.value,
                                   onChanged: (value) {
-                                    _profileController.isSharedToNewFeed.value = !_profileController.isSharedToNewFeed.value;
+                                    profileController.isSharedToNewFeed.value = !profileController.isSharedToNewFeed.value;
                                   },
                                 )
                               ],
@@ -124,12 +123,12 @@ class PhotoPreview extends StatelessWidget {
                             buttonHeight: h32,
                             label: ksSave.tr,
                             onPressed: () async {
-                              if (_profileController.isProfilePicEditor.value) {
-                                _profileController.newProfileImageFile.value = _profileController.profileImageFile.value;
-                                await _profileController.uploadProfileAndCover(_profileController.newProfileImageFile.value, 'profile');
+                              if (profileController.isProfilePicEditor.value) {
+                                profileController.newProfileImageFile.value = profileController.profileImageFile.value;
+                                await profileController.uploadProfileAndCover(profileController.newProfileImageFile.value, 'profile');
                               } else {
-                                _profileController.newCoverImageFile.value = _profileController.coverImageFile.value;
-                                await _profileController.uploadProfileAndCover(_profileController.newCoverImageFile.value, 'cover');
+                                profileController.newCoverImageFile.value = profileController.coverImageFile.value;
+                                await profileController.uploadProfileAndCover(profileController.newCoverImageFile.value, 'cover');
                               }
                             },
                           ),
@@ -141,11 +140,11 @@ class PhotoPreview extends StatelessWidget {
                 ),
               ),
             ),
-            if (_profileController.isImageUploadPageLoading.value == true)
+            if (profileController.isImageUploadPageLoading.value == true)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (_profileController.isImageUploadPageLoading.value) {
+                    if (profileController.isImageUploadPageLoading.value) {
                       return false;
                     }
                     return true;
