@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/helpers/menu/friend/friend_helper.dart';
-import 'package:bip_hip/shimmer/menu/friends/add_friend_shimmer.dart';
+import 'package:bip_hip/shimmers/menu/friends/add_friend_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/menu/common/friend_family_single_button_action.dart';
 import 'package:flutter/rendering.dart';

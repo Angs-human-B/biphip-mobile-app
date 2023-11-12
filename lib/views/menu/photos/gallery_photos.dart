@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
-import 'package:bip_hip/shimmer/menu/gallery/gallery_photo_shimmer.dart';
+import 'package:bip_hip/shimmers/menu/gallery/gallery_photo_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/photos/widgets/gallery_photo_container.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
