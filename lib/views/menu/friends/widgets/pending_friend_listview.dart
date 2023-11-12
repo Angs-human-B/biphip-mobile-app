@@ -1,7 +1,7 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/shimmer/menu/friends/all_pending_friend_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/friends/friend_widgets/pending_friend_action_content.dart';
+import 'package:bip_hip/views/menu/friends/widgets/pending_friend_action_content.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:flutter/rendering.dart';
 

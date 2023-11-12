@@ -1,6 +1,6 @@
 import 'package:bip_hip/models/utility/video_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/videos/gallery_video_widgets/video_content_sction.dart';
+import 'package:bip_hip/views/menu/videos/widgets/video_content_sction.dart';
 class Videos extends StatelessWidget {
   const Videos({super.key});
 

@@ -2,7 +2,7 @@ import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/kids/kid_widgets/kid_listview.dart';
+import 'package:bip_hip/views/menu/kids/widgets/kid_listview.dart';
 
 class KidsPage extends StatelessWidget {
   KidsPage({super.key});

@@ -1,8 +1,8 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/shimmer/home/home_page_details_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/home/home_page_widgets/common_post_details_widget.dart';
-import 'package:bip_hip/views/home/home_page_widgets/post_upper_container.dart';
+import 'package:bip_hip/views/home/widgets/common_post_details_widget.dart';
+import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/widgets/post/comment_textfield.dart';
 
 class HomePostDetails extends StatelessWidget {

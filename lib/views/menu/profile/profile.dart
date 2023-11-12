@@ -3,8 +3,8 @@ import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/helpers/profile/profile_helper.dart';
 import 'package:bip_hip/shimmer/profile/profile_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/profile/profile_widgets/profile_friends_gridview.dart';
-import 'package:bip_hip/views/menu/profile/profile_widgets/profile_post_tab.dart';
+import 'package:bip_hip/views/menu/profile/widgets/profile_friends_gridview.dart';
+import 'package:bip_hip/views/menu/profile/widgets/profile_post_tab.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Profile extends StatelessWidget {

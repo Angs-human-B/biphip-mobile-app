@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/videos/gallery_video_widgets/gallery_video_container.dart';
+import 'package:bip_hip/views/menu/videos/widgets/gallery_video_container.dart';
 
 class GalleryVideos extends StatelessWidget {
   GalleryVideos({super.key});

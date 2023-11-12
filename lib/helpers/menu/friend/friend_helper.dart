@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/friends/friend_widgets/all_friend_listview.dart';
-import 'package:bip_hip/views/menu/friends/friend_widgets/pending_friend_listview.dart';
-import 'package:bip_hip/views/menu/friends/friend_widgets/received_friend_listview.dart';
+import 'package:bip_hip/views/menu/friends/widgets/all_friend_listview.dart';
+import 'package:bip_hip/views/menu/friends/widgets/pending_friend_listview.dart';
+import 'package:bip_hip/views/menu/friends/widgets/received_friend_listview.dart';
 
 class FriendHelper {
   final GlobalController globalController = Get.find<GlobalController>();

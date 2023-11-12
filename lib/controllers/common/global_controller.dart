@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/family/family_widgets/all_family_listview.dart';
-import 'package:bip_hip/views/menu/family/family_widgets/pending_family_listview.dart';
-import 'package:bip_hip/views/menu/family/family_widgets/received_family_listview.dart';
+import 'package:bip_hip/views/menu/family/widgets/all_family_listview.dart';
+import 'package:bip_hip/views/menu/family/widgets/pending_family_listview.dart';
+import 'package:bip_hip/views/menu/family/widgets/received_family_listview.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
