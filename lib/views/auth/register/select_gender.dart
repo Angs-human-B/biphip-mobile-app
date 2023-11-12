@@ -59,6 +59,7 @@ class SelectGender extends StatelessWidget {
                         buttonColor: cWhiteColor,
                         borderColor: cLineColor2,
                         onPressed: () {
+                          ll(Get.find<GlobalController>().isBottomSheetRightButtonActive);
                           registrationHelper.onPressedSelectGender(context);
                         },
                         text: authenticationController.gender.value,

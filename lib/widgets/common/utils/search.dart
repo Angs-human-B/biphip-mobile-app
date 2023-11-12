@@ -124,7 +124,7 @@ class Search extends StatelessWidget {
                           child: Wrap(
                             children: [
                               for (int i = recentSearchList.length - 1; i >= 0; i--)
-                                _ChipsWrapContainer(
+                                ChipsWrapContainer(
                                   text: recentSearchList[i],
                                   onPress: () {
                                     searchController.text = recentSearchList[i];
@@ -148,8 +148,8 @@ class Search extends StatelessWidget {
   }
 }
 
-class _ChipsWrapContainer extends StatelessWidget {
-  const _ChipsWrapContainer({
+class ChipsWrapContainer extends StatelessWidget {
+  const ChipsWrapContainer({
     Key? key,
     required this.text,
     required this.onPress,

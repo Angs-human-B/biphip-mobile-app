@@ -10,7 +10,7 @@ class CustomRadioButton extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  Widget _buildLabel(context) {
+  Widget buildLabel(context) {
     return Container(
       width: 17,
       height: 17,
@@ -37,7 +37,7 @@ class CustomRadioButton extends StatelessWidget {
     return InkWell(
       onTap: onChanged,
       splashColor: cPrimaryColor,
-      child: _buildLabel(context),
+      child: buildLabel(context),
     );
   }
 }

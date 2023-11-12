@@ -172,6 +172,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         otherCityList.addAll(profileData.value!.cities);
         isProfileLoading.value = false;
       } else {
+        isProfileLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -180,6 +181,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         }
       }
     } catch (e) {
+      isProfileLoading.value = true;
       ll('getProfileOverview error: $e');
     }
   }
@@ -1121,7 +1123,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         globalController.professionList.addAll(professionListData.value!.professions);
         isProfessionListLoading.value = false;
       } else {
-        isProfessionListLoading.value = false;
+        isProfessionListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1130,7 +1132,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         }
       }
     } catch (e) {
-      isProfessionListLoading.value = false;
+      isProfessionListLoading.value = true;
       ll('getProfessionList error: $e');
     }
   }
@@ -1160,7 +1162,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         }
         isInterestListLoading.value = false;
       } else {
-        isInterestListLoading.value = false;
+        isInterestListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1169,7 +1171,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         }
       }
     } catch (e) {
-      isInterestListLoading.value = false;
+      isInterestListLoading.value = true;
       ll('getInterestList error: $e');
     }
   }
@@ -1264,7 +1266,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         genderList.addAll(genderListData.value!.genders);
         isGenderListLoading.value = false;
       } else {
-        isGenderListLoading.value = false;
+        isGenderListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1273,7 +1275,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         }
       }
     } catch (e) {
-      isGenderListLoading.value = false;
+      isGenderListLoading.value = true;
       ll('getGenderList error: $e');
     }
   }
@@ -1296,7 +1298,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         relationshipStatusList.addAll(relationshipListData.value!.relationships);
         isRelationListLoading.value = false;
       } else {
-        isRelationListLoading.value = false;
+        isRelationListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1305,7 +1307,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         }
       }
     } catch (e) {
-      isRelationListLoading.value = false;
+      isRelationListLoading.value = true;
       ll('getRelationshipList error: $e');
     }
   }
@@ -1367,7 +1369,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         linkSourceList.addAll(linkListData.value!.linkTypes);
         isLinkListLoading.value = false;
       } else {
-        isLinkListLoading.value = false;
+        isLinkListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1376,7 +1378,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         }
       }
     } catch (e) {
-      isLinkListLoading.value = false;
+      isLinkListLoading.value = true;
       ll('getLinkList error: $e');
     }
   }
@@ -1385,7 +1387,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Rx<CityListModel?> cityListData = Rx<CityListModel?>(null);
   Future<void> getCityList() async {
     try {
-      isLinkListLoading.value = true;
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -1399,7 +1400,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         tempListCommon.addAll(cityList);
         isLinkListLoading.value = false;
       } else {
-        isLinkListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1408,7 +1408,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         }
       }
     } catch (e) {
-      isLinkListLoading.value = false;
       ll('getCityList error: $e');
     }
   }
@@ -1417,7 +1416,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Rx<CompanyListModel?> companyListData = Rx<CompanyListModel?>(null);
   Future<void> getCompanyList() async {
     try {
-      isLinkListLoading.value = true;
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -1429,9 +1427,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         companyListData.value = CompanyListModel.fromJson(response.data);
         companyList.addAll(companyListData.value!.companies);
         tempListCommon.addAll(companyList);
-        isLinkListLoading.value = false;
       } else {
-        isLinkListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1440,7 +1436,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         }
       }
     } catch (e) {
-      isLinkListLoading.value = false;
       ll('getCompanyList error: $e');
     }
   }

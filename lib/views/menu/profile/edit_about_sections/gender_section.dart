@@ -79,13 +79,15 @@ class GenderListContent extends StatelessWidget {
                             trailing: CustomRadioButton(
                               onChanged: () {
                                 profileController.tempSelectedGender.value = profileController.genderList[index];
+                                if (profileController.tempSelectedGender.value == '') {
+                                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                } else {
+                                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                }
                               },
                               isSelected: profileController.tempSelectedGender.value == profileController.genderList[index],
                             ),
                             itemColor: profileController.tempSelectedGender.value == profileController.genderList[index] ? cPrimaryTint3Color : cWhiteColor,
-                            onPressed: () {
-                              profileController.tempSelectedGender.value = profileController.genderList[index];
-                            },
                           ),
                         ),
                       );

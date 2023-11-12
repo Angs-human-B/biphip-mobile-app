@@ -83,16 +83,14 @@ class RelationshipStatusListContent extends StatelessWidget {
                                 profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index] ? cPrimaryColor : cLineColor,
                             trailing: CustomRadioButton(
                               onChanged: () {
-                                profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
+                                // profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
+                                editProfileHelper.selectBottomSheetRelationshipContent(index);
                               },
                               isSelected: profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index],
                             ),
                             itemColor: profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index]
                                 ? cPrimaryTint3Color
                                 : cWhiteColor,
-                            onPressed: () {
-                              editProfileHelper.selectBottomSheetRelationshipContent(index);
-                            },
                           ),
                         ),
                       );

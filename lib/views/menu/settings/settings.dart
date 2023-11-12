@@ -49,7 +49,7 @@ class Settings extends StatelessWidget {
                           globalController.commonBottomSheet(
                               context: context,
                               isScrollControlled: true,
-                              content: _ChangeNameBottomSheetContent(
+                              content: ChangeNameBottomSheetContent(
                                 menuController: menuController,
                               ),
                               onPressCloseButton: () {
@@ -91,8 +91,8 @@ class Settings extends StatelessWidget {
   }
 }
 
-class _ChangeNameBottomSheetContent extends StatelessWidget {
-  const _ChangeNameBottomSheetContent({super.key, required this.menuController});
+class ChangeNameBottomSheetContent extends StatelessWidget {
+  const ChangeNameBottomSheetContent({super.key, required this.menuController});
   final MenuSectionController menuController;
 
   @override

@@ -7,8 +7,8 @@ import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 class SelectCategory extends StatelessWidget {
   SelectCategory({super.key});
 
-  final CreatePostController _createPostController = Get.find<CreatePostController>();
-  final CreatePostHelper _createPostHelper = Get.find<CreatePostHelper>();
+  final CreatePostController createPostController = Get.find<CreatePostController>();
+  final CreatePostHelper createPostHelper = CreatePostHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class SelectCategory extends StatelessWidget {
                 Obx(
                   () => Padding(
                     padding: const EdgeInsets.only(right: h20, top: 15, bottom: 15),
-                    child: _createPostController.isPostCategoryListLoading.value
+                    child: createPostController.isPostCategoryListLoading.value
                         ? ShimmerCommon(
                             widget: Container(
                               decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
@@ -43,7 +43,7 @@ class SelectCategory extends StatelessWidget {
                         : TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
-                              _createPostController.selectCategoryTextChange(context);
+                              createPostHelper.selectCategoryTextChange(context);
                             },
                             child: Text(
                               ksNext.tr,
@@ -56,7 +56,7 @@ class SelectCategory extends StatelessWidget {
             ),
           ),
           body: Obx(
-            () => _createPostController.isPostCategoryListLoading.value
+            () => createPostController.isPostCategoryListLoading.value
                 ? const SelectCategoryShimmer()
                 : SizedBox(
                     height: height,
@@ -77,25 +77,25 @@ class SelectCategory extends StatelessWidget {
                             kH8sizedBox,
                             Wrap(
                               children: [
-                                for (int i = 0; i < _createPostController.categoryList.length - 1; i++)
+                                for (int i = 0; i < createPostController.categoryList.length - 1; i++)
                                   Obx(
                                     () => CategoryComponent(
                                       onPress: () {
-                                        _createPostHelper.selectCategoryStatusChange(i);
+                                        createPostHelper.selectCategoryStatusChange(i);
                                       },
                                       suffixWidget: Transform.scale(
                                         scale: .7,
                                         child: CustomRadioButton(
                                           onChanged: () {
-                                            _createPostHelper.selectCategoryStatusChange(i);
+                                            createPostHelper.selectCategoryStatusChange(i);
                                           },
-                                          isSelected: _createPostController.categoryStatusList[i],
+                                          isSelected: createPostController.categoryStatusList[i],
                                         ),
                                       ),
-                                      icon: _createPostController.categoryList[i]['icon'],
-                                      iconColor: _createPostController.categoryList[i]['icon_color'],
+                                      icon: createPostController.categoryList[i]['icon'],
+                                      iconColor: createPostController.categoryList[i]['icon_color'],
                                       iconSize: isDeviceScreenLarge() ? h20 : h16,
-                                      title: _createPostController.categoryList[i]['name'],
+                                      title: createPostController.categoryList[i]['name'],
                                       titleStyle: medium14TextStyle(cBlackColor),
                                     ),
                                   ),
@@ -117,21 +117,21 @@ class SelectCategory extends StatelessWidget {
                             Obx(
                               () => CategoryComponent(
                                 onPress: () {
-                                  _createPostHelper.selectCategoryStatusChange(_createPostController.categoryList.length - 1);
+                                  createPostHelper.selectCategoryStatusChange(createPostController.categoryList.length - 1);
                                 },
                                 suffixWidget: Transform.scale(
                                   scale: .7,
                                   child: CustomRadioButton(
                                     onChanged: () {
-                                      _createPostHelper.selectCategoryStatusChange(_createPostController.categoryList.length - 1);
+                                      createPostHelper.selectCategoryStatusChange(createPostController.categoryList.length - 1);
                                     },
-                                    isSelected: _createPostController.categoryStatusList[_createPostController.categoryList.length - 1],
+                                    isSelected: createPostController.categoryStatusList[createPostController.categoryList.length - 1],
                                   ),
                                 ),
-                                icon: _createPostController.categoryList[_createPostController.categoryList.length - 1]['icon'],
-                                iconColor: _createPostController.categoryList[_createPostController.categoryList.length - 1]['icon_color'],
+                                icon: createPostController.categoryList[createPostController.categoryList.length - 1]['icon'],
+                                iconColor: createPostController.categoryList[createPostController.categoryList.length - 1]['icon_color'],
                                 iconSize: isDeviceScreenLarge() ? h20 : h16,
-                                title: _createPostController.categoryList[_createPostController.categoryList.length - 1]['title'],
+                                title: createPostController.categoryList[createPostController.categoryList.length - 1]['title'],
                                 titleStyle: medium14TextStyle(cBlackColor),
                               ),
                             ),

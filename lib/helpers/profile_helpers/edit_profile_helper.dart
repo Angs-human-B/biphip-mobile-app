@@ -675,6 +675,7 @@ class EditProfileHelper {
     profileController.isSingleDatePicker.value = true;
     getMethod(8);
     profileController.getCompanyList();
+    profileController.getPositionList();
   }
 
   void editCurrentWorkplace() {
@@ -697,18 +698,21 @@ class EditProfileHelper {
     }
     getMethod(10);
     profileController.getCompanyList();
+    profileController.getPositionList();
   }
 
   void addPreviousWorkplace() {
     resetTextEditor();
     getMethod(17);
     profileController.getCompanyList();
+    profileController.getPositionList();
   }
 
   void editPreviousWorkplace(index) {
     resetTextEditor();
     profileController.enableSaveButton.value = true;
     profileController.getCompanyList();
+    profileController.getPositionList();
     if (profileController.workplaceDataList[index].started != null) {
       profileController.tempWorkplaceStartDate.value = DateFormat("yyyy-MM-dd").format(profileController.workplaceDataList[index].started!);
     }
