@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/helpers/create_post_helper.dart';
-import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/kids_helper/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/kid_widgets/kid_listview.dart';
@@ -9,6 +8,7 @@ class KidsPage extends StatelessWidget {
   KidsPage({super.key});
   final KidsController kidsController = Get.find<KidsController>();
   final KidHelper kidHelper = KidHelper();
+  final CreatePostHelper createPostHelper = CreatePostHelper();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,7 +36,7 @@ class KidsPage extends StatelessWidget {
                         child: TextButton(
                           style: kTextButtonStyle,
                           onPressed: () {
-                            Get.find<CreatePostController>().resetAddKidPage();
+                            createPostHelper.resetAddKidPage();
                             Get.toNamed(krAddKid);
                           },
                           child: Text(

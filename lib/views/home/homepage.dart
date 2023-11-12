@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/helpers/create_post_helper.dart';
-import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/shimmer_views/home_page/home_page_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
