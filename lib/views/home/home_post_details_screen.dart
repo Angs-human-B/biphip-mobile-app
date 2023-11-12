@@ -1,7 +1,7 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
 import 'package:bip_hip/views/home/home_page_widgets/post_upper_container.dart';
-import 'package:bip_hip/views/home/home_post_details.dart';
 
 class HomePostDetailsScreen extends StatelessWidget {
   HomePostDetailsScreen({super.key});
@@ -32,7 +32,7 @@ class HomePostDetailsScreen extends StatelessWidget {
             height: height - kAppBarSize - MediaQuery.of(context).padding.top,
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.only(top: k12Padding),
+                padding: const EdgeInsets.only(top: k12Padding),
                 child: Column(
                   children: [
                     const Padding(
@@ -40,7 +40,7 @@ class HomePostDetailsScreen extends StatelessWidget {
                       child: PostUpperContainer(userName: 'Wahid Murad', isCategorized: false, privacy: BipHip.world, postTime: '1hr'),
                     ),
                     kH12sizedBox,
-                    CommonPostWidget(
+                    CommonPostDetailsScreenWidget(
                       isCommented: true,
                       isLiked: true,
                       isTextualPost: true,
@@ -61,8 +61,8 @@ class HomePostDetailsScreen extends StatelessWidget {
   }
 }
 
-class CommonPostWidget extends StatelessWidget {
-  const CommonPostWidget({
+class CommonPostDetailsScreenWidget extends StatelessWidget {
+  const CommonPostDetailsScreenWidget({
     super.key,
     required this.isCommented,
     required this.isLiked,
@@ -100,7 +100,13 @@ class CommonPostWidget extends StatelessWidget {
               ),
             ),
           ),
-        PostBottomSection(isCommentShown: isCommentShown),
+        PostBottomSection(
+          isCommentShown: isCommentShown,
+          isSelfPost: true,
+          commentCount: 0,
+          shareCount: 0,
+          giftCount: 0,
+        ),
         if (mediaList.isNotEmpty)
           Container(
             color: cWhiteColor,
@@ -140,7 +146,13 @@ class CommonPostWidget extends StatelessWidget {
                             ),
                           ),
                           kH12sizedBox,
-                          PostBottomSection(isCommentShown: isCommentShown),
+                          PostBottomSection(
+                            isCommentShown: isCommentShown,
+                            isSelfPost: true,
+                            commentCount: 0,
+                            shareCount: 0,
+                            giftCount: 0,
+                          ),
                         ],
                       );
                     }),

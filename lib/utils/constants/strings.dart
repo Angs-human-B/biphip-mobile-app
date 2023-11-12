@@ -333,23 +333,27 @@ const String ksSellInformation = "You can sell all kind of product here. Includi
 const String ksAddKidInstructions = "To add kid category, you need to follow the further steps.";
 const String ksBiddingPostDescription = "Selecting bidding post will let the user write their preferred bidding price.";
 //*Newly Added
+//*Gallery Photos
 const String ksNoAlbumAvailable = "No album available";
 const String ksNoImageAvailable = "No image available";
-const String ksNoDataAvailable = "No data available";
-const String ksNA = "NA";
-const String ksBlock = 'Block';
-const String ksFollow = 'Follow';
+//*Friends
 const String ksNoFriendAddedYet = "No friend added yet";
 const String ksNoFriendRequestReceivedYet = "No friend request received yet";
 const String ksNoFriendRequestSendYet = "No friend request send yet";
+const String ksNoDataAvailable = "No data available";
+const String ksSearchedFriends = "Searched Friends";
+const String ksNoSearchedFriendsAvailable = "No Searched Friends Available";
+//*Family
+const String ksBlock = 'Block';
 const String ksNoFamilyAddedYet = "No family added yet";
 const String ksNoFamilyRequestReceivedYet = "No family request received yet";
 const String ksNoFamilyRequestSendYet = "No family request send yet";
-const String ksSearchedFriends = "Searched Friends";
-const String ksNoSearchedFriendsAvailable = "No Searched Friends Available";
-const String ksWriteAComment = "Write a comment";
+//*Kids
 const String ksTotalKids = "Total Kids";
 const String ksEditKid = "Edit Kid";
 const String ksDeleteKid = "Delete Kid";
 const String ksNoKidsAddedYet = "No kids added yet";
+
+const String ksNA = "NA";
+const String ksWriteAComment = "Write a comment";
 // const String ksSelectPlatform="";

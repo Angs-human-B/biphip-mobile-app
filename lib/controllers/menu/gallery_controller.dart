@@ -1,3 +1,4 @@
+import 'package:bip_hip/helpers/gallery_photo_helpers/gallery_photo_helper.dart';
 import 'package:bip_hip/models/menu/album/album_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -7,22 +8,6 @@ class GalleryController extends GetxController {
   final GlobalController globalController = Get.find<GlobalController>();
   final RxList tapAbleButtonState = RxList([true, false]);
   final RxList tapAbleButtonText = RxList(["Your Photos", "Albums"]);
-
-  //*For tapAble button
-  void toggleType(int index) {
-    for (int i = 0; i < 2; i++) {
-      if (index == i) {
-        tapAbleButtonState[i] = true;
-      } else {
-        tapAbleButtonState[i] = false;
-      }
-    }
-  }
-
-  void resetTapButtonData() {
-    tapAbleButtonState.clear();
-    tapAbleButtonState.addAll([true, false]);
-  }
 
   @override
   void onInit() {
@@ -36,10 +21,18 @@ class GalleryController extends GetxController {
         }
       }
     }
-
-    // resetTapButtonData();
-
     toggleType(0);
+  }
+
+  //*For tapAble button
+  void toggleType(int index) {
+    for (int i = 0; i < 2; i++) {
+      if (index == i) {
+       tapAbleButtonState[i] = true;
+      } else {
+       tapAbleButtonState[i] = false;
+      }
+    }
   }
 
   final List galleryVideos = [
@@ -94,7 +87,7 @@ class GalleryController extends GetxController {
     },
   ];
 
-//*Album List Data
+//*Album List Data Api Call
   Rx<AlbumListModel?> albumData = Rx<AlbumListModel?>(null);
   RxList<ImageData> imageDataList = RxList<ImageData>([]);
   final RxBool isAlbumListLoading = RxBool(false);
@@ -108,10 +101,9 @@ class GalleryController extends GetxController {
         url: kuAlbumList,
       ) as CommonDM;
       if (response.success == true) {
-        resetTapButtonData();
+        GalleryPhotoHelper().resetTapButtonData();
         imageDataList.clear();
         albumData.value = AlbumListModel.fromJson(response.data);
-        // imageDataList.addAll(albumData.value!.imageAlbums!.data);
         imageDataList.clear();
         for (var album in albumData.value!.imageAlbums!.data) {
           if (album.title!.toLowerCase() == 'profile picture' || album.title!.toLowerCase() == 'cover photo') {
@@ -123,7 +115,7 @@ class GalleryController extends GetxController {
 
         isAlbumListLoading.value = false;
       } else {
-        isAlbumListLoading.value = false;
+        isAlbumListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -132,7 +124,7 @@ class GalleryController extends GetxController {
         }
       }
     } catch (e) {
-      isAlbumListLoading.value = false;
+      isAlbumListLoading.value = true;
       ll('getAlbumListData error: $e');
     }
   }

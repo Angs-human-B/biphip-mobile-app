@@ -7,21 +7,21 @@ import 'package:flutter/rendering.dart';
 
 class PendingFamilyListView extends StatelessWidget {
   PendingFamilyListView({super.key});
-  final FamilyController _familyController = Get.find<FamilyController>();
+  final FamilyController familyController = Get.find<FamilyController>();
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => _familyController.isSendFamilyRequestListLoading.value
+      () => familyController.isSendFamilyRequestListLoading.value
           ? const PendingFamilyShimmer()
-          : _familyController.sendFamilyRequestList.isNotEmpty
+          : familyController.sendFamilyRequestList.isNotEmpty
               ? NotificationListener<ScrollNotification>(
                   onNotification: (scrollNotification) {
-                    if (_familyController.sendFamilyListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                    if (familyController.sendFamilyListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
                         scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
-                        !_familyController.sendFamilyListScrolled.value) {
-                      _familyController.sendFamilyListScrolled.value = true;
-                      if (_familyController.sendFamilyRequestList.isNotEmpty) {
-                        _familyController.getMoreSendFamilyList(null);
+                        !familyController.sendFamilyListScrolled.value) {
+                      familyController.sendFamilyListScrolled.value = true;
+                      if (familyController.sendFamilyRequestList.isNotEmpty) {
+                        familyController.getMoreSendFamilyList(null);
                       }
                       return true;
                     }
@@ -29,13 +29,13 @@ class PendingFamilyListView extends StatelessWidget {
                   },
                   child: Expanded(
                     child: SingleChildScrollView(
-                      controller: _familyController.sendFamilyListScrollController,
+                      controller: familyController.sendFamilyListScrollController,
                       child: Column(
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                             child: ListView.builder(
-                              itemCount: _familyController.sendFamilyRequestList.length,
+                              itemCount: familyController.sendFamilyRequestList.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
@@ -44,14 +44,14 @@ class PendingFamilyListView extends StatelessWidget {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(k8BorderRadius),
                                     child: FriendFamilySingleButtonAction(
-                                      backgroundImage: _familyController.sendFamilyRequestList[index].profilePicture.toString(),
+                                      backgroundImage: familyController.sendFamilyRequestList[index].profilePicture.toString(),
                                       imageSize: h45,
-                                      name: _familyController.sendFamilyRequestList[index].fullName ?? ksNA.tr,
-                                      subTitle: _familyController.sendFamilyRequestList[index].familyRelationStatus ?? ksNA.tr,
+                                      name: familyController.sendFamilyRequestList[index].fullName ?? ksNA.tr,
+                                      subTitle: familyController.sendFamilyRequestList[index].familyRelationStatus ?? ksNA.tr,
                                       buttonText: ksCancelRequest.tr,
                                       buttonOnPressed: () async {
-                                        _familyController.userId.value = _familyController.sendFamilyRequestList[index].id!;
-                                        await _familyController.cancelFamilyRequest();
+                                        familyController.userId.value = familyController.sendFamilyRequestList[index].id!;
+                                        await familyController.cancelFamilyRequest();
                                       },
                                       buttonColor: cWhiteColor,
                                       borderColor: cRedColor,
@@ -62,7 +62,7 @@ class PendingFamilyListView extends StatelessWidget {
                               },
                             ),
                           ),
-                          if (_familyController.sendFamilyRequestList.isNotEmpty && !_familyController.sendFamilyListScrolled.value)
+                          if (familyController.sendFamilyRequestList.isNotEmpty && !familyController.sendFamilyListScrolled.value)
                             const Center(child: CircularProgressIndicator()),
                         ],
                       ),

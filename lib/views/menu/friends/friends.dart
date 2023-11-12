@@ -6,9 +6,9 @@ import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 
 class Friends extends StatelessWidget {
   Friends({super.key});
-  final GlobalController _globalController = Get.find<GlobalController>();
-  final FriendController _friendController = Get.find<FriendController>();
-  final FriendHelper _friendHelper = FriendHelper();
+  final GlobalController globalController = Get.find<GlobalController>();
+  final FriendController friendController = Get.find<FriendController>();
+  final FriendHelper friendHelper = FriendHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class Friends extends StatelessWidget {
                   //* info:: appBar
                   child: CustomAppBar(
                     title: ksFriends.tr,
-                    hasBackButton: _friendController.isRouteFromBottomNavBar.value ? false : true,
+                    hasBackButton: friendController.isRouteFromBottomNavBar.value ? false : true,
                     isCenterTitle: true,
                     onBack: () {
                       Get.back();
@@ -38,9 +38,9 @@ class Friends extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () async {
                             FocusScope.of(context).unfocus();
-                            _friendHelper.friendSearchFieldReset();
-                            if (_friendController.debounce?.isActive ?? false) _friendController.debounce!.cancel();
-                            _friendController.addFriendRequestList.clear();
+                            friendHelper.friendSearchFieldReset();
+                            if (friendController.debounce?.isActive ?? false) friendController.debounce!.cancel();
+                            friendController.addFriendRequestList.clear();
                             Get.toNamed(krAddFriend);
                           },
                           child: Text(
@@ -60,20 +60,20 @@ class Friends extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                         child: TapAbleButtonContainer(
-                          buttonText: _globalController.tapAbleButtonText,
-                          buttonState: _globalController.tapAbleButtonState,
+                          buttonText: globalController.tapAbleButtonText,
+                          buttonState: globalController.tapAbleButtonState,
                           buttonPress: RxList([
                             () {
                               unFocus(context);
-                              _friendHelper.allFriendTapableButtOnPressed();
+                              friendHelper.allFriendTapableButtonOnPressed();
                             },
                             () {
                               unFocus(context);
-                              _friendHelper.receivedFriendTapableButtOnPressed();
+                              friendHelper.receivedFriendTapableButtonOnPressed();
                             },
                             () {
                               unFocus(context);
-                              _friendHelper.pendingFriendTapableButtOnPressed();
+                              friendHelper.pendingFriendTapableButtonOnPressed();
                             },
                           ]),
                         ),
@@ -81,32 +81,32 @@ class Friends extends StatelessWidget {
                       kH12sizedBox,
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                        child: Obx(() => _globalController.tapAbleButtonState[0]
+                        child: Obx(() => globalController.tapAbleButtonState[0]
                             ? CustomModifiedTextField(
                                 borderRadius: h8,
-                                controller: _globalController.searchController,
+                                controller: globalController.searchController,
                                 prefixIcon: BipHip.search,
-                                suffixIcon: _friendController.isFriendSuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                                suffixIcon: friendController.isFriendSuffixIconVisible.value ? BipHip.circleCrossNew : null,
                                 hint: ksSearch.tr,
                                 contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
                                 textInputStyle: regular16TextStyle(cBlackColor),
                                 onSuffixPress: () {
-                                  _friendHelper.friendSuffixPressed();
+                                  friendHelper.friendSuffixPressed();
                                 },
                                 onSubmit: (v) {
                                   unfocus(context);
-                                  _friendController.isFriendSuffixIconVisible.value = false;
+                                  friendController.isFriendSuffixIconVisible.value = false;
                                 },
                                 onChanged: (v) {
-                                  _friendHelper.friendOnChanged();
+                                  friendHelper.friendOnChanged();
                                 })
                             : const SizedBox()),
                       ),
-                      if (_globalController.tapAbleButtonState[0] || _globalController.tapAbleButtonState[1]) kH4sizedBox,
-                      if (_globalController.tapAbleButtonState[0] || _globalController.tapAbleButtonState[1])
+                      if (globalController.tapAbleButtonState[0] || globalController.tapAbleButtonState[1]) kH4sizedBox,
+                      if (globalController.tapAbleButtonState[0] || globalController.tapAbleButtonState[1])
                         Padding(
                             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                            child: (_friendController.isFriendListLoading.value || _friendController.isReceivedFriendListLoading.value)
+                            child: (friendController.isFriendListLoading.value || friendController.isReceivedFriendListLoading.value)
                                 ? ShimmerCommon(
                                     widget: Container(
                                       decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
@@ -114,11 +114,11 @@ class Friends extends StatelessWidget {
                                       width: 120,
                                     ),
                                   )
-                                : _friendHelper.totalFriendCountShow()),
-                      if (_globalController.tapAbleButtonState[0] || _globalController.tapAbleButtonState[1]) kH12sizedBox,
-                      if (_globalController.tapAbleButtonState[2]) kH4sizedBox,
+                                : friendHelper.totalFriendCountShow()),
+                      if (globalController.tapAbleButtonState[0] || globalController.tapAbleButtonState[1]) kH12sizedBox,
+                      if (globalController.tapAbleButtonState[2]) kH4sizedBox,
                       //*All friend, Receive friend request and Pending friend request ui
-                      _friendHelper.allReceivedPendingFriendsView(),
+                      friendHelper.allReceivedPendingFriendsView(),
                     ],
                   ),
                 ),
@@ -132,21 +132,21 @@ class Friends extends StatelessWidget {
                 ),
               ),
             ),
-            if (_friendController.isUnfriendUserRequestLoading.value ||
-                _friendController.isFollowUserLoading.value ||
-                _friendController.isUnfollowUserLoading.value ||
-                _friendController.isAcceptFriendRequestLoading.value ||
-                _friendController.isRejectFriendRequestLoading.value ||
-                _friendController.isCancelFriendRequestLoading.value)
+            if (friendController.isUnfriendUserRequestLoading.value ||
+                friendController.isFollowUserLoading.value ||
+                friendController.isUnfollowUserLoading.value ||
+                friendController.isAcceptFriendRequestLoading.value ||
+                friendController.isRejectFriendRequestLoading.value ||
+                friendController.isCancelFriendRequestLoading.value)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (_friendController.isUnfriendUserRequestLoading.value ||
-                        _friendController.isFollowUserLoading.value ||
-                        _friendController.isUnfollowUserLoading.value ||
-                        _friendController.isAcceptFriendRequestLoading.value ||
-                        _friendController.isRejectFriendRequestLoading.value ||
-                        _friendController.isCancelFriendRequestLoading.value) {
+                    if (friendController.isUnfriendUserRequestLoading.value ||
+                        friendController.isFollowUserLoading.value ||
+                        friendController.isUnfollowUserLoading.value ||
+                        friendController.isAcceptFriendRequestLoading.value ||
+                        friendController.isRejectFriendRequestLoading.value ||
+                        friendController.isCancelFriendRequestLoading.value) {
                       return false;
                     }
                     return true;

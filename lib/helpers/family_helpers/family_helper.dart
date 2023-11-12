@@ -106,4 +106,19 @@ class FamilyHelper {
       }
     }
   }
+
+  void addFamilyButtonOnChanged() {
+    if (globalController.searchController.text.trim() != '') {
+      familyController.isFamilySuffixIconVisible.value = true;
+    } else {
+      familyController.isFamilySuffixIconVisible.value = false;
+    }
+    for (int i = 0; i < Get.find<FriendController>().tempFriendList.length; i++) {
+      if (Get.find<FriendController>().tempFriendList[i] == globalController.searchController.text.trim()) {
+        familyController.userId.value = Get.find<FriendController>().friendList[i].id!;
+      } else {
+        familyController.userId.value = -1;
+      }
+    }
+  }
 }

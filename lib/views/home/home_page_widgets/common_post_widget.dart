@@ -52,7 +52,7 @@ class CommonPostWidget extends StatelessWidget {
   final List mediaList;
   final int commentCount, shareCount, giftCount, postID;
   final VoidCallback? postUpperContainerOnpressed;
-  final HomeController _homeController = Get.find<HomeController>();
+  final HomeController homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +160,7 @@ class CommonPostWidget extends StatelessWidget {
                 child: RichText(
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.clip,
-                  maxLines: (_homeController.seeMore.value && postText!.length > 256) ? 5 : null,
+                  maxLines: (homeController.seeMore.value && postText!.length > 256) ? 5 : null,
                   text: TextSpan(
                     children: [
                       TextSpan(
@@ -177,17 +177,10 @@ class CommonPostWidget extends StatelessWidget {
                 child: TextButton(
                   style: kTextButtonStyle,
                   onPressed: () {
-                    // if(isSharedPost){
-                    // _homeController.changeSeeMoreValue(postSeeMore);
-                    // postSeeMore.value = !postSeeMore.value;
-                    // }else {
-                    // _homeController.changeSeeMoreValue(sharedPostSeeMore);
-                    // sharedPostSeeMore.value = !sharedPostSeeMore.value;
-                    // }
-                    _homeController.seeMore.value = !_homeController.seeMore.value;
+                    homeController.seeMore.value = !homeController.seeMore.value;
                   },
                   child: Text(
-                    _homeController.seeMore.value ? ksSeeMore.tr : ksShowLess.tr,
+                    homeController.seeMore.value ? ksSeeMore.tr : ksShowLess.tr,
                     style: semiBold14TextStyle(cPrimaryColor),
                   ),
                 ),
@@ -456,8 +449,8 @@ class PostBottomSection extends StatelessWidget {
   PostBottomSection(
       {super.key, required this.isSelfPost, required this.isCommentShown, required this.commentCount, required this.shareCount, required this.giftCount});
 
-  final GlobalController _globalController = Get.find<GlobalController>();
-  final PostReactionController _postReactionController = Get.find<PostReactionController>();
+  final GlobalController globalController = Get.find<GlobalController>();
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
   final bool isSelfPost, isCommentShown;
   final RxBool showComment = RxBool(false);
   final int commentCount, shareCount, giftCount;
@@ -474,9 +467,9 @@ class PostBottomSection extends StatelessWidget {
                   bidingAmount: 300,
                   isPlaceBid: false,
                   bidingOnPressed: () {
-                    _globalController.blankBottomSheet(
+                    globalController.blankBottomSheet(
                         context: context,
-                        content: _BiddingInsightsContent(
+                        content: BiddingInsightsContent(
                           comment: bidingComments,
                         ),
                         isScrollControlled: true,
@@ -491,9 +484,9 @@ class PostBottomSection extends StatelessWidget {
                   totalBids: 25,
                   bidingAmount: 300,
                   bidingOnPressed: () {
-                    _globalController.commonBottomSheet(
+                    globalController.commonBottomSheet(
                       context: context,
-                      content: _PlaceBidContent(),
+                      content: PlaceBidContent(),
                       onPressCloseButton: () {
                         Get.back();
                       },
@@ -517,18 +510,18 @@ class PostBottomSection extends StatelessWidget {
               child: PostActivityStatusWidget(
                 reactCount: 440,
                 reactionOnPressed: () {
-                  _postReactionController.giftFilter(0);
-                  _globalController.blankBottomSheet(
-                      context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                  postReactionController.giftFilter(0);
+                  globalController.blankBottomSheet(
+                      context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
                 giftCount: giftCount,
                 commentCount: commentCount,
                 shareCount: shareCount,
                 isGiftShown: true,
                 giftOnPressed: () {
-                  _postReactionController.giftFilter(0);
-                  _globalController.blankBottomSheet(
-                      context: context, content: _BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                  postReactionController.giftFilter(0);
+                  globalController.blankBottomSheet(
+                      context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
               ),
             ),
@@ -539,7 +532,7 @@ class PostBottomSection extends StatelessWidget {
               child: LikeSectionWidget(
                 isGiftShown: true,
                 giftOnPressed: () {
-                  _globalController.blankBottomSheet(context: context, content: _GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                  globalController.blankBottomSheet(context: context, content: GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
                 commentOnPressed: () {
                   showComment.value = !showComment.value;
@@ -579,8 +572,8 @@ class PostBottomSection extends StatelessWidget {
   }
 }
 
-class _BiddingInsightsContent extends StatelessWidget {
-  const _BiddingInsightsContent({super.key, required this.comment});
+class BiddingInsightsContent extends StatelessWidget {
+  const BiddingInsightsContent({super.key, required this.comment});
 
   final List comment;
 
@@ -625,10 +618,10 @@ class _BiddingInsightsContent extends StatelessWidget {
   }
 }
 
-class _PlaceBidContent extends StatelessWidget {
-  _PlaceBidContent({super.key});
+class PlaceBidContent extends StatelessWidget {
+  PlaceBidContent({super.key});
 
-  final PostReactionController _postReactionController = Get.find<PostReactionController>();
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -652,10 +645,10 @@ class _PlaceBidContent extends StatelessWidget {
                   CustomChoiceChips(
                     label: '\$${recommendedBid[i]}',
                     borderRadius: k8CircularBorderRadius,
-                    isSelected: (_postReactionController.selectedBidIndex.value == i),
+                    isSelected: (postReactionController.selectedBidIndex.value == i),
                     onSelected: (value) {
-                      _postReactionController.selectedBidIndex.value = i;
-                      _postReactionController.bidingTextEditingController.text = recommendedBid[i];
+                      postReactionController.selectedBidIndex.value = i;
+                      postReactionController.bidingTextEditingController.text = recommendedBid[i];
                     },
                   )
               ],
@@ -667,7 +660,7 @@ class _PlaceBidContent extends StatelessWidget {
             ),
             kH8sizedBox,
             CustomModifiedTextField(
-                prefixIcon: Icons.attach_money_rounded, borderRadius: k8BorderRadius, controller: _postReactionController.bidingTextEditingController)
+                prefixIcon: Icons.attach_money_rounded, borderRadius: k8BorderRadius, controller: postReactionController.bidingTextEditingController)
           ],
         ),
       ),
@@ -675,10 +668,10 @@ class _PlaceBidContent extends StatelessWidget {
   }
 }
 
-class _BadgeTabViewContent extends StatelessWidget {
-  _BadgeTabViewContent({super.key});
+class BadgeTabViewContent extends StatelessWidget {
+  BadgeTabViewContent({super.key});
 
-  final PostReactionController _postReactionController = Get.find<PostReactionController>();
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -692,7 +685,7 @@ class _BadgeTabViewContent extends StatelessWidget {
               child: TabBar(
                 padding: EdgeInsets.zero,
                 labelPadding: EdgeInsets.zero,
-                controller: _postReactionController.tabController,
+                controller: postReactionController.tabController,
                 isScrollable: true,
                 tabs: [
                   ReactionBottomSheetTab(
@@ -703,34 +696,34 @@ class _BadgeTabViewContent extends StatelessWidget {
                   ReactionBottomSheetTab(
                     isReactionImageShown: true,
                     reactionImage: kiBadge1SvgImageUrl,
-                    text: _postReactionController.badgeCount1.value.toString(),
+                    text: postReactionController.badgeCount1.value.toString(),
                   ),
                   ReactionBottomSheetTab(
                     isReactionImageShown: true,
                     reactionImage: kiBadge2SvgImageUrl,
-                    text: _postReactionController.badgeCount2.value.toString(),
+                    text: postReactionController.badgeCount2.value.toString(),
                   ),
                   ReactionBottomSheetTab(
                     isReactionImageShown: true,
                     reactionImage: kiBadge1SvgImageUrl,
-                    text: _postReactionController.badgeCount3.value.toString(),
+                    text: postReactionController.badgeCount3.value.toString(),
                   ),
                   ReactionBottomSheetTab(
                     isReactionImageShown: true,
                     reactionImage: kiBadge1SvgImageUrl,
-                    text: _postReactionController.badgeCount4.value.toString(),
+                    text: postReactionController.badgeCount4.value.toString(),
                   ),
                 ],
               ),
             ),
             SizedBox(
               height: (height * 0.9) - 65,
-              child: TabBarView(controller: _postReactionController.tabController, children: [
-                ReactionTabPage(list: _postReactionController.gift1),
-                ReactionTabPage(list: _postReactionController.gift1),
-                ReactionTabPage(list: _postReactionController.gift1),
-                ReactionTabPage(list: _postReactionController.gift1),
-                ReactionTabPage(list: _postReactionController.gift1),
+              child: TabBarView(controller: postReactionController.tabController, children: [
+                ReactionTabPage(list: postReactionController.gift1),
+                ReactionTabPage(list: postReactionController.gift1),
+                ReactionTabPage(list: postReactionController.gift1),
+                ReactionTabPage(list: postReactionController.gift1),
+                ReactionTabPage(list: postReactionController.gift1),
               ]),
             ),
           ],
@@ -822,11 +815,11 @@ class ReactionTabPage extends StatelessWidget {
   }
 }
 
-class _GiftContent extends StatelessWidget {
-  _GiftContent({super.key});
+class GiftContent extends StatelessWidget {
+  GiftContent({super.key});
 
-  final PostReactionController _postReactionController = Get.find<PostReactionController>();
-  final GlobalController _globalController = Get.find<GlobalController>();
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -899,9 +892,9 @@ class _GiftContent extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
                     onTap: () {
-                      _postReactionController.selectedPackage.value = giftPackages[index];
-                      _postReactionController.selectedGiftIndex.value = index;
-                      _postReactionController.isPackageSelected.value = true;
+                      postReactionController.selectedPackage.value = giftPackages[index];
+                      postReactionController.selectedGiftIndex.value = index;
+                      postReactionController.isPackageSelected.value = true;
                     },
                     child: PackageGridViewContainer(
                       index: index,
@@ -934,7 +927,7 @@ class _GiftContent extends StatelessWidget {
                       inputAction: TextInputAction.done,
                       contentPadding: const EdgeInsets.symmetric(vertical: k10Padding, horizontal: k8Padding),
                       borderRadius: 8,
-                      controller: _postReactionController.giftTextEditingController),
+                      controller: postReactionController.giftTextEditingController),
                 ),
               ],
             ),
@@ -942,11 +935,11 @@ class _GiftContent extends StatelessWidget {
             CustomElevatedButton(
                 label: ksGetStars.tr,
                 buttonWidth: width - 40,
-                onPressed: _postReactionController.isPackageSelected.value
+                onPressed: postReactionController.isPackageSelected.value
                     ? () {
-                        _globalController.commonBottomSheet(
+                        globalController.commonBottomSheet(
                             context: context,
-                            content: _PurchaseStarContent(),
+                            content: PurchaseStarContent(),
                             onPressCloseButton: () {
                               Get.back();
                             },
@@ -967,14 +960,12 @@ class _GiftContent extends StatelessWidget {
 }
 
 class PackageGridViewContainer extends StatelessWidget {
-  PackageGridViewContainer({
-    Key? key,
-    required index,
-  })  : _index = index,
-        super(key: key);
+  PackageGridViewContainer({super.key, 
+    required this.index,
+  });
 
-  final int _index;
-  final PostReactionController _postReactionController = Get.find<PostReactionController>();
+  final int index;
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -982,8 +973,8 @@ class PackageGridViewContainer extends StatelessWidget {
       () => Container(
         decoration: BoxDecoration(
             borderRadius: k8CircularBorderRadius,
-            color: (_postReactionController.selectedGiftIndex.value == _index) ? cPrimaryTint3Color : cWhiteColor,
-            border: Border.all(color: (_postReactionController.selectedGiftIndex.value == _index) ? cPrimaryColor : cLineColor)),
+            color: (postReactionController.selectedGiftIndex.value == index) ? cPrimaryTint3Color : cWhiteColor,
+            border: Border.all(color: (postReactionController.selectedGiftIndex.value == index) ? cPrimaryColor : cLineColor)),
         child: Padding(
           padding: const EdgeInsets.all(k16Padding),
           child: Column(
@@ -993,13 +984,13 @@ class PackageGridViewContainer extends StatelessWidget {
               ClipRRect(
                 borderRadius: k8CircularBorderRadius,
                 child: SvgPicture.asset(
-                  giftPackages[_index]['badge'],
+                  giftPackages[index]['badge'],
                   fit: BoxFit.fill,
                 ),
               ),
               kH4sizedBox,
               Text(
-                giftPackages[_index]['packageName'],
+                giftPackages[index]['packageName'],
                 style: semiBold14TextStyle(cBlackColor),
               ),
               kH4sizedBox,
@@ -1013,7 +1004,7 @@ class PackageGridViewContainer extends StatelessWidget {
                   ),
                   kW4sizedBox,
                   Text(
-                    giftPackages[_index]['amount'],
+                    giftPackages[index]['amount'],
                     style: regular10TextStyle(cBlackColor),
                   )
                 ],
@@ -1026,10 +1017,10 @@ class PackageGridViewContainer extends StatelessWidget {
   }
 }
 
-class _PurchaseStarContent extends StatelessWidget {
-  _PurchaseStarContent({super.key});
+class PurchaseStarContent extends StatelessWidget {
+  PurchaseStarContent({super.key});
 
-  final PostReactionController _postReactionController = Get.find<PostReactionController>();
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -1040,7 +1031,7 @@ class _PurchaseStarContent extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${ksYourCurrentBalance.tr} (${_postReactionController.balance} of 200)',
+                '${ksYourCurrentBalance.tr} (${postReactionController.balance} of 200)',
                 style: regular12TextStyle(cIconColor),
               ),
               IconButton(
@@ -1068,7 +1059,7 @@ class _PurchaseStarContent extends StatelessWidget {
                   size: kIconSize16,
                 ),
                 Text(
-                  '${_postReactionController.balance}',
+                  '${postReactionController.balance}',
                   style: semiBold20TextStyle(cBlackColor).copyWith(foreground: Paint()..shader = linearGradient),
                 ),
                 Text(
@@ -1082,19 +1073,19 @@ class _PurchaseStarContent extends StatelessWidget {
           const CustomDivider(),
           kH16sizedBox,
           Text(
-            '${ksYourCurrentBalance.tr} (${_postReactionController.balance} of 200)',
+            '${ksYourCurrentBalance.tr} (${postReactionController.balance} of 200)',
             style: regular12TextStyle(cIconColor),
           ),
           kH8sizedBox,
           CustomListTile(
-            title: '${_postReactionController.selectedPackage.value!['amount']} stars',
+            title: '${postReactionController.selectedPackage.value!['amount']} stars',
             borderColor: cPrimaryColor,
             itemColor: cPrimaryTint2Color,
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  '\$${_postReactionController.selectedPackage.value!['cost']}',
+                  '\$${postReactionController.selectedPackage.value!['cost']}',
                   style: semiBold16TextStyle(cBlackColor),
                 ),
                 Radio(
@@ -1144,11 +1135,11 @@ class _PurchaseStarContent extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: k8Padding),
                     child: CustomListTile(
                       onPressed: () {
-                        _postReactionController.selectedPackage.value = packages[index];
+                        postReactionController.selectedPackage.value = packages[index];
                       },
                       title: '${packages[index]['amount']} stars',
-                      borderColor: _postReactionController.selectedPackage.value == packages[index] ? cPrimaryColor : cLineColor,
-                      itemColor: _postReactionController.selectedPackage.value == packages[index] ? cPrimaryTint3Color : cWhiteColor,
+                      borderColor: postReactionController.selectedPackage.value == packages[index] ? cPrimaryColor : cLineColor,
+                      itemColor: postReactionController.selectedPackage.value == packages[index] ? cPrimaryTint3Color : cWhiteColor,
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -1158,9 +1149,9 @@ class _PurchaseStarContent extends StatelessWidget {
                           ),
                           Radio(
                             value: packages[index],
-                            groupValue: _postReactionController.selectedPackage.value,
+                            groupValue: postReactionController.selectedPackage.value,
                             onChanged: (v) {
-                              _postReactionController.selectedPackage.value = v;
+                              postReactionController.selectedPackage.value = v;
                             },
                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             visualDensity: const VisualDensity(
@@ -1181,10 +1172,10 @@ class _PurchaseStarContent extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Checkbox(
-                value: _postReactionController.giftCheckBox.value,
+                value: postReactionController.giftCheckBox.value,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 onChanged: (v) {
-                  _postReactionController.giftCheckBox.value = !_postReactionController.giftCheckBox.value;
+                  postReactionController.giftCheckBox.value = !postReactionController.giftCheckBox.value;
                 },
               ),
               kW8sizedBox,
@@ -1200,9 +1191,9 @@ class _PurchaseStarContent extends StatelessWidget {
           ),
           kH10sizedBox,
           CustomElevatedButton(
-              label: _postReactionController.balance < int.parse(_postReactionController.selectedPackage.value!['amount'])
-                  ? '${ksBuy.tr} ${_postReactionController.selectedPackage.value!['amount']} stars'
-                  : '${ksGive.tr} ${_postReactionController.selectedPackage.value!['amount']} stars',
+              label: postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount'])
+                  ? '${ksBuy.tr} ${postReactionController.selectedPackage.value!['amount']} stars'
+                  : '${ksGive.tr} ${postReactionController.selectedPackage.value!['amount']} stars',
               buttonHeight: 42,
               buttonWidth: width - 40,
               onPressed: () {})

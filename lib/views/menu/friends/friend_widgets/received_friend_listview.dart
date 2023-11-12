@@ -8,21 +8,21 @@ import 'package:flutter/rendering.dart';
 
 class ReceivedFriendListView extends StatelessWidget {
   ReceivedFriendListView({super.key});
-  final FriendController _friendController = Get.find<FriendController>();
+  final FriendController friendController = Get.find<FriendController>();
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => _friendController.isReceivedFriendListLoading.value
+      () => friendController.isReceivedFriendListLoading.value
           ? const ReceivedFriendShimmer()
-          : _friendController.receivedFriendList.isNotEmpty
+          : friendController.receivedFriendList.isNotEmpty
               ? NotificationListener<ScrollNotification>(
                   onNotification: (scrollNotification) {
-                    if (_friendController.receivedFriendListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                    if (friendController.receivedFriendListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
                         scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
-                        !_friendController.receivedFriendListScrolled.value) {
-                      _friendController.receivedFriendListScrolled.value = true;
-                      if (_friendController.receivedFriendList.isNotEmpty) {
-                        _friendController.getMoreReceivedFriendList(null);
+                        !friendController.receivedFriendListScrolled.value) {
+                      friendController.receivedFriendListScrolled.value = true;
+                      if (friendController.receivedFriendList.isNotEmpty) {
+                        friendController.getMoreReceivedFriendList(null);
                       }
                       return true;
                     }
@@ -30,14 +30,14 @@ class ReceivedFriendListView extends StatelessWidget {
                   },
                   child: Expanded(
                     child: SingleChildScrollView(
-                      controller: _friendController.receivedFriendListScrollController,
+                      controller: friendController.receivedFriendListScrollController,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                             child: ListView.builder(
-                              itemCount: _friendController.receivedFriendList.length,
+                              itemCount: friendController.receivedFriendList.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
@@ -46,17 +46,17 @@ class ReceivedFriendListView extends StatelessWidget {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(k8BorderRadius),
                                     child: FriendFamilyButtonAction(
-                                      backgroundImage: Environment.imageBaseUrl + _friendController.receivedFriendList[index].profilePicture.toString(),
-                                      name: _friendController.receivedFriendList[index].fullName ?? ksNA.tr,
+                                      backgroundImage: Environment.imageBaseUrl + friendController.receivedFriendList[index].profilePicture.toString(),
+                                      name: friendController.receivedFriendList[index].fullName ?? ksNA.tr,
                                       firstButtonText: ksConfirm.tr,
                                       secondButtonText: ksCancel.tr,
                                       firstButtonOnPressed: () async {
-                                        _friendController.userId.value = _friendController.receivedFriendList[index].id!;
-                                        await _friendController.acceptFriendRequest();
+                                        friendController.userId.value = friendController.receivedFriendList[index].id!;
+                                        await friendController.acceptFriendRequest();
                                       },
                                       secondButtonOnPressed: () async {
-                                        _friendController.userId.value = _friendController.receivedFriendList[index].id!;
-                                        await _friendController.rejectFriendRequest();
+                                        friendController.userId.value = friendController.receivedFriendList[index].id!;
+                                        await friendController.rejectFriendRequest();
                                       },
                                     ),
                                   ),
@@ -64,7 +64,7 @@ class ReceivedFriendListView extends StatelessWidget {
                               },
                             ),
                           ),
-                          if (_friendController.receivedFriendList.isNotEmpty && !_friendController.receivedFriendListScrolled.value)
+                          if (friendController.receivedFriendList.isNotEmpty && !friendController.receivedFriendListScrolled.value)
                             const Center(child: CircularProgressIndicator()),
                         ],
                       ),
