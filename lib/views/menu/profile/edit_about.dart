@@ -1,15 +1,15 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/profile/edit_about_sections/birthday_section.dart';
-import 'package:bip_hip/views/menu/profile/edit_about_sections/contact_section.dart';
-import 'package:bip_hip/views/menu/profile/edit_about_sections/education_background_section.dart';
-import 'package:bip_hip/views/menu/profile/edit_about_sections/gender_section.dart';
-import 'package:bip_hip/views/menu/profile/edit_about_sections/interest_section.dart';
-import 'package:bip_hip/views/menu/profile/edit_about_sections/place_edit_section.dart';
-import 'package:bip_hip/views/menu/profile/edit_about_sections/profession_section.dart';
-import 'package:bip_hip/views/menu/profile/edit_about_sections/relationship_section.dart';
-import 'package:bip_hip/views/menu/profile/edit_about_sections/website_section.dart';
-import 'package:bip_hip/views/menu/profile/edit_about_sections/workplace_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/birthday_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/contact_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/education_background_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/gender_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/interest_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/place_edit_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/profession_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/relationship_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/website_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/workplace_section.dart';
 import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
 
 class EditAboutInfo extends StatelessWidget {

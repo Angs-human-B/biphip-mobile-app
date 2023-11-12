@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/home/home_page_widgets/common_post_widget.dart';
+import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 
 class CommonPostDetailsWidget extends StatelessWidget {
   CommonPostDetailsWidget({

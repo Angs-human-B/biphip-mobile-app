@@ -4,7 +4,7 @@ import 'package:bip_hip/helpers/menu/family/family_helper.dart';
 import 'package:bip_hip/shimmer/menu/family/relation_content_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
-import 'package:bip_hip/widgets/menu/friends_family/relation_content.dart';
+import 'package:bip_hip/views/menu/family/widgets/relation_content.dart';
 
 class AddFamily extends StatelessWidget {
   AddFamily({super.key});

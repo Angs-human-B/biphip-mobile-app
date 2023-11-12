@@ -4,9 +4,9 @@ import 'package:bip_hip/shimmer/profile/gender_shimmer.dart';
 import 'package:bip_hip/shimmer/profile/link_list_shimmer_view.dart';
 import 'package:bip_hip/shimmer/profile/relation_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/profile/edit_about_sections/edit_page_bottom_sheet_content.dart';
-import 'package:bip_hip/views/menu/profile/edit_about_sections/gender_section.dart';
-import 'package:bip_hip/views/menu/profile/edit_about_sections/relationship_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/edit_page_bottom_sheet_content.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/gender_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/relationship_section.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
