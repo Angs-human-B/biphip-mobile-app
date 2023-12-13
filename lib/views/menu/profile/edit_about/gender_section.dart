@@ -76,6 +76,14 @@ class GenderListContent extends StatelessWidget {
                           child: CustomListTile(
                             borderColor: profileController.tempSelectedGender.value == profileController.genderList[index] ? cPrimaryColor : cLineColor,
                             title: profileController.genderList[index],
+                            onPressed: () {
+                              profileController.tempSelectedGender.value = profileController.genderList[index];
+                              if (profileController.tempSelectedGender.value == '') {
+                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                              } else {
+                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                              }
+                            },
                             trailing: CustomRadioButton(
                               onChanged: () {
                                 profileController.tempSelectedGender.value = profileController.genderList[index];

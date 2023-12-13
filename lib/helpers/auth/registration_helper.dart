@@ -2,7 +2,7 @@ import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/shimmers/profile/gender_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/home/homepage.dart';
+import 'package:bip_hip/views/auth/onboarding/picture_upload_screen.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/gender_section.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';

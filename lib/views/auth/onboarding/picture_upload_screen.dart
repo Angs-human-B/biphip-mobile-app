@@ -5,6 +5,7 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/helpers/auth/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
+import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -100,6 +101,12 @@ class PictureUploadScreen extends StatelessWidget {
                             label: authenticationController.isProfileImageChanged.value ? ksSavePhoto.tr : ksAddPhoto.tr,
                             onPressed: () async {
                               registrationHelper.onPressedSavePhoto(context);
+                              RegistrationHelper().congratulationsAlertDialog(
+                                context: context,
+                                content: const StarContent(),
+                              );
+                              await Future.delayed(const Duration(milliseconds: 3000));
+                              authenticationController.confettiController.stop();
                             },
                             buttonWidth: width - 40,
                             textStyle: semiBold16TextStyle(cWhiteColor),
@@ -230,6 +237,85 @@ class StarContent extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class CommonAlertDialog extends StatelessWidget {
+  const CommonAlertDialog({
+    this.title,
+    required this.addContent,
+    this.hasCloseBtn = false,
+    this.hasDivider = true,
+    this.actions,
+    this.onClose,
+    this.horizontalContentPadding,
+    this.verticalContentPadding,
+    Key? key,
+  }) : super(key: key);
+
+  final String? title;
+  final Widget? addContent;
+  final bool hasCloseBtn, hasDivider;
+  final List<Widget>? actions;
+  final Function()? onClose;
+  final double? horizontalContentPadding;
+  final double? verticalContentPadding;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(k4BorderRadius),
+      ),
+      elevation: 0,
+      titlePadding: EdgeInsets.zero,
+      title: ClipRRect(
+        borderRadius: BorderRadius.circular(k4BorderRadius),
+        child: Column(
+          children: [
+            Container(
+              color: cWhiteColor,
+              // height: height * 0.5,
+              width: width,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  if (title != null)
+                    Center(
+                      child: Text(
+                        title.toString(),
+                        textAlign: TextAlign.center,
+                        style: semiBold16TextStyle(cBlackColor),
+                      ),
+                    ),
+                  if (hasCloseBtn)
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: CustomIconButton(
+                        hasBorder: false,
+                        onPress: onClose,
+                        icon: BipHip.circleCross,
+                        size: height > kSmallDeviceSizeLimit ? kIconSize20 : kIconSize16,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            const CustomDivider(
+              thickness: 0.3,
+            )
+          ],
+        ),
+      ),
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: horizontalContentPadding ?? k16Padding,
+        vertical: verticalContentPadding ?? k10Padding,
+      ),
+      insetPadding: const EdgeInsets.all(k20Padding),
+      content: addContent,
+      actions: actions,
     );
   }
 }
