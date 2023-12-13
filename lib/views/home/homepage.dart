@@ -263,7 +263,7 @@ class CommonAlertDialog extends StatelessWidget {
           children: [
             Container(
               color: cWhiteColor,
-              height: 100,
+              // height: height * 0.5,
               width: width,
               child: Stack(
                 alignment: Alignment.center,
@@ -274,6 +274,17 @@ class CommonAlertDialog extends StatelessWidget {
                         title.toString(),
                         textAlign: TextAlign.center,
                         style: semiBold16TextStyle(cBlackColor),
+                      ),
+                    ),
+                  if (hasCloseBtn)
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: CustomIconButton(
+                        hasBorder: false,
+                        onPress: onClose,
+                        icon: BipHip.circleCross,
+                        size: height > kSmallDeviceSizeLimit ? kIconSize20 : kIconSize16,
                       ),
                     ),
                 ],

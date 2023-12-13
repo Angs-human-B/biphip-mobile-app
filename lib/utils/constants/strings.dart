@@ -356,4 +356,9 @@ const String ksNoKidsAddedYet = "No kids added yet";
 
 const String ksNA = "NA";
 const String ksWriteAComment = "Write a comment";
+const String ksYouGotBonus = "YOU GOT BONUS";
+const String ksStar = "STAR";
+const String ksOkay = "Okay";
+const String ksYouCouldSeeTheStar = "You could see the stars in your profile.";
+const String ksYouCanUseItAnywhere = "And can use it to anywhere you want.";
 // const String ksSelectPlatform="";

@@ -1,6 +1,5 @@
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/home/homepage.dart';
 
 class HomeController extends GetxController {
   final ApiController apiController = ApiController();
@@ -148,28 +147,5 @@ class HomeController extends GetxController {
       isPostDetailsPageLoading.value = true;
       ll('getPostData error: $e');
     }
-  }
-
-  congratulationsAlertDialog({required BuildContext context, required Widget content}) {
-    showAlertDialog(
-      context: context,
-      child: CommonAlertDialog(
-        hasCloseBtn: true,
-        onClose: () => Get.back(),
-        addContent: content,
-        actions: [
-          CustomElevatedButton(
-            label: ksOk.tr,
-            onPressed: () {
-              Get.back();
-            },
-            buttonWidth: width * .45,
-            buttonHeight: 40,
-            buttonColor: cPrimaryColor,
-          ),
-          kH10sizedBox,
-        ],
-      ),
-    );
   }
 }

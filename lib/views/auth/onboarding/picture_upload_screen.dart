@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/helpers/auth/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
+import 'package:confetti/confetti.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class PictureUploadScreen extends StatelessWidget {
   PictureUploadScreen({super.key});
@@ -94,15 +98,8 @@ class PictureUploadScreen extends StatelessWidget {
                           const Spacer(),
                           CustomElevatedButton(
                             label: authenticationController.isProfileImageChanged.value ? ksSavePhoto.tr : ksAddPhoto.tr,
-                            onPressed: () {
+                            onPressed: () async {
                               registrationHelper.onPressedSavePhoto(context);
-                              Get.find<HomeController>().congratulationsAlertDialog(
-                                  context: context,
-                                  content: Column(
-                                    children: [
-                                      Image.asset(kiProfileDefaultImageUrl),
-                                    ],
-                                  ));
                             },
                             buttonWidth: width - 40,
                             textStyle: semiBold16TextStyle(cWhiteColor),
@@ -114,14 +111,14 @@ class PictureUploadScreen extends StatelessWidget {
                               buttonColor: cWhiteColor,
                               onPressed: () async {
                                 Get.offAllNamed(krHome);
-                                Get.find<HomeController>().congratulationsAlertDialog(
-                                    context: context,
-                                    content: Column(
-                                      children: [
-                                        Image.asset(kiProfileDefaultImageUrl),
-                                      ],
-                                    ));
-                                // await Get.find<HomeController>().getPostList();
+                                authenticationController.confettiController.play();
+                                RegistrationHelper().congratulationsAlertDialog(
+                                  context: context,
+                                  content: const StarContent(),
+                                );
+                                await Future.delayed(const Duration(milliseconds: 3000));
+                                authenticationController.confettiController.stop();
+                                await Get.find<HomeController>().getPostList();
                               },
                               label: ksSkip.tr,
                               textStyle: semiBold16TextStyle(cPrimaryColor),
@@ -147,6 +144,91 @@ class PictureUploadScreen extends StatelessWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class StarContent extends StatelessWidget {
+  const StarContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: height * 0.4,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            height: 150,
+            width: 150,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(k12BorderRadius),
+              color: const Color(0xFF59FCCB),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                ConfettiWidget(
+                  confettiController: Get.find<AuthenticationController>().confettiController,
+                  blastDirectionality: BlastDirectionality.explosive,
+                  shouldLoop: true,
+                  emissionFrequency: 0.20,
+                  numberOfParticles: 20,
+                  gravity: 0.1,
+                ),
+                RatingBar(
+                  initialRating: 3,
+                  itemCount: 3,
+                  direction: Axis.horizontal,
+                  glow: true,
+                  glowColor: cAmberColor,
+                  ratingWidget: RatingWidget(
+                    full: const Icon(
+                      Icons.star,
+                      color: cAmberColor,
+                      size: h20,
+                    ),
+                    half: const Icon(
+                      Icons.star_half_outlined,
+                      color: cAmberColor,
+                    ),
+                    empty: const Icon(
+                      Icons.star,
+                      color: cAmberColor,
+                    ),
+                  ),
+                  onRatingUpdate: (value) {},
+                ),
+                Text(
+                  ksYouGotBonus.tr,
+                  style: semiBold14TextStyle(cBlackColor),
+                ),
+                const Text(
+                  '100',
+                  style: TextStyle(fontSize: 60, color: cLawnGreenColor),
+                ),
+                Transform.rotate(
+                  angle: -pi / 12,
+                  child: Text(
+                    ksStar,
+                    style: semiBold20TextStyle(cWhiteColor),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          kH16sizedBox,
+          Text(
+            ksYouCouldSeeTheStar.tr,
+            style: regular12TextStyle(cBlackColor),
+          ),
+          kH4sizedBox,
+          Text(
+            ksYouCanUseItAnywhere.tr,
+            style: regular12TextStyle(cBlackColor),
+          ),
+        ],
       ),
     );
   }

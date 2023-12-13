@@ -6,6 +6,7 @@ import 'package:bip_hip/models/auth/common_unverify_model.dart';
 import 'package:bip_hip/models/auth/forget_pass_model.dart';
 import 'package:bip_hip/models/auth/login_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:confetti/confetti.dart';
 
 class AuthenticationController extends GetxController {
   final RxString profileLink = RxString('');
@@ -62,7 +63,6 @@ class AuthenticationController extends GetxController {
   }
 
   final RxBool canLogin = RxBool(false);
-
 
   final RxBool isLoginLoading = RxBool(false);
   Future<void> userLogin() async {
@@ -237,8 +237,6 @@ class AuthenticationController extends GetxController {
     canSendOTP.value = false;
   }
 
-  
-
   final RxBool isForgetPasswordLoading = RxBool(false);
   Future<void> forgetPassword() async {
     try {
@@ -297,8 +295,6 @@ class AuthenticationController extends GetxController {
     canResetPassword.value = false;
   }
 
-  
-
   final RxBool isResetPasswordLoading = RxBool(false);
   Future<void> resetPassword() async {
     try {
@@ -349,8 +345,6 @@ class AuthenticationController extends GetxController {
     isOTPResendClick.value = false;
     canOTPVerifyNow.value = false;
   }
-
-  
 
   Future<void> signUpVerify() async {
     try {
@@ -533,4 +527,15 @@ class AuthenticationController extends GetxController {
       ll('logout error: $e');
     }
   }
+
+  //*newly added confetti controller
+  final ConfettiController confettiController = ConfettiController();
+  final RxBool isConfettiPlaying = RxBool(true);
+  final RxDouble currentStar = RxDouble(1);
+  animateStars() async {
+   for (int i = 1; i <= currentStar.value; i++) {
+     await Future.delayed(const Duration(seconds: 1));
+     currentStar.value++;
+   }
+ }
 }
