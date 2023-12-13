@@ -14,8 +14,8 @@ class SavedUserLogin extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
+        top: false,
         child: Scaffold(
-          backgroundColor: cTransparentColor,
           body: Obx(
             () => Stack(
               alignment: AlignmentDirectional.topCenter,

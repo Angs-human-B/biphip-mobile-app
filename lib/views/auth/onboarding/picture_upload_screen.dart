@@ -96,6 +96,13 @@ class PictureUploadScreen extends StatelessWidget {
                             label: authenticationController.isProfileImageChanged.value ? ksSavePhoto.tr : ksAddPhoto.tr,
                             onPressed: () {
                               registrationHelper.onPressedSavePhoto(context);
+                              Get.find<HomeController>().congratulationsAlertDialog(
+                                  context: context,
+                                  content: Column(
+                                    children: [
+                                      Image.asset(kiProfileDefaultImageUrl),
+                                    ],
+                                  ));
                             },
                             buttonWidth: width - 40,
                             textStyle: semiBold16TextStyle(cWhiteColor),
@@ -107,7 +114,14 @@ class PictureUploadScreen extends StatelessWidget {
                               buttonColor: cWhiteColor,
                               onPressed: () async {
                                 Get.offAllNamed(krHome);
-                                await Get.find<HomeController>().getPostList();
+                                Get.find<HomeController>().congratulationsAlertDialog(
+                                    context: context,
+                                    content: Column(
+                                      children: [
+                                        Image.asset(kiProfileDefaultImageUrl),
+                                      ],
+                                    ));
+                                // await Get.find<HomeController>().getPostList();
                               },
                               label: ksSkip.tr,
                               textStyle: semiBold16TextStyle(cPrimaryColor),
