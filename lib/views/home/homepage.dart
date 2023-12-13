@@ -9,8 +9,6 @@ import 'package:bip_hip/widgets/post/stories_widget.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
 
-import '../../widgets/common/utils/common_divider.dart';
-
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
@@ -227,4 +225,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
