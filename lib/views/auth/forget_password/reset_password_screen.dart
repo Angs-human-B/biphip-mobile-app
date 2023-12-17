@@ -58,7 +58,7 @@ class ResetPasswordScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(k4BorderRadius),
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
-                            suffixIcon: authenticationController.isResetNewPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
+                            suffixIcon: authenticationController.isResetNewPasswordToggleObscure.value ? BipHip.passwordHide : Icons.visibility_outlined,
                             onSuffixPress: () {
                               authenticationController.isResetNewPasswordToggleObscure.value =
                                   !authenticationController.isResetNewPasswordToggleObscure.value;
@@ -85,7 +85,7 @@ class ResetPasswordScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(k4BorderRadius),
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
-                            suffixIcon: authenticationController.isResetConfirmPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
+                            suffixIcon: authenticationController.isResetConfirmPasswordToggleObscure.value ? BipHip.passwordHide : Icons.visibility_outlined,
                             onSuffixPress: () {
                               authenticationController.isResetConfirmPasswordToggleObscure.value =
                                   !authenticationController.isResetConfirmPasswordToggleObscure.value;

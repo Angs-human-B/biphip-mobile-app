@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/helpers/auth/registration_helper.dart';
@@ -7,7 +5,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:confetti/confetti.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/svg.dart';
 
 class PictureUploadScreen extends StatelessWidget {
   PictureUploadScreen({super.key});
@@ -107,7 +105,7 @@ class PictureUploadScreen extends StatelessWidget {
                                   context: context,
                                   content: const StarContent(),
                                 );
-                                await Future.delayed(const Duration(milliseconds: 3000));
+                                await Future.delayed(const Duration(milliseconds: 1500));
                                 authenticationController.confettiController.stop();
                               }
                             },
@@ -126,7 +124,7 @@ class PictureUploadScreen extends StatelessWidget {
                                   context: context,
                                   content: const StarContent(),
                                 );
-                                await Future.delayed(const Duration(milliseconds: 3000));
+                                await Future.delayed(const Duration(milliseconds: 1500));
                                 authenticationController.confettiController.stop();
                                 await Get.find<HomeController>().getPostList();
                               },
@@ -164,86 +162,118 @@ class StarContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height * 0.4,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Stack(
-            children: [
-              Container(
-                height: 150,
-                width: 150,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(k12BorderRadius),
-                  color: const Color(0xFF59FCCB),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ConfettiWidget(
-                      confettiController: Get.find<AuthenticationController>().confettiController,
-                      blastDirectionality: BlastDirectionality.explosive,
-                      shouldLoop: true,
-                      emissionFrequency: 0.20,
-                      numberOfParticles: 20,
-                      gravity: 0.1,
-                    ),
-                    RatingBar(
-                      initialRating: 3,
-                      itemCount: 3,
-                      direction: Axis.horizontal,
-                      glow: true,
-                      glowColor: cAmberColor,
-                      ratingWidget: RatingWidget(
-                        full: const Icon(
-                          Icons.star,
-                          color: cAmberColor,
-                          size: h20,
-                        ),
-                        half: const Icon(
-                          Icons.star_half_outlined,
-                          color: cAmberColor,
-                        ),
-                        empty: const Icon(
-                          Icons.star,
-                          color: cAmberColor,
-                        ),
-                      ),
-                      onRatingUpdate: (value) {},
-                    ),
-                    Text(
-                      ksYouGotBonus.tr,
-                      style: semiBold14TextStyle(cBlackColor),
-                    ),
-                    const Text(
-                      '100',
-                      style: TextStyle(fontSize: 60, color: cLawnGreenColor),
-                    ),
-                    Transform.rotate(
-                      angle: -pi / 12,
-                      child: Text(
-                        ksStar,
-                        style: semiBold20TextStyle(cWhiteColor),
-                      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ConfettiWidget(
+          confettiController: Get.find<AuthenticationController>().confettiController,
+          blastDirectionality: BlastDirectionality.explosive,
+          shouldLoop: true,
+          emissionFrequency: 0.20,
+          numberOfParticles: 10,
+          gravity: 0.6,
+        ),
+        Stack(
+          children: [
+            SvgPicture.asset(kiRegistrationBonusSvgUrl),
+            Positioned(
+              left: 80,
+              top: 110,
+              child: Text(
+                '100',
+                style: semiBold20TextStyle(cLawnGreenColor).copyWith(
+                  fontSize: h60,
+                  shadows: [
+                    const Shadow(
+                      color: cOrangeColor,
+                      offset: Offset(2.5, 2.5),
+                      blurRadius: 0,
                     ),
                   ],
                 ),
+                // depth: 4,
+                // style: ThreeDStyle.inset,
+                // angle: pi / 4,
+                // perspectiveDepth: 100,
               ),
-            ],
-          ),
-          kH16sizedBox,
-          Text(
-            ksYouCouldSeeTheStar.tr,
-            style: regular12TextStyle(cBlackColor),
-          ),
-          kH4sizedBox,
-          Text(
-            ksYouCanUseItAnywhere.tr,
-            style: regular12TextStyle(cBlackColor),
-          ),
-        ],
-      ),
+            )
+          ],
+        ),
+        // Stack(
+        //   children: [
+        //     Container(
+        //       height: 150,
+        //       width: 150,
+        //       decoration: BoxDecoration(
+        //         borderRadius: BorderRadius.circular(k12BorderRadius),
+        //         color: const Color(0xFF59FCCB),
+        //       ),
+        //       child: Column(
+        //         mainAxisAlignment: MainAxisAlignment.start,
+        //         children: [
+        //           ConfettiWidget(
+        //             confettiController: Get.find<AuthenticationController>().confettiController,
+        //             blastDirectionality: BlastDirectionality.explosive,
+        //             shouldLoop: true,
+        //             emissionFrequency: 0.20,
+        //             numberOfParticles: 20,
+        //             gravity: 0.1,
+        //           ),
+        //           RatingBar(
+        //             initialRating: 3,
+        //             itemCount: 3,
+        //             direction: Axis.horizontal,
+        //             glow: true,
+        //             glowColor: cAmberColor,
+        //             ratingWidget: RatingWidget(
+        //               full: const Icon(
+        //                 Icons.star,
+        //                 color: cAmberColor,
+        //                 size: h20,
+        //               ),
+        //               half: const Icon(
+        //                 Icons.star_half_outlined,
+        //                 color: cAmberColor,
+        //               ),
+        //               empty: const Icon(
+        //                 Icons.star,
+        //                 color: cAmberColor,
+        //               ),
+        //             ),
+        //             onRatingUpdate: (value) {},
+        //           ),
+        //           Text(
+        //             ksYouGotBonus.tr,
+        //             style: semiBold14TextStyle(cBlackColor),
+        //           ),
+        //           const Text(
+        //             '100',
+        //             style: TextStyle(fontSize: 60, color: cLawnGreenColor),
+        //           ),
+        //           Transform.rotate(
+        //             angle: -pi / 12,
+        //             child: Text(
+        //               ksStar,
+        //               style: semiBold20TextStyle(cWhiteColor),
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   ],
+        // ),
+        kH4sizedBox,
+        Text(
+          ksYouCouldSeeTheStar.tr,
+          style: regular12TextStyle(cBlackColor),
+        ),
+        kH4sizedBox,
+        Text(
+          ksYouCanUseItAnywhere.tr,
+          style: regular12TextStyle(cBlackColor),
+        ),
+      ],
     );
   }
 }
@@ -357,43 +387,39 @@ class CommonAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: cWhiteColor,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(k4BorderRadius),
+        borderRadius: BorderRadius.circular(h10),
       ),
       elevation: 0,
       titlePadding: EdgeInsets.zero,
       title: ClipRRect(
-        borderRadius: BorderRadius.circular(k4BorderRadius),
+        borderRadius: BorderRadius.circular(h10),
         child: Column(
           children: [
-            Container(
-              color: cWhiteColor,
-              // height: height * 0.5,
-              width: width,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  if (title != null)
-                    Center(
-                      child: Text(
-                        title.toString(),
-                        textAlign: TextAlign.center,
-                        style: semiBold16TextStyle(cBlackColor),
-                      ),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                if (title != null)
+                  Center(
+                    child: Text(
+                      title.toString(),
+                      textAlign: TextAlign.center,
+                      style: semiBold16TextStyle(cBlackColor),
                     ),
-                  if (hasCloseBtn)
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      child: CustomIconButton(
-                        hasBorder: false,
-                        onPress: onClose,
-                        icon: BipHip.circleCross,
-                        size: height > kSmallDeviceSizeLimit ? kIconSize20 : kIconSize16,
-                      ),
+                  ),
+                if (hasCloseBtn)
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: CustomIconButton(
+                      hasBorder: false,
+                      onPress: onClose,
+                      icon: BipHip.circleCross,
+                      size: height > kSmallDeviceSizeLimit ? kIconSize20 : kIconSize16,
                     ),
-                ],
-              ),
+                  ),
+              ],
             ),
             const CustomDivider(
               thickness: 0.3,

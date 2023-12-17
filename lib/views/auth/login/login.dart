@@ -17,11 +17,12 @@ class Login extends StatelessWidget {
     heightWidthKeyboardValue(context);
     return Container(
       decoration: const BoxDecoration(
-          color: cWhiteColor,
-          image: DecorationImage(
-            image: AssetImage(kiOnBoarding4xImageUrl),
-            fit: BoxFit.cover,
-          )),
+        color: cWhiteColor,
+        image: DecorationImage(
+          image: AssetImage(kiOnBoarding4xImageUrl),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Obx(
         () => Stack(
           children: [
@@ -89,7 +90,7 @@ class Login extends StatelessWidget {
                               borderRadius: BorderRadius.circular(k4BorderRadius),
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
-                            suffixIcon: authenticationController.isLoginPasswordToggleObscure.value ? BipHip.passwordHide : BipHip.passwordShow,
+                            suffixIcon: authenticationController.isLoginPasswordToggleObscure.value ? BipHip.passwordHide : Icons.visibility_outlined,
                             onSuffixPress: () {
                               authenticationController.isLoginPasswordToggleObscure.value = !authenticationController.isLoginPasswordToggleObscure.value;
                             },
@@ -132,6 +133,25 @@ class Login extends StatelessWidget {
                                 authenticationController.canLogin.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                           ),
                         ),
+                        // kH16sizedBox,
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(horizontal: h20),
+                        //   child: CustomElevatedButton(
+                        //     label: ksLogin.tr,
+                        //     onPressed: () async {
+                        //       authenticationController.confettiController.play();
+                        //       RegistrationHelper().congratulationsAlertDialog(
+                        //         context: context,
+                        //         content: const StarContent(),
+                        //       );
+                        //       await Future.delayed(const Duration(milliseconds: 1500));
+                        //       authenticationController.confettiController.stop();
+                        //     },
+                        //     buttonWidth: width - 40,
+                        //     textStyle:
+                        //         authenticationController.canLogin.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
+                        //   ),
+                        // ),
                         kH25sizedBox,
                         Text(
                           ksOrLoginWith.tr,

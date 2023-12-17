@@ -38,6 +38,7 @@ const Color cSellingColor = Color(0xFF05AAFD);
 const Color cTransparentColor = Colors.transparent;
 const Color cNeutralColor = Color(0XFFECECEC);
 const Color cLawnGreenColor = Color(0XFFDDFF0E);
+const Color cOrangeColor = Color(0xFFFDB805);
 const Color cAmberColor = Colors.amber;
 
 final Shader linearGradient = const LinearGradient(

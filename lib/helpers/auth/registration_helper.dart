@@ -363,8 +363,9 @@ class RegistrationHelper {
             onPressed: () {
               Get.back();
             },
-            buttonWidth: width * .45,
+            buttonWidth: 70,
             buttonHeight: 40,
+            textStyle: semiBold14TextStyle(cWhiteColor),
             buttonColor: cPrimaryColor,
           ),
           kH10sizedBox,
