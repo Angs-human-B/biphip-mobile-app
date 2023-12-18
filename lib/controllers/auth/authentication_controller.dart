@@ -143,8 +143,8 @@ class AuthenticationController extends GetxController {
   final TextEditingController registerEmailTextEditingController = TextEditingController();
   final TextEditingController registerPasswordTextEditingController = TextEditingController();
   final TextEditingController registerConfirmPasswordTextEditingController = TextEditingController();
-  final RxString firstNameError = RxString('');
-  final RxString lastNameError = RxString('');
+  final Rx<String?> firstNameError = Rx<String?>(null);
+  final Rx<String?> lastNameError = Rx<String?>(null);
   final RxString registerEmailError = RxString('');
   final RxString registerPasswordError = RxString('');
   final RxString registerConfirmPasswordError = RxString('');
@@ -170,8 +170,8 @@ class AuthenticationController extends GetxController {
     checkValidPassword.value = false;
     birthDay.value = '';
     gender.value = '';
-    firstNameError.value = '';
-    lastNameError.value = '';
+    firstNameError.value = null;
+    lastNameError.value = null;
     registerEmailError.value = '';
     registerPasswordError.value = '';
     registerConfirmPasswordError.value = '';

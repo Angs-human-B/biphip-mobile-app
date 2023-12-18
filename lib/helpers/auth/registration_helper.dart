@@ -44,7 +44,7 @@ class RegistrationHelper {
     if (authenticationController.registerFirstNameTextEditingController.text.trim() == '') {
       authenticationController.firstNameError.value = ksEmptyFirstNameErrorMessage.tr;
     } else {
-      authenticationController.firstNameError.value = "";
+      authenticationController.firstNameError.value = null;
     }
   }
 
@@ -53,7 +53,7 @@ class RegistrationHelper {
     if (authenticationController.registerLastNameTextEditingController.text.trim() == '') {
       authenticationController.lastNameError.value = ksEmptyLastNameErrorMessage.tr;
     } else {
-      authenticationController.lastNameError.value = "";
+      authenticationController.lastNameError.value = null;
     }
   }
 
