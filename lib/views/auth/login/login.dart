@@ -77,7 +77,7 @@ class Login extends StatelessWidget {
                             inputType: TextInputType.emailAddress,
                           ),
                         ),
-                        authenticationController.loginEmailErrorText.value != null ? kH8sizedBox : kH20sizedBox,
+                        authenticationController.setGap(authenticationController.loginEmailErrorText.value),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: h20),
                           child: CustomModifiedTextField(

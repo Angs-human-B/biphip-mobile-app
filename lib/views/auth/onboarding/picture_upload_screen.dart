@@ -17,8 +17,7 @@ class PictureUploadScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      
-      decoration: const BoxDecoration(color: cWhiteColor,image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
+      decoration: const BoxDecoration(color: cWhiteColor, image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
           children: [
@@ -112,11 +111,11 @@ class PictureUploadScreen extends StatelessWidget {
                             buttonWidth: width - 40,
                             textStyle: semiBold16TextStyle(cWhiteColor),
                           ),
-                          if (!authenticationController.isProfileImageChanged.value) kH20sizedBox,
+                          if (!authenticationController.isProfileImageChanged.value) kH8sizedBox,
                           if (!authenticationController.isProfileImageChanged.value)
                             CustomElevatedButton(
                               buttonWidth: width - 40,
-                              buttonColor: cWhiteColor,
+                              buttonColor: cTransparentColor,
                               onPressed: () async {
                                 Get.offAllNamed(krHome);
                                 authenticationController.confettiController.play();
@@ -129,7 +128,7 @@ class PictureUploadScreen extends StatelessWidget {
                                 await Get.find<HomeController>().getPostList();
                               },
                               label: ksSkip.tr,
-                              textStyle: semiBold16TextStyle(cPrimaryColor),
+                              textStyle: semiBold16TextStyle(cBlackColor),
                             ),
                           kHBottomSizedBox
                         ],
@@ -192,176 +191,24 @@ class StarContent extends StatelessWidget {
                     ),
                   ],
                 ),
-                // depth: 4,
-                // style: ThreeDStyle.inset,
-                // angle: pi / 4,
-                // perspectiveDepth: 100,
               ),
             )
           ],
         ),
-        // Stack(
-        //   children: [
-        //     Container(
-        //       height: 150,
-        //       width: 150,
-        //       decoration: BoxDecoration(
-        //         borderRadius: BorderRadius.circular(k12BorderRadius),
-        //         color: const Color(0xFF59FCCB),
-        //       ),
-        //       child: Column(
-        //         mainAxisAlignment: MainAxisAlignment.start,
-        //         children: [
-        //           ConfettiWidget(
-        //             confettiController: Get.find<AuthenticationController>().confettiController,
-        //             blastDirectionality: BlastDirectionality.explosive,
-        //             shouldLoop: true,
-        //             emissionFrequency: 0.20,
-        //             numberOfParticles: 20,
-        //             gravity: 0.1,
-        //           ),
-        //           RatingBar(
-        //             initialRating: 3,
-        //             itemCount: 3,
-        //             direction: Axis.horizontal,
-        //             glow: true,
-        //             glowColor: cAmberColor,
-        //             ratingWidget: RatingWidget(
-        //               full: const Icon(
-        //                 Icons.star,
-        //                 color: cAmberColor,
-        //                 size: h20,
-        //               ),
-        //               half: const Icon(
-        //                 Icons.star_half_outlined,
-        //                 color: cAmberColor,
-        //               ),
-        //               empty: const Icon(
-        //                 Icons.star,
-        //                 color: cAmberColor,
-        //               ),
-        //             ),
-        //             onRatingUpdate: (value) {},
-        //           ),
-        //           Text(
-        //             ksYouGotBonus.tr,
-        //             style: semiBold14TextStyle(cBlackColor),
-        //           ),
-        //           const Text(
-        //             '100',
-        //             style: TextStyle(fontSize: 60, color: cLawnGreenColor),
-        //           ),
-        //           Transform.rotate(
-        //             angle: -pi / 12,
-        //             child: Text(
-        //               ksStar,
-        //               style: semiBold20TextStyle(cWhiteColor),
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //   ],
-        // ),
         kH4sizedBox,
         Text(
           ksYouCouldSeeTheStar.tr,
-          style: regular12TextStyle(cBlackColor),
+          style: regular14TextStyle(cBlackColor),
         ),
         kH4sizedBox,
         Text(
           ksYouCanUseItAnywhere.tr,
-          style: regular12TextStyle(cBlackColor),
+          style: regular14TextStyle(cBlackColor),
         ),
       ],
     );
   }
 }
-
-// class StarContent extends StatelessWidget {
-//   const StarContent({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       height: height * 0.4,
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           Container(
-//             height: 150,
-//             width: 150,
-//             decoration: BoxDecoration(
-//               borderRadius: BorderRadius.circular(k12BorderRadius),
-//               color: const Color(0xFF59FCCB),
-//             ),
-//             child: Column(
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               children: [
-//                 ConfettiWidget(
-//                   confettiController: Get.find<AuthenticationController>().confettiController,
-//                   blastDirectionality: BlastDirectionality.explosive,
-//                   shouldLoop: true,
-//                   emissionFrequency: 0.20,
-//                   numberOfParticles: 20,
-//                   gravity: 0.1,
-//                 ),
-//                 RatingBar(
-//                   initialRating: 3,
-//                   itemCount: 3,
-//                   direction: Axis.horizontal,
-//                   glow: true,
-//                   glowColor: cAmberColor,
-//                   ratingWidget: RatingWidget(
-//                     full: const Icon(
-//                       Icons.star,
-//                       color: cAmberColor,
-//                       size: h20,
-//                     ),
-//                     half: const Icon(
-//                       Icons.star_half_outlined,
-//                       color: cAmberColor,
-//                     ),
-//                     empty: const Icon(
-//                       Icons.star,
-//                       color: cAmberColor,
-//                     ),
-//                   ),
-//                   onRatingUpdate: (value) {},
-//                 ),
-//                 Text(
-//                   ksYouGotBonus.tr,
-//                   style: semiBold14TextStyle(cBlackColor),
-//                 ),
-//                 const Text(
-//                   '100',
-//                   style: TextStyle(fontSize: 60, color: cLawnGreenColor),
-//                 ),
-//                 Transform.rotate(
-//                   angle: -pi / 12,
-//                   child: Text(
-//                     ksStar,
-//                     style: semiBold20TextStyle(cWhiteColor),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           kH16sizedBox,
-//           Text(
-//             ksYouCouldSeeTheStar.tr,
-//             style: regular12TextStyle(cBlackColor),
-//           ),
-//           kH4sizedBox,
-//           Text(
-//             ksYouCanUseItAnywhere.tr,
-//             style: regular12TextStyle(cBlackColor),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 class CommonAlertDialog extends StatelessWidget {
   const CommonAlertDialog({

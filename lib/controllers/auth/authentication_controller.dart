@@ -39,6 +39,14 @@ class AuthenticationController extends GetxController {
     isProfileImageChanged.value = false;
   }
 
+  Widget setGap(errorText) {
+    if (errorText != null) {
+      return isDeviceScreenLarge() ? kH10sizedBox : kH8sizedBox;
+    } else {
+      return isDeviceScreenLarge() ? kH24sizedBox : kH20sizedBox;
+    }
+  }
+
   /*
   |--------------------------------------------------------------------------
   | //! info:: login
