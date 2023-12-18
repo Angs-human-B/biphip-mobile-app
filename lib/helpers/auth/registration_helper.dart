@@ -160,8 +160,8 @@ class RegistrationHelper {
         authenticationController.registerConfirmPasswordTextEditingController.text.isNotEmpty) {
       authenticationController.registerConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
     } else {
-      authenticationController.registerPasswordError.value = '';
-      authenticationController.registerConfirmPasswordError.value = '';
+      authenticationController.registerPasswordError.value = null;
+      authenticationController.registerConfirmPasswordError.value = null;
     }
   }
 
@@ -173,7 +173,7 @@ class RegistrationHelper {
         authenticationController.registerPasswordTextEditingController.text) {
       authenticationController.registerConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
     } else {
-      authenticationController.registerConfirmPasswordError.value = '';
+      authenticationController.registerConfirmPasswordError.value = null;
     }
   }
 

@@ -82,7 +82,7 @@ class SetPassword extends StatelessWidget {
                             inputAction: TextInputAction.next,
                             inputType: TextInputType.visiblePassword,
                           ),
-                          kH4sizedBox,
+                          authenticationController.registerPasswordError.value != null ? kH8sizedBox : kH20sizedBox,
                           CustomModifiedTextField(
                             controller: authenticationController.registerConfirmPasswordTextEditingController,
                             focusNode: confirmPasswordFocusNode,
@@ -109,7 +109,7 @@ class SetPassword extends StatelessWidget {
                             inputAction: TextInputAction.done,
                             inputType: TextInputType.visiblePassword,
                           ),
-                          kH24sizedBox,
+                          authenticationController.registerConfirmPasswordError.value != null ? kH8sizedBox : kH20sizedBox,
                           CustomElevatedButton(
                             label: ksNext.tr,
                             onPressed: authenticationController.checkValidPassword.value
