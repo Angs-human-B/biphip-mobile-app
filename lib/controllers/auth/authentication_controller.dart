@@ -39,6 +39,14 @@ class AuthenticationController extends GetxController {
     isProfileImageChanged.value = false;
   }
 
+  Widget setGap(errorText) {
+    if (errorText != null) {
+      return isDeviceScreenLarge() ? kH10sizedBox : kH8sizedBox;
+    } else {
+      return isDeviceScreenLarge() ? kH24sizedBox : kH20sizedBox;
+    }
+  }
+
   /*
   |--------------------------------------------------------------------------
   | //! info:: login
@@ -143,11 +151,11 @@ class AuthenticationController extends GetxController {
   final TextEditingController registerEmailTextEditingController = TextEditingController();
   final TextEditingController registerPasswordTextEditingController = TextEditingController();
   final TextEditingController registerConfirmPasswordTextEditingController = TextEditingController();
-  final RxString firstNameError = RxString('');
-  final RxString lastNameError = RxString('');
-  final RxString registerEmailError = RxString('');
-  final RxString registerPasswordError = RxString('');
-  final RxString registerConfirmPasswordError = RxString('');
+  final Rx<String?> firstNameError = Rx<String?>(null);
+  final Rx<String?> lastNameError = Rx<String?>(null);
+  final Rx<String?> registerEmailError = Rx<String?>(null);
+  final Rx<String?> registerPasswordError = Rx<String?>(null);
+  final Rx<String?> registerConfirmPasswordError = Rx<String?>(null);
   final RxString birthDay = RxString('');
   final RxString gender = RxString('');
   final RxBool isRegisterPasswordToggleObscure = RxBool(true);
@@ -170,11 +178,11 @@ class AuthenticationController extends GetxController {
     checkValidPassword.value = false;
     birthDay.value = '';
     gender.value = '';
-    firstNameError.value = '';
-    lastNameError.value = '';
-    registerEmailError.value = '';
-    registerPasswordError.value = '';
-    registerConfirmPasswordError.value = '';
+    firstNameError.value = null;
+    lastNameError.value = null;
+    registerEmailError.value = null;
+    registerPasswordError.value = null;
+    registerConfirmPasswordError.value = null;
   }
 
   final RxBool isRegisterLoading = RxBool(false);

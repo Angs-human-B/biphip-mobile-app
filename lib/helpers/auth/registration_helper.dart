@@ -44,7 +44,7 @@ class RegistrationHelper {
     if (authenticationController.registerFirstNameTextEditingController.text.trim() == '') {
       authenticationController.firstNameError.value = ksEmptyFirstNameErrorMessage.tr;
     } else {
-      authenticationController.firstNameError.value = "";
+      authenticationController.firstNameError.value = null;
     }
   }
 
@@ -53,7 +53,7 @@ class RegistrationHelper {
     if (authenticationController.registerLastNameTextEditingController.text.trim() == '') {
       authenticationController.lastNameError.value = ksEmptyLastNameErrorMessage.tr;
     } else {
-      authenticationController.lastNameError.value = "";
+      authenticationController.lastNameError.value = null;
     }
   }
 
@@ -70,7 +70,7 @@ class RegistrationHelper {
     } else if (!authenticationController.registerEmailTextEditingController.text.trim().isValidEmail) {
       authenticationController.registerEmailError.value = ksInvalidEmailErrorMessage.tr;
     } else {
-      authenticationController.registerEmailError.value = '';
+      authenticationController.registerEmailError.value = null;
     }
   }
 
@@ -160,8 +160,8 @@ class RegistrationHelper {
         authenticationController.registerConfirmPasswordTextEditingController.text.isNotEmpty) {
       authenticationController.registerConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
     } else {
-      authenticationController.registerPasswordError.value = '';
-      authenticationController.registerConfirmPasswordError.value = '';
+      authenticationController.registerPasswordError.value = null;
+      authenticationController.registerConfirmPasswordError.value = null;
     }
   }
 
@@ -173,7 +173,7 @@ class RegistrationHelper {
         authenticationController.registerPasswordTextEditingController.text) {
       authenticationController.registerConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
     } else {
-      authenticationController.registerConfirmPasswordError.value = '';
+      authenticationController.registerConfirmPasswordError.value = null;
     }
   }
 

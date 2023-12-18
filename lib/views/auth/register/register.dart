@@ -78,7 +78,7 @@ class Register extends StatelessWidget {
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.name,
                       ),
-                      kH4sizedBox,
+                      authenticationController.firstNameError.value != null ? kH8sizedBox : kH20sizedBox,
                       CustomModifiedTextField(
                         controller: authenticationController.registerLastNameTextEditingController,
                         errorText: authenticationController.lastNameError.value,
@@ -96,7 +96,7 @@ class Register extends StatelessWidget {
                         inputAction: TextInputAction.done,
                         inputType: TextInputType.name,
                       ),
-                      kH24sizedBox,
+                      authenticationController.lastNameError.value != null ? kH8sizedBox : kH20sizedBox,
                       CustomElevatedButton(
                         label: ksNext.tr,
                         onPressed: authenticationController.checkValidName.value

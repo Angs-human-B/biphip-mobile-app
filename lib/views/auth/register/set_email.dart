@@ -71,7 +71,7 @@ class SetEmail extends StatelessWidget {
                         inputAction: TextInputAction.done,
                         inputType: TextInputType.emailAddress,
                       ),
-                      kH24sizedBox,
+                      authenticationController.registerEmailError.value != null ? kH8sizedBox : kH20sizedBox,
                       CustomElevatedButton(
                         label: ksNext.tr,
                         onPressed: authenticationController.checkValidEmail.value
