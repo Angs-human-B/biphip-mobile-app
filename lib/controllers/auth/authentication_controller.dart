@@ -49,16 +49,16 @@ class AuthenticationController extends GetxController {
   final TextEditingController loginPasswordTextEditingController = TextEditingController();
   final RxBool isLoginPasswordToggleObscure = RxBool(true);
   final RxBool isLoginRememberCheck = RxBool(false);
-  final RxString loginEmailErrorText = RxString('');
-  final RxString loginPasswordErrorText = RxString('');
+  final Rx<String?> loginEmailErrorText = Rx<String?>(null);
+  final Rx<String?> loginPasswordErrorText = Rx<String?>(null);
 
   void resetLoginScreen() {
     loginEmailTextEditingController.clear();
     loginPasswordTextEditingController.clear();
     isLoginPasswordToggleObscure.value = true;
     isLoginRememberCheck.value = false;
-    loginEmailErrorText.value = '';
-    loginPasswordErrorText.value = '';
+    loginEmailErrorText.value = null;
+    loginPasswordErrorText.value = null;
     canLogin.value = false;
   }
 
@@ -533,9 +533,9 @@ class AuthenticationController extends GetxController {
   final RxBool isConfettiPlaying = RxBool(true);
   final RxDouble currentStar = RxDouble(1);
   animateStars() async {
-   for (int i = 1; i <= currentStar.value; i++) {
-     await Future.delayed(const Duration(seconds: 1));
-     currentStar.value++;
-   }
- }
+    for (int i = 1; i <= currentStar.value; i++) {
+      await Future.delayed(const Duration(seconds: 1));
+      currentStar.value++;
+    }
+  }
 }

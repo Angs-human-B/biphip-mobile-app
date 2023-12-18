@@ -18,6 +18,7 @@ class TopTitleAndSubtitle extends StatelessWidget {
           title,
           style: medium24TextStyle(cBlackColor),
         ),
+        kH4sizedBox,
         Row(
           children: [
             Expanded(

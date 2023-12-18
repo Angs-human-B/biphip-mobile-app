@@ -22,7 +22,7 @@ class LoginHelper {
     } else if (!authenticationController.loginEmailTextEditingController.text.trim().isValidEmail) {
       authenticationController.loginEmailErrorText.value = ksInvalidEmailErrorMessage.tr;
     } else {
-      authenticationController.loginEmailErrorText.value = '';
+      authenticationController.loginEmailErrorText.value = null;
     }
   }
 
@@ -33,21 +33,21 @@ class LoginHelper {
     } else if (authenticationController.loginPasswordTextEditingController.text.length < kMinPasswordLength) {
       authenticationController.loginPasswordErrorText.value = ksPasswordLengthErrorMessage.tr;
     } else {
-      authenticationController.loginPasswordErrorText.value = '';
+      authenticationController.loginPasswordErrorText.value = null;
     }
   }
 
   void getSaveUserDetails(item) async {
     final SpController spController = SpController();
-        await spController.saveBearerToken(item['token']);
-        await spController.saveRememberMe(true);
-        await spController.saveUserName(item['name'].toString());
-        await spController.saveUserFirstName(item['first_name'].toString());
-        await spController.saveUserLastName(item['last_name'].toString());
-        await spController.saveUserImage(item['image_url'].toString());
-        await spController.saveUserEmail(item['email'].toString());
-        await Get.find<GlobalController>().getUserInfo();
-        Get.offAllNamed(krHome);
-        await Get.find<HomeController>().getPostList();
+    await spController.saveBearerToken(item['token']);
+    await spController.saveRememberMe(true);
+    await spController.saveUserName(item['name'].toString());
+    await spController.saveUserFirstName(item['first_name'].toString());
+    await spController.saveUserLastName(item['last_name'].toString());
+    await spController.saveUserImage(item['image_url'].toString());
+    await spController.saveUserEmail(item['email'].toString());
+    await Get.find<GlobalController>().getUserInfo();
+    Get.offAllNamed(krHome);
+    await Get.find<HomeController>().getPostList();
   }
 }

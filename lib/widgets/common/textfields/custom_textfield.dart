@@ -130,21 +130,19 @@ class CustomModifiedTextField extends StatelessWidget {
                 borderRadius: BorderRadius.circular(borderRadius ?? k4BorderRadius),
                 borderSide: const BorderSide(width: 0, style: BorderStyle.none),
               ),
-          errorBorder: border ??
-              OutlineInputBorder(
-                borderRadius: BorderRadius.circular(k4BorderRadius),
-                borderSide: const BorderSide(width: 0, style: BorderStyle.none),
-              ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(k4BorderRadius),
+            borderSide: const BorderSide(width: 1, style: BorderStyle.solid, color: cRedColor),
+          ),
           focusedBorder: border ??
               OutlineInputBorder(
                 borderRadius: BorderRadius.circular(k4BorderRadius),
                 borderSide: const BorderSide(width: 0, style: BorderStyle.none),
               ),
-          focusedErrorBorder: border ??
-              OutlineInputBorder(
-                borderRadius: BorderRadius.circular(k4BorderRadius),
-                borderSide: const BorderSide(width: 0, style: BorderStyle.none),
-              ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(k4BorderRadius),
+            borderSide: const BorderSide(width: 1, style: BorderStyle.solid, color: cRedColor),
+          ),
           disabledBorder: border ??
               OutlineInputBorder(
                 borderRadius: BorderRadius.circular(k4BorderRadius),

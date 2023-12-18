@@ -15,9 +15,9 @@ class SelectInterestScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      color: profileController.isRouteFromAboutInfo.value ? cWhiteColor : null,
+      // color: cWhiteColor ,
       decoration: !profileController.isRouteFromAboutInfo.value
-          ? const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover))
+          ? const BoxDecoration(color: cWhiteColor, image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover))
           : null,
       child: SafeArea(
         top: false,
@@ -52,7 +52,7 @@ class SelectInterestScreen extends StatelessWidget {
           body: Obx(
             () => profileController.isInterestListLoading.value
                 ? CommonLoadingAnimation(
-                    backgroundColor: cWhiteColor,
+                    backgroundColor: cTransparentColor,
                     onWillPop: () async {
                       return true;
                     },
@@ -82,7 +82,7 @@ class SelectInterestScreen extends StatelessWidget {
                                     label: globalController.interestList[i],
                                     isSelected: (globalController.interestIndex.contains(i)),
                                     onSelected: (value) {
-                                     registrationHelper.onSelectingInterest(i);
+                                      registrationHelper.onSelectingInterest(i);
                                     },
                                   )
                               ],

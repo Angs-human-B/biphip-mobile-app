@@ -60,7 +60,7 @@ class Login extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: h20),
                           child: CustomModifiedTextField(
-                            errorText: authenticationController.loginEmailErrorText.isEmpty ? null : authenticationController.loginEmailErrorText.value,
+                            errorText: authenticationController.loginEmailErrorText.value,
                             controller: authenticationController.loginEmailTextEditingController,
                             hint: ksEmailOrPhone.tr,
                             textHintStyle: regular16TextStyle(cPlaceHolderColor2),
@@ -77,7 +77,7 @@ class Login extends StatelessWidget {
                             inputType: TextInputType.emailAddress,
                           ),
                         ),
-                        kH8sizedBox,
+                        authenticationController.loginEmailErrorText.value != null ? kH16sizedBox : kH28sizedBox,
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: h20),
                           child: CustomModifiedTextField(
@@ -103,7 +103,7 @@ class Login extends StatelessWidget {
                             inputType: TextInputType.visiblePassword,
                           ),
                         ),
-                        kH16sizedBox,
+                        authenticationController.loginPasswordErrorText.value != null ? kH16sizedBox : kH28sizedBox,
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: h20),
                           child: CheckBoxAndContainer(
@@ -117,7 +117,7 @@ class Login extends StatelessWidget {
                             },
                           ),
                         ),
-                        kH16sizedBox,
+                        kH24sizedBox,
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: h20),
                           child: CustomElevatedButton(
