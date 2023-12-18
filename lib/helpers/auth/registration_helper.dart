@@ -70,7 +70,7 @@ class RegistrationHelper {
     } else if (!authenticationController.registerEmailTextEditingController.text.trim().isValidEmail) {
       authenticationController.registerEmailError.value = ksInvalidEmailErrorMessage.tr;
     } else {
-      authenticationController.registerEmailError.value = '';
+      authenticationController.registerEmailError.value = null;
     }
   }
 

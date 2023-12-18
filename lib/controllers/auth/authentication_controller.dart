@@ -145,9 +145,9 @@ class AuthenticationController extends GetxController {
   final TextEditingController registerConfirmPasswordTextEditingController = TextEditingController();
   final Rx<String?> firstNameError = Rx<String?>(null);
   final Rx<String?> lastNameError = Rx<String?>(null);
-  final RxString registerEmailError = RxString('');
-  final RxString registerPasswordError = RxString('');
-  final RxString registerConfirmPasswordError = RxString('');
+  final Rx<String?> registerEmailError = Rx<String?>(null);
+  final Rx<String?> registerPasswordError = Rx<String?>(null);
+  final Rx<String?> registerConfirmPasswordError = Rx<String?>(null);
   final RxString birthDay = RxString('');
   final RxString gender = RxString('');
   final RxBool isRegisterPasswordToggleObscure = RxBool(true);
@@ -172,9 +172,9 @@ class AuthenticationController extends GetxController {
     gender.value = '';
     firstNameError.value = null;
     lastNameError.value = null;
-    registerEmailError.value = '';
-    registerPasswordError.value = '';
-    registerConfirmPasswordError.value = '';
+    registerEmailError.value = null;
+    registerPasswordError.value = null;
+    registerConfirmPasswordError.value = null;
   }
 
   final RxBool isRegisterLoading = RxBool(false);
