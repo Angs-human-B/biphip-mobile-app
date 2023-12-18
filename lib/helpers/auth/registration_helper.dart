@@ -314,7 +314,7 @@ class RegistrationHelper {
     } else if (!authenticationController.forgotPasswordEmailTextEditingController.text.trim().isValidEmail) {
       authenticationController.forgotPasswordEmailError.value = ksInvalidEmailErrorMessage.tr;
     } else {
-      authenticationController.forgotPasswordEmailError.value = '';
+      authenticationController.forgotPasswordEmailError.value = null;
     }
   }
 
@@ -335,7 +335,8 @@ class RegistrationHelper {
     } else if (authenticationController.resetNewPasswordTextEditingController.text.length < kMinPasswordLength) {
       authenticationController.resetPasswordError.value = ksPasswordLengthErrorMessage.tr;
     } else {
-      authenticationController.resetPasswordError.value = '';
+      authenticationController.resetPasswordError.value = null;
+      authenticationController.resetConfirmPasswordError.value = null;
     }
   }
 
@@ -346,7 +347,7 @@ class RegistrationHelper {
     } else if (authenticationController.resetConfirmPasswordTextEditingController.text != authenticationController.resetNewPasswordTextEditingController.text) {
       authenticationController.resetConfirmPasswordError.value = ksUnmatchedPasswordErrorMessage.tr;
     } else {
-      authenticationController.resetConfirmPasswordError.value = '';
+      authenticationController.resetConfirmPasswordError.value = null;
     }
   }
 

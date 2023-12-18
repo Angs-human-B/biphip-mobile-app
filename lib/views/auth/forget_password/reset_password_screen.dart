@@ -14,7 +14,7 @@ class ResetPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      decoration: const BoxDecoration(color: cWhiteColor,image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
+      decoration: const BoxDecoration(color: cWhiteColor, image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
           children: [
@@ -60,8 +60,7 @@ class ResetPasswordScreen extends StatelessWidget {
                             ),
                             suffixIcon: authenticationController.isResetNewPasswordToggleObscure.value ? BipHip.passwordHide : Icons.visibility_outlined,
                             onSuffixPress: () {
-                              authenticationController.isResetNewPasswordToggleObscure.value =
-                                  !authenticationController.isResetNewPasswordToggleObscure.value;
+                              authenticationController.isResetNewPasswordToggleObscure.value = !authenticationController.isResetNewPasswordToggleObscure.value;
                             },
                             onChanged: (text) {
                               registrationHelper.forgetPasswordNewPasswordOnChanged();
@@ -73,7 +72,7 @@ class ResetPasswordScreen extends StatelessWidget {
                             obscureText: authenticationController.isResetNewPasswordToggleObscure.value,
                             inputType: TextInputType.visiblePassword,
                           ),
-                          kH4sizedBox,
+                          authenticationController.resetPasswordError.value != null ? kH8sizedBox : kH20sizedBox,
                           CustomModifiedTextField(
                             controller: authenticationController.resetConfirmPasswordTextEditingController,
                             focusNode: confirmPasswordFocusNode,
@@ -100,7 +99,8 @@ class ResetPasswordScreen extends StatelessWidget {
                             inputAction: TextInputAction.done,
                             inputType: TextInputType.visiblePassword,
                           ),
-                          kH24sizedBox,
+                          // kH24sizedBox,
+                          authenticationController.resetConfirmPasswordError.value != null ? kH8sizedBox : kH16sizedBox,
                           CustomElevatedButton(
                             label: ksNext.tr,
                             onPressed: authenticationController.canResetPassword.value

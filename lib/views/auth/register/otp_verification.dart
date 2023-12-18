@@ -69,7 +69,7 @@ class OTPVerifyScreen extends StatelessWidget {
                               registrationHelper.checkCanOTPVerifyNow();
                             },
                           ),
-                          kH24sizedBox,
+                          kH16sizedBox,
                           CustomElevatedButton(
                             label: ksNext.tr,
                             onPressed: authenticationController.canOTPVerifyNow.value
@@ -82,7 +82,7 @@ class OTPVerifyScreen extends StatelessWidget {
                                 ? semiBold16TextStyle(cWhiteColor)
                                 : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                           ),
-                          kH25sizedBox,
+                          kH28sizedBox,
                           authenticationController.isOTPResendClick.value
                               ? LinkupTextRow(
                                   prefix: ksResendCode.tr,
