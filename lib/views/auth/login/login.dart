@@ -77,7 +77,7 @@ class Login extends StatelessWidget {
                             inputType: TextInputType.emailAddress,
                           ),
                         ),
-                        authenticationController.loginEmailErrorText.value != null ? kH16sizedBox : kH28sizedBox,
+                        authenticationController.loginEmailErrorText.value != null ? kH8sizedBox : kH20sizedBox,
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: h20),
                           child: CustomModifiedTextField(
@@ -103,7 +103,7 @@ class Login extends StatelessWidget {
                             inputType: TextInputType.visiblePassword,
                           ),
                         ),
-                        authenticationController.loginPasswordErrorText.value != null ? kH16sizedBox : kH28sizedBox,
+                        authenticationController.loginPasswordErrorText.value != null ? kH8sizedBox : kH20sizedBox,
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: h20),
                           child: CheckBoxAndContainer(
