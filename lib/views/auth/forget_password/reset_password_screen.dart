@@ -72,7 +72,7 @@ class ResetPasswordScreen extends StatelessWidget {
                             obscureText: authenticationController.isResetNewPasswordToggleObscure.value,
                             inputType: TextInputType.visiblePassword,
                           ),
-                          authenticationController.resetPasswordError.value != null ? kH8sizedBox : kH20sizedBox,
+                           authenticationController.setGap(authenticationController.resetPasswordError.value),
                           CustomModifiedTextField(
                             controller: authenticationController.resetConfirmPasswordTextEditingController,
                             focusNode: confirmPasswordFocusNode,
@@ -99,8 +99,7 @@ class ResetPasswordScreen extends StatelessWidget {
                             inputAction: TextInputAction.done,
                             inputType: TextInputType.visiblePassword,
                           ),
-                          // kH24sizedBox,
-                          authenticationController.resetConfirmPasswordError.value != null ? kH8sizedBox : kH16sizedBox,
+                           authenticationController.setGap(authenticationController.resetConfirmPasswordError.value),
                           CustomElevatedButton(
                             label: ksNext.tr,
                             onPressed: authenticationController.canResetPassword.value

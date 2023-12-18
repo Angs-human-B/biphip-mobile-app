@@ -64,8 +64,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                             inputAction: TextInputAction.done,
                             inputType: TextInputType.emailAddress,
                           ),
-                          // kH24sizedBox,
-                          authenticationController.forgotPasswordEmailError.value != null ? kH10sizedBox : kH24sizedBox,
+                          authenticationController.setGap(authenticationController.forgotPasswordEmailError.value),
                           CustomElevatedButton(
                             label: ksNext.tr,
                             onPressed: authenticationController.canSendOTP.value
