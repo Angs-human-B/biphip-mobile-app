@@ -65,7 +65,7 @@ class SelectGender extends StatelessWidget {
                         text: authenticationController.gender.value,
                         hintText: ksSelectGender.tr,
                       ),
-                      kH24sizedBox,
+                      isDeviceScreenLarge() ? kH30sizedBox : kH24sizedBox,
                       CustomElevatedButton(
                         label: ksNext.tr,
                         onPressed: authenticationController.gender.value != ''

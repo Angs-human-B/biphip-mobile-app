@@ -15,7 +15,6 @@ class SelectInterestScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      // color: cWhiteColor ,
       decoration: !profileController.isRouteFromAboutInfo.value
           ? const BoxDecoration(color: cWhiteColor, image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover))
           : null,

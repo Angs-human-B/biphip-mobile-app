@@ -54,7 +54,7 @@ class SelectProfessionScreen extends StatelessWidget {
           body: Obx(
             () => profileController.isProfessionListLoading.value
                 ? CommonLoadingAnimation(
-                    backgroundColor: cWhiteColor,
+                    backgroundColor: cTransparentColor,
                     onWillPop: () async {
                       return true;
                     },

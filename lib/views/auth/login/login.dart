@@ -103,7 +103,7 @@ class Login extends StatelessWidget {
                             inputType: TextInputType.visiblePassword,
                           ),
                         ),
-                        authenticationController.loginPasswordErrorText.value != null ? kH8sizedBox : kH20sizedBox,
+                        authenticationController.setGap(authenticationController.loginPasswordErrorText.value),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: h20),
                           child: CheckBoxAndContainer(
