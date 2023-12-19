@@ -236,12 +236,12 @@ class AuthenticationController extends GetxController {
   */
 
   final TextEditingController forgotPasswordEmailTextEditingController = TextEditingController();
-  final RxString forgotPasswordEmailError = RxString('');
+  final Rx<String?> forgotPasswordEmailError = Rx<String?>(null);
   final RxBool canSendOTP = RxBool(false);
 
   void resetForgotPasswordScreen() {
     forgotPasswordEmailTextEditingController.clear();
-    forgotPasswordEmailError.value = '';
+    forgotPasswordEmailError.value = null;
     canSendOTP.value = false;
   }
 
@@ -290,16 +290,16 @@ class AuthenticationController extends GetxController {
   final RxBool isResetConfirmPasswordToggleObscure = RxBool(true);
   final RxBool canResetPassword = RxBool(false);
 
-  final RxString resetPasswordError = RxString('');
-  final RxString resetConfirmPasswordError = RxString('');
+  final Rx<String?> resetPasswordError = Rx<String?>(null);
+  final Rx<String?> resetConfirmPasswordError = Rx<String?>(null);
 
   void resetResetPasswordScreen() {
     resetNewPasswordTextEditingController.clear();
     resetConfirmPasswordTextEditingController.clear();
     isResetNewPasswordToggleObscure.value = true;
     isResetConfirmPasswordToggleObscure.value = true;
-    resetPasswordError.value = '';
-    resetConfirmPasswordError.value = '';
+    resetPasswordError.value = null;
+    resetConfirmPasswordError.value = null;
     canResetPassword.value = false;
   }
 

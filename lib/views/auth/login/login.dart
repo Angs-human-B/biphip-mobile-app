@@ -152,7 +152,7 @@ class Login extends StatelessWidget {
                         //         authenticationController.canLogin.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                         //   ),
                         // ),
-                        kH25sizedBox,
+                        kH28sizedBox,
                         Text(
                           ksOrLoginWith.tr,
                           style: regular14TextStyle(cBlackColor),

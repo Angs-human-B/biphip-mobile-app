@@ -13,7 +13,7 @@ class ForgotPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      decoration: const BoxDecoration(color: cWhiteColor,image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
+      decoration: const BoxDecoration(color: cWhiteColor, image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
           children: [
@@ -64,7 +64,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                             inputAction: TextInputAction.done,
                             inputType: TextInputType.emailAddress,
                           ),
-                          kH24sizedBox,
+                          authenticationController.setGap(authenticationController.forgotPasswordEmailError.value),
                           CustomElevatedButton(
                             label: ksNext.tr,
                             onPressed: authenticationController.canSendOTP.value
@@ -74,9 +74,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                                   }
                                 : null,
                             buttonWidth: width - 40,
-                            textStyle: authenticationController.canSendOTP.value
-                                ? semiBold16TextStyle(cWhiteColor)
-                                : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
+                            textStyle:
+                                authenticationController.canSendOTP.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                           ),
                         ],
                       ),
