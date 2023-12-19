@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 
 class CreatePostUpperSection extends StatelessWidget {
@@ -71,7 +72,7 @@ class CreatePostUpperSection extends StatelessWidget {
             ],
           ),
           kW8sizedBox,
-          Expanded(
+          Flexible(
             child: Column(
               children: [
                 Row(
@@ -110,7 +111,10 @@ class CreatePostUpperSection extends StatelessWidget {
                 ),
                 kH4sizedBox,
                 Obx(
-                  () => Row(
+                  () => Wrap(
+                    alignment: WrapAlignment.center,
+                    direction: Axis.horizontal,
+                    spacing: 8.0,
                     children: [
                       CustomElevatedButton(
                         isCustomButton: true,
@@ -127,7 +131,7 @@ class CreatePostUpperSection extends StatelessWidget {
                         suffixIconColor: cBlackColor,
                         textStyle: medium12TextStyle(cBlackColor),
                       ),
-                      kW8sizedBox,
+                      // kW8sizedBox,
                       CustomElevatedButton(
                         label: createPostController.category.value == "" ? "Select Category" : createPostController.category.value,
                         prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
@@ -144,6 +148,43 @@ class CreatePostUpperSection extends StatelessWidget {
                         suffixIconColor: cBlackColor,
                         textStyle: medium12TextStyle(cBlackColor),
                       ),
+                      // kW8sizedBox,
+                      CustomElevatedButton(
+                        label: createPostController.subCategory.value == "" ? "Sub category" : createPostController.subCategory.value,
+                        // prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
+                        // prefixIconColor: createPostController.category.value == "" ? null : createPostController.categoryIconColor.value,
+                        onPressed: createPostController.category.value != ""
+                            ? () async {
+                                // createPostHelper.initializeCategory();
+                                // Get.toNamed(krSelectCategory);
+
+                                // await createPostController.getPostCategoryList();
+                                Get.find<GlobalController>().commonBottomSheet(
+                                    context: context,
+                                    content: const SubCategoryContent(),
+                                    onPressCloseButton: () {
+                                      Get.back();
+                                    },
+                                    onPressRightButton: () {
+                                      createPostController.subCategory.value;
+                                      Get.back();
+                                    },
+                                    rightText: ksDone.tr,
+                                    rightTextStyle: semiBold12TextStyle(cPrimaryColor),
+                                    title: ksSubCategory.tr,
+                                    isRightButtonShow: true,
+                                    isScrollControlled: true,
+                                    bottomSheetHeight: height * .9);
+                              }
+                            : null,
+                        buttonHeight: 22,
+                        isCustomButton: true,
+                        suffixIcon: createPostController.category.value == "" ? BipHip.plus : BipHip.edit,
+                        buttonColor: createPostController.category.value == "" ? cGreyBoxColor : cGreyBoxColor,
+                        suffixIconColor: cBlackColor,
+                        textStyle: createPostController.category.value == "" ? medium12TextStyle(cNeutralColor) : medium12TextStyle(cBlackColor),
+                      ),
+
                       if (createPostController.category.value == "Selling") kW8sizedBox,
                       if (createPostController.category.value == "Selling")
                         Expanded(
@@ -222,13 +263,11 @@ class CreatePostUpperSection extends StatelessWidget {
                                 onPressCloseButton: () {
                                   Get.back();
                                 },
-                                onPressRightButton: () {
-                                  Get.back();
-                                },
-                                rightText: ksDone.tr,
+                                onPressRightButton: null,
+                                rightText: '',
                                 rightTextStyle: medium14TextStyle(cPrimaryColor),
                                 title: ksPostType.tr,
-                                isRightButtonShow: true,
+                                isRightButtonShow: false,
                               );
                             },
                             buttonHeight: 22,
@@ -242,12 +281,43 @@ class CreatePostUpperSection extends StatelessWidget {
                         ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class SubCategoryContent extends StatelessWidget {
+  const SubCategoryContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Wrap(
+          alignment: WrapAlignment.start,
+          direction: Axis.horizontal,
+          spacing: 8.0,
+          children: [
+            for (int i = 0; i < Get.find<CreatePostController>().subCategoryList.length; i++)
+              CustomChoiceChips(
+                label: Get.find<CreatePostController>().subCategoryList[i]["title"],
+                isSelected: (Get.find<CreatePostController>().subCategoryIndex.value == i),
+                onSelected: (value) {
+                  // Get.find<CreatePostController>().subCategory.value =
+                  // log(value.toString());
+                  Get.find<CreatePostController>().subCategory.value = Get.find<CreatePostController>().subCategoryList[i]["title"];
+                  // log(Get.find<CreatePostController>().subCategory.value);
+                  Get.find<CreatePostController>().subCategoryIndex.value = i;
+                },
+              )
+          ],
+        ),
+      ],
     );
   }
 }

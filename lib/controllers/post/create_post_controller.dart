@@ -5,6 +5,12 @@ import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class CreatePostController extends GetxController {
+  @override
+  onInit() {
+    subCategoryList.addAll(subCategoryLists);
+    super.onInit();
+  }
+
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
@@ -334,6 +340,7 @@ class CreatePostController extends GetxController {
     category.value = '';
     isPostButtonActive.value = false;
   }
+
   Future<void> createPost() async {
     ll(allMediaList);
     try {
@@ -372,5 +379,23 @@ class CreatePostController extends GetxController {
     }
   }
 
-  
+  final RxString subCategory = RxString('');
+  // final RxList subCategoryList = RxList(subCategoryLists);
+  final RxList subCategoryList = RxList([]);
+
+  final RxInt subCategoryIndex = RxInt(-1);
+  final List subCategoryLists = [
+    {"id": '', "title": "Drawing"},
+    {"id": '', "title": "Birthday"},
+    {"id": '', "title": "School"},
+    {"id": '', "title": "Song"},
+    {"id": '', "title": "Art"},
+  ];
+//   final Map<String,dynamic> subCategoryMap = {
+//     "title":"Drawing",
+//    "title": "Birthday",
+//     "School",
+//     "Song",
+//     "Art",
+// };
 }
