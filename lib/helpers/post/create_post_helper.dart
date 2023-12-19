@@ -284,7 +284,7 @@ class CreatePostHelper {
         content: Obx(() => Column(
               children: [
                 kH8sizedBox,
-                if (createPostController.selectedKid.value == null)
+                if (createPostController.selectedKid.value == null && !createPostController.isKidAdded.value)
                   OutLinedButton(
                     buttonHeight: isDeviceScreenLarge() ? 45 : 40,
                     borderRadius: k8CircularBorderRadius,
@@ -441,53 +441,6 @@ class CreatePostHelper {
                       ),
                     ),
                   ),
-                // kH12sizedBox,
-                // OutLinedButton(
-                //   onPress: () {},
-                //   buttonText: "Maria Jones",
-                //   buttonTextStyle: medium16TextStyle(cBlackColor),
-                //   borderColor: cPrimaryColor,
-                //   buttonColor: cPrimaryTint3Color,
-                //   widget: Icon(
-                //     BipHip.circleCrossNew,
-                //     color: cRedColor,
-                //     size: isDeviceScreenLarge() ? h20 : h18,
-                //   ),
-                //   backgroundImage: const NetworkImage("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"),
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                // ),
-                kH12sizedBox,
-                Text(
-                  ksOr.tr,
-                  style: regular16TextStyle(cPlaceHolderColor),
-                ),
-                kH12sizedBox,
-                if (!createPostController.isKidAdded.value)
-                  OutLinedButton(
-                    buttonHeight: isDeviceScreenLarge() ? 45 : 40,
-                    borderRadius: k8CircularBorderRadius,
-                    onPress: createPostController.selectedKid.value == null
-                        ? () {
-                            resetAddKidPage();
-                            Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder: (context, animation1, animation2) => AddKidPage(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                              ),
-                            );
-                          }
-                        : null,
-                    buttonText: ksAddKid.tr,
-                    buttonTextStyle: createPostController.selectedKid.value == null ? medium16TextStyle(cPrimaryColor) : medium16TextStyle(cLineColor2),
-                    borderColor: createPostController.selectedKid.value == null ? cPrimaryColor : cLineColor2,
-                    widget: Icon(
-                      BipHip.plus,
-                      color: createPostController.selectedKid.value == null ? cPrimaryColor : cLineColor2,
-                      size: isDeviceScreenLarge() ? h20 : h16,
-                    ),
-                  ),
                 if (createPostController.isKidAdded.value)
                   CustomListTile(
                     borderColor: cPrimaryColor,
@@ -525,6 +478,70 @@ class CreatePostHelper {
                       ),
                     ),
                   ),
+                // kH12sizedBox,
+                // OutLinedButton(
+                //   onPress: () {},
+                //   buttonText: "Maria Jones",
+                //   buttonTextStyle: medium16TextStyle(cBlackColor),
+                //   borderColor: cPrimaryColor,
+                //   buttonColor: cPrimaryTint3Color,
+                //   widget: Icon(
+                //     BipHip.circleCrossNew,
+                //     color: cRedColor,
+                //     size: isDeviceScreenLarge() ? h20 : h18,
+                //   ),
+                //   backgroundImage: const NetworkImage("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"),
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // ),
+                kH12sizedBox,
+                Text(
+                  ksOr.tr,
+                  style: regular16TextStyle(cPlaceHolderColor),
+                ),
+                kH12sizedBox,
+                // if (!createPostController.isKidAdded.value)
+                OutLinedButton(
+                  buttonHeight: isDeviceScreenLarge() ? 45 : 40,
+                  borderRadius: k8CircularBorderRadius,
+                  onPress: (createPostController.selectedKid.value == null && !createPostController.isKidAdded.value)
+                      ? () {
+                          resetAddKidPage();
+                          globalController.commonBottomSheet(
+                              bottomSheetHeight: height * 0.9,
+                              isScrollControlled: true,
+                              context: context,
+                              content: AddKidContent(),
+                              onPressCloseButton: () {
+                                Get.back();
+                              },
+                              onPressRightButton: () {
+                                addKid();
+                              },
+                              rightText: ksDone.tr,
+                              rightTextStyle: medium14TextStyle(cPrimaryColor),
+                              title: ksAddKid.tr,
+                              isRightButtonShow: true);
+                          // Navigator.push(
+                          //   context,
+                          //   PageRouteBuilder(
+                          //     pageBuilder: (context, animation1, animation2) => AddKdPage(),
+                          //     transitionDuration: Duration.zero,
+                          //     reverseTransitionDuration: Duration.zero,
+                          //   ),
+                          // );
+                        }
+                      : null,
+                  buttonText: ksAddKid.tr,
+                  buttonTextStyle: (createPostController.selectedKid.value == null && !createPostController.isKidAdded.value)
+                      ? medium16TextStyle(cPrimaryColor)
+                      : medium16TextStyle(cLineColor2),
+                  borderColor: (createPostController.selectedKid.value == null && !createPostController.isKidAdded.value) ? cPrimaryColor : cLineColor2,
+                  widget: Icon(
+                    BipHip.plus,
+                    color: (createPostController.selectedKid.value == null && !createPostController.isKidAdded.value) ? cPrimaryColor : cLineColor2,
+                    size: isDeviceScreenLarge() ? h20 : h16,
+                  ),
+                ),
                 kH8sizedBox,
                 Text(
                   "*${ksCustomAddInstruction.tr}",
@@ -876,6 +893,7 @@ class CreatePostHelper {
   //------------------------------
 
   void addKid() async {
+    ll(createPostController.saveKidInfo.value);
     if (createPostController.saveKidInfo.value) {
       await createPostController.addKid();
     } else {
