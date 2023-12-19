@@ -537,7 +537,9 @@ class AuthenticationController extends GetxController {
   }
 
   //*newly added confetti controller
-  final ConfettiController confettiController = ConfettiController();
+  final ConfettiController confettiController1 = ConfettiController();
+  final ConfettiController confettiController2 = ConfettiController();
+  final ConfettiController confettiController3 = ConfettiController();
   final RxBool isConfettiPlaying = RxBool(true);
   final RxDouble currentStar = RxDouble(1);
   animateStars() async {

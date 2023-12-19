@@ -98,15 +98,6 @@ class PictureUploadScreen extends StatelessWidget {
                             label: authenticationController.isProfileImageChanged.value ? ksSavePhoto.tr : ksAddPhoto.tr,
                             onPressed: () async {
                               registrationHelper.onPressedSavePhoto(context);
-                              if (authenticationController.isProfileImageChanged.value) {
-                                authenticationController.confettiController.play();
-                                RegistrationHelper().congratulationsAlertDialog(
-                                  context: context,
-                                  content: const StarContent(),
-                                );
-                                await Future.delayed(const Duration(milliseconds: 1500));
-                                authenticationController.confettiController.stop();
-                              }
                             },
                             buttonWidth: width - 40,
                             textStyle: semiBold16TextStyle(cWhiteColor),
@@ -118,13 +109,17 @@ class PictureUploadScreen extends StatelessWidget {
                               buttonColor: cTransparentColor,
                               onPressed: () async {
                                 Get.offAllNamed(krHome);
-                                authenticationController.confettiController.play();
+                                authenticationController.confettiController1.play();
+                                authenticationController.confettiController2.play();
+                                authenticationController.confettiController3.play();
                                 RegistrationHelper().congratulationsAlertDialog(
                                   context: context,
                                   content: const StarContent(),
                                 );
-                                await Future.delayed(const Duration(milliseconds: 1500));
-                                authenticationController.confettiController.stop();
+                                await Future.delayed(const Duration(seconds: 5));
+                                authenticationController.confettiController1.stop();
+                                authenticationController.confettiController2.stop();
+                                authenticationController.confettiController3.stop();
                                 await Get.find<HomeController>().getPostList();
                               },
                               label: ksSkip.tr,
@@ -166,12 +161,37 @@ class StarContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ConfettiWidget(
-          confettiController: Get.find<AuthenticationController>().confettiController,
+          confettiController: Get.find<AuthenticationController>().confettiController1,
           blastDirectionality: BlastDirectionality.explosive,
-          shouldLoop: true,
-          emissionFrequency: 0.20,
-          numberOfParticles: 10,
-          gravity: 0.6,
+          numberOfParticles: 8,
+          gravity: 0.8,
+          createParticlePath: drawCustomConfetti1,
+          colors: const [
+            cOrangeColor,
+            cRedColor,
+          ],
+        ),
+        ConfettiWidget(
+          confettiController: Get.find<AuthenticationController>().confettiController2,
+          blastDirectionality: BlastDirectionality.explosive,
+          numberOfParticles: 8,
+          gravity: 0.8,
+          createParticlePath: drawCustomConfetti2,
+          colors: const [
+            cOrangeColor,
+            cRedColor,
+          ],
+        ),
+        ConfettiWidget(
+          confettiController: Get.find<AuthenticationController>().confettiController3,
+          blastDirectionality: BlastDirectionality.explosive,
+          numberOfParticles: 8,
+          gravity: 0.8,
+          createParticlePath: drawCustomConfetti3,
+          colors: const [
+            cOrangeColor,
+            cRedColor,
+          ],
         ),
         Stack(
           children: [
@@ -210,6 +230,48 @@ class StarContent extends StatelessWidget {
   }
 }
 
+Path drawCustomConfetti1(Size size) {
+  final path = Path();
+  // path.lineTo(20, 30);
+  path.moveTo(0, 10);
+  path.quadraticBezierTo(5, 0, 15, 10);
+  path.quadraticBezierTo(20, 20, 25, 10);
+  // path.lineTo(35, 10);
+  path.quadraticBezierTo(30, 0, 35, 10);
+  path.quadraticBezierTo(40, 20, 45, 10);
+  path.lineTo(41, 6);
+  path.quadraticBezierTo(40, 16, 35, 6);
+  path.quadraticBezierTo(30, -4, 25, 6);
+  path.quadraticBezierTo(20, 16, 15, 6);
+  path.quadraticBezierTo(5, -4, 0, 6);
+  path.lineTo(0, 10);
+  path.close();
+  return path;
+}
+
+Path drawCustomConfetti2(Size size) {
+  final path = Path();
+  path.moveTo(0, 10);
+  path.quadraticBezierTo(15, 20, 30, 10);
+  path.lineTo(25, 5);
+  path.quadraticBezierTo(5, 15, -10, 5);
+  path.lineTo(0, 10);
+  path.close();
+  return path;
+}
+
+Path drawCustomConfetti3(Size size) {
+  final path = Path();
+  path.moveTo(-8, 0);
+  path.lineTo(-10, 5);
+  path.quadraticBezierTo(0, 10, 10, 5);
+  path.lineTo(8, 0);
+  path.quadraticBezierTo(0, 5, -8, 0);
+  // path.lineTo(0, 10);
+  path.close();
+  return path;
+}
+
 class CommonAlertDialog extends StatelessWidget {
   const CommonAlertDialog({
     this.title,
@@ -242,36 +304,42 @@ class CommonAlertDialog extends StatelessWidget {
       titlePadding: EdgeInsets.zero,
       title: ClipRRect(
         borderRadius: BorderRadius.circular(h10),
-        child: Column(
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                if (title != null)
-                  Center(
-                    child: Text(
-                      title.toString(),
-                      textAlign: TextAlign.center,
-                      style: semiBold16TextStyle(cBlackColor),
+        child: Container(
+          width: width - 70,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(h10),
+          ),
+          child: Column(
+            children: [
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  if (title != null)
+                    Center(
+                      child: Text(
+                        title.toString(),
+                        textAlign: TextAlign.center,
+                        style: semiBold16TextStyle(cBlackColor),
+                      ),
                     ),
-                  ),
-                if (hasCloseBtn)
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: CustomIconButton(
-                      hasBorder: false,
-                      onPress: onClose,
-                      icon: BipHip.circleCross,
-                      size: height > kSmallDeviceSizeLimit ? kIconSize20 : kIconSize16,
+                  if (hasCloseBtn)
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: CustomIconButton(
+                        hasBorder: false,
+                        onPress: onClose,
+                        icon: BipHip.circleCross,
+                        size: height > kSmallDeviceSizeLimit ? kIconSize20 : kIconSize16,
+                      ),
                     ),
-                  ),
-              ],
-            ),
-            const CustomDivider(
-              thickness: 0.3,
-            )
-          ],
+                ],
+              ),
+              const CustomDivider(
+                thickness: 0.3,
+              )
+            ],
+          ),
         ),
       ),
       contentPadding: EdgeInsets.symmetric(

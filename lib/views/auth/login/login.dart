@@ -133,25 +133,6 @@ class Login extends StatelessWidget {
                                 authenticationController.canLogin.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                           ),
                         ),
-                        // kH16sizedBox,
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(horizontal: h20),
-                        //   child: CustomElevatedButton(
-                        //     label: ksLogin.tr,
-                        //     onPressed: () async {
-                        //       authenticationController.confettiController.play();
-                        //       RegistrationHelper().congratulationsAlertDialog(
-                        //         context: context,
-                        //         content: const StarContent(),
-                        //       );
-                        //       await Future.delayed(const Duration(milliseconds: 1500));
-                        //       authenticationController.confettiController.stop();
-                        //     },
-                        //     buttonWidth: width - 40,
-                        //     textStyle:
-                        //         authenticationController.canLogin.value ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
-                        //   ),
-                        // ),
                         kH28sizedBox,
                         Text(
                           ksOrLoginWith.tr,

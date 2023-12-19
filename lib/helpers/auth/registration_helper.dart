@@ -252,6 +252,17 @@ class RegistrationHelper {
       authenticationController.isImageUploadLoading.value = true;
       await Get.find<ProfileController>().uploadProfileAndCover(authenticationController.profileFile.value, 'profile', false);
       authenticationController.isImageUploadLoading.value = false;
+      authenticationController.confettiController1.play();
+      authenticationController.confettiController2.play();
+      authenticationController.confettiController3.play();
+      RegistrationHelper().congratulationsAlertDialog(
+        context: context,
+        content: const StarContent(),
+      );
+      await Future.delayed(const Duration(seconds: 5));
+      authenticationController.confettiController1.stop();
+      authenticationController.confettiController2.stop();
+      authenticationController.confettiController3.stop();
     }
   }
 
