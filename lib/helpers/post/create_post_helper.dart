@@ -521,14 +521,6 @@ class CreatePostHelper {
                               rightTextStyle: medium14TextStyle(cPrimaryColor),
                               title: ksAddKid.tr,
                               isRightButtonShow: true);
-                          // Navigator.push(
-                          //   context,
-                          //   PageRouteBuilder(
-                          //     pageBuilder: (context, animation1, animation2) => AddKdPage(),
-                          //     transitionDuration: Duration.zero,
-                          //     reverseTransitionDuration: Duration.zero,
-                          //   ),
-                          // );
                         }
                       : null,
                   buttonText: ksAddKid.tr,
