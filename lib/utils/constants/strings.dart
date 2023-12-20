@@ -293,6 +293,7 @@ const String ksAddSocialLinks = "Add Social Links (Minimum 1)";
 const String ksAddKid = "Add Kid";
 const String ksWriteKidName = "Write kid name";
 const String ksWriteAge = "Write age";
+const String ksWriteSchoolName = "Write school name (optional)";
 const String ksSaveKidInformation = "Save Kid’s information's for further use.";
 const String ksCreatePost = 'Create post';
 const String ksPost = "Post";

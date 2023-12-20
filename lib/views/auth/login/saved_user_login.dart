@@ -14,7 +14,6 @@ class SavedUserLogin extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(color: cWhiteColor, image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
-        // top: false,
         child: Scaffold(
           backgroundColor: cTransparentColor,
           body: Obx(
@@ -106,21 +105,19 @@ class CustomUserListContainer extends StatelessWidget {
       onPressed: () async {
         loginHelper.getSaveUserDetails(item);
       },
-      leading: Container(
-        height: h40,
-        width: h40,
-        decoration: const BoxDecoration(
-          color: cWhiteColor,
-          shape: BoxShape.circle,
-        ),
-        child: ClipOval(
-          child: Image.network(
-            Environment.imageBaseUrl + item['image_url'].toString(),
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return Image.asset(kiProfileDefaultImageUrl);
-            },
-          ),
+      leading: ClipOval(
+        child: Image.network(
+          Environment.imageBaseUrl + item['image_url'].toString(),
+          fit: BoxFit.cover,
+          height: h40,
+          width: h40,
+          errorBuilder: (context, error, stackTrace) {
+            return Image.asset(
+              kiProfileDefaultImageUrl,
+              height: h40,
+              width: h40,
+            );
+          },
         ),
       ),
       title: Text(

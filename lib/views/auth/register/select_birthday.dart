@@ -69,7 +69,7 @@ class SelectBirthday extends StatelessWidget {
                         text: authenticationController.birthDay.value != '' ? authenticationController.birthDay.value : '',
                         hintText: ksSelectDOB.tr,
                       ),
-                      kH24sizedBox,
+                      isDeviceScreenLarge() ? kH30sizedBox : kH24sizedBox,
                       CustomElevatedButton(
                         label: profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
                         onPressed: authenticationController.birthDay.value != ''
@@ -78,9 +78,8 @@ class SelectBirthday extends StatelessWidget {
                               }
                             : null,
                         buttonWidth: width - 40,
-                        textStyle: authenticationController.birthDay.value != ''
-                            ? semiBold16TextStyle(cWhiteColor)
-                            : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
+                        textStyle:
+                            authenticationController.birthDay.value != '' ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
                     ],
                   ),
