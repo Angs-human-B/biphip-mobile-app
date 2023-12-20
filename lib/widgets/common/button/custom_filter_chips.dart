@@ -7,7 +7,6 @@ class CustomChoiceChips extends StatelessWidget {
   final bool isSelected;
   final Function(bool)? onSelected;
   final BorderRadius? borderRadius;
-
   @override
   Widget build(BuildContext context) {
     return ChoiceChip(

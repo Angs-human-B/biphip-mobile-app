@@ -379,23 +379,82 @@ class CreatePostController extends GetxController {
     }
   }
 
+  final RxString tempSubCategory = RxString('');
   final RxString subCategory = RxString('');
   // final RxList subCategoryList = RxList(subCategoryLists);
   final RxList subCategoryList = RxList([]);
 
+  final RxInt tempSubCategoryIndex = RxInt(-1);
   final RxInt subCategoryIndex = RxInt(-1);
   final List subCategoryLists = [
-    {"id": '', "title": "Drawing"},
+    // {"id": '', "title": "Drawing"},
     {"id": '', "title": "Birthday"},
     {"id": '', "title": "School"},
-    {"id": '', "title": "Song"},
-    {"id": '', "title": "Art"},
+    // {"id": '', "title": "Song"},
+    // {"id": '', "title": "Art"},
+    // {"id": '', "title": "Drawing"},
+    // {"id": '', "title": "Birthday"},
+    // {"id": '', "title": "School"},
+    // {"id": '', "title": "Song"},
+    // {"id": '', "title": "Art"},
+    // {"id": '', "title": "Drawing"},
+    // {"id": '', "title": "Birthday"},
+    // {"id": '', "title": "School"},
+    // {"id": '', "title": "Song"},
+    // {"id": '', "title": "Art"},
+    // {"id": '', "title": "Drawing"},
+    // {"id": '', "title": "Birthday"},
+    // {"id": '', "title": "School"},
+    // {"id": '', "title": "Song"},
+    // {"id": '', "title": "Art"},
+    // {"id": '', "title": "Drawing"},
+    // {"id": '', "title": "Birthday"},
+    // {"id": '', "title": "School"},
+    // {"id": '', "title": "Song"},
+    // {"id": '', "title": "Art"},
+    // {"id": '', "title": "Drawing"},
+    // {"id": '', "title": "Birthday"},
+    // {"id": '', "title": "School"},
+    // {"id": '', "title": "Song"},
+    // {"id": '', "title": "Art"},
+    // {"id": '', "title": "Birthday"},
+    // {"id": '', "title": "School"},
+    // {"id": '', "title": "Song"},
+    // {"id": '', "title": "Art"},
+    // {"id": '', "title": "Song"},
+    // {"id": '', "title": "Art"},
+    // {"id": '', "title": "Song"},
+    // {"id": '', "title": "Art"},
   ];
-//   final Map<String,dynamic> subCategoryMap = {
-//     "title":"Drawing",
-//    "title": "Birthday",
-//     "School",
-//     "Song",
-//     "Art",
-// };
+  final RxBool isSubCategorySelected = RxBool(false);
+  double customBottomSheetHeight() {
+    if (subCategoryList.isEmpty) {
+      return height * 0.4;
+    } else if (subCategoryList.length < 5) {
+      return isDeviceScreenLarge() ? height * 0.2 : height * 0.3;
+    } else if (subCategoryList.length >= 5 && subCategoryList.length < 10) {
+      return isDeviceScreenLarge() ? height * 0.3 : height * 0.35;
+    } else if (subCategoryList.length >= 10 && subCategoryList.length < 15) {
+      return isDeviceScreenLarge() ? height * 0.4 : height * 0.5;
+    } else if (subCategoryList.length >= 15 && subCategoryList.length < 20) {
+      return isDeviceScreenLarge() ? height * 0.5 : height * 0.6;
+    } else if (subCategoryList.length >= 20 && subCategoryList.length < 25) {
+      return isDeviceScreenLarge() ? height * 0.6 : height * 0.7;
+    } else if (subCategoryList.length >= 25 && subCategoryList.length < 30) {
+      return isDeviceScreenLarge() ? height * 0.7 : height * 0.8;
+    } else if (subCategoryList.length >= 30 && subCategoryList.length < 35) {
+      return isDeviceScreenLarge() ? height * 0.75 : height * 0.85;
+    } else if (subCategoryList.length >= 35 && subCategoryList.length < 40) {
+      return isDeviceScreenLarge() ? height * 0.8 : height * 0.9;
+    } else {
+      return height * 0.9;
+    }
+    // else if (subCategoryList.length >= 35 && subCategoryList.length < 40) {
+    //   return isDeviceScreenLarge() ? height * 0.9 : height * 0.9;
+    // } else if (subCategoryList.length >= 40 && subCategoryList.length < 45) {
+    //   return isDeviceScreenLarge() ? height * 0.85 : height * 0.9;
+    // } else if (subCategoryList.length >= 45 && subCategoryList.length < 50) {
+    //   return isDeviceScreenLarge() ? height * 0.9 : height * 0.9;
+    // }
+  }
 }

@@ -361,5 +361,5 @@ const String ksStar = "STAR";
 const String ksOkay = "Okay";
 const String ksYouCouldSeeTheStar = "You could see the stars in your profile.";
 const String ksYouCanUseItAnywhere = "And can use it to anywhere you want.";
-const String ksSubCategory = "Sub category";
+const String ksSelectSubCategory = "Select Sub Category";
 // const String ksSelectPlatform="";
