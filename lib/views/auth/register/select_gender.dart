@@ -15,13 +15,12 @@ class SelectGender extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
+      decoration: const BoxDecoration(color: cWhiteColor, image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         top: false,
         child: Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
-            //* info:: appBar
             child: CustomAppBar(
               appBarColor: cTransparentColor,
               title: ksRegistration.tr,
@@ -48,8 +47,7 @@ class SelectGender extends StatelessWidget {
                 child: Obx(
                   () => Column(
                     children: [
-                      kH24sizedBox,
-                      kH24sizedBox,
+                      kH48sizedBox,
                       TopTitleAndSubtitle(
                         title: ksWhatGender.tr,
                         subTitle: ksChangeGender.tr,
@@ -60,7 +58,7 @@ class SelectGender extends StatelessWidget {
                         borderColor: cLineColor2,
                         onPressed: () {
                           ll(Get.find<GlobalController>().isBottomSheetRightButtonActive);
-                          registrationHelper.onPressedSelectGender(context);
+                          registrationHelper.selectGender(context);
                         },
                         text: authenticationController.gender.value,
                         hintText: ksSelectGender.tr,

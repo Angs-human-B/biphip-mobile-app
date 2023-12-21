@@ -106,8 +106,7 @@ class RegistrationHelper {
     }
   }
 
-  void onPressedSelectGender(context) async {
-    ll(profileController.tempSelectedGender.value);
+  void selectGender(context) async {
     if (authenticationController.gender.value != '') {
       profileController.tempSelectedGender.value = authenticationController.gender.value;
     } else {
