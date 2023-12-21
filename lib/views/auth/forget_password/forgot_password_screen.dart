@@ -22,7 +22,6 @@ class ForgotPasswordScreen extends StatelessWidget {
               child: Scaffold(
                 appBar: PreferredSize(
                   preferredSize: const Size.fromHeight(kAppBarSize),
-                  //* info:: appBar
                   child: CustomAppBar(
                     appBarColor: cTransparentColor,
                     title: ksForgetPassword.tr,
@@ -40,8 +39,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: Column(
                         children: [
-                          kH24sizedBox,
-                          kH24sizedBox,
+                          kH48sizedBox,
                           TopTitleAndSubtitle(
                             title: ksTypeEmailOrPhone.tr,
                             subTitle: ksSendCodeToConfirm.tr,
@@ -58,7 +56,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                               borderSide: const BorderSide(width: 1, color: cLineColor2),
                             ),
                             onChanged: (text) {
-                              registrationHelper.forgetPasswordEmailOnChanged();
+                              registrationHelper.forgetPasswordEmailValidation();
                             },
                             onSubmit: (text) {},
                             inputAction: TextInputAction.done,
@@ -70,7 +68,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                             onPressed: authenticationController.canSendOTP.value
                                 ? () async {
                                     unfocus(context);
-                                    await authenticationController.forgetPassword();
+                                    await authenticationController.requestForgetPassword();
                                   }
                                 : null,
                             buttonWidth: width - 40,

@@ -244,7 +244,7 @@ class AuthenticationController extends GetxController {
   }
 
   final RxBool isForgetPasswordLoading = RxBool(false);
-  Future<void> forgetPassword() async {
+  Future<void> requestForgetPassword() async {
     try {
       isForgetPasswordLoading.value = true;
       Map<String, dynamic> body = {

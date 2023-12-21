@@ -317,7 +317,7 @@ class RegistrationHelper {
     }
   }
 
-  void forgetPasswordEmailOnChanged() {
+  void forgetPasswordEmailValidation() {
     checkCanSendOTP();
     if (authenticationController.forgotPasswordEmailTextEditingController.text.trim() == '') {
       authenticationController.forgotPasswordEmailError.value = ksEmptyEmailErrorMessage.tr;
