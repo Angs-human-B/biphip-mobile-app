@@ -338,7 +338,7 @@ class RegistrationHelper {
     }
   }
 
-  void forgetPasswordNewPasswordOnChanged() {
+  void forgetPasswordNewPasswordValidation() {
     checkCanResetPassword();
     if (authenticationController.resetNewPasswordTextEditingController.text.trim() == '') {
       authenticationController.resetPasswordError.value = ksEmptyPasswordErrorMessage.tr;
@@ -350,7 +350,7 @@ class RegistrationHelper {
     }
   }
 
-  void forgetPasswordConfirmPasswordOnChanged() {
+  void forgetPasswordConfirmPasswordValidation() {
     checkCanResetPassword();
     if (authenticationController.resetConfirmPasswordTextEditingController.text.trim() == '') {
       authenticationController.resetConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage.tr;
