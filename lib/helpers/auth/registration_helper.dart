@@ -39,7 +39,7 @@ class RegistrationHelper {
     }
   }
 
-  void registerFirstNameOnChange() {
+  void registerFirstNameValidation() {
     checkName();
     if (authenticationController.registerFirstNameTextEditingController.text.trim() == '') {
       authenticationController.firstNameError.value = ksEmptyFirstNameErrorMessage.tr;
@@ -48,7 +48,7 @@ class RegistrationHelper {
     }
   }
 
-  void registerLastNameOnChange() {
+  void registerLastNameValidation() {
     checkName();
     if (authenticationController.registerLastNameTextEditingController.text.trim() == '') {
       authenticationController.lastNameError.value = ksEmptyLastNameErrorMessage.tr;
@@ -57,7 +57,7 @@ class RegistrationHelper {
     }
   }
 
-  void onPressedNext() {
+  void goToBirthdayPage() {
     Get.find<ProfileController>().isRouteFromAboutInfo.value = false;
     authenticationController.birthDay.value = '';
     Get.toNamed(krSelectBirthday);

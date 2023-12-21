@@ -22,7 +22,6 @@ class Register extends StatelessWidget {
         child: Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
-            //* info:: appBar
             child: CustomAppBar(
               appBarColor: cTransparentColor,
               title: ksRegistration.tr,
@@ -72,7 +71,7 @@ class Register extends StatelessWidget {
                           borderSide: const BorderSide(width: 1, color: cLineColor2),
                         ),
                         onChanged: (text) {
-                          registrationHelper.registerFirstNameOnChange();
+                          registrationHelper.registerFirstNameValidation();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
@@ -90,7 +89,7 @@ class Register extends StatelessWidget {
                           borderSide: const BorderSide(width: 1, color: cLineColor2),
                         ),
                         onChanged: (text) {
-                          registrationHelper.registerLastNameOnChange();
+                          registrationHelper.registerLastNameValidation();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,
@@ -102,7 +101,7 @@ class Register extends StatelessWidget {
                         onPressed: authenticationController.checkValidName.value
                             ? () {
                                 unfocus(context);
-                                registrationHelper.onPressedNext();
+                                registrationHelper.goToBirthdayPage();
                               }
                             : null,
                         buttonWidth: width - 40,
