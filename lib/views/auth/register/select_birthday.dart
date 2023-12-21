@@ -52,8 +52,7 @@ class SelectBirthday extends StatelessWidget {
                 child: Obx(
                   () => Column(
                     children: [
-                      if (!profileController.isRouteFromAboutInfo.value) kH24sizedBox,
-                      if (!profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                      if (!profileController.isRouteFromAboutInfo.value) kH48sizedBox,
                       TopTitleAndSubtitle(
                         title: !profileController.isRouteFromAboutInfo.value ? ksWhatBirthday.tr : '',
                         subTitle: !profileController.isRouteFromAboutInfo.value ? ksChangeBirthday.tr : ksChangeYourBirthdayFromHere.tr,
@@ -63,7 +62,7 @@ class SelectBirthday extends StatelessWidget {
                         buttonColor: cWhiteColor,
                         borderColor: cLineColor2,
                         onPressed: () {
-                          registrationHelper.onPressedSelectBirthday(context);
+                          registrationHelper.selectBirthday(context);
                         },
                         text: authenticationController.birthDay.value != '' ? authenticationController.birthDay.value : '',
                         hintText: ksSelectDOB.tr,
@@ -73,7 +72,7 @@ class SelectBirthday extends StatelessWidget {
                         label: profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
                         onPressed: authenticationController.birthDay.value != ''
                             ? () async {
-                                registrationHelper.onPressedConfirmBirthday();
+                                registrationHelper.confirmBirthday();
                               }
                             : null,
                         buttonWidth: width - 40,

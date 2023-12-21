@@ -74,7 +74,7 @@ class RegistrationHelper {
     }
   }
 
-  void onPressedSelectBirthday(context) {
+  void selectBirthday(context) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -95,7 +95,7 @@ class RegistrationHelper {
     );
   }
 
-  void onPressedConfirmBirthday() async {
+  void confirmBirthday() async {
     if (!profileController.isRouteFromAboutInfo.value) {
       Get.toNamed(krSelectGender);
     } else {
