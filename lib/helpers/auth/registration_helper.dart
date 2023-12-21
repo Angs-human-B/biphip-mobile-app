@@ -197,7 +197,7 @@ class RegistrationHelper {
     }
   }
 
-  void onPressedSavePhoto(context) async {
+  void savePhoto(context) async {
     if (!authenticationController.isProfileImageChanged.value) {
       globalController.commonBottomSheet(
           context: context,
@@ -383,5 +383,19 @@ class RegistrationHelper {
         ],
       ),
     );
+  }
+
+  void showConfettiWithCongratulationPopUp(context) async {
+    authenticationController.confettiController1.play();
+    authenticationController.confettiController2.play();
+    authenticationController.confettiController3.play();
+    congratulationsAlertDialog(
+      context: context,
+      content: const StarContent(),
+    );
+    await Future.delayed(const Duration(seconds: 5));
+    authenticationController.confettiController1.stop();
+    authenticationController.confettiController2.stop();
+    authenticationController.confettiController3.stop();
   }
 }
