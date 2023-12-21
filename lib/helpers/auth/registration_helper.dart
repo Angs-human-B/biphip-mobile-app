@@ -63,7 +63,7 @@ class RegistrationHelper {
     Get.toNamed(krSelectBirthday);
   }
 
-  void registerEmailOnChanged() {
+  void registerEmailValidation() {
     checkEmail();
     if (authenticationController.registerEmailTextEditingController.text.trim() == '') {
       authenticationController.registerEmailError.value = ksEmptyEmailErrorMessage.tr;

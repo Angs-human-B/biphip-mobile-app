@@ -14,13 +14,12 @@ class SetEmail extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
+      decoration: const BoxDecoration(color: cWhiteColor, image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         top: false,
         child: Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
-            //* info:: appBar
             child: CustomAppBar(
               appBarColor: cTransparentColor,
               title: ksRegistration.tr,
@@ -47,8 +46,7 @@ class SetEmail extends StatelessWidget {
                 child: Obx(
                   () => Column(
                     children: [
-                      kH24sizedBox,
-                      kH24sizedBox,
+                      kH48sizedBox,
                       TopTitleAndSubtitle(
                         title: ksWhatEmail.tr,
                         subTitle: ksSendCodeToConfirm.tr,
@@ -65,7 +63,7 @@ class SetEmail extends StatelessWidget {
                           borderSide: const BorderSide(width: 1, color: cLineColor2),
                         ),
                         onChanged: (text) {
-                          registrationHelper.registerEmailOnChanged();
+                          registrationHelper.registerEmailValidation();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,

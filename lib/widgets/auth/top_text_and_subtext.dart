@@ -21,10 +21,12 @@ class TopTitleAndSubtitle extends StatelessWidget {
         kH4sizedBox,
         Row(
           children: [
-            Text(
-              subTitle ?? '',
-              style: regular14TextStyle(cSmallBodyTextColor),
-              overflow: TextOverflow.clip,
+            Expanded(
+              child: Text(
+                subTitle ?? '',
+                style: regular14TextStyle(cSmallBodyTextColor),
+                overflow: TextOverflow.clip,
+              ),
             ),
           ],
         ),
