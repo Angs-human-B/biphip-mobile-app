@@ -148,7 +148,7 @@ class RegistrationHelper {
     await profileController.getGenderList();
   }
 
-  void passwordOnChanged() {
+  void registerPasswordValidation() {
     checkPassword();
     if (authenticationController.registerPasswordTextEditingController.text.trim() == '') {
       authenticationController.registerPasswordError.value = ksEmptyPasswordErrorMessage.tr;
@@ -164,7 +164,7 @@ class RegistrationHelper {
     }
   }
 
-  void confirmPasswordOnChanged() {
+  void registerConfirmPasswordValidation() {
     checkPassword();
     if (authenticationController.registerConfirmPasswordTextEditingController.text.trim() == '') {
       authenticationController.registerConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage.tr;

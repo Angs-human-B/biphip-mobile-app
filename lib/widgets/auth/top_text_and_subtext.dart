@@ -25,7 +25,6 @@ class TopTitleAndSubtitle extends StatelessWidget {
               child: Text(
                 subTitle ?? '',
                 style: regular14TextStyle(cSmallBodyTextColor),
-                overflow: TextOverflow.clip,
               ),
             ),
           ],

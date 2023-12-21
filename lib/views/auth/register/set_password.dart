@@ -15,8 +15,7 @@ class SetPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      // color: cWhiteColor,
-      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
+      decoration: const BoxDecoration(color: cWhiteColor, image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
           children: [
@@ -25,7 +24,6 @@ class SetPassword extends StatelessWidget {
               child: Scaffold(
                 appBar: PreferredSize(
                   preferredSize: const Size.fromHeight(kAppBarSize),
-                  //* info:: appBar
                   child: CustomAppBar(
                     appBarColor: cTransparentColor,
                     title: ksRegistration.tr,
@@ -51,8 +49,7 @@ class SetPassword extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: Column(
                         children: [
-                          kH24sizedBox,
-                          kH24sizedBox,
+                          kH48sizedBox,
                           TopTitleAndSubtitle(
                             title: ksCreatePassword.tr,
                             subTitle: ksCreateStrongPassword.tr,
@@ -73,7 +70,7 @@ class SetPassword extends StatelessWidget {
                               authenticationController.isRegisterPasswordToggleObscure.value = !authenticationController.isRegisterPasswordToggleObscure.value;
                             },
                             onChanged: (text) {
-                              registrationHelper.passwordOnChanged();
+                              registrationHelper.registerPasswordValidation();
                             },
                             onSubmit: (text) {
                               FocusScope.of(context).requestFocus(confirmPasswordFocusNode);
@@ -100,7 +97,7 @@ class SetPassword extends StatelessWidget {
                                   !authenticationController.isRegisterConfirmPasswordToggleObscure.value;
                             },
                             onChanged: (text) {
-                              registrationHelper.confirmPasswordOnChanged();
+                              registrationHelper.registerConfirmPasswordValidation();
                             },
                             onSubmit: (text) {
                               FocusScope.of(context).unfocus();

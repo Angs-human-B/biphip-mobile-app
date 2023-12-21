@@ -190,13 +190,13 @@ class AuthenticationController extends GetxController {
     try {
       isRegisterLoading.value = true;
       Map<String, dynamic> body = {
-        "first_name": registerFirstNameTextEditingController.text,
-        "last_name": registerLastNameTextEditingController.text,
-        "email": registerEmailTextEditingController.text,
+        "first_name": registerFirstNameTextEditingController.text.trim(),
+        "last_name": registerLastNameTextEditingController.text.trim(),
+        "email": registerEmailTextEditingController.text.trim(),
         "dob": birthDay.value,
         "gender": gender.value,
-        "password": registerPasswordTextEditingController.text,
-        "password_confirmation": registerConfirmPasswordTextEditingController.text,
+        "password": registerPasswordTextEditingController.text.trim(),
+        "password_confirmation": registerConfirmPasswordTextEditingController.text.trim(),
       };
       var response = await apiController.commonApiCall(
         requestMethod: kPost,
@@ -206,13 +206,11 @@ class AuthenticationController extends GetxController {
 
       if (response.success == true) {
         CommonUnVerifyModel commonUnVerifyModel = CommonUnVerifyModel.fromJson(response.data);
-        // log('Login_user_data : ${loginData.token}');
         verificationToken.value = commonUnVerifyModel.token.toString();
         parentRoute.value = "register";
         resetOTPScreen();
         isRegisterLoading.value = false;
         Get.toNamed(krOTP);
-
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
