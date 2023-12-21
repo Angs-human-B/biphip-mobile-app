@@ -273,7 +273,7 @@ class RegistrationHelper {
     }
   }
 
-  void onPressedSaveInterest() async {
+  void saveInterest() async {
     if (!profileController.isRouteFromAboutInfo.value) {
       for (int i = 0; i < globalController.interestIndex.length; i++) {
         globalController.selectedInterests.add(globalController.interestList[globalController.interestIndex[i]]);

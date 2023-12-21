@@ -73,20 +73,23 @@ class SelectProfessionScreen extends StatelessWidget {
                               subTitle: profileController.isRouteFromAboutInfo.value ? ksEditInterestSubtitle : ksChooseProfessionSubtitle.tr,
                             ),
                             kH16sizedBox,
-                            Wrap(
-                              alignment: WrapAlignment.start,
-                              direction: Axis.horizontal,
-                              spacing: 8.0,
-                              children: [
-                                for (int i = 0; i < globalController.professionList.length; i++)
-                                  CustomChoiceChips(
-                                    label: globalController.professionList[i],
-                                    isSelected: (globalController.professionIndex.value == i),
-                                    onSelected: (value) {
-                                      globalController.professionIndex.value = i;
-                                    },
-                                  )
-                              ],
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Wrap(
+                                alignment: WrapAlignment.start,
+                                direction: Axis.horizontal,
+                                spacing: 8.0,
+                                children: [
+                                  for (int i = 0; i < globalController.professionList.length; i++)
+                                    CustomChoiceChips(
+                                      label: globalController.professionList[i],
+                                      isSelected: (globalController.professionIndex.value == i),
+                                      onSelected: (value) {
+                                        globalController.professionIndex.value = i;
+                                      },
+                                    )
+                                ],
+                              ),
                             ),
                             kH16sizedBox,
                             CustomElevatedButton(
