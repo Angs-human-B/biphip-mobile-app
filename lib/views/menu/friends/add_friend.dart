@@ -48,19 +48,19 @@ class AddFriend extends StatelessWidget {
                         contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
                         textInputStyle: regular16TextStyle(cBlackColor),
                         onSuffixPress: () {
-                          friendHelper.addFriendSuffixPressed();
+                          friendHelper.resetAddFriend();
                         },
                         onSubmit: (v) {
                           unfocus(context);
                           friendController.isFriendSuffixIconVisible.value = false;
                         },
                         onChanged: (v) {
-                          friendHelper.addFriendOnChanged();
+                          friendHelper.searchToAddFriend();
                         },
                       ),
                       kH8sizedBox,
                       Obx(
-                        () => friendController.isAddFriendRequestListLoading.value
+                        () => friendController.isAddFriendListLoading.value
                             ? const AddFriendShimmer()
                             : NotificationListener<ScrollNotification>(
                                 onNotification: (scrollNotification) {
@@ -68,8 +68,8 @@ class AddFriend extends StatelessWidget {
                                       scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
                                       !friendController.addFriendListScrolled.value) {
                                     friendController.addFriendListScrolled.value = true;
-                                    if (friendController.addFriendRequestList.isNotEmpty) {
-                                      friendController.getMoreAddFriendRequestList(null);
+                                    if (friendController.addFriendList.isNotEmpty) {
+                                      friendController.getMoreAddFriendList(null);
                                     }
                                     return true;
                                   }
@@ -83,7 +83,7 @@ class AddFriend extends StatelessWidget {
                                         ListView.builder(
                                           shrinkWrap: true,
                                           physics: const NeverScrollableScrollPhysics(),
-                                          itemCount: friendController.addFriendRequestList.length,
+                                          itemCount: friendController.addFriendList.length,
                                           itemBuilder: (context, index) {
                                             return Padding(
                                               padding: const EdgeInsets.only(bottom: k10Padding),
@@ -91,18 +91,16 @@ class AddFriend extends StatelessWidget {
                                                 borderRadius: BorderRadius.circular(k8BorderRadius),
                                                 child: Obx(
                                                   () => FriendFamilySingleButtonAction(
-                                                    backgroundImage:
-                                                        Environment.imageBaseUrl + friendController.addFriendRequestList[index].profilePicture.toString(),
-                                                    name: friendController.addFriendRequestList[index].fullName ?? ksNA.tr,
-                                                    buttonText:
-                                                        friendController.addFriendRequestList[index].friendStatus == 0 ? ksSendRequest.tr : ksCancelRequest.tr,
-                                                    buttonColor: friendController.addFriendRequestList[index].friendStatus == 0 ? cPrimaryColor : cWhiteColor,
-                                                    borderColor: friendController.addFriendRequestList[index].friendStatus == 0 ? null : cRedColor,
-                                                    textStyle: friendController.addFriendRequestList[index].friendStatus == 0
+                                                    backgroundImage: Environment.imageBaseUrl + friendController.addFriendList[index].profilePicture.toString(),
+                                                    name: friendController.addFriendList[index].fullName ?? ksNA.tr,
+                                                    buttonText: friendController.addFriendList[index].friendStatus == 0 ? ksSendRequest.tr : ksCancelRequest.tr,
+                                                    buttonColor: friendController.addFriendList[index].friendStatus == 0 ? cPrimaryColor : cWhiteColor,
+                                                    borderColor: friendController.addFriendList[index].friendStatus == 0 ? null : cRedColor,
+                                                    textStyle: friendController.addFriendList[index].friendStatus == 0
                                                         ? semiBold14TextStyle(cWhiteColor)
                                                         : semiBold14TextStyle(cRedColor),
                                                     buttonOnPressed: () {
-                                                      friendHelper.addFriendOnPressed(index: index);
+                                                      friendHelper.addCancelFriendRequest(index: index);
                                                     },
                                                   ),
                                                 ),
@@ -110,7 +108,7 @@ class AddFriend extends StatelessWidget {
                                             );
                                           },
                                         ),
-                                        if (friendController.addFriendRequestList.isNotEmpty && !friendController.addFriendListScrolled.value)
+                                        if (friendController.addFriendList.isNotEmpty && !friendController.addFriendListScrolled.value)
                                           const Center(child: CircularProgressIndicator()),
                                       ],
                                     ),

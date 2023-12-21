@@ -40,7 +40,7 @@ class Friends extends StatelessWidget {
                             FocusScope.of(context).unfocus();
                             friendHelper.friendSearchFieldReset();
                             if (friendController.debounce?.isActive ?? false) friendController.debounce!.cancel();
-                            friendController.addFriendRequestList.clear();
+                            friendController.addFriendList.clear();
                             Get.toNamed(krAddFriend);
                           },
                           child: Text(
