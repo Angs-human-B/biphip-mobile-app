@@ -6,7 +6,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class CreatePostController extends GetxController {
   @override
-  onInit() {
+  void onInit() {
     subCategoryList.addAll(subCategoryLists);
     super.onInit();
   }
