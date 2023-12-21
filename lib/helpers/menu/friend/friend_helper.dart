@@ -10,7 +10,7 @@ class FriendHelper {
   final FriendController friendController = Get.find<FriendController>();
 
   //*friends page tapable button views
-  StatelessWidget allReceivedPendingFriendsView() {
+  Widget friendListView() {
     if (globalController.tapAbleButtonState[0] == true) {
       return AllFriendListView();
     } else if (globalController.tapAbleButtonState[1] == true) {
@@ -28,7 +28,7 @@ class FriendHelper {
   }
 
   //*Friend text field on change
-  void friendOnChanged() async {
+  void searchFriends() async {
     if (friendController.debounce?.isActive ?? false) friendController.debounce!.cancel();
     if (globalController.searchController.text.trim() != '') {
       friendController.isFriendSuffixIconVisible.value = true;
@@ -88,7 +88,7 @@ class FriendHelper {
     await friendController.getSendFriendRequestList();
   }
 
-  void friendSuffixPressed() async {
+  void friendSearchReset() async {
     friendSearchFieldReset();
     if (friendController.debounce?.isActive ?? false) friendController.debounce!.cancel();
     await friendController.getFriendList();

@@ -201,11 +201,10 @@ class FriendController extends GetxController {
   }
 
   //*Accept Friend Request
-  final RxBool isAcceptFriendRequestLoading = RxBool(false);
   final RxInt userId = RxInt(-1);
   Future<void> acceptFriendRequest() async {
     try {
-      isAcceptFriendRequestLoading.value = true;
+      isFriendViewLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'user_id': userId.value.toString(),
@@ -223,10 +222,10 @@ class FriendController extends GetxController {
             receivedRequestCount.value--;
           }
         }
-        isAcceptFriendRequestLoading.value = false;
+        isFriendViewLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isAcceptFriendRequestLoading.value = false;
+        isFriendViewLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -235,16 +234,15 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isAcceptFriendRequestLoading.value = false;
+      isFriendViewLoading.value = false;
       ll('acceptFriendRequest error: $e');
     }
   }
 
   //*Reject Friend Request
-  final RxBool isRejectFriendRequestLoading = RxBool(false);
   Future<void> rejectFriendRequest() async {
     try {
-      isRejectFriendRequestLoading.value = true;
+      isFriendViewLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'user_id': userId.value.toString(),
@@ -257,7 +255,7 @@ class FriendController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        isRejectFriendRequestLoading.value = false;
+        isFriendViewLoading.value = false;
         for (int index = 0; index <= receivedFriendList.length; index++) {
           if (userId.value == receivedFriendList[index].id) {
             receivedFriendList.removeAt(index);
@@ -266,7 +264,7 @@ class FriendController extends GetxController {
         }
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isRejectFriendRequestLoading.value = false;
+        isFriendViewLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -275,16 +273,16 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isRejectFriendRequestLoading.value = false;
+      isFriendViewLoading.value = false;
       ll('rejectFriendRequest error: $e');
     }
   }
 
   //*Unfriend User
-  final RxBool isUnfriendUserRequestLoading = RxBool(false);
+  final RxBool isFriendViewLoading = RxBool(false);
   Future<void> unfriendUserRequest() async {
     try {
-      isUnfriendUserRequestLoading.value = true;
+      isFriendViewLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'user_id': userId.value.toString(),
@@ -296,7 +294,7 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        isUnfriendUserRequestLoading.value = false;
+        isFriendViewLoading.value = false;
         for (int index = 0; index < friendList.length; index++) {
           if (userId.value == friendList[index].id) {
             friendList.removeAt(index);
@@ -305,7 +303,7 @@ class FriendController extends GetxController {
         }
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isUnfriendUserRequestLoading.value = false;
+        isFriendViewLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -314,16 +312,15 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isUnfriendUserRequestLoading.value = false;
+      isFriendViewLoading.value = false;
       ll('unfriendRequest error: $e');
     }
   }
 
   //*Unfollow User
-  final RxBool isUnfollowUserLoading = RxBool(false);
   Future<void> unfollowUser() async {
     try {
-      isUnfollowUserLoading.value = true;
+      isFriendViewLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'user_id': userId.value.toString(),
@@ -345,10 +342,10 @@ class FriendController extends GetxController {
             sendFriendRequestList[index].followStatus = 0;
           }
         }
-        isUnfollowUserLoading.value = false;
+        isFriendViewLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isUnfollowUserLoading.value = false;
+        isFriendViewLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -357,16 +354,16 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isUnfollowUserLoading.value = false;
+      isFriendViewLoading.value = false;
       ll('unfollowUser error: $e');
     }
   }
 
   //*Follow User
-  final RxBool isFollowUserLoading = RxBool(false);
+
   Future<void> followUser() async {
     try {
-      isFollowUserLoading.value = true;
+      isFriendViewLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'user_id': userId.value.toString(),
@@ -388,10 +385,10 @@ class FriendController extends GetxController {
             sendFriendRequestList[index].followStatus = 1;
           }
         }
-        isFollowUserLoading.value = false;
+        isFriendViewLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isFollowUserLoading.value = false;
+        isFriendViewLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -400,7 +397,7 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-      isFollowUserLoading.value = false;
+      isFriendViewLoading.value = false;
       ll('followUser error: $e');
     }
   }
@@ -436,7 +433,7 @@ class FriendController extends GetxController {
         }
         isSendFriendRequestListLoading.value = false;
       } else {
-         isSendFriendRequestListLoading.value = true;
+        isSendFriendRequestListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -445,7 +442,7 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
-       isSendFriendRequestListLoading.value = true;
+      isSendFriendRequestListLoading.value = true;
       ll('getSendFriendRequest error: $e');
     }
   }
@@ -483,7 +480,7 @@ class FriendController extends GetxController {
         }
         isSendFriendRequestListLoading.value = false;
       } else {
-         isSendFriendRequestListLoading.value = true;
+        isSendFriendRequestListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -763,7 +760,7 @@ class FriendController extends GetxController {
 
         isFriendListLoading.value = false;
       } else {
-       isFriendListLoading.value = true;
+        isFriendListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -840,7 +837,7 @@ class FriendController extends GetxController {
     {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
     {'icon': BipHip.follow, 'action': 'Follow', 'actionSubtitle': 'Follow this user'}
   ]);
-  //*All friend Action 
+  //*All friend Action
   final RxString friendActionSelect = RxString('');
   final RxInt allFriendFollowStatus = RxInt(-1);
   final RxList friendActionList = RxList([
@@ -853,7 +850,7 @@ class FriendController extends GetxController {
     {'icon': BipHip.follow, 'action': 'Follow', 'actionSubtitle': 'Follow your friend'},
     {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
   ]);
-  //*Search suffix icon and bottom nav route bool value 
+  //*Search suffix icon and bottom nav route bool value
   final RxBool isFriendSuffixIconVisible = RxBool(false);
   final RxBool isRouteFromBottomNavBar = RxBool(false);
 }

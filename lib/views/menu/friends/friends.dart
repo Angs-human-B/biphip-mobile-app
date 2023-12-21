@@ -91,14 +91,14 @@ class Friends extends StatelessWidget {
                                 contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
                                 textInputStyle: regular16TextStyle(cBlackColor),
                                 onSuffixPress: () {
-                                  friendHelper.friendSuffixPressed();
+                                  friendHelper.friendSearchReset();
                                 },
                                 onSubmit: (v) {
                                   unfocus(context);
                                   friendController.isFriendSuffixIconVisible.value = false;
                                 },
                                 onChanged: (v) {
-                                  friendHelper.friendOnChanged();
+                                  friendHelper.searchFriends();
                                 })
                             : const SizedBox()),
                       ),
@@ -118,7 +118,7 @@ class Friends extends StatelessWidget {
                       if (globalController.tapAbleButtonState[0] || globalController.tapAbleButtonState[1]) kH12sizedBox,
                       if (globalController.tapAbleButtonState[2]) kH4sizedBox,
                       //*All friend, Receive friend request and Pending friend request ui
-                      friendHelper.allReceivedPendingFriendsView(),
+                      friendHelper.friendListView(),
                     ],
                   ),
                 ),
@@ -132,21 +132,11 @@ class Friends extends StatelessWidget {
                 ),
               ),
             ),
-            if (friendController.isUnfriendUserRequestLoading.value ||
-                friendController.isFollowUserLoading.value ||
-                friendController.isUnfollowUserLoading.value ||
-                friendController.isAcceptFriendRequestLoading.value ||
-                friendController.isRejectFriendRequestLoading.value ||
-                friendController.isCancelFriendRequestLoading.value)
+            if (friendController.isFriendViewLoading.value || friendController.isCancelFriendRequestLoading.value)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (friendController.isUnfriendUserRequestLoading.value ||
-                        friendController.isFollowUserLoading.value ||
-                        friendController.isUnfollowUserLoading.value ||
-                        friendController.isAcceptFriendRequestLoading.value ||
-                        friendController.isRejectFriendRequestLoading.value ||
-                        friendController.isCancelFriendRequestLoading.value) {
+                    if (friendController.isFriendViewLoading.value || friendController.isCancelFriendRequestLoading.value) {
                       return false;
                     }
                     return true;
