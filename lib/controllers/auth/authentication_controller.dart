@@ -459,8 +459,6 @@ class AuthenticationController extends GetxController {
       Map<String, dynamic> body = {
         if (parentRoute.value == "forget-password") "email": forgotPasswordEmailTextEditingController.text.trim(),
       };
-      ll(body.toString());
-      ll(parentRoute.value.toString());
       var response = await apiController.commonApiCall(
         requestMethod: kPost,
         token: (parentRoute.value == "login" || parentRoute.value == "register") ? verificationToken.value : null,
@@ -473,7 +471,6 @@ class AuthenticationController extends GetxController {
         verificationToken.value = commonUnVerifyModel.token.toString();
         resetOTPScreen();
         isOTPResendClick.value = false;
-        // log('data : ${response.data}');
         isOTPLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
