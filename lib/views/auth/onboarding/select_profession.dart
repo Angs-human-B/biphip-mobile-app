@@ -42,7 +42,7 @@ class SelectProfessionScreen extends StatelessWidget {
                         onPressed: () async {
                           globalController.interestIndex.clear();
                           Get.toNamed(krSelectInterest);
-                          profileController.getInterestList();
+                          await profileController.getInterestList();
                         },
                         text: ksSkip.tr,
                         textStyle: regular14TextStyle(cPrimaryColor)),
@@ -67,8 +67,7 @@ class SelectProfessionScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                         child: Column(
                           children: [
-                            if (!profileController.isRouteFromAboutInfo.value) kH24sizedBox,
-                            if (!profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                            if (!profileController.isRouteFromAboutInfo.value) kH48sizedBox,
                             TopTitleAndSubtitle(
                               title: !profileController.isRouteFromAboutInfo.value ? ksChooseProfession.tr : '',
                               subTitle: profileController.isRouteFromAboutInfo.value ? ksEditInterestSubtitle : ksChooseProfessionSubtitle.tr,
@@ -94,7 +93,7 @@ class SelectProfessionScreen extends StatelessWidget {
                               label: profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
                               onPressed: globalController.professionIndex.value != -1
                                   ? () async {
-                                      registrationHelper.onPressedSaveProfession();
+                                      registrationHelper.saveProfession();
                                     }
                                   : null,
                               buttonWidth: width - 40,

@@ -292,7 +292,7 @@ class RegistrationHelper {
     }
   }
 
-  void onPressedSaveProfession() async {
+  void saveProfession() async {
     if (!profileController.isRouteFromAboutInfo.value) {
       profileController.isInterestListLoading.value = true;
       Get.find<GlobalController>().interestIndex.clear();
