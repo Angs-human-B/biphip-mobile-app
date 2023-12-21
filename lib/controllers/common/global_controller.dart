@@ -57,7 +57,7 @@ class GlobalController extends GetxController {
   }
 
   //*friends page list data show
-  StatelessWidget allReceivedPendingFamilyView() {
+  StatelessWidget familyListView() {
     if (tapAbleButtonState[0] == true) {
       return AllFamilyListView();
     } else if (tapAbleButtonState[1] == true) {

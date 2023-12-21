@@ -44,7 +44,7 @@ class AddFamily extends StatelessWidget {
                                   ? null
                                   : () {
                                       unfocus(context);
-                                      familyHelper.addFamilySendOnPressed();
+                                      familyHelper.addFamily();
                                     },
                               child: Text(
                                 ksSend.tr,
@@ -91,7 +91,7 @@ class AddFamily extends StatelessWidget {
                                         ),
                                         onPressed: () {
                                           onSelected(option.toString());
-                                          familyHelper.addFamilyRawAutoCompleteOnPressed(option: option);
+                                          familyHelper.addFamilySetAutoComplete(option: option);
                                           unfocus(context);
                                         },
                                       );
@@ -119,14 +119,14 @@ class AddFamily extends StatelessWidget {
                                   ),
                                   textInputStyle: regular16TextStyle(cBlackColor),
                                   onSuffixPress: () {
-                                    familyHelper.addFamilySuffixPressed();
+                                    familyHelper.familySearchReset();
                                   },
                                   onSubmit: (v) {
                                     unfocus(context);
                                     familyController.isFamilySuffixIconVisible.value = false;
                                   },
                                   onChanged: (v) {
-                                    familyHelper.addFamilyButtonOnChanged();
+                                    familyHelper.addSearchResultToFamilyList();
                                   },
                                 ));
                           },
@@ -136,7 +136,7 @@ class AddFamily extends StatelessWidget {
                           hintText: ksSelectRelation.tr,
                           text: familyController.relation.value,
                           onPressed: () async {
-                            familyHelper.addFamilyOnPressed();
+                            familyHelper.setRelationBottomSheetValue();
                             unFocus(context);
                             familyController.isFamilyRelationListLoading.value = true;
                             Get.find<GlobalController>().commonBottomSheet(
@@ -149,7 +149,7 @@ class AddFamily extends StatelessWidget {
                                 Get.back();
                               },
                               onPressRightButton: () {
-                                familyHelper.addFamilyOnPressedRightButton();
+                                familyHelper.selectRelation();
                                 unfocus(context);
                               },
                               rightText: ksDone.tr,
