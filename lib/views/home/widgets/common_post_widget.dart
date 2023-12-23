@@ -35,23 +35,42 @@ class CommonPostWidget extends StatelessWidget {
     required this.isCommentShown,
     required this.isSharedPost,
     required this.showBottomSection,
-    this.postUpperContainerOnpressed,
+    this.postUpperContainerOnPressed,
     required this.commentCount,
     required this.shareCount,
     required this.giftCount,
-    required this.postID, this.subCategory, this.productCategory, this.productCondition,
+    required this.postID,
+    this.subCategory,
+    this.productCategory,
+    this.productCondition,
+    this.discount,
+    this.discountedPrice,
+    required this.isInStock,
+    this.mainPrice,
   });
-  final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection;
+  final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
   // final RxBool postSeeMore = RxBool(false);
   final String userName, postTime;
-  final String? category, subCategory, productCategory, productCondition, brandName, kidName, kidAge, title, price, postText;
+  final String? category,
+      subCategory,
+      productCategory,
+      productCondition,
+      discount,
+      discountedPrice,
+      brandName,
+      kidName,
+      kidAge,
+      title,
+      price,
+      mainPrice,
+      postText;
   final IconData? categoryIcon;
   final IconData privacy;
   final Color? categoryIconColor;
   final List mediaList;
   final int commentCount, shareCount, giftCount, postID;
-  final VoidCallback? postUpperContainerOnpressed;
+  final VoidCallback? postUpperContainerOnPressed;
   final HomeController homeController = Get.find<HomeController>();
 
   @override
@@ -147,22 +166,57 @@ class CommonPostWidget extends StatelessWidget {
               style: semiBold14TextStyle(cBlackColor),
             ),
           ),
-        if (productCondition != null && productCategory!= null)
+        if (productCondition != null && productCategory != null)
           Padding(
-            padding: const EdgeInsets.only(bottom: k12Padding, left: kHorizontalPadding, right: kHorizontalPadding),
+            padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
             child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: '$productCategory ${ksCondition.tr}: ',
-                    style: semiBold14TextStyle(cSmallBodyTextColor),
+              text: TextSpan(children: [
+                TextSpan(
+                  text: '$productCategory ${ksCondition.tr}: ',
+                  style: semiBold14TextStyle(cSmallBodyTextColor),
+                ),
+                TextSpan(
+                  text: '$productCondition',
+                  style: semiBold14TextStyle(cBlackColor),
+                ),
+              ]),
+            ),
+          ),
+        // check if it is selling post
+        Padding(
+          padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
+          child: RichText(
+            text: TextSpan(children: [
+              if (discount != null)
+                WidgetSpan(
+                  baseline: TextBaseline.alphabetic,
+                  alignment: PlaceholderAlignment.baseline,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: k4Padding),
+                    child: Text(
+                      '-$discount% ',
+                      style: regular14TextStyle(cRedColor),
+                    ),
                   ),
-                  TextSpan(
-                    text: '$productCondition',
-                    style: semiBold14TextStyle(cBlackColor),
-                  ),
-                ]
+                ),
+              TextSpan(
+                text: '$price\$ ',
+                style: semiBold20TextStyle(cBlackColor),
               ),
+              // if (category == 'Selling' && isCategorized)
+              TextSpan(
+                text: isInStock ? '• ${ksInStock.tr}' : '• ${ksStockOut.tr}',
+                style: semiBold20TextStyle(isInStock ? cLinkColor : cRedColor),
+              ),
+            ]),
+          ),
+        ),
+        if (discount != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding),
+            child: Text(
+              '${ksLastPrice.tr}: $mainPrice\$ ',
+              style: regular14TextStyle(cSmallBodyTextColor).copyWith(decoration: TextDecoration.lineThrough),
             ),
           ),
         if (category == 'Selling' && isCategorized)
@@ -232,6 +286,7 @@ class CommonPostWidget extends StatelessWidget {
                   commentCount: 10,
                   shareCount: 10,
                   giftCount: 10,
+                  isInStock: false,
                 )),
           ),
         if (mediaList.isNotEmpty)

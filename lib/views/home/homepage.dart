@@ -196,7 +196,9 @@ class HomePage extends StatelessWidget {
                                           kidName: item.kid == null ? null : item.kid!.name, //API
                                           kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
                                           title: null, //API
-                                          price: null, //API
+                                          price: '360', //API
+                                          mainPrice: '400',
+                                          discount: '10',
                                           postText: item.content, //API
                                           mediaList: item.imageUrls, //API
                                           isSelfPost: true,
@@ -205,6 +207,7 @@ class HomePage extends StatelessWidget {
                                           subCategory: 'People',
                                           productCategory: 'Phone',
                                           productCondition: 'New',
+                                          isInStock: false,
                                         ),
                                       );
                                     }),

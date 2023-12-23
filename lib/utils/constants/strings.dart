@@ -149,6 +149,8 @@ const String ksChangeName = 'Change name';
 const String ksAt = 'at';
 const String ksCondition = 'condition';
 const String ksLastPrice = 'Last price';
+const String ksInStock = 'In Stock';
+const String ksStockOut = 'Stock Out';
 
 //---------------------------------------
 //* Menu

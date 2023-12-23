@@ -40,6 +40,7 @@ const Color cNeutralColor = Color(0XFFECECEC);
 const Color cLawnGreenColor = Color(0XFFDDFF0E);
 const Color cOrangeColor = Color(0xFFFDB805);
 const Color cAmberColor = Colors.amber;
+const Color cLinkColor = Color(0xFF316FF6);
 
 final Shader linearGradient = const LinearGradient(
   colors: <Color>[Color(0xff59d3fc), Color(0xff554dde)],

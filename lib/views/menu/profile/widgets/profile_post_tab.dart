@@ -144,6 +144,7 @@ class PostTab extends StatelessWidget {
                       postText: item.content, //API
                       mediaList: item.imageUrls, //API
                       isSelfPost: true,
+                      isInStock: true,
                       isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
                     ),
                   );
