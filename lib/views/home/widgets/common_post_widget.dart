@@ -191,7 +191,7 @@ class CommonPostWidget extends StatelessWidget {
             ),
           ),
         // check if it is selling post
-        
+
         Padding(
           padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
           child: RichText(
@@ -766,44 +766,70 @@ class PlaceBidContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => SizedBox(
-        height: 225,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              ksRecommended.tr,
-              style: regular12TextStyle(cPlaceHolderColor),
-            ),
-            kH8sizedBox,
-            Wrap(
-              alignment: WrapAlignment.start,
-              direction: Axis.horizontal,
-              spacing: 10.0,
+    return SizedBox(
+      height: 225,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            // height: h60,
+            decoration: BoxDecoration(color: cPrimaryTint2Color, borderRadius: k8CircularBorderRadius),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                for (int i = 0; i < recommendedBid.length; i++)
-                  CustomChoiceChips(
-                    label: '\$${recommendedBid[i]}',
-                    borderRadius: k8CircularBorderRadius,
-                    isSelected: (postReactionController.selectedBidIndex.value == i),
-                    onSelected: (value) {
-                      postReactionController.selectedBidIndex.value = i;
-                      postReactionController.bidingTextEditingController.text = recommendedBid[i];
-                    },
-                  )
+                SizedBox(
+                  width: 83,
+                  // height: 46,
+                  child: Column(
+                    children: [
+                      kH20sizedBox,
+                      Text(
+                        ksDesiredAmount.tr,
+                        style: regular20TextStyle(cBlackColor),
+                      ),
+                      kH4sizedBox,
+                      CustomElevatedButton(
+                          buttonColor: cWhiteColor, borderColor: cLineColor2, label: '\$100', buttonWidth: 70, buttonHeight: 40, onPressed: () {}, )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: k12Padding),
+                  child: Container(
+                    width: 1,
+                    height: 37,
+                    color: cWhiteColor,
+                  ),
+                ),
+                SizedBox(
+                  width: 83,
+                  height: 46,
+                  child: Column(
+                    children: [
+                      Text(
+                        'asdas',
+                        style: regular20TextStyle(cBlackColor),
+                      ),
+                      kH4sizedBox,
+                      Text(
+                        ksLowest.tr,
+                        style: regular12TextStyle(cBlackColor),
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
-            kH24sizedBox,
-            Text(
-              ksBidAmount.tr,
-              style: semiBold14TextStyle(cBlackColor),
-            ),
-            kH8sizedBox,
-            CustomModifiedTextField(
-                prefixIcon: Icons.attach_money_rounded, borderRadius: k8BorderRadius, controller: postReactionController.bidingTextEditingController)
-          ],
-        ),
+          ),
+          kH24sizedBox,
+          Text(
+            ksBidAmount.tr,
+            style: semiBold14TextStyle(cBlackColor),
+          ),
+          kH8sizedBox,
+          CustomModifiedTextField(
+              prefixIcon: Icons.attach_money_rounded, borderRadius: k8BorderRadius, controller: postReactionController.bidingTextEditingController)
+        ],
       ),
     );
   }
