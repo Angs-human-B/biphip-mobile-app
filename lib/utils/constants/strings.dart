@@ -363,4 +363,7 @@ const String ksOkay = "Okay";
 const String ksYouCouldSeeTheStar = "You could see the stars in your profile.";
 const String ksYouCanUseItAnywhere = "And can use it to anywhere you want.";
 const String ksSelectSubCategory = "Select Sub Category";
+const String ksSelectPostType = "Select post type";
+const String ksRegularPost = "Regular Post";
+
 // const String ksSelectPlatform="";
