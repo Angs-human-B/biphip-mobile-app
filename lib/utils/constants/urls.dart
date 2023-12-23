@@ -179,3 +179,5 @@ const String kiYoutubeSvgImageUrl = 'assets/svg/youtube.svg';
 const String kiTwitterXSvgImageUrl = 'assets/svg/x.svg';
 const String kiOnBoardingSvgUrl = 'assets/svg/onbording.svg';
 const String kiRegistrationBonusSvgUrl = 'assets/svg/registration_bonus.svg';
+const String kiRegularPostSvgUrl = 'assets/svg/regular_post.svg';
+const String kiBiddingPostSvgUrl = 'assets/svg/bidding_post.svg';

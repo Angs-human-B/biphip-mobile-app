@@ -57,7 +57,7 @@ class CreatePostController extends GetxController {
     {"id": '', "name": '', "title": "Storytelling", "icon": BipHip.storytelling, "icon_color": cStoryTellingColor},
     {"id": '', "name": '', "title": "Photography", "icon": BipHip.photography, "icon_color": cPhotographyColor},
     {"id": '', "name": '', "title": "News", "icon": BipHip.newsFill, "icon_color": cBlackColor},
-    {"id": '', "name": '', "title": "Selling", "icon": BipHip.selling, "icon_color": cSellingColor},
+    {"id": '', "name": '', "title": "Selling Post", "icon": BipHip.selling, "icon_color": cSellingColor},
   ];
 
   final RxList categoryStatusList = RxList([false, false, false, false, false, false, false]);

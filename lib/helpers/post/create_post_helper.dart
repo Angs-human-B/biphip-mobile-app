@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/post/add_brand.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/select_category.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CreatePostHelper {
   final CreatePostController createPostController = Get.find<CreatePostController>();
@@ -549,7 +549,7 @@ class CreatePostHelper {
         title: ksKids.tr,
         isRightButtonShow: true,
       );
-    } else if (createPostController.category.value == "Selling") {
+    } else if (createPostController.category.value == "Selling Post") {
       globalController.commonBottomSheet(
         context: context,
         content: Column(
@@ -559,7 +559,7 @@ class CreatePostHelper {
               onPress: () {
                 globalController.commonBottomSheet(
                   isScrollControlled: true,
-                  bottomSheetHeight: height * .7,
+                  bottomSheetHeight: height * .4,
                   context: context,
                   content: Column(
                     children: [
@@ -630,24 +630,76 @@ class CreatePostHelper {
             //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
             // ),
             kH12sizedBox,
-            Text(
-              ksOr.tr,
-              style: regular16TextStyle(cPlaceHolderColor),
-            ),
-            kH12sizedBox,
             OutLinedButton(
               onPress: () {
-                Get.to(() => AddBrandPage());
+                // Get.to(() => AddBrandPage());
               },
-              buttonText: ksAddBrand.tr,
-              buttonTextStyle: medium16TextStyle(cPrimaryColor),
-              borderColor: cPrimaryColor,
-              widget: Icon(
-                BipHip.plus,
-                color: cPrimaryColor,
-                size: isDeviceScreenLarge() ? h20 : h16,
+              // widget: Stack(
+              //   children: [
+              //     // Container(
+              //     //   width: 30,
+              //     //   height: 30,
+              //     //   decoration: BoxDecoration(
+              //     //     borderRadius: k100CircularBorderRadius,
+              //     //     gradient: const LinearGradient(
+              //     //       begin: Alignment.topRight,
+              //     //       end: Alignment.topLeft,
+              //     //       colors: [
+              //     //         Color(0XFF59FCCB),
+              //     //         Color(0XFF158BF9),
+              //     //       ],
+              //     //     ),
+              //     //   ),
+              //     //   child: SvgPicture.asset(
+              //     //     kiRegularPostSvgUrl,
+              //     //     width: 16,
+              //     //     height: 16,
+              //     //   ),
+              //     // ),
+
+              //   ],
+              // ),
+              widget: Stack(
+                children: <Widget>[
+                  Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: k100CircularBorderRadius,
+                      gradient: const LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.topLeft,
+                        colors: [
+                          Color(0XFF59FCCB),
+                          Color(0XFF158BF9),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: 7,
+                    bottom: 7,
+                    child: SvgPicture.asset(
+                      kiRegularPostSvgUrl,
+                      width: 16,
+                      height: 16,
+                    ),
+                  ),
+                ],
               ),
+              buttonText: ksRegularPost.tr,
+              buttonTextStyle: medium16TextStyle(cBlackColor),
+              borderColor: cLineColor,
+
+              // widget: Icon(
+              //   BipHip.plus,
+              //   color: cPrimaryColor,
+              //   size: isDeviceScreenLarge() ? h20 : h16,
+              // ),
             ),
+
             kH8sizedBox,
             Text(
               "*${ksAddBrandInstruction.tr}",
@@ -661,11 +713,128 @@ class CreatePostHelper {
         onPressRightButton: () {
           Get.back();
         },
-        rightText: ksDone.tr,
+        rightText: ksNext.tr,
         rightTextStyle: medium14TextStyle(cPrimaryColor),
-        title: ksBrands.tr,
+        title: ksSelectPostType.tr,
         isRightButtonShow: true,
       );
+
+      // globalController.commonBottomSheet(
+      //   context: context,
+      //   content: Column(
+      //     children: [
+      //       kH8sizedBox,
+      //       OutLinedButton(
+      //         onPress: () {
+      //           globalController.commonBottomSheet(
+      //             isScrollControlled: true,
+      //             bottomSheetHeight: height * .7,
+      //             context: context,
+      //             content: Column(
+      //               children: [
+      //                 ListView.separated(
+      //                   shrinkWrap: true,
+      //                   physics: const NeverScrollableScrollPhysics(),
+      //                   separatorBuilder: (context, index) => kH8sizedBox,
+      //                   itemCount: createPostController.brandList.length,
+      //                   itemBuilder: (context, i) {
+      //                     return Obx(
+      //                       () => CustomListTile(
+      //                         onPressed: () {
+      //                           selectBrandStatusChange(i);
+      //                         },
+      //                         itemColor: createPostController.selectedBrandStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
+      //                         borderColor: createPostController.selectedBrandStatusList[i] ? cPrimaryColor : cLineColor,
+      //                         title: createPostController.brandList[i]['name'],
+      //                         leading: CircleAvatar(
+      //                           radius: 12,
+      //                           backgroundImage: AssetImage(createPostController.brandList[i]['image_url']),
+      //                         ),
+      //                         trailing: CustomRadioButton(
+      //                           onChanged: () {
+      //                             selectBrandStatusChange(i);
+      //                           },
+      //                           isSelected: createPostController.selectedBrandStatusList[i],
+      //                         ),
+      //                       ),
+      //                     );
+      //                   },
+      //                 ),
+      //               ],
+      //             ),
+      //             onPressCloseButton: () {
+      //               Get.back();
+      //             },
+      //             onPressRightButton: () {
+      //               Get.back();
+      //             },
+      //             rightText: ksDone.tr,
+      //             rightTextStyle: medium14TextStyle(cPrimaryColor),
+      //             title: ksSelectBrands.tr,
+      //             isRightButtonShow: true,
+      //           );
+      //         },
+      //         buttonText: ksSelectSavedBrands.tr,
+      //         buttonTextStyle: medium16TextStyle(cBlackColor),
+      //         borderColor: cLineColor,
+      //         widget: Icon(
+      //           BipHip.downArrowOutline,
+      //           color: cBlackColor,
+      //           size: isDeviceScreenLarge() ? h20 : h16,
+      //         ),
+      //       ),
+      //       // kH12sizedBox,
+      //       // OutLinedButton(
+      //       //   onPress: () {},
+      //       //   buttonText: "Maria Jones",
+      //       //   buttonTextStyle: medium16TextStyle(cBlackColor),
+      //       //   borderColor: cPrimaryColor,
+      //       //   buttonColor: cPrimaryTint3Color,
+      //       //   widget: Icon(
+      //       //     BipHip.circleCrossNew,
+      //       //     color: cRedColor,
+      //       //     size: isDeviceScreenLarge() ? h20 : h18,
+      //       //   ),
+      //       //   backgroundImage: const NetworkImage("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"),
+      //       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //       // ),
+      //       kH12sizedBox,
+      //       Text(
+      //         ksOr.tr,
+      //         style: regular16TextStyle(cPlaceHolderColor),
+      //       ),
+      //       kH12sizedBox,
+      //       OutLinedButton(
+      //         onPress: () {
+      //           Get.to(() => AddBrandPage());
+      //         },
+      //         buttonText: ksAddBrand.tr,
+      //         buttonTextStyle: medium16TextStyle(cPrimaryColor),
+      //         borderColor: cPrimaryColor,
+      //         widget: Icon(
+      //           BipHip.plus,
+      //           color: cPrimaryColor,
+      //           size: isDeviceScreenLarge() ? h20 : h16,
+      //         ),
+      //       ),
+      //       kH8sizedBox,
+      //       Text(
+      //         "*${ksAddBrandInstruction.tr}",
+      //         style: regular14TextStyle(cSmallBodyTextColor),
+      //       ),
+      //     ],
+      //   ),
+      //   onPressCloseButton: () {
+      //     Get.back();
+      //   },
+      //   onPressRightButton: () {
+      //     Get.back();
+      //   },
+      //   rightText: ksDone.tr,
+      //   rightTextStyle: medium14TextStyle(cPrimaryColor),
+      //   title: ksBrands.tr,
+      //   isRightButtonShow: true,
+      // );
     } else if (createPostController.category.value == "News") {
     } else {
       Get.back();
