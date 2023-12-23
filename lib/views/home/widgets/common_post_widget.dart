@@ -39,13 +39,13 @@ class CommonPostWidget extends StatelessWidget {
     required this.commentCount,
     required this.shareCount,
     required this.giftCount,
-    required this.postID,
+    required this.postID, this.subCategory,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection;
   // final RxBool sharedPostSeeMore = RxBool(false);
   // final RxBool postSeeMore = RxBool(false);
   final String userName, postTime;
-  final String? category, brandName, kidName, kidAge, title, price, postText;
+  final String? category, subCategory, brandName, kidName, kidAge, title, price, postText;
   final IconData? categoryIcon;
   final IconData privacy;
   final Color? categoryIconColor;
@@ -133,6 +133,7 @@ class CommonPostWidget extends StatelessWidget {
               kidName: kidName,
               kidAge: kidAge,
               title: title,
+              subCategory: subCategory,
             ),
           ),
         ),
@@ -511,8 +512,7 @@ class PostBottomSection extends StatelessWidget {
                 reactCount: 440,
                 reactionOnPressed: () {
                   postReactionController.giftFilter(0);
-                  globalController.blankBottomSheet(
-                      context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                  globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
                 giftCount: giftCount,
                 commentCount: commentCount,
@@ -520,8 +520,7 @@ class PostBottomSection extends StatelessWidget {
                 isGiftShown: true,
                 giftOnPressed: () {
                   postReactionController.giftFilter(0);
-                  globalController.blankBottomSheet(
-                      context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                  globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
               ),
             ),
@@ -960,7 +959,8 @@ class GiftContent extends StatelessWidget {
 }
 
 class PackageGridViewContainer extends StatelessWidget {
-  PackageGridViewContainer({super.key, 
+  PackageGridViewContainer({
+    super.key,
     required this.index,
   });
 

@@ -202,6 +202,7 @@ class HomePage extends StatelessWidget {
                                           isSelfPost: true,
                                           isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
                                           postID: item.id!,
+                                          subCategory: 'People',
                                         ),
                                       );
                                     }),
