@@ -211,23 +211,26 @@ class CreatePostUpperSection extends StatelessWidget {
                                   ),
                                   child: SizedBox(
                                     height: 22,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(createPostController.subCategory.value == "" ? "Sub Category" : createPostController.subCategory.value,
-                                            textAlign: TextAlign.center,
-                                            style: createPostController.category.value == ""
-                                                ? regular12TextStyle(cPlaceHolderColor2)
-                                                : regular12TextStyle(cBlackColor)),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: k4Padding),
-                                          child: Icon(
-                                            createPostController.subCategory.value == "" ? BipHip.plus : BipHip.edit,
-                                            color: createPostController.category.value == "" ? cIconColor : cBlackColor,
-                                            size: screenWiseSize(kIconSize16, 4),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(createPostController.subCategory.value == "" ? "Sub Category" : createPostController.subCategory.value,
+                                              textAlign: TextAlign.center,
+                                              style: createPostController.category.value == ""
+                                                  ? regular12TextStyle(cPlaceHolderColor2)
+                                                  : regular12TextStyle(cBlackColor)),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: k4Padding),
+                                            child: Icon(
+                                              createPostController.subCategory.value == "" ? BipHip.plus : BipHip.edit,
+                                              color: createPostController.category.value == "" ? cIconColor : cBlackColor,
+                                              size: screenWiseSize(kIconSize16, 4),
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
