@@ -147,6 +147,8 @@ const String ksGive = 'Give';
 const String ksPostedOn = 'posted on';
 const String ksChangeName = 'Change name';
 const String ksAt = 'at';
+const String ksCondition = 'condition';
+const String ksLastPrice = 'Last price';
 
 //---------------------------------------
 //* Menu

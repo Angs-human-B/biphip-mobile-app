@@ -203,6 +203,8 @@ class HomePage extends StatelessWidget {
                                           isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
                                           postID: item.id!,
                                           subCategory: 'People',
+                                          productCategory: 'Phone',
+                                          productCondition: 'New',
                                         ),
                                       );
                                     }),

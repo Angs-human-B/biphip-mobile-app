@@ -39,13 +39,13 @@ class CommonPostWidget extends StatelessWidget {
     required this.commentCount,
     required this.shareCount,
     required this.giftCount,
-    required this.postID, this.subCategory,
+    required this.postID, this.subCategory, this.productCategory, this.productCondition,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection;
   // final RxBool sharedPostSeeMore = RxBool(false);
   // final RxBool postSeeMore = RxBool(false);
   final String userName, postTime;
-  final String? category, subCategory, brandName, kidName, kidAge, title, price, postText;
+  final String? category, subCategory, productCategory, productCondition, brandName, kidName, kidAge, title, price, postText;
   final IconData? categoryIcon;
   final IconData privacy;
   final Color? categoryIconColor;
@@ -145,6 +145,24 @@ class CommonPostWidget extends StatelessWidget {
               title!,
               overflow: TextOverflow.clip,
               style: semiBold14TextStyle(cBlackColor),
+            ),
+          ),
+        if (productCondition != null && productCategory!= null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: k12Padding, left: kHorizontalPadding, right: kHorizontalPadding),
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: '$productCategory ${ksCondition.tr}: ',
+                    style: semiBold14TextStyle(cSmallBodyTextColor),
+                  ),
+                  TextSpan(
+                    text: '$productCondition',
+                    style: semiBold14TextStyle(cBlackColor),
+                  ),
+                ]
+              ),
             ),
           ),
         if (category == 'Selling' && isCategorized)
