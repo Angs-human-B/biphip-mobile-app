@@ -40,7 +40,7 @@ class CreatePostHelper {
     }
   }
 
-  void postButtonStateCheck() {
+  void checkCanCreatePost() {
     if (createPostController.createPostController.text.trim().isNotEmpty) {
       createPostController.isPostButtonActive.value = true;
       if (createPostController.createPostController.text.length > 150) {
@@ -261,7 +261,7 @@ class CreatePostHelper {
     }
   }
 
-  void selectCategoryTextChange(context) {
+  void selectCategory(context) {
     for (int i = 0; i < createPostController.categoryList.length; i++) {
       if (createPostController.categoryStatusList[i]) {
         createPostController.categoryID.value = createPostController.categoryList[i]['id'];
@@ -692,7 +692,7 @@ class CreatePostHelper {
     createPostController.kidAgeTextEditingController.clear();
   }
 
-  void resetData() {
+  void resetCreatePostData() {
     createPostController.isMediaChanged.value = false;
     createPostController.mediaLinkList.clear();
     createPostController.mediaFileList.clear();
@@ -712,30 +712,28 @@ class CreatePostHelper {
   //----------------------------
 
   IconData getBottomRowIcon(index) {
-    if (index == 1) {
-      return BipHip.photo;
-    }
-    if (index == 2) {
-      return BipHip.camera;
-    }
-    if (index == 3) {
-      return BipHip.video;
-    } else {
-      return BipHip.tagFriends;
+    switch (index) {
+      case 1:
+        return BipHip.photo;
+      case 2:
+        return BipHip.camera;
+      case 3:
+        return BipHip.video;
+      default:
+        return BipHip.tagFriends;
     }
   }
 
   Color getBottomIconColor(index) {
-    if (index == 1) {
-      return cGreenColor;
-    }
-    if (index == 2) {
-      return cPrimaryColor;
-    }
-    if (index == 3) {
-      return cRedColor;
-    } else {
-      return cSecondaryColor;
+    switch (index) {
+      case 1:
+        return cGreenColor;
+      case 2:
+        return cPrimaryColor;
+      case 3:
+        return cRedColor;
+      default:
+        return cSecondaryColor;
     }
   }
 

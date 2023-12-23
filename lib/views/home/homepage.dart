@@ -104,7 +104,7 @@ class HomePage extends StatelessWidget {
                                   name: Get.find<GlobalController>().userLastName.value.toString(),
                                   profilePic: Get.find<GlobalController>().userImage.value.toString(),
                                   onPressed: () {
-                                    CreatePostHelper().resetData();
+                                    CreatePostHelper().resetCreatePostData();
                                     Get.toNamed(krCreatePost);
                                   },
                                   prefixWidget: const Icon(

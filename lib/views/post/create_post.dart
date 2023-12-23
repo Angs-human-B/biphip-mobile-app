@@ -83,14 +83,12 @@ class CreatePost extends StatelessWidget {
                                     textInputStyle:
                                         createPostController.isTextLimitCrossed.value ? regular16TextStyle(cBlackColor) : regular20TextStyle(cBlackColor),
                                     onChanged: (v) {
-                                      createPostHelper.postButtonStateCheck();
+                                      createPostHelper.checkCanCreatePost();
                                     },
                                   ),
                                 ),
-                                if (createPostController.allMediaList.isNotEmpty)
-                                  CreatePostMediaSection(),
-                                if (createPostController.category.value == "Selling" || createPostController.category.value == "News")
-                                  SellingNewsTextfield(),
+                                if (createPostController.allMediaList.isNotEmpty) CreatePostMediaSection(),
+                                if (createPostController.category.value == "Selling" || createPostController.category.value == "News") SellingNewsTextfield(),
                                 kH50sizedBox,
                               ],
                             ),
