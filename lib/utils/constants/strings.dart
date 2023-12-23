@@ -151,6 +151,7 @@ const String ksCondition = 'condition';
 const String ksLastPrice = 'Last price';
 const String ksInStock = 'In Stock';
 const String ksStockOut = 'Stock Out';
+const String ksDuration = 'Duration';
 
 //---------------------------------------
 //* Menu

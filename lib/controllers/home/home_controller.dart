@@ -45,6 +45,11 @@ class HomeController extends GetxController {
     ll(seeMore);
   }
 
+  int getBiddingDuration(DateTime endTime){
+     int diff = endTime.difference(DateTime.now()).inSeconds;
+     return diff;
+  }
+
   // All post list API Implementation
   final Rx<PostListModel?> postListData = Rx<PostListModel?>(null);
   final RxList<PostData> allPostList = RxList<PostData>([]);

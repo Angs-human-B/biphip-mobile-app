@@ -11,6 +11,7 @@ import 'package:bip_hip/widgets/post/platforn_action_section.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 class CommonPostWidget extends StatelessWidget {
   CommonPostWidget({
@@ -47,7 +48,10 @@ class CommonPostWidget extends StatelessWidget {
     this.discount,
     this.discountedPrice,
     required this.isInStock,
-    this.mainPrice, this.platformName, this.platformLink, this.actionName,
+    this.mainPrice,
+    this.platformName,
+    this.platformLink,
+    this.actionName,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -187,47 +191,82 @@ class CommonPostWidget extends StatelessWidget {
             ),
           ),
         // check if it is selling post
+        
         Padding(
           padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
           child: RichText(
-            text: TextSpan(children: [
-              if (discount != null)
-                WidgetSpan(
-                  baseline: TextBaseline.alphabetic,
-                  alignment: PlaceholderAlignment.baseline,
+            text: TextSpan(
+              children: [
+                const WidgetSpan(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: k4Padding),
-                    child: Text(
-                      '-$discount% ',
-                      style: regular14TextStyle(cRedColor),
+                    padding: EdgeInsets.only(right: k4Padding),
+                    child: Icon(
+                      BipHip.info,
+                      color: cIconColor,
+                      size: kIconSize16,
                     ),
                   ),
                 ),
-              TextSpan(
-                text: '$price\$ ',
-                style: semiBold20TextStyle(cBlackColor),
-              ),
-              TextSpan(
-                text: isInStock ? '• ${ksInStock.tr}' : '• ${ksStockOut.tr}',
-                style: semiBold20TextStyle(isInStock ? cLinkColor : cRedColor),
-              ),
-            ]),
+                TextSpan(
+                  text: '${ksDuration.tr}: ',
+                  style: semiBold14TextStyle(cSmallBodyTextColor),
+                ),
+                WidgetSpan(
+                  child: Countdown(
+                    seconds: homeController.getBiddingDuration(DateTime.parse('2023-12-25 20:18:04Z')),
+                    build: (BuildContext context, double time) {
+                      int hours = (time ~/ 3600).toInt();
+                      int minutes = ((time % 3600) ~/ 60).toInt();
+                      int seconds = (time % 60).toInt();
+                      return Text(
+                        '${hours}h: ${minutes}m: $seconds sec',
+                        style: semiBold14TextStyle(cRedColor),
+                      );
+                    },
+                    interval: const Duration(milliseconds: 100),
+                    onFinished: () {},
+                  ),
+                )
+              ],
+            ),
           ),
         ),
-        if (discount != null)
+        if (category == 'Selling')
+          Padding(
+            padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  if (discount != null)
+                    WidgetSpan(
+                      baseline: TextBaseline.alphabetic,
+                      alignment: PlaceholderAlignment.baseline,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: k4Padding),
+                        child: Text(
+                          '-$discount% ',
+                          style: regular14TextStyle(cRedColor),
+                        ),
+                      ),
+                    ),
+                  TextSpan(
+                    text: '$price\$ ',
+                    style: semiBold20TextStyle(cBlackColor),
+                  ),
+                  TextSpan(
+                    text: isInStock ? '• ${ksInStock.tr}' : '• ${ksStockOut.tr}',
+                    style: semiBold20TextStyle(isInStock ? cLinkColor : cRedColor),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        if (discount != null && category == 'Selling')
           Padding(
             padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding),
             child: Text(
               '${ksLastPrice.tr}: $mainPrice\$ ',
               style: regular14TextStyle(cSmallBodyTextColor).copyWith(decoration: TextDecoration.lineThrough),
-            ),
-          ),
-        if (category == 'Selling' && isCategorized)
-          Padding(
-            padding: const EdgeInsets.only(bottom: k12Padding, left: kHorizontalPadding, right: kHorizontalPadding),
-            child: Text(
-              'Price: $price\$',
-              style: semiBold14TextStyle(cBlackColor),
             ),
           ),
         if (isTextualPost)
@@ -519,9 +558,7 @@ class CommonPostWidget extends StatelessWidget {
             platformName: platformName,
             platformLink: platformLink,
             actionName: actionName,
-            actionOnPressed: () {
-              
-            },
+            actionOnPressed: isSelfPost ? null : () {},
           ),
         // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
       ],
@@ -537,30 +574,34 @@ class PostBottomSection extends StatelessWidget {
       required this.commentCount,
       required this.shareCount,
       required this.giftCount,
-      this.category, this.platformName, this.platformLink, this.actionName, this.actionOnPressed});
+      this.category,
+      this.platformName,
+      this.platformLink,
+      this.actionName,
+      this.actionOnPressed});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   final bool isSelfPost, isCommentShown;
   final RxBool showComment = RxBool(false);
   final int commentCount, shareCount, giftCount;
-  final String? category,platformName, platformLink, actionName;
+  final String? category, platformName, platformLink, actionName;
   final VoidCallback? actionOnPressed;
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => Column(
           children: [
-            if(category == 'Selling')
-            Padding(
-              padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k4Padding),
-              child: PlatformActionSection(
-                actionOnPressed: actionOnPressed,
-                platformName: 'Jane clothing store',
-                platformLink: 'www.facebook.com/janeclothing/sdasdsads',
-                actionName: 'Learn more',
+            if (category == 'Selling')
+              Padding(
+                padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k4Padding),
+                child: PlatformActionSection(
+                  actionOnPressed: actionOnPressed,
+                  platformName: 'Jane clothing store',
+                  platformLink: 'www.facebook.com/janeclothing/sdasdsads',
+                  actionName: 'Learn more',
+                ),
               ),
-            ),
             if (isSelfPost)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
