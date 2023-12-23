@@ -7,6 +7,7 @@ import 'package:bip_hip/widgets/post/biding_insight.dart';
 import 'package:bip_hip/widgets/post/biding_widget.dart';
 import 'package:bip_hip/widgets/post/comment_widget.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
+import 'package:bip_hip/widgets/post/platforn_action_section.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:flutter_svg/svg.dart';
@@ -46,7 +47,7 @@ class CommonPostWidget extends StatelessWidget {
     this.discount,
     this.discountedPrice,
     required this.isInStock,
-    this.mainPrice,
+    this.mainPrice, this.platformName, this.platformLink, this.actionName,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -64,7 +65,10 @@ class CommonPostWidget extends StatelessWidget {
       title,
       price,
       mainPrice,
-      postText;
+      postText,
+      platformName,
+      platformLink,
+      actionName;
   final IconData? categoryIcon;
   final IconData privacy;
   final Color? categoryIconColor;
@@ -203,7 +207,6 @@ class CommonPostWidget extends StatelessWidget {
                 text: '$price\$ ',
                 style: semiBold20TextStyle(cBlackColor),
               ),
-              // if (category == 'Selling' && isCategorized)
               TextSpan(
                 text: isInStock ? '• ${ksInStock.tr}' : '• ${ksStockOut.tr}',
                 style: semiBold20TextStyle(isInStock ? cLinkColor : cRedColor),
@@ -512,6 +515,13 @@ class CommonPostWidget extends StatelessWidget {
             commentCount: commentCount,
             shareCount: shareCount,
             giftCount: giftCount,
+            category: category,
+            platformName: platformName,
+            platformLink: platformLink,
+            actionName: actionName,
+            actionOnPressed: () {
+              
+            },
           ),
         // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
       ],
@@ -521,18 +531,36 @@ class CommonPostWidget extends StatelessWidget {
 
 class PostBottomSection extends StatelessWidget {
   PostBottomSection(
-      {super.key, required this.isSelfPost, required this.isCommentShown, required this.commentCount, required this.shareCount, required this.giftCount});
+      {super.key,
+      required this.isSelfPost,
+      required this.isCommentShown,
+      required this.commentCount,
+      required this.shareCount,
+      required this.giftCount,
+      this.category, this.platformName, this.platformLink, this.actionName, this.actionOnPressed});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   final bool isSelfPost, isCommentShown;
   final RxBool showComment = RxBool(false);
   final int commentCount, shareCount, giftCount;
+  final String? category,platformName, platformLink, actionName;
+  final VoidCallback? actionOnPressed;
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => Column(
           children: [
+            if(category == 'Selling')
+            Padding(
+              padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k4Padding),
+              child: PlatformActionSection(
+                actionOnPressed: actionOnPressed,
+                platformName: 'Jane clothing store',
+                platformLink: 'www.facebook.com/janeclothing/sdasdsads',
+                actionName: 'Learn more',
+              ),
+            ),
             if (isSelfPost)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),

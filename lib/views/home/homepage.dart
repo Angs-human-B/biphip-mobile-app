@@ -208,6 +208,9 @@ class HomePage extends StatelessWidget {
                                           productCategory: 'Phone',
                                           productCondition: 'New',
                                           isInStock: false,
+                                          platformName: "Jane Clothing",
+                                          platformLink: 'www.facebook.com/Clothing/lorem',
+                                          actionName: 'Buy now',
                                         ),
                                       );
                                     }),
