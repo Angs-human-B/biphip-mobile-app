@@ -43,13 +43,13 @@ class KidHelper {
     checkCanEditKidInfo();
   }
 
-  void editKidCameraOnPressed() async {
+  void editKidImageFromCamera() async {
     await Get.find<GlobalController>()
         .selectImageSource(kidsController.isKidImageChanged, kidsController.kidImageLink, kidsController.kidImageFile, 'camera', true);
     checkCanEditKidInfo();
   }
 
-  void editKidGallereyOnPressed() async {
+  void editKidImageFromGallery() async {
     await Get.find<GlobalController>()
         .selectImageSource(kidsController.isKidImageChanged, kidsController.kidImageLink, kidsController.kidImageFile, 'gallery', true);
     checkCanEditKidInfo();
