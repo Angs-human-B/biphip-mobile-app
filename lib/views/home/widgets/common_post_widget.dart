@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
+import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/post/biding_insight.dart';
 import 'package:bip_hip/widgets/post/biding_widget.dart';
@@ -662,6 +663,24 @@ class PostBottomSection extends StatelessWidget {
                         },
                         onPressRightButton: () {
                           Get.back();
+                          globalController.commonBottomSheet(
+                            bottomSheetHeight: isDeviceScreenLarge() ? height * 0.3 : null,
+                            context: context,
+                            content: UpdateBidding(
+                              yourBid: postReactionController.yourBid.value.toString(),
+                            ),
+                            onPressCloseButton: () {
+                              Get.back();
+                            },
+                            onPressRightButton: () {
+                              Get.back();
+                            },
+                            rightText: ksUpdate.tr,
+                            rightTextStyle: medium14TextStyle(cPrimaryColor),
+                            title: ksUpdateBiddingAmount.tr,
+                            isRightButtonShow: true,
+                            isScrollControlled: true,
+                          );
                         },
                         rightText: ksEdit.tr,
                         rightTextStyle: medium14TextStyle(cPrimaryColor),
@@ -882,7 +901,6 @@ class BidAmount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      // crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         kH16sizedBox,
@@ -981,6 +999,43 @@ class BidAmount extends StatelessWidget {
               )
             ],
           ),
+        )
+      ],
+    );
+  }
+}
+
+class UpdateBidding extends StatelessWidget {
+  const UpdateBidding({super.key, this.yourBid});
+  final String? yourBid;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CommentWidget(
+          profileImage: kiProfileDefaultImageUrl,
+          isLikeButtonShown: false,
+          isReplyButtonShown: false,
+          isReactButtonShown: false,
+          comment: '\$$yourBid',
+          isLink: false,
+          reactCount: 0,
+          userName: 'Omi',
+          isImageComment: false,
+          isSendMessageShown: false,
+          isHideButtonShown: false,
+          replyList: const [],
+        ),
+        kH4sizedBox,
+        Wrap(
+          alignment: WrapAlignment.start,
+          spacing: h8,
+          children: [
+            CustomChoiceChips(label: 'Desired amount \$580', isSelected: false, onSelected: (v) {}),
+            CustomChoiceChips(label: 'Highest amount \$580', isSelected: false, onSelected: (v) {}),
+            CustomChoiceChips(label: 'Suggested amount \$580', isSelected: false, onSelected: (v) {})
+          ],
         )
       ],
     );
