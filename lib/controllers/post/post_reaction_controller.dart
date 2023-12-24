@@ -17,6 +17,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxInt badgeCount4 = RxInt(0);
   final RxInt tabIndex = RxInt(-1);
   late TabController tabController;
+  final Rx<int?> yourBid = Rx<int?>(null);
 
   @override
   void onInit() {

@@ -18,6 +18,7 @@ const String ksDone = 'Done';
 const String ksEdit = 'Edit';
 const String ksSave = 'Save';
 const String ksSend = 'Send';
+const String ksSubmit = 'Submit';
 const String ksDelete = 'Delete';
 const String ksSearch = 'Search';
 const String ksConfirm = 'Confirm';
@@ -152,7 +153,8 @@ const String ksLastPrice = 'Last price';
 const String ksInStock = 'In Stock';
 const String ksStockOut = 'Stock Out';
 const String ksDuration = 'Duration';
-const String ksDesiredAmount = 'Desired\namount';
+const String ksDesiredAmount = 'Desired\nAmount';
+const String ksMinimumBiddingAmount = 'Minimum Bidding\nAmount';
 
 //---------------------------------------
 //* Menu
@@ -169,8 +171,15 @@ const String ksAction = 'Action';
 //---------------------------------------
 const String ksHighest = 'Highest';
 const String ksLowest = 'Lowest';
+const String ksYourBid = 'Your bid';
 const String ksTotalBids = 'Total bids';
 const String ksPlaceABid = 'Place a Bid';
+const String ksYourBidAmount = 'Your bid amount';
+const String ksHighestAmount = 'Highest amount';
+const String ksTotalBid = 'Total bid';
+const String ksDesiredAmount1 = 'Desired amount';
+const String ksYourBiddingAmountIs = 'Your bidding amount is';
+const String ksViewYourBid = 'View your bid';
 const String ksSeeBidingInsights = 'See Biding Insights';
 const String ksWriteAReply = 'Write a reply...';
 const String ksSendMessage = 'Send message';

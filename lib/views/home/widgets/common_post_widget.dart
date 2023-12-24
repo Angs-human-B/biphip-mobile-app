@@ -7,9 +7,8 @@ import 'package:bip_hip/widgets/post/biding_insight.dart';
 import 'package:bip_hip/widgets/post/biding_widget.dart';
 import 'package:bip_hip/widgets/post/comment_widget.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
-import 'package:bip_hip/widgets/post/platforn_action_section.dart';
+import 'package:bip_hip/widgets/post/platform_action_section.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
-import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
@@ -607,7 +606,7 @@ class PostBottomSection extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                 child: BiddingWidget(
                   totalBids: 25,
-                  bidingAmount: 300,
+                  yourBid: 300,
                   isPlaceBid: false,
                   bidingOnPressed: () {
                     globalController.blankBottomSheet(
@@ -625,24 +624,52 @@ class PostBottomSection extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                 child: BiddingWidget(
                   totalBids: 25,
-                  bidingAmount: 300,
+                  yourBid: postReactionController.yourBid.value,
                   bidingOnPressed: () {
-                    globalController.commonBottomSheet(
-                      context: context,
-                      content: PlaceBidContent(),
-                      onPressCloseButton: () {
-                        Get.back();
-                      },
-                      onPressRightButton: () {
-                        Get.back();
-                      },
-                      rightText: 'Send',
-                      rightTextStyle: medium14TextStyle(cPrimaryColor),
-                      title: 'Place a Bid',
-                      isRightButtonShow: true,
-                      isScrollControlled: true,
-                      // bottomSheetHeight: height * .4,
-                    );
+                    if (postReactionController.yourBid.value == null) {
+                      globalController.commonBottomSheet(
+                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
+                        context: context,
+                        content: PlaceBidContent(
+                          desiredAmount: '100',
+                          minimumBiddingAmount: '50',
+                        ),
+                        onPressCloseButton: () {
+                          Get.back();
+                        },
+                        onPressRightButton: () {
+                          postReactionController.yourBid.value = int.parse(postReactionController.bidingTextEditingController.text);
+                          Get.back();
+                        },
+                        rightText: ksSubmit.tr,
+                        rightTextStyle: medium14TextStyle(cPrimaryColor),
+                        title: ksPlaceABid.tr,
+                        isRightButtonShow: true,
+                        isScrollControlled: true,
+                      );
+                    } else {
+                      globalController.commonBottomSheet(
+                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
+                        context: context,
+                        content: BidAmount(
+                          highestAmount: '350',
+                          totalBid: '56',
+                          desireAmount: '400',
+                          yourBid: postReactionController.yourBid.value.toString(),
+                        ),
+                        onPressCloseButton: () {
+                          Get.back();
+                        },
+                        onPressRightButton: () {
+                          Get.back();
+                        },
+                        rightText: ksEdit.tr,
+                        rightTextStyle: medium14TextStyle(cPrimaryColor),
+                        title: ksYourBidAmount.tr,
+                        isRightButtonShow: true,
+                        isScrollControlled: true,
+                      );
+                    }
                   },
                   isPlaceBid: true,
                 ),
@@ -760,36 +787,46 @@ class BiddingInsightsContent extends StatelessWidget {
 }
 
 class PlaceBidContent extends StatelessWidget {
-  PlaceBidContent({super.key});
+  PlaceBidContent({super.key, this.desiredAmount, this.minimumBiddingAmount});
 
+  final String? desiredAmount, minimumBiddingAmount;
   final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 225,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            // height: h60,
-            decoration: BoxDecoration(color: cPrimaryTint2Color, borderRadius: k8CircularBorderRadius),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          // height: h60,
+          decoration: BoxDecoration(color: cPrimaryTint2Color, borderRadius: k8CircularBorderRadius),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: k20Padding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(
-                  width: 83,
+                  width: 110,
                   // height: 46,
                   child: Column(
                     children: [
-                      kH20sizedBox,
                       Text(
                         ksDesiredAmount.tr,
-                        style: regular20TextStyle(cBlackColor),
+                        style: semiBold14TextStyle(cBlackColor),
                       ),
                       kH4sizedBox,
-                      CustomElevatedButton(
-                          buttonColor: cWhiteColor, borderColor: cLineColor2, label: '\$100', buttonWidth: 70, buttonHeight: 40, onPressed: () {}, )
+                      InkWell(
+                        onTap: () {
+                          postReactionController.bidingTextEditingController.text = desiredAmount!;
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 67,
+                          decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius, border: kLineBorder),
+                          child: Center(child: Text('\$$desiredAmount', style: semiBold14TextStyle(cBlackColor))),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -797,40 +834,155 @@ class PlaceBidContent extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: k12Padding),
                   child: Container(
                     width: 1,
-                    height: 37,
-                    color: cWhiteColor,
+                    height: 60,
+                    color: cPrimaryColor,
                   ),
                 ),
-                SizedBox(
-                  width: 83,
-                  height: 46,
-                  child: Column(
-                    children: [
-                      Text(
-                        'asdas',
-                        style: regular20TextStyle(cBlackColor),
-                      ),
-                      kH4sizedBox,
-                      Text(
-                        ksLowest.tr,
-                        style: regular12TextStyle(cBlackColor),
-                      )
-                    ],
-                  ),
+                Column(
+                  children: [
+                    Text(
+                      ksMinimumBiddingAmount.tr,
+                      textAlign: TextAlign.center,
+                      style: semiBold14TextStyle(cBlackColor),
+                    ),
+                    kH4sizedBox,
+                    InkWell(
+                      onTap: () {
+                        postReactionController.bidingTextEditingController.text = minimumBiddingAmount!;
+                      },
+                      child: Container(
+                          height: 40,
+                          width: 67,
+                          decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius, border: kLineBorder),
+                          child: Center(child: Text('\$$minimumBiddingAmount', style: semiBold14TextStyle(cBlackColor)))),
+                    )
+                  ],
                 ),
               ],
             ),
           ),
-          kH24sizedBox,
-          Text(
-            ksBidAmount.tr,
-            style: semiBold14TextStyle(cBlackColor),
+        ),
+        kH16sizedBox,
+        Text(
+          ksBidAmount.tr,
+          style: semiBold14TextStyle(cBlackColor),
+        ),
+        kH8sizedBox,
+        CustomModifiedTextField(
+            prefixIcon: Icons.attach_money_rounded, borderRadius: k8BorderRadius, controller: postReactionController.bidingTextEditingController)
+      ],
+    );
+  }
+}
+
+class BidAmount extends StatelessWidget {
+  const BidAmount({super.key, this.highestAmount, this.totalBid, this.desireAmount, this.yourBid});
+  final String? highestAmount, totalBid, desireAmount, yourBid;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        kH16sizedBox,
+        Text(ksDuration, style: regular16TextStyle(cSmallBodyTextColor)),
+        kH8sizedBox,
+        Countdown(
+          seconds: Get.find<HomeController>().getBiddingDuration(DateTime.parse('2023-12-25 20:18:04Z')),
+          build: (BuildContext context, double time) {
+            int hours = (time ~/ 3600).toInt();
+            int minutes = ((time % 3600) ~/ 60).toInt();
+            int seconds = (time % 60).toInt();
+            return Text(
+              '${hours}h: ${minutes}m: $seconds sec',
+              style: medium24TextStyle(cRedColor),
+            );
+          },
+          interval: const Duration(milliseconds: 100),
+          onFinished: () {},
+        ),
+        kH20sizedBox,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              decoration: BoxDecoration(color: cGreyBoxColor, borderRadius: k4CircularBorderRadius, border: kLineBorder),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: k4Padding, horizontal: k8Padding),
+                child: Column(children: [
+                  Text(
+                    '\$$highestAmount',
+                    style: semiBold16TextStyle(cBlackColor),
+                  ),
+                  kH4sizedBox,
+                  Text(
+                    ksHighestAmount.tr,
+                    style: semiBold16TextStyle(cBlackColor),
+                  ),
+                ]),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(color: cGreyBoxColor, borderRadius: k4CircularBorderRadius, border: kLineBorder),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: k4Padding, horizontal: k8Padding),
+                child: Column(children: [
+                  Text(
+                    '\$$totalBid',
+                    style: semiBold16TextStyle(cBlackColor),
+                  ),
+                  kH4sizedBox,
+                  Text(
+                    ksTotalBid.tr,
+                    style: semiBold16TextStyle(cBlackColor),
+                  ),
+                ]),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(color: cGreyBoxColor, borderRadius: k4CircularBorderRadius, border: kLineBorder),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: k4Padding, horizontal: k8Padding),
+                child: Column(
+                  children: [
+                    Text(
+                      '\$$desireAmount',
+                      style: semiBold16TextStyle(cBlackColor),
+                    ),
+                    kH4sizedBox,
+                    Text(
+                      ksDesiredAmount1.tr,
+                      style: semiBold16TextStyle(cBlackColor),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        kH24sizedBox,
+        Container(
+          height: 48,
+          decoration: BoxDecoration(
+            color: cPrimaryTint2Color,
+            borderRadius: k4CircularBorderRadius,
           ),
-          kH8sizedBox,
-          CustomModifiedTextField(
-              prefixIcon: Icons.attach_money_rounded, borderRadius: k8BorderRadius, controller: postReactionController.bidingTextEditingController)
-        ],
-      ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: k12Padding),
+                child: Text('${ksYourBiddingAmountIs.tr}:', style: regular16TextStyle(cBlackColor)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: k12Padding),
+                child: Text('\$$yourBid', style: regular16TextStyle(cBlackColor)),
+              )
+            ],
+          ),
+        )
+      ],
     );
   }
 }

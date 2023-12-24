@@ -1,10 +1,10 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class BiddingWidget extends StatelessWidget {
-  const BiddingWidget({super.key, required this.totalBids, required this.bidingAmount, required this.bidingOnPressed, required this.isPlaceBid});
+  const BiddingWidget({super.key, required this.totalBids, this.yourBid, required this.bidingOnPressed, required this.isPlaceBid});
 
   final int totalBids;
-  final int bidingAmount;
+  final int? yourBid;
   final VoidCallback bidingOnPressed;
   final bool isPlaceBid;
 
@@ -18,15 +18,17 @@ class BiddingWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '${ksTotalBids.tr} $totalBids, ${ksHighest.tr} \$$bidingAmount',
-              style: regular12TextStyle(cSmallBodyTextColor),
+            RichText(
+              text: TextSpan(children: [
+                TextSpan(text: '${ksTotalBids.tr} $totalBids', style: regular12TextStyle(cSmallBodyTextColor)),
+                if (yourBid != null) TextSpan(text: ', ${ksYourBid.tr} \$$yourBid', style: regular12TextStyle(cSmallBodyTextColor)),
+              ]),
             ),
             CustomElevatedButton(
-              label: isPlaceBid ? ksPlaceABid.tr : ksSeeBidingInsights.tr,
+              label: isPlaceBid ? (yourBid != null ? ksViewYourBid : ksPlaceABid.tr) : ksSeeBidingInsights.tr,
               textStyle: regular14TextStyle(cBiddingColor),
               buttonHeight: 24,
-              buttonWidth: isPlaceBid ? 100 : 150,
+              buttonWidth: isPlaceBid ? (yourBid != null ? 120 : 100) : 150,
               onPressed: bidingOnPressed,
               borderColor: cBiddingColor,
               buttonColor: cWhiteColor,
