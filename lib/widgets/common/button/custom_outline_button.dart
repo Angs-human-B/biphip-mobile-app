@@ -39,6 +39,7 @@ class OutLinedButton extends StatelessWidget {
         width: buttonWidth ?? width,
         decoration: BoxDecoration(
           borderRadius: borderRadius ?? k4CircularBorderRadius,
+          color: buttonColor,
           border: Border.all(
             color: borderColor,
           ),

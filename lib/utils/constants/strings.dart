@@ -364,5 +364,7 @@ const String ksYouCanUseItAnywhere = "And can use it to anywhere you want.";
 const String ksSelectSubCategory = "Select Sub Category";
 const String ksSelectPostType = "Select post type";
 const String ksRegularPost = "Regular Post";
+const String ksSelectBusinessType = "Select business type";
+const String ksWriteStoreName = "Write store name";
 
 // const String ksSelectPlatform="";

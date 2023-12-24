@@ -169,20 +169,86 @@ class AddBrandPage extends StatelessWidget {
                                 inputAction: TextInputAction.next,
                                 inputType: TextInputType.text,
                               ),
+                              CustomModifiedTextField(
+                                controller: createPostController.businessTypeTextEditingController,
+                                hint: ksSelectBusinessType.tr,
+                                onChanged: (text) {
+                                  createPostController.checkCanSaveBrand();
+                                },
+                                onSubmit: (text) {},
+                                inputAction: TextInputAction.next,
+                                inputType: TextInputType.text,
+                              ),
                               Text(
                                 ksAddSocialLinks.tr,
                                 style: medium14TextStyle(cBlackColor),
                               ),
                               kH8sizedBox,
-                              AddLinkTextFields(textEditingController: createPostController.brandWebLinkTextEditingController, iconImage: kiWebSvgImageUrl,),
+                              AddLinkTextFields(
+                                textEditingController: createPostController.brandWebLinkTextEditingController,
+                                iconImage: kiWebSvgImageUrl,
+                              ),
                               kH8sizedBox,
-                              AddLinkTextFields(textEditingController: createPostController.brandFacebookLinkTextEditingController, iconImage: kiFacebookSvgImageUrl,),
+                              AddLinkTextFields(
+                                textEditingController: createPostController.brandFacebookLinkTextEditingController,
+                                iconImage: kiFacebookSvgImageUrl,
+                              ),
                               kH8sizedBox,
-                              AddLinkTextFields(textEditingController: createPostController.brandLinkedInLinkTextEditingController, iconImage: kiLinkedInSvgImageUrl,),
+                              AddLinkTextFields(
+                                textEditingController: createPostController.brandLinkedInLinkTextEditingController,
+                                iconImage: kiLinkedInSvgImageUrl,
+                              ),
                               kH8sizedBox,
-                              AddLinkTextFields(textEditingController: createPostController.brandTwitterTextEditingController, iconImage: kiTwitterSvgImageUrl,),
+                              AddLinkTextFields(
+                                textEditingController: createPostController.brandTwitterTextEditingController,
+                                iconImage: kiTwitterSvgImageUrl,
+                              ),
                               kH8sizedBox,
-                              AddLinkTextFields(textEditingController: createPostController.brandYoutubeLinkTextEditingController, iconImage: kiYoutubeSvgImageUrl,),
+                              AddLinkTextFields(
+                                textEditingController: createPostController.brandYoutubeLinkTextEditingController,
+                                iconImage: kiYoutubeSvgImageUrl,
+                              ),
+                              // Text('Hi'),
+                              // Container(
+                              //   width: width - 40,
+                              //   height: 40,
+                              //   // color: cRedColor,
+                              //   decoration: BoxDecoration(
+                              //       color: cLineColor2,
+                              //       borderRadius: BorderRadius.circular(8).copyWith(topRight: Radius.circular(0), bottomRight: Radius.circular(0))),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.start,
+                              //     children: [
+                              //       kW8sizedBox,
+                              //       SvgPicture.asset(
+                              //         kiFacebookSvgImageUrl,
+                              //         fit: BoxFit.fill,
+                              //         height: 36,
+                              //         width: 36,
+                              //       ),
+                              //       kW8sizedBox,
+                              //       const Text('facebook.com/'),
+                              //       kW8sizedBox,
+                              //       Expanded(
+                              //         child: CustomModifiedTextField(
+                              //           controller: createPostController.brandYoutubeLinkTextEditingController,
+                              //           hint: "${ksWriteHere.tr}...",
+                              //           onChanged: (text) {
+                              //             Get.find<CreatePostController>().checkCanSaveBrand();
+                              //           },
+                              //           onSubmit: (text) {},
+                              //           inputAction: TextInputAction.next,
+                              //           inputType: TextInputType.text,
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+
+                              // OutlineAddLinkTextField(
+                              //   textEditingController: createPostController.brandFacebookLinkTextEditingController,
+                              //   outlinedButtonText: 'facebook.com/',
+                              // ),
                               isDeviceScreenLarge() ? kH40sizedBox : kH30sizedBox,
                             ],
                           ),
@@ -222,15 +288,25 @@ class AddLinkTextFields extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 6.0),
-          child: SvgPicture.asset(
-            iconImage,
-            fit: BoxFit.fill,
-            height: 36,
-            width: 36,
+          padding: const EdgeInsets.only(bottom: k8Padding),
+          child: Container(
+            height: 48,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(k8BorderRadius).copyWith(topRight: const Radius.circular(0), bottomRight: Radius.circular(0)),
+                color: cLineColor2),
+            child: Padding(
+              padding: const EdgeInsets.all(k8Padding),
+              child: SvgPicture.asset(
+                iconImage,
+                fit: BoxFit.fill,
+                height: h28,
+                width: h28,
+              ),
+            ),
           ),
         ),
-        kW8sizedBox,
+        // kW8sizedBox,
+        // kH4sizedBox,
         Expanded(
           child: CustomModifiedTextField(
             controller: textEditingController,
@@ -238,6 +314,7 @@ class AddLinkTextFields extends StatelessWidget {
             onChanged: (text) {
               Get.find<CreatePostController>().checkCanSaveBrand();
             },
+            fillColor: cWhiteColor,
             onSubmit: (text) {},
             inputAction: TextInputAction.next,
             inputType: TextInputType.text,
@@ -247,3 +324,27 @@ class AddLinkTextFields extends StatelessWidget {
     );
   }
 }
+
+// class OutlineAddLinkTextField extends StatelessWidget {
+//   const OutlineAddLinkTextField({super.key, required this.outlinedButtonText, required this.textEditingController});
+//   final String outlinedButtonText;
+//   final TextEditingController textEditingController;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: width - 40,
+//       height: 40,
+//       color: cRedColor,
+//       child: Row(
+//         children: [
+//           Text(outlinedButtonText),
+//           CustomModifiedTextField(
+//             controller: textEditingController,
+//             hint: '',
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

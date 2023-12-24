@@ -6,8 +6,10 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class CreatePostController extends GetxController {
   @override
-  onInit() {
+  void onInit() {
     subCategoryList.addAll(subCategoryLists);
+    filteredBusinessTypeList.addAll(businessTypeLists);
+    ll('Filtered busness types : $filteredBusinessTypeList');
     super.onInit();
   }
 
@@ -57,7 +59,7 @@ class CreatePostController extends GetxController {
     {"id": '', "name": '', "title": "Storytelling", "icon": BipHip.storytelling, "icon_color": cStoryTellingColor},
     {"id": '', "name": '', "title": "Photography", "icon": BipHip.photography, "icon_color": cPhotographyColor},
     {"id": '', "name": '', "title": "News", "icon": BipHip.newsFill, "icon_color": cBlackColor},
-    {"id": '', "name": '', "title": "Selling Post", "icon": BipHip.selling, "icon_color": cSellingColor},
+    {"id": '', "name": '', "title": "Selling", "icon": BipHip.selling, "icon_color": cSellingColor},
   ];
 
   final RxList categoryStatusList = RxList([false, false, false, false, false, false, false]);
@@ -449,12 +451,25 @@ class CreatePostController extends GetxController {
     } else {
       return height * 0.9;
     }
-    // else if (subCategoryList.length >= 35 && subCategoryList.length < 40) {
-    //   return isDeviceScreenLarge() ? height * 0.9 : height * 0.9;
-    // } else if (subCategoryList.length >= 40 && subCategoryList.length < 45) {
-    //   return isDeviceScreenLarge() ? height * 0.85 : height * 0.9;
-    // } else if (subCategoryList.length >= 45 && subCategoryList.length < 50) {
-    //   return isDeviceScreenLarge() ? height * 0.9 : height * 0.9;
-    // }
+  }
+
+  final RxBool isRegularPostButtonClicked = RxBool(false);
+  final RxBool isBiddingPostButtonClicked = RxBool(false);
+  // final RxString tempSellingPostType = RxString('');
+  final RxString sellingPostType = RxString('');
+  final TextEditingController businessTypeTextEditingController = TextEditingController();
+  final List<String> businessTypeLists = ['electronic', 'food', 'clothing'];
+  // final RxList businessTypeList = RxList([]);
+  final RxList filteredBusinessTypeList = RxList([]);
+  final RxInt businessTypeIndex = RxInt(-1);
+  void filterList(String query) {
+    // filteredBusinessTypeList.clear();
+    for (var item in filteredBusinessTypeList) {
+      if (item.toLowerCase().contains(query.toLowerCase())) {
+        filteredBusinessTypeList.clear();
+        filteredBusinessTypeList.add(item);
+        ll('after filtering the list : $filteredBusinessTypeList');
+      }
+    }
   }
 }
