@@ -263,6 +263,7 @@ class CreatePostController extends GetxController {
   final TextEditingController brandLinkedInLinkTextEditingController = TextEditingController();
   final TextEditingController brandYoutubeLinkTextEditingController = TextEditingController();
   final TextEditingController brandTwitterTextEditingController = TextEditingController();
+  final TextEditingController brandInstagramTextEditingController = TextEditingController();
   final RxList brandSocialLinkList = RxList([]);
   Future<void> addBrand() async {
     try {
@@ -472,4 +473,6 @@ class CreatePostController extends GetxController {
       }
     }
   }
+  final RxBool isBrandAdded = RxBool(false);
+  // final RxString selectedBrandName = RxString('');
 }
