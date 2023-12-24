@@ -252,6 +252,7 @@ class CreatePostHelper {
     createPostController.brandTwitterTextEditingController.clear();
     createPostController.brandLinkedInLinkTextEditingController.clear();
     createPostController.brandYoutubeLinkTextEditingController.clear();
+    createPostController.businessTypeTextEditingController.clear();
   }
 
   void removeMedia(index) {
@@ -663,94 +664,170 @@ class CreatePostHelper {
           globalController.commonBottomSheet(
             context: context,
             bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
-            content: Column(
-              children: [
-                kH8sizedBox,
-                OutLinedButton(
-                  onPress: () {
-                    globalController.commonBottomSheet(
-                      isScrollControlled: true,
-                      bottomSheetHeight: height * 0.7,
-                      context: context,
-                      content: Column(
-                        children: [
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            separatorBuilder: (context, index) => kH8sizedBox,
-                            itemCount: createPostController.brandList.length,
-                            itemBuilder: (context, i) {
-                              return Obx(
-                                () => CustomListTile(
-                                  onPressed: () {
-                                    selectBrandStatusChange(i);
-                                  },
-                                  itemColor: createPostController.selectedBrandStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
-                                  borderColor: createPostController.selectedBrandStatusList[i] ? cPrimaryColor : cLineColor,
-                                  title: createPostController.brandList[i]['name'],
-                                  leading: CircleAvatar(
-                                    radius: 12,
-                                    backgroundImage: AssetImage(createPostController.brandList[i]['image_url']),
-                                  ),
-                                  trailing: CustomRadioButton(
-                                    onChanged: () {
-                                      selectBrandStatusChange(i);
-                                    },
-                                    isSelected: createPostController.selectedBrandStatusList[i],
-                                  ),
-                                ),
-                              );
-                            },
+            content: Obx(() => Column(
+                  children: [
+                    kH8sizedBox,
+                    if (createPostController.selectedBrandName.value != '')
+                      Container(
+                        width: width - 40,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          borderRadius: k4CircularBorderRadius,
+                          color: cPrimaryTint2Color,
+                          border: Border.all(
+                            color: cPrimaryColor,
                           ),
-                        ],
+                        ),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(k8Padding),
+                              child: createPostController.isBrandAdded.value
+                                  ? ClipOval(
+                                      child: Container(
+                                          width: h24,
+                                          height: h24,
+                                          decoration: const BoxDecoration(shape: BoxShape.circle),
+                                          child: Image.file(createPostController.selectedBrandImageFile.value)))
+                                  : CircleAvatar(
+                                      radius: 12,
+                                      backgroundImage: AssetImage(createPostController.selectedBrandImage.value.toString()),
+                                    ),
+                            ),
+                            Text(
+                              createPostController.selectedBrandName.value.toString(),
+                              style: semiBold14TextStyle(cBlackColor),
+                            ),
+                            const Spacer(),
+                            CustomIconButton(
+                              onPress: () {
+                                createPostController.selectedBrandName.value = '';
+                                createPostController.selectedBrandImage.value = '';
+                                createPostController.isBrandAdded.value = false;
+                                createPostController.selectedBrandStatusList.value = [false, false, false, false, false, false, false, false, false];
+                              },
+                              icon: BipHip.cross,
+                              iconColor: cRedColor,
+                              size: kIconSize20,
+                            ),
+                          ],
+                        ),
                       ),
-                      onPressCloseButton: () {
-                        Get.back();
-                      },
-                      onPressRightButton: () {
-                        Get.back();
-                      },
-                      rightText: ksDone.tr,
-                      rightTextStyle: medium14TextStyle(cPrimaryColor),
-                      title: ksSelectBrands.tr,
-                      isRightButtonShow: true,
-                    );
-                  },
-                  buttonText: ksSelectSavedBrands.tr,
-                  buttonTextStyle: medium16TextStyle(cBlackColor),
-                  borderColor: cLineColor,
-                  widget: Icon(
-                    BipHip.downArrowOutline,
-                    color: cBlackColor,
-                    size: isDeviceScreenLarge() ? h20 : h16,
-                  ),
-                ),
-                kH12sizedBox,
-                Text(
-                  ksOr.tr,
-                  style: regular16TextStyle(cPlaceHolderColor),
-                ),
-                kH12sizedBox,
-                OutLinedButton(
-                  onPress: () {
-                    Get.to(() => AddBrandPage());
-                  },
-                  buttonText: ksAddBrand.tr,
-                  buttonTextStyle: medium16TextStyle(cPrimaryColor),
-                  borderColor: cPrimaryColor,
-                  widget: Icon(
-                    BipHip.plus,
-                    color: cPrimaryColor,
-                    size: isDeviceScreenLarge() ? h20 : h16,
-                  ),
-                ),
-                kH8sizedBox,
-                Text(
-                  "*${ksAddBrandInstruction.tr}",
-                  style: regular14TextStyle(cSmallBodyTextColor),
-                ),
-              ],
-            ),
+                    // OutLinedButton(
+                    //   buttonText: createPostController.selectedBrandName.value.toString(),
+                    //   buttonTextStyle: semiBold14TextStyle(cBlackColor),
+                    //   suffixWidget: CircleAvatar(
+                    //     radius: 12,
+                    //     backgroundImage: AssetImage(createPostController.selectedBrandImage.toString()),
+                    //   ),
+                    //   widget: const Icon(
+                    //     BipHip.cross,
+                    //     color: cRedColor,
+                    //   ),
+                    //   onPress: () {},
+                    //   borderColor: cLineColor2,
+                    // ),
+                    if (createPostController.selectedBrandName.value == '')
+                      OutLinedButton(
+                        onPress: () {
+                          globalController.commonBottomSheet(
+                            isScrollControlled: true,
+                            bottomSheetHeight: height * 0.7,
+                            context: context,
+                            content: Column(
+                              children: [
+                                ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  separatorBuilder: (context, index) => kH8sizedBox,
+                                  itemCount: createPostController.brandList.length,
+                                  itemBuilder: (context, i) {
+                                    return Obx(
+                                      () => CustomListTile(
+                                        onPressed: () {
+                                          selectBrandStatusChange(i);
+                                        },
+                                        itemColor: createPostController.selectedBrandStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
+                                        borderColor: createPostController.selectedBrandStatusList[i] ? cPrimaryColor : cLineColor,
+                                        title: createPostController.brandList[i]['name'],
+                                        leading: CircleAvatar(
+                                          radius: 12,
+                                          backgroundImage: AssetImage(createPostController.brandList[i]['image_url']),
+                                        ),
+                                        trailing: CustomRadioButton(
+                                          onChanged: () {
+                                            selectBrandStatusChange(i);
+                                          },
+                                          isSelected: createPostController.selectedBrandStatusList[i],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                            onPressCloseButton: () {
+                              Get.back();
+                            },
+                            onPressRightButton: () {
+                              selectBrandTextChange();
+                              ll(createPostController.selectedBrandName.value);
+                              // ll(createPostController.selectedBrandImage.value);
+                              Get.back();
+                            },
+                            rightText: ksDone.tr,
+                            rightTextStyle: medium14TextStyle(cPrimaryColor),
+                            title: ksSelectBrands.tr,
+                            isRightButtonShow: true,
+                          );
+                        },
+                        buttonText: ksSelectSavedBrands.tr,
+                        buttonTextStyle: medium16TextStyle(cBlackColor),
+                        borderColor: cLineColor,
+                        widget: Icon(
+                          BipHip.downArrowOutline,
+                          color: cBlackColor,
+                          size: isDeviceScreenLarge() ? h20 : h16,
+                        ),
+                      ),
+                    kH12sizedBox,
+                    Text(
+                      ksOr.tr,
+                      style: regular16TextStyle(cPlaceHolderColor),
+                    ),
+                    kH12sizedBox,
+                    Obx(() => OutLinedButton(
+                          onPress: createPostController.selectedBrandName.value == ''
+                              ? () {
+                                  // Get.to(() => AddBrandPage());
+                                  createPostController.isBrandAdded.value = false;
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation1, animation2) => AddBrandPage(),
+                                      transitionDuration: Duration.zero,
+                                      reverseTransitionDuration: Duration.zero,
+                                    ),
+                                  );
+                                }
+                              : null,
+                          buttonText: ksAddBrand.tr,
+                          buttonTextStyle:
+                              createPostController.selectedBrandName.value == '' ? medium16TextStyle(cPrimaryColor) : medium16TextStyle(cPlaceHolderColor),
+                          borderColor: createPostController.selectedBrandName.value == '' ? cPrimaryColor : cPlaceHolderColor,
+                          widget: Icon(
+                            BipHip.plus,
+                            color: createPostController.selectedBrandName.value == '' ? cPrimaryColor : cPlaceHolderColor,
+                            size: isDeviceScreenLarge() ? h20 : h16,
+                          ),
+                        )),
+                    kH8sizedBox,
+                    Text(
+                      "*${ksAddBrandInstruction.tr}",
+                      style: regular14TextStyle(cSmallBodyTextColor),
+                    ),
+                  ],
+                )),
             onPressCloseButton: () {
               Get.back();
             },

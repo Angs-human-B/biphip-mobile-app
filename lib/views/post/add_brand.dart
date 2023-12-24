@@ -43,6 +43,8 @@ class AddBrandPage extends StatelessWidget {
                                   createPostController.createLinkList();
                                   // await createPostController.addBrand();//!Api call
                                   createPostController.isBrandAdded.value = true;
+                                  createPostController.selectedBrandName.value = createPostController.brandNameTextEditingController.text;
+                              createPostController.selectedBrandImageFile.value = createPostController.brandImageFile.value;
                                   Get.back();
                                   createHelper.resetAddBrandPage();
                                 }
