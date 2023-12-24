@@ -211,22 +211,22 @@ class CommonPostWidget extends StatelessWidget {
                   text: '${ksDuration.tr}: ',
                   style: semiBold14TextStyle(cSmallBodyTextColor),
                 ),
-                WidgetSpan(
-                  child: Countdown(
-                    seconds: homeController.getBiddingDuration(DateTime.parse('2023-12-25 20:18:04Z')),
-                    build: (BuildContext context, double time) {
-                      int hours = (time ~/ 3600).toInt();
-                      int minutes = ((time % 3600) ~/ 60).toInt();
-                      int seconds = (time % 60).toInt();
-                      return Text(
-                        '${hours}h: ${minutes}m: $seconds sec',
-                        style: semiBold14TextStyle(cRedColor),
-                      );
-                    },
-                    interval: const Duration(milliseconds: 100),
-                    onFinished: () {},
-                  ),
-                )
+                // WidgetSpan(
+                //   child: Countdown(
+                //     seconds: homeController.getBiddingDuration(DateTime.parse('2023-12-25 20:18:04Z')),
+                //     build: (BuildContext context, double time) {
+                //       int hours = (time ~/ 3600).toInt();
+                //       int minutes = ((time % 3600) ~/ 60).toInt();
+                //       int seconds = (time % 60).toInt();
+                //       return Text(
+                //         '${hours}h: ${minutes}m: $seconds sec',
+                //         style: semiBold14TextStyle(cRedColor),
+                //       );
+                //     },
+                //     interval: const Duration(milliseconds: 100),
+                //     onFinished: () {},
+                //   ),
+                // )
               ],
             ),
           ),
@@ -616,7 +616,7 @@ class PostBottomSection extends StatelessWidget {
                           comment: bidingComments,
                         ),
                         isScrollControlled: true,
-                        bottomSheetHeight: height * 0.6);
+                        bottomSheetHeight: height * 0.7);
                   },
                 ),
               ),
@@ -760,46 +760,60 @@ class PostBottomSection extends StatelessWidget {
 }
 
 class BiddingInsightsContent extends StatelessWidget {
-  const BiddingInsightsContent({super.key, required this.comment});
+  BiddingInsightsContent({super.key, required this.comment});
 
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
   final List comment;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const BidingInsight(highest: 500, lowest: 150),
-          kH16sizedBox,
-          Text(
-            ksBids.tr,
-            style: semiBold16TextStyle(cBlackColor),
-          ),
-          kH8sizedBox,
-          ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: comment.length,
-              itemBuilder: (context, index) {
-                return CommentWidget(
-                  profileImage: comment[index]['image'],
-                  timePassed: '5',
-                  isLikeButtonShown: true,
-                  isReplyButtonShown: false,
-                  isReactButtonShown: true,
-                  comment: comment[index]['comment'],
-                  isLink: false,
-                  reactCount: 440,
-                  userName: comment[index]['userName'],
-                  isImageComment: false,
-                  isSendMessageShown: true,
-                  isHideButtonShown: false,
-                  replyList: const [],
-                );
-              })
-        ],
+      child: Obx(
+        () => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const BidingInsight(highest: 500, lowest: 150),
+            kH16sizedBox,
+            Text(
+              ksBids.tr,
+              style: semiBold16TextStyle(cBlackColor),
+            ),
+            kH8sizedBox,
+            ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: postReactionController.showMoreBiddingInsights.value ? 4 : comment.length,
+                itemBuilder: (context, index) {
+                  return CommentWidget(
+                    profileImage: comment[index]['image'],
+                    timePassed: '5',
+                    isLikeButtonShown: true,
+                    isReplyButtonShown: false,
+                    isReactButtonShown: true,
+                    comment: comment[index]['comment'],
+                    isLink: false,
+                    reactCount: 440,
+                    userName: comment[index]['userName'],
+                    isImageComment: false,
+                    isSendMessageShown: true,
+                    isHideButtonShown: false,
+                    replyList: const [],
+                  );
+                }),
+            kH8sizedBox,
+            if (postReactionController.showMoreBiddingInsights.value)
+              SizedBox(
+                width: width - 40,
+                child: Center(
+                    child: InkWell(
+                        onTap: () {
+                          postReactionController.showMoreBiddingInsights.value = false;
+                        },
+                        child: Text('Show more (40 more biddings)', style: medium16TextStyle(cPrimaryColor)))),
+              )
+          ],
+        ),
       ),
     );
   }

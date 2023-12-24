@@ -201,7 +201,7 @@ class HomePage extends StatelessWidget {
                                           discount: '10',
                                           postText: item.content, //API
                                           mediaList: item.imageUrls, //API
-                                          isSelfPost: false,
+                                          isSelfPost: true,
                                           isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
                                           postID: item.id!,
                                           subCategory: 'People',
