@@ -1,22 +1,24 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class PlatformActionSection extends StatelessWidget {
-  const PlatformActionSection({super.key, this.actionOnPressed, required this.platformName, required this.platformLink, required this.actionName});
+  const PlatformActionSection({super.key, this.actionOnPressed, required this.platformName, this.platformLink, required this.actionName});
 
   final VoidCallback? actionOnPressed;
-  final String platformName, platformLink, actionName;
+  final String platformName, actionName;
+  final String? platformLink;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: h60,
+      // height: h60,
       decoration: BoxDecoration(color: cBackgroundColor, borderRadius: k4CircularBorderRadius),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: k12Padding),
+        padding: const EdgeInsets.symmetric(horizontal: k12Padding, vertical: k12Padding),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
+            SizedBox(
+              width: 150,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,12 +28,15 @@ class PlatformActionSection extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: semiBold14TextStyle(cBlackColor),
                   ),
-                  kH4sizedBox,
-                  Text(
-                    platformLink,
-                    overflow: TextOverflow.ellipsis,
-                    style: regular10TextStyle(cSmallBodyTextColor),
-                  ),
+                  if (platformLink != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: k4Padding),
+                      child: Text(
+                        platformLink!,
+                        overflow: TextOverflow.ellipsis,
+                        style: regular10TextStyle(cSmallBodyTextColor),
+                      ),
+                    ),
                 ],
               ),
             ),
