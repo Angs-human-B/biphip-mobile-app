@@ -181,3 +181,4 @@ const String kiOnBoardingSvgUrl = 'assets/svg/onbording.svg';
 const String kiRegistrationBonusSvgUrl = 'assets/svg/registration_bonus.svg';
 const String kiRegularPostSvgUrl = 'assets/svg/regular_post.svg';
 const String kiBiddingPostSvgUrl = 'assets/svg/bidding_post.svg';
+const String kiBoostPostSvgUrl = 'assets/svg/boost_post_banner.svg';

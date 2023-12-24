@@ -3,7 +3,6 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/helpers/auth/registration_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/top_text_and_subtext.dart';
-import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -304,11 +303,14 @@ class CommonAlertDialog extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   if (title != null)
-                    Center(
-                      child: Text(
-                        title.toString(),
-                        textAlign: TextAlign.center,
-                        style: semiBold16TextStyle(cBlackColor),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                      child: Center(
+                        child: Text(
+                          title.toString(),
+                          textAlign: TextAlign.center,
+                          style: semiBold18TextStyle(cBlackColor),
+                        ),
                       ),
                     ),
                   if (hasCloseBtn)
@@ -324,9 +326,6 @@ class CommonAlertDialog extends StatelessWidget {
                     ),
                 ],
               ),
-              const CustomDivider(
-                thickness: 0.3,
-              )
             ],
           ),
         ),

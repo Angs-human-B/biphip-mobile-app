@@ -36,6 +36,8 @@ const String ksFileFormatNotSupported = "file format is not supported currently"
 const String ksUnAuthorizedError = "UnAuthorized request";
 const String ksAbout = 'About';
 const String ksOk = 'Ok';
+const String ksYes = 'Yes';
+const String ksNo = 'No';
 //---------------------------------------
 //* authentication story
 //---------------------------------------
@@ -351,6 +353,11 @@ const String ksCustomAddInstruction = "If you don’t have any kid added in syst
 const String ksSellInformation = "You can sell all kind of product here. Including your brand on that will boost your selling.";
 const String ksAddKidInstructions = "To add kid category, you need to follow the further steps.";
 const String ksBiddingPostDescription = "Selecting bidding post will let the user write their preferred bidding price.";
+const String ksBoostPost = 'Boost post';
+const String ksChoosing = 'Choosing ';
+const String ksYES = 'YES';
+const String ksActiveBoostSetting = ' will active the boost settings on your post';
+const String ksContinueWithoutBoostingSettings = 'You can also continue without enabling boosting setting now & can active the boosting later from the post settings.';
 //*Newly Added
 //*Gallery Photos
 const String ksNoAlbumAvailable = "No album available";
