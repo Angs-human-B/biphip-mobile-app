@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/auth/onboarding/picture_upload_screen.dart';
 import 'package:bip_hip/views/post/add_brand.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/select_category.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
+import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CreatePostHelper {
@@ -832,7 +834,8 @@ class CreatePostHelper {
               Get.back();
             },
             onPressRightButton: () {
-              Get.back();
+              boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent()); //* Set it temporary for test case
+              // Get.back();
             },
             rightText: ksDone.tr,
             rightTextStyle: medium14TextStyle(cPrimaryColor),
@@ -1066,5 +1069,78 @@ class CreatePostHelper {
     } else {
       globalController.isBottomSheetRightButtonActive.value = true;
     }
+  }
+}
+
+//*Newly added for boost post popup show
+void boostPostAlertDialog({required BuildContext context, required Widget content, required String title}) {
+  showAlertDialog(
+    context: context,
+    child: CommonAlertDialog(
+      hasCloseBtn: false,
+      addContent: content,
+      title: title,
+      actions: [
+        CustomElevatedButton(
+          label: ksYes.tr,
+          onPressed: () {
+            Get.back();
+          },
+          buttonWidth: width - 70,
+          buttonHeight: 40,
+          textStyle: semiBold14TextStyle(cWhiteColor),
+          buttonColor: cPrimaryColor,
+        ),
+        kH12sizedBox,
+        CustomElevatedButton(
+          label: ksNo.tr,
+          onPressed: () {
+            Get.back();
+          },
+          buttonWidth: width - 70,
+          buttonHeight: 40,
+          textStyle: semiBold14TextStyle(cPrimaryColor),
+          buttonColor: cWhiteColor,
+          borderColor: cLineColor2,
+        ),
+        kH8sizedBox,
+      ],
+    ),
+  );
+}
+
+class BoostPostContent extends StatelessWidget {
+  const BoostPostContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SvgPicture.asset(kiBoostPostSvgUrl),
+        kH20sizedBox,
+        RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            children: [
+              TextSpan(text: ksChoosing.tr, style: regular14TextStyle(cBlackColor)),
+              TextSpan(text: ksYES.tr, style: semiBold14TextStyle(cBlackColor)),
+              TextSpan(text: ksActiveBoostSetting.tr, style: regular14TextStyle(cBlackColor)),
+            ],
+          ),
+        ),
+        kH20sizedBox,
+        Text(
+          ksContinueWithoutBoostingSettings.tr,
+          textAlign: TextAlign.center,
+          style: regular14TextStyle(cBlackColor),
+        ),
+        kH16sizedBox,
+        const CustomDivider(
+          thickness: 1,
+        )
+      ],
+    );
   }
 }

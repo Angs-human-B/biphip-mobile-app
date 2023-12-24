@@ -315,11 +315,14 @@ class CommonAlertDialog extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   if (title != null)
-                    Center(
-                      child: Text(
-                        title.toString(),
-                        textAlign: TextAlign.center,
-                        style: semiBold16TextStyle(cBlackColor),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                      child: Center(
+                        child: Text(
+                          title.toString(),
+                          textAlign: TextAlign.center,
+                          style: semiBold16TextStyle(cBlackColor),
+                        ),
                       ),
                     ),
                   if (hasCloseBtn)
@@ -335,9 +338,6 @@ class CommonAlertDialog extends StatelessWidget {
                     ),
                 ],
               ),
-              const CustomDivider(
-                thickness: 0.3,
-              )
             ],
           ),
         ),
