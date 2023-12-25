@@ -375,3 +375,4 @@ const String ksSelectPostType = "Select post type";
 const String ksRegularPost = "Regular Post";
 const String ksSelectBusinessType = "Select business type";
 const String ksWriteStoreName = "Write store name";
+const String ksPhotosAndVideosUploadLimit = "Photos & videos - 0/10 - You can add up to 10 photos & videos. Each video size limit is 5MB.";

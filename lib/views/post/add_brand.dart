@@ -44,7 +44,7 @@ class AddBrandPage extends StatelessWidget {
                                   // await createPostController.addBrand();//!Api call
                                   createPostController.isBrandAdded.value = true;
                                   createPostController.selectedBrandName.value = createPostController.brandNameTextEditingController.text;
-                              createPostController.selectedBrandImageFile.value = createPostController.brandImageFile.value;
+                                  createPostController.selectedBrandImageFile.value = createPostController.brandImageFile.value;
                                   Get.back();
                                   createHelper.resetAddBrandPage();
                                 }
@@ -269,22 +269,30 @@ class AddLinkTextFields extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ClipRRect(
-          // borderRadius: BorderRadius.only(topLeft: Radius.circular(k8BorderRadius)),
+          // borderRadius: BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), bottomLeft: Radius.circular(k8BorderRadius)),
           child: Padding(
             padding: const EdgeInsets.only(bottom: k8Padding),
             child: Container(
-              clipBehavior: Clip.hardEdge,
+              // clipBehavior: Clip.hardEdge,
               height: isDeviceScreenLarge() ? 51 : 48,
               width: isDeviceScreenLarge() ? 51 : 48,
-              decoration: const BoxDecoration(
-                // borderRadius: BorderRadius.only(topLeft: Radius.circular(k8BorderRadius)),
-                // borderRadius: BorderRadius.circular(k8BorderRadius),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), bottomLeft: Radius.circular(k8BorderRadius)),
                 color: cGreyBoxColor,
-                border: Border(
-                  left: BorderSide(color: cLineColor2, width: 1),
-                  bottom: BorderSide(color: cLineColor2, width: 1),
-                  top: BorderSide(color: cLineColor2, width: 1),
-                ),
+                border: Border.all(color: cLineColor2, width: 1),
+                // border: Border(
+                //   left: BorderSide(color: cLineColor2, width: 1),
+                //   bottom: BorderSide(color: cLineColor2, width: 1),
+                //   top: BorderSide(color: cLineColor2, width: 1),
+                //   right: BorderSide(color: cWhiteColor, width: 0),
+                // ),
+                // gradient: LinearGradient(
+                //   stops: [0.02, 0.02],
+                //   colors: [cLineColor2, cGreyBoxColor],
+                // ),
+                // boxShadow: [
+                //   BoxShadow(color: cLineColor2, spreadRadius: 1),
+                // ]
               ),
               child: Padding(
                 padding: const EdgeInsets.all(k8Padding),
@@ -298,7 +306,6 @@ class AddLinkTextFields extends StatelessWidget {
             ),
           ),
         ),
-
         // kW8sizedBox,
         // kH4sizedBox,
         Expanded(
