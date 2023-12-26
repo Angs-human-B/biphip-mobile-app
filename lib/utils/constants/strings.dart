@@ -301,6 +301,8 @@ const String ksDeleteLink = 'Delete Link';
 const String ksWebsiteAndSocialLinks = 'Websites and social links';
 const String ksEducation = 'Education';
 const String ksEducationalBackground = 'Educational background';
+const String ksStartTime = 'Start time';
+const String ksEndTime = 'End time';
 
 //---------------------------------------
 //* Create Post

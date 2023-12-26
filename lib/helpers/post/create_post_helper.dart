@@ -566,8 +566,8 @@ class CreatePostHelper {
     //*For Selling type post
     else if (createPostController.category.value == "Selling") {
       createPostController.sellingPostType.value = '';
-      createPostController.isRegularPostButtonClicked.value = false;
-      createPostController.isBiddingPostButtonClicked.value = false;
+      createPostController.isRegularPost.value = false;
+      createPostController.isBiddingPost.value = false;
       globalController.isBottomSheetRightButtonActive.value = false;
       globalController.commonBottomSheet(
         context: context,
@@ -576,8 +576,8 @@ class CreatePostHelper {
           children: [
             Obx(() => OutLinedButton(
                   onPress: () {
-                    createPostController.isRegularPostButtonClicked.value = true;
-                    createPostController.isBiddingPostButtonClicked.value = false;
+                    createPostController.isRegularPost.value = true;
+                    createPostController.isBiddingPost.value = false;
                     createPostController.sellingPostType.value = ksRegularPost.tr;
                     globalController.isBottomSheetRightButtonActive.value = true;
                   },
@@ -616,14 +616,14 @@ class CreatePostHelper {
                   ),
                   buttonText: ksRegularPost.tr,
                   buttonTextStyle: medium16TextStyle(cBlackColor),
-                  borderColor: createPostController.isRegularPostButtonClicked.value ? cPrimaryColor : cLineColor,
-                  buttonColor: createPostController.isRegularPostButtonClicked.value ? cPrimaryTint2Color : cWhiteColor,
+                  borderColor: createPostController.isRegularPost.value ? cPrimaryColor : cLineColor,
+                  buttonColor: createPostController.isRegularPost.value ? cPrimaryTint2Color : cWhiteColor,
                 )),
             kH16sizedBox,
             Obx(() => OutLinedButton(
                   onPress: () {
-                    createPostController.isRegularPostButtonClicked.value = false;
-                    createPostController.isBiddingPostButtonClicked.value = true;
+                    createPostController.isRegularPost.value = false;
+                    createPostController.isBiddingPost.value = true;
                     createPostController.sellingPostType.value = ksBiddingPost.tr;
                     globalController.isBottomSheetRightButtonActive.value = true;
                   },
@@ -662,8 +662,8 @@ class CreatePostHelper {
                   ),
                   buttonText: ksBiddingPost.tr,
                   buttonTextStyle: medium16TextStyle(cBlackColor),
-                  borderColor: createPostController.isBiddingPostButtonClicked.value ? cPrimaryColor : cLineColor,
-                  buttonColor: createPostController.isBiddingPostButtonClicked.value ? cPrimaryTint2Color : cWhiteColor,
+                  borderColor: createPostController.isBiddingPost.value ? cPrimaryColor : cLineColor,
+                  buttonColor: createPostController.isBiddingPost.value ? cPrimaryTint2Color : cWhiteColor,
                 )),
           ],
         ),

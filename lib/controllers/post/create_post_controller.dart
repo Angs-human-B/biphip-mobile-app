@@ -45,6 +45,14 @@ class CreatePostController extends GetxController {
   final RxString postSecondaryCircleAvatar = RxString('');
   final Rx<File> postSecondaryLocalCirclerAvatar = File('').obs;
   final RxList audienceStatusList = RxList([true, false, false]);
+  final TextEditingController biddingTitleTextEditingController = TextEditingController();
+  final TextEditingController biddingPriceTextEditingController = TextEditingController();
+  final TextEditingController biddingDiscountAmountTextEditingController = TextEditingController();
+  final TextEditingController biddingDescriptionTextEditingController = TextEditingController();
+  final TextEditingController biddingProductTagTextEditingController = TextEditingController();
+  final TextEditingController biddingSKUTextEditingController = TextEditingController();
+  final TextEditingController biddingDesiredAmountTextEditingController = TextEditingController();
+  final TextEditingController biddingMinimumBidTextEditingController = TextEditingController();
 
   final List audienceTypeList = [
     {"title": "Public", "subtitle": "Anyone from BipHip", "icon": BipHip.world},
@@ -457,8 +465,8 @@ class CreatePostController extends GetxController {
     }
   }
 
-  final RxBool isRegularPostButtonClicked = RxBool(false);
-  final RxBool isBiddingPostButtonClicked = RxBool(false);
+  final RxBool isRegularPost = RxBool(false);
+  final RxBool isBiddingPost = RxBool(false);
   // final RxString tempSellingPostType = RxString('');
   final RxString sellingPostType = RxString('');
   final TextEditingController businessTypeTextEditingController = TextEditingController();
@@ -476,10 +484,11 @@ class CreatePostController extends GetxController {
       }
     }
   }
+
   final RxBool isBrandAdded = RxBool(false);
-   final Rx<File> selectedBrandImageFile = File('').obs;
-   final RxBool isHideFriendFamilySwitch = RxBool(false);
-    final RxString sellingImageLink = RxString('');
+  final Rx<File> selectedBrandImageFile = File('').obs;
+  final RxBool isHideFriendFamilySwitch = RxBool(false);
+  final RxString sellingImageLink = RxString('');
   final Rx<File> sellingImageFile = File('').obs;
   final RxBool isSellingImageChanged = RxBool(false);
 }

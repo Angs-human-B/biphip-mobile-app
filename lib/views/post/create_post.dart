@@ -194,53 +194,62 @@ class CreatePost extends StatelessWidget {
                                       ),
                                       kH12sizedBox,
                                       CustomModifiedTextField(
-                                        controller: TextEditingController(),
+                                        controller: createPostController.biddingTitleTextEditingController,
                                         hint: ksTitle.tr,
                                         onChanged: (text) {},
                                         onSubmit: (text) {},
                                         inputAction: TextInputAction.next,
-                                        inputType: TextInputType.number,
+                                        inputType: TextInputType.text,
                                         maxLength: 100,
                                       ),
                                       kH4sizedBox,
                                       TextAndIconRowSellingPost(
                                         text: ksCategory.tr,
-                                        icon: BipHip.downArrow,
+                                        suffixIcon: BipHip.downArrow,
                                         onPressed: null,
                                       ),
                                       kH12sizedBox,
                                       TextAndIconRowSellingPost(
                                         text: ksCondition.tr,
-                                        icon: BipHip.downArrow,
+                                        suffixIcon: BipHip.downArrow,
                                         onPressed: null,
                                       ),
                                       kH12sizedBox,
                                       CustomModifiedTextField(
-                                        controller: TextEditingController(),
-                                        hint: ksPrice.tr,
+                                        controller: createPostController.isRegularPost.value
+                                            ? createPostController.biddingPriceTextEditingController
+                                            : createPostController.biddingDesiredAmountTextEditingController,
+                                        hint: createPostController.isRegularPost.value ? ksPrice.tr : ksDesiredAmount,
                                         onChanged: (text) {},
                                         onSubmit: (text) {},
                                         inputAction: TextInputAction.next,
                                         inputType: TextInputType.number,
                                         maxLength: 10,
                                       ),
-                                      Text(
-                                        'The Price now is 40',
-                                        style: regular12TextStyle(cSmallBodyTextColor),
-                                      ),
-                                      kH12sizedBox,
-                                      CustomModifiedTextField(
-                                        controller: TextEditingController(),
-                                        hint: ksDiscountAmountOptional.tr,
-                                        onChanged: (text) {},
-                                        onSubmit: (text) {},
-                                        inputAction: TextInputAction.next,
-                                        inputType: TextInputType.number,
-                                        maxLength: 10,
-                                      ),
+                                      if (createPostController.isRegularPost.value)
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: k8Padding),
+                                          child: Text(
+                                            'The Price now is 40',
+                                            style: regular12TextStyle(cSmallBodyTextColor),
+                                          ),
+                                        ),
                                       kH4sizedBox,
                                       CustomModifiedTextField(
-                                        controller: TextEditingController(),
+                                        controller: createPostController.isRegularPost.value
+                                            ? createPostController.biddingDiscountAmountTextEditingController
+                                            : createPostController.biddingMinimumBidTextEditingController,
+                                        hint: createPostController.isRegularPost.value ? ksDiscountAmountOptional.tr : ksMinimumBiddingAmount.tr,
+                                        onChanged: (text) {},
+                                        onSubmit: (text) {},
+                                        inputAction: TextInputAction.next,
+                                        inputType: TextInputType.number,
+                                        maxLength: 10,
+                                      ),
+                                      BiddingDateTimeSection(),
+                                      kH4sizedBox,
+                                      CustomModifiedTextField(
+                                        controller: createPostController.biddingDescriptionTextEditingController,
                                         hint: ksDescription.tr,
                                         onChanged: (text) {},
                                         onSubmit: (text) {},
@@ -249,14 +258,17 @@ class CreatePost extends StatelessWidget {
                                         maxLines: 7,
                                       ),
                                       kH4sizedBox,
-                                      TextAndIconRowSellingPost(
-                                        text: ksAvailability.tr,
-                                        icon: BipHip.downArrow,
-                                        onPressed: null,
-                                      ),
-                                      kH12sizedBox,
+                                      if (createPostController.isRegularPost.value)
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: k12Padding),
+                                          child: TextAndIconRowSellingPost(
+                                            text: ksAvailability.tr,
+                                            suffixIcon: BipHip.downArrow,
+                                            onPressed: null,
+                                          ),
+                                        ),
                                       CustomModifiedTextField(
-                                        controller: TextEditingController(),
+                                        controller: createPostController.biddingProductTagTextEditingController,
                                         hint: ksProductTag.tr,
                                         onChanged: (text) {},
                                         onSubmit: (text) {},
@@ -269,7 +281,7 @@ class CreatePost extends StatelessWidget {
                                       ),
                                       kH12sizedBox,
                                       CustomModifiedTextField(
-                                        controller: TextEditingController(),
+                                        controller: createPostController.biddingSKUTextEditingController,
                                         hint: ksSKU.tr,
                                         onChanged: (text) {},
                                         onSubmit: (text) {},
@@ -279,7 +291,7 @@ class CreatePost extends StatelessWidget {
                                       kH4sizedBox,
                                       TextAndIconRowSellingPost(
                                         text: ksLocation.tr,
-                                        icon: BipHip.downArrow,
+                                        suffixIcon: BipHip.downArrow,
                                         onPressed: null,
                                       ),
                                       kH16sizedBox,
@@ -448,9 +460,10 @@ class CreatePost extends StatelessWidget {
 }
 
 class TextAndIconRowSellingPost extends StatelessWidget {
-  const TextAndIconRowSellingPost({super.key, required this.text, this.icon, this.onPressed});
+  const TextAndIconRowSellingPost({super.key, required this.text, this.suffixIcon, this.onPressed, this.prefixIcon, this.width});
   final String text;
-  final IconData? icon;
+  final double? width;
+  final IconData? suffixIcon, prefixIcon;
   final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context) {
@@ -466,21 +479,80 @@ class TextAndIconRowSellingPost extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: k16Padding),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                text,
-                style: regular16TextStyle(cPlaceHolderColor),
+              if (prefixIcon != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 6),
+                  child: Icon(
+                    prefixIcon!,
+                    size: kIconSize20,
+                    color: cPlaceHolderColor,
+                  ),
+                ),
+              Expanded(
+                child: Text(
+                  text,
+                  style: regular16TextStyle(cPlaceHolderColor),
+                ),
               ),
-              Icon(
-                icon!,
-                size: kIconSize20,
-                color: cPlaceHolderColor,
-              ),
+              if (suffixIcon != null)
+                Icon(
+                  suffixIcon!,
+                  size: kIconSize20,
+                  color: cPlaceHolderColor,
+                ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class BiddingDateTimeSection extends StatelessWidget {
+  const BiddingDateTimeSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextAndIconRowSellingPost(
+              width: (width / 2) - 22,
+              text: ksStartDate.tr,
+              prefixIcon: BipHip.calendarFill,
+              onPressed: null,
+            ),
+            TextAndIconRowSellingPost(
+              width: (width / 2) - 22,
+              text: ksEndDate.tr,
+              prefixIcon: BipHip.calendarFill,
+              onPressed: null,
+            ),
+          ],
+        ),
+        kH12sizedBox,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextAndIconRowSellingPost(
+              width: (width / 2) - 22,
+              text: ksStartTime.tr,
+              prefixIcon: Icons.schedule_rounded,
+              onPressed: null,
+            ),
+            TextAndIconRowSellingPost(
+              width: (width / 2) - 22,
+              text: ksEndTime.tr,
+              prefixIcon: Icons.schedule_rounded,
+              onPressed: null,
+            ),
+          ],
+        )
+      ],
     );
   }
 }
