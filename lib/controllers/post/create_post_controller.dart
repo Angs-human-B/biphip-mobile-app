@@ -53,6 +53,8 @@ class CreatePostController extends GetxController {
   final TextEditingController biddingSKUTextEditingController = TextEditingController();
   final TextEditingController biddingDesiredAmountTextEditingController = TextEditingController();
   final TextEditingController biddingMinimumBidTextEditingController = TextEditingController();
+  final RxBool isPublicPost = RxBool(false);
+  final RxBool isPrivatePost = RxBool(false);
 
   final List audienceTypeList = [
     {"title": "Public", "subtitle": "Anyone from BipHip", "icon": BipHip.world},

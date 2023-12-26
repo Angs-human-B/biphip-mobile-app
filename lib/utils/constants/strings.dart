@@ -198,6 +198,8 @@ const String ksComment = 'Comment';
 const String ksShares = 'Shares';
 const String ksComments = 'Comments';
 const String ksSelfie = 'Selfie';
+const String ksPublicPost = 'Public post';
+const String ksPrivatePost = 'Private post';
 
 //---------------------------------------
 //* Profile

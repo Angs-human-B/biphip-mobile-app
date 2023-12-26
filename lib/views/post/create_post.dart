@@ -246,7 +246,8 @@ class CreatePost extends StatelessWidget {
                                         inputType: TextInputType.number,
                                         maxLength: 10,
                                       ),
-                                      BiddingDateTimeSection(),
+                                      if (createPostController.isBiddingPost.value) BiddingDateTimeSection(),
+                                      if (createPostController.isBiddingPost.value) PostTypeSection(),
                                       kH4sizedBox,
                                       CustomModifiedTextField(
                                         controller: createPostController.biddingDescriptionTextEditingController,
@@ -553,6 +554,94 @@ class BiddingDateTimeSection extends StatelessWidget {
           ],
         )
       ],
+    );
+  }
+}
+
+class PostTypeSection extends StatelessWidget {
+  PostTypeSection({super.key});
+  final CreatePostController createPostController = Get.find<CreatePostController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: k12Padding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                ksPostType.tr,
+                style: semiBold16TextStyle(cBlackColor),
+              ),
+              kW8sizedBox,
+              const Icon(
+                BipHip.info,
+                size: kIconSize16,
+                color: cPlaceHolderColor,
+              )
+            ],
+          ),
+          kH12sizedBox,
+          Obx(
+            () => Row(
+              children: [
+                TextualRadioButton(
+                  text: ksPublicPost.tr,
+                  onPressed: () {
+                    createPostController.isPublicPost.value = true;
+                    createPostController.isPrivatePost.value = false;
+                  },
+                  isSelected: createPostController.isPublicPost.value,
+                ),
+                kW12sizedBox,
+                TextualRadioButton(
+                  text: ksPrivatePost.tr,
+                  onPressed: () {
+                    createPostController.isPublicPost.value = false;
+                    createPostController.isPrivatePost.value = true;
+                  },
+                  isSelected: createPostController.isPrivatePost.value,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TextualRadioButton extends StatelessWidget {
+  const TextualRadioButton({super.key, required this.text, required this.onPressed, required this.isSelected});
+  final String text;
+  final VoidCallback onPressed;
+  final bool isSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius, border: Border.all(color: cLineColor2)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
+          child: Row(
+            children: [
+              Text(
+                text,
+                style: semiBold16TextStyle(cBlackColor),
+              ),
+              kW8sizedBox,
+              CustomRadioButton(
+                onChanged: onPressed,
+                isSelected: isSelected,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
