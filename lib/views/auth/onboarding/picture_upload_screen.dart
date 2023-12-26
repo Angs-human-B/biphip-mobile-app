@@ -320,7 +320,7 @@ class CommonAlertDialog extends StatelessWidget {
                         child: Text(
                           title.toString(),
                           textAlign: TextAlign.center,
-                          style: semiBold16TextStyle(cBlackColor),
+                          style: semiBold18TextStyle(cBlackColor),
                         ),
                       ),
                     ),

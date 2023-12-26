@@ -65,6 +65,11 @@ class CreatePostUpperSection extends StatelessWidget {
                               child: Image.file(
                                 createPostController.postSecondaryLocalCirclerAvatar.value,
                                 fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  BipHip.imageFile,
+                                  size: kIconSize40,
+                                  color: cIconColor,
+                                ),
                               ),
                             ),
                     ),
