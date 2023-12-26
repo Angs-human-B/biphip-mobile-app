@@ -358,18 +358,6 @@ class SubCategoryContent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // if (Get.find<CreatePostController>().subCategoryList.isEmpty)
-                // Center(
-                //   child: SizedBox(
-                //     // height: height * 0.4,
-                //     child: Text(
-                //       'No sub category found',
-                //       style: semiBold16TextStyle(cPlaceHolderColor),
-                //       textAlign: TextAlign.center,
-                //     ),
-                //   ),
-                // ),
-
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Wrap(

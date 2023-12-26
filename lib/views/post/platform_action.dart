@@ -33,11 +33,10 @@ class PlatformAndAction extends StatelessWidget {
               action: [
                 Padding(
                   padding: const EdgeInsets.only(right: h20, top: 15, bottom: 15),
-                  child:
-                      TextButton(
+                  child: TextButton(
                     style: kTextButtonStyle,
                     onPressed: () {
-                      createPostHelper.selectCategoryTextChange(context);
+                      createPostHelper.selectCategory(context);
                     },
                     child: Text(
                       ksNext.tr,
@@ -48,8 +47,7 @@ class PlatformAndAction extends StatelessWidget {
               ],
             ),
           ),
-          body:
-              SizedBox(
+          body: SizedBox(
             height: height,
             width: width,
             child: SingleChildScrollView(

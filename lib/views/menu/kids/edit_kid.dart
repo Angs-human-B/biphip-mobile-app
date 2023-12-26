@@ -88,51 +88,52 @@ class EditKidPage extends StatelessWidget {
                           OutLinedButton(
                             onPress: () {
                               globalController.commonBottomSheet(
-                                  context: context,
-                                  onPressCloseButton: () {
-                                    Get.back();
-                                  },
-                                  onPressRightButton: () {},
-                                  rightText: '',
-                                  rightTextStyle: regular14TextStyle(cBiddingColor),
-                                  title: ksUploadPhoto.tr,
-                                  isRightButtonShow: false,
-                                  isScrollControlled: false,
-                                  bottomSheetHeight: 180,
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      CustomElevatedButton(
-                                        label: ksAddPhoto.tr,
-                                        prefixIcon: BipHip.camera,
-                                        prefixIconColor: cIconColor,
-                                        suffixIconColor: cIconColor,
-                                        onPressed: () {
-                                       kidHelper.editKidCameraOnPressed();
-                                        },
-                                        buttonHeight: h32,
-                                        buttonWidth: width - 40,
-                                        buttonColor: cWhiteColor,
-                                        borderColor: cLineColor,
-                                        textStyle: semiBold14TextStyle(cBlackColor),
-                                      ),
-                                      kH16sizedBox,
-                                      CustomElevatedButton(
-                                        label: ksChooseFromGallery.tr,
-                                        prefixIcon: BipHip.photo,
-                                        prefixIconColor: cIconColor,
-                                        suffixIconColor: cIconColor,
-                                        onPressed: ()  {
-                                         
-                                        },
-                                        buttonHeight: h32,
-                                        buttonWidth: width - 40,
-                                        buttonColor: cWhiteColor,
-                                        borderColor: cLineColor,
-                                        textStyle: semiBold14TextStyle(cBlackColor),
-                                      ),
-                                    ],
-                                  ));
+                                context: context,
+                                onPressCloseButton: () {
+                                  Get.back();
+                                },
+                                onPressRightButton: () {},
+                                rightText: '',
+                                rightTextStyle: regular14TextStyle(cBiddingColor),
+                                title: ksUploadPhoto.tr,
+                                isRightButtonShow: false,
+                                isScrollControlled: false,
+                                bottomSheetHeight: 180,
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CustomElevatedButton(
+                                      label: ksAddPhoto.tr,
+                                      prefixIcon: BipHip.camera,
+                                      prefixIconColor: cIconColor,
+                                      suffixIconColor: cIconColor,
+                                      onPressed: () {
+                                        kidHelper.editKidImageFromCamera();
+                                      },
+                                      buttonHeight: h32,
+                                      buttonWidth: width - 40,
+                                      buttonColor: cWhiteColor,
+                                      borderColor: cLineColor,
+                                      textStyle: semiBold14TextStyle(cBlackColor),
+                                    ),
+                                    kH16sizedBox,
+                                    CustomElevatedButton(
+                                      label: ksChooseFromGallery.tr,
+                                      prefixIcon: BipHip.photo,
+                                      prefixIconColor: cIconColor,
+                                      suffixIconColor: cIconColor,
+                                      onPressed: () {
+                                        kidHelper.editKidImageFromGallery();
+                                      },
+                                      buttonHeight: h32,
+                                      buttonWidth: width - 40,
+                                      buttonColor: cWhiteColor,
+                                      borderColor: cLineColor,
+                                      textStyle: semiBold14TextStyle(cBlackColor),
+                                    ),
+                                  ],
+                                ),
+                              );
                             },
                             buttonText: ksUploadImage.tr,
                             borderColor: cPrimaryColor,

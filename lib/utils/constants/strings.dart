@@ -18,6 +18,8 @@ const String ksDone = 'Done';
 const String ksEdit = 'Edit';
 const String ksSave = 'Save';
 const String ksSend = 'Send';
+const String ksUpdate = 'Update';
+const String ksSubmit = 'Submit';
 const String ksDelete = 'Delete';
 const String ksSearch = 'Search';
 const String ksConfirm = 'Confirm';
@@ -148,6 +150,14 @@ const String ksBuy = 'Buy';
 const String ksGive = 'Give';
 const String ksPostedOn = 'posted on';
 const String ksChangeName = 'Change name';
+const String ksAt = 'at';
+const String ksCondition = 'condition';
+const String ksLastPrice = 'Last price';
+const String ksInStock = 'In Stock';
+const String ksStockOut = 'Stock Out';
+const String ksDuration = 'Duration';
+const String ksDesiredAmount = 'Desired\nAmount';
+const String ksMinimumBiddingAmount = 'Minimum Bidding\nAmount';
 
 //---------------------------------------
 //* Menu
@@ -164,8 +174,16 @@ const String ksAction = 'Action';
 //---------------------------------------
 const String ksHighest = 'Highest';
 const String ksLowest = 'Lowest';
+const String ksYourBid = 'Your bid';
 const String ksTotalBids = 'Total bids';
 const String ksPlaceABid = 'Place a Bid';
+const String ksYourBidAmount = 'Your bid amount';
+const String ksHighestAmount = 'Highest amount';
+const String ksTotalBid = 'Total bid';
+const String ksDesiredAmount1 = 'Desired amount';
+const String ksYourBiddingAmountIs = 'Your bidding amount is';
+const String ksUpdateBiddingAmount = 'Update bidding amount';
+const String ksViewYourBid = 'View your bid';
 const String ksSeeBidingInsights = 'See Biding Insights';
 const String ksWriteAReply = 'Write a reply...';
 const String ksSendMessage = 'Send message';
@@ -295,6 +313,7 @@ const String ksAddSocialLinks = "Add Social Links (Minimum 1)";
 const String ksAddKid = "Add Kid";
 const String ksWriteKidName = "Write kid name";
 const String ksWriteAge = "Write age";
+const String ksWriteSchoolName = "Write school name (optional)";
 const String ksSaveKidInformation = "Save Kid’s information's for further use.";
 const String ksCreatePost = 'Create post';
 const String ksPost = "Post";
@@ -338,9 +357,7 @@ const String ksBoostPost = 'Boost post';
 const String ksChoosing = 'Choosing ';
 const String ksYES = 'YES';
 const String ksActiveBoostSetting = ' will active the boost settings on your post';
-const String ksContinueWithoutBoostingSettings =
-    'You can also continue without enabling boosting setting now & can active the boosting later from the post settings.';
-
+const String ksContinueWithoutBoostingSettings = 'You can also continue without enabling boosting setting now & can active the boosting later from the post settings.';
 //*Newly Added
 //*Gallery Photos
 const String ksNoAlbumAvailable = "No album available";
@@ -379,7 +396,6 @@ const String ksPhotosAndVideosUploadLimit = "Photos & videos - 0/10 - You can ad
 const String ksAddPhotoAndVideo = "Add Photos & Videos";
 const String ksOrDragAndDrop = "Or Drag and Drop";
 const String ksCategory = "Category";
-const String ksCondition = "Condition";
 const String ksDiscountAmountOptional = "Discount amount (optional)";
 const String ksAvailability = "Availability";
 const String ksProductTag = "Product Tag";

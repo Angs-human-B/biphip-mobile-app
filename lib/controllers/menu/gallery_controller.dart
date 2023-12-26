@@ -26,12 +26,15 @@ class GalleryController extends GetxController {
 
   //*For tapAble button
   void toggleType(int index) {
-    for (int i = 0; i < 2; i++) {
-      if (index == i) {
-       tapAbleButtonState[i] = true;
-      } else {
-       tapAbleButtonState[i] = false;
-      }
+    switch (index) {
+      case 0:
+        tapAbleButtonState[0] = true;
+        tapAbleButtonState[1] = false;
+        break;
+      case 1:
+        tapAbleButtonState[0] = false;
+        tapAbleButtonState[1] = true;
+        break;
     }
   }
 

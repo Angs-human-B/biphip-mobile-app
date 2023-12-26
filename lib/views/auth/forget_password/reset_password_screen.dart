@@ -41,8 +41,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: Column(
                         children: [
-                          kH24sizedBox,
-                          kH24sizedBox,
+                          kH48sizedBox,
                           TopTitleAndSubtitle(
                             title: ksResetPassword.tr,
                             subTitle: ksCreateStrongPassword.tr,
@@ -63,7 +62,7 @@ class ResetPasswordScreen extends StatelessWidget {
                               authenticationController.isResetNewPasswordToggleObscure.value = !authenticationController.isResetNewPasswordToggleObscure.value;
                             },
                             onChanged: (text) {
-                              registrationHelper.forgetPasswordNewPasswordOnChanged();
+                              registrationHelper.forgetPasswordNewPasswordValidation();
                             },
                             onSubmit: (text) {
                               FocusScope.of(context).requestFocus(confirmPasswordFocusNode);
@@ -72,7 +71,7 @@ class ResetPasswordScreen extends StatelessWidget {
                             obscureText: authenticationController.isResetNewPasswordToggleObscure.value,
                             inputType: TextInputType.visiblePassword,
                           ),
-                           authenticationController.setGap(authenticationController.resetPasswordError.value),
+                          authenticationController.errorTextWiseResponsiveSizedBox(authenticationController.resetPasswordError.value),
                           CustomModifiedTextField(
                             controller: authenticationController.resetConfirmPasswordTextEditingController,
                             focusNode: confirmPasswordFocusNode,
@@ -90,7 +89,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                   !authenticationController.isResetConfirmPasswordToggleObscure.value;
                             },
                             onChanged: (text) {
-                              registrationHelper.forgetPasswordConfirmPasswordOnChanged();
+                              registrationHelper.forgetPasswordConfirmPasswordValidation();
                             },
                             onSubmit: (text) {
                               FocusScope.of(context).unfocus();
@@ -99,7 +98,7 @@ class ResetPasswordScreen extends StatelessWidget {
                             inputAction: TextInputAction.done,
                             inputType: TextInputType.visiblePassword,
                           ),
-                           authenticationController.setGap(authenticationController.resetConfirmPasswordError.value),
+                          authenticationController.errorTextWiseResponsiveSizedBox(authenticationController.resetConfirmPasswordError.value),
                           CustomElevatedButton(
                             label: ksNext.tr,
                             onPressed: authenticationController.canResetPassword.value

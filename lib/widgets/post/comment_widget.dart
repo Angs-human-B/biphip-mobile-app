@@ -7,7 +7,7 @@ class CommentWidget extends StatelessWidget {
       {super.key,
       required this.profileImage,
       this.comment,
-      required this.timePassed,
+      this.timePassed,
       required this.isLikeButtonShown,
       required this.isReplyButtonShown,
       required this.isReactButtonShown,
@@ -25,8 +25,8 @@ class CommentWidget extends StatelessWidget {
       this.commentLink,
       this.image,
       required this.isImageComment});
-  final String profileImage, timePassed, userName;
-  final String? commentLink, comment, image;
+  final String profileImage, userName;
+  final String? commentLink, comment, image, timePassed;
 
   final bool isImageComment, isLikeButtonShown, isReplyButtonShown, isReactButtonShown, isLink, isSendMessageShown, isHideButtonShown;
   final int reactCount;
@@ -123,58 +123,59 @@ class CommentWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            SizedBox(
-              width: width - 80,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: k8Padding),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${timePassed}m',
-                      style: regular10TextStyle(cSmallBodyTextColor),
-                    ),
-                    kW16sizedBox,
-                    if (isLikeButtonShown)
-                      InkWell(
-                        onTap: likeButtonOnPressed,
-                        child: Text(
-                          ksLike.tr,
-                          style: regular10TextStyle(cSmallBodyTextColor),
-                        ),
+            if (timePassed != null)
+              SizedBox(
+                width: width - 80,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: k8Padding),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${timePassed}m',
+                        style: regular10TextStyle(cSmallBodyTextColor),
                       ),
-                    kW16sizedBox,
-                    if (isReplyButtonShown)
-                      InkWell(
-                        onTap: replyButtonOnPressed,
-                        child: Text(
-                          ksReply.tr,
-                          style: regular10TextStyle(cSmallBodyTextColor),
+                      kW16sizedBox,
+                      if (isLikeButtonShown)
+                        InkWell(
+                          onTap: likeButtonOnPressed,
+                          child: Text(
+                            ksLike.tr,
+                            style: regular10TextStyle(cSmallBodyTextColor),
+                          ),
                         ),
-                      ),
-                    if (isSendMessageShown)
-                      InkWell(
-                        onTap: sendMessageOnPressed,
-                        child: Text(
-                          ksSendMessage.tr,
-                          style: regular10TextStyle(cSmallBodyTextColor),
+                      kW16sizedBox,
+                      if (isReplyButtonShown)
+                        InkWell(
+                          onTap: replyButtonOnPressed,
+                          child: Text(
+                            ksReply.tr,
+                            style: regular10TextStyle(cSmallBodyTextColor),
+                          ),
                         ),
-                      ),
-                    kW16sizedBox,
-                    if (isHideButtonShown)
-                      InkWell(
-                        onTap: hideButtonOnPressed,
-                        child: Text(
-                          ksHide.tr,
-                          style: regular10TextStyle(cSmallBodyTextColor),
+                      if (isSendMessageShown)
+                        InkWell(
+                          onTap: sendMessageOnPressed,
+                          child: Text(
+                            ksSendMessage.tr,
+                            style: regular10TextStyle(cSmallBodyTextColor),
+                          ),
                         ),
-                      ),
-                    const Spacer(),
-                    if (isReactButtonShown) ReactionView(isPost: false, reactCount: reactCount)
-                  ],
+                      kW16sizedBox,
+                      if (isHideButtonShown)
+                        InkWell(
+                          onTap: hideButtonOnPressed,
+                          child: Text(
+                            ksHide.tr,
+                            style: regular10TextStyle(cSmallBodyTextColor),
+                          ),
+                        ),
+                      const Spacer(),
+                      if (isReactButtonShown) ReactionView(isPost: false, reactCount: reactCount)
+                    ],
+                  ),
                 ),
               ),
-            ),
             kH4sizedBox,
             if (replyList == []) Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor)),
             if (replyList != [])

@@ -104,7 +104,7 @@ class HomePage extends StatelessWidget {
                                   name: Get.find<GlobalController>().userLastName.value.toString(),
                                   profilePic: Get.find<GlobalController>().userImage.value.toString(),
                                   onPressed: () {
-                                    CreatePostHelper().resetData();
+                                    CreatePostHelper().resetCreatePostData();
                                     Get.toNamed(krCreatePost);
                                   },
                                   prefixWidget: const Icon(
@@ -188,20 +188,29 @@ class HomePage extends StatelessWidget {
                                           postTime: '3 hrs ago',
                                           isCategorized: true,
                                           isTextualPost: item.content == null ? false : true, //API
-                                          category: item.postCategory!.name, //API
+                                          category: 'Selling', //API
                                           categoryIcon: homeController.getCategoryIcon(item.postCategory!.id), // need change API
                                           categoryIconColor: homeController.getCategoryColor(item.postCategory!.id), // Based on API
                                           privacy: BipHip.world,
                                           brandName: item.brand == null ? null : item.brand!.name, //API
                                           kidName: item.kid == null ? null : item.kid!.name, //API
                                           kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                          title: null, //API
-                                          price: null, //API
+                                          title: 'fdgf', //API
+                                          price: '360', //API
+                                          mainPrice: '400',
+                                          discount: '10',
                                           postText: item.content, //API
                                           mediaList: item.imageUrls, //API
                                           isSelfPost: true,
                                           isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
                                           postID: item.id!,
+                                          subCategory: 'People',
+                                          productCategory: 'Phone',
+                                          productCondition: 'New',
+                                          isInStock: false,
+                                          platformName: "Jane Clothing",
+                                          platformLink: 'www.facebook.com/Clothing/lorem',
+                                          actionName: 'Buy now',
                                         ),
                                       );
                                     }),

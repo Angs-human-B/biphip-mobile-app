@@ -87,7 +87,7 @@ ButtonStyle? kTextButtonStyle = TextButton.styleFrom(
 
 //* info:: box border
 BoxBorder? kIconColorBoxBorder = Border.all(color: cIconColor, width: 1);
-BoxBorder? kLineBorder = Border.all(color: cLineColor.withOpacity(.8), width: 1);
+BoxBorder? kLineBorder = Border.all(color: cLineColor2.withOpacity(.8), width: 1);
 
 ButtonStyle? kElevatedButtonStyle = ButtonStyle(
   alignment: Alignment.center,

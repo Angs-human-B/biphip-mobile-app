@@ -43,13 +43,13 @@ class GalleryPhotos extends StatelessWidget {
                       galleryController.isAlbumListLoading.value
                           ? null
                           : () {
-                              galleryPhotoHelper.galleryPhotoFirstTapableButton();
+                              galleryPhotoHelper.yourPhotosTapableButton();
                               galleryController.toggleType(0);
                             },
                       galleryController.isAlbumListLoading.value
                           ? null
                           : () {
-                              galleryPhotoHelper.galleryPhotoSecondTapableButton();
+                              galleryPhotoHelper.albumsTapableButton();
                               galleryController.toggleType(1);
                             },
                     ]),
@@ -74,17 +74,18 @@ class GalleryPhotos extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k12Padding),
                                 child: GridView.builder(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: galleryController.imageDataList.length,
-                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisSpacing: k4Padding + k2Padding,
-                                      crossAxisCount: 2,
-                                    ),
-                                    itemBuilder: (context, index) {
-                                      return Column(
-                                        children: [
-                                          Row(children: [
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: galleryController.imageDataList.length,
+                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisSpacing: k4Padding + k2Padding,
+                                    crossAxisCount: 2,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    return Column(
+                                      children: [
+                                        Row(
+                                          children: [
                                             GalleryPhotoContainer(
                                               title: galleryController.imageDataList[index].title ?? ksNA.tr,
                                               subTitle: galleryController.imageDataList[index].totalImage.toString(),
@@ -95,10 +96,12 @@ class GalleryPhotos extends StatelessWidget {
                                                 Get.toNamed(krPhotos);
                                               },
                                             ),
-                                          ]),
-                                        ],
-                                      );
-                                    }),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),

@@ -39,7 +39,7 @@ class RegistrationHelper {
     }
   }
 
-  void registerFirstNameOnChange() {
+  void registerFirstNameValidation() {
     checkName();
     if (authenticationController.registerFirstNameTextEditingController.text.trim() == '') {
       authenticationController.firstNameError.value = ksEmptyFirstNameErrorMessage.tr;
@@ -48,7 +48,7 @@ class RegistrationHelper {
     }
   }
 
-  void registerLastNameOnChange() {
+  void registerLastNameValidation() {
     checkName();
     if (authenticationController.registerLastNameTextEditingController.text.trim() == '') {
       authenticationController.lastNameError.value = ksEmptyLastNameErrorMessage.tr;
@@ -57,13 +57,13 @@ class RegistrationHelper {
     }
   }
 
-  void onPressedNext() {
+  void goToBirthdayPage() {
     Get.find<ProfileController>().isRouteFromAboutInfo.value = false;
     authenticationController.birthDay.value = '';
     Get.toNamed(krSelectBirthday);
   }
 
-  void registerEmailOnChanged() {
+  void registerEmailValidation() {
     checkEmail();
     if (authenticationController.registerEmailTextEditingController.text.trim() == '') {
       authenticationController.registerEmailError.value = ksEmptyEmailErrorMessage.tr;
@@ -74,7 +74,7 @@ class RegistrationHelper {
     }
   }
 
-  void onPressedSelectBirthday(context) {
+  void selectBirthday(context) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -95,7 +95,7 @@ class RegistrationHelper {
     );
   }
 
-  void onPressedConfirmBirthday() async {
+  void confirmBirthday() async {
     if (!profileController.isRouteFromAboutInfo.value) {
       Get.toNamed(krSelectGender);
     } else {
@@ -106,8 +106,7 @@ class RegistrationHelper {
     }
   }
 
-  void onPressedSelectGender(context) async {
-    ll(profileController.tempSelectedGender.value);
+  void selectGender(context) async {
     if (authenticationController.gender.value != '') {
       profileController.tempSelectedGender.value = authenticationController.gender.value;
     } else {
@@ -149,7 +148,7 @@ class RegistrationHelper {
     await profileController.getGenderList();
   }
 
-  void passwordOnChanged() {
+  void registerPasswordValidation() {
     checkPassword();
     if (authenticationController.registerPasswordTextEditingController.text.trim() == '') {
       authenticationController.registerPasswordError.value = ksEmptyPasswordErrorMessage.tr;
@@ -165,7 +164,7 @@ class RegistrationHelper {
     }
   }
 
-  void confirmPasswordOnChanged() {
+  void registerConfirmPasswordValidation() {
     checkPassword();
     if (authenticationController.registerConfirmPasswordTextEditingController.text.trim() == '') {
       authenticationController.registerConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage.tr;
@@ -198,7 +197,7 @@ class RegistrationHelper {
     }
   }
 
-  void onPressedSavePhoto(context) async {
+  void savePhoto(context) async {
     if (!authenticationController.isProfileImageChanged.value) {
       globalController.commonBottomSheet(
           context: context,
@@ -274,7 +273,7 @@ class RegistrationHelper {
     }
   }
 
-  void onPressedSaveInterest() async {
+  void saveInterest() async {
     if (!profileController.isRouteFromAboutInfo.value) {
       for (int i = 0; i < globalController.interestIndex.length; i++) {
         globalController.selectedInterests.add(globalController.interestList[globalController.interestIndex[i]]);
@@ -293,7 +292,7 @@ class RegistrationHelper {
     }
   }
 
-  void onPressedSaveProfession() async {
+  void saveProfession() async {
     if (!profileController.isRouteFromAboutInfo.value) {
       profileController.isInterestListLoading.value = true;
       Get.find<GlobalController>().interestIndex.clear();
@@ -318,7 +317,7 @@ class RegistrationHelper {
     }
   }
 
-  void forgetPasswordEmailOnChanged() {
+  void forgetPasswordEmailValidation() {
     checkCanSendOTP();
     if (authenticationController.forgotPasswordEmailTextEditingController.text.trim() == '') {
       authenticationController.forgotPasswordEmailError.value = ksEmptyEmailErrorMessage.tr;
@@ -339,7 +338,7 @@ class RegistrationHelper {
     }
   }
 
-  void forgetPasswordNewPasswordOnChanged() {
+  void forgetPasswordNewPasswordValidation() {
     checkCanResetPassword();
     if (authenticationController.resetNewPasswordTextEditingController.text.trim() == '') {
       authenticationController.resetPasswordError.value = ksEmptyPasswordErrorMessage.tr;
@@ -351,7 +350,7 @@ class RegistrationHelper {
     }
   }
 
-  void forgetPasswordConfirmPasswordOnChanged() {
+  void forgetPasswordConfirmPasswordValidation() {
     checkCanResetPassword();
     if (authenticationController.resetConfirmPasswordTextEditingController.text.trim() == '') {
       authenticationController.resetConfirmPasswordError.value = ksEmptyConfirmPasswordErrorMessage.tr;
@@ -384,5 +383,19 @@ class RegistrationHelper {
         ],
       ),
     );
+  }
+
+  void showConfettiWithCongratulationPopUp(context) async {
+    authenticationController.confettiController1.play();
+    authenticationController.confettiController2.play();
+    authenticationController.confettiController3.play();
+    congratulationsAlertDialog(
+      context: context,
+      content: const StarContent(),
+    );
+    await Future.delayed(const Duration(seconds: 5));
+    authenticationController.confettiController1.stop();
+    authenticationController.confettiController2.stop();
+    authenticationController.confettiController3.stop();
   }
 }

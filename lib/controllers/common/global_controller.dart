@@ -32,12 +32,22 @@ class GlobalController extends GetxController {
 
   //*For tapAble button
   void toggleType(int index) {
-    for (int i = 0; i < 3; i++) {
-      if (index == i) {
-        tapAbleButtonState[i] = true;
-      } else {
-        tapAbleButtonState[i] = false;
-      }
+    switch (index) {
+      case 0:
+        tapAbleButtonState[0] = true;
+        tapAbleButtonState[1] = false;
+        tapAbleButtonState[2] = false;
+        break;
+      case 1:
+        tapAbleButtonState[0] = false;
+        tapAbleButtonState[1] = true;
+        tapAbleButtonState[2] = false;
+        break;
+      case 2:
+        tapAbleButtonState[0] = false;
+        tapAbleButtonState[1] = false;
+        tapAbleButtonState[2] = true;
+        break;
     }
   }
 
@@ -47,7 +57,7 @@ class GlobalController extends GetxController {
   }
 
   //*friends page list data show
-  StatelessWidget allReceivedPendingFamilyView() {
+  StatelessWidget familyListView() {
     if (tapAbleButtonState[0] == true) {
       return AllFamilyListView();
     } else if (tapAbleButtonState[1] == true) {
@@ -158,7 +168,9 @@ class GlobalController extends GetxController {
                     width: width * .1,
                   ),
                   kH40sizedBox,
-                  const CustomDivider(thickness: 1,),
+                  const CustomDivider(
+                    thickness: 1,
+                  ),
                   if (isSearchShow == true)
                     Padding(
                       padding: const EdgeInsets.only(left: k16Padding, right: k16Padding, top: k16Padding),

@@ -40,6 +40,7 @@ const Color cNeutralColor = Color(0XFFECECEC);
 const Color cLawnGreenColor = Color(0XFFDDFF0E);
 const Color cOrangeColor = Color(0xFFFDB805);
 const Color cAmberColor = Colors.amber;
+const Color cLinkColor = Color(0xFF316FF6);
 const Color cYellowLinearColor1 = Color(0xFFFDB805);
 const Color cYellowLinearColor2 = Color(0xFFFD5E05);
 const Color cBlueLinearColor1 = Color(0XFF59FCCB);

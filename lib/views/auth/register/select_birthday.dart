@@ -18,8 +18,7 @@ class SelectBirthday extends StatelessWidget {
     heightWidthKeyboardValue(context);
 
     return Container(
-      // color: cWhiteColor,
-      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
+      decoration: const BoxDecoration(color: cWhiteColor, image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: SafeArea(
         top: false,
         child: Scaffold(
@@ -53,8 +52,7 @@ class SelectBirthday extends StatelessWidget {
                 child: Obx(
                   () => Column(
                     children: [
-                      if (!profileController.isRouteFromAboutInfo.value) kH24sizedBox,
-                      if (!profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                      if (!profileController.isRouteFromAboutInfo.value) kH48sizedBox,
                       TopTitleAndSubtitle(
                         title: !profileController.isRouteFromAboutInfo.value ? ksWhatBirthday.tr : '',
                         subTitle: !profileController.isRouteFromAboutInfo.value ? ksChangeBirthday.tr : ksChangeYourBirthdayFromHere.tr,
@@ -64,23 +62,22 @@ class SelectBirthday extends StatelessWidget {
                         buttonColor: cWhiteColor,
                         borderColor: cLineColor2,
                         onPressed: () {
-                          registrationHelper.onPressedSelectBirthday(context);
+                          registrationHelper.selectBirthday(context);
                         },
                         text: authenticationController.birthDay.value != '' ? authenticationController.birthDay.value : '',
                         hintText: ksSelectDOB.tr,
                       ),
-                      kH24sizedBox,
+                      isDeviceScreenLarge() ? kH30sizedBox : kH24sizedBox,
                       CustomElevatedButton(
                         label: profileController.isRouteFromAboutInfo.value ? ksSave.tr : ksNext.tr,
                         onPressed: authenticationController.birthDay.value != ''
                             ? () async {
-                                registrationHelper.onPressedConfirmBirthday();
+                                registrationHelper.confirmBirthday();
                               }
                             : null,
                         buttonWidth: width - 40,
-                        textStyle: authenticationController.birthDay.value != ''
-                            ? semiBold16TextStyle(cWhiteColor)
-                            : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
+                        textStyle:
+                            authenticationController.birthDay.value != '' ? semiBold16TextStyle(cWhiteColor) : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
                       ),
                     ],
                   ),

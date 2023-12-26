@@ -201,11 +201,10 @@ class FamilyController extends GetxController {
   }
 
   //*Accept Family Request
-  final RxBool isAcceptFamilyRequestLoading = RxBool(false);
   final RxInt userId = RxInt(-1);
   Future<void> acceptFamilyRequest() async {
     try {
-      isAcceptFamilyRequestLoading.value = true;
+      isFamilyRequestListLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'family_id': userId.value.toString(),
@@ -223,10 +222,10 @@ class FamilyController extends GetxController {
             receivedRequestCount.value--;
           }
         }
-        isAcceptFamilyRequestLoading.value = false;
+        isFamilyRequestListLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isAcceptFamilyRequestLoading.value = false;
+        isFamilyRequestListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -235,17 +234,17 @@ class FamilyController extends GetxController {
         }
       }
     } catch (e) {
-      isAcceptFamilyRequestLoading.value = false;
+      isFamilyRequestListLoading.value = false;
       ll('acceptFamilyRequest error: $e');
     }
   }
 
   //*Reject Family Request
-  final RxBool isRejectFamilyRequestLoading = RxBool(false);
+
   final RxInt receivedRequestCount = RxInt(0);
   Future<void> rejectFamilyRequest() async {
     try {
-      isRejectFamilyRequestLoading.value = true;
+      isFamilyRequestListLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'family_id': userId.value.toString(),
@@ -258,7 +257,7 @@ class FamilyController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        isRejectFamilyRequestLoading.value = false;
+        isFamilyRequestListLoading.value = false;
         for (int index = 0; index < receivedFamilyList.length; index++) {
           if (userId.value == receivedFamilyList[index].id) {
             receivedFamilyList.removeAt(index);
@@ -268,7 +267,7 @@ class FamilyController extends GetxController {
 
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isRejectFamilyRequestLoading.value = false;
+        isFamilyRequestListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -277,7 +276,7 @@ class FamilyController extends GetxController {
         }
       }
     } catch (e) {
-      isRejectFamilyRequestLoading.value = false;
+      isFamilyRequestListLoading.value = false;
       ll('rejectFamilyRequest error: $e');
     }
   }
@@ -375,10 +374,10 @@ class FamilyController extends GetxController {
   }
 
   //*Cancel Family Request
-  final RxBool isCancelFamilyRequestLoading = RxBool(false);
+  final RxBool isFamilyRequestListLoading = RxBool(false);
   Future<void> cancelFamilyRequest() async {
     try {
-      isCancelFamilyRequestLoading.value = true;
+      isFamilyRequestListLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'user_id': userId.value.toString(),
@@ -395,10 +394,10 @@ class FamilyController extends GetxController {
             sendFamilyRequestList.removeAt(index);
           }
         }
-        isCancelFamilyRequestLoading.value = false;
+        isFamilyRequestListLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isCancelFamilyRequestLoading.value = false;
+        isFamilyRequestListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -407,7 +406,7 @@ class FamilyController extends GetxController {
         }
       }
     } catch (e) {
-      isCancelFamilyRequestLoading.value = false;
+      isFamilyRequestListLoading.value = false;
       ll('cancelFamilyRequest error: $e');
     }
   }

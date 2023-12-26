@@ -39,7 +39,7 @@ class AuthenticationController extends GetxController {
     isProfileImageChanged.value = false;
   }
 
-  Widget setGap(errorText) {
+  Widget errorTextWiseResponsiveSizedBox(errorText) {
     if (errorText != null) {
       return isDeviceScreenLarge() ? kH10sizedBox : kH8sizedBox;
     } else {
@@ -190,13 +190,13 @@ class AuthenticationController extends GetxController {
     try {
       isRegisterLoading.value = true;
       Map<String, dynamic> body = {
-        "first_name": registerFirstNameTextEditingController.text,
-        "last_name": registerLastNameTextEditingController.text,
-        "email": registerEmailTextEditingController.text,
+        "first_name": registerFirstNameTextEditingController.text.trim(),
+        "last_name": registerLastNameTextEditingController.text.trim(),
+        "email": registerEmailTextEditingController.text.trim(),
         "dob": birthDay.value,
         "gender": gender.value,
-        "password": registerPasswordTextEditingController.text,
-        "password_confirmation": registerConfirmPasswordTextEditingController.text,
+        "password": registerPasswordTextEditingController.text.trim(),
+        "password_confirmation": registerConfirmPasswordTextEditingController.text.trim(),
       };
       var response = await apiController.commonApiCall(
         requestMethod: kPost,
@@ -206,13 +206,11 @@ class AuthenticationController extends GetxController {
 
       if (response.success == true) {
         CommonUnVerifyModel commonUnVerifyModel = CommonUnVerifyModel.fromJson(response.data);
-        // log('Login_user_data : ${loginData.token}');
         verificationToken.value = commonUnVerifyModel.token.toString();
         parentRoute.value = "register";
         resetOTPScreen();
         isRegisterLoading.value = false;
         Get.toNamed(krOTP);
-
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -246,7 +244,7 @@ class AuthenticationController extends GetxController {
   }
 
   final RxBool isForgetPasswordLoading = RxBool(false);
-  Future<void> forgetPassword() async {
+  Future<void> requestForgetPassword() async {
     try {
       isForgetPasswordLoading.value = true;
       Map<String, dynamic> body = {
@@ -461,8 +459,6 @@ class AuthenticationController extends GetxController {
       Map<String, dynamic> body = {
         if (parentRoute.value == "forget-password") "email": forgotPasswordEmailTextEditingController.text.trim(),
       };
-      ll(body.toString());
-      ll(parentRoute.value.toString());
       var response = await apiController.commonApiCall(
         requestMethod: kPost,
         token: (parentRoute.value == "login" || parentRoute.value == "register") ? verificationToken.value : null,
@@ -475,7 +471,6 @@ class AuthenticationController extends GetxController {
         verificationToken.value = commonUnVerifyModel.token.toString();
         resetOTPScreen();
         isOTPResendClick.value = false;
-        // log('data : ${response.data}');
         isOTPLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {

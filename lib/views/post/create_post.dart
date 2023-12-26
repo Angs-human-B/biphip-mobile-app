@@ -86,7 +86,7 @@ class CreatePost extends StatelessWidget {
                                           textInputStyle:
                                               createPostController.isTextLimitCrossed.value ? regular16TextStyle(cBlackColor) : regular20TextStyle(cBlackColor),
                                           onChanged: (v) {
-                                            createPostHelper.postButtonStateCheck();
+                                            createPostHelper.checkCanCreatePost();
                                           },
                                         )
                                       : Column(
@@ -346,7 +346,7 @@ class CreatePost extends StatelessWidget {
                                                             kiDummyImage1ImageUrl,
                                                             height: isDeviceScreenLarge() ? 148 : 124,
                                                           )),
-                                                          //*Add Photo container
+                                                      //*Add Photo container
                                                       // Container(
                                                       //   height: isDeviceScreenLarge() ? 148 : 124,
                                                       //   decoration: BoxDecoration(

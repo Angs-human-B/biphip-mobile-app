@@ -15,10 +15,11 @@ class PostUpperContainer extends StatelessWidget {
     required this.postTime,
     this.title,
     this.price,
+    this.subCategory,
   });
 
   final String userName, postTime;
-  final String? category, brandName, kidName, kidAge, title, price;
+  final String? category, brandName, kidName, kidAge, title, price, subCategory;
   final IconData? categoryIcon;
   final IconData privacy;
   final Color? categoryIconColor;
@@ -111,9 +112,19 @@ class PostUpperContainer extends StatelessWidget {
                                       Text(
                                         " ${category!}",
                                         style: semiBold14TextStyle(categoryIconColor!),
-                                      )
+                                      ),
                                   ],
                                 ),
+                              ),
+                              if (subCategory !=null)
+                              TextSpan(
+                                text: ' ${ksAt.tr} ',
+                                style: regular16TextStyle(cSmallBodyTextColor),
+                              ),
+                              if (subCategory !=null)
+                              TextSpan(
+                                text: '($subCategory)',
+                                style: semiBold16TextStyle(cBlackColor),
                               ),
                             const TextSpan(text: '\n'),
                             WidgetSpan(

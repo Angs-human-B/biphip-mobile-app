@@ -66,7 +66,7 @@ class PostTab extends StatelessWidget {
                 name: Get.find<GlobalController>().userLastName.value.toString(),
                 profilePic: Get.find<GlobalController>().userImage.value.toString(),
                 onPressed: () {
-                  CreatePostHelper().resetData();
+                  CreatePostHelper().resetCreatePostData();
                   Get.toNamed(krCreatePost);
                 },
               ),
@@ -144,6 +144,7 @@ class PostTab extends StatelessWidget {
                       postText: item.content, //API
                       mediaList: item.imageUrls, //API
                       isSelfPost: true,
+                      isInStock: true,
                       isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
                     ),
                   );

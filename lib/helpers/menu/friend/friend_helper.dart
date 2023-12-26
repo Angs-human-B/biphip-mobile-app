@@ -10,7 +10,7 @@ class FriendHelper {
   final FriendController friendController = Get.find<FriendController>();
 
   //*friends page tapable button views
-  StatelessWidget allReceivedPendingFriendsView() {
+  Widget friendListView() {
     if (globalController.tapAbleButtonState[0] == true) {
       return AllFriendListView();
     } else if (globalController.tapAbleButtonState[1] == true) {
@@ -28,7 +28,7 @@ class FriendHelper {
   }
 
   //*Friend text field on change
-  void friendOnChanged() async {
+  void searchFriends() async {
     if (friendController.debounce?.isActive ?? false) friendController.debounce!.cancel();
     if (globalController.searchController.text.trim() != '') {
       friendController.isFriendSuffixIconVisible.value = true;
@@ -88,17 +88,17 @@ class FriendHelper {
     await friendController.getSendFriendRequestList();
   }
 
-  void friendSuffixPressed() async {
+  void friendSearchReset() async {
     friendSearchFieldReset();
     if (friendController.debounce?.isActive ?? false) friendController.debounce!.cancel();
     await friendController.getFriendList();
   }
 
   //*Add Friend
-  void addFriendSuffixPressed() {
+  void resetAddFriend() {
     globalController.searchController.clear();
     friendController.isFriendSuffixIconVisible.value = false;
-    friendController.addFriendRequestList.clear();
+    friendController.addFriendList.clear();
   }
 
   void addFriendBackButtonPressed() {
@@ -107,27 +107,27 @@ class FriendHelper {
     Get.back();
   }
 
-  void addFriendOnPressed({required int index}) async {
-    friendController.userId.value = friendController.addFriendRequestList[index].id!;
-    if (friendController.addFriendRequestList[index].friendStatus == 0) {
+  void addCancelFriendRequest({required int index}) async {
+    friendController.userId.value = friendController.addFriendList[index].id!;
+    if (friendController.addFriendList[index].friendStatus == 0) {
       await friendController.sendFriendRequest();
-    } else if (friendController.addFriendRequestList[index].friendStatus == 2) {
+    } else if (friendController.addFriendList[index].friendStatus == 2) {
       await friendController.cancelFriendRequest();
     }
   }
 
   //*Add friend text field on change
-  void addFriendOnChanged() async {
+  void searchToAddFriend() async {
     if (friendController.debounce?.isActive ?? false) friendController.debounce!.cancel();
     if (globalController.searchController.text.trim() != '') {
       friendController.isFriendSuffixIconVisible.value = true;
       friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
-        await friendController.getAddFriendRequestList();
+        await friendController.getAddFriendList();
       });
     }
     if (globalController.searchController.text.trim() == '') {
       friendController.isFriendSuffixIconVisible.value = false;
-      friendController.addFriendRequestList.clear();
+      friendController.addFriendList.clear();
     }
   }
 

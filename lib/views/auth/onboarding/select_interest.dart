@@ -15,7 +15,6 @@ class SelectInterestScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      // color: cWhiteColor ,
       decoration: !profileController.isRouteFromAboutInfo.value
           ? const BoxDecoration(color: cWhiteColor, image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover))
           : null,
@@ -65,34 +64,36 @@ class SelectInterestScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                         child: Column(
                           children: [
-                            if (!profileController.isRouteFromAboutInfo.value) kH24sizedBox,
-                            if (!profileController.isRouteFromAboutInfo.value) kH24sizedBox,
+                            if (!profileController.isRouteFromAboutInfo.value) kH48sizedBox,
                             TopTitleAndSubtitle(
                               title: profileController.isRouteFromAboutInfo.value ? "" : ksChooseInterest.tr,
                               subTitle: profileController.isRouteFromAboutInfo.value ? ksEditInterestSubtitle : ksCHooseInterestSubtitle.tr,
                             ),
                             kH16sizedBox,
-                            Wrap(
-                              alignment: WrapAlignment.start,
-                              direction: Axis.horizontal,
-                              spacing: 8.0,
-                              children: [
-                                for (int i = 0; i < globalController.interestList.length; i++)
-                                  CustomChoiceChips(
-                                    label: globalController.interestList[i],
-                                    isSelected: (globalController.interestIndex.contains(i)),
-                                    onSelected: (value) {
-                                      registrationHelper.onSelectingInterest(i);
-                                    },
-                                  )
-                              ],
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Wrap(
+                                alignment: WrapAlignment.start,
+                                direction: Axis.horizontal,
+                                spacing: 8.0,
+                                children: [
+                                  for (int i = 0; i < globalController.interestList.length; i++)
+                                    CustomChoiceChips(
+                                      label: globalController.interestList[i],
+                                      isSelected: (globalController.interestIndex.contains(i)),
+                                      onSelected: (value) {
+                                        registrationHelper.onSelectingInterest(i);
+                                      },
+                                    )
+                                ],
+                              ),
                             ),
                             kH16sizedBox,
                             CustomElevatedButton(
                               label: profileController.isRouteFromAboutInfo.value ? ksSave : ksNext.tr,
                               onPressed: globalController.interestIndex.isNotEmpty
                                   ? () async {
-                                      registrationHelper.onPressedSaveInterest();
+                                      registrationHelper.saveInterest();
                                     }
                                   : null,
                               buttonWidth: width - 40,

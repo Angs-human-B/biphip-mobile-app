@@ -22,7 +22,6 @@ class Register extends StatelessWidget {
         child: Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
-            //* info:: appBar
             child: CustomAppBar(
               appBarColor: cTransparentColor,
               title: ksRegistration.tr,
@@ -72,13 +71,13 @@ class Register extends StatelessWidget {
                           borderSide: const BorderSide(width: 1, color: cLineColor2),
                         ),
                         onChanged: (text) {
-                          registrationHelper.registerFirstNameOnChange();
+                          registrationHelper.registerFirstNameValidation();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.name,
                       ),
-                      authenticationController.firstNameError.value != null ? kH8sizedBox : kH20sizedBox,
+                      authenticationController.errorTextWiseResponsiveSizedBox(authenticationController.firstNameError.value),
                       CustomModifiedTextField(
                         controller: authenticationController.registerLastNameTextEditingController,
                         errorText: authenticationController.lastNameError.value,
@@ -90,19 +89,19 @@ class Register extends StatelessWidget {
                           borderSide: const BorderSide(width: 1, color: cLineColor2),
                         ),
                         onChanged: (text) {
-                          registrationHelper.registerLastNameOnChange();
+                          registrationHelper.registerLastNameValidation();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,
                         inputType: TextInputType.name,
                       ),
-                      authenticationController.lastNameError.value != null ? kH8sizedBox : kH20sizedBox,
+                      authenticationController.errorTextWiseResponsiveSizedBox(authenticationController.lastNameError.value),
                       CustomElevatedButton(
                         label: ksNext.tr,
                         onPressed: authenticationController.checkValidName.value
                             ? () {
                                 unfocus(context);
-                                registrationHelper.onPressedNext();
+                                registrationHelper.goToBirthdayPage();
                               }
                             : null,
                         buttonWidth: width - 40,

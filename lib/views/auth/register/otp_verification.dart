@@ -17,7 +17,7 @@ class OTPVerifyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return Container(
-      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
+      decoration: const BoxDecoration(color: cWhiteColor,image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: Obx(
         () => Stack(
           children: [
@@ -56,8 +56,7 @@ class OTPVerifyScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: Column(
                         children: [
-                          kH24sizedBox,
-                          kH24sizedBox,
+                          kH48sizedBox,
                           TopTitleAndSubtitle(
                             title: ksOTPVerification.tr,
                             subTitle: ksEnterCode.tr,

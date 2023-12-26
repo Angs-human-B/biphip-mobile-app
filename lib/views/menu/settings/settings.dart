@@ -65,7 +65,7 @@ class Settings extends StatelessWidget {
                               title: ksChangeName.tr,
                               isRightButtonShow: true);
                         },
-                        text: 'Change Name',
+                        text: ksChangeName.tr,
                         textStyle: semiBold16TextStyle(cBlackColor),
                       )
                     ],

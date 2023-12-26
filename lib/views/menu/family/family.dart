@@ -37,7 +37,7 @@ class Family extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () {
                             unfocus(context);
-                            familyHelper.familyAddButtonOnPressed();
+                            familyHelper.routeToAddFamilyPage();
                           },
                           child: Text(
                             ksAdd.tr,
@@ -96,7 +96,7 @@ class Family extends StatelessWidget {
                                   familyController.isFamilySuffixIconVisible.value = false;
                                 },
                                 onChanged: (v) {
-                                  familyHelper.familyOnChanged();
+                                  familyHelper.searchFamily();
                                 })
                             : const SizedBox()),
                       ),
@@ -116,21 +116,17 @@ class Family extends StatelessWidget {
                             : Padding(padding: const EdgeInsets.symmetric(horizontal: k20Padding), child: familyHelper.totalFamilyCountShow()),
                       if (globalController.tapAbleButtonState[0] || globalController.tapAbleButtonState[1]) kH12sizedBox,
                       if (globalController.tapAbleButtonState[2]) kH4sizedBox,
-                      globalController.allReceivedPendingFamilyView(),
+                      globalController.familyListView(),
                     ],
                   ),
                 ),
               ),
             ),
-            if (familyController.isCancelFamilyRequestLoading.value == true ||
-                familyController.isAcceptFamilyRequestLoading.value == true ||
-                familyController.isRejectFamilyRequestLoading.value == true)
+            if (familyController.isFamilyRequestListLoading.value)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (familyController.isCancelFamilyRequestLoading.value ||
-                        familyController.isAcceptFamilyRequestLoading.value ||
-                        familyController.isRejectFamilyRequestLoading.value) {
+                    if (familyController.isFamilyRequestListLoading.value) {
                       return false;
                     }
                     return true;

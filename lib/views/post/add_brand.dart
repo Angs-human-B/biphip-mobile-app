@@ -189,10 +189,6 @@ class AddBrandPage extends StatelessWidget {
                                 style: medium14TextStyle(cBlackColor),
                               ),
                               kH8sizedBox,
-                              // AddLinkTextFields(
-                              //   textEditingController: createPostController.brandWebLinkTextEditingController,
-                              //   iconImage: kiWebSvgImageUrl,
-                              // ),
                               AddLinkTextFields(
                                 textEditingController: createPostController.brandWebLinkTextEditingController,
                                 iconImage: kiWebSvgImageUrl,
@@ -270,30 +266,15 @@ class AddLinkTextFields extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ClipRRect(
-          // borderRadius: BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), bottomLeft: Radius.circular(k8BorderRadius)),
           child: Padding(
             padding: const EdgeInsets.only(bottom: k8Padding),
             child: Container(
-              // clipBehavior: Clip.hardEdge,
               height: isDeviceScreenLarge() ? 51 : 48,
               width: isDeviceScreenLarge() ? 51 : 48,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), bottomLeft: Radius.circular(k8BorderRadius)),
                 color: cGreyBoxColor,
                 border: Border.all(color: cLineColor2, width: 1),
-                // border: Border(
-                //   left: BorderSide(color: cLineColor2, width: 1),
-                //   bottom: BorderSide(color: cLineColor2, width: 1),
-                //   top: BorderSide(color: cLineColor2, width: 1),
-                //   right: BorderSide(color: cWhiteColor, width: 0),
-                // ),
-                // gradient: LinearGradient(
-                //   stops: [0.02, 0.02],
-                //   colors: [cLineColor2, cGreyBoxColor],
-                // ),
-                // boxShadow: [
-                //   BoxShadow(color: cLineColor2, spreadRadius: 1),
-                // ]
               ),
               child: Padding(
                 padding: const EdgeInsets.all(k8Padding),
@@ -337,27 +318,3 @@ class AddLinkTextFields extends StatelessWidget {
     );
   }
 }
-
-// class OutlineAddLinkTextField extends StatelessWidget {
-//   const OutlineAddLinkTextField({super.key, required this.outlinedButtonText, required this.textEditingController});
-//   final String outlinedButtonText;
-//   final TextEditingController textEditingController;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: width - 40,
-//       height: 40,
-//       color: cRedColor,
-//       child: Row(
-//         children: [
-//           Text(outlinedButtonText),
-//           CustomModifiedTextField(
-//             controller: textEditingController,
-//             hint: '',
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

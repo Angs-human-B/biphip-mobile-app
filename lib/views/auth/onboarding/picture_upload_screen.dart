@@ -41,88 +41,80 @@ class PictureUploadScreen extends StatelessWidget {
                     child: Obx(
                       () => Column(
                         children: [
-                          kH24sizedBox,
-                          kH24sizedBox,
+                          kH48sizedBox,
                           TopTitleAndSubtitle(
                             title: ksAddProfilePhoto.tr,
                           ),
                           kH35sizedBox,
-                          Stack(
-                            children: [
-                              ClipOval(
-                                child: Container(
-                                  height: h134,
-                                  width: h134,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: cBlackColor,
-                                  ),
-                                  child: Image.file(
-                                    authenticationController.profileFile.value,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => const Icon(
-                                      BipHip.user,
-                                      size: kIconSize70,
-                                      color: cIconColor,
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                ClipOval(
+                                  child: Container(
+                                    height: h134,
+                                    width: h134,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: cBlackColor,
                                     ),
-                                  ),
-                                ),
-                              ),
-                              if (authenticationController.isProfileImageChanged.value)
-                                Positioned(
-                                  top: 5,
-                                  right: 5,
-                                  child: TextButton(
-                                    onPressed: () {
-                                      authenticationController.resetProfileImage();
-                                    },
-                                    style: kTextButtonStyle,
-                                    child: Container(
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: cWhiteColor,
-                                      ),
-                                      child: const Icon(
-                                        BipHip.circleCrossNew,
-                                        color: cRedColor,
-                                        size: kIconSize30,
+                                    child: Image.file(
+                                      authenticationController.profileFile.value,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) => const Icon(
+                                        BipHip.user,
+                                        size: kIconSize70,
+                                        color: cIconColor,
                                       ),
                                     ),
                                   ),
                                 ),
-                            ],
+                                if (authenticationController.isProfileImageChanged.value)
+                                  Positioned(
+                                    top: 5,
+                                    right: 5,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        authenticationController.resetProfileImage();
+                                      },
+                                      style: kTextButtonStyle,
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: cWhiteColor,
+                                        ),
+                                        child: const Icon(
+                                          BipHip.circleCrossNew,
+                                          color: cRedColor,
+                                          size: kIconSize30,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
-                          const Spacer(),
                           CustomElevatedButton(
                             label: authenticationController.isProfileImageChanged.value ? ksSavePhoto.tr : ksAddPhoto.tr,
                             onPressed: () async {
-                              registrationHelper.onPressedSavePhoto(context);
+                              registrationHelper.savePhoto(context);
                             },
                             buttonWidth: width - 40,
                             textStyle: semiBold16TextStyle(cWhiteColor),
                           ),
-                          if (!authenticationController.isProfileImageChanged.value) kH8sizedBox,
                           if (!authenticationController.isProfileImageChanged.value)
-                            CustomElevatedButton(
-                              buttonWidth: width - 40,
-                              buttonColor: cTransparentColor,
-                              onPressed: () async {
-                                Get.offAllNamed(krHome);
-                                authenticationController.confettiController1.play();
-                                authenticationController.confettiController2.play();
-                                authenticationController.confettiController3.play();
-                                RegistrationHelper().congratulationsAlertDialog(
-                                  context: context,
-                                  content: const StarContent(),
-                                );
-                                await Future.delayed(const Duration(seconds: 5));
-                                authenticationController.confettiController1.stop();
-                                authenticationController.confettiController2.stop();
-                                authenticationController.confettiController3.stop();
-                                await Get.find<HomeController>().getPostList();
-                              },
-                              label: ksSkip.tr,
-                              textStyle: semiBold16TextStyle(cBlackColor),
+                            Padding(
+                              padding: const EdgeInsets.only(top: h8),
+                              child: CustomElevatedButton(
+                                buttonWidth: width - 40,
+                                buttonColor: cTransparentColor,
+                                onPressed: () async {
+                                  Get.offAllNamed(krHome);
+                                  registrationHelper.showConfettiWithCongratulationPopUp(context);
+                                  await Get.find<HomeController>().getPostList();
+                                },
+                                label: ksSkip.tr,
+                                textStyle: semiBold16TextStyle(cBlackColor),
+                              ),
                             ),
                           kHBottomSizedBox
                         ],
@@ -231,11 +223,9 @@ class StarContent extends StatelessWidget {
 
 Path drawCustomConfetti1(Size size) {
   final path = Path();
-  // path.lineTo(20, 30);
   path.moveTo(0, 10);
   path.quadraticBezierTo(5, 0, 15, 10);
   path.quadraticBezierTo(20, 20, 25, 10);
-  // path.lineTo(35, 10);
   path.quadraticBezierTo(30, 0, 35, 10);
   path.quadraticBezierTo(40, 20, 45, 10);
   path.lineTo(41, 6);
@@ -266,7 +256,6 @@ Path drawCustomConfetti3(Size size) {
   path.quadraticBezierTo(0, 10, 10, 5);
   path.lineTo(8, 0);
   path.quadraticBezierTo(0, 5, -8, 0);
-  // path.lineTo(0, 10);
   path.close();
   return path;
 }

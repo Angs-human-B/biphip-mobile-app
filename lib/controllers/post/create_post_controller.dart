@@ -162,6 +162,7 @@ class CreatePostController extends GetxController {
   final RxBool isKidImageChanged = RxBool(false);
   final TextEditingController kidNameTextEditingController = TextEditingController();
   final TextEditingController kidAgeTextEditingController = TextEditingController();
+  final TextEditingController kidSchoolNameTextEditingController = TextEditingController();
   final RxBool isSaveKidButtonEnabled = RxBool(false);
   final RxBool isKidAdded = RxBool(false);
   final RxBool isKidSelected = RxBool(false);
@@ -169,7 +170,9 @@ class CreatePostController extends GetxController {
   void checkCanAddKidInfo() {
     if (kidNameTextEditingController.text.trim() != '' && kidAgeTextEditingController.text.trim() != '' && isKidImageChanged.value) {
       isSaveKidButtonEnabled.value = true;
+      globalController.isBottomSheetRightButtonActive.value = true;
     } else {
+      globalController.isBottomSheetRightButtonActive.value = false;
       isSaveKidButtonEnabled.value = false;
     }
   }
