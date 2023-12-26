@@ -874,6 +874,10 @@ class CreatePostHelper {
   }
 
   void resetCreatePostData() {
+    createPostController.isKidAdded.value = false;
+    createPostController.selectedKid.value = null;
+    createPostController.postSecondaryCircleAvatar.value = '';
+    createPostController.postSecondaryLocalCirclerAvatar.value = File('');
     createPostController.isMediaChanged.value = false;
     createPostController.mediaLinkList.clear();
     createPostController.mediaFileList.clear();
@@ -1064,7 +1068,8 @@ class CreatePostHelper {
     createPostController.sellingAllMediaList.addAll(mediaFile);
     createPostController.sellingAllMediaFileList.addAll(mediaFile);
   }
-    void removeSellingMedia(index) {
+
+  void removeSellingMedia(index) {
     createPostController.sellingAllMediaList.removeAt(index);
     createPostController.sellingAllMediaFileList.removeAt(index);
     // if (createPostController.allMediaFileList.isEmpty || createPostController.allMediaList.isEmpty) {
@@ -1086,6 +1091,7 @@ class CreatePostHelper {
     if (!createPostController.isKidAdded.value) {
       globalController.isBottomSheetRightButtonActive.value = false;
     } else {
+      createPostController.postSecondaryLocalCirclerAvatar.value = createPostController.kidImageFile.value;
       globalController.isBottomSheetRightButtonActive.value = true;
     }
   }

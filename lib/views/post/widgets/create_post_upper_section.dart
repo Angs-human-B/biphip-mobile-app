@@ -20,7 +20,9 @@ class CreatePostUpperSection extends StatelessWidget {
           Stack(
             children: [
               SizedBox(
-                width: (createPostController.category.value == "Kids" || createPostController.category.value == "Selling") ? 70 : h45,
+                width: (createPostController.selectedKid.value != null || createPostController.isKidAdded.value || createPostController.isBrandAdded.value)
+                    ? 70
+                    : h45,
                 child: Row(
                   children: [
                     Container(
@@ -38,7 +40,7 @@ class CreatePostUpperSection extends StatelessWidget {
                   ],
                 ),
               ),
-              if (createPostController.category.value == "Kids" || createPostController.category.value == "Selling")
+              if (createPostController.selectedKid.value != null || createPostController.isKidAdded.value)
                 Positioned(
                   right: 0,
                   bottom: 0,
@@ -73,6 +75,45 @@ class CreatePostUpperSection extends StatelessWidget {
                               ),
                             ),
                     ),
+                  ),
+                ),
+              if (createPostController.category.value == "Selling" && createPostController.isBrandAdded.value)
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  top: 0,
+                  child: Container(
+                    height: h45,
+                    width: h45,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: ClipOval(
+                        child:
+                            // createPostController.selectedKid.value != null?
+                            Image.network(
+                      Environment.imageBaseUrl + createPostController.postSecondaryCircleAvatar.value,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => const Icon(
+                        BipHip.imageFile,
+                        size: kIconSize120,
+                        color: cIconColor,
+                      ),
+                      // loadingBuilder: imageLoadingBuilder,
+                    )
+                        // : Container(
+                        //     decoration: const BoxDecoration(color: cBlackColor),
+                        //     child: Image.file(
+                        //       createPostController.postSecondaryLocalCirclerAvatar.value,
+                        //       fit: BoxFit.cover,
+                        //       errorBuilder: (context, error, stackTrace) => const Icon(
+                        //         BipHip.imageFile,
+                        //         size: kIconSize24,
+                        //         color: cIconColor,
+                        //       ),
+                        //     ),
+                        //   ),
+                        ),
                   ),
                 ),
             ],
