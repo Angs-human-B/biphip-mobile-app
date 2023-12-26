@@ -883,6 +883,10 @@ class CreatePostHelper {
   }
 
   void resetCreatePostData() {
+    createPostController.isKidAdded.value = false;
+    createPostController.selectedKid.value = null;
+    createPostController.postSecondaryCircleAvatar.value = '';
+    createPostController.postSecondaryLocalCirclerAvatar.value = File('');
     createPostController.isMediaChanged.value = false;
     createPostController.mediaLinkList.clear();
     createPostController.mediaFileList.clear();
@@ -1096,6 +1100,7 @@ class CreatePostHelper {
     if (!createPostController.isKidAdded.value) {
       globalController.isBottomSheetRightButtonActive.value = false;
     } else {
+      createPostController.postSecondaryLocalCirclerAvatar.value = createPostController.kidImageFile.value;
       globalController.isBottomSheetRightButtonActive.value = true;
     }
   }
