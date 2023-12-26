@@ -408,3 +408,4 @@ const String ksLocation = "Location";
 const String ksHideFromFriendAndFamily = "Hide from your friend and family";
 const String ksSellingPostHideContentFromFriendAndDFamily =
     "Marketplace items are public and can be seen by anyone on or off Facebook. Items like animals, drugs, weapons, counterfeits, and other items that infringe intellectual property aren't allowed on Marketplace.";
+const String ksSelectCondition = "Select Condition";

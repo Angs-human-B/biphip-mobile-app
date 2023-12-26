@@ -5,6 +5,7 @@ import 'package:bip_hip/views/post/widgets/create_post_bottom_section.dart';
 import 'package:bip_hip/views/post/widgets/create_post_media_section.dart';
 import 'package:bip_hip/views/post/widgets/create_post_selling_text_fields.dart';
 import 'package:bip_hip/views/post/widgets/create_post_upper_section.dart';
+import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -193,7 +194,6 @@ class CreatePost extends StatelessWidget {
                                                             }
                                                           },
                                                           child: Container(
-                                                            // height: isDeviceScreenLarge() ? 148 : 124,
                                                             width: (width - 40) / 3,
                                                             decoration: BoxDecoration(
                                                               color: cPrimaryTint4Color,
@@ -273,23 +273,57 @@ class CreatePost extends StatelessWidget {
                                       ),
                                       kH12sizedBox,
                                       TextAndIconRowSellingPost(
-                                        text: ksCondition.tr,
+                                        text: createPostController.selectedProductCondition.value == ''
+                                            ? ksCondition.tr
+                                            : createPostController.selectedProductCondition.value,
                                         suffixIcon: BipHip.downArrow,
                                         onPressed: () {
                                           globalController.commonBottomSheet(
                                               context: context,
-                                              content: Column(
-                                                children: [],
-                                              ),
+                                              bottomSheetHeight: isDeviceScreenLarge() ? height * 0.5 : height * 0.75,
+                                              content: SingleChildScrollView(
+                                                  child: Column(
+                                                children: [
+                                                  ListView.builder(
+                                                      shrinkWrap: true,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      itemCount: createPostController.productConditionList.length,
+                                                      itemBuilder: (context, index) {
+                                                        // return Padding(
+                                                        //   padding: const EdgeInsets.only(top: k12Padding),
+                                                        //   child: Text(createPostController.productConditionList[index].toString()),
+                                                        // );
+                                                        return Padding(
+                                                          padding: const EdgeInsets.only(top: k12Padding),
+                                                          child: Obx(() => OutLinedButton(
+                                                                onPress: () {
+                                                                  createPostHelper.selectConditionStatusChange(index);
+                                                                  globalController.isBottomSheetRightButtonActive.value = true;
+                                                                },
+                                                                buttonText: createPostController.productConditionList[index].toString(),
+                                                                buttonTextStyle: regular16TextStyle(cBlackColor),
+                                                                borderColor: createPostController.productConditionState[index] ? cPrimaryColor : cLineColor2,
+                                                                buttonColor:
+                                                                    createPostController.productConditionState[index] ? cPrimaryTint3Color : cWhiteColor,
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                              )),
+                                                        );
+                                                      }),
+                                                ],
+                                              )),
                                               onPressCloseButton: () {
                                                 Get.back();
                                               },
+                                              // onPressRightButton: () {
+                                              //   Get.back();
+                                              // },
                                               onPressRightButton: () {
+                                                createPostHelper.selectProductConditionTextChange();
                                                 Get.back();
                                               },
-                                              rightText: "Done",
+                                              rightText: ksDone.tr,
                                               rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                              title: ksCondition.tr,
+                                              title: ksSelectCondition.tr,
                                               isRightButtonShow: true);
                                         },
                                       ),

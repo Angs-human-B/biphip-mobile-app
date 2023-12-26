@@ -497,4 +497,7 @@ class CreatePostController extends GetxController {
   final RxList sellingAllMediaList = RxList([]);
   final RxList<Rx<File>> sellingAllMediaFileList = RxList<Rx<File>>([]);
   final RxList productConditionList = RxList(["New", "Used", "Like New", "Reconditions", "Refurbished"]);
+  final RxString selectedProductCondition = RxString('');
+  // final RxString selectedProductCondition = RxString('');
+  final RxList<bool> productConditionState = RxList<bool>([false, false, false, false, false]);
 }

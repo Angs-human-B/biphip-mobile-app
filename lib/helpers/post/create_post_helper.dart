@@ -227,6 +227,15 @@ class CreatePostHelper {
     }
   }
 
+  void selectProductConditionTextChange() {
+    for (int i = 0; i < createPostController.productConditionList.length; i++) {
+      if (createPostController.productConditionState[i]) {
+        createPostController.selectedProductCondition.value = createPostController.productConditionList[i];
+        break;
+      }
+    }
+  }
+
   void initializeBrandText() {
     for (int i = 0; i < createPostController.selectedBrandStatusList.length; i++) {
       if (createPostController.brandList[i]['name'] == createPostController.selectedBrandName.value) {
@@ -1064,7 +1073,8 @@ class CreatePostHelper {
     createPostController.sellingAllMediaList.addAll(mediaFile);
     createPostController.sellingAllMediaFileList.addAll(mediaFile);
   }
-    void removeSellingMedia(index) {
+
+  void removeSellingMedia(index) {
     createPostController.sellingAllMediaList.removeAt(index);
     createPostController.sellingAllMediaFileList.removeAt(index);
     // if (createPostController.allMediaFileList.isEmpty || createPostController.allMediaList.isEmpty) {
@@ -1087,6 +1097,17 @@ class CreatePostHelper {
       globalController.isBottomSheetRightButtonActive.value = false;
     } else {
       globalController.isBottomSheetRightButtonActive.value = true;
+    }
+  }
+
+  //*Selected Condition for selling post change
+  void selectConditionStatusChange(index) {
+    for (int i = 0; i < createPostController.productConditionState.length; i++) {
+      if (index == i) {
+        createPostController.productConditionState[i] = true;
+      } else {
+        createPostController.productConditionState[i] = false;
+      }
     }
   }
 }
