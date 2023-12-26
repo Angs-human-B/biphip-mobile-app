@@ -120,7 +120,7 @@ class CreatePost extends StatelessWidget {
                                                   width: width,
                                                   height: isDeviceScreenLarge() ? 148 : 124,
                                                   decoration: BoxDecoration(
-                                                    color: cPrimaryTint2Color,
+                                                    color: cPrimaryTint4Color,
                                                     borderRadius: BorderRadius.circular(k8BorderRadius),
                                                     border: Border.all(color: cPrimaryColor, width: 1),
                                                   ),
@@ -130,11 +130,11 @@ class CreatePost extends StatelessWidget {
                                                       Container(
                                                         width: 52,
                                                         height: 52,
-                                                        decoration: const BoxDecoration(color: cNeutralColor, shape: BoxShape.circle),
+                                                        decoration: const BoxDecoration(color: cPrimaryTint2Color, shape: BoxShape.circle),
                                                         child: const Icon(
                                                           BipHip.imageFile,
                                                           size: kIconSize28,
-                                                          color: cIconColor,
+                                                          color: cPrimaryColor,
                                                         ),
                                                       ),
                                                       Text(
@@ -275,7 +275,23 @@ class CreatePost extends StatelessWidget {
                                       TextAndIconRowSellingPost(
                                         text: ksCondition.tr,
                                         suffixIcon: BipHip.downArrow,
-                                        onPressed: null,
+                                        onPressed: () {
+                                          globalController.commonBottomSheet(
+                                              context: context,
+                                              content: Column(
+                                                children: [],
+                                              ),
+                                              onPressCloseButton: () {
+                                                Get.back();
+                                              },
+                                              onPressRightButton: () {
+                                                Get.back();
+                                              },
+                                              rightText: "Done",
+                                              rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                              title: ksCondition.tr,
+                                              isRightButtonShow: true);
+                                        },
                                       ),
                                       kH12sizedBox,
                                       CustomModifiedTextField(
