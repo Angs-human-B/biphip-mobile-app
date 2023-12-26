@@ -344,6 +344,7 @@ class CreatePostController extends GetxController {
     createPostController.clear();
     categoryID.value = -1;
     category.value = '';
+    subCategory.value = '';
     isPostButtonActive.value = false;
   }
 
@@ -476,10 +477,13 @@ class CreatePostController extends GetxController {
       }
     }
   }
+
   final RxBool isBrandAdded = RxBool(false);
-   final Rx<File> selectedBrandImageFile = File('').obs;
-   final RxBool isHideFriendFamilySwitch = RxBool(false);
-    final RxString sellingImageLink = RxString('');
-  final Rx<File> sellingImageFile = File('').obs;
+  final Rx<File> selectedBrandImageFile = File('').obs;
+  final RxBool isHideFriendFamilySwitch = RxBool(false);
+  final RxList<RxString> sellingImageLinkList = RxList<RxString>([]);
+  final RxList<Rx<File>> sellingImageFileList = RxList<Rx<File>>([]);
   final RxBool isSellingImageChanged = RxBool(false);
+  final RxList sellingAllMediaList = RxList([]);
+  final RxList<Rx<File>> sellingAllMediaFileList = RxList<Rx<File>>([]);
 }

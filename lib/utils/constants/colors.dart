@@ -6,6 +6,7 @@ const Color cPrimaryColor = Color(0xFF05AAFD);
 const Color cPrimaryTint1Color = Color(0xFF8DD9FF);
 const Color cPrimaryTint2Color = Color(0xFFD3F0FF);
 const Color cPrimaryTint3Color = Color(0xFFD3F0FF);
+const Color cPrimaryTint4Color = Color(0xFFF3FBFF);
 const Color cGradientColor1 = Color(0xFF00D4FE);
 const Color cGradientColor2 = Color(0xFF9A92FE);
 const Color cGradientColor3 = Color(0xFF574CE3);

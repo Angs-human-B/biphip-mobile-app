@@ -145,7 +145,6 @@ class AddBrandPage extends StatelessWidget {
                                       ),
                                     ],
                                   ));
-                           
                             },
                             buttonText: ksUploadImage.tr,
                             borderColor: cPrimaryColor,
