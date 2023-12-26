@@ -180,7 +180,7 @@ class CommonPostWidget extends StatelessWidget {
             child: RichText(
               text: TextSpan(children: [
                 TextSpan(
-                  text: '$productCategory ${ksCondition.tr}: ',
+                  text: '$productCategory ${ksCondition.tr.toLowerCase()}: ',
                   style: semiBold14TextStyle(cSmallBodyTextColor),
                 ),
                 TextSpan(
