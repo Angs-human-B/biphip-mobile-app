@@ -421,17 +421,19 @@ class CreatePost extends StatelessWidget {
                         child: const CustomDivider(),
                       ),
                     ),
-                    Positioned(
-                      bottom: 44,
-                      child: SizedBox(
-                        width: width,
-                        child: const CustomDivider(),
+                    if (createPostController.category.value != 'Selling')
+                      Positioned(
+                        bottom: 44,
+                        child: SizedBox(
+                          width: width,
+                          child: const CustomDivider(),
+                        ),
                       ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      child: CreatePostBottomSection(),
-                    )
+                    if (createPostController.category.value != 'Selling')
+                      Positioned(
+                        bottom: 0,
+                        child: CreatePostBottomSection(),
+                      )
                   ],
                 ),
               ),
