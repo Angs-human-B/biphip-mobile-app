@@ -6,6 +6,7 @@ import 'package:bip_hip/views/post/widgets/create_post_media_section.dart';
 import 'package:bip_hip/views/post/widgets/create_post_selling_text_fields.dart';
 import 'package:bip_hip/views/post/widgets/create_post_upper_section.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
+import 'package:flutter/cupertino.dart';
 
 class CreatePost extends StatelessWidget {
   CreatePost({super.key});
@@ -68,29 +69,215 @@ class CreatePost extends StatelessWidget {
                               children: [
                                 CreatePostUpperSection(),
                                 Obx(
-                                  () => CustomModifiedTextField(
-                                    controller: createPostController.createPostController,
-                                    maxLength: 1000,
-                                    maxLines: 100,
-                                    minLines: 1,
-                                    isFilled: false,
-                                    fillColor: cWhiteColor,
-                                    inputAction: TextInputAction.newline,
-                                    inputType: TextInputType.multiline,
-                                    hint: "${ksWhatsOnYourMind.tr}, ${Get.find<GlobalController>().userLastName.value.toString()}?",
-                                    contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k16Padding),
-                                    textHintStyle: regular20TextStyle(cPlaceHolderColor),
-                                    textInputStyle:
-                                        createPostController.isTextLimitCrossed.value ? regular16TextStyle(cBlackColor) : regular20TextStyle(cBlackColor),
-                                    onChanged: (v) {
-                                      createPostHelper.postButtonStateCheck();
-                                    },
-                                  ),
+                                  () => createPostController.category.value != 'Selling'
+                                      ? CustomModifiedTextField(
+                                          controller: createPostController.createPostController,
+                                          maxLength: 1000,
+                                          maxLines: 100,
+                                          minLines: 1,
+                                          isFilled: false,
+                                          fillColor: cWhiteColor,
+                                          inputAction: TextInputAction.newline,
+                                          inputType: TextInputType.multiline,
+                                          hint: "${ksWhatsOnYourMind.tr}, ${Get.find<GlobalController>().userLastName.value.toString()}?",
+                                          contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k16Padding),
+                                          textHintStyle: regular20TextStyle(cPlaceHolderColor),
+                                          textInputStyle:
+                                              createPostController.isTextLimitCrossed.value ? regular16TextStyle(cBlackColor) : regular20TextStyle(cBlackColor),
+                                          onChanged: (v) {
+                                            createPostHelper.postButtonStateCheck();
+                                          },
+                                        )
+                                      : Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: k16Padding),
+                                              child: Text(
+                                                ksPhotosAndVideosUploadLimit.tr,
+                                                style: regular12TextStyle(cSmallBodyTextColor),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: k16Padding),
+                                              child: Container(
+                                                width: width,
+                                                height: isDeviceScreenLarge() ? 148 : 124,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                                                  border: Border.all(color: cLineColor, width: 1),
+                                                ),
+                                                child: Column(
+                                                  children: [
+                                                    kH16sizedBox,
+                                                    Container(
+                                                      width: 52,
+                                                      height: 52,
+                                                      decoration: BoxDecoration(color: cNeutralColor, shape: BoxShape.circle),
+                                                      child: const Icon(
+                                                        BipHip.imageFile,
+                                                        size: kIconSize28,
+                                                        color: cIconColor,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ksAddPhotoAndVideo,
+                                                      style: semiBold16TextStyle(cBlackColor),
+                                                    ),
+                                                    kH4sizedBox,
+                                                    Text(
+                                                      ksOrDragAndDrop,
+                                                      style: regular12TextStyle(cPlaceHolderColor),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            kH16sizedBox,
+                                            Text(
+                                              ksRequiredFields.tr,
+                                              style: medium14TextStyle(cBlackColor),
+                                            ),
+                                            kH12sizedBox,
+                                            CustomModifiedTextField(
+                                              controller: TextEditingController(),
+                                              hint: ksTitle.tr,
+                                              onChanged: (text) {},
+                                              onSubmit: (text) {},
+                                              inputAction: TextInputAction.next,
+                                              inputType: TextInputType.number,
+                                              maxLength: 100,
+                                            ),
+                                            kH4sizedBox,
+                                            TextAndIconRowSellingPost(
+                                              text: ksCategory.tr,
+                                              icon: BipHip.downArrow,
+                                              onPressed: null,
+                                            ),
+                                            kH12sizedBox,
+                                            TextAndIconRowSellingPost(
+                                              text: ksCondition.tr,
+                                              icon: BipHip.downArrow,
+                                              onPressed: null,
+                                            ),
+                                            kH12sizedBox,
+                                            CustomModifiedTextField(
+                                              controller: TextEditingController(),
+                                              hint: ksPrice.tr,
+                                              onChanged: (text) {},
+                                              onSubmit: (text) {},
+                                              inputAction: TextInputAction.next,
+                                              inputType: TextInputType.number,
+                                              maxLength: 10,
+                                            ),
+                                            Text(
+                                              'The Price now is 40',
+                                              style: regular12TextStyle(cSmallBodyTextColor),
+                                            ),
+                                            kH12sizedBox,
+                                            CustomModifiedTextField(
+                                              controller: TextEditingController(),
+                                              hint: ksDiscountAmountOptional.tr,
+                                              onChanged: (text) {},
+                                              onSubmit: (text) {},
+                                              inputAction: TextInputAction.next,
+                                              inputType: TextInputType.number,
+                                              maxLength: 10,
+                                            ),
+                                            kH4sizedBox,
+                                            CustomModifiedTextField(
+                                              controller: TextEditingController(),
+                                              hint: ksDescription.tr,
+                                              onChanged: (text) {},
+                                              onSubmit: (text) {},
+                                              inputAction: TextInputAction.next,
+                                              maxLength: 512,
+                                              maxLines: 7,
+                                            ),
+                                            kH4sizedBox,
+                                            TextAndIconRowSellingPost(
+                                              text: ksAvailability.tr,
+                                              icon: BipHip.downArrow,
+                                              onPressed: null,
+                                            ),
+                                            kH12sizedBox,
+                                            CustomModifiedTextField(
+                                              controller: TextEditingController(),
+                                              hint: ksProductTag.tr,
+                                              onChanged: (text) {},
+                                              onSubmit: (text) {},
+                                              inputAction: TextInputAction.next,
+                                              maxLength: 10,
+                                            ),
+                                            Text(
+                                              'Optional Limit:20',
+                                              style: regular12TextStyle(cSmallBodyTextColor),
+                                            ),
+                                            kH12sizedBox,
+                                            CustomModifiedTextField(
+                                              controller: TextEditingController(),
+                                              hint: ksSKU.tr,
+                                              onChanged: (text) {},
+                                              onSubmit: (text) {},
+                                              inputAction: TextInputAction.next,
+                                              maxLength: 10,
+                                            ),
+                                            kH4sizedBox,
+                                            TextAndIconRowSellingPost(
+                                              text: ksLocation.tr,
+                                              icon: BipHip.downArrow,
+                                              onPressed: null,
+                                            ),
+                                            kH16sizedBox,
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const Icon(
+                                                  BipHip.lock,
+                                                  size: kIconSize20,
+                                                  color: cIconColor,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: k8Padding),
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: width - 140,
+                                                        child: Text(
+                                                          ksHideFromFriendAndFamily.tr,
+                                                          style: semiBold16TextStyle(cBlackColor),
+                                                        ),
+                                                      ),
+                                                      kH8sizedBox,
+                                                      SizedBox(
+                                                        width: width - 140,
+                                                        child: Text(
+                                                          ksSellingPostHideContentFromFriendAndDFamily.tr,
+                                                          style: regular12TextStyle(cSmallBodyTextColor),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Transform.scale(
+                                                  scale: 0.75,
+                                                  alignment: Alignment.topRight,
+                                                  child: CupertinoSwitch(
+                                                    value: createPostController.isHideFriendFamilySwitch.value,
+                                                    activeColor: cGreenColor,
+                                                    onChanged: (value) {
+                                                      createPostController.isHideFriendFamilySwitch.value = value;
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                 ),
-                                if (createPostController.allMediaList.isNotEmpty)
-                                  CreatePostMediaSection(),
-                                if (createPostController.category.value == "Selling" || createPostController.category.value == "News")
-                                  SellingNewsTextfield(),
+                                if (createPostController.allMediaList.isNotEmpty) CreatePostMediaSection(),
+                                if (createPostController.category.value == "News") SellingNewsTextfield(),
                                 kH50sizedBox,
                               ],
                             ),
@@ -133,6 +320,44 @@ class CreatePost extends StatelessWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+class TextAndIconRowSellingPost extends StatelessWidget {
+  const TextAndIconRowSellingPost({super.key, required this.text, this.icon, this.onPressed});
+  final String text;
+  final IconData? icon;
+  final VoidCallback? onPressed;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        width: width,
+        height: isDeviceScreenLarge() ? 50 : 48,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(k8BorderRadius),
+          color: cGreyBoxColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: k16Padding),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                text,
+                style: regular16TextStyle(cPlaceHolderColor),
+              ),
+              Icon(
+                icon!,
+                size: kIconSize20,
+                color: cPlaceHolderColor,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

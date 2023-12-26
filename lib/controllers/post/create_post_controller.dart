@@ -475,5 +475,5 @@ class CreatePostController extends GetxController {
   }
   final RxBool isBrandAdded = RxBool(false);
    final Rx<File> selectedBrandImageFile = File('').obs;
-  // final RxString selectedBrandName = RxString('');
+   final RxBool isHideFriendFamilySwitch = RxBool(false);
 }
