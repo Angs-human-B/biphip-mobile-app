@@ -275,7 +275,23 @@ class CreatePost extends StatelessWidget {
                                       TextAndIconRowSellingPost(
                                         text: ksCondition.tr,
                                         suffixIcon: BipHip.downArrow,
-                                        onPressed: null,
+                                        onPressed: () {
+                                          globalController.commonBottomSheet(
+                                              context: context,
+                                              content: Column(
+                                                children: [],
+                                              ),
+                                              onPressCloseButton: () {
+                                                Get.back();
+                                              },
+                                              onPressRightButton: () {
+                                                Get.back();
+                                              },
+                                              rightText: "Done",
+                                              rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                              title: ksCondition.tr,
+                                              isRightButtonShow: true);
+                                        },
                                       ),
                                       kH12sizedBox,
                                       CustomModifiedTextField(
