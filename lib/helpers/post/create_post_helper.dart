@@ -1059,6 +1059,18 @@ class CreatePostHelper {
     createPostController.allMediaList.addAll(mediaFile);
     createPostController.allMediaFileList.addAll(mediaFile);
   }
+
+  void insertSellingMedia(mediaLink, mediaFile) {
+    createPostController.sellingAllMediaList.addAll(mediaFile);
+    createPostController.sellingAllMediaFileList.addAll(mediaFile);
+  }
+    void removeSellingMedia(index) {
+    createPostController.sellingAllMediaList.removeAt(index);
+    createPostController.sellingAllMediaFileList.removeAt(index);
+    // if (createPostController.allMediaFileList.isEmpty || createPostController.allMediaList.isEmpty) {
+    //   Get.back();
+    // }
+  }
   //------------------------------
   //! important:: create post bottom option functions end
   //------------------------------

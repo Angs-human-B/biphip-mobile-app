@@ -102,90 +102,153 @@ class CreatePost extends StatelessWidget {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: k16Padding),
-                                        child: InkWell(
-                                          onTap: () {
-                                            globalController.commonBottomSheet(
-                                                context: context,
-                                                onPressCloseButton: () {
-                                                  Get.back();
+                                        child: createPostController.sellingAllMediaFileList.isEmpty
+                                            ? InkWell(
+                                                onTap: () async {
+                                                  var status = await globalController.selectMultiMediaSource(createPostController.isSellingImageChanged,
+                                                      createPostController.sellingImageLinkList, createPostController.sellingImageFileList);
+                                                  if (status) {
+                                                    ll("media list length : ${createPostController.sellingImageLinkList.length}");
+                                                    createPostHelper.insertSellingMedia(
+                                                        createPostController.sellingImageLinkList, createPostController.sellingImageFileList);
+                                                    createPostController.isMediaChanged.value = false;
+                                                    createPostController.sellingImageLinkList.clear();
+                                                    createPostController.sellingImageFileList.clear();
+                                                  }
                                                 },
-                                                onPressRightButton: () {},
-                                                rightText: '',
-                                                rightTextStyle: regular14TextStyle(cBiddingColor),
-                                                title: ksUploadPhoto.tr,
-                                                isRightButtonShow: false,
-                                                isScrollControlled: false,
-                                                bottomSheetHeight: 180,
-                                                content: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    CustomElevatedButton(
-                                                      label: ksAddPhoto.tr,
-                                                      prefixIcon: BipHip.camera,
-                                                      prefixIconColor: cIconColor,
-                                                      suffixIconColor: cIconColor,
-                                                      onPressed: () async {
-                                                        await globalController.selectImageSource(createPostController.isSellingImageChanged,
-                                                            createPostController.sellingImageLink, createPostController.sellingImageFile, 'camera', true);
-                                                      },
-                                                      buttonHeight: h32,
-                                                      buttonWidth: width - 40,
-                                                      buttonColor: cWhiteColor,
-                                                      borderColor: cLineColor,
-                                                      textStyle: semiBold14TextStyle(cBlackColor),
-                                                    ),
-                                                    kH16sizedBox,
-                                                    CustomElevatedButton(
-                                                      label: ksChooseFromGallery.tr,
-                                                      prefixIcon: BipHip.photo,
-                                                      prefixIconColor: cIconColor,
-                                                      suffixIconColor: cIconColor,
-                                                      onPressed: () async {
-                                                        await globalController.selectImageSource(createPostController.isSellingImageChanged,
-                                                            createPostController.sellingImageLink, createPostController.sellingImageFile, 'gallery', true);
-                                                      },
-                                                      buttonHeight: h32,
-                                                      buttonWidth: width - 40,
-                                                      buttonColor: cWhiteColor,
-                                                      borderColor: cLineColor,
-                                                      textStyle: semiBold14TextStyle(cBlackColor),
-                                                    ),
-                                                  ],
-                                                ));
-                                          },
-                                          child: Container(
-                                            width: width,
-                                            height: isDeviceScreenLarge() ? 148 : 124,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(k8BorderRadius),
-                                              border: Border.all(color: cLineColor, width: 1),
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                kH16sizedBox,
-                                                Container(
-                                                  width: 52,
-                                                  height: 52,
-                                                  decoration: const BoxDecoration(color: cNeutralColor, shape: BoxShape.circle),
-                                                  child: const Icon(
-                                                    BipHip.imageFile,
-                                                    size: kIconSize28,
-                                                    color: cIconColor,
+                                                child: Container(
+                                                  width: width,
+                                                  height: isDeviceScreenLarge() ? 148 : 124,
+                                                  decoration: BoxDecoration(
+                                                    color: cPrimaryTint2Color,
+                                                    borderRadius: BorderRadius.circular(k8BorderRadius),
+                                                    border: Border.all(color: cPrimaryColor, width: 1),
+                                                  ),
+                                                  child: Column(
+                                                    children: [
+                                                      kH16sizedBox,
+                                                      Container(
+                                                        width: 52,
+                                                        height: 52,
+                                                        decoration: const BoxDecoration(color: cNeutralColor, shape: BoxShape.circle),
+                                                        child: const Icon(
+                                                          BipHip.imageFile,
+                                                          size: kIconSize28,
+                                                          color: cIconColor,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        ksAddPhotoAndVideo,
+                                                        style: semiBold16TextStyle(cBlackColor),
+                                                      ),
+                                                      kH4sizedBox,
+                                                      Text(
+                                                        ksTapToUpload.tr,
+                                                        style: regular12TextStyle(cPlaceHolderColor),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                                Text(
-                                                  ksAddPhotoAndVideo,
-                                                  style: semiBold16TextStyle(cBlackColor),
+                                              )
+                                            : GridView.builder(
+                                                shrinkWrap: true,
+                                                padding: EdgeInsets.zero,
+                                                physics: const NeverScrollableScrollPhysics(),
+                                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 3,
+                                                  mainAxisSpacing: 12,
+                                                  crossAxisSpacing: 12,
+                                                  childAspectRatio: 0.83,
                                                 ),
-                                                kH4sizedBox,
-                                                Text(
-                                                  ksOrDragAndDrop,
-                                                  style: regular12TextStyle(cPlaceHolderColor),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
+                                                itemCount: createPostController.sellingAllMediaFileList.length + 1,
+                                                itemBuilder: (context, index) {
+                                                  return Stack(
+                                                    children: [
+                                                      if (createPostController.sellingAllMediaFileList.length != index)
+                                                        ClipRRect(
+                                                            borderRadius: const BorderRadius.all(Radius.circular(k8BorderRadius)),
+                                                            child: Image.file(
+                                                              createPostController.sellingAllMediaFileList[index].value,
+                                                              width: (width - 40) / 3,
+                                                              fit: BoxFit.cover,
+                                                            )),
+
+                                                      //     //*Add Photo container
+                                                      // if (createPostController.sellingAllMediaFileList.length>)
+                                                      // if (createPostController.seelingImageLength.value > createPostController.sellingAllMediaFileList.length)
+                                                      if (index + 1 > createPostController.sellingAllMediaFileList.length)
+                                                        InkWell(
+                                                          onTap: () async {
+                                                            var status = await globalController.selectMultiMediaSource(
+                                                                createPostController.isSellingImageChanged,
+                                                                createPostController.sellingImageLinkList,
+                                                                createPostController.sellingImageFileList);
+                                                            if (status) {
+                                                              ll("media list length : ${createPostController.sellingImageLinkList.length}");
+                                                              createPostHelper.insertSellingMedia(
+                                                                  createPostController.sellingImageLinkList, createPostController.sellingImageFileList);
+                                                              createPostController.isMediaChanged.value = false;
+                                                              createPostController.sellingImageLinkList.clear();
+                                                              createPostController.sellingImageFileList.clear();
+                                                            }
+                                                          },
+                                                          child: Container(
+                                                            // height: isDeviceScreenLarge() ? 148 : 124,
+                                                            width: (width - 40) / 3,
+                                                            decoration: BoxDecoration(
+                                                              color: cPrimaryTint4Color,
+                                                              borderRadius: BorderRadius.circular(k8BorderRadius),
+                                                              border: Border.all(color: cPrimaryColor, width: 1),
+                                                            ),
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                Container(
+                                                                  width: 52,
+                                                                  height: 52,
+                                                                  decoration: const BoxDecoration(
+                                                                    shape: BoxShape.circle,
+                                                                    color: cPrimaryTint2Color,
+                                                                  ),
+                                                                  child: const Icon(
+                                                                    BipHip.imageFile,
+                                                                    size: kIconSize28,
+                                                                    color: cPrimaryColor,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  ksAdd.tr,
+                                                                  style: semiBold16TextStyle(cBlackColor),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+
+                                                      if (createPostController.sellingAllMediaFileList.length != index)
+                                                        Positioned(
+                                                            top: 8,
+                                                            right: 8,
+                                                            child: Container(
+                                                              width: h20,
+                                                              height: h20,
+                                                              decoration: const BoxDecoration(
+                                                                color: cRedColor,
+                                                                shape: BoxShape.circle,
+                                                              ),
+                                                              child: Center(
+                                                                  child: CustomIconButton(
+                                                                onPress: () {
+                                                                  createPostHelper.removeSellingMedia(index);
+                                                                },
+                                                                icon: BipHip.cross,
+                                                                iconColor: cWhiteColor,
+                                                                size: kIconSize14,
+                                                              )),
+                                                            )),
+                                                    ],
+                                                  );
+                                                }),
                                       ),
                                       kH16sizedBox,
                                       Text(
@@ -340,75 +403,6 @@ class CreatePost extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      kH12sizedBox,
-                                      GridView.builder(
-                                          shrinkWrap: true,
-                                          physics: const NeverScrollableScrollPhysics(),
-                                          gridDelegate:
-                                              const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: h12, mainAxisSpacing: h12),
-                                          itemCount: 7,
-                                          itemBuilder: (context, index) {
-                                            return Stack(
-                                              children: [
-                                                ClipRRect(
-                                                    borderRadius: const BorderRadius.all(Radius.circular(k8BorderRadius)),
-                                                    child: Image.asset(
-                                                      kiDummyImage1ImageUrl,
-                                                      height: isDeviceScreenLarge() ? 148 : 124,
-                                                    )),
-                                                //*Add Photo container
-                                                // Container(
-                                                //   height: isDeviceScreenLarge() ? 148 : 124,
-                                                //   decoration: BoxDecoration(
-                                                //     color: cWhiteColor,
-                                                //     borderRadius: BorderRadius.circular(k8BorderRadius),
-                                                //     border: Border.all(color: cLineColor2, width: 1),
-                                                //   ),
-                                                //   child: Column(
-                                                //     mainAxisAlignment: MainAxisAlignment.center,
-                                                //     children: [
-                                                //       Container(
-                                                //         width: 52,
-                                                //         height: 52,
-                                                //         decoration: const BoxDecoration(
-                                                //           shape: BoxShape.circle,
-                                                //           color: cNeutralColor,
-                                                //         ),
-                                                //         child: const Icon(
-                                                //           BipHip.imageFile,
-                                                //           size: kIconSize28,
-                                                //           color: cIconColor,
-                                                //         ),
-                                                //       ),
-                                                //       Text(
-                                                //         ksAdd.tr,
-                                                //         style: semiBold16TextStyle(cBlackColor),
-                                                //       ),
-                                                //     ],
-                                                //   ),
-                                                // ),
-
-                                                Positioned(
-                                                    top: 8,
-                                                    right: 8,
-                                                    child: Container(
-                                                      width: h20,
-                                                      height: h20,
-                                                      decoration: const BoxDecoration(
-                                                        color: cRedColor,
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      child: const Center(
-                                                        child: Icon(
-                                                          BipHip.cross,
-                                                          color: cWhiteColor,
-                                                          size: kIconSize14,
-                                                        ),
-                                                      ),
-                                                    )),
-                                              ],
-                                            );
-                                          }),
                                     ],
                                   ),
                                 if (createPostController.allMediaList.isNotEmpty) CreatePostMediaSection(),
