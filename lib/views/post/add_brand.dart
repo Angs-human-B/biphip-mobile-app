@@ -41,7 +41,11 @@ class AddBrandPage extends StatelessWidget {
                           onPressed: createPostController.isSaveBrandButtonEnabled.value
                               ? () async {
                                   createPostController.createLinkList();
-                                  await createPostController.addBrand();
+                                  // await createPostController.addBrand();//!Api call
+                                  createPostController.isBrandAdded.value = true;
+                                  createPostController.selectedBrandName.value = createPostController.brandNameTextEditingController.text;
+                                  createPostController.selectedBrandImageFile.value = createPostController.brandImageFile.value;
+                                  Get.back();
                                   createHelper.resetAddBrandPage();
                                 }
                               : null,
@@ -169,20 +173,62 @@ class AddBrandPage extends StatelessWidget {
                                 inputAction: TextInputAction.next,
                                 inputType: TextInputType.text,
                               ),
+                              CustomModifiedTextField(
+                                controller: createPostController.businessTypeTextEditingController,
+                                hint: ksSelectBusinessType.tr,
+                                onChanged: (text) {
+                                  createPostController.checkCanSaveBrand();
+                                },
+                                onSubmit: (text) {},
+                                inputAction: TextInputAction.next,
+                                inputType: TextInputType.text,
+                              ),
                               Text(
                                 ksAddSocialLinks.tr,
                                 style: medium14TextStyle(cBlackColor),
                               ),
                               kH8sizedBox,
-                              AddLinkTextFields(textEditingController: createPostController.brandWebLinkTextEditingController, iconImage: kiWebSvgImageUrl,),
+                              // AddLinkTextFields(
+                              //   textEditingController: createPostController.brandWebLinkTextEditingController,
+                              //   iconImage: kiWebSvgImageUrl,
+                              // ),
+                              AddLinkTextFields(
+                                textEditingController: createPostController.brandWebLinkTextEditingController,
+                                iconImage: kiWebSvgImageUrl,
+                                hintText: 'Enter a valid url',
+                              ),
                               kH8sizedBox,
-                              AddLinkTextFields(textEditingController: createPostController.brandFacebookLinkTextEditingController, iconImage: kiFacebookSvgImageUrl,),
+                              AddLinkTextFields(
+                                textEditingController: createPostController.brandFacebookLinkTextEditingController,
+                                iconImage: kiFacebookSvgImageUrl,
+                                hintText: 'facebook.com/',
+                              ),
                               kH8sizedBox,
-                              AddLinkTextFields(textEditingController: createPostController.brandLinkedInLinkTextEditingController, iconImage: kiLinkedInSvgImageUrl,),
+                              AddLinkTextFields(
+                                textEditingController: createPostController.brandInstagramTextEditingController,
+                                iconImage: kiInstagramSvgUrl,
+                                // iconImage: kiFacebookImageUrl,
+                                hintText: 'instagram.com/',
+                              ),
                               kH8sizedBox,
-                              AddLinkTextFields(textEditingController: createPostController.brandTwitterTextEditingController, iconImage: kiTwitterSvgImageUrl,),
+                              AddLinkTextFields(
+                                textEditingController: createPostController.brandLinkedInLinkTextEditingController,
+                                iconImage: kiLinkedInSvgImageUrl,
+                                hintText: 'linkedin.com/',
+                              ),
                               kH8sizedBox,
-                              AddLinkTextFields(textEditingController: createPostController.brandYoutubeLinkTextEditingController, iconImage: kiYoutubeSvgImageUrl,),
+                              AddLinkTextFields(
+                                textEditingController: createPostController.brandTwitterTextEditingController,
+                                iconImage: kiTwitterX2SvgUrl,
+                                // iconImage: kiFacebookImageUrl,
+                                hintText: 'twitter.com/',
+                              ),
+                              kH8sizedBox,
+                              AddLinkTextFields(
+                                textEditingController: createPostController.brandYoutubeLinkTextEditingController,
+                                iconImage: kiYoutubeSvgImageUrl,
+                                hintText: 'youtube.com/',
+                              ),
                               isDeviceScreenLarge() ? kH40sizedBox : kH30sizedBox,
                             ],
                           ),
@@ -212,32 +258,75 @@ class AddBrandPage extends StatelessWidget {
 }
 
 class AddLinkTextFields extends StatelessWidget {
-  const AddLinkTextFields({super.key, required this.textEditingController, required this.iconImage});
+  const AddLinkTextFields({super.key, required this.textEditingController, required this.iconImage, this.hintText});
   final TextEditingController textEditingController;
   final String iconImage;
+  final String? hintText;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 6.0),
-          child: SvgPicture.asset(
-            iconImage,
-            fit: BoxFit.fill,
-            height: 36,
-            width: 36,
+        ClipRRect(
+          // borderRadius: BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), bottomLeft: Radius.circular(k8BorderRadius)),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: k8Padding),
+            child: Container(
+              // clipBehavior: Clip.hardEdge,
+              height: isDeviceScreenLarge() ? 51 : 48,
+              width: isDeviceScreenLarge() ? 51 : 48,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), bottomLeft: Radius.circular(k8BorderRadius)),
+                color: cGreyBoxColor,
+                border: Border.all(color: cLineColor2, width: 1),
+                // border: Border(
+                //   left: BorderSide(color: cLineColor2, width: 1),
+                //   bottom: BorderSide(color: cLineColor2, width: 1),
+                //   top: BorderSide(color: cLineColor2, width: 1),
+                //   right: BorderSide(color: cWhiteColor, width: 0),
+                // ),
+                // gradient: LinearGradient(
+                //   stops: [0.02, 0.02],
+                //   colors: [cLineColor2, cGreyBoxColor],
+                // ),
+                // boxShadow: [
+                //   BoxShadow(color: cLineColor2, spreadRadius: 1),
+                // ]
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(k8Padding),
+                child: SvgPicture.asset(
+                  iconImage,
+                  fit: BoxFit.fill,
+                  height: h28,
+                  width: h28,
+                ),
+              ),
+            ),
           ),
         ),
-        kW8sizedBox,
+        // kW8sizedBox,
+        // kH4sizedBox,
         Expanded(
           child: CustomModifiedTextField(
             controller: textEditingController,
-            hint: "${ksWriteHere.tr}...",
+            border: const OutlineInputBorder(
+              borderSide: BorderSide(
+                color: cLineColor2,
+              ),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(0),
+                topRight: Radius.circular(k8BorderRadius),
+                bottomLeft: Radius.circular(0),
+                bottomRight: Radius.circular(k8BorderRadius),
+              ),
+            ),
+            hint: hintText,
             onChanged: (text) {
               Get.find<CreatePostController>().checkCanSaveBrand();
             },
+            fillColor: cWhiteColor,
             onSubmit: (text) {},
             inputAction: TextInputAction.next,
             inputType: TextInputType.text,
@@ -247,3 +336,27 @@ class AddLinkTextFields extends StatelessWidget {
     );
   }
 }
+
+// class OutlineAddLinkTextField extends StatelessWidget {
+//   const OutlineAddLinkTextField({super.key, required this.outlinedButtonText, required this.textEditingController});
+//   final String outlinedButtonText;
+//   final TextEditingController textEditingController;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: width - 40,
+//       height: 40,
+//       color: cRedColor,
+//       child: Row(
+//         children: [
+//           Text(outlinedButtonText),
+//           CustomModifiedTextField(
+//             controller: textEditingController,
+//             hint: '',
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

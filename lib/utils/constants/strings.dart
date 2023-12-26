@@ -390,5 +390,17 @@ const String ksYouCanUseItAnywhere = "And can use it to anywhere you want.";
 const String ksSelectSubCategory = "Select Sub Category";
 const String ksSelectPostType = "Select post type";
 const String ksRegularPost = "Regular Post";
-
-// const String ksSelectPlatform="";
+const String ksSelectBusinessType = "Select business type";
+const String ksWriteStoreName = "Write store name";
+const String ksPhotosAndVideosUploadLimit = "Photos & videos - 0/10 - You can add up to 10 photos & videos. Each video size limit is 5MB.";
+const String ksAddPhotoAndVideo = "Add Photos & Videos";
+const String ksOrDragAndDrop = "Or Drag and Drop";
+const String ksCategory = "Category";
+const String ksDiscountAmountOptional = "Discount amount (optional)";
+const String ksAvailability = "Availability";
+const String ksProductTag = "Product Tag";
+const String ksSKU = "SKU";
+const String ksLocation = "Location";
+const String ksHideFromFriendAndFamily = "Hide from your friend and family";
+const String ksSellingPostHideContentFromFriendAndDFamily =
+    "Marketplace items are public and can be seen by anyone on or off Facebook. Items like animals, drugs, weapons, counterfeits, and other items that infringe intellectual property aren't allowed on Marketplace.";

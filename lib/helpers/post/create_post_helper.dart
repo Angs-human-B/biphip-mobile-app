@@ -1,9 +1,12 @@
 import 'dart:io';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/auth/onboarding/picture_upload_screen.dart';
+import 'package:bip_hip/views/post/add_brand.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/select_category.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
+import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CreatePostHelper {
@@ -251,6 +254,7 @@ class CreatePostHelper {
     createPostController.brandTwitterTextEditingController.clear();
     createPostController.brandLinkedInLinkTextEditingController.clear();
     createPostController.brandYoutubeLinkTextEditingController.clear();
+    createPostController.businessTypeTextEditingController.clear();
   }
 
   void removeMedia(index) {
@@ -558,292 +562,301 @@ class CreatePostHelper {
         title: ksKids.tr,
         isRightButtonShow: true,
       );
-    } else if (createPostController.category.value == "Selling Post") {
+    }
+    //*For Selling type post
+    else if (createPostController.category.value == "Selling") {
+      createPostController.sellingPostType.value = '';
+      createPostController.isRegularPostButtonClicked.value = false;
+      createPostController.isBiddingPostButtonClicked.value = false;
+      globalController.isBottomSheetRightButtonActive.value = false;
       globalController.commonBottomSheet(
         context: context,
+        bottomSheetHeight: isDeviceScreenLarge() ? height * .25 : height * 0.35,
         content: Column(
           children: [
-            kH8sizedBox,
-            OutLinedButton(
-              onPress: () {
-                globalController.commonBottomSheet(
-                  isScrollControlled: true,
-                  bottomSheetHeight: height * .4,
-                  context: context,
-                  content: Column(
-                    children: [
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        separatorBuilder: (context, index) => kH8sizedBox,
-                        itemCount: createPostController.brandList.length,
-                        itemBuilder: (context, i) {
-                          return Obx(
-                            () => CustomListTile(
-                              onPressed: () {
-                                selectBrandStatusChange(i);
-                              },
-                              itemColor: createPostController.selectedBrandStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
-                              borderColor: createPostController.selectedBrandStatusList[i] ? cPrimaryColor : cLineColor,
-                              title: createPostController.brandList[i]['name'],
-                              leading: CircleAvatar(
-                                radius: 12,
-                                backgroundImage: AssetImage(createPostController.brandList[i]['image_url']),
-                              ),
-                              trailing: CustomRadioButton(
-                                onChanged: () {
-                                  selectBrandStatusChange(i);
-                                },
-                                isSelected: createPostController.selectedBrandStatusList[i],
-                              ),
+            Obx(() => OutLinedButton(
+                  onPress: () {
+                    createPostController.isRegularPostButtonClicked.value = true;
+                    createPostController.isBiddingPostButtonClicked.value = false;
+                    createPostController.sellingPostType.value = ksRegularPost.tr;
+                    globalController.isBottomSheetRightButtonActive.value = true;
+                  },
+                  suffixWidget: Padding(
+                    padding: const EdgeInsets.only(right: k8Padding),
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            borderRadius: k100CircularBorderRadius,
+                            gradient: const LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.topLeft,
+                              colors: [
+                                cBlueLinearColor1,
+                                cBlueLinearColor2,
+                              ],
                             ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  onPressCloseButton: () {
-                    Get.back();
-                  },
-                  onPressRightButton: () {
-                    Get.back();
-                  },
-                  rightText: ksDone.tr,
-                  rightTextStyle: medium14TextStyle(cPrimaryColor),
-                  title: ksSelectBrands.tr,
-                  isRightButtonShow: true,
-                );
-              },
-              buttonText: ksSelectSavedBrands.tr,
-              buttonTextStyle: medium16TextStyle(cBlackColor),
-              borderColor: cLineColor,
-              widget: Icon(
-                BipHip.downArrowOutline,
-                color: cBlackColor,
-                size: isDeviceScreenLarge() ? h20 : h16,
-              ),
-            ),
-            // kH12sizedBox,
-            // OutLinedButton(
-            //   onPress: () {},
-            //   buttonText: "Maria Jones",
-            //   buttonTextStyle: medium16TextStyle(cBlackColor),
-            //   borderColor: cPrimaryColor,
-            //   buttonColor: cPrimaryTint3Color,
-            //   widget: Icon(
-            //     BipHip.circleCrossNew,
-            //     color: cRedColor,
-            //     size: isDeviceScreenLarge() ? h20 : h18,
-            //   ),
-            //   backgroundImage: const NetworkImage("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"),
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // ),
-            kH12sizedBox,
-            OutLinedButton(
-              onPress: () {
-                // Get.to(() => AddBrandPage());
-              },
-              // widget: Stack(
-              //   children: [
-              //     // Container(
-              //     //   width: 30,
-              //     //   height: 30,
-              //     //   decoration: BoxDecoration(
-              //     //     borderRadius: k100CircularBorderRadius,
-              //     //     gradient: const LinearGradient(
-              //     //       begin: Alignment.topRight,
-              //     //       end: Alignment.topLeft,
-              //     //       colors: [
-              //     //         Color(0XFF59FCCB),
-              //     //         Color(0XFF158BF9),
-              //     //       ],
-              //     //     ),
-              //     //   ),
-              //     //   child: SvgPicture.asset(
-              //     //     kiRegularPostSvgUrl,
-              //     //     width: 16,
-              //     //     height: 16,
-              //     //   ),
-              //     // ),
-
-              //   ],
-              // ),
-              widget: Stack(
-                children: <Widget>[
-                  Container(
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      borderRadius: k100CircularBorderRadius,
-                      gradient: const LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          Color(0XFF59FCCB),
-                          Color(0XFF158BF9),
-                        ],
-                      ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          top: 7,
+                          bottom: 7,
+                          child: SvgPicture.asset(
+                            kiRegularPostSvgUrl,
+                            width: 16,
+                            height: 16,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    top: 7,
-                    bottom: 7,
-                    child: SvgPicture.asset(
-                      kiRegularPostSvgUrl,
-                      width: 16,
-                      height: 16,
+                  buttonText: ksRegularPost.tr,
+                  buttonTextStyle: medium16TextStyle(cBlackColor),
+                  borderColor: createPostController.isRegularPostButtonClicked.value ? cPrimaryColor : cLineColor,
+                  buttonColor: createPostController.isRegularPostButtonClicked.value ? cPrimaryTint2Color : cWhiteColor,
+                )),
+            kH16sizedBox,
+            Obx(() => OutLinedButton(
+                  onPress: () {
+                    createPostController.isRegularPostButtonClicked.value = false;
+                    createPostController.isBiddingPostButtonClicked.value = true;
+                    createPostController.sellingPostType.value = ksBiddingPost.tr;
+                    globalController.isBottomSheetRightButtonActive.value = true;
+                  },
+                  suffixWidget: Padding(
+                    padding: const EdgeInsets.only(right: k8Padding),
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            borderRadius: k100CircularBorderRadius,
+                            gradient: const LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.topLeft,
+                              colors: [
+                                cYellowLinearColor1,
+                                cYellowLinearColor2,
+                              ],
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          top: 7,
+                          bottom: 7,
+                          child: SvgPicture.asset(
+                            kiBiddingPostSvgUrl,
+                            width: 16,
+                            height: 16,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-              buttonText: ksRegularPost.tr,
-              buttonTextStyle: medium16TextStyle(cBlackColor),
-              borderColor: cLineColor,
-
-              // widget: Icon(
-              //   BipHip.plus,
-              //   color: cPrimaryColor,
-              //   size: isDeviceScreenLarge() ? h20 : h16,
-              // ),
-            ),
-
-            kH8sizedBox,
-            Text(
-              "*${ksAddBrandInstruction.tr}",
-              style: regular14TextStyle(cSmallBodyTextColor),
-            ),
+                  buttonText: ksBiddingPost.tr,
+                  buttonTextStyle: medium16TextStyle(cBlackColor),
+                  borderColor: createPostController.isBiddingPostButtonClicked.value ? cPrimaryColor : cLineColor,
+                  buttonColor: createPostController.isBiddingPostButtonClicked.value ? cPrimaryTint2Color : cWhiteColor,
+                )),
           ],
         ),
         onPressCloseButton: () {
           Get.back();
         },
         onPressRightButton: () {
-          Get.back();
+          createPostController.sellingPostType.value;
+          globalController.commonBottomSheet(
+            context: context,
+            bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
+            content: Obx(() => Column(
+                  children: [
+                    kH8sizedBox,
+                    if (createPostController.selectedBrandName.value != '')
+                      Container(
+                        width: width - 40,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          borderRadius: k4CircularBorderRadius,
+                          color: cPrimaryTint2Color,
+                          border: Border.all(
+                            color: cPrimaryColor,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(k8Padding),
+                              child: createPostController.isBrandAdded.value
+                                  ? ClipOval(
+                                      child: Container(
+                                          width: h24,
+                                          height: h24,
+                                          decoration: const BoxDecoration(shape: BoxShape.circle),
+                                          child: Image.file(createPostController.selectedBrandImageFile.value)))
+                                  : CircleAvatar(
+                                      radius: 12,
+                                      backgroundImage: AssetImage(createPostController.selectedBrandImage.value.toString()),
+                                    ),
+                            ),
+                            Text(
+                              createPostController.selectedBrandName.value.toString(),
+                              style: semiBold14TextStyle(cBlackColor),
+                            ),
+                            const Spacer(),
+                            CustomIconButton(
+                              onPress: () {
+                                createPostController.selectedBrandName.value = '';
+                                createPostController.selectedBrandImage.value = '';
+                                createPostController.isBrandAdded.value = false;
+                                createPostController.selectedBrandStatusList.value = [false, false, false, false, false, false, false, false, false];
+                              },
+                              icon: BipHip.cross,
+                              iconColor: cRedColor,
+                              size: kIconSize20,
+                            ),
+                          ],
+                        ),
+                      ),
+                    // OutLinedButton(
+                    //   buttonText: createPostController.selectedBrandName.value.toString(),
+                    //   buttonTextStyle: semiBold14TextStyle(cBlackColor),
+                    //   suffixWidget: CircleAvatar(
+                    //     radius: 12,
+                    //     backgroundImage: AssetImage(createPostController.selectedBrandImage.toString()),
+                    //   ),
+                    //   widget: const Icon(
+                    //     BipHip.cross,
+                    //     color: cRedColor,
+                    //   ),
+                    //   onPress: () {},
+                    //   borderColor: cLineColor2,
+                    // ),
+                    if (createPostController.selectedBrandName.value == '')
+                      OutLinedButton(
+                        onPress: () {
+                          globalController.commonBottomSheet(
+                            isScrollControlled: true,
+                            bottomSheetHeight: height * 0.7,
+                            context: context,
+                            content: Column(
+                              children: [
+                                ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  separatorBuilder: (context, index) => kH8sizedBox,
+                                  itemCount: createPostController.brandList.length,
+                                  itemBuilder: (context, i) {
+                                    return Obx(
+                                      () => CustomListTile(
+                                        onPressed: () {
+                                          selectBrandStatusChange(i);
+                                        },
+                                        itemColor: createPostController.selectedBrandStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
+                                        borderColor: createPostController.selectedBrandStatusList[i] ? cPrimaryColor : cLineColor,
+                                        title: createPostController.brandList[i]['name'],
+                                        leading: CircleAvatar(
+                                          radius: 12,
+                                          backgroundImage: AssetImage(createPostController.brandList[i]['image_url']),
+                                        ),
+                                        trailing: CustomRadioButton(
+                                          onChanged: () {
+                                            selectBrandStatusChange(i);
+                                          },
+                                          isSelected: createPostController.selectedBrandStatusList[i],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                            onPressCloseButton: () {
+                              Get.back();
+                            },
+                            onPressRightButton: () {
+                              selectBrandTextChange();
+                              ll(createPostController.selectedBrandName.value);
+                              // ll(createPostController.selectedBrandImage.value);
+                              Get.back();
+                            },
+                            rightText: ksDone.tr,
+                            rightTextStyle: medium14TextStyle(cPrimaryColor),
+                            title: ksSelectBrands.tr,
+                            isRightButtonShow: true,
+                          );
+                        },
+                        buttonText: ksSelectSavedBrands.tr,
+                        buttonTextStyle: medium16TextStyle(cBlackColor),
+                        borderColor: cLineColor,
+                        widget: Icon(
+                          BipHip.downArrowOutline,
+                          color: cBlackColor,
+                          size: isDeviceScreenLarge() ? h20 : h16,
+                        ),
+                      ),
+                    kH12sizedBox,
+                    Text(
+                      ksOr.tr,
+                      style: regular16TextStyle(cPlaceHolderColor),
+                    ),
+                    kH12sizedBox,
+                    Obx(() => OutLinedButton(
+                          onPress: createPostController.selectedBrandName.value == ''
+                              ? () {
+                                  // Get.to(() => AddBrandPage());
+                                  createPostController.isBrandAdded.value = false;
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation1, animation2) => AddBrandPage(),
+                                      transitionDuration: Duration.zero,
+                                      reverseTransitionDuration: Duration.zero,
+                                    ),
+                                  );
+                                }
+                              : null,
+                          buttonText: ksAddBrand.tr,
+                          buttonTextStyle:
+                              createPostController.selectedBrandName.value == '' ? medium16TextStyle(cPrimaryColor) : medium16TextStyle(cPlaceHolderColor),
+                          borderColor: createPostController.selectedBrandName.value == '' ? cPrimaryColor : cPlaceHolderColor,
+                          widget: Icon(
+                            BipHip.plus,
+                            color: createPostController.selectedBrandName.value == '' ? cPrimaryColor : cPlaceHolderColor,
+                            size: isDeviceScreenLarge() ? h20 : h16,
+                          ),
+                        )),
+                    kH8sizedBox,
+                    Text(
+                      "*${ksAddBrandInstruction.tr}",
+                      style: regular14TextStyle(cSmallBodyTextColor),
+                    ),
+                  ],
+                )),
+            onPressCloseButton: () {
+              Get.back();
+            },
+            onPressRightButton: () {
+              boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent()); //* Set it temporary for test case
+              // Get.back();
+            },
+            rightText: ksDone.tr,
+            rightTextStyle: medium14TextStyle(cPrimaryColor),
+            title: ksBrands.tr,
+            isRightButtonShow: true,
+          );
         },
         rightText: ksNext.tr,
         rightTextStyle: medium14TextStyle(cPrimaryColor),
         title: ksSelectPostType.tr,
         isRightButtonShow: true,
       );
-
-      // globalController.commonBottomSheet(
-      //   context: context,
-      //   content: Column(
-      //     children: [
-      //       kH8sizedBox,
-      //       OutLinedButton(
-      //         onPress: () {
-      //           globalController.commonBottomSheet(
-      //             isScrollControlled: true,
-      //             bottomSheetHeight: height * .7,
-      //             context: context,
-      //             content: Column(
-      //               children: [
-      //                 ListView.separated(
-      //                   shrinkWrap: true,
-      //                   physics: const NeverScrollableScrollPhysics(),
-      //                   separatorBuilder: (context, index) => kH8sizedBox,
-      //                   itemCount: createPostController.brandList.length,
-      //                   itemBuilder: (context, i) {
-      //                     return Obx(
-      //                       () => CustomListTile(
-      //                         onPressed: () {
-      //                           selectBrandStatusChange(i);
-      //                         },
-      //                         itemColor: createPostController.selectedBrandStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
-      //                         borderColor: createPostController.selectedBrandStatusList[i] ? cPrimaryColor : cLineColor,
-      //                         title: createPostController.brandList[i]['name'],
-      //                         leading: CircleAvatar(
-      //                           radius: 12,
-      //                           backgroundImage: AssetImage(createPostController.brandList[i]['image_url']),
-      //                         ),
-      //                         trailing: CustomRadioButton(
-      //                           onChanged: () {
-      //                             selectBrandStatusChange(i);
-      //                           },
-      //                           isSelected: createPostController.selectedBrandStatusList[i],
-      //                         ),
-      //                       ),
-      //                     );
-      //                   },
-      //                 ),
-      //               ],
-      //             ),
-      //             onPressCloseButton: () {
-      //               Get.back();
-      //             },
-      //             onPressRightButton: () {
-      //               Get.back();
-      //             },
-      //             rightText: ksDone.tr,
-      //             rightTextStyle: medium14TextStyle(cPrimaryColor),
-      //             title: ksSelectBrands.tr,
-      //             isRightButtonShow: true,
-      //           );
-      //         },
-      //         buttonText: ksSelectSavedBrands.tr,
-      //         buttonTextStyle: medium16TextStyle(cBlackColor),
-      //         borderColor: cLineColor,
-      //         widget: Icon(
-      //           BipHip.downArrowOutline,
-      //           color: cBlackColor,
-      //           size: isDeviceScreenLarge() ? h20 : h16,
-      //         ),
-      //       ),
-      //       // kH12sizedBox,
-      //       // OutLinedButton(
-      //       //   onPress: () {},
-      //       //   buttonText: "Maria Jones",
-      //       //   buttonTextStyle: medium16TextStyle(cBlackColor),
-      //       //   borderColor: cPrimaryColor,
-      //       //   buttonColor: cPrimaryTint3Color,
-      //       //   widget: Icon(
-      //       //     BipHip.circleCrossNew,
-      //       //     color: cRedColor,
-      //       //     size: isDeviceScreenLarge() ? h20 : h18,
-      //       //   ),
-      //       //   backgroundImage: const NetworkImage("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg"),
-      //       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //       // ),
-      //       kH12sizedBox,
-      //       Text(
-      //         ksOr.tr,
-      //         style: regular16TextStyle(cPlaceHolderColor),
-      //       ),
-      //       kH12sizedBox,
-      //       OutLinedButton(
-      //         onPress: () {
-      //           Get.to(() => AddBrandPage());
-      //         },
-      //         buttonText: ksAddBrand.tr,
-      //         buttonTextStyle: medium16TextStyle(cPrimaryColor),
-      //         borderColor: cPrimaryColor,
-      //         widget: Icon(
-      //           BipHip.plus,
-      //           color: cPrimaryColor,
-      //           size: isDeviceScreenLarge() ? h20 : h16,
-      //         ),
-      //       ),
-      //       kH8sizedBox,
-      //       Text(
-      //         "*${ksAddBrandInstruction.tr}",
-      //         style: regular14TextStyle(cSmallBodyTextColor),
-      //       ),
-      //     ],
-      //   ),
-      //   onPressCloseButton: () {
-      //     Get.back();
-      //   },
-      //   onPressRightButton: () {
-      //     Get.back();
-      //   },
-      //   rightText: ksDone.tr,
-      //   rightTextStyle: medium14TextStyle(cPrimaryColor),
-      //   title: ksBrands.tr,
-      //   isRightButtonShow: true,
-      // );
     } else if (createPostController.category.value == "News") {
     } else {
       Get.back();
@@ -1064,5 +1077,78 @@ class CreatePostHelper {
     } else {
       globalController.isBottomSheetRightButtonActive.value = true;
     }
+  }
+}
+
+//*Newly added for boost post popup show
+void boostPostAlertDialog({required BuildContext context, required Widget content, required String title}) {
+  showAlertDialog(
+    context: context,
+    child: CommonAlertDialog(
+      hasCloseBtn: false,
+      addContent: content,
+      title: title,
+      actions: [
+        CustomElevatedButton(
+          label: ksYes.tr,
+          onPressed: () {
+            Get.back();
+          },
+          buttonWidth: width - 70,
+          buttonHeight: 40,
+          textStyle: semiBold14TextStyle(cWhiteColor),
+          buttonColor: cPrimaryColor,
+        ),
+        kH12sizedBox,
+        CustomElevatedButton(
+          label: ksNo.tr,
+          onPressed: () {
+            Get.back();
+          },
+          buttonWidth: width - 70,
+          buttonHeight: 40,
+          textStyle: semiBold14TextStyle(cPrimaryColor),
+          buttonColor: cWhiteColor,
+          borderColor: cLineColor2,
+        ),
+        kH8sizedBox,
+      ],
+    ),
+  );
+}
+
+class BoostPostContent extends StatelessWidget {
+  const BoostPostContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SvgPicture.asset(kiBoostPostSvgUrl),
+        kH20sizedBox,
+        RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            children: [
+              TextSpan(text: ksChoosing.tr, style: regular14TextStyle(cBlackColor)),
+              TextSpan(text: ksYES.tr, style: semiBold14TextStyle(cBlackColor)),
+              TextSpan(text: ksActiveBoostSetting.tr, style: regular14TextStyle(cBlackColor)),
+            ],
+          ),
+        ),
+        kH20sizedBox,
+        Text(
+          ksContinueWithoutBoostingSettings.tr,
+          textAlign: TextAlign.center,
+          style: regular14TextStyle(cBlackColor),
+        ),
+        kH16sizedBox,
+        const CustomDivider(
+          thickness: 1,
+        )
+      ],
+    );
   }
 }

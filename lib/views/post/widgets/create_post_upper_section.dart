@@ -154,7 +154,7 @@ class CreatePostUpperSection extends StatelessWidget {
                             textStyle: regular12TextStyle(cBlackColor),
                           ),
                           // kW8sizedBox,
-                          if (createPostController.category.value != "Selling Post")
+                          if (createPostController.category.value != "Selling")
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -238,97 +238,95 @@ class CreatePostUpperSection extends StatelessWidget {
                             ),
                           if (createPostController.category.value == "Selling") kW8sizedBox,
                           if (createPostController.category.value == "Selling")
-                            Expanded(
-                              child: CustomElevatedButton(
-                                label: ksPostType.tr,
-                                onPressed: () {
-                                  Get.find<GlobalController>().commonBottomSheet(
-                                    context: context,
-                                    content: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        kH8sizedBox,
-                                        CustomCheckBox(
-                                          value: true,
-                                          onChanged: (v) {},
-                                          label: ksBiddingPost.tr,
-                                          textStyle: medium14TextStyle(cBlackColor),
-                                        ),
-                                        kH8sizedBox,
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                ksBiddingPostDescription.tr,
-                                                style: regular12TextStyle(cSmallBodyTextColor),
-                                              ),
+                            CustomElevatedButton(
+                              label: ksPostType.tr,
+                              onPressed: () {
+                                Get.find<GlobalController>().commonBottomSheet(
+                                  context: context,
+                                  content: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      kH8sizedBox,
+                                      CustomCheckBox(
+                                        value: true,
+                                        onChanged: (v) {},
+                                        label: ksBiddingPost.tr,
+                                        textStyle: medium14TextStyle(cBlackColor),
+                                      ),
+                                      kH8sizedBox,
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              ksBiddingPostDescription.tr,
+                                              style: regular12TextStyle(cSmallBodyTextColor),
                                             ),
-                                          ],
-                                        ),
-                                        kH16sizedBox,
-                                        Text(
-                                          ksOr.tr,
-                                          style: regular16TextStyle(cPlaceHolderColor),
-                                        ),
-                                        kH16sizedBox,
-                                        Row(
-                                          children: [
-                                            Text(
-                                              ksPlatformAndAction.tr,
-                                              style: medium14TextStyle(cBlackColor),
+                                          ),
+                                        ],
+                                      ),
+                                      kH16sizedBox,
+                                      Text(
+                                        ksOr.tr,
+                                        style: regular16TextStyle(cPlaceHolderColor),
+                                      ),
+                                      kH16sizedBox,
+                                      Row(
+                                        children: [
+                                          Text(
+                                            ksPlatformAndAction.tr,
+                                            style: medium14TextStyle(cBlackColor),
+                                          ),
+                                        ],
+                                      ),
+                                      kH8sizedBox,
+                                      Row(
+                                        children: [
+                                          OutLinedButton(
+                                            buttonText: ksSelectPlatform.tr,
+                                            buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
+                                            borderColor: cLineColor,
+                                            buttonWidth: width * .55 - 20,
+                                            buttonHeight: 44,
+                                            widget: const Icon(
+                                              BipHip.downArrow,
+                                              color: cPlaceHolderColor,
                                             ),
-                                          ],
-                                        ),
-                                        kH8sizedBox,
-                                        Row(
-                                          children: [
-                                            OutLinedButton(
-                                              buttonText: ksSelectPlatform.tr,
-                                              buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
-                                              borderColor: cLineColor,
-                                              buttonWidth: width * .55 - 20,
-                                              buttonHeight: 44,
-                                              widget: const Icon(
-                                                BipHip.downArrow,
-                                                color: cPlaceHolderColor,
-                                              ),
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          ),
+                                          kW8sizedBox,
+                                          OutLinedButton(
+                                            buttonText: ksSelectAction.tr,
+                                            buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
+                                            borderColor: cLineColor,
+                                            buttonWidth: width * .45 - 20,
+                                            buttonHeight: 44,
+                                            widget: const Icon(
+                                              BipHip.downArrow,
+                                              color: cPlaceHolderColor,
                                             ),
-                                            kW8sizedBox,
-                                            OutLinedButton(
-                                              buttonText: ksSelectAction.tr,
-                                              buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
-                                              borderColor: cLineColor,
-                                              buttonWidth: width * .45 - 20,
-                                              buttonHeight: 44,
-                                              widget: const Icon(
-                                                BipHip.downArrow,
-                                                color: cPlaceHolderColor,
-                                              ),
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                    onPressCloseButton: () {
-                                      Get.back();
-                                    },
-                                    onPressRightButton: null,
-                                    rightText: '',
-                                    rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                    title: ksPostType.tr,
-                                    isRightButtonShow: false,
-                                  );
-                                },
-                                buttonHeight: 22,
-                                isCustomButton: true,
-                                prefixIcon: BipHip.plus,
-                                buttonColor: cGreyBoxColor,
-                                suffixIconColor: cBlackColor,
-                                prefixIconColor: cBlackColor,
-                                textStyle: medium12TextStyle(cBlackColor),
-                              ),
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: null,
+                                  rightText: '',
+                                  rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                  title: ksPostType.tr,
+                                  isRightButtonShow: false,
+                                );
+                              },
+                              buttonHeight: 22,
+                              isCustomButton: true,
+                              prefixIcon: BipHip.plus,
+                              buttonColor: cGreyBoxColor,
+                              suffixIconColor: cBlackColor,
+                              prefixIconColor: cBlackColor,
+                              textStyle: medium12TextStyle(cBlackColor),
                             ),
                         ],
                       ),

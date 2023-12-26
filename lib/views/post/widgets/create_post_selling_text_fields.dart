@@ -49,5 +49,6 @@ class SellingNewsTextfield extends StatelessWidget {
         ),
       ],
     );
+  
   }
 }
