@@ -260,9 +260,9 @@ class CreatePostHelper {
   void removeMedia(index) {
     createPostController.allMediaList.removeAt(index);
     createPostController.allMediaFileList.removeAt(index);
-    if (createPostController.allMediaFileList.isEmpty || createPostController.allMediaList.isEmpty) {
-      Get.back();
-    }
+    // if (createPostController.allMediaFileList.isEmpty || createPostController.allMediaList.isEmpty) {
+    //   Get.back();
+    // }
   }
 
   void selectCategory(context) {
@@ -858,6 +858,7 @@ class CreatePostHelper {
         isRightButtonShow: true,
       );
     } else if (createPostController.category.value == "News") {
+      ll(createPostController.category.value);
     } else {
       Get.back();
     }
