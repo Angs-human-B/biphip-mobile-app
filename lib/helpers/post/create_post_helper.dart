@@ -857,8 +857,6 @@ class CreatePostHelper {
         title: ksSelectPostType.tr,
         isRightButtonShow: true,
       );
-    } else if (createPostController.category.value == "News") {
-      ll(createPostController.category.value);
     } else {
       Get.back();
     }
