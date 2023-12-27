@@ -734,49 +734,75 @@ class TextAndIconRowSellingPost extends StatelessWidget {
 }
 
 class BiddingDateTimeSection extends StatelessWidget {
-  const BiddingDateTimeSection({super.key});
+  BiddingDateTimeSection({super.key});
+  final CreatePostHelper createPostHelper = CreatePostHelper();
+  final CreatePostController createPostController = Get.find<CreatePostController>();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TextAndIconRowSellingPost(
-              width: (width / 2) - 22,
-              text: ksStartDate.tr,
-              prefixIcon: BipHip.calendarFill,
-              onPressed: null,
-            ),
-            TextAndIconRowSellingPost(
-              width: (width / 2) - 22,
-              text: ksEndDate.tr,
-              prefixIcon: BipHip.calendarFill,
-              onPressed: null,
-            ),
-          ],
-        ),
-        kH12sizedBox,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TextAndIconRowSellingPost(
-              width: (width / 2) - 22,
-              text: ksStartTime.tr,
-              prefixIcon: Icons.schedule_rounded,
-              onPressed: null,
-            ),
-            TextAndIconRowSellingPost(
-              width: (width / 2) - 22,
-              text: ksEndTime.tr,
-              prefixIcon: Icons.schedule_rounded,
-              onPressed: null,
-            ),
-          ],
-        )
-      ],
+    return Obx(
+      () => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextAndIconRowSellingPost(
+                width: (width / 2) - 22,
+                text: createPostController.biddingStartDate.value != '' ? createPostController.biddingStartDate.value : ksStartDate.tr,
+                prefixIcon: BipHip.calendarFill,
+                onPressed: () {
+                  createPostHelper.selectStartDate(context);
+                },
+              ),
+              TextAndIconRowSellingPost(
+                width: (width / 2) - 22,
+                text: createPostController.biddingEndDate.value != '' ? createPostController.biddingEndDate.value : ksEndDate.tr,
+                prefixIcon: BipHip.calendarFill,
+                onPressed: () {
+                  if (createPostController.biddingStartDate.value == '') {
+                    Get.find<GlobalController>().showSnackBar(title: ksWarning.tr, message: ksPickStartDateFirst.tr, color: cRedColor);
+                  } else {
+                    createPostHelper.selectEndDate(context);
+                  }
+                },
+              ),
+            ],
+          ),
+          kH12sizedBox,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextAndIconRowSellingPost(
+                width: (width / 2) - 22,
+                text: createPostController.biddingStartTime.value != "" ? createPostController.biddingStartTime.value : ksStartTime.tr,
+                prefixIcon: Icons.schedule_rounded,
+                onPressed: () {
+                  if (createPostController.biddingStartDate.value == '') {
+                    Get.find<GlobalController>().showSnackBar(title: ksWarning.tr, message: ksPickStartDateFirst.tr, color: cRedColor);
+                  } else {
+                    createPostHelper.selectStartTime(context);
+                  }
+                },
+              ),
+              TextAndIconRowSellingPost(
+                width: (width / 2) - 22,
+                text: createPostController.biddingEndTime.value != "" ? createPostController.biddingEndTime.value : ksEndTime.tr,
+                prefixIcon: Icons.schedule_rounded,
+                onPressed: () {
+                  if (createPostController.biddingEndDate.value == '') {
+                    Get.find<GlobalController>().showSnackBar(title: ksWarning.tr, message: ksPickEndDateFirst.tr, color: cRedColor);
+                  } else if (createPostController.biddingStartTime.value == '') {
+                    Get.find<GlobalController>().showSnackBar(title: ksWarning.tr, message: ksPickEndDateFirst.tr, color: cRedColor);
+                  } else {
+                    createPostHelper.selectEndTime(context);
+                  }
+                },
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

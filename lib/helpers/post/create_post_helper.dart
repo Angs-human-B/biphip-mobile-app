@@ -7,7 +7,9 @@ import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/select_category.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 class CreatePostHelper {
   final CreatePostController createPostController = Get.find<CreatePostController>();
@@ -1119,6 +1121,190 @@ class CreatePostHelper {
         createPostController.productConditionState[i] = false;
       }
     }
+  }
+
+  bool checkTodayDate(date) {
+    if (date != '') {
+      DateTime parsedDate = DateTime.parse(date);
+      DateTime now = DateTime.now();
+      bool isToday = parsedDate.year == now.year && parsedDate.month == now.month && parsedDate.day == now.day;
+      return isToday;
+    } else {
+      return true;
+    }
+  }
+
+  DateTime parseTimeToday(timeStr) {
+    DateTime now = DateTime.now();
+    String dateStr = "${now.year}-${now.month}-${now.day}";
+    String fullDateTimeStr = "$dateStr $timeStr";
+    ll(fullDateTimeStr);
+    return DateTime.parse(fullDateTimeStr);
+  }
+
+  void selectStartDate(context) {
+    createPostController.tempBiddingStartDate.value = '';
+    if (createPostController.tempBiddingStartDate.value == '') {
+      globalController.isBottomSheetRightButtonActive.value = false;
+    }
+    globalController.commonBottomSheet(
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        Get.back();
+        createPostController.biddingStartDate.value = createPostController.tempBiddingStartDate.value;
+        if (createPostController.biddingEndDate.value != '') {
+          if (DateTime.parse(createPostController.biddingStartDate.value).isAfter(DateTime.parse(createPostController.biddingEndDate.value))) {
+            createPostController.biddingEndDate.value = '';
+            createPostController.biddingEndTime.value = '';
+          }
+        }
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksStartDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          minimumDate: DateTime.parse(DateFormat("yyyy-MM-dd").format(DateTime.now())),
+          maximumDate: DateTime.now().add(const Duration(days: 15 * 365)),
+          initialDateTime: createPostController.biddingStartDate.value != ''
+              ? DateTime.parse(DateFormat("yyyy-MM-dd").format(DateTime.parse(createPostController.biddingStartDate.value)))
+              : DateTime.now(),
+          mode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: (value) {
+            globalController.isBottomSheetRightButtonActive.value = true;
+            createPostController.tempBiddingStartDate.value = DateFormat("yyyy-MM-dd").format(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  void selectEndDate(context) {
+    createPostController.tempBiddingEndDate.value = '';
+    if (createPostController.tempBiddingEndDate.value == '') {
+      globalController.isBottomSheetRightButtonActive.value = false;
+    }
+    globalController.commonBottomSheet(
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        Get.back();
+        createPostController.biddingEndDate.value = createPostController.tempBiddingEndDate.value;
+        createPostController.biddingEndTime.value = '';
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksEndDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          minimumDate: DateTime.parse(createPostController.biddingStartDate.value),
+          maximumDate: DateTime.parse(createPostController.biddingStartDate.value).add(const Duration(days: 15 * 365)),
+          initialDateTime: createPostController.biddingEndDate.value != ''
+              ? DateTime.parse(createPostController.biddingEndDate.value)
+              : DateTime.parse(createPostController.biddingStartDate.value),
+          mode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: (value) {
+            globalController.isBottomSheetRightButtonActive.value = true;
+            createPostController.tempBiddingEndDate.value = DateFormat("yyyy-MM-dd").format(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  void selectStartTime(context) {
+    createPostController.tempBiddingStartTime.value = '';
+    if (createPostController.tempBiddingStartTime.value == '') {
+      globalController.isBottomSheetRightButtonActive.value = false;
+    }
+    globalController.commonBottomSheet(
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        if (checkTodayDate(createPostController.biddingStartDate.value)) {
+          if (parseTimeToday(createPostController.tempBiddingStartTime.value).isBefore(DateTime.now())) {
+            globalController.showSnackBar(title: ksWarning.tr, message: ksPastTimeIsNotAllowed.tr, color: cRedColor);
+          } else {
+            Get.back();
+            createPostController.biddingStartTime.value = createPostController.tempBiddingStartTime.value;
+          }
+        } else {
+          Get.back();
+          createPostController.biddingStartTime.value = createPostController.tempBiddingStartTime.value;
+        }
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksStartDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          initialDateTime: createPostController.biddingStartTime.value != ''
+              ? DateTime.parse("${createPostController.biddingStartDate} ${createPostController.biddingStartTime.value}")
+              : DateTime.now(),
+          mode: CupertinoDatePickerMode.time,
+          onDateTimeChanged: (value) {
+            globalController.isBottomSheetRightButtonActive.value = true;
+            createPostController.tempBiddingStartTime.value = DateFormat("HH:mm").format(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  void selectEndTime(context) {
+    createPostController.tempBiddingEndTime.value = '';
+    if (createPostController.tempBiddingStartTime.value == '') {
+      globalController.isBottomSheetRightButtonActive.value = false;
+    }
+    globalController.commonBottomSheet(
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        if (checkTodayDate(createPostController.biddingEndDate.value)) {
+          if (parseTimeToday(createPostController.tempBiddingStartTime.value).isAfter(parseTimeToday(createPostController.tempBiddingEndTime.value))) {
+            globalController.showSnackBar(title: ksWarning.tr, message: ksPastTimeIsNotAllowed.tr, color: cRedColor);
+          } else {
+            Get.back();
+            createPostController.biddingEndTime.value = createPostController.tempBiddingEndTime.value;
+          }
+        } else {
+          Get.back();
+          createPostController.biddingEndTime.value = createPostController.tempBiddingEndTime.value;
+        }
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksStartDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          initialDateTime: createPostController.biddingEndTime.value != ''
+              ? DateTime.parse("${createPostController.biddingEndDate} ${createPostController.biddingEndTime.value}")
+              : DateTime.now(),
+          mode: CupertinoDatePickerMode.time,
+          onDateTimeChanged: (value) {
+            globalController.isBottomSheetRightButtonActive.value = true;
+            createPostController.tempBiddingEndTime.value = DateFormat("HH:mm").format(value);
+          },
+        ),
+      ),
+    );
   }
 }
 
