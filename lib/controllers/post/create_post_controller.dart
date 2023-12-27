@@ -500,4 +500,8 @@ class CreatePostController extends GetxController {
   final RxString selectedProductCondition = RxString('');
   // final RxString selectedProductCondition = RxString('');
   final RxList<bool> productConditionState = RxList<bool>([false, false, false, false, false]);
+  final RxString tempSelectedPlatform = RxString('');
+  final RxString selectedPlatform = RxString('');
+  final RxString tempSelectedAction = RxString('');
+  final RxString selectedAction = RxString('');
 }

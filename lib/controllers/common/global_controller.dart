@@ -305,6 +305,115 @@ class GlobalController extends GetxController {
     }
   }
 
+  Future<bool> selectMultiMediaSourceForSelling(
+    RxBool isMediaChanged,
+    RxList<RxString> mediaLinkList,
+    RxList<Rx<File?>> mediaFileList,
+  ) async {
+    try {
+      // Maximum allowed images
+      const int maxImageCount = 10;
+
+      // Check if the maximum count is reached
+      if (mediaFileList.length >= maxImageCount) {
+        // You can show a message or take appropriate action when the limit is reached
+        showSnackBar(
+          title: ksWarning.tr,
+          message: 'Maximum of $maxImageCount images allowed.',
+          color: cSecondaryColor,
+        );
+        return false;
+      }
+
+      final List<XFile> mediaList = await _picker.pickMultiImage(
+        // maxHeight: 480,
+        // maxWidth: 720,
+      );
+
+      if (mediaList.isNotEmpty) {
+        for (int i = 0; i < mediaList.length; i++) {
+          final String? type = lookupMimeType(mediaList[i].path);
+
+          if (type != null) {
+            isMediaChanged.value = true;
+            final File imageTemporary = File(mediaList[i].path);
+            mediaFileList.add(imageTemporary.obs);
+
+            // You can add the mediaLinkList logic here if needed
+
+            if (mediaFileList.length >= maxImageCount) {
+              // Disable further selection when the limit is reached
+              showSnackBar(
+                title: ksWarning.tr,
+                message: 'Maximum of $maxImageCount images reached.',
+                color: cSecondaryColor,
+              );
+              break; // Exit the loop
+            }
+          } else {
+            showSnackBar(
+              title: ksWarning.tr,
+              message: ksFileFormatNotSupported.tr,
+              color: cSecondaryColor,
+            );
+          }
+        }
+        return true;
+      } else {
+        ll('file not selected');
+        return false;
+      }
+    } on PlatformException catch (e) {
+      ll("Failed to Pick file $e");
+      return false;
+    }
+  }
+
+  //*For Selling type post max limit 10 and max size per image is 5
+  // Future<bool> selectMultiMediaSourceForSelling(RxBool isMediaChanged, RxList<RxString> mediaLinkList, RxList<Rx<File?>> mediaFileList) async {
+  //   // if (mediaFileList.length >= 10) {
+  //   //   showSnackBar(title: "Warning", message: "You cannot select more than 10 images.", color: Colors.red);
+  //   //   return false;
+  //   // }
+  //   try {
+  //     final List<XFile> mediaList = await _picker
+  //         .pickMultiImage(
+  //             // maxHeight: 480,
+  //             // maxWidth: 720,
+  //             )
+  //         .then((value) => value.take(10).toList());
+  //     if (mediaList.isNotEmpty) {
+  //       for (int i = 0; i < mediaList.length; i++) {
+  //         final String? type = lookupMimeType(mediaList[i].path);
+  //         if (type != null) {
+  //           final File imageTemporary = File(mediaList[i].path);
+  //           if (mediaFileList.length > 10) {
+  //             showSnackBar(title: "Warning", message: "You cannot select more than 10 images.", color: cAmberColor);
+  //             return false;
+  //           }
+  //           if (await imageTemporary.exists()) {
+  //             final double sizeInMB = imageTemporary.lengthSync() / (1024 * 1024);
+  //             ll('file size is ${sizeInMB.toString()}');
+  //             if (sizeInMB > 5) {
+  //               showSnackBar(title: "Warning", message: "Image size must be less than 5MB.", color: cAmberColor);
+  //               continue;
+  //             }
+  //           }
+  //           isMediaChanged.value = true;
+  //           mediaFileList.add(imageTemporary.obs);
+  //         } else {}
+  //       }
+  //       return true;
+  //     } else {
+  //       ll('file not selected');
+  //       return false;
+  //     }
+  //   } on PlatformException catch (e) {
+  //     ll("Failed to Pick file $e");
+  //     return false;
+  //   }
+  // }
+
   Future<bool> selectVideoSource(RxBool isChanged, videoLink, videoFile, String source, [isList = false]) async {
     try {
       final XFile? video = await _picker.pickVideo(

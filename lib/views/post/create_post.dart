@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/post/widgets/common_category_button.dart';
 import 'package:bip_hip/views/post/widgets/create_post_bottom_section.dart';
 import 'package:bip_hip/views/post/widgets/create_post_media_section.dart';
 import 'package:bip_hip/views/post/widgets/create_post_selling_text_fields.dart';
@@ -8,6 +9,7 @@ import 'package:bip_hip/views/post/widgets/create_post_upper_section.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CreatePost extends StatelessWidget {
   CreatePost({super.key});
@@ -106,8 +108,10 @@ class CreatePost extends StatelessWidget {
                                         child: createPostController.sellingAllMediaFileList.isEmpty
                                             ? InkWell(
                                                 onTap: () async {
-                                                  var status = await globalController.selectMultiMediaSource(createPostController.isSellingImageChanged,
-                                                      createPostController.sellingImageLinkList, createPostController.sellingImageFileList);
+                                                  var status = await globalController.selectMultiMediaSourceForSelling(
+                                                      createPostController.isSellingImageChanged,
+                                                      createPostController.sellingImageLinkList,
+                                                      createPostController.sellingImageFileList);
                                                   if (status) {
                                                     ll("media list length : ${createPostController.sellingImageLinkList.length}");
                                                     createPostHelper.insertSellingMedia(
@@ -177,10 +181,11 @@ class CreatePost extends StatelessWidget {
                                                       //     //*Add Photo container
                                                       // if (createPostController.sellingAllMediaFileList.length>)
                                                       // if (createPostController.seelingImageLength.value > createPostController.sellingAllMediaFileList.length)
-                                                      if (index + 1 > createPostController.sellingAllMediaFileList.length)
+                                                      if (index + 1 > createPostController.sellingAllMediaFileList.length &&
+                                                          createPostController.sellingAllMediaFileList.length <= 9)
                                                         InkWell(
                                                           onTap: () async {
-                                                            var status = await globalController.selectMultiMediaSource(
+                                                            var status = await globalController.selectMultiMediaSourceForSelling(
                                                                 createPostController.isSellingImageChanged,
                                                                 createPostController.sellingImageLinkList,
                                                                 createPostController.sellingImageFileList);
@@ -452,6 +457,178 @@ class CreatePost extends StatelessWidget {
                                             ),
                                           ),
                                         ],
+                                      ),
+                                      kH16sizedBox,
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            ksPlatformAndAction.tr,
+                                            style: semiBold14TextStyle(cBlackColor),
+                                          ),
+                                          if (createPostController.selectedPlatform.value != '' && createPostController.selectedAction.value != '')
+                                            InkWell(
+                                              onTap: () {
+                                                createPostController.selectedPlatform.value = '';
+                                                createPostController.selectedAction.value = '';
+                                              },
+                                              child: Text(
+                                                ksClear.tr,
+                                                style: semiBold14TextStyle(cRedColor),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                      kH8sizedBox,
+                                      CustomListTile(
+                                        onPressed: () {
+                                          createPostController.tempSelectedPlatform.value = createPostController.selectedPlatform.value;
+                                          createPostController.tempSelectedAction.value = createPostController.selectedAction.value;
+                                          if (createPostController.tempSelectedPlatform.value == '' || createPostController.tempSelectedAction.value == '') {
+                                            globalController.isBottomSheetRightButtonActive.value = false;
+                                          } else {
+                                            globalController.isBottomSheetRightButtonActive.value = true;
+                                          }
+                                          if (createPostController.tempSelectedPlatform.value == '') {
+                                            for (int i = 0; i < createPostController.platformList.length; i++) {
+                                              if (createPostController.tempSelectedPlatform.value == createPostController.platformList[i]['name']) {
+                                                createPostController.platformStatusList[i] = true;
+                                              } else {
+                                                createPostController.platformStatusList[i] = false;
+                                              }
+                                            }
+                                          }
+                                          if (createPostController.tempSelectedAction.value == '') {
+                                            for (int i = 0; i < createPostController.actionList.length; i++) {
+                                              if (createPostController.tempSelectedAction.value == createPostController.actionList[i]['name']) {
+                                                createPostController.actionStatusList[i] = true;
+                                              } else {
+                                                createPostController.actionStatusList[i] = false;
+                                              }
+                                            }
+                                          }
+
+                                          globalController.commonBottomSheet(
+                                              context: context,
+                                              content: Column(
+                                                children: [
+                                                  Wrap(
+                                                    children: [
+                                                      for (int i = 0; i < createPostController.platformList.length; i++)
+                                                        Obx(
+                                                          () => CategoryComponent(
+                                                            onPress: () {
+                                                              createPostHelper.selectPlatformStatusChange(i);
+                                                              createPostController.tempSelectedPlatform.value = createPostController.platformList[i]['name'];
+                                                              if (createPostController.tempSelectedPlatform.value == '' ||
+                                                                  createPostController.tempSelectedAction.value == '') {
+                                                                globalController.isBottomSheetRightButtonActive.value = false;
+                                                              } else {
+                                                                globalController.isBottomSheetRightButtonActive.value = true;
+                                                              }
+                                                            },
+                                                            suffixWidget: Transform.scale(
+                                                              scale: .7,
+                                                              child: CustomRadioButton(
+                                                                onChanged: () {
+                                                                  createPostHelper.selectPlatformStatusChange(i);
+                                                                  createPostController.tempSelectedPlatform.value =
+                                                                      createPostController.platformList[i]['name'];
+                                                                  if (createPostController.tempSelectedPlatform.value == '' ||
+                                                                      createPostController.tempSelectedAction.value == '') {
+                                                                    globalController.isBottomSheetRightButtonActive.value = false;
+                                                                  } else {
+                                                                    globalController.isBottomSheetRightButtonActive.value = true;
+                                                                  }
+                                                                },
+                                                                isSelected: createPostController.platformStatusList[i],
+                                                              ),
+                                                            ),
+                                                            prefixWidget: SvgPicture.asset(
+                                                              createPostController.platformList[i]['image'],
+                                                              height: isDeviceScreenLarge() ? h20 : h16,
+                                                              width: isDeviceScreenLarge() ? h20 : h16,
+                                                            ),
+                                                            title: createPostController.platformList[i]['name'],
+                                                            titleStyle: medium14TextStyle(cBlackColor),
+                                                          ),
+                                                        ),
+                                                    ],
+                                                  ),
+                                                  kH16sizedBox,
+                                                  const CustomDivider(
+                                                    thickness: 1,
+                                                  ),
+                                                  kH16sizedBox,
+                                                  Text(
+                                                    ksSelectAction.tr.toUpperCase(),
+                                                    style: regular14TextStyle(cSmallBodyTextColor),
+                                                  ),
+                                                  kH8sizedBox,
+                                                  Wrap(
+                                                    children: [
+                                                      for (int i = 0; i < createPostController.actionList.length; i++)
+                                                        Obx(
+                                                          () => CategoryComponent(
+                                                            onPress: () {
+                                                              createPostHelper.selectActionStatusChange(i);
+                                                              createPostController.tempSelectedAction.value = createPostController.actionList[i]['name'];
+                                                              if (createPostController.tempSelectedPlatform.value == '' ||
+                                                                  createPostController.tempSelectedAction.value == '') {
+                                                                globalController.isBottomSheetRightButtonActive.value = false;
+                                                              } else {
+                                                                globalController.isBottomSheetRightButtonActive.value = true;
+                                                              }
+                                                            },
+                                                            suffixWidget: Transform.scale(
+                                                              scale: .7,
+                                                              child: CustomRadioButton(
+                                                                onChanged: () {
+                                                                  createPostHelper.selectActionStatusChange(i);
+                                                                  createPostController.tempSelectedAction.value = createPostController.actionList[i]['name'];
+                                                                  if (createPostController.tempSelectedPlatform.value == '' ||
+                                                                      createPostController.tempSelectedAction.value == '') {
+                                                                    globalController.isBottomSheetRightButtonActive.value = false;
+                                                                  } else {
+                                                                    globalController.isBottomSheetRightButtonActive.value = true;
+                                                                  }
+                                                                },
+                                                                isSelected: createPostController.actionStatusList[i],
+                                                              ),
+                                                            ),
+                                                            title: createPostController.actionList[i]['title'],
+                                                            titleStyle: medium14TextStyle(cBlackColor),
+                                                          ),
+                                                        ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              onPressCloseButton: () {
+                                                Get.back();
+                                              },
+                                              onPressRightButton: () {
+                                                createPostController.selectedPlatform.value = createPostController.tempSelectedPlatform.value;
+                                                createPostController.selectedAction.value = createPostController.tempSelectedAction.value;
+                                                Get.back();
+                                              },
+                                              rightText: 'Done',
+                                              rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                              title: ksSelectPlatform.tr,
+                                              isRightButtonShow: true);
+                                        },
+                                        title: Text(
+                                          (createPostController.selectedPlatform.value == '' && createPostController.selectedAction.value == '')
+                                              ? ksSelectPlatform.tr
+                                              : ('${createPostController.selectedPlatform.value} - ${createPostController.selectedAction.value}'),
+                                          style: regular14TextStyle(cBlackColor),
+                                        ),
+                                        borderColor: cLineColor2,
+                                        trailing: const Icon(
+                                          BipHip.downArrow,
+                                          size: kIconSize20,
+                                          color: cIconColor,
+                                        ),
                                       ),
                                     ],
                                   ),

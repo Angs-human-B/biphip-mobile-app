@@ -898,7 +898,10 @@ class CreatePostHelper {
     createPostController.createPostVideoFile.clear();
     createPostController.allMediaList.clear();
     createPostController.allMediaFileList.clear();
+    createPostController.sellingAllMediaList.clear();
+    createPostController.sellingAllMediaFileList.clear();
     createPostController.resetCreatePost();
+    createPostController.selectedPlatform.value = "";
   }
 
   //----------------------------
