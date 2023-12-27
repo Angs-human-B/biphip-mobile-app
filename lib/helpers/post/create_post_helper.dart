@@ -1153,6 +1153,7 @@ class CreatePostHelper {
         if (createPostController.biddingEndDate.value != '') {
           if (DateTime.parse(createPostController.biddingStartDate.value).isAfter(DateTime.parse(createPostController.biddingEndDate.value))) {
             createPostController.biddingEndDate.value = '';
+            createPostController.biddingEndTime.value = '';
           }
         }
       },
