@@ -1118,6 +1118,26 @@ class CreatePostHelper {
     }
   }
 
+  bool checkTodayDate(date) {
+    if (date != '') {
+      DateTime parsedDate = DateTime.parse(date);
+      DateTime now = DateTime.now();
+      bool isToday = parsedDate.year == now.year && parsedDate.month == now.month && parsedDate.day == now.day;
+      return isToday;
+    } else {
+      return true;
+    }
+  }
+
+  DateTime parseTimeToday(timeStr) {
+    DateTime now = DateTime.now();
+    ll(now);
+    String dateStr = "${now.year}-${now.month}-${now.day}";
+    String fullDateTimeStr = "$dateStr $timeStr";
+    ll(fullDateTimeStr);
+    return DateTime.parse(fullDateTimeStr);
+  }
+
   void selectStartDate(context) {
     createPostController.tempBiddingStartDate.value = '';
     if (createPostController.tempBiddingStartDate.value == '') {
@@ -1165,33 +1185,78 @@ class CreatePostHelper {
       globalController.isBottomSheetRightButtonActive.value = false;
     }
     globalController.commonBottomSheet(
-        context: context,
-        onPressCloseButton: () {
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        Get.back();
+        createPostController.biddingEndDate.value = createPostController.tempBiddingEndDate.value;
+        createPostController.biddingEndTime.value = '';
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksEndDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          minimumDate: DateTime.parse(createPostController.biddingStartDate.value),
+          maximumDate: DateTime.parse(createPostController.biddingStartDate.value).add(const Duration(days: 15 * 365)),
+          initialDateTime: createPostController.biddingEndDate.value != ''
+              ? DateTime.parse(createPostController.biddingEndDate.value)
+              : DateTime.parse(createPostController.biddingStartDate.value),
+          mode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: (value) {
+            globalController.isBottomSheetRightButtonActive.value = true;
+            createPostController.tempBiddingEndDate.value = DateFormat("yyyy-MM-dd").format(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  void selectStartTime(context) {
+    createPostController.tempBiddingStartTime.value = '';
+    if (createPostController.tempBiddingStartTime.value == '') {
+      globalController.isBottomSheetRightButtonActive.value = false;
+    }
+    globalController.commonBottomSheet(
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        if (checkTodayDate(createPostController.biddingStartDate.value)) {
+          if (parseTimeToday(createPostController.tempBiddingStartTime.value).isBefore(DateTime.now())) {
+            globalController.showSnackBar(title: ksWarning.tr, message: ksPastTimeIsNotAllowed.tr, color: cRedColor);
+          } else {
+            Get.back();
+            createPostController.biddingStartTime.value = createPostController.tempBiddingStartTime.value;
+          }
+        } else {
           Get.back();
-        },
-        onPressRightButton: () {
-          Get.back();
-          createPostController.biddingEndDate.value = createPostController.tempBiddingEndDate.value;
-        },
-        rightText: ksDone.tr,
-        rightTextStyle: semiBold14TextStyle(cPrimaryColor),
-        title: ksEndDate,
-        isRightButtonShow: true,
-        content: SizedBox(
-          height: height * 0.4,
-          child: CupertinoDatePicker(
-            minimumDate: DateTime.parse(createPostController.biddingStartDate.value),
-            maximumDate: DateTime.parse(createPostController.biddingStartDate.value).add(const Duration(days: 15 * 365)),
-            initialDateTime: createPostController.biddingEndDate.value != ''
-                ? DateTime.parse(createPostController.biddingEndDate.value)
-                : DateTime.parse(createPostController.biddingStartDate.value),
-            mode: CupertinoDatePickerMode.date,
-            onDateTimeChanged: (value) {
-              globalController.isBottomSheetRightButtonActive.value = true;
-              createPostController.tempBiddingEndDate.value = DateFormat("yyyy-MM-dd").format(value);
-            },
-          ),
-        ));
+          createPostController.biddingStartTime.value = createPostController.tempBiddingStartTime.value;
+        }
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksStartDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          initialDateTime: createPostController.biddingStartTime.value != ''
+              ? DateTime.parse("${createPostController.biddingStartDate} ${createPostController.biddingStartTime.value}")
+              : DateTime.now(),
+          mode: CupertinoDatePickerMode.time,
+          onDateTimeChanged: (value) {
+            globalController.isBottomSheetRightButtonActive.value = true;
+            createPostController.tempBiddingStartTime.value = DateFormat("HH:mm").format(value);
+          },
+        ),
+      ),
+    );
   }
 }
 

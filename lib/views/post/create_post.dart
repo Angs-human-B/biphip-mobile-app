@@ -598,9 +598,15 @@ class BiddingDateTimeSection extends StatelessWidget {
             children: [
               TextAndIconRowSellingPost(
                 width: (width / 2) - 22,
-                text: ksStartTime.tr,
+                text: createPostController.biddingStartTime.value != "" ? createPostController.biddingStartTime.value : ksStartTime.tr,
                 prefixIcon: Icons.schedule_rounded,
-                onPressed: null,
+                onPressed: () {
+                  if (createPostController.biddingStartDate.value == '') {
+                    Get.find<GlobalController>().showSnackBar(title: ksWarning.tr, message: ksPickStartDateFirst.tr, color: cRedColor);
+                  } else {
+                    createPostHelper.selectStartTime(context);
+                  }
+                },
               ),
               TextAndIconRowSellingPost(
                 width: (width / 2) - 22,
