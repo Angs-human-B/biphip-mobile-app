@@ -362,6 +362,7 @@ const String ksChoosing = 'Choosing ';
 const String ksYES = 'YES';
 const String ksActiveBoostSetting = ' will active the boost settings on your post';
 const String ksContinueWithoutBoostingSettings = 'You can also continue without enabling boosting setting now & can active the boosting later from the post settings.';
+const String ksPickStartDateFirst = 'Pick start date first';
 //*Newly Added
 //*Gallery Photos
 const String ksNoAlbumAvailable = "No album available";

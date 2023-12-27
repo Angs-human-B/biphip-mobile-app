@@ -55,6 +55,14 @@ class CreatePostController extends GetxController {
   final TextEditingController biddingMinimumBidTextEditingController = TextEditingController();
   final RxBool isPublicPost = RxBool(false);
   final RxBool isPrivatePost = RxBool(false);
+  final RxString biddingStartDate = RxString('');
+  final RxString tempBiddingStartDate = RxString('');
+  final RxString biddingEndDate = RxString('');
+  final RxString tempBiddingEndDate = RxString('');
+  final RxString biddingStartTime = RxString('');
+  final RxString tempBiddingStartTime = RxString('');
+  final RxString biddingEndTime = RxString('');
+  final RxString tempBiddingEndTime = RxString('');
 
   final List audienceTypeList = [
     {"title": "Public", "subtitle": "Anyone from BipHip", "icon": BipHip.world},
