@@ -868,8 +868,6 @@ class CreatePostHelper {
         title: ksSelectPostType.tr,
         isRightButtonShow: true,
       );
-   
-   
     } else {
       Get.back();
     }
@@ -1276,6 +1274,13 @@ class CreatePostHelper {
       },
       onPressRightButton: () {
         if (checkTodayDate(createPostController.biddingEndDate.value)) {
+          if (parseTimeToday(createPostController.tempBiddingStartTime.value).isAfter(parseTimeToday(createPostController.tempBiddingEndTime.value))) {
+            globalController.showSnackBar(title: ksWarning.tr, message: ksPastTimeIsNotAllowed.tr, color: cRedColor);
+          } else {
+            Get.back();
+            createPostController.biddingEndTime.value = createPostController.tempBiddingEndTime.value;
+          }
+        } else if (createPostController.biddingStartDate.value == createPostController.biddingEndDate.value) {
           if (parseTimeToday(createPostController.tempBiddingStartTime.value).isAfter(parseTimeToday(createPostController.tempBiddingEndTime.value))) {
             globalController.showSnackBar(title: ksWarning.tr, message: ksPastTimeIsNotAllowed.tr, color: cRedColor);
           } else {
