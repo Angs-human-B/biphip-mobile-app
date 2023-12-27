@@ -4,6 +4,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CreatePostUpperSection extends StatelessWidget {
   CreatePostUpperSection({super.key});
@@ -160,220 +161,496 @@ class CreatePostUpperSection extends StatelessWidget {
                 ),
                 kH4sizedBox,
                 Obx(
-                  () => Row(
+                  () => Column(
                     children: [
-                      Wrap(
-                        alignment: WrapAlignment.center,
-                        direction: Axis.horizontal,
-                        spacing: 2.5,
+                      Row(
                         children: [
-                          CustomElevatedButton(
-                            isCustomButton: true,
-                            label: createPostController.postType.value,
-                            prefixIcon: createPostController.postTypeIcon.value,
-                            onPressed: () {
-                              createPostHelper.initializeAudienceText();
-                              createPostHelper.showAudienceSheet(context);
-                            },
-                            buttonHeight: 22,
-                            suffixIcon: BipHip.downArrow,
-                            buttonColor: cGreyBoxColor,
-                            prefixIconColor: cBlackColor,
-                            suffixIconColor: cBlackColor,
-                            textStyle: regular12TextStyle(cBlackColor),
-                          ),
-                          // kW8sizedBox,
-                          CustomElevatedButton(
-                            label: createPostController.category.value == "" ? "Category" : createPostController.category.value,
-                            prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
-                            prefixIconColor: createPostController.category.value == "" ? null : createPostController.categoryIconColor.value,
-                            onPressed: () async {
-                              createPostHelper.initializeCategory();
-                              Get.toNamed(krSelectCategory);
-                              await createPostController.getPostCategoryList();
-                            },
-                            buttonHeight: 22,
-                            isCustomButton: true,
-                            suffixIcon: createPostController.category.value == "" ? BipHip.plus : BipHip.edit,
-                            buttonColor: cGreyBoxColor,
-                            suffixIconColor: cBlackColor,
-                            textStyle: regular12TextStyle(cBlackColor),
-                          ),
-                          // kW8sizedBox,
-                          if (createPostController.category.value != "Selling")
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: createPostController.category.value != ''
-                                      ? () {
-                                          createPostController.tempSubCategory.value = createPostController.subCategory.value;
-                                          createPostController.tempSubCategoryIndex.value = createPostController.subCategoryIndex.value;
-                                          // log(createPostController.tempSubCategoryIndex.value.toString());
-                                          if (createPostController.tempSubCategory.value == '' &&
-                                              Get.find<CreatePostController>().tempSubCategoryIndex.value == -1) {
-                                            Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                          Wrap(
+                            alignment: WrapAlignment.center,
+                            direction: Axis.horizontal,
+                            spacing: 4,
+                            children: [
+                              CustomElevatedButton(
+                                isCustomButton: true,
+                                label: createPostController.postType.value,
+                                prefixIcon: createPostController.postTypeIcon.value,
+                                onPressed: () {
+                                  createPostHelper.initializeAudienceText();
+                                  createPostHelper.showAudienceSheet(context);
+                                },
+                                buttonHeight: 22,
+                                suffixIcon: BipHip.downArrow,
+                                buttonColor: cGreyBoxColor,
+                                prefixIconColor: cBlackColor,
+                                suffixIconColor: cBlackColor,
+                                textStyle: regular12TextStyle(cBlackColor),
+                              ),
+                              // kW8sizedBox,
+                              CustomElevatedButton(
+                                label: createPostController.category.value == "" ? "Category" : createPostController.category.value,
+                                prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
+                                prefixIconColor: createPostController.category.value == "" ? null : createPostController.categoryIconColor.value,
+                                onPressed: () async {
+                                  createPostHelper.initializeCategory();
+                                  Get.toNamed(krSelectCategory);
+                                  await createPostController.getPostCategoryList();
+                                },
+                                buttonHeight: 22,
+                                isCustomButton: true,
+                                suffixIcon: createPostController.category.value == "" ? BipHip.plus : BipHip.edit,
+                                buttonColor: cGreyBoxColor,
+                                suffixIconColor: cBlackColor,
+                                textStyle: regular12TextStyle(cBlackColor),
+                              ),
+                              // kW8sizedBox,
+                              if (createPostController.category.value != "Selling")
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: createPostController.category.value != ''
+                                          ? () {
+                                              createPostController.tempSubCategory.value = createPostController.subCategory.value;
+                                              createPostController.tempSubCategoryIndex.value = createPostController.subCategoryIndex.value;
+                                              // log(createPostController.tempSubCategoryIndex.value.toString());
+                                              if (createPostController.tempSubCategory.value == '' &&
+                                                  Get.find<CreatePostController>().tempSubCategoryIndex.value == -1) {
+                                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                              } else {
+                                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                              }
+                                              Get.find<GlobalController>().commonBottomSheet(
+                                                context: context,
+                                                content: const SubCategoryContent(),
+                                                onPressCloseButton: () {
+                                                  Get.back();
+                                                },
+                                                onPressRightButton: () {
+                                                  createPostController.subCategory.value = createPostController.tempSubCategory.value;
+                                                  createPostController.subCategoryIndex.value = createPostController.tempSubCategoryIndex.value;
+                                                  Get.back();
+                                                },
+                                                rightText: ksDone.tr,
+                                                rightTextStyle: semiBold12TextStyle(cPrimaryColor),
+                                                title: ksSelectSubCategory.tr,
+                                                isRightButtonShow: createPostController.subCategoryList.isEmpty ? false : true,
+                                                isScrollControlled: true,
+                                                bottomSheetHeight: createPostController.customBottomSheetHeight(),
+                                                // bottomSheetHeight: height * .9
+                                              );
+                                            }
+                                          : null,
+                                      style: ButtonStyle(
+                                        elevation: MaterialStateProperty.all(0),
+                                        padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                        minimumSize: MaterialStateProperty.all(Size.zero),
+                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(k4BorderRadius),
+                                          // side: BorderSide(color: (buttonColor == cWhiteColor) ? (borderColor ?? cPrimaryColor) : cTransparentColor, width: 1),
+                                        )),
+                                        backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+                                          if (states.contains(MaterialState.disabled)) {
+                                            return cGreyBoxColor;
                                           } else {
-                                            Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                            return cGreyBoxColor;
                                           }
-                                          Get.find<GlobalController>().commonBottomSheet(
-                                            context: context,
-                                            content: const SubCategoryContent(),
-                                            onPressCloseButton: () {
-                                              Get.back();
-                                            },
-                                            onPressRightButton: () {
-                                              createPostController.subCategory.value = createPostController.tempSubCategory.value;
-                                              createPostController.subCategoryIndex.value = createPostController.tempSubCategoryIndex.value;
-                                              Get.back();
-                                            },
-                                            rightText: ksDone.tr,
-                                            rightTextStyle: semiBold12TextStyle(cPrimaryColor),
-                                            title: ksSelectSubCategory.tr,
-                                            isRightButtonShow: createPostController.subCategoryList.isEmpty ? false : true,
-                                            isScrollControlled: true,
-                                            bottomSheetHeight: createPostController.customBottomSheetHeight(),
-                                            // bottomSheetHeight: height * .9
-                                          );
-                                        }
-                                      : null,
-                                  style: ButtonStyle(
-                                    elevation: MaterialStateProperty.all(0),
-                                    padding: MaterialStateProperty.all(EdgeInsets.zero),
-                                    minimumSize: MaterialStateProperty.all(Size.zero),
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(k4BorderRadius),
-                                      // side: BorderSide(color: (buttonColor == cWhiteColor) ? (borderColor ?? cPrimaryColor) : cTransparentColor, width: 1),
-                                    )),
-                                    backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                                      if (states.contains(MaterialState.disabled)) {
-                                        return cGreyBoxColor;
-                                      } else {
-                                        return cGreyBoxColor;
-                                      }
-                                    }),
-                                    splashFactory: InkRipple.splashFactory,
-                                  ),
-                                  child: SizedBox(
-                                    height: 22,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(createPostController.subCategory.value == "" ? "Sub Category" : createPostController.subCategory.value,
-                                              textAlign: TextAlign.center,
-                                              style: createPostController.category.value == ""
-                                                  ? regular12TextStyle(cPlaceHolderColor2)
-                                                  : regular12TextStyle(cBlackColor)),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: k4Padding),
-                                            child: Icon(
-                                              createPostController.subCategory.value == "" ? BipHip.plus : BipHip.edit,
-                                              color: createPostController.category.value == "" ? cIconColor : cBlackColor,
-                                              size: screenWiseSize(kIconSize16, 4),
-                                            ),
+                                        }),
+                                        splashFactory: InkRipple.splashFactory,
+                                      ),
+                                      child: SizedBox(
+                                        height: 22,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text(createPostController.subCategory.value == "" ? "Sub Category" : createPostController.subCategory.value,
+                                                  textAlign: TextAlign.center,
+                                                  style: createPostController.category.value == ""
+                                                      ? regular12TextStyle(cPlaceHolderColor2)
+                                                      : regular12TextStyle(cBlackColor)),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: k4Padding),
+                                                child: Icon(
+                                                  createPostController.subCategory.value == "" ? BipHip.plus : BipHip.edit,
+                                                  color: createPostController.category.value == "" ? cIconColor : cBlackColor,
+                                                  size: screenWiseSize(kIconSize16, 4),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          if (createPostController.category.value == "Selling") kW8sizedBox,
-                          if (createPostController.category.value == "Selling")
-                            CustomElevatedButton(
-                              label: ksPostType.tr,
-                              onPressed: () {
-                                Get.find<GlobalController>().commonBottomSheet(
-                                  context: context,
-                                  content: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      kH8sizedBox,
-                                      CustomCheckBox(
-                                        value: true,
-                                        onChanged: (v) {},
-                                        label: ksBiddingPost.tr,
-                                        textStyle: medium14TextStyle(cBlackColor),
-                                      ),
-                                      kH8sizedBox,
-                                      Row(
+                              if (createPostController.category.value == "Selling") kW8sizedBox,
+                              if (createPostController.category.value == "Selling")
+                                // CustomElevatedButton(
+                                //   label: ksPostType.tr,
+                                //   onPressed: () {
+                                //     Get.find<GlobalController>().commonBottomSheet(
+                                //       context: context,
+                                //       content: Column(
+                                //         crossAxisAlignment: CrossAxisAlignment.center,
+                                //         children: [
+                                //           kH8sizedBox,
+                                //           CustomCheckBox(
+                                //             value: true,
+                                //             onChanged: (v) {},
+                                //             label: ksBiddingPost.tr,
+                                //             textStyle: medium14TextStyle(cBlackColor),
+                                //           ),
+                                //           kH8sizedBox,
+                                //           Row(
+                                //             children: [
+                                //               Expanded(
+                                //                 child: Text(
+                                //                   ksBiddingPostDescription.tr,
+                                //                   style: regular12TextStyle(cSmallBodyTextColor),
+                                //                 ),
+                                //               ),
+                                //             ],
+                                //           ),
+                                //           kH16sizedBox,
+                                //           Text(
+                                //             ksOr.tr,
+                                //             style: regular16TextStyle(cPlaceHolderColor),
+                                //           ),
+                                //           kH16sizedBox,
+                                //           Row(
+                                //             children: [
+                                //               Text(
+                                //                 ksPlatformAndAction.tr,
+                                //                 style: medium14TextStyle(cBlackColor),
+                                //               ),
+                                //             ],
+                                //           ),
+                                //           kH8sizedBox,
+                                //           Row(
+                                //             children: [
+                                //               OutLinedButton(
+                                //                 buttonText: ksSelectPlatform.tr,
+                                //                 buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
+                                //                 borderColor: cLineColor,
+                                //                 buttonWidth: width * .55 - 20,
+                                //                 buttonHeight: 44,
+                                //                 widget: const Icon(
+                                //                   BipHip.downArrow,
+                                //                   color: cPlaceHolderColor,
+                                //                 ),
+                                //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                //               ),
+                                //               kW8sizedBox,
+                                //               OutLinedButton(
+                                //                 buttonText: ksSelectAction.tr,
+                                //                 buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
+                                //                 borderColor: cLineColor,
+                                //                 buttonWidth: width * .45 - 20,
+                                //                 buttonHeight: 44,
+                                //                 widget: const Icon(
+                                //                   BipHip.downArrow,
+                                //                   color: cPlaceHolderColor,
+                                //                 ),
+                                //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                //               ),
+                                //             ],
+                                //           )
+                                //         ],
+                                //       ),
+                                //       onPressCloseButton: () {
+                                //         Get.back();
+                                //       },
+                                //       onPressRightButton: null,
+                                //       rightText: '',
+                                //       rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                //       title: ksPostType.tr,
+                                //       isRightButtonShow: false,
+                                //     );
+                                //   },
+                                //   buttonHeight: 22,
+                                //   isCustomButton: true,
+                                //   prefixIcon: BipHip.plus,
+                                //   buttonColor: cGreyBoxColor,
+                                //   suffixIconColor: cBlackColor,
+                                //   prefixIconColor: cBlackColor,
+                                //   textStyle: medium12TextStyle(cBlackColor),
+                                // ),
+
+                                CustomElevatedButton(
+                                  label: createPostController.sellingPostType.value == '' ? ksPostType.tr : createPostController.sellingPostType.value,
+                                  onPressed: () {
+                                    createPostController.tempSellingPostType.value = createPostController.sellingPostType.value;
+                                    if (createPostController.tempSellingPostType.value == '') {
+                                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                      createPostController.isRegularPost.value = false;
+                                      createPostController.isBiddingPost.value = false;
+                                    } else {
+                                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                      if (createPostController.tempSellingPostType.value == 'Regular Post') {
+                                        createPostController.isRegularPost.value = true;
+                                      } else {
+                                        createPostController.isBiddingPost.value = true;
+                                      }
+                                    }
+                                    Get.find<GlobalController>().commonBottomSheet(
+                                      context: context,
+                                      bottomSheetHeight: isDeviceScreenLarge() ? height * .25 : height * 0.35,
+                                      content: Column(
                                         children: [
-                                          Expanded(
-                                            child: Text(
-                                              ksBiddingPostDescription.tr,
-                                              style: regular12TextStyle(cSmallBodyTextColor),
-                                            ),
-                                          ),
+                                          Obx(() => OutLinedButton(
+                                                onPress: () {
+                                                  createPostController.isRegularPost.value = true;
+                                                  createPostController.isBiddingPost.value = false;
+                                                  createPostController.tempSellingPostType.value = ksRegularPost.tr;
+                                                  if (createPostController.tempSellingPostType.value == '') {
+                                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                                  } else {
+                                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                                  }
+                                                },
+                                                suffixWidget: Padding(
+                                                  padding: const EdgeInsets.only(right: k8Padding),
+                                                  child: Stack(
+                                                    children: [
+                                                      Container(
+                                                        width: 30,
+                                                        height: 30,
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: k100CircularBorderRadius,
+                                                          gradient: const LinearGradient(
+                                                            begin: Alignment.topRight,
+                                                            end: Alignment.topLeft,
+                                                            colors: [
+                                                              cBlueLinearColor1,
+                                                              cBlueLinearColor2,
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Positioned(
+                                                        left: 0,
+                                                        right: 0,
+                                                        top: 7,
+                                                        bottom: 7,
+                                                        child: SvgPicture.asset(
+                                                          kiRegularPostSvgUrl,
+                                                          width: 16,
+                                                          height: 16,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                buttonText: ksRegularPost.tr,
+                                                buttonTextStyle: medium16TextStyle(cBlackColor),
+                                                borderColor:
+                                                    createPostController.tempSellingPostType.value == 'Regular Post' && createPostController.isRegularPost.value
+                                                        ? cPrimaryColor
+                                                        : cLineColor,
+                                                buttonColor:
+                                                    createPostController.tempSellingPostType.value == 'Regular Post' && createPostController.isRegularPost.value
+                                                        ? cPrimaryTint2Color
+                                                        : cWhiteColor,
+                                              )),
+                                          kH16sizedBox,
+                                          Obx(() => OutLinedButton(
+                                                onPress: () {
+                                                  createPostController.isRegularPost.value = false;
+                                                  createPostController.isBiddingPost.value = true;
+                                                  createPostController.tempSellingPostType.value = ksBiddingPost.tr;
+                                                  if (createPostController.tempSellingPostType.value == '') {
+                                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                                  } else {
+                                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                                  }
+                                                },
+                                                suffixWidget: Padding(
+                                                  padding: const EdgeInsets.only(right: k8Padding),
+                                                  child: Stack(
+                                                    children: [
+                                                      Container(
+                                                        width: 30,
+                                                        height: 30,
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: k100CircularBorderRadius,
+                                                          gradient: const LinearGradient(
+                                                            begin: Alignment.topRight,
+                                                            end: Alignment.topLeft,
+                                                            colors: [
+                                                              cYellowLinearColor1,
+                                                              cYellowLinearColor2,
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Positioned(
+                                                        left: 0,
+                                                        right: 0,
+                                                        top: 7,
+                                                        bottom: 7,
+                                                        child: SvgPicture.asset(
+                                                          kiBiddingPostSvgUrl,
+                                                          width: 16,
+                                                          height: 16,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                buttonText: ksBiddingPost.tr,
+                                                buttonTextStyle: medium16TextStyle(cBlackColor),
+                                                borderColor:
+                                                    createPostController.tempSellingPostType.value == 'Bidding Post' && createPostController.isBiddingPost.value
+                                                        ? cPrimaryColor
+                                                        : cLineColor,
+                                                buttonColor:
+                                                    createPostController.tempSellingPostType.value == 'Bidding Post' && createPostController.isBiddingPost.value
+                                                        ? cPrimaryTint2Color
+                                                        : cWhiteColor,
+                                              )),
                                         ],
                                       ),
-                                      kH16sizedBox,
-                                      Text(
-                                        ksOr.tr,
-                                        style: regular16TextStyle(cPlaceHolderColor),
-                                      ),
-                                      kH16sizedBox,
-                                      Row(
-                                        children: [
-                                          Text(
-                                            ksPlatformAndAction.tr,
-                                            style: medium14TextStyle(cBlackColor),
-                                          ),
-                                        ],
-                                      ),
-                                      kH8sizedBox,
-                                      Row(
-                                        children: [
-                                          OutLinedButton(
-                                            buttonText: ksSelectPlatform.tr,
-                                            buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
-                                            borderColor: cLineColor,
-                                            buttonWidth: width * .55 - 20,
-                                            buttonHeight: 44,
-                                            widget: const Icon(
-                                              BipHip.downArrow,
-                                              color: cPlaceHolderColor,
-                                            ),
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          ),
-                                          kW8sizedBox,
-                                          OutLinedButton(
-                                            buttonText: ksSelectAction.tr,
-                                            buttonTextStyle: regular14TextStyle(cSmallBodyTextColor),
-                                            borderColor: cLineColor,
-                                            buttonWidth: width * .45 - 20,
-                                            buttonHeight: 44,
-                                            widget: const Icon(
-                                              BipHip.downArrow,
-                                              color: cPlaceHolderColor,
-                                            ),
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  onPressCloseButton: () {
-                                    Get.back();
+                                      onPressCloseButton: () {
+                                        Get.back();
+                                      },
+                                      onPressRightButton: () {
+                                        createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
+                                        Get.back();
+                                      },
+                                      rightText: ksNext.tr,
+                                      rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                      title: ksSelectPostType.tr,
+                                      isRightButtonShow: true,
+                                    );
                                   },
-                                  onPressRightButton: null,
-                                  rightText: '',
-                                  rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                  title: ksPostType.tr,
-                                  isRightButtonShow: false,
-                                );
-                              },
-                              buttonHeight: 22,
-                              isCustomButton: true,
-                              prefixIcon: BipHip.plus,
-                              buttonColor: cGreyBoxColor,
-                              suffixIconColor: cBlackColor,
-                              prefixIconColor: cBlackColor,
-                              textStyle: medium12TextStyle(cBlackColor),
-                            ),
+                                  buttonHeight: 22,
+                                  isCustomButton: true,
+                                  prefixIcon: createPostController.sellingPostType.value == "" ? BipHip.plus : null,
+                                  buttonColor: cGreyBoxColor,
+                                  suffixIconColor: cBlackColor,
+                                  prefixIconColor: cBlackColor,
+                                  suffixIcon: createPostController.sellingPostType.value == "" ? null : BipHip.edit,
+                                  textStyle: medium12TextStyle(cBlackColor),
+                                ),
+
+                              // CustomElevatedButton(
+                              //     label: createPostController.sellingPostType.value == '' ? ksPostType.tr : createPostController.sellingPostType.value,
+                              //     onPressed: () {
+                              //       Get.find<GlobalController>().commonBottomSheet(
+                              //         context: context,
+                              //         bottomSheetHeight: isDeviceScreenLarge() ? height * .25 : height * 0.35,
+                              //         content: Column(
+                              //           children: [
+                              //             Obx(() => OutLinedButton(
+                              //                   onPress: () {
+                              //                     createPostController.isRegularPost.value = true;
+                              //                     createPostController.isBiddingPost.value = false;
+                              //                     createPostController.sellingPostType.value = ksRegularPost.tr;
+                              //                     Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                              //                   },
+                              //                   suffixWidget: Padding(
+                              //                     padding: const EdgeInsets.only(right: k8Padding),
+                              //                     child: Stack(
+                              //                       children: [
+                              //                         Container(
+                              //                           width: 30,
+                              //                           height: 30,
+                              //                           decoration: BoxDecoration(
+                              //                             borderRadius: k100CircularBorderRadius,
+                              //                             gradient: const LinearGradient(
+                              //                               begin: Alignment.topRight,
+                              //                               end: Alignment.topLeft,
+                              //                               colors: [
+                              //                                 cBlueLinearColor1,
+                              //                                 cBlueLinearColor2,
+                              //                               ],
+                              //                             ),
+                              //                           ),
+                              //                         ),
+                              //                         Positioned(
+                              //                           left: 0,
+                              //                           right: 0,
+                              //                           top: 7,
+                              //                           bottom: 7,
+                              //                           child: SvgPicture.asset(
+                              //                             kiRegularPostSvgUrl,
+                              //                             width: 16,
+                              //                             height: 16,
+                              //                           ),
+                              //                         ),
+                              //                       ],
+                              //                     ),
+                              //                   ),
+                              //                   buttonText: ksRegularPost.tr,
+                              //                   buttonTextStyle: medium16TextStyle(cBlackColor),
+                              //                   borderColor: createPostController.isRegularPost.value ? cPrimaryColor : cLineColor,
+                              //                   buttonColor: createPostController.isRegularPost.value ? cPrimaryTint2Color : cWhiteColor,
+                              //                 )),
+                              //             kH16sizedBox,
+                              //             Obx(() => OutLinedButton(
+                              //                   onPress: () {
+                              //                     createPostController.isRegularPost.value = false;
+                              //                     createPostController.isBiddingPost.value = true;
+                              //                     createPostController.sellingPostType.value = ksBiddingPost.tr;
+                              //                     Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                              //                   },
+                              //                   suffixWidget: Padding(
+                              //                     padding: const EdgeInsets.only(right: k8Padding),
+                              //                     child: Stack(
+                              //                       children: [
+                              //                         Container(
+                              //                           width: 30,
+                              //                           height: 30,
+                              //                           decoration: BoxDecoration(
+                              //                             borderRadius: k100CircularBorderRadius,
+                              //                             gradient: const LinearGradient(
+                              //                               begin: Alignment.topRight,
+                              //                               end: Alignment.topLeft,
+                              //                               colors: [
+                              //                                 cYellowLinearColor1,
+                              //                                 cYellowLinearColor2,
+                              //                               ],
+                              //                             ),
+                              //                           ),
+                              //                         ),
+                              //                         Positioned(
+                              //                           left: 0,
+                              //                           right: 0,
+                              //                           top: 7,
+                              //                           bottom: 7,
+                              //                           child: SvgPicture.asset(
+                              //                             kiBiddingPostSvgUrl,
+                              //                             width: 16,
+                              //                             height: 16,
+                              //                           ),
+                              //                         ),
+                              //                       ],
+                              //                     ),
+                              //                   ),
+                              //                   buttonText: ksBiddingPost.tr,
+                              //                   buttonTextStyle: medium16TextStyle(cBlackColor),
+                              //                   borderColor: createPostController.isBiddingPost.value ? cPrimaryColor : cLineColor,
+                              //                   buttonColor: createPostController.isBiddingPost.value ? cPrimaryTint2Color : cWhiteColor,
+                              //                 )),
+                              //           ],
+                              //         ),
+                              //         onPressCloseButton: () {
+                              //           Get.back();
+                              //         },
+                              //         onPressRightButton: () {
+                              //           createPostController.sellingPostType.value;
+                              //         },
+                              //         rightText: ksNext.tr,
+                              //         rightTextStyle: medium14TextStyle(cPrimaryColor),
+                              //         title: ksSelectPostType.tr,
+                              //         isRightButtonShow: true,
+                              //       );
+
+                              //     })
+                            ],
+                          ),
                         ],
                       ),
                     ],

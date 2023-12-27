@@ -470,7 +470,7 @@ class CreatePostController extends GetxController {
 
   final RxBool isRegularPost = RxBool(false);
   final RxBool isBiddingPost = RxBool(false);
-  // final RxString tempSellingPostType = RxString('');
+  final RxString tempSellingPostType = RxString('');
   final RxString sellingPostType = RxString('');
   final TextEditingController businessTypeTextEditingController = TextEditingController();
   final List<String> businessTypeLists = ['electronic', 'food', 'clothing'];

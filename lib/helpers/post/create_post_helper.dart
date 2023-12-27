@@ -866,6 +866,8 @@ class CreatePostHelper {
         title: ksSelectPostType.tr,
         isRightButtonShow: true,
       );
+   
+   
     } else {
       Get.back();
     }
