@@ -610,9 +610,17 @@ class BiddingDateTimeSection extends StatelessWidget {
               ),
               TextAndIconRowSellingPost(
                 width: (width / 2) - 22,
-                text: ksEndTime.tr,
+                text: createPostController.biddingEndTime.value != "" ? createPostController.biddingEndTime.value : ksEndTime.tr,
                 prefixIcon: Icons.schedule_rounded,
-                onPressed: null,
+                onPressed: () {
+                  if (createPostController.biddingEndDate.value == '') {
+                    Get.find<GlobalController>().showSnackBar(title: ksWarning.tr, message: ksPickEndDateFirst.tr, color: cRedColor);
+                  } else if (createPostController.biddingStartTime.value == '') {
+                    Get.find<GlobalController>().showSnackBar(title: ksWarning.tr, message: ksPickEndDateFirst.tr, color: cRedColor);
+                  } else {
+                    createPostHelper.selectEndTime(context);
+                  }
+                },
               ),
             ],
           )

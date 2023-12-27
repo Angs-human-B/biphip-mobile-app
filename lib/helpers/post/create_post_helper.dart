@@ -1131,7 +1131,6 @@ class CreatePostHelper {
 
   DateTime parseTimeToday(timeStr) {
     DateTime now = DateTime.now();
-    ll(now);
     String dateStr = "${now.year}-${now.month}-${now.day}";
     String fullDateTimeStr = "$dateStr $timeStr";
     ll(fullDateTimeStr);
@@ -1253,6 +1252,49 @@ class CreatePostHelper {
           onDateTimeChanged: (value) {
             globalController.isBottomSheetRightButtonActive.value = true;
             createPostController.tempBiddingStartTime.value = DateFormat("HH:mm").format(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  void selectEndTime(context) {
+    createPostController.tempBiddingEndTime.value = '';
+    if (createPostController.tempBiddingStartTime.value == '') {
+      globalController.isBottomSheetRightButtonActive.value = false;
+    }
+    globalController.commonBottomSheet(
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        if (checkTodayDate(createPostController.biddingEndDate.value)) {
+          if (parseTimeToday(createPostController.tempBiddingStartTime.value).isAfter(parseTimeToday(createPostController.tempBiddingEndTime.value))) {
+            globalController.showSnackBar(title: ksWarning.tr, message: ksPastTimeIsNotAllowed.tr, color: cRedColor);
+          } else {
+            Get.back();
+            createPostController.biddingEndTime.value = createPostController.tempBiddingEndTime.value;
+          }
+        } else {
+          Get.back();
+          createPostController.biddingEndTime.value = createPostController.tempBiddingEndTime.value;
+        }
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksStartDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          initialDateTime: createPostController.biddingEndTime.value != ''
+              ? DateTime.parse("${createPostController.biddingEndDate} ${createPostController.biddingEndTime.value}")
+              : DateTime.now(),
+          mode: CupertinoDatePickerMode.time,
+          onDateTimeChanged: (value) {
+            globalController.isBottomSheetRightButtonActive.value = true;
+            createPostController.tempBiddingEndTime.value = DateFormat("HH:mm").format(value);
           },
         ),
       ),
