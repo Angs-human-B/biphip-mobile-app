@@ -248,18 +248,18 @@ class IntroContents extends StatelessWidget {
                 prefixText: '',
                 onPressed: null,
               ),
-            if (profileController.schoolDataList.isNotEmpty)
+            if (profileController.profileData.value!.school != null)
               LinkUpIconTextRow(
                 icon: BipHip.school,
-                suffixText: checkNullOrStringNull(profileController.schoolDataList[0].school),
-                prefixText: profileController.schoolDataList[0].ended != null ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
+                suffixText: checkNullOrStringNull(profileController.profileData.value!.school!.school),
+                prefixText: profileController.profileData.value!.school!.graduated == 1 ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
                 onPressed: null,
               ),
-            if (profileController.collegeDataList.isNotEmpty)
+            if (profileController.profileData.value!.college != null)
               LinkUpIconTextRow(
                 icon: BipHip.school,
-                suffixText: checkNullOrStringNull(profileController.collegeDataList[0].school),
-                prefixText: profileController.collegeDataList[0].ended != null ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
+                suffixText: checkNullOrStringNull(profileController.profileData.value!.college!.school),
+                prefixText: profileController.profileData.value!.college!.graduated == 1 ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
                 onPressed: null,
               ),
             if (profileController.currentWorkplace.value != null)
