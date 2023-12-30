@@ -283,6 +283,21 @@ class CreatePost extends StatelessWidget {
                                             : createPostController.selectedProductCondition.value,
                                         suffixIcon: BipHip.downArrow,
                                         onPressed: () {
+                                          createPostController.tempSelectedProductCondition.value = createPostController.selectedProductCondition.value;
+                                          if (createPostController.tempSelectedProductCondition.value == '') {
+                                            globalController.isBottomSheetRightButtonActive.value = false;
+                                          } else {
+                                            globalController.isBottomSheetRightButtonActive.value = true;
+                                          }
+                                          if (createPostController.tempSelectedProductCondition.value == '') {
+                                            for (int i = 0; i < createPostController.productConditionList.length; i++) {
+                                              if (createPostController.tempSelectedProductCondition.value == createPostController.productConditionList[i]) {
+                                                createPostController.productConditionState[i] = true;
+                                              } else {
+                                                createPostController.productConditionState[i] = false;
+                                              }
+                                            }
+                                          }
                                           globalController.commonBottomSheet(
                                               context: context,
                                               bottomSheetHeight: isDeviceScreenLarge() ? height * 0.5 : height * 0.75,
@@ -303,7 +318,14 @@ class CreatePost extends StatelessWidget {
                                                           child: Obx(() => OutLinedButton(
                                                                 onPress: () {
                                                                   createPostHelper.selectConditionStatusChange(index);
-                                                                  globalController.isBottomSheetRightButtonActive.value = true;
+                                                                  // globalController.isBottomSheetRightButtonActive.value = true;
+                                                                  createPostController.tempSelectedProductCondition.value =
+                                                                      createPostController.productConditionList[index];
+                                                                  if (createPostController.tempSelectedProductCondition.value == '') {
+                                                                    globalController.isBottomSheetRightButtonActive.value = false;
+                                                                  } else {
+                                                                    globalController.isBottomSheetRightButtonActive.value = true;
+                                                                  }
                                                                 },
                                                                 buttonText: createPostController.productConditionList[index].toString(),
                                                                 buttonTextStyle: regular16TextStyle(cBlackColor),
