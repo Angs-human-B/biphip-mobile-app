@@ -341,9 +341,6 @@ class CreatePost extends StatelessWidget {
                                               onPressCloseButton: () {
                                                 Get.back();
                                               },
-                                              // onPressRightButton: () {
-                                              //   Get.back();
-                                              // },
                                               onPressRightButton: () {
                                                 createPostHelper.selectProductConditionTextChange();
                                                 Get.back();

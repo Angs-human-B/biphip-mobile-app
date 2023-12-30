@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
+import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AddBrandPage extends StatelessWidget {
@@ -261,59 +262,214 @@ class AddLinkTextFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ClipRRect(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: k8Padding),
+    return AddBrandCustomModifiedTextField(
+      controller: textEditingController,
+      border: const OutlineInputBorder(
+        borderSide: BorderSide(
+          color: cLineColor2,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(k8BorderRadius)),
+      ),
+      hint: hintText,
+      onChanged: (text) {
+        Get.find<CreatePostController>().checkCanSaveBrand();
+      },
+      prefixWidget: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 1),
             child: Container(
-              height: isDeviceScreenLarge() ? 51 : 48,
-              width: isDeviceScreenLarge() ? 51 : 48,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), bottomLeft: Radius.circular(k8BorderRadius)),
+              width: isDeviceScreenLarge() ? 49 : 47,
+              height: isDeviceScreenLarge() ? 49 : 47,
+              decoration: const BoxDecoration(
                 color: cGreyBoxColor,
-                border: Border.all(color: cLineColor2, width: 1),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), bottomLeft: Radius.circular(k8BorderRadius)),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(k8Padding),
                 child: SvgPicture.asset(
                   iconImage,
                   fit: BoxFit.fill,
-                  height: h28,
-                  width: h28,
+                  // height: h28,
+                  // width: h28,
                 ),
               ),
             ),
           ),
-        ),
-        // kW8sizedBox,
-        // kH4sizedBox,
-        Expanded(
-          child: CustomModifiedTextField(
-            controller: textEditingController,
-            border: const OutlineInputBorder(
-              borderSide: BorderSide(
+          Padding(
+            padding: const EdgeInsets.only(right: k8Padding),
+            child: SizedBox(
+              height: isDeviceScreenLarge() ? 49 : 47,
+              child: const VerticalDivider(
+                thickness: 1,
+                width: 1,
                 color: cLineColor2,
               ),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(0),
-                topRight: Radius.circular(k8BorderRadius),
-                bottomLeft: Radius.circular(0),
-                bottomRight: Radius.circular(k8BorderRadius),
-              ),
             ),
-            hint: hintText,
-            onChanged: (text) {
-              Get.find<CreatePostController>().checkCanSaveBrand();
-            },
-            fillColor: cWhiteColor,
-            onSubmit: (text) {},
-            inputAction: TextInputAction.next,
-            inputType: TextInputType.text,
           ),
+        ],
+      ),
+      fillColor: cWhiteColor,
+      onSubmit: (text) {},
+      inputAction: TextInputAction.next,
+      inputType: TextInputType.text,
+    );
+  }
+}
+
+class AddBrandCustomModifiedTextField extends StatelessWidget {
+  final String? label, hint, errorText;
+  final bool autoFocus, obscureText, readOnly;
+  final TextEditingController controller;
+  final TextInputType inputType;
+  final TextInputAction inputAction;
+  final ValueChanged<String>? onSubmit;
+  final List<TextInputFormatter>? inputFormatters;
+  final int? maxLength, maxLines, minLines;
+  final Function(String)? onChanged;
+  final Widget? counter;
+  final FocusNode? focusNode;
+  final Function()? onSuffixPress;
+  final IconData? prefixIcon, suffixIcon;
+  final TextStyle? textInputStyle, textHintStyle;
+  final Color? fillColor;
+  final bool? isFilled;
+  final EdgeInsetsGeometry? contentPadding;
+  final double? borderRadius;
+  final InputBorder? border;
+  final Widget? prefixWidget;
+
+  const AddBrandCustomModifiedTextField({
+    this.label,
+    this.hint,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.onSuffixPress,
+    this.counter,
+    this.autoFocus = false,
+    this.obscureText = false,
+    this.readOnly = false,
+    this.focusNode,
+    this.maxLength = 255,
+    this.maxLines = 1,
+    this.minLines,
+    this.inputFormatters = const [],
+    required this.controller,
+    this.inputType = TextInputType.text,
+    this.inputAction = TextInputAction.next,
+    this.onSubmit,
+    this.onChanged,
+    Key? key,
+    this.errorText,
+    this.textInputStyle,
+    this.textHintStyle,
+    this.contentPadding,
+    this.fillColor,
+    this.isFilled,
+    this.borderRadius,
+    this.border,
+    this.prefixWidget,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var inputStyle = regular16TextStyle(cBlackColor);
+    var hintStyle = regular16TextStyle(cPlaceHolderColor);
+    return Theme(
+      data: ThemeData(
+          inputDecorationTheme: InputDecorationTheme(
+        prefixIconColor: MaterialStateColor.resolveWith((Set<MaterialState> states) {
+          if (states.contains(MaterialState.focused) || controller.text.isNotEmpty) {
+            return cBlackColor;
+          }
+          return cIconColor;
+        }),
+        suffixIconColor: MaterialStateColor.resolveWith((Set<MaterialState> states) {
+          if (states.contains(MaterialState.focused) || controller.text.isNotEmpty) {
+            return cBlackColor;
+          }
+          return cIconColor;
+        }),
+      )),
+      child: TextFormField(
+        textAlignVertical: TextAlignVertical.center,
+        obscureText: obscureText,
+        textAlign: TextAlign.start,
+        textCapitalization: TextCapitalization.sentences,
+        style: textInputStyle ?? inputStyle,
+        readOnly: readOnly,
+        focusNode: focusNode,
+        autofocus: autoFocus,
+        maxLength: maxLength,
+        minLines: minLines,
+        maxLines: maxLines,
+        controller: controller,
+        cursorColor: cBlackColor,
+        decoration: InputDecoration(
+          errorText: errorText,
+          errorStyle: regular12TextStyle(cRedColor),
+          isDense: true,
+          filled: isFilled ?? true,
+          prefixIcon: prefixWidget,
+          prefixIconConstraints: const BoxConstraints(),
+          suffixIconConstraints: const BoxConstraints(),
+          suffixIcon: suffixIcon != null
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CustomIconButton(
+                    onPress: onSuffixPress,
+                    icon: suffixIcon,
+                    hasBorder: false,
+                    size: screenWiseSize(kIconSize20, 4),
+                  ),
+                )
+              : null,
+          fillColor: fillColor ?? cGreyBoxColor,
+          alignLabelWithHint: true,
+          labelText: label,
+          hintText: hint,
+          labelStyle: hintStyle,
+          hintStyle: textHintStyle ?? hintStyle,
+          counter: (counter == null) ? const SizedBox.shrink() : counter,
+          contentPadding: contentPadding ?? const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k16Padding),
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          border: border ??
+              OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius ?? k4BorderRadius),
+                borderSide: const BorderSide(width: 0, style: BorderStyle.none),
+              ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(k4BorderRadius),
+            borderSide: const BorderSide(width: 1, style: BorderStyle.solid, color: cRedColor),
+          ),
+          focusedBorder: border ??
+              OutlineInputBorder(
+                borderRadius: BorderRadius.circular(k4BorderRadius),
+                borderSide: const BorderSide(width: 0, style: BorderStyle.none),
+              ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(k4BorderRadius),
+            borderSide: const BorderSide(width: 1, style: BorderStyle.solid, color: cRedColor),
+          ),
+          disabledBorder: border ??
+              OutlineInputBorder(
+                borderRadius: BorderRadius.circular(k4BorderRadius),
+                borderSide: const BorderSide(width: 0, style: BorderStyle.none),
+              ),
+          enabledBorder: border ??
+              OutlineInputBorder(
+                borderRadius: BorderRadius.circular(k4BorderRadius),
+                borderSide: const BorderSide(width: 0, style: BorderStyle.none),
+              ),
         ),
-      ],
+        autocorrect: false,
+        keyboardType: inputType,
+        textInputAction: inputAction,
+        onFieldSubmitted: onSubmit,
+        onChanged: onChanged,
+        inputFormatters: inputFormatters,
+      ),
     );
   }
 }

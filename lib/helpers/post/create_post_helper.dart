@@ -848,6 +848,22 @@ class CreatePostHelper {
                       "*${ksAddBrandInstruction.tr}",
                       style: regular14TextStyle(cSmallBodyTextColor),
                     ),
+                    kH16sizedBox,
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: InkWell(
+                        onTap: createPostController.selectedBrandName.value == ''
+                            ? () {
+                                Get.toNamed(krCreatePost);
+                              }
+                            : null,
+                        child: Text(
+                          ksSkip.tr,
+                          style:
+                              createPostController.selectedBrandName.value == '' ? semiBold16TextStyle(cPrimaryColor) : semiBold16TextStyle(cPlaceHolderColor),
+                        ),
+                      ),
+                    ),
                   ],
                 )),
             onPressCloseButton: () {
