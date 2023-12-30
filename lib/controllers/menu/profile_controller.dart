@@ -88,7 +88,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final List<String> schoolList = [];
   final RxString birthday = RxString('');
   final RxBool showEditRelationshipStatus = RxBool(false);
-  final RxString commonEditTextFieldErrorText = RxString('');
+  final Rx<String?> commonEditTextFieldErrorText = Rx<String?>(null);
   final RxBool showCommonEditSuffixIcon = RxBool(false);
   final RxBool showCommonSecondaryEditSuffixIcon = RxBool(false);
   final RxList relationshipStatusList = RxList([]);
