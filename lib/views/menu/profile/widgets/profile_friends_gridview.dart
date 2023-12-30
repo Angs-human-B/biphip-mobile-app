@@ -90,7 +90,7 @@ class FriendsFamilyGridView extends StatelessWidget {
                   : GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: friendList.length,
+                      itemCount: friendList.length <= 6 ? friendList.length : 6,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: .8,
                         crossAxisCount: 3,
