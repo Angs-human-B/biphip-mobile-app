@@ -1,9 +1,13 @@
-import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
+import 'package:bip_hip/controllers/menu/family_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
 
 class FriendFamilyTab extends StatelessWidget {
   FriendFamilyTab({super.key});
-  final MenuSectionController menuController = Get.find<MenuSectionController>();
+  final FamilyController familyController = Get.find<FamilyController>();
+  final FriendController friendController = Get.find<FriendController>();
 
   @override
   Widget build(BuildContext context) {
@@ -14,30 +18,32 @@ class FriendFamilyTab extends StatelessWidget {
           color: cWhiteColor,
           child: FriendsFamilyGridView(
             header: ksFriends.tr,
-            count: menuController.friendList.length.toString(),
-            friendList: menuController.friendList,
+            count: friendController.friendList.length.toString(),
+            friendList: friendController.friendList,
           ),
         ),
         kH12sizedBox,
-        Container(
-          color: cWhiteColor,
-          child: FriendsFamilyGridView(
-            header: ksFamily.tr,
-            count: menuController.familyList.length.toString(),
-            friendList: menuController.familyList,
+        if (familyController.familyList.isNotEmpty)
+          Container(
+            color: cWhiteColor,
+            child: FriendsFamilyGridView(
+              header: ksFamily.tr,
+              count: familyController.familyList.length.toString(),
+              friendList: familyController.familyList,
+            ),
           ),
-        ),
       ],
     );
   }
 }
+
 class FriendsFamilyGridView extends StatelessWidget {
   const FriendsFamilyGridView({super.key, required this.header, required this.count, this.seeAll, required this.friendList});
 
   final String header;
   final String count;
   final VoidCallback? seeAll;
-  final List friendList;
+  final List<FriendFamilyUserData> friendList;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +74,7 @@ class FriendsFamilyGridView extends StatelessWidget {
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: 6,
+            itemCount: friendList.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               childAspectRatio: .8,
               crossAxisCount: 3,
@@ -91,7 +97,7 @@ class FriendsFamilyGridView extends StatelessWidget {
 class CustomGridViewContainer extends StatelessWidget {
   const CustomGridViewContainer({Key? key, required this.item}) : super(key: key);
 
-  final Map item;
+  final FriendFamilyUserData item;
 
   @override
   Widget build(BuildContext context) {
@@ -102,17 +108,27 @@ class CustomGridViewContainer extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: k8CircularBorderRadius,
-            child: Image.asset(
-              item['image'],
+            child: Image.network(
+              item.profilePicture!,
               height: 100,
               width: ((width - 72) / 3),
               filterQuality: FilterQuality.high,
               fit: BoxFit.fill,
+              errorBuilder: (context, error, stackTrace) => Container(
+                width: width,
+                height: 150,
+                color: cBlackColor,
+                child: const CommonImageErrorBuilder(
+                  icon: BipHip.user,
+                  iconSize: kIconSize120,
+                ),
+              ),
+              loadingBuilder: imageLoadingBuilderCover,
             ),
           ),
           kH4sizedBox,
           Text(
-            item['name'],
+            item.fullName!,
             style: semiBold14TextStyle(cBlackColor),
             overflow: TextOverflow.clip,
             maxLines: 2,

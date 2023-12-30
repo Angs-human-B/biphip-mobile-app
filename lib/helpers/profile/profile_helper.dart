@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:bip_hip/controllers/menu/family_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/widgets/profile_pic_upload_content.dart';
@@ -7,11 +9,13 @@ class ProfileHelper {
   final ProfileController profileController = Get.find<ProfileController>();
   final GlobalController globalController = Get.find<GlobalController>();
 
-  void showProfileTabSection(index) {
+  void showProfileTabSection(index) async {
     if (index == 0) {
       profileController.postSectionVisible.value = true;
     } else if (index == 1) {
       profileController.postSectionVisible.value = false;
+      await Get.find<FriendController>().getFriendList();
+      await Get.find<FamilyController>().getFamilyList();
     }
   }
 
@@ -160,7 +164,7 @@ class ProfileHelper {
     }
   }
 
-  //* Bio edit 
+  //* Bio edit
   void editBio() {
     if (profileController.userData.value!.bio == null) {
       profileController.bioCount.value = 0;
@@ -178,5 +182,4 @@ class ProfileHelper {
     profileController.bio.value = profileController.bioEditingController.text.trim();
     await profileController.updateBio();
   }
-
 }
