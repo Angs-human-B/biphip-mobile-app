@@ -44,7 +44,7 @@ class GalleryPhotoContainer extends StatelessWidget {
                                 height: 101,
                                 width: (image.length < 2) ? (width - 50) / 2 : (width - 52) / 4,
                                 child: Image.network(
-                                  Environment.imageBaseUrl + image[0],
+                                  image[0],
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) => const Icon(
                                     BipHip.imageFile,
@@ -66,7 +66,7 @@ class GalleryPhotoContainer extends StatelessWidget {
                                       height: image.length > 2 ? 50 : 101,
                                       width: (width - 52) / 4,
                                       child: Image.network(
-                                        Environment.imageBaseUrl + image[1],
+                                        image[1],
                                         fit: BoxFit.cover,
                                         errorBuilder: (context, error, stackTrace) => const Icon(
                                           BipHip.imageFile,
@@ -85,7 +85,7 @@ class GalleryPhotoContainer extends StatelessWidget {
                                       height: image.length > 2 ? 50 : 101,
                                       width: (width - 52) / 4,
                                       child: Image.network(
-                                        Environment.imageBaseUrl + image[2],
+                                        image[2],
                                         fit: BoxFit.cover,
                                         errorBuilder: (context, error, stackTrace) => const Icon(
                                           BipHip.imageFile,
@@ -134,4 +134,3 @@ class GalleryPhotoContainer extends StatelessWidget {
     );
   }
 }
-
