@@ -512,4 +512,5 @@ class CreatePostController extends GetxController {
   final RxString selectedPlatform = RxString('');
   final RxString tempSelectedAction = RxString('');
   final RxString selectedAction = RxString('');
+  final RxString tempCategory = RxString('');
 }

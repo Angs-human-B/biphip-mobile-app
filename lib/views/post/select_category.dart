@@ -42,12 +42,14 @@ class SelectCategory extends StatelessWidget {
                           )
                         : TextButton(
                             style: kTextButtonStyle,
-                            onPressed: () {
-                              createPostHelper.selectCategory(context);
-                            },
+                            onPressed: createPostController.tempCategory.value != ''
+                                ? () {
+                                    createPostHelper.selectCategory(context);
+                                  }
+                                : null,
                             child: Text(
                               ksNext.tr,
-                              style: medium14TextStyle(cPrimaryColor),
+                              style: createPostController.tempCategory.value != '' ? medium14TextStyle(cPrimaryColor) : medium14TextStyle(cPlaceHolderColor),
                             ),
                           ),
                   ),
@@ -82,12 +84,14 @@ class SelectCategory extends StatelessWidget {
                                     () => CategoryComponent(
                                       onPress: () {
                                         createPostHelper.selectCategoryStatusChange(i);
+                                        createPostController.tempCategory.value = createPostController.categoryList[i]['title'];
                                       },
                                       suffixWidget: Transform.scale(
                                         scale: .7,
                                         child: CustomRadioButton(
                                           onChanged: () {
                                             createPostHelper.selectCategoryStatusChange(i);
+                                            createPostController.tempCategory.value = createPostController.categoryList[i]['title'];
                                           },
                                           isSelected: createPostController.categoryStatusList[i],
                                         ),
@@ -118,12 +122,16 @@ class SelectCategory extends StatelessWidget {
                               () => CategoryComponent(
                                 onPress: () {
                                   createPostHelper.selectCategoryStatusChange(createPostController.categoryList.length - 1);
+                                  createPostController.tempCategory.value =
+                                      createPostController.categoryList[createPostController.categoryList.length - 1]['title'];
                                 },
                                 suffixWidget: Transform.scale(
                                   scale: .7,
                                   child: CustomRadioButton(
                                     onChanged: () {
                                       createPostHelper.selectCategoryStatusChange(createPostController.categoryList.length - 1);
+                                      createPostController.tempCategory.value =
+                                          createPostController.categoryList[createPostController.categoryList.length - 1]['title'];
                                     },
                                     isSelected: createPostController.categoryStatusList[createPostController.categoryList.length - 1],
                                   ),

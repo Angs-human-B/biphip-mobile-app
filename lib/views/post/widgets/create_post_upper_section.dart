@@ -192,6 +192,7 @@ class CreatePostUpperSection extends StatelessWidget {
                                 prefixIconColor: createPostController.category.value == "" ? null : createPostController.categoryIconColor.value,
                                 onPressed: () async {
                                   createPostHelper.initializeCategory();
+                                  createPostController.tempCategory.value = createPostController.category.value;
                                   Get.toNamed(krSelectCategory);
                                   await createPostController.getPostCategoryList();
                                 },
