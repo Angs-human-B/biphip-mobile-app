@@ -1,4 +1,3 @@
-
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/shimmers/menu/friends/rtreceived_friend_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -46,7 +45,7 @@ class ReceivedFriendListView extends StatelessWidget {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(k8BorderRadius),
                                     child: FriendFamilyButtonAction(
-                                      backgroundImage: Environment.imageBaseUrl + friendController.receivedFriendList[index].profilePicture.toString(),
+                                      backgroundImage: friendController.receivedFriendList[index].profilePicture.toString(),
                                       name: friendController.receivedFriendList[index].fullName ?? ksNA.tr,
                                       firstButtonText: ksConfirm.tr,
                                       secondButtonText: ksCancel.tr,
@@ -77,4 +76,3 @@ class ReceivedFriendListView extends StatelessWidget {
     );
   }
 }
-
