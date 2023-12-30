@@ -82,7 +82,7 @@ const String kuGetGeneralSetting = '/mobile/user/get-user-setting';
 const String kuSetProfilePicture = '/mobile/user/store-profile-picture';
 const String kuSetCoverPhoto = '/user/store-cover-photo';
 //*Photos & Albums
-const String kuAlbumList = '/mobile/user/get-my-albums';
+const String kuAlbumList = '/mobile/user/get-my-image-albums';
 
 //---------------------------------------
 //* Friends and Family

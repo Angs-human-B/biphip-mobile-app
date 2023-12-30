@@ -15,7 +15,7 @@ class GalleryController extends GetxController {
     if (albumData.value != null) {
       imageDataList.clear();
 
-      for (var album in albumData.value!.imageAlbums!.data) {
+      for (var album in albumData.value!.imageAlbums.data) {
         if (album.title!.toLowerCase() == 'profile picture' || album.title!.toLowerCase() == 'cover photo') {
           imageDataList.add(album);
         }
@@ -92,7 +92,7 @@ class GalleryController extends GetxController {
 
 //*Album List Data Api Call
   Rx<AlbumListModel?> albumData = Rx<AlbumListModel?>(null);
-  RxList<ImageData> imageDataList = RxList<ImageData>([]);
+  RxList<AlbumData> imageDataList = RxList<AlbumData>([]);
   final RxBool isAlbumListLoading = RxBool(false);
   Future<void> getGalleryAlbumList() async {
     try {
@@ -108,7 +108,7 @@ class GalleryController extends GetxController {
         imageDataList.clear();
         albumData.value = AlbumListModel.fromJson(response.data);
         imageDataList.clear();
-        for (var album in albumData.value!.imageAlbums!.data) {
+        for (var album in albumData.value!.imageAlbums.data) {
           if (album.title!.toLowerCase() == 'profile picture' || album.title!.toLowerCase() == 'cover photo') {
             imageDataList.add(album);
           }
