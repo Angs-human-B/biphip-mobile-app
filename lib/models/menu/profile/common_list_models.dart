@@ -188,3 +188,43 @@ class Kid {
         kidImage: json["kid_image"],
       );
 }
+
+class StoreModel {
+    List<Store> stores;
+
+    StoreModel({
+        required this.stores,
+    });
+
+    factory StoreModel.fromJson(Map<String, dynamic> json) => StoreModel(
+        stores: List<Store>.from(json["stores"].map((x) => Store.fromJson(x))),
+    );
+}
+
+class Store {
+    int? id;
+    int? userId;
+    String? name;
+    String? image;
+    String? socialLinks;
+    String? brandImage;
+
+    Store({
+        required this.id,
+        required this.userId,
+        required this.name,
+        required this.image,
+        required this.socialLinks,
+        required this.brandImage,
+    });
+
+    factory Store.fromJson(Map<String, dynamic> json) => Store(
+        id: json["id"],
+        userId: json["user_id"],
+        name: json["name"],
+        image: json["image"],
+        socialLinks: json["social_links"],
+        brandImage: json["brand_image"],
+    );
+}
+

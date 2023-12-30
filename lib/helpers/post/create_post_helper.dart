@@ -751,42 +751,60 @@ class CreatePostHelper {
                     // ),
                     if (createPostController.selectedBrandName.value == '')
                       OutLinedButton(
-                        onPress: () {
+                        onPress: () async {
                           globalController.commonBottomSheet(
                             isScrollControlled: true,
-                            bottomSheetHeight: height * 0.7,
+                            bottomSheetHeight: height * 0.6,
                             context: context,
-                            content: Column(
-                              children: [
-                                ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  separatorBuilder: (context, index) => kH8sizedBox,
-                                  itemCount: createPostController.brandList.length,
-                                  itemBuilder: (context, i) {
-                                    return Obx(
-                                      () => CustomListTile(
-                                        onPressed: () {
-                                          selectBrandStatusChange(i);
-                                        },
-                                        itemColor: createPostController.selectedBrandStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
-                                        borderColor: createPostController.selectedBrandStatusList[i] ? cPrimaryColor : cLineColor,
-                                        title: createPostController.brandList[i]['name'],
-                                        leading: CircleAvatar(
-                                          radius: 12,
-                                          backgroundImage: AssetImage(createPostController.brandList[i]['image_url']),
-                                        ),
-                                        trailing: CustomRadioButton(
-                                          onChanged: () {
-                                            selectBrandStatusChange(i);
+                            content: Obx(
+                              () => createPostController.isStoreListLoading.value
+                                  ? const KidListShimmer()
+                                  : Column(
+                                      children: [
+                                        ListView.separated(
+                                          shrinkWrap: true,
+                                          physics: const NeverScrollableScrollPhysics(),
+                                          separatorBuilder: (context, index) => kH8sizedBox,
+                                          itemCount: createPostController.storeList.length,
+                                          itemBuilder: (context, i) {
+                                            return CustomListTile(
+                                              onPressed: () {
+                                                selectBrandStatusChange(i);
+                                              },
+                                              itemColor: createPostController.selectedBrandStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
+                                              borderColor: createPostController.selectedBrandStatusList[i] ? cPrimaryColor : cLineColor,
+                                              title: createPostController.storeList[i].name,
+                                              leading: Container(
+                                                height: h24,
+                                                width: h24,
+                                                decoration: const BoxDecoration(
+                                                  color: cWhiteColor,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: ClipOval(
+                                                  child: Image.network(
+                                                    Environment.imageBaseUrl + createPostController.storeList[i].image!,
+                                                    fit: BoxFit.cover,
+                                                    errorBuilder: (context, error, stackTrace) => const Icon(
+                                                      BipHip.imageFile,
+                                                      // size: kIconSize20,
+                                                      color: cIconColor,
+                                                    ),
+                                                    // loadingBuilder: imageLoadingBuilder,
+                                                  ),
+                                                ),
+                                              ),
+                                              trailing: CustomRadioButton(
+                                                onChanged: () {
+                                                  selectBrandStatusChange(i);
+                                                },
+                                                isSelected: createPostController.selectedBrandStatusList[i],
+                                              ),
+                                            );
                                           },
-                                          isSelected: createPostController.selectedBrandStatusList[i],
                                         ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
+                                      ],
+                                    ),
                             ),
                             onPressCloseButton: () {
                               Get.back();
@@ -802,6 +820,7 @@ class CreatePostHelper {
                             title: ksSelectBrands.tr,
                             isRightButtonShow: true,
                           );
+                          await createPostController.getStoreList();
                         },
                         buttonText: ksSelectSavedBrands.tr,
                         buttonTextStyle: medium16TextStyle(cBlackColor),
