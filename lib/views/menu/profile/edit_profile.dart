@@ -75,7 +75,7 @@ class EditProfile extends StatelessWidget {
                                         ),
                                         child: ClipOval(
                                           child: Image.network(
-                                            Environment.imageBaseUrl + profileController.userData.value!.profilePicture.toString(),
+                                            profileController.userData.value!.profilePicture.toString(),
                                             fit: BoxFit.cover,
                                             errorBuilder: (context, error, stackTrace) => const Icon(
                                               BipHip.user,
@@ -115,7 +115,7 @@ class EditProfile extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: k8CircularBorderRadius,
                                       child: Image.network(
-                                        Environment.imageBaseUrl + profileController.userData.value!.coverPhoto.toString(),
+                                        profileController.userData.value!.coverPhoto.toString(),
                                         height: 150,
                                         width: width,
                                         fit: BoxFit.cover,
