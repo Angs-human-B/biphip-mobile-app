@@ -295,7 +295,7 @@ class CreatePostController extends GetxController {
         'social_links': json.encode(brandSocialLinkList),
       };
       var response = await apiController.mediaUpload(
-        url: kuAddBrand,
+        url: kuAddStore,
         body: body,
         token: token,
         key: 'image',
