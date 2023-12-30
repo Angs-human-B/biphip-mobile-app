@@ -170,21 +170,22 @@ class CreatePostUpperSection extends StatelessWidget {
                             direction: Axis.horizontal,
                             spacing: 4,
                             children: [
-                              CustomElevatedButton(
-                                isCustomButton: true,
-                                label: createPostController.postType.value,
-                                prefixIcon: createPostController.postTypeIcon.value,
-                                onPressed: () {
-                                  createPostHelper.initializeAudienceText();
-                                  createPostHelper.showAudienceSheet(context);
-                                },
-                                buttonHeight: 22,
-                                suffixIcon: BipHip.downArrow,
-                                buttonColor: cGreyBoxColor,
-                                prefixIconColor: cBlackColor,
-                                suffixIconColor: cBlackColor,
-                                textStyle: regular12TextStyle(cBlackColor),
-                              ),
+                              if (createPostController.category.value != "Selling")
+                                CustomElevatedButton(
+                                  isCustomButton: true,
+                                  label: createPostController.postType.value,
+                                  prefixIcon: createPostController.postTypeIcon.value,
+                                  onPressed: () {
+                                    createPostHelper.initializeAudienceText();
+                                    createPostHelper.showAudienceSheet(context);
+                                  },
+                                  buttonHeight: 22,
+                                  suffixIcon: BipHip.downArrow,
+                                  buttonColor: cGreyBoxColor,
+                                  prefixIconColor: cBlackColor,
+                                  suffixIconColor: cBlackColor,
+                                  textStyle: regular12TextStyle(cBlackColor),
+                                ),
                               // kW8sizedBox,
                               CustomElevatedButton(
                                 label: createPostController.category.value == "" ? "Category" : createPostController.category.value,
@@ -533,7 +534,7 @@ class CreatePostUpperSection extends StatelessWidget {
                                   suffixIconColor: cBlackColor,
                                   prefixIconColor: cBlackColor,
                                   suffixIcon: createPostController.sellingPostType.value == "" ? null : BipHip.edit,
-                                  textStyle: medium12TextStyle(cBlackColor),
+                                  textStyle: regular12TextStyle(cBlackColor),
                                 ),
 
                               // CustomElevatedButton(
