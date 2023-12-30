@@ -735,23 +735,24 @@ class CreatePostHelper {
                           ],
                         ),
                       ),
-                    // OutLinedButton(
-                    //   buttonText: createPostController.selectedBrandName.value.toString(),
-                    //   buttonTextStyle: semiBold14TextStyle(cBlackColor),
-                    //   suffixWidget: CircleAvatar(
-                    //     radius: 12,
-                    //     backgroundImage: AssetImage(createPostController.selectedBrandImage.toString()),
-                    //   ),
-                    //   widget: const Icon(
-                    //     BipHip.cross,
-                    //     color: cRedColor,
-                    //   ),
-                    //   onPress: () {},
-                    //   borderColor: cLineColor2,
-                    // ),
                     if (createPostController.selectedBrandName.value == '')
                       OutLinedButton(
                         onPress: () {
+                          createPostController.tempSelectedBrandName.value = createPostController.selectedBrandName.value;
+                          if (createPostController.tempSelectedBrandName.value == '') {
+                            globalController.isBottomSheetRightButtonActive.value = false;
+                          } else {
+                            globalController.isBottomSheetRightButtonActive.value = true;
+                          }
+                          if (createPostController.tempSelectedBrandName.value == '') {
+                            for (int i = 0; i < createPostController.selectedBrandStatusList.length; i++) {
+                              if (createPostController.tempSelectedBrandName.value == createPostController.brandList[i]['name']) {
+                                createPostController.selectedBrandStatusList[i] = true;
+                              } else {
+                                createPostController.selectedBrandStatusList[i] = false;
+                              }
+                            }
+                          }
                           globalController.commonBottomSheet(
                             isScrollControlled: true,
                             bottomSheetHeight: height * 0.7,
@@ -768,6 +769,12 @@ class CreatePostHelper {
                                       () => CustomListTile(
                                         onPressed: () {
                                           selectBrandStatusChange(i);
+                                          createPostController.tempSelectedBrandName.value = createPostController.brandList[i]['name'];
+                                          if (createPostController.tempSelectedBrandName.value == '') {
+                                            globalController.isBottomSheetRightButtonActive.value = false;
+                                          } else {
+                                            globalController.isBottomSheetRightButtonActive.value = true;
+                                          }
                                         },
                                         itemColor: createPostController.selectedBrandStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
                                         borderColor: createPostController.selectedBrandStatusList[i] ? cPrimaryColor : cLineColor,
@@ -779,6 +786,12 @@ class CreatePostHelper {
                                         trailing: CustomRadioButton(
                                           onChanged: () {
                                             selectBrandStatusChange(i);
+                                            createPostController.tempSelectedBrandName.value = createPostController.brandList[i]['name'];
+                                            if (createPostController.tempSelectedBrandName.value == '') {
+                                              globalController.isBottomSheetRightButtonActive.value = false;
+                                            } else {
+                                              globalController.isBottomSheetRightButtonActive.value = true;
+                                            }
                                           },
                                           isSelected: createPostController.selectedBrandStatusList[i],
                                         ),
@@ -793,7 +806,8 @@ class CreatePostHelper {
                             },
                             onPressRightButton: () {
                               selectBrandTextChange();
-                              ll(createPostController.selectedBrandName.value);
+
+                              // ll(createPostController.selectedBrandName.value);
                               // ll(createPostController.selectedBrandImage.value);
                               Get.back();
                             },
@@ -870,7 +884,7 @@ class CreatePostHelper {
               Get.back();
             },
             onPressRightButton: () {
-              boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent()); //* Set it temporary for test case
+              // boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent()); //* Set it temporary for test case
               // Get.back();
             },
             rightText: ksDone.tr,
