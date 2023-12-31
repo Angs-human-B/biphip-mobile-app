@@ -35,15 +35,15 @@ class CreatePostHelper {
     }
   }
 
-  void selectBrandStatusChange(index) {
-    for (int i = 0; i < createPostController.selectedBrandStatusList.length; i++) {
-      if (index == i) {
-        createPostController.selectedBrandStatusList[i] = true;
-      } else {
-        createPostController.selectedBrandStatusList[i] = false;
-      }
-    }
-  }
+  // void selectBrandStatusChange(index) {
+  //   for (int i = 0; i < createPostController.selectedBrandStatusList.length; i++) {
+  //     if (index == i) {
+  //       createPostController.selectedBrandStatusList[i] = true;
+  //     } else {
+  //       createPostController.selectedBrandStatusList[i] = false;
+  //     }
+  //   }
+  // }
 
   void checkCanCreatePost() {
     if (createPostController.createPostController.text.trim().isNotEmpty) {
@@ -220,10 +220,10 @@ class CreatePostHelper {
   }
 
   void selectBrandTextChange() {
-    for (int i = 0; i < createPostController.brandList.length; i++) {
-      if (createPostController.selectedBrandStatusList[i]) {
-        createPostController.selectedBrandName.value = createPostController.brandList[i]['name'];
-        createPostController.selectedBrandImage.value = createPostController.brandList[i]['image_url'];
+    for (int i = 0; i < createPostController.storeList.length; i++) {
+      if (createPostController.tempSelectedBrandName.value == createPostController.storeList[i].name) {
+        createPostController.selectedBrandName.value = createPostController.storeList[i].name.toString();
+        createPostController.selectedBrandImage.value = Environment.imageBaseUrl + createPostController.storeList[i].image!.toString();
         break;
       }
     }
@@ -683,6 +683,7 @@ class CreatePostHelper {
         },
         onPressRightButton: () {
           createPostController.sellingPostType.value;
+          createPostController.selectedBrandName.value;
           globalController.commonBottomSheet(
             context: context,
             bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
@@ -711,10 +712,23 @@ class CreatePostHelper {
                                           height: h24,
                                           decoration: const BoxDecoration(shape: BoxShape.circle),
                                           child: Image.file(createPostController.selectedBrandImageFile.value)))
-                                  : CircleAvatar(
-                                      radius: 12,
-                                      backgroundImage: AssetImage(createPostController.selectedBrandImage.value.toString()),
-                                    ),
+                                  : Container(
+                                      width: h24,
+                                      height: h24,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: ClipOval(
+                                        child: Image.network(
+                                          createPostController.selectedBrandImage.value,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stackTrace) => const Icon(
+                                            BipHip.imageFile,
+                                            size: kIconSize120,
+                                            color: cIconColor,
+                                          ),
+                                        ),
+                                      )),
                             ),
                             Text(
                               createPostController.selectedBrandName.value.toString(),
@@ -744,16 +758,6 @@ class CreatePostHelper {
                           } else {
                             globalController.isBottomSheetRightButtonActive.value = true;
                           }
-                          if (createPostController.tempSelectedBrandName.value == '') {
-                            for (int i = 0; i < createPostController.selectedBrandStatusList.length; i++) {
-                              if (createPostController.tempSelectedBrandName.value == createPostController.brandList[i]['name']) {
-                                createPostController.selectedBrandStatusList[i] = true;
-                              } else {
-                                createPostController.selectedBrandStatusList[i] = false;
-                              }
-                            }
-                          }
-
                           globalController.commonBottomSheet(
                             isScrollControlled: true,
                             bottomSheetHeight: height * 0.6,
@@ -769,40 +773,57 @@ class CreatePostHelper {
                                           separatorBuilder: (context, index) => kH8sizedBox,
                                           itemCount: createPostController.storeList.length,
                                           itemBuilder: (context, i) {
-                                            return CustomListTile(
-                                              onPressed: () {
-                                                selectBrandStatusChange(i);
-                                              },
-                                              itemColor: createPostController.selectedBrandStatusList[i] ? cPrimaryTint3Color : cWhiteColor,
-                                              borderColor: createPostController.selectedBrandStatusList[i] ? cPrimaryColor : cLineColor,
-                                              title: createPostController.storeList[i].name,
-                                              leading: Container(
-                                                height: h24,
-                                                width: h24,
-                                                decoration: const BoxDecoration(
-                                                  color: cWhiteColor,
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                child: ClipOval(
-                                                  child: Image.network(
-                                                    Environment.imageBaseUrl + createPostController.storeList[i].image!,
-                                                    fit: BoxFit.cover,
-                                                    errorBuilder: (context, error, stackTrace) => const Icon(
-                                                      BipHip.imageFile,
-                                                      // size: kIconSize20,
-                                                      color: cIconColor,
+                                            return Obx(() => CustomListTile(
+                                                  onPressed: () {
+                                                    createPostController.tempSelectedBrandName.value = createPostController.storeList[i].name!.toString();
+                                                    if (createPostController.tempSelectedBrandName.value == '') {
+                                                      globalController.isBottomSheetRightButtonActive.value = false;
+                                                    } else {
+                                                      globalController.isBottomSheetRightButtonActive.value = true;
+                                                    }
+                                                  },
+                                                  itemColor:
+                                                      createPostController.tempSelectedBrandName.value == createPostController.storeList[i].name.toString()
+                                                          ? cPrimaryTint3Color
+                                                          : cWhiteColor,
+                                                  borderColor:
+                                                      createPostController.tempSelectedBrandName.value == createPostController.storeList[i].name.toString()
+                                                          ? cPrimaryColor
+                                                          : cLineColor,
+                                                  title: createPostController.storeList[i].name,
+                                                  leading: Container(
+                                                    height: h24,
+                                                    width: h24,
+                                                    decoration: const BoxDecoration(
+                                                      color: cWhiteColor,
+                                                      shape: BoxShape.circle,
                                                     ),
-                                                    // loadingBuilder: imageLoadingBuilder,
+                                                    child: ClipOval(
+                                                      child: Image.network(
+                                                        Environment.imageBaseUrl + createPostController.storeList[i].image!,
+                                                        fit: BoxFit.cover,
+                                                        errorBuilder: (context, error, stackTrace) => const Icon(
+                                                          BipHip.imageFile,
+                                                          // size: kIconSize20,
+                                                          color: cIconColor,
+                                                        ),
+                                                        // loadingBuilder: imageLoadingBuilder,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                              trailing: CustomRadioButton(
-                                                onChanged: () {
-                                                  selectBrandStatusChange(i);
-                                                },
-                                                isSelected: createPostController.selectedBrandStatusList[i],
-                                              ),
-                                            );
+                                                  trailing: CustomRadioButton(
+                                                    onChanged: () {
+                                                      createPostController.tempSelectedBrandName.value = createPostController.storeList[i].name.toString();
+                                                      if (createPostController.tempSelectedBrandName.value == '') {
+                                                        globalController.isBottomSheetRightButtonActive.value = false;
+                                                      } else {
+                                                        globalController.isBottomSheetRightButtonActive.value = true;
+                                                      }
+                                                    },
+                                                    isSelected:
+                                                        createPostController.tempSelectedBrandName.value == createPostController.storeList[i].name.toString(),
+                                                  ),
+                                                ));
                                           },
                                         ),
                                       ],
@@ -813,8 +834,8 @@ class CreatePostHelper {
                             },
                             onPressRightButton: () {
                               selectBrandTextChange();
-
-                              // ll(createPostController.selectedBrandName.value);
+                              createPostController.selectedBrandName.value = createPostController.tempSelectedBrandName.value;
+                              ll(createPostController.selectedBrandName.value);
                               // ll(createPostController.selectedBrandImage.value);
                               Get.back();
                             },
