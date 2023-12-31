@@ -107,7 +107,7 @@ class CustomUserListContainer extends StatelessWidget {
       },
       leading: ClipOval(
         child: Image.network(
-          Environment.imageBaseUrl + item['image_url'].toString(),
+           item['image_url'].toString(),
           fit: BoxFit.cover,
           height: h40,
           width: h40,

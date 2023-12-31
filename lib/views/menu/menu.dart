@@ -79,7 +79,7 @@ class Menu extends StatelessWidget {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Image.network(
-                                    Environment.imageBaseUrl + Get.find<GlobalController>().userImage.value.toString(),
+                                    Get.find<GlobalController>().userImage.value.toString(),
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => ClipOval(
                                       child: Image.asset(

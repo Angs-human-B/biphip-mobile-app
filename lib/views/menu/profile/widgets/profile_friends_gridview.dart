@@ -11,42 +11,45 @@ class FriendFamilyTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          color: cWhiteColor,
-          child: FriendsFamilyGridView(
-            header: ksFriends.tr,
-            count: friendController.friendList.length.toString(),
-            friendList: friendController.friendList,
-            loading: friendController.isFriendListLoading,
-          ),
-        ),
-        kH12sizedBox,
-        if (familyController.familyList.isNotEmpty)
+    return Obx(
+      () => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
           Container(
             color: cWhiteColor,
-            child: FriendsFamilyGridView(
-              header: ksFamily.tr,
-              count: familyController.familyList.length.toString(),
-              friendList: familyController.familyList,
-              loading: familyController.isFamilyListLoading,
-            ),
+            child: friendController.isFriendListLoading.value
+                ? const FriendFamilyGridViewShimmer()
+                : FriendsFamilyGridView(
+                    header: ksFriends.tr,
+                    count: friendController.allFriendCount.toString(),
+                    friendList: friendController.friendList,
+                  ),
           ),
-      ],
+          kH12sizedBox,
+          // if (familyController.familyList.isNotEmpty)
+          familyController.isFamilyListLoading.value
+              ? const FriendFamilyGridViewShimmer()
+              : Container(
+                  color: cWhiteColor,
+                  child: FriendsFamilyGridView(
+                    header: ksFamily.tr,
+                    count: familyController.allFamilyCount.toString(),
+                    friendList: familyController.familyList,
+                  ),
+                ),
+        ],
+      ),
     );
   }
 }
 
 class FriendsFamilyGridView extends StatelessWidget {
-  const FriendsFamilyGridView({super.key, required this.header, required this.count, this.seeAll, required this.friendList, required this.loading});
+  const FriendsFamilyGridView({super.key, required this.header, required this.count, this.seeAll, required this.friendList});
 
   final String header;
   final String count;
   final VoidCallback? seeAll;
   final List<FriendFamilyUserData> friendList;
-  final RxBool loading;
 
   @override
   Widget build(BuildContext context) {
@@ -59,51 +62,41 @@ class FriendsFamilyGridView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  loading.value
-                      ? ShimmerCommon(
-                          widget: Container(
-                            decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                            height: 18,
-                            width: 100,
-                          ),
-                        )
-                      : RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: header,
-                                style: semiBold18TextStyle(cBlackColor),
-                              ),
-                              TextSpan(
-                                text: '   $count ${header.toLowerCase()}',
-                                style: regular12TextStyle(cSmallBodyTextColor),
-                              )
-                            ],
-                          ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: header,
+                          style: semiBold18TextStyle(cBlackColor),
                         ),
+                        TextSpan(
+                          text: '   $count ${header.toLowerCase()}',
+                          style: regular12TextStyle(cSmallBodyTextColor),
+                        ),
+                      ],
+                    ),
+                  ),
                   CustomTextButton(onPressed: seeAll, text: ksSeeAll.tr, textStyle: semiBold14TextStyle(cPrimaryColor)),
                 ],
               ),
               kH12sizedBox,
-              loading.value
-                  ? const FriendFamilyGridViewShimmer()
-                  : GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: friendList.length <= 6 ? friendList.length : 6,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: .8,
-                        crossAxisCount: 3,
-                        crossAxisSpacing: k10Padding,
-                        mainAxisSpacing: k4Padding,
-                      ),
-                      itemBuilder: (BuildContext context, int index) {
-                        var item = friendList[index];
-                        return CustomGridViewContainer(
-                          item: item,
-                        );
-                      },
-                    ),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: friendList.length <= 6 ? friendList.length : 6,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: .8,
+                  crossAxisCount: 3,
+                  crossAxisSpacing: k10Padding,
+                  mainAxisSpacing: k4Padding,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  var item = friendList[index];
+                  return CustomGridViewContainer(
+                    item: item,
+                  );
+                },
+              ),
             ],
           )),
     );
@@ -161,41 +154,58 @@ class FriendFamilyGridViewShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: 6,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: .8,
-        crossAxisCount: 3,
-        crossAxisSpacing: k10Padding,
-        mainAxisSpacing: k4Padding,
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        return SizedBox(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ShimmerCommon(
-                widget: Container(
-                  decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                  height: 100,
-                  width: (width - 72) / 3,
-                ),
-              ),
-              kH4sizedBox,
-              ShimmerCommon(
-                widget: Container(
-                  decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                  height: 16,
-                  width: 60,
-                ),
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          kH12sizedBox,
+          ShimmerCommon(
+            widget: Container(
+              decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+              height: 18,
+              width: 100,
+            ),
           ),
-        );
-      },
+          kH12sizedBox,
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: 6,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: .8,
+              crossAxisCount: 3,
+              crossAxisSpacing: k10Padding,
+              mainAxisSpacing: k4Padding,
+            ),
+            itemBuilder: (BuildContext context, int index) {
+              return SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ShimmerCommon(
+                      widget: Container(
+                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                        height: 100,
+                        width: (width - 72) / 3,
+                      ),
+                    ),
+                    kH4sizedBox,
+                    ShimmerCommon(
+                      widget: Container(
+                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                        height: 16,
+                        width: 60,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
