@@ -516,7 +516,7 @@ class CreatePostController extends GetxController {
     } else if (storeList.isNotEmpty && storeList.length <= 1) {
       return isDeviceScreenLarge() ? height * 0.2 : height * 0.3;
     } else if (storeList.length >= 2 && storeList.length <= 3) {
-      return isDeviceScreenLarge() ? height * 0.3 : height * 0.35;
+      return isDeviceScreenLarge() ? height * 0.3 : height * 0.4;
     } else if (storeList.length >= 4 && storeList.length <= 5) {
       return isDeviceScreenLarge() ? height * 0.4 : height * 0.5;
     } else if (storeList.length >= 6 && storeList.length <= 7) {

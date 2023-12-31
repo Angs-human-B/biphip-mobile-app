@@ -829,7 +829,7 @@ class CreatePostHelper {
                                                       ));
                                                 },
                                               )
-                                            : Expanded(child: Container(alignment: Alignment.center, child: EmptyView(title: ksNoSavedStoreAvailable.tr))),
+                                            : Container(alignment: Alignment.center, child: EmptyView(height: height * 0.3, title: ksNoSavedStoreAvailable.tr)),
                                       ],
                                     ),
                             ),
