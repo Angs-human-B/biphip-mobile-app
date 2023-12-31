@@ -237,7 +237,7 @@ class CreatePostUpperSection extends StatelessWidget {
                                                 title: ksSelectSubCategory.tr,
                                                 isRightButtonShow: createPostController.subCategoryList.isEmpty ? false : true,
                                                 isScrollControlled: true,
-                                                bottomSheetHeight: createPostController.customBottomSheetHeight(),
+                                                bottomSheetHeight: createPostController.subCategoryCustomBottomSheetHeight(),
                                                 // bottomSheetHeight: height * .9
                                               );
                                             }

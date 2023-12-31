@@ -484,7 +484,7 @@ class CreatePostController extends GetxController {
     // {"id": '', "title": "Art"},
   ];
   final RxBool isSubCategorySelected = RxBool(false);
-  double customBottomSheetHeight() {
+  double subCategoryCustomBottomSheetHeight() {
     if (subCategoryList.isEmpty) {
       return height * 0.4;
     } else if (subCategoryList.length < 5) {
@@ -502,6 +502,28 @@ class CreatePostController extends GetxController {
     } else if (subCategoryList.length >= 30 && subCategoryList.length < 35) {
       return isDeviceScreenLarge() ? height * 0.75 : height * 0.85;
     } else if (subCategoryList.length >= 35 && subCategoryList.length < 40) {
+      return isDeviceScreenLarge() ? height * 0.8 : height * 0.9;
+    } else {
+      return height * 0.9;
+    }
+  }
+
+  double savedBrandCustomBottomSheetHeight() {
+    if (storeList.isEmpty) {
+      return height * 0.4;
+    } else if (storeList.isNotEmpty && storeList.length <= 1) {
+      return isDeviceScreenLarge() ? height * 0.2 : height * 0.3;
+    } else if (storeList.length >= 2 && storeList.length <= 3) {
+      return isDeviceScreenLarge() ? height * 0.3 : height * 0.35;
+    } else if (storeList.length >= 4 && storeList.length <= 5) {
+      return isDeviceScreenLarge() ? height * 0.4 : height * 0.5;
+    } else if (storeList.length >= 6 && storeList.length <= 7) {
+      return isDeviceScreenLarge() ? height * 0.5 : height * 0.6;
+    } else if (storeList.length >= 8 && storeList.length <= 9) {
+      return isDeviceScreenLarge() ? height * 0.6 : height * 0.7;
+    } else if (storeList.length >= 10 && storeList.length <= 11) {
+      return isDeviceScreenLarge() ? height * 0.7 : height * 0.8;
+    } else if (storeList.length >= 12 && storeList.length <= 13) {
       return isDeviceScreenLarge() ? height * 0.8 : height * 0.9;
     } else {
       return height * 0.9;

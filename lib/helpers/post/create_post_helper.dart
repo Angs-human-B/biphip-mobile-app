@@ -7,6 +7,7 @@ import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/select_category.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
+import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -760,72 +761,75 @@ class CreatePostHelper {
                           }
                           globalController.commonBottomSheet(
                             isScrollControlled: true,
-                            bottomSheetHeight: height * 0.6,
+                            bottomSheetHeight: createPostController.savedBrandCustomBottomSheetHeight(),
                             context: context,
                             content: Obx(
                               () => createPostController.isStoreListLoading.value
                                   ? const KidListShimmer()
                                   : Column(
                                       children: [
-                                        ListView.separated(
-                                          shrinkWrap: true,
-                                          physics: const NeverScrollableScrollPhysics(),
-                                          separatorBuilder: (context, index) => kH8sizedBox,
-                                          itemCount: createPostController.storeList.length,
-                                          itemBuilder: (context, i) {
-                                            return Obx(() => CustomListTile(
-                                                  onPressed: () {
-                                                    createPostController.tempSelectedBrandName.value = createPostController.storeList[i].name!.toString();
-                                                    if (createPostController.tempSelectedBrandName.value == '') {
-                                                      globalController.isBottomSheetRightButtonActive.value = false;
-                                                    } else {
-                                                      globalController.isBottomSheetRightButtonActive.value = true;
-                                                    }
-                                                  },
-                                                  itemColor:
-                                                      createPostController.tempSelectedBrandName.value == createPostController.storeList[i].name.toString()
-                                                          ? cPrimaryTint3Color
-                                                          : cWhiteColor,
-                                                  borderColor:
-                                                      createPostController.tempSelectedBrandName.value == createPostController.storeList[i].name.toString()
-                                                          ? cPrimaryColor
-                                                          : cLineColor,
-                                                  title: createPostController.storeList[i].name,
-                                                  leading: Container(
-                                                    height: h24,
-                                                    width: h24,
-                                                    decoration: const BoxDecoration(
-                                                      color: cWhiteColor,
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                    child: ClipOval(
-                                                      child: Image.network(
-                                                        Environment.imageBaseUrl + createPostController.storeList[i].image!,
-                                                        fit: BoxFit.cover,
-                                                        errorBuilder: (context, error, stackTrace) => const Icon(
-                                                          BipHip.imageFile,
-                                                          // size: kIconSize20,
-                                                          color: cIconColor,
+                                        createPostController.storeList.isNotEmpty
+                                            ? ListView.separated(
+                                                shrinkWrap: true,
+                                                physics: const NeverScrollableScrollPhysics(),
+                                                separatorBuilder: (context, index) => kH8sizedBox,
+                                                itemCount: createPostController.storeList.length,
+                                                itemBuilder: (context, i) {
+                                                  return Obx(() => CustomListTile(
+                                                        onPressed: () {
+                                                          createPostController.tempSelectedBrandName.value = createPostController.storeList[i].name!.toString();
+                                                          if (createPostController.tempSelectedBrandName.value == '') {
+                                                            globalController.isBottomSheetRightButtonActive.value = false;
+                                                          } else {
+                                                            globalController.isBottomSheetRightButtonActive.value = true;
+                                                          }
+                                                        },
+                                                        itemColor: createPostController.tempSelectedBrandName.value ==
+                                                                createPostController.storeList[i].name.toString()
+                                                            ? cPrimaryTint3Color
+                                                            : cWhiteColor,
+                                                        borderColor: createPostController.tempSelectedBrandName.value ==
+                                                                createPostController.storeList[i].name.toString()
+                                                            ? cPrimaryColor
+                                                            : cLineColor,
+                                                        title: createPostController.storeList[i].name,
+                                                        leading: Container(
+                                                          height: h24,
+                                                          width: h24,
+                                                          decoration: const BoxDecoration(
+                                                            color: cWhiteColor,
+                                                            shape: BoxShape.circle,
+                                                          ),
+                                                          child: ClipOval(
+                                                            child: Image.network(
+                                                              Environment.imageBaseUrl + createPostController.storeList[i].image!,
+                                                              fit: BoxFit.cover,
+                                                              errorBuilder: (context, error, stackTrace) => const Icon(
+                                                                BipHip.imageFile,
+                                                                // size: kIconSize20,
+                                                                color: cIconColor,
+                                                              ),
+                                                              // loadingBuilder: imageLoadingBuilder,
+                                                            ),
+                                                          ),
                                                         ),
-                                                        // loadingBuilder: imageLoadingBuilder,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  trailing: CustomRadioButton(
-                                                    onChanged: () {
-                                                      createPostController.tempSelectedBrandName.value = createPostController.storeList[i].name.toString();
-                                                      if (createPostController.tempSelectedBrandName.value == '') {
-                                                        globalController.isBottomSheetRightButtonActive.value = false;
-                                                      } else {
-                                                        globalController.isBottomSheetRightButtonActive.value = true;
-                                                      }
-                                                    },
-                                                    isSelected:
-                                                        createPostController.tempSelectedBrandName.value == createPostController.storeList[i].name.toString(),
-                                                  ),
-                                                ));
-                                          },
-                                        ),
+                                                        trailing: CustomRadioButton(
+                                                          onChanged: () {
+                                                            createPostController.tempSelectedBrandName.value =
+                                                                createPostController.storeList[i].name.toString();
+                                                            if (createPostController.tempSelectedBrandName.value == '') {
+                                                              globalController.isBottomSheetRightButtonActive.value = false;
+                                                            } else {
+                                                              globalController.isBottomSheetRightButtonActive.value = true;
+                                                            }
+                                                          },
+                                                          isSelected: createPostController.tempSelectedBrandName.value ==
+                                                              createPostController.storeList[i].name.toString(),
+                                                        ),
+                                                      ));
+                                                },
+                                              )
+                                            : Expanded(child: Container(alignment: Alignment.center, child: EmptyView(title: ksNoSavedStoreAvailable.tr))),
                                       ],
                                     ),
                             ),
