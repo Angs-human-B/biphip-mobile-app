@@ -2,7 +2,6 @@ import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
-import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AddBrandPage extends StatelessWidget {
@@ -11,6 +10,7 @@ class AddBrandPage extends StatelessWidget {
   final CreatePostController createPostController = Get.find<CreatePostController>();
   final CreatePostHelper createHelper = CreatePostHelper();
   final GlobalController globalController = Get.find<GlobalController>();
+  final FocusNode businessTypeFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -174,15 +174,77 @@ class AddBrandPage extends StatelessWidget {
                                 inputAction: TextInputAction.next,
                                 inputType: TextInputType.text,
                               ),
-                              CustomModifiedTextField(
-                                controller: createPostController.businessTypeTextEditingController,
-                                hint: ksSelectBusinessType.tr,
-                                onChanged: (text) {
-                                  createPostController.checkCanSaveBrand();
+                              RawAutocomplete(
+                                textEditingController: createPostController.businessTypeTextEditingController,
+                                focusNode: businessTypeFocusNode,
+                                optionsBuilder: (TextEditingValue textEditingValue) {
+                                  return createPostController.businessType.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
                                 },
-                                onSubmit: (text) {},
-                                inputAction: TextInputAction.next,
-                                inputType: TextInputType.text,
+                                onSelected: (option) {
+                                  createPostController.businessTypeTextEditingController.text = option;
+                                },
+                                optionsViewBuilder: (context, Function(String) onSelected, options) {
+                                  return Align(
+                                    alignment: Alignment.topLeft,
+                                    child: SizedBox(
+                                      width: width - 40,
+                                      child: Material(
+                                        elevation: 4,
+                                        child: ListView.separated(
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, index) {
+                                            final option = options.elementAt(index);
+                                            return CustomListTile(
+                                              title: Text(
+                                                option.toString(),
+                                                style: medium16TextStyle(cBlackColor),
+                                              ),
+                                              onPressed: () {
+                                                onSelected(option.toString());
+                                                createPostController.businessTypeTextEditingController.text = option.toString();
+                                                createPostController.checkCanSaveBrand();
+                                                createPostController.isAddBrandSuffixIconVisible.value = false;
+                                                unfocus(context);
+                                              },
+                                            );
+                                          },
+                                          separatorBuilder: (context, index) => Container(
+                                            height: 1,
+                                            color: cLineColor,
+                                          ),
+                                          itemCount: options.length,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                                  return Obx(
+                                    () => CustomModifiedTextField(
+                                      focusNode: focusNode,
+                                      controller: createPostController.businessTypeTextEditingController,
+                                      hint: ksSelectBusinessType.tr,
+                                      suffixIcon: createPostController.isAddBrandSuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                                      onSuffixPress: () {
+                                        createPostController.isAddBrandSuffixIconVisible.value = false;
+                                        createPostController.businessTypeTextEditingController.clear();
+                                      },
+                                      onChanged: (text) {
+                                        if (createPostController.businessTypeTextEditingController.text.trim() != '') {
+                                          createPostController.isAddBrandSuffixIconVisible.value = true;
+                                        } else {
+                                          createPostController.isAddBrandSuffixIconVisible.value = false;
+                                        }
+                                      },
+                                      onSubmit: (text) {
+                                        createPostController.isAddBrandSuffixIconVisible.value = false;
+                                      },
+                                      inputAction: TextInputAction.next,
+                                      inputType: TextInputType.text,
+                                    ),
+                                  );
+                                },
                               ),
                               Text(
                                 ksAddSocialLinks.tr,
