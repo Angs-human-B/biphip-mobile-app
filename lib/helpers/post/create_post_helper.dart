@@ -829,7 +829,10 @@ class CreatePostHelper {
                                                       ));
                                                 },
                                               )
-                                            : Container(alignment: Alignment.center, child: EmptyView(height: height * 0.3, title: ksNoSavedStoreAvailable.tr)),
+                                            : Container(
+                                                alignment: Alignment.center,
+                                                child:
+                                                    EmptyView(height: isDeviceScreenLarge() ? height * 0.3 : height * 0.25, title: ksNoSavedStoreAvailable.tr)),
                                       ],
                                     ),
                             ),
@@ -846,7 +849,7 @@ class CreatePostHelper {
                             rightText: ksDone.tr,
                             rightTextStyle: medium14TextStyle(cPrimaryColor),
                             title: ksSelectBrands.tr,
-                            isRightButtonShow: true,
+                            isRightButtonShow: createPostController.storeList.isNotEmpty ? true : false,
                           );
                           await createPostController.getStoreList();
                         },

@@ -632,7 +632,7 @@ class CreatePost extends StatelessWidget {
                                                 createPostController.selectedAction.value = createPostController.tempSelectedAction.value;
                                                 Get.back();
                                               },
-                                              rightText: 'Done',
+                                              rightText: ksDone.tr,
                                               rightTextStyle: semiBold16TextStyle(cPrimaryColor),
                                               title: ksSelectPlatform.tr,
                                               isRightButtonShow: true);
