@@ -64,6 +64,8 @@ class CreatePostController extends GetxController {
   final RxString biddingEndTime = RxString('');
   final RxString tempBiddingEndTime = RxString('');
 
+  final RxList<String> businessType = RxList<String>(['Electronics', 'Shop', 'Gadgets', 'Hardware']);
+  final RxBool isAddBrandSuffixIconVisible = RxBool(false);
   final List audienceTypeList = [
     {"title": "Public", "subtitle": "Anyone from BipHip", "icon": BipHip.world},
     {"title": "Friends", "subtitle": "Your friends from BipHip", "icon": BipHip.friends},
