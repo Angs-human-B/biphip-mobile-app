@@ -341,14 +341,7 @@ class SellingCategoryBottomSheetContent extends StatelessWidget {
       children: [
         Obx(() => OutLinedButton(
               onPress: () {
-                createPostController.isRegularPost.value = true;
-                createPostController.isBiddingPost.value = false;
-                createPostController.tempSellingPostType.value = ksRegularPost.tr;
-                if (createPostController.tempSellingPostType.value == '') {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                } else {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                }
+                CreatePostHelper().regularSellingPostSelect();
               },
               suffixWidget: Padding(
                 padding: const EdgeInsets.only(right: k8Padding),
@@ -394,14 +387,7 @@ class SellingCategoryBottomSheetContent extends StatelessWidget {
         kH16sizedBox,
         Obx(() => OutLinedButton(
               onPress: () {
-                createPostController.isRegularPost.value = false;
-                createPostController.isBiddingPost.value = true;
-                createPostController.tempSellingPostType.value = ksBiddingPost.tr;
-                if (createPostController.tempSellingPostType.value == '') {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                } else {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                }
+                CreatePostHelper().biddingSellingPostSelect();
               },
               suffixWidget: Padding(
                 padding: const EdgeInsets.only(right: k8Padding),

@@ -225,6 +225,7 @@ class CreatePostHelper {
             title: ksBrands.tr,
             isRightButtonShow: true,
           );
+       
         },
         rightText: ksNext.tr,
         rightTextStyle: medium14TextStyle(cPrimaryColor),
@@ -383,6 +384,43 @@ class CreatePostHelper {
     } else {
       createPostController.postSecondaryLocalCirclerAvatar.value = createPostController.kidImageFile.value;
       globalController.isBottomSheetRightButtonActive.value = true;
+    }
+  }
+
+  void regularSellingPostSelect() {
+    createPostController.isRegularPost.value = true;
+    createPostController.isBiddingPost.value = false;
+    createPostController.tempSellingPostType.value = ksRegularPost.tr;
+    if (createPostController.tempSellingPostType.value == '') {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+    } else {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+    }
+  }
+
+  void biddingSellingPostSelect() {
+    createPostController.isRegularPost.value = false;
+    createPostController.isBiddingPost.value = true;
+    createPostController.tempSellingPostType.value = ksBiddingPost.tr;
+    if (createPostController.tempSellingPostType.value == '') {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+    } else {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+    }
+  }
+
+  void sellingPostTypeSelect() {
+    if (createPostController.tempSellingPostType.value == '') {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+      createPostController.isRegularPost.value = false;
+      createPostController.isBiddingPost.value = false;
+    } else {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+      if (createPostController.tempSellingPostType.value == 'Regular Post') {
+        createPostController.isRegularPost.value = true;
+      } else {
+        createPostController.isBiddingPost.value = true;
+      }
     }
   }
 
@@ -625,4 +663,3 @@ void boostPostAlertDialog({required BuildContext context, required Widget conten
     ),
   );
 }
-

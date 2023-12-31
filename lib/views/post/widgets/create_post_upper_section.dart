@@ -234,7 +234,6 @@ class CreatePostUpperSection extends StatelessWidget {
                                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(k4BorderRadius),
-                                          // side: BorderSide(color: (buttonColor == cWhiteColor) ? (borderColor ?? cPrimaryColor) : cTransparentColor, width: 1),
                                         )),
                                         backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
                                           if (states.contains(MaterialState.disabled)) {
@@ -278,18 +277,7 @@ class CreatePostUpperSection extends StatelessWidget {
                                   label: createPostController.sellingPostType.value == '' ? ksPostType.tr : createPostController.sellingPostType.value,
                                   onPressed: () {
                                     createPostController.tempSellingPostType.value = createPostController.sellingPostType.value;
-                                    if (createPostController.tempSellingPostType.value == '') {
-                                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                                      createPostController.isRegularPost.value = false;
-                                      createPostController.isBiddingPost.value = false;
-                                    } else {
-                                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                                      if (createPostController.tempSellingPostType.value == 'Regular Post') {
-                                        createPostController.isRegularPost.value = true;
-                                      } else {
-                                        createPostController.isBiddingPost.value = true;
-                                      }
-                                    }
+                                    createPostHelper.sellingPostTypeSelect();
                                     Get.find<GlobalController>().commonBottomSheet(
                                       context: context,
                                       bottomSheetHeight: isDeviceScreenLarge() ? height * .25 : height * 0.35,
@@ -299,7 +287,23 @@ class CreatePostUpperSection extends StatelessWidget {
                                       },
                                       onPressRightButton: () {
                                         createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
-                                        Get.back();
+                                        createPostController.selectedBrandName.value = createPostController.tempSelectedBrandName.value;
+                                        Get.find<GlobalController>().commonBottomSheet(
+                                          context: context,
+                                          bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
+                                          content: BrandBottomSheetContent(),
+                                          onPressCloseButton: () {
+                                            Get.back();
+                                          },
+                                          onPressRightButton: () {
+                                            // boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent()); //* Set it temporary for test case
+                                            // Get.back();
+                                          },
+                                          rightText: ksDone.tr,
+                                          rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                          title: ksBrands.tr,
+                                          isRightButtonShow: true,
+                                        );
                                       },
                                       rightText: ksNext.tr,
                                       rightTextStyle: medium14TextStyle(cPrimaryColor),
@@ -353,7 +357,6 @@ class SubCategoryContent extends StatelessWidget {
                       for (int i = 0; i < Get.find<CreatePostController>().subCategoryList.length; i++)
                         CustomChoiceChips(
                           label: Get.find<CreatePostController>().subCategoryList[i]["title"],
-                          // labelStyle: semiBold12TextStyle(Get.find<CreatePostController>().isSubCategorySelected.value ? cPrimaryColor : cBlackColor),
                           isSelected: (Get.find<CreatePostController>().tempSubCategoryIndex.value == i),
                           onSelected: (value) {
                             Get.find<CreatePostController>().tempSubCategory.value = Get.find<CreatePostController>().subCategoryList[i]["title"];
