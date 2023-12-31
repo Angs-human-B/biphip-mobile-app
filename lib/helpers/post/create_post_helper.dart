@@ -207,8 +207,8 @@ class CreatePostHelper {
           Get.back();
         },
         onPressRightButton: () {
-          createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
-          createPostController.selectedBrandName.value = createPostController.tempSelectedBrandName.value;
+          createPostController.sellingPostType.value = '';
+          createPostController.selectedBrandName.value = '';
           globalController.commonBottomSheet(
             context: context,
             bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
@@ -218,7 +218,9 @@ class CreatePostHelper {
             },
             onPressRightButton: () {
               // boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent()); //* Set it temporary for test case
-              // Get.back();
+              Get.back();
+              Get.back();
+              Get.back();
             },
             rightText: ksDone.tr,
             rightTextStyle: medium14TextStyle(cPrimaryColor),
@@ -625,4 +627,3 @@ void boostPostAlertDialog({required BuildContext context, required Widget conten
     ),
   );
 }
-
