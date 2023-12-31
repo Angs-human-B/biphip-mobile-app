@@ -343,8 +343,12 @@ class SellingCategoryBottomSheetContent extends StatelessWidget {
               onPress: () {
                 createPostController.isRegularPost.value = true;
                 createPostController.isBiddingPost.value = false;
-                createPostController.sellingPostType.value = ksRegularPost.tr;
-                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                createPostController.tempSellingPostType.value = ksRegularPost.tr;
+                if (createPostController.tempSellingPostType.value == '') {
+                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                } else {
+                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                }
               },
               suffixWidget: Padding(
                 padding: const EdgeInsets.only(right: k8Padding),
@@ -381,57 +385,65 @@ class SellingCategoryBottomSheetContent extends StatelessWidget {
               ),
               buttonText: ksRegularPost.tr,
               buttonTextStyle: medium16TextStyle(cBlackColor),
-              borderColor: createPostController.isRegularPost.value ? cPrimaryColor : cLineColor,
-              buttonColor: createPostController.isRegularPost.value ? cPrimaryTint2Color : cWhiteColor,
+              borderColor:
+                  createPostController.tempSellingPostType.value == 'Regular Post' && createPostController.isRegularPost.value ? cPrimaryColor : cLineColor,
+              buttonColor: createPostController.tempSellingPostType.value == 'Regular Post' && createPostController.isRegularPost.value
+                  ? cPrimaryTint2Color
+                  : cWhiteColor,
             )),
         kH16sizedBox,
-        Obx(
-          () => OutLinedButton(
-            onPress: () {
-              createPostController.isRegularPost.value = false;
-              createPostController.isBiddingPost.value = true;
-              createPostController.sellingPostType.value = ksBiddingPost.tr;
-              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-            },
-            suffixWidget: Padding(
-              padding: const EdgeInsets.only(right: k8Padding),
-              child: Stack(
-                children: [
-                  Container(
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      borderRadius: k100CircularBorderRadius,
-                      gradient: const LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          cYellowLinearColor1,
-                          cYellowLinearColor2,
-                        ],
+        Obx(() => OutLinedButton(
+              onPress: () {
+                createPostController.isRegularPost.value = false;
+                createPostController.isBiddingPost.value = true;
+                createPostController.tempSellingPostType.value = ksBiddingPost.tr;
+                if (createPostController.tempSellingPostType.value == '') {
+                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                } else {
+                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                }
+              },
+              suffixWidget: Padding(
+                padding: const EdgeInsets.only(right: k8Padding),
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: k100CircularBorderRadius,
+                        gradient: const LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.topLeft,
+                          colors: [
+                            cYellowLinearColor1,
+                            cYellowLinearColor2,
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    top: 7,
-                    bottom: 7,
-                    child: SvgPicture.asset(
-                      kiBiddingPostSvgUrl,
-                      width: 16,
-                      height: 16,
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 7,
+                      bottom: 7,
+                      child: SvgPicture.asset(
+                        kiBiddingPostSvgUrl,
+                        width: 16,
+                        height: 16,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            buttonText: ksBiddingPost.tr,
-            buttonTextStyle: medium16TextStyle(cBlackColor),
-            borderColor: createPostController.isBiddingPost.value ? cPrimaryColor : cLineColor,
-            buttonColor: createPostController.isBiddingPost.value ? cPrimaryTint2Color : cWhiteColor,
-          ),
-        ),
+              buttonText: ksBiddingPost.tr,
+              buttonTextStyle: medium16TextStyle(cBlackColor),
+              borderColor:
+                  createPostController.tempSellingPostType.value == 'Bidding Post' && createPostController.isBiddingPost.value ? cPrimaryColor : cLineColor,
+              buttonColor: createPostController.tempSellingPostType.value == 'Bidding Post' && createPostController.isBiddingPost.value
+                  ? cPrimaryTint2Color
+                  : cWhiteColor,
+            )),
       ],
     );
   }
@@ -809,4 +821,3 @@ class BoostPostContent extends StatelessWidget {
     );
   }
 }
-

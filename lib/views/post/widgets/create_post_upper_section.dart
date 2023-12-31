@@ -1,10 +1,9 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/post/widgets/create_post_bottom_sheet_contents.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
-import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
-import 'package:flutter_svg/svg.dart';
 
 class CreatePostUpperSection extends StatelessWidget {
   CreatePostUpperSection({super.key});
@@ -294,121 +293,7 @@ class CreatePostUpperSection extends StatelessWidget {
                                     Get.find<GlobalController>().commonBottomSheet(
                                       context: context,
                                       bottomSheetHeight: isDeviceScreenLarge() ? height * .25 : height * 0.35,
-                                      content: Column(
-                                        children: [
-                                          Obx(() => OutLinedButton(
-                                                onPress: () {
-                                                  createPostController.isRegularPost.value = true;
-                                                  createPostController.isBiddingPost.value = false;
-                                                  createPostController.tempSellingPostType.value = ksRegularPost.tr;
-                                                  if (createPostController.tempSellingPostType.value == '') {
-                                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                                                  } else {
-                                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                                                  }
-                                                },
-                                                suffixWidget: Padding(
-                                                  padding: const EdgeInsets.only(right: k8Padding),
-                                                  child: Stack(
-                                                    children: [
-                                                      Container(
-                                                        width: 30,
-                                                        height: 30,
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: k100CircularBorderRadius,
-                                                          gradient: const LinearGradient(
-                                                            begin: Alignment.topRight,
-                                                            end: Alignment.topLeft,
-                                                            colors: [
-                                                              cBlueLinearColor1,
-                                                              cBlueLinearColor2,
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Positioned(
-                                                        left: 0,
-                                                        right: 0,
-                                                        top: 7,
-                                                        bottom: 7,
-                                                        child: SvgPicture.asset(
-                                                          kiRegularPostSvgUrl,
-                                                          width: 16,
-                                                          height: 16,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                buttonText: ksRegularPost.tr,
-                                                buttonTextStyle: medium16TextStyle(cBlackColor),
-                                                borderColor:
-                                                    createPostController.tempSellingPostType.value == 'Regular Post' && createPostController.isRegularPost.value
-                                                        ? cPrimaryColor
-                                                        : cLineColor,
-                                                buttonColor:
-                                                    createPostController.tempSellingPostType.value == 'Regular Post' && createPostController.isRegularPost.value
-                                                        ? cPrimaryTint2Color
-                                                        : cWhiteColor,
-                                              )),
-                                          kH16sizedBox,
-                                          Obx(() => OutLinedButton(
-                                                onPress: () {
-                                                  createPostController.isRegularPost.value = false;
-                                                  createPostController.isBiddingPost.value = true;
-                                                  createPostController.tempSellingPostType.value = ksBiddingPost.tr;
-                                                  if (createPostController.tempSellingPostType.value == '') {
-                                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                                                  } else {
-                                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                                                  }
-                                                },
-                                                suffixWidget: Padding(
-                                                  padding: const EdgeInsets.only(right: k8Padding),
-                                                  child: Stack(
-                                                    children: [
-                                                      Container(
-                                                        width: 30,
-                                                        height: 30,
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: k100CircularBorderRadius,
-                                                          gradient: const LinearGradient(
-                                                            begin: Alignment.topRight,
-                                                            end: Alignment.topLeft,
-                                                            colors: [
-                                                              cYellowLinearColor1,
-                                                              cYellowLinearColor2,
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Positioned(
-                                                        left: 0,
-                                                        right: 0,
-                                                        top: 7,
-                                                        bottom: 7,
-                                                        child: SvgPicture.asset(
-                                                          kiBiddingPostSvgUrl,
-                                                          width: 16,
-                                                          height: 16,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                buttonText: ksBiddingPost.tr,
-                                                buttonTextStyle: medium16TextStyle(cBlackColor),
-                                                borderColor:
-                                                    createPostController.tempSellingPostType.value == 'Bidding Post' && createPostController.isBiddingPost.value
-                                                        ? cPrimaryColor
-                                                        : cLineColor,
-                                                buttonColor:
-                                                    createPostController.tempSellingPostType.value == 'Bidding Post' && createPostController.isBiddingPost.value
-                                                        ? cPrimaryTint2Color
-                                                        : cWhiteColor,
-                                              )),
-                                        ],
-                                      ),
+                                      content: SellingCategoryBottomSheetContent(),
                                       onPressCloseButton: () {
                                         Get.back();
                                       },
