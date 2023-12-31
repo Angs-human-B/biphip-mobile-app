@@ -40,7 +40,7 @@ class Photos extends StatelessWidget {
                       child: Center(
                         child: Container(
                           alignment: Alignment.center,
-                          child:  EmptyView(
+                          child: EmptyView(
                             title: ksNoImageAvailable.tr,
                           ),
                         ),
@@ -86,7 +86,7 @@ class Photos extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: k8CircularBorderRadius,
                                 child: Image.network(
-                                  Environment.imageBaseUrl + imageUrl,
+                                  imageUrl,
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) => const Icon(
                                     BipHip.imageFile,

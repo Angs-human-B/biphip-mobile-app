@@ -60,7 +60,7 @@ class AllFriendListView extends StatelessWidget {
                                         ),
                                         child: ClipOval(
                                           child: Image.network(
-                                            Environment.imageBaseUrl + friendController.friendList[index].profilePicture.toString(),
+                                            friendController.friendList[index].profilePicture.toString(),
                                             fit: BoxFit.cover,
                                             errorBuilder: (context, error, stackTrace) {
                                               return Image.asset(kiProfileDefaultImageUrl);

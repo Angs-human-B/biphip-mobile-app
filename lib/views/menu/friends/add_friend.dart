@@ -91,7 +91,7 @@ class AddFriend extends StatelessWidget {
                                                 borderRadius: BorderRadius.circular(k8BorderRadius),
                                                 child: Obx(
                                                   () => FriendFamilySingleButtonAction(
-                                                    backgroundImage: Environment.imageBaseUrl + friendController.addFriendList[index].profilePicture.toString(),
+                                                    backgroundImage: friendController.addFriendList[index].profilePicture.toString(),
                                                     name: friendController.addFriendList[index].fullName ?? ksNA.tr,
                                                     buttonText: friendController.addFriendList[index].friendStatus == 0 ? ksSendRequest.tr : ksCancelRequest.tr,
                                                     buttonColor: friendController.addFriendList[index].friendStatus == 0 ? cPrimaryColor : cWhiteColor,

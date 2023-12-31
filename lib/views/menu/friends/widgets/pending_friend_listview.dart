@@ -56,7 +56,7 @@ class PendingFriendListView extends StatelessWidget {
                                         ),
                                         child: ClipOval(
                                           child: Image.network(
-                                            Environment.imageBaseUrl + friendController.sendFriendRequestList[index].profilePicture.toString(),
+                                            friendController.sendFriendRequestList[index].profilePicture.toString(),
                                             fit: BoxFit.cover,
                                             errorBuilder: (context, error, stackTrace) {
                                               return Image.asset(kiProfileDefaultImageUrl);
@@ -124,6 +124,3 @@ class PendingFriendListView extends StatelessWidget {
     );
   }
 }
-
-
-

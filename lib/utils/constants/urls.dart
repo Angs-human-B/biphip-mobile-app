@@ -82,7 +82,7 @@ const String kuGetGeneralSetting = '/mobile/user/get-user-setting';
 const String kuSetProfilePicture = '/mobile/user/store-profile-picture';
 const String kuSetCoverPhoto = '/user/store-cover-photo';
 //*Photos & Albums
-const String kuAlbumList = '/mobile/user/get-my-albums';
+const String kuAlbumList = '/mobile/user/get-my-image-albums';
 
 //---------------------------------------
 //* Friends and Family
@@ -121,8 +121,9 @@ const String kuGetSearchFriends = '/mobile/user/search-friends';
 //---------------------------------------
 
 const String kuAddKid = '/mobile/user/store-kid';
-const String kuAddBrand = '/mobile/user/store-brand';
+const String kuAddStore = '/mobile/user/store-store';
 const String kuCreatePost = '/mobile/user/store-post';
+const String kuGetStores = '/mobile/user/get-all-stores';
 
 //---------------------------------------
 //* Home page

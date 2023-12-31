@@ -11,7 +11,7 @@ class GalleryPhotoHelper {
 
   void yourPhotosTapableButton() {
     galleryController.imageDataList.clear();
-    for (var album in galleryController.albumData.value!.imageAlbums!.data) {
+    for (var album in galleryController.albumData.value!.imageAlbums.data) {
       if (album.title!.toLowerCase() == 'profile picture' || album.title!.toLowerCase() == 'cover photo') {
         galleryController.imageDataList.add(album);
       }
@@ -20,7 +20,7 @@ class GalleryPhotoHelper {
 
   void albumsTapableButton() {
     galleryController.imageDataList.clear();
-    for (var album in galleryController.albumData.value!.imageAlbums!.data) {
+    for (var album in galleryController.albumData.value!.imageAlbums.data) {
       if (album.title!.toLowerCase() != 'profile picture' && album.title!.toLowerCase() != 'cover photo') {
         galleryController.imageDataList.add(album);
       }

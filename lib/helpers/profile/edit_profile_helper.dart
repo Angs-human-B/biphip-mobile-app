@@ -846,7 +846,7 @@ class EditProfileHelper {
       if (!profileController.commonEditTextEditingController.text.isValidEmail) {
         profileController.commonEditTextFieldErrorText.value = ksInvalidEmailErrorMessage.tr;
       } else {
-        profileController.commonEditTextFieldErrorText.value = '';
+        profileController.commonEditTextFieldErrorText.value = null;
       }
     }
     checkSaveButtonActive();

@@ -75,7 +75,7 @@ class EditProfile extends StatelessWidget {
                                         ),
                                         child: ClipOval(
                                           child: Image.network(
-                                            Environment.imageBaseUrl + profileController.userData.value!.profilePicture.toString(),
+                                            profileController.userData.value!.profilePicture.toString(),
                                             fit: BoxFit.cover,
                                             errorBuilder: (context, error, stackTrace) => const Icon(
                                               BipHip.user,
@@ -115,7 +115,7 @@ class EditProfile extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: k8CircularBorderRadius,
                                       child: Image.network(
-                                        Environment.imageBaseUrl + profileController.userData.value!.coverPhoto.toString(),
+                                        profileController.userData.value!.coverPhoto.toString(),
                                         height: 150,
                                         width: width,
                                         fit: BoxFit.cover,
@@ -248,18 +248,18 @@ class IntroContents extends StatelessWidget {
                 prefixText: '',
                 onPressed: null,
               ),
-            if (profileController.schoolDataList.isNotEmpty)
+            if (profileController.profileData.value!.school != null)
               LinkUpIconTextRow(
                 icon: BipHip.school,
-                suffixText: checkNullOrStringNull(profileController.schoolDataList[0].school),
-                prefixText: profileController.schoolDataList[0].ended != null ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
+                suffixText: checkNullOrStringNull(profileController.profileData.value!.school!.school),
+                prefixText: profileController.profileData.value!.school!.graduated == 1 ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
                 onPressed: null,
               ),
-            if (profileController.collegeDataList.isNotEmpty)
+            if (profileController.profileData.value!.college != null)
               LinkUpIconTextRow(
                 icon: BipHip.school,
-                suffixText: checkNullOrStringNull(profileController.collegeDataList[0].school),
-                prefixText: profileController.collegeDataList[0].ended != null ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
+                suffixText: checkNullOrStringNull(profileController.profileData.value!.college!.school),
+                prefixText: profileController.profileData.value!.college!.graduated == 1 ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
                 onPressed: null,
               ),
             if (profileController.currentWorkplace.value != null)

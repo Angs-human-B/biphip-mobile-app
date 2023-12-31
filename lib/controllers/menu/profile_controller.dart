@@ -88,7 +88,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final List<String> schoolList = [];
   final RxString birthday = RxString('');
   final RxBool showEditRelationshipStatus = RxBool(false);
-  final RxString commonEditTextFieldErrorText = RxString('');
+  final Rx<String?> commonEditTextFieldErrorText = Rx<String?>(null);
   final RxBool showCommonEditSuffixIcon = RxBool(false);
   final RxBool showCommonSecondaryEditSuffixIcon = RxBool(false);
   final RxList relationshipStatusList = RxList([]);
@@ -157,8 +157,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         hometownData.value = profileData.value!.hometown;
         currentCityData.value = profileData.value!.currentCity;
         currentWorkplace.value = profileData.value!.currentWorkplace;
-        schoolDataList.addAll(profileData.value!.school);
-        collegeDataList.addAll(profileData.value!.college);
+        schoolDataList.addAll(profileData.value!.schools);
+        collegeDataList.addAll(profileData.value!.colleges);
         contactDataList.addAll(profileData.value!.contacts);
         for (int i = 0; i < contactDataList.length; i++) {
           if (contactDataList[i].type == 'email') {

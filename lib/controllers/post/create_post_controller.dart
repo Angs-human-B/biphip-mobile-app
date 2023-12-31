@@ -295,7 +295,7 @@ class CreatePostController extends GetxController {
         'social_links': json.encode(brandSocialLinkList),
       };
       var response = await apiController.mediaUpload(
-        url: kuAddBrand,
+        url: kuAddStore,
         body: body,
         token: token,
         key: 'image',
@@ -318,6 +318,38 @@ class CreatePostController extends GetxController {
     } catch (e) {
       isAddBrandPageLoading.value = false;
       ll('addBrand error: $e');
+    }
+  }
+
+  Rx<StoreModel?> storeListData = Rx<StoreModel?>(null);
+  RxBool isStoreListLoading = RxBool(false);
+  RxList<Store> storeList = RxList<Store>([]);
+  Future<void> getStoreList() async {
+    try {
+      isStoreListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetStores,
+      ) as CommonDM;
+      if (response.success == true) {
+        storeList.clear();
+        storeListData.value = StoreModel.fromJson(response.data);
+        storeList.addAll(storeListData.value!.stores);
+        isStoreListLoading.value = false;
+      } else {
+        isStoreListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreListLoading.value = true;
+      ll('getStoreList error: $e');
     }
   }
 

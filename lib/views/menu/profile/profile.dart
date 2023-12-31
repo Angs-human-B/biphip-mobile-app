@@ -62,7 +62,7 @@ class Profile extends StatelessWidget {
                                     width: width,
                                     decoration: const BoxDecoration(color: cBlackColor, border: Border(bottom: BorderSide(color: cLineColor))),
                                     child: Image.network(
-                                      Environment.imageBaseUrl + profileController.userData.value!.coverPhoto.toString(),
+                                      profileController.userData.value!.coverPhoto.toString(),
                                       fit: BoxFit.cover,
                                       errorBuilder: (context, error, stackTrace) =>
                                           imageErrorBuilderCover(context, error, stackTrace, BipHip.imageFile, kIconSize120),
@@ -92,7 +92,7 @@ class Profile extends StatelessWidget {
                                           ),
                                           child: ClipOval(
                                             child: Image.network(
-                                              Environment.imageBaseUrl + profileController.userData.value!.profilePicture.toString(),
+                                              profileController.userData.value!.profilePicture.toString(),
                                               fit: BoxFit.cover,
                                               errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(
                                                 context,
