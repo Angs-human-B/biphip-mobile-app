@@ -96,8 +96,6 @@ class CreatePostController extends GetxController {
     {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
   ];
 
-  final RxList selectedKidStatusList = RxList([false, false, false, false, false, false, false, false, false]);
-  final RxList selectedBrandStatusList = RxList([false, false, false, false, false, false, false, false, false]);
   final List brandList = [
     {"name": "Takin Ahmed 1", "image_url": kiLogoImageUrl},
     {"name": "Takin Ahmed 2", "image_url": kiLogoImageUrl},
