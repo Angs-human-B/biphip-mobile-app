@@ -529,6 +529,7 @@ class CreatePost extends StatelessWidget {
 
                                           globalController.commonBottomSheet(
                                               context: context,
+                                              bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
                                               content: Column(
                                                 children: [
                                                   Wrap(
