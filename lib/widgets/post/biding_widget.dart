@@ -26,9 +26,9 @@ class BiddingWidget extends StatelessWidget {
             ),
             CustomElevatedButton(
               label: isPlaceBid ? (yourBid != null ? ksViewYourBid : ksPlaceABid.tr) : ksSeeBidingInsights.tr,
-              textStyle: regular14TextStyle(cBiddingColor),
+              textStyle: regular12TextStyle(cBiddingColor),
               buttonHeight: 24,
-              buttonWidth: isPlaceBid ? (yourBid != null ? 120 : 100) : 150,
+              buttonWidth: isPlaceBid ? (yourBid != null ? 120 : 100) : 135,
               onPressed: bidingOnPressed,
               borderColor: cBiddingColor,
               buttonColor: cWhiteColor,

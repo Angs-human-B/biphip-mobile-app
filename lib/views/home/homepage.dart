@@ -88,135 +88,138 @@ class HomePage extends StatelessWidget {
               body: Obx(
                 () => homeController.isHomePageLoading.value
                     ? const HomePageShimmer()
-                    : SizedBox(
-                        height: height,
-                        width: width,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 2,
-                              ),
-                              Container(
-                                width: width,
-                                color: cWhiteColor,
-                                child: CustomPostButton(
-                                  name: Get.find<GlobalController>().userLastName.value.toString(),
-                                  profilePic: Get.find<GlobalController>().userImage.value.toString(),
-                                  onPressed: () {
-                                    CreatePostHelper().resetCreatePostData();
-                                    Get.toNamed(krCreatePost);
-                                  },
-                                  prefixWidget: const Icon(
-                                    BipHip.imageFile,
-                                    color: cIconColor,
-                                  ),
+                    : SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const SizedBox(
+                              height: 2,
+                            ),
+                            Container(
+                              width: width,
+                              color: cWhiteColor,
+                              child: CustomPostButton(
+                                name: Get.find<GlobalController>().userLastName.value.toString(),
+                                profilePic: Get.find<GlobalController>().userImage.value.toString(),
+                                onPressed: () {
+                                  CreatePostHelper().resetCreatePostData();
+                                  Get.toNamed(krCreatePost);
+                                },
+                                prefixWidget: const Icon(
+                                  BipHip.imageFile,
+                                  color: cIconColor,
                                 ),
                               ),
-                              kH8sizedBox,
-                              Container(
-                                color: cWhiteColor,
-                                width: width,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: kHorizontalPadding,
-                                  ),
-                                  child: DefaultTabController(
-                                    length: 3,
-                                    child: DecoratedBox(
-                                      decoration: const BoxDecoration(
-                                        border: Border(
-                                          bottom: BorderSide(color: cLineColor, width: 1),
+                            ),
+                            kH8sizedBox,
+                            Container(
+                              color: cWhiteColor,
+                              width: width,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: kHorizontalPadding,
+                                ),
+                                child: DefaultTabController(
+                                  length: 3,
+                                  child: DecoratedBox(
+                                    decoration: const BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(color: cLineColor, width: 1),
+                                      ),
+                                    ),
+                                    child: TabBar(
+                                      indicatorColor: cPrimaryColor,
+                                      indicatorWeight: 1,
+                                      unselectedLabelColor: cSmallBodyTextColor,
+                                      unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
+                                      labelStyle: medium14TextStyle(cPrimaryColor),
+                                      labelColor: cPrimaryColor,
+                                      tabs: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                          child: Text(
+                                            ksSelfie.tr,
+                                          ),
                                         ),
-                                      ),
-                                      child: TabBar(
-                                        indicatorColor: cPrimaryColor,
-                                        indicatorWeight: 1,
-                                        unselectedLabelColor: cSmallBodyTextColor,
-                                        unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
-                                        labelStyle: medium14TextStyle(cPrimaryColor),
-                                        labelColor: cPrimaryColor,
-                                        tabs: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                            child: Text(
-                                              ksSelfie.tr,
-                                            ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                          child: Text(
+                                            ksDailyQuiz.tr,
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                            child: Text(
-                                              ksDailyQuiz.tr,
-                                            ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                          child: Text(
+                                            ksWeeklyWinner.tr,
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                            child: Text(
-                                              ksWeeklyWinner.tr,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
                               ),
-                              Container(
-                                color: cWhiteColor,
-                                width: width,
-                                child: const StoriesWidget(),
+                            ),
+                            Container(
+                              color: cWhiteColor,
+                              width: width,
+                              child: const StoriesWidget(),
+                            ),
+                            kH8sizedBox,
+                            if (homeController.allPostList.isEmpty)
+                              SizedBox(
+                                height: height - (2 + 64 + 8 + 158 + 41 + kAppBarSize + MediaQuery.of(context).padding.top + kBottomNavHeight),
+                                child: EmptyView(
+                                  title: ksNoDataAvailable.tr,
+                                ),
                               ),
-                              kH8sizedBox,
-                              if (homeController.allPostList.isEmpty) const SizedBox(height: 300, child: EmptyView(title: ksNoDataAvailable)),
-                              if (homeController.allPostList.isNotEmpty)
-                                ListView.separated(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    separatorBuilder: (context, index) => kH8sizedBox,
-                                    itemCount: homeController.allPostList.length,
-                                    itemBuilder: (context, index) {
-                                      var item = homeController.allPostList[index];
-                                      return Container(
-                                        color: cWhiteColor,
-                                        width: width,
-                                        child: CommonPostWidget(
-                                          isCommented: false,
-                                          isLiked: false,
-                                          isSharedPost: false,
-                                          showBottomSection: true,
-                                          userName: 'Rick Sanchez',
-                                          postTime: '3 hrs ago',
-                                          isCategorized: true,
-                                          isTextualPost: item.content == null ? false : true, //API
-                                          category: 'Selling', //API
-                                          categoryIcon: homeController.getCategoryIcon(item.postCategory!.id), // need change API
-                                          categoryIconColor: homeController.getCategoryColor(item.postCategory!.id), // Based on API
-                                          privacy: BipHip.world,
-                                          brandName: item.brand == null ? null : item.brand!.name, //API
-                                          kidName: item.kid == null ? null : item.kid!.name, //API
-                                          kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                          title: 'fdgf', //API
-                                          price: '360', //API
-                                          mainPrice: '400',
-                                          discount: '10',
-                                          postText: item.content, //API
-                                          mediaList: item.imageUrls, //API
-                                          isSelfPost: true,
-                                          isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
-                                          postID: item.id!,
-                                          subCategory: 'People',
-                                          productCategory: 'Phone',
-                                          productCondition: 'New',
-                                          isInStock: false,
-                                          platformName: "Jane Clothing",
-                                          platformLink: 'www.facebook.com/Clothing/lorem',
-                                          actionName: 'Buy now',
-                                        ),
-                                      );
-                                    }),
-                              kH8sizedBox,
-                            ],
-                          ),
+                            if (homeController.allPostList.isNotEmpty)
+                              ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  separatorBuilder: (context, index) => kH8sizedBox,
+                                  itemCount: homeController.allPostList.length,
+                                  itemBuilder: (context, index) {
+                                    var item = homeController.allPostList[index];
+                                    return Container(
+                                      color: cWhiteColor,
+                                      width: width,
+                                      child: CommonPostWidget(
+                                        isCommented: false,
+                                        isLiked: false,
+                                        isSharedPost: false,
+                                        showBottomSection: true,
+                                        userName: 'Rick Sanchez',
+                                        postTime: '3 hrs ago',
+                                        isCategorized: true,
+                                        isTextualPost: item.content == null ? false : true, //API
+                                        category: 'Selling', //API
+                                        categoryIcon: homeController.getCategoryIcon(item.postCategory!.id), // need change API
+                                        categoryIconColor: homeController.getCategoryColor(item.postCategory!.id), // Based on API
+                                        privacy: BipHip.world,
+                                        brandName: item.brand == null ? null : item.brand!.name, //API
+                                        kidName: item.kid == null ? null : item.kid!.name, //API
+                                        kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                                        title: 'fdgf', //API
+                                        price: '360', //API
+                                        mainPrice: '400',
+                                        discount: '10',
+                                        postText: item.content, //API
+                                        mediaList: item.imageUrls, //API
+                                        isSelfPost: true,
+                                        isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
+                                        postID: item.id!,
+                                        subCategory: 'People',
+                                        productCategory: 'Phone',
+                                        productCondition: 'New',
+                                        isInStock: false,
+                                        platformName: "Jane Clothing",
+                                        platformLink: 'www.facebook.com/Clothing/lorem',
+                                        actionName: 'Buy now',
+                                      ),
+                                    );
+                                  }),
+                            kH8sizedBox,
+                          ],
                         ),
                       ),
               ),

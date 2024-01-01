@@ -113,12 +113,18 @@ class CreatePost extends StatelessWidget {
                                                       createPostController.sellingImageLinkList,
                                                       createPostController.sellingImageFileList);
                                                   if (status) {
-                                                    ll("media list length : ${createPostController.sellingImageLinkList.length}");
-                                                    createPostHelper.insertSellingMedia(
-                                                        createPostController.sellingImageLinkList, createPostController.sellingImageFileList);
-                                                    createPostController.isMediaChanged.value = false;
-                                                    createPostController.sellingImageLinkList.clear();
-                                                    createPostController.sellingImageFileList.clear();
+                                                    // ll("media list length : ${createPostController.sellingImageLinkList.length}");
+                                                    if (createPostController.sellingAllMediaListLength.value < 10) {
+                                                      createPostHelper.insertSellingMedia(
+                                                          createPostController.sellingImageLinkList, createPostController.sellingImageFileList);
+                                                      createPostController.isMediaChanged.value = false;
+                                                      createPostController.sellingAllMediaListLength.value =
+                                                          createPostController.sellingAllMediaListLength.value +
+                                                              createPostController.sellingImageFileList.length;
+                                                      ll(createPostController.sellingAllMediaListLength.value);
+                                                      createPostController.sellingImageLinkList.clear();
+                                                      createPostController.sellingImageFileList.clear();
+                                                    }
                                                   }
                                                 },
                                                 child: Container(
@@ -161,8 +167,8 @@ class CreatePost extends StatelessWidget {
                                                 physics: const NeverScrollableScrollPhysics(),
                                                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                                   crossAxisCount: 3,
-                                                  mainAxisSpacing: 12,
-                                                  crossAxisSpacing: 12,
+                                                  mainAxisSpacing: h12,
+                                                  crossAxisSpacing: h12,
                                                   childAspectRatio: 0.83,
                                                 ),
                                                 itemCount: createPostController.sellingAllMediaFileList.length + 1,
