@@ -31,15 +31,27 @@ class CreatePostHelper {
   }
 
   void checkCanCreatePost() {
-    if (createPostController.createPostController.text.trim().isNotEmpty) {
-      createPostController.isPostButtonActive.value = true;
-      if (createPostController.createPostController.text.length > 150) {
-        createPostController.isTextLimitCrossed.value = true;
+    if (createPostController.category.value == 'Selling') {
+      if (createPostController.subCategory.value != '' &&
+          createPostController.biddingTitleTextEditingController.text.trim() != '' &&
+          createPostController.selectedProductCondition.value != '' &&
+          createPostController.biddingPriceTextEditingController.text.trim() != '' &&
+          createPostController.biddingDesiredAmountTextEditingController.text.trim() != '') {
+        createPostController.isPostButtonActive.value = true;
       } else {
         createPostController.isTextLimitCrossed.value = false;
       }
     } else {
-      createPostController.isPostButtonActive.value = false;
+      if (createPostController.createPostController.text.trim().isNotEmpty) {
+        createPostController.isPostButtonActive.value = true;
+        if (createPostController.createPostController.text.length > 150) {
+          createPostController.isTextLimitCrossed.value = true;
+        } else {
+          createPostController.isTextLimitCrossed.value = false;
+        }
+      } else {
+        createPostController.isPostButtonActive.value = false;
+      }
     }
   }
 
@@ -269,6 +281,23 @@ class CreatePostHelper {
     createPostController.sellingAllMediaFileList.clear();
     createPostController.resetCreatePost();
     createPostController.selectedPlatform.value = "";
+    clearCreateSellingPostView();
+  }
+
+  void clearCreateSellingPostView() {
+    createPostController.sellingAllMediaList.value = [];
+    createPostController.biddingTitleTextEditingController.clear();
+    createPostController.selectedProductCondition.value = '';
+    createPostController.biddingPriceTextEditingController.clear();
+    createPostController.biddingDesiredAmountTextEditingController.clear();
+    createPostController.biddingDescriptionTextEditingController.clear();
+    createPostController.biddingDiscountAmountTextEditingController.clear();
+    createPostController.biddingMinimumBidTextEditingController.clear();
+    createPostController.biddingProductTagTextEditingController.clear();
+    createPostController.biddingSKUTextEditingController.clear();
+    createPostController.isHideFriendFamilySwitch.value = false;
+    createPostController.selectedPlatform.value = '';
+    createPostController.selectedAction.value = '';
   }
 
   //----------------------------
