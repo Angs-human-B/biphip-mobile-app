@@ -32,14 +32,14 @@ class CreatePostHelper {
 
   void checkCanCreatePost() {
     if (createPostController.category.value == 'Selling') {
-      if (createPostController.subCategory.value != '' &&
+      if (createPostController.sellingPostType.value != '' &&
           createPostController.biddingTitleTextEditingController.text.trim() != '' &&
           createPostController.selectedProductCondition.value != '' &&
-          createPostController.biddingPriceTextEditingController.text.trim() != '' &&
-          createPostController.biddingDesiredAmountTextEditingController.text.trim() != '') {
+          (createPostController.biddingPriceTextEditingController.text.trim() != '' ||
+              createPostController.biddingDesiredAmountTextEditingController.text.trim() != '')) {
         createPostController.isPostButtonActive.value = true;
       } else {
-        createPostController.isTextLimitCrossed.value = false;
+        createPostController.isPostButtonActive.value = false;
       }
     } else {
       if (createPostController.createPostController.text.trim().isNotEmpty) {
@@ -219,8 +219,9 @@ class CreatePostHelper {
           Get.back();
         },
         onPressRightButton: () {
-          createPostController.sellingPostType.value = '';
+          createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
           createPostController.selectedBrandName.value = '';
+          checkCanCreatePost();
           globalController.commonBottomSheet(
             context: context,
             bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
