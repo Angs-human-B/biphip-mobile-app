@@ -25,7 +25,7 @@ class CustomPostButton extends StatelessWidget {
                   width: h40,
                   decoration: const BoxDecoration(shape: BoxShape.circle, color: cBlackColor),
                   child: Image.network(
-                    Environment.imageBaseUrl + profilePic.toString(),
+                    profilePic.toString(),
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => const CommonImageErrorBuilder(
                       icon: BipHip.user,

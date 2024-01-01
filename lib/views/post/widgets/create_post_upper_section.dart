@@ -31,7 +31,7 @@ class CreatePostUpperSection extends StatelessWidget {
                       decoration: const BoxDecoration(shape: BoxShape.circle, color: cBlackColor),
                       child: ClipOval(
                         child: Image.network(
-                          Environment.imageBaseUrl + Get.find<GlobalController>().userImage.value.toString(),
+                          Get.find<GlobalController>().userImage.value.toString(),
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(context, error, stackTrace, BipHip.user, kIconSize20),
                         ),

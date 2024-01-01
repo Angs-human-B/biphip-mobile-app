@@ -280,9 +280,9 @@ class KidListBottomSheetContent extends StatelessWidget {
                           createPostController.kidID.value = createPostController.kidList[i].id!;
                           createPostController.tempSelectedKid.value = createPostController.kidList[i];
                           if (createPostController.tempSelectedKid.value == null) {
-                            GlobalController().isBottomSheetRightButtonActive.value = false;
+                            Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
                           } else {
-                            GlobalController().isBottomSheetRightButtonActive.value = true;
+                            Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                           }
                         },
                         itemColor: createPostController.kidID.value == createPostController.kidList[i].id! ? cPrimaryTint3Color : cWhiteColor,
@@ -314,9 +314,9 @@ class KidListBottomSheetContent extends StatelessWidget {
                             createPostController.kidID.value = createPostController.kidList[i].id!;
                             createPostController.tempSelectedKid.value = createPostController.kidList[i];
                             if (createPostController.tempSelectedKid.value == null) {
-                              GlobalController().isBottomSheetRightButtonActive.value = false;
+                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
                             } else {
-                              GlobalController().isBottomSheetRightButtonActive.value = true;
+                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                             }
                           },
                           isSelected: createPostController.kidID.value == createPostController.kidList[i].id!,
@@ -496,6 +496,9 @@ class BrandBottomSheetContent extends StatelessWidget {
                       createPostController.selectedBrandName.value = '';
                       createPostController.selectedBrandImage.value = '';
                       createPostController.isBrandAdded.value = false;
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                      Get.back();
+                      Get.back();
                     },
                     icon: BipHip.cross,
                     iconColor: cRedColor,
@@ -524,8 +527,6 @@ class BrandBottomSheetContent extends StatelessWidget {
                   onPressRightButton: () {
                     CreatePostHelper().selectBrandTextChange();
                     createPostController.selectedBrandName.value = createPostController.tempSelectedBrandName.value;
-                    ll(createPostController.selectedBrandName.value);
-                    // ll(createPostController.selectedBrandImage.value);
                     Get.back();
                   },
                   rightText: ksDone.tr,
@@ -749,12 +750,9 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                   borderRadius: BorderRadius.circular(k8BorderRadius),
                   child: TextButton(
                     style: kTextButtonStyle,
-                    onPressed: () async {
-                      // ll(index);
-                    },
+                    onPressed: () async {},
                     child: CustomListTile(
                       padding: const EdgeInsets.symmetric(horizontal: k0Padding, vertical: k4Padding),
-                      // borderColor: cRedColor,
                       leading: CircleAvatar(
                         radius: 20,
                         backgroundImage: AssetImage(createPostController.tagFiendList[index]["image_url"]),
