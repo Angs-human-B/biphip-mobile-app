@@ -219,8 +219,9 @@ class CreatePostHelper {
           Get.back();
         },
         onPressRightButton: () {
-          createPostController.sellingPostType.value = '';
+          createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
           createPostController.selectedBrandName.value = '';
+          checkCanCreatePost();
           globalController.commonBottomSheet(
             context: context,
             bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
