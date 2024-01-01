@@ -264,7 +264,9 @@ class CreatePost extends StatelessWidget {
                                       CustomModifiedTextField(
                                         controller: createPostController.biddingTitleTextEditingController,
                                         hint: ksTitle.tr,
-                                        onChanged: (text) {},
+                                        onChanged: (text) {
+                                          createPostHelper.checkCanCreatePost();
+                                        },
                                         onSubmit: (text) {},
                                         inputAction: TextInputAction.next,
                                         inputType: TextInputType.text,
@@ -343,6 +345,7 @@ class CreatePost extends StatelessWidget {
                                               },
                                               onPressRightButton: () {
                                                 createPostHelper.selectProductConditionTextChange();
+                                                createPostHelper.checkCanCreatePost();
                                                 Get.back();
                                               },
                                               rightText: ksDone.tr,
@@ -357,7 +360,9 @@ class CreatePost extends StatelessWidget {
                                             ? createPostController.biddingPriceTextEditingController
                                             : createPostController.biddingDesiredAmountTextEditingController,
                                         hint: createPostController.isRegularPost.value ? ksPrice.tr : ksDesiredAmount,
-                                        onChanged: (text) {},
+                                        onChanged: (text) {
+                                          createPostHelper.checkCanCreatePost();
+                                        },
                                         onSubmit: (text) {},
                                         inputAction: TextInputAction.next,
                                         inputType: TextInputType.number,
