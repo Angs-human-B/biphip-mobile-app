@@ -44,6 +44,7 @@ class SelectCategory extends StatelessWidget {
                             style: kTextButtonStyle,
                             onPressed: createPostController.tempCategory.value != ''
                                 ? () {
+                                  createPostHelper.clearCreateSellingPostView();
                                     createPostHelper.selectCategory(context);
                                   }
                                 : null,
