@@ -3,6 +3,7 @@ import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/post/widgets/create_post_bottom_sheet_contents.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
+
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 
 class CreatePostUpperSection extends StatelessWidget {
@@ -306,8 +307,27 @@ class CreatePostUpperSection extends StatelessWidget {
                                       },
                                       onPressRightButton: () {
                                         createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
+                                        createPostController.selectedBrandName.value = '';
                                         createPostHelper.checkCanCreatePost();
-                                        Get.back();
+                                        createPostHelper.checkCanCreatePost();
+                                        Get.find<GlobalController>().commonBottomSheet(
+                                          context: context,
+                                          bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
+                                          content: BrandBottomSheetContent(),
+                                          onPressCloseButton: () {
+                                            Get.back();
+                                          },
+                                          onPressRightButton: () {
+                                            // boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent()); //* Set it temporary for test case
+                                            Get.back();
+                                            Get.back();
+                                            Get.back();
+                                          },
+                                          rightText: ksDone.tr,
+                                          rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                          title: ksBrands.tr,
+                                          isRightButtonShow: true,
+                                        );
                                       },
                                       rightText: ksNext.tr,
                                       rightTextStyle: medium14TextStyle(cPrimaryColor),

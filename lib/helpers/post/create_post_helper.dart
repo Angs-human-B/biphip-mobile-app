@@ -41,6 +41,12 @@ class CreatePostHelper {
       } else {
         createPostController.isPostButtonActive.value = false;
       }
+    } else if (createPostController.category.value == 'Kid') {
+      if (createPostController.createPostController.text.trim() != '' && createPostController.selectedKid.value != null) {
+        createPostController.isPostButtonActive.value = true;
+      } else {
+        createPostController.isPostButtonActive.value = false;
+      }
     } else {
       if (createPostController.createPostController.text.trim().isNotEmpty) {
         createPostController.isPostButtonActive.value = true;
