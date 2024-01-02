@@ -459,7 +459,7 @@ class BrandBottomSheetContent extends StatelessWidget {
       () => Column(
         children: [
           kH8sizedBox,
-          if (createPostController.selectedBrandName.value != '')
+          if (createPostController.selectedBrandId.value != -1)
             Container(
               width: width - 40,
               height: 44,
@@ -509,6 +509,8 @@ class BrandBottomSheetContent extends StatelessWidget {
                     onPress: () {
                       createPostController.selectedBrandName.value = '';
                       createPostController.selectedBrandImage.value = '';
+                      createPostController.selectedBrandId.value = -1;
+                      createPostController.brandID.value = -1;
                       createPostController.isBrandAdded.value = false;
                       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
                       Get.back();
@@ -521,11 +523,11 @@ class BrandBottomSheetContent extends StatelessWidget {
                 ],
               ),
             ),
-          if (createPostController.selectedBrandName.value == '')
+          if (createPostController.selectedBrandId.value == -1)
             OutLinedButton(
               onPress: () async {
-                createPostController.tempSelectedBrandName.value = createPostController.selectedBrandName.value;
-                if (createPostController.tempSelectedBrandName.value == '') {
+                createPostController.tempSelectedBrandId.value = createPostController.selectedBrandId.value;
+                if (createPostController.tempSelectedBrandId.value == -1) {
                   Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
                 } else {
                   Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
@@ -540,8 +542,7 @@ class BrandBottomSheetContent extends StatelessWidget {
                   },
                   onPressRightButton: () {
                     CreatePostHelper().selectBrandTextChange();
-                    createPostController.selectedBrandName.value = createPostController.tempSelectedBrandName.value;
-                   
+                    createPostController.selectedBrandId.value = createPostController.tempSelectedBrandId.value;
                     Get.back();
                   },
                   rightText: ksDone.tr,
@@ -567,7 +568,7 @@ class BrandBottomSheetContent extends StatelessWidget {
           ),
           kH12sizedBox,
           Obx(() => OutLinedButton(
-                onPress: createPostController.selectedBrandName.value == ''
+                onPress: createPostController.selectedBrandId.value == -1
                     ? () {
                         // Get.to(() => AddBrandPage());
                         createPostController.isBrandAdded.value = false;
@@ -582,11 +583,11 @@ class BrandBottomSheetContent extends StatelessWidget {
                       }
                     : null,
                 buttonText: ksAddBrand.tr,
-                buttonTextStyle: createPostController.selectedBrandName.value == '' ? medium16TextStyle(cPrimaryColor) : medium16TextStyle(cPlaceHolderColor),
-                borderColor: createPostController.selectedBrandName.value == '' ? cPrimaryColor : cPlaceHolderColor,
+                buttonTextStyle: createPostController.selectedBrandId.value == -1 ? medium16TextStyle(cPrimaryColor) : medium16TextStyle(cPlaceHolderColor),
+                borderColor: createPostController.selectedBrandId.value == -1 ? cPrimaryColor : cPlaceHolderColor,
                 widget: Icon(
                   BipHip.plus,
-                  color: createPostController.selectedBrandName.value == '' ? cPrimaryColor : cPlaceHolderColor,
+                  color: createPostController.selectedBrandId.value == -1 ? cPrimaryColor : cPlaceHolderColor,
                   size: isDeviceScreenLarge() ? h20 : h16,
                 ),
               )),
@@ -599,14 +600,14 @@ class BrandBottomSheetContent extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: InkWell(
-              onTap: createPostController.selectedBrandName.value == ''
+              onTap: createPostController.selectedBrandId.value == -1
                   ? () {
                       Get.toNamed(krCreatePost);
                     }
                   : null,
               child: Text(
                 ksSkip.tr,
-                style: createPostController.selectedBrandName.value == '' ? semiBold16TextStyle(cPrimaryColor) : semiBold16TextStyle(cPlaceHolderColor),
+                style: createPostController.selectedBrandId.value == -1 ? semiBold16TextStyle(cPrimaryColor) : semiBold16TextStyle(cPlaceHolderColor),
               ),
             ),
           ),
@@ -636,19 +637,17 @@ class SelectBrandBottomSheetContent extends StatelessWidget {
                         itemBuilder: (context, i) {
                           return Obx(() => CustomListTile(
                                 onPressed: () {
-                                  createPostController.tempSelectedBrandName.value = createPostController.storeList[i].name!.toString();
-                                  if (createPostController.tempSelectedBrandName.value == '') {
+                                  createPostController.tempSelectedBrandId.value = createPostController.storeList[i].id!;
+                                  if (createPostController.tempSelectedBrandId.value == -1) {
                                     Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
                                   } else {
                                     Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                                   }
                                 },
-                                itemColor: createPostController.tempSelectedBrandName.value == createPostController.storeList[i].name.toString()
-                                    ? cPrimaryTint3Color
-                                    : cWhiteColor,
-                                borderColor: createPostController.tempSelectedBrandName.value == createPostController.storeList[i].name.toString()
-                                    ? cPrimaryColor
-                                    : cLineColor,
+                                itemColor:
+                                    createPostController.tempSelectedBrandId.value == createPostController.storeList[i].id ? cPrimaryTint3Color : cWhiteColor,
+                                borderColor:
+                                    createPostController.tempSelectedBrandId.value == createPostController.storeList[i].id ? cPrimaryColor : cLineColor,
                                 title: createPostController.storeList[i].name,
                                 leading: Container(
                                   height: h24,
@@ -672,14 +671,14 @@ class SelectBrandBottomSheetContent extends StatelessWidget {
                                 ),
                                 trailing: CustomRadioButton(
                                   onChanged: () {
-                                    createPostController.tempSelectedBrandName.value = createPostController.storeList[i].name.toString();
-                                    if (createPostController.tempSelectedBrandName.value == '') {
+                                    createPostController.tempSelectedBrandId.value = createPostController.storeList[i].id!;
+                                    if (createPostController.tempSelectedBrandId.value == -1) {
                                       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
                                     } else {
                                       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                                     }
                                   },
-                                  isSelected: createPostController.tempSelectedBrandName.value == createPostController.storeList[i].name.toString(),
+                                  isSelected: createPostController.tempSelectedBrandId.value == createPostController.storeList[i].id,
                                 ),
                               ));
                         },
