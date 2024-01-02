@@ -316,6 +316,8 @@ class CreatePostHelper {
     createPostController.selectedAction.value = '';
     createPostController.kidID.value = -1;
     createPostController.categoryID.value = -1;
+    createPostController.selectedBrandImage.value = '';
+    createPostController.selectedBrandName.value = '';
   }
 
   //----------------------------

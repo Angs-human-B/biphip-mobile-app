@@ -215,22 +215,22 @@ class CommonPostWidget extends StatelessWidget {
                     text: '${ksDuration.tr}: ',
                     style: semiBold14TextStyle(cSmallBodyTextColor),
                   ),
-                  // WidgetSpan(
-                  //   child: Countdown(
-                  //     seconds: homeController.getBiddingDuration(DateTime.parse('2024-01-04 20:18:04Z')),
-                  //     build: (BuildContext context, double time) {
-                  //       int hours = (time ~/ 3600).toInt();
-                  //       int minutes = ((time % 3600) ~/ 60).toInt();
-                  //       int seconds = (time % 60).toInt();
-                  //       return Text(
-                  //         '${hours}h: ${minutes}m: $seconds sec',
-                  //         style: semiBold14TextStyle(cRedColor),
-                  //       );
-                  //     },
-                  //     interval: const Duration(milliseconds: 100),
-                  //     onFinished: () {},
-                  //   ),
-                  // )
+                  WidgetSpan(
+                    child: Countdown(
+                      seconds: homeController.getBiddingDuration(DateTime.parse('2024-01-04 20:18:04Z')),
+                      build: (BuildContext context, double time) {
+                        int hours = (time ~/ 3600).toInt();
+                        int minutes = ((time % 3600) ~/ 60).toInt();
+                        int seconds = (time % 60).toInt();
+                        return Text(
+                          '${hours}h: ${minutes}m: $seconds sec',
+                          style: semiBold14TextStyle(cRedColor),
+                        );
+                      },
+                      interval: const Duration(milliseconds: 100),
+                      onFinished: () {},
+                    ),
+                  )
                 ],
               ),
             ),

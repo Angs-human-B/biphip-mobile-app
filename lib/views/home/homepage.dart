@@ -206,7 +206,7 @@ class HomePage extends StatelessWidget {
                                         postID: item.id!,
                                         secondaryImage: item.kid?.image ?? item.brand?.brandImage,
                                         subCategory: 'People',
-                                        platformName: null,
+                                        platformName: 'Jane Clothing',
                                         platformLink: 'www.facebook.com/Clothing/lorem',
                                         actionName: null,
                                         title: 'This is a title', //API
