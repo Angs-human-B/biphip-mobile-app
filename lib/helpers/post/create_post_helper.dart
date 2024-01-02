@@ -313,6 +313,8 @@ class CreatePostHelper {
     createPostController.isHideFriendFamilySwitch.value = false;
     createPostController.selectedPlatform.value = '';
     createPostController.selectedAction.value = '';
+    createPostController.kidID.value = -1;
+    createPostController.categoryID.value = -1;
   }
 
   //----------------------------
