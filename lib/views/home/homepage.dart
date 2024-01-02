@@ -184,11 +184,11 @@ class HomePage extends StatelessWidget {
                                       color: cWhiteColor,
                                       width: width,
                                       child: CommonPostWidget(
-                                        isCommented: false,
-                                        isLiked: false,
+                                        isCommented: index % 2 == 0,
+                                        isLiked: index % 2 != 0,
                                         isSharedPost: false,
                                         showBottomSection: true,
-                                        userName: 'Rick Sanchez',
+                                        userName: Get.find<GlobalController>().userName.value.toString(),
                                         postTime: '3 hrs ago',
                                         isCategorized: true,
                                         isTextualPost: item.content == null ? false : true, //API
@@ -215,6 +215,7 @@ class HomePage extends StatelessWidget {
                                         platformName: "Jane Clothing",
                                         platformLink: 'www.facebook.com/Clothing/lorem',
                                         actionName: 'Buy now',
+                                        secondaryImage: item.kid?.image ?? item.brand?.brandImage,
                                       ),
                                     );
                                   }),

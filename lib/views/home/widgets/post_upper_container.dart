@@ -16,10 +16,12 @@ class PostUpperContainer extends StatelessWidget {
     this.title,
     this.price,
     this.subCategory,
+    required this.userImage,
+    this.secondaryImage,
   });
 
-  final String userName, postTime;
-  final String? category, brandName, kidName, kidAge, title, price, subCategory;
+  final String userName, postTime, userImage;
+  final String? category, brandName, kidName, kidAge, title, price, subCategory, secondaryImage;
   final IconData? categoryIcon;
   final IconData privacy;
   final Color? categoryIconColor;
@@ -34,37 +36,51 @@ class PostUpperContainer extends StatelessWidget {
         Stack(
           children: [
             SizedBox(
-              width: (category == "Kids" || category == "Selling") ? 70 : h44,
+              width: (secondaryImage != null) ? 70 : h44,
               child: Row(
                 children: [
-                  Container(
-                    height: h44,
-                    width: h44,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.asset(
-                      kiProfileDefaultImageUrl,
-                      fit: BoxFit.cover,
+                  ClipOval(
+                    child: Container(
+                      height: h44,
+                      width: h44,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: Image.network(
+                        userImage,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => const Icon(
+                          BipHip.imageFile,
+                          size: kIconSize120,
+                          color: cIconColor,
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            if (category == "Kids" || category == "Selling")
+            if (secondaryImage != null)
               Positioned(
                 right: 0,
                 bottom: 0,
                 top: 0,
-                child: Container(
-                  height: h45,
-                  width: h45,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.asset(
-                    kiProfileDefaultImageUrl,
-                    fit: BoxFit.fill,
+                child: ClipOval(
+                  child: Container(
+                    height: h45,
+                    width: h45,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.network(
+                      secondaryImage!,
+                      fit: BoxFit.fill,
+                      errorBuilder: (context, error, stackTrace) => const Icon(
+                        BipHip.imageFile,
+                        size: kIconSize120,
+                        color: cIconColor,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -101,11 +117,11 @@ class PostUpperContainer extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(bottom: 2),
+                                      padding: const EdgeInsets.only(bottom: 0),
                                       child: Icon(
                                         categoryIcon,
                                         color: categoryIconColor,
-                                        size: kIconSize16,
+                                        size: kIconSize14,
                                       ),
                                     ),
                                     if (isCategorized)
@@ -116,29 +132,33 @@ class PostUpperContainer extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              if (subCategory !=null)
+                            if (subCategory != null)
                               TextSpan(
                                 text: ' ${ksAt.tr} ',
                                 style: regular16TextStyle(cSmallBodyTextColor),
                               ),
-                              if (subCategory !=null)
+                            if (subCategory != null)
                               TextSpan(
                                 text: '($subCategory)',
                                 style: semiBold16TextStyle(cBlackColor),
                               ),
                             const TextSpan(text: '\n'),
                             WidgetSpan(
+                              baseline: TextBaseline.alphabetic,
+                              alignment: PlaceholderAlignment.baseline,
                               child: Padding(
                                 padding: const EdgeInsets.only(bottom: 0),
                                 child: Icon(
                                   privacy,
                                   color: cIconColor,
-                                  size: kIconSize14,
+                                  size: kIconSize12,
                                 ),
                               ),
                             ),
-                            if (category == 'Selling' && isCategorized) TextSpan(text: ' ($brandName)', style: semiBold14TextStyle(cBlackColor)),
-                            if (category == 'Kids' && isCategorized) TextSpan(text: ' ($kidName, $kidAge)', style: semiBold14TextStyle(cBlackColor)),
+                            if (category == 'Selling' && isCategorized && brandName != null)
+                              TextSpan(text: ' ($brandName)', style: semiBold14TextStyle(cBlackColor)),
+                            if (category == 'Kids' && isCategorized && kidName != null)
+                              TextSpan(text: ' ($kidName, $kidAge)', style: semiBold14TextStyle(cBlackColor)),
                             TextSpan(text: ' $postTime', style: regular14TextStyle(cSmallBodyTextColor))
                           ],
                         ),
