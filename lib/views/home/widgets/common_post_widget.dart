@@ -131,7 +131,7 @@ class CommonPostWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
             child: Row(
               children: [
-                kW8sizedBox,
+                // kW8sizedBox,
                 RichText(
                     text: TextSpan(children: [
                   TextSpan(text: 'Aminul Islam Rana ', style: semiBold14TextStyle(cBlackColor)),
@@ -178,7 +178,7 @@ class CommonPostWidget extends StatelessWidget {
               style: semiBold14TextStyle(cBlackColor),
             ),
           ),
-        if (productCondition != null && productCategory != null)
+        if (productCondition != null && productCategory != null && category == 'Selling')
           Padding(
             padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
             child: RichText(
@@ -195,47 +195,47 @@ class CommonPostWidget extends StatelessWidget {
             ),
           ),
         // check if it is selling post
-
-        Padding(
-          padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
-          child: RichText(
-            text: TextSpan(
-              children: [
-                const WidgetSpan(
-                  child: Padding(
-                    padding: EdgeInsets.only(right: k4Padding),
-                    child: Icon(
-                      BipHip.info,
-                      color: cIconColor,
-                      size: kIconSize16,
+        if (category == 'Selling' && isSelfPost)
+          Padding(
+            padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  const WidgetSpan(
+                    child: Padding(
+                      padding: EdgeInsets.only(right: k4Padding),
+                      child: Icon(
+                        BipHip.info,
+                        color: cIconColor,
+                        size: kIconSize16,
+                      ),
                     ),
                   ),
-                ),
-                TextSpan(
-                  text: '${ksDuration.tr}: ',
-                  style: semiBold14TextStyle(cSmallBodyTextColor),
-                ),
-                // WidgetSpan(
-                //   child: Countdown(
-                //     seconds: homeController.getBiddingDuration(DateTime.parse('2023-12-25 20:18:04Z')),
-                //     build: (BuildContext context, double time) {
-                //       int hours = (time ~/ 3600).toInt();
-                //       int minutes = ((time % 3600) ~/ 60).toInt();
-                //       int seconds = (time % 60).toInt();
-                //       return Text(
-                //         '${hours}h: ${minutes}m: $seconds sec',
-                //         style: semiBold14TextStyle(cRedColor),
-                //       );
-                //     },
-                //     interval: const Duration(milliseconds: 100),
-                //     onFinished: () {},
-                //   ),
-                // )
-              ],
+                  TextSpan(
+                    text: '${ksDuration.tr}: ',
+                    style: semiBold14TextStyle(cSmallBodyTextColor),
+                  ),
+                  // WidgetSpan(
+                  //   child: Countdown(
+                  //     seconds: homeController.getBiddingDuration(DateTime.parse('2024-01-04 20:18:04Z')),
+                  //     build: (BuildContext context, double time) {
+                  //       int hours = (time ~/ 3600).toInt();
+                  //       int minutes = ((time % 3600) ~/ 60).toInt();
+                  //       int seconds = (time % 60).toInt();
+                  //       return Text(
+                  //         '${hours}h: ${minutes}m: $seconds sec',
+                  //         style: semiBold14TextStyle(cRedColor),
+                  //       );
+                  //     },
+                  //     interval: const Duration(milliseconds: 100),
+                  //     onFinished: () {},
+                  //   ),
+                  // )
+                ],
+              ),
             ),
           ),
-        ),
-        if (category == 'Selling')
+        if (category == 'Selling' && !isSelfPost)
           Padding(
             padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
             child: RichText(
@@ -265,7 +265,7 @@ class CommonPostWidget extends StatelessWidget {
               ),
             ),
           ),
-        if (discount != null && category == 'Selling')
+        if (discount != null && category == 'Selling' && !isSelfPost)
           Padding(
             padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding),
             child: Text(
@@ -596,7 +596,7 @@ class PostBottomSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Column(
           children: [
-            if (category == 'Selling')
+            if (category == 'Selling' && platformName != null)
               Padding(
                 padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k4Padding),
                 child: PlatformActionSection(
@@ -606,9 +606,9 @@ class PostBottomSection extends StatelessWidget {
                   actionName: 'Learn more',
                 ),
               ),
-            if (isSelfPost)
+            if (isSelfPost && category == 'Selling')
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k12Padding),
                 child: BiddingWidget(
                   totalBids: 25,
                   yourBid: 300,
@@ -624,9 +624,9 @@ class PostBottomSection extends StatelessWidget {
                   },
                 ),
               ),
-            if (!isSelfPost)
+            if (!isSelfPost && category == 'Selling')
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k12Padding),
                 child: BiddingWidget(
                   totalBids: 25,
                   yourBid: postReactionController.yourBid.value,
@@ -697,7 +697,6 @@ class PostBottomSection extends StatelessWidget {
                   isPlaceBid: true,
                 ),
               ),
-            kH12sizedBox,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
               child: PostActivityStatusWidget(
