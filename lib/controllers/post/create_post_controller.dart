@@ -473,47 +473,46 @@ class CreatePostController extends GetxController {
     }
   }
 
-  RxDouble savedBrandCustomBottomSheetHeight() {
-    // RxDouble result = RxDouble(-1);
+  double savedBrandCustomBottomSheetHeight() {
     if (isStoreListLoading.value == true) {
       ll('1st');
-      return RxDouble(height * 0.4);
+      return height * 0.4;
     } else {
       if (storeList.isEmpty) {
         ll('2nd');
         ll(storeList.length);
-        return RxDouble(height * 0.4);
+        return height * 0.4;
       } else if (storeList.isNotEmpty && storeList.length <= 1) {
         ll('3rd');
         ll(storeList.length);
-        return RxDouble(isDeviceScreenLarge() ? height * 0.2 : height * 0.3);
+        return isDeviceScreenLarge() ? height * 0.2 : height * 0.3;
       } else if (storeList.length >= 2 && storeList.length <= 3) {
         ll('4th');
         ll(storeList.length);
-        return RxDouble(isDeviceScreenLarge() ? height * 0.3 : height * 0.4);
+        return isDeviceScreenLarge() ? height * 0.3 : height * 0.4;
       } else if (storeList.length >= 4 && storeList.length <= 5) {
         ll('5th');
         ll(storeList.length);
-         return RxDouble(isDeviceScreenLarge() ? height * 0.4 : height * 0.5);
+        return isDeviceScreenLarge() ? height * 0.4 : height * 0.5;
       } else if (storeList.length >= 6 && storeList.length <= 7) {
         ll('6th');
         ll(storeList.length);
-         return RxDouble(isDeviceScreenLarge() ? height * 0.5 : height * 0.6);
+        return isDeviceScreenLarge() ? height * 0.5 : height * 0.6;
       } else if (storeList.length >= 8 && storeList.length <= 9) {
         ll('7th');
         ll(storeList.length);
-        return RxDouble(isDeviceScreenLarge() ? height * 0.6 : height * 0.7);
+        return isDeviceScreenLarge() ? height * 0.6 : height * 0.7;
       } else if (storeList.length >= 10 && storeList.length <= 11) {
         ll('8th');
         ll(storeList.length);
-         return RxDouble(isDeviceScreenLarge() ? height * 0.7 : height * 0.8);
+        return isDeviceScreenLarge() ? height * 0.7 : height * 0.8;
       } else if (storeList.length >= 12 && storeList.length <= 13) {
         ll('9th');
         ll(storeList.length);
-         return RxDouble(isDeviceScreenLarge() ? height * 0.8 : height * 0.9);
+        return isDeviceScreenLarge() ? height * 0.8 : height * 0.9;
       } else {
         ll('10th');
-         return RxDouble(height * 0.9);
+        return height * 0.9;
       }
     }
   }
