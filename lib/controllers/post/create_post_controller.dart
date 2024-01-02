@@ -242,6 +242,7 @@ class CreatePostController extends GetxController {
   Rx<Kid?> selectedKid = Rx<Kid?>(null);
   Rx<Kid?> tempSelectedKid = Rx<Kid?>(null);
   RxInt kidID = RxInt(-1);
+  RxInt brandID = RxInt(-1);
   RxBool isKidListLoading = RxBool(false);
   Future<void> getKidList() async {
     try {
@@ -393,6 +394,8 @@ class CreatePostController extends GetxController {
   void resetCreatePost() {
     createPostController.clear();
     categoryID.value = -1;
+    kidID.value = -1;
+    brandID.value = -1;
     category.value = '';
     subCategory.value = '';
     isPostButtonActive.value = false;
@@ -405,8 +408,10 @@ class CreatePostController extends GetxController {
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         'post_category_id': categoryID.value.toString(),
-        'content': createPostController.text.trim(),
+        'content': category.value == 'Selling' ? biddingTitleTextEditingController.text.trim() : createPostController.text.trim(),
         'is_public': '1',
+        if (category.value == 'Kids') 'kid_id': kidID.value.toString(),
+        if (category.value == 'Selling') 'brand_id': brandID.value.toString(),
       };
       var response = await apiController.multiMediaUpload(
         url: kuCreatePost,

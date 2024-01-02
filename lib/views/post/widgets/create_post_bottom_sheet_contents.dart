@@ -541,6 +541,7 @@ class BrandBottomSheetContent extends StatelessWidget {
                   onPressRightButton: () {
                     CreatePostHelper().selectBrandTextChange();
                     createPostController.selectedBrandName.value = createPostController.tempSelectedBrandName.value;
+                   
                     Get.back();
                   },
                   rightText: ksDone.tr,

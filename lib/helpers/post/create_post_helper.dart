@@ -199,6 +199,8 @@ class CreatePostHelper {
         onPressRightButton: () {
           if (createPostController.selectedKid.value != null) {
             createPostController.postSecondaryCircleAvatar.value = createPostController.selectedKid.value!.kidImage;
+            createPostController.kidID.value = createPostController.selectedKid.value!.id!;
+            ll(createPostController.kidID.value);
           } else {
             createPostController.postSecondaryLocalCirclerAvatar.value = createPostController.kidImageFile.value;
           }
@@ -237,6 +239,12 @@ class CreatePostHelper {
             },
             onPressRightButton: () {
               // boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent()); //* Set it temporary for test case
+              for (int i = 0; i < createPostController.storeList.length; i++) {
+                if (createPostController.selectedBrandName.value == createPostController.storeList[i].name) {
+                  createPostController.brandID.value = createPostController.storeList[i].id!;
+                }
+              }
+
               Get.back();
               Get.back();
               Get.back();
@@ -246,7 +254,6 @@ class CreatePostHelper {
             title: ksBrands.tr,
             isRightButtonShow: true,
           );
-       
         },
         rightText: ksNext.tr,
         rightTextStyle: medium14TextStyle(cPrimaryColor),
