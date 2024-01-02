@@ -230,6 +230,11 @@ class CreatePostHelper {
           createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
           createPostController.selectedBrandName.value = '';
           checkCanCreatePost();
+          if (createPostController.selectedBrandName.value == '') {
+            globalController.isBottomSheetRightButtonActive.value = false;
+          } else {
+            globalController.isBottomSheetRightButtonActive.value = true;
+          }
           globalController.commonBottomSheet(
             context: context,
             bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
