@@ -283,6 +283,7 @@ class CreatePostUpperSection extends StatelessWidget {
                                       onPressRightButton: () {
                                         createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
                                         createPostController.selectedBrandName.value = '';
+                                        createPostController.selectedBrandId.value = -1;
                                         createPostHelper.checkCanCreatePost();
                                         createPostHelper.checkCanCreatePost();
                                         Get.find<GlobalController>().commonBottomSheet(

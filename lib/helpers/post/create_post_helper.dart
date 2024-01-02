@@ -133,7 +133,7 @@ class CreatePostHelper {
 
   void selectBrandTextChange() {
     for (int i = 0; i < createPostController.storeList.length; i++) {
-      if (createPostController.tempSelectedBrandName.value == createPostController.storeList[i].name) {
+      if (createPostController.tempSelectedBrandId.value == createPostController.storeList[i].id) {
         createPostController.selectedBrandName.value = createPostController.storeList[i].name.toString();
         createPostController.selectedBrandImage.value = Environment.imageBaseUrl + createPostController.storeList[i].image!.toString();
         break;
@@ -228,9 +228,9 @@ class CreatePostHelper {
         },
         onPressRightButton: () {
           createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
-          createPostController.selectedBrandName.value = '';
+          createPostController.selectedBrandId.value = -1;
           checkCanCreatePost();
-          if (createPostController.selectedBrandName.value == '') {
+          if (createPostController.selectedBrandId.value == -1) {
             globalController.isBottomSheetRightButtonActive.value = false;
           } else {
             globalController.isBottomSheetRightButtonActive.value = true;
@@ -245,7 +245,7 @@ class CreatePostHelper {
             onPressRightButton: () {
               // boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent()); //* Set it temporary for test case
               for (int i = 0; i < createPostController.storeList.length; i++) {
-                if (createPostController.selectedBrandName.value == createPostController.storeList[i].name) {
+                if (createPostController.selectedBrandId.value == createPostController.storeList[i].id) {
                   createPostController.brandID.value = createPostController.storeList[i].id!;
                   createPostController.selectedBrandImage.value = createPostController.storeList[i].brandImage!;
                 }

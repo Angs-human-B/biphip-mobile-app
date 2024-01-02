@@ -561,6 +561,8 @@ class CreatePostController extends GetxController {
   final RxString selectedAction = RxString('');
   final RxString tempCategory = RxString('');
   final RxString tempSelectedBrandName = RxString('');
+  final RxInt tempSelectedBrandId = RxInt(-1);
   final RxInt sellingAllMediaListLength = RxInt(-1);
   final RxInt storeListLength = RxInt(-1);
+  final RxInt selectedBrandId = RxInt(-1);
 }
