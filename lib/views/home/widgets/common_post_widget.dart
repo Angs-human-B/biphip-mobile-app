@@ -52,6 +52,7 @@ class CommonPostWidget extends StatelessWidget {
     this.platformName,
     this.platformLink,
     this.actionName,
+    this.secondaryImage,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -72,7 +73,8 @@ class CommonPostWidget extends StatelessWidget {
       postText,
       platformName,
       platformLink,
-      actionName;
+      actionName,
+      secondaryImage;
   final IconData? categoryIcon;
   final IconData privacy;
   final Color? categoryIconColor;
@@ -138,7 +140,7 @@ class CommonPostWidget extends StatelessWidget {
               ],
             ),
           ),
-        if (isSharedPost) const CustomDivider(),
+        if (isCommented || isLiked) const CustomDivider(thickness: 1),
         kH10sizedBox,
         InkWell(
           onTap: () async {
@@ -161,6 +163,8 @@ class CommonPostWidget extends StatelessWidget {
               kidAge: kidAge,
               title: title,
               subCategory: subCategory,
+              userImage: Get.find<GlobalController>().userImage.value.toString(),
+              secondaryImage: secondaryImage,
             ),
           ),
         ),

@@ -55,9 +55,9 @@ class HomePostDetails extends StatelessWidget {
                           padding: const EdgeInsets.only(top: k12Padding),
                           child: Column(
                             children: [
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                child: PostUpperContainer(userName: 'Wahid Murad', isCategorized: false, privacy: BipHip.world, postTime: '1hr'),
+                               Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                child: PostUpperContainer(userName: Get.find<GlobalController>().userName.value.toString(), isCategorized: false, privacy: BipHip.world, postTime: '1hr', userImage: Get.find<GlobalController>().userImage.value.toString(),),
                               ),
                               kH12sizedBox,
                               CommonPostDetailsWidget(
