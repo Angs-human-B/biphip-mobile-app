@@ -21,7 +21,9 @@ class CreatePostUpperSection extends StatelessWidget {
           Stack(
             children: [
               SizedBox(
-                width: (createPostController.selectedKid.value != null || createPostController.isKidAdded.value || createPostController.isBrandAdded.value)
+                width: (createPostController.selectedKid.value != null ||
+                        createPostController.isKidAdded.value ||
+                        createPostController.selectedBrandName.value != '')
                     ? 70
                     : h45,
                 child: Row(
@@ -78,7 +80,7 @@ class CreatePostUpperSection extends StatelessWidget {
                     ),
                   ),
                 ),
-              if (createPostController.category.value == "Selling" && createPostController.isBrandAdded.value)
+              if (createPostController.category.value == "Selling" && createPostController.selectedBrandName.value != '')
                 Positioned(
                   right: 0,
                   bottom: 0,
@@ -86,9 +88,7 @@ class CreatePostUpperSection extends StatelessWidget {
                   child: Container(
                     height: h45,
                     width: h45,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
+                    decoration: const BoxDecoration(shape: BoxShape.circle, color: cBlackColor),
                     child: ClipOval(
                         child:
                             // createPostController.selectedKid.value != null?
@@ -97,7 +97,7 @@ class CreatePostUpperSection extends StatelessWidget {
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => const Icon(
                         BipHip.imageFile,
-                        size: kIconSize120,
+                        size: kIconSize24,
                         color: cIconColor,
                       ),
                     )),

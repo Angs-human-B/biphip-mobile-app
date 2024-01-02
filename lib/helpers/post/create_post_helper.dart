@@ -242,9 +242,10 @@ class CreatePostHelper {
               for (int i = 0; i < createPostController.storeList.length; i++) {
                 if (createPostController.selectedBrandName.value == createPostController.storeList[i].name) {
                   createPostController.brandID.value = createPostController.storeList[i].id!;
+                  createPostController.selectedBrandImage.value = createPostController.storeList[i].brandImage!;
                 }
               }
-
+              createPostController.postSecondaryCircleAvatar.value = createPostController.selectedBrandImage.value;
               Get.back();
               Get.back();
               Get.back();
