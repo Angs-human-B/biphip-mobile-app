@@ -418,7 +418,7 @@ class CreatePostController extends GetxController {
         body: body,
         token: token,
         key: 'images[]',
-        values: allMediaList,
+        values: category.value == 'Selling' ? sellingAllMediaFileList : allMediaList,
       ) as CommonDM;
 
       if (response.success == true) {
