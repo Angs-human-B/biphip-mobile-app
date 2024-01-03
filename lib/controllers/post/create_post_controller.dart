@@ -398,6 +398,9 @@ class CreatePostController extends GetxController {
     brandID.value = -1;
     category.value = '';
     subCategory.value = '';
+    subCategoryIndex.value = -1;
+    newsTitleTextEditingController.clear();
+    newsDescriptionTextEditingController.clear();
     isPostButtonActive.value = false;
   }
 
@@ -521,6 +524,44 @@ class CreatePostController extends GetxController {
       }
     }
   }
+  // double savedBrandCustomBottomSheetHeight() {
+  //     if (storeListLength.value==0) {
+  //       ll('2nd');
+  //       ll(storeList.length);
+  //       return height * 0.4;
+  //     } else if (storeListLength.value>=0 && storeList.length <= 1) {
+  //       ll('3rd');
+  //       ll(storeList.length);
+  //       return isDeviceScreenLarge() ? height * 0.2 : height * 0.3;
+  //     } else if (storeListLength.value >= 2 && storeListLength.value <= 3) {
+  //       ll('4th');
+  //       ll(storeList.length);
+  //       return isDeviceScreenLarge() ? height * 0.3 : height * 0.4;
+  //     } else if (storeList.length >= 4 && storeList.length <= 5) {
+  //       ll('5th');
+  //       ll(storeList.length);
+  //       return isDeviceScreenLarge() ? height * 0.4 : height * 0.5;
+  //     } else if (storeList.length >= 6 && storeList.length <= 7) {
+  //       ll('6th');
+  //       ll(storeList.length);
+  //       return isDeviceScreenLarge() ? height * 0.5 : height * 0.6;
+  //     } else if (storeList.length >= 8 && storeList.length <= 9) {
+  //       ll('7th');
+  //       ll(storeList.length);
+  //       return isDeviceScreenLarge() ? height * 0.6 : height * 0.7;
+  //     } else if (storeList.length >= 10 && storeList.length <= 11) {
+  //       ll('8th');
+  //       ll(storeList.length);
+  //       return isDeviceScreenLarge() ? height * 0.7 : height * 0.8;
+  //     } else if (storeList.length >= 12 && storeList.length <= 13) {
+  //       ll('9th');
+  //       ll(storeList.length);
+  //       return isDeviceScreenLarge() ? height * 0.8 : height * 0.9;
+  //     } else {
+  //       ll('10th');
+  //       return height * 0.9;
+  //     }
+  // }
 
   final RxBool isRegularPost = RxBool(false);
   final RxBool isBiddingPost = RxBool(false);
@@ -565,4 +606,6 @@ class CreatePostController extends GetxController {
   final RxInt sellingAllMediaListLength = RxInt(-1);
   final RxInt storeListLength = RxInt(-1);
   final RxInt selectedBrandId = RxInt(-1);
+  final TextEditingController newsTitleTextEditingController = TextEditingController();
+  final TextEditingController newsDescriptionTextEditingController = TextEditingController();
 }

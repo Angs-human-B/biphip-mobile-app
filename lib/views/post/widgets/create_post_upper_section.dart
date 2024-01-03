@@ -204,7 +204,6 @@ class CreatePostUpperSection extends StatelessWidget {
                                             } else {
                                               Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                                             }
-                                            ll('asd');
                                             Get.find<GlobalController>().commonBottomSheet(
                                               context: context,
                                               content: const SubCategoryContent(),
@@ -214,6 +213,7 @@ class CreatePostUpperSection extends StatelessWidget {
                                               onPressRightButton: () {
                                                 createPostController.subCategory.value = createPostController.tempSubCategory.value;
                                                 createPostController.subCategoryIndex.value = createPostController.tempSubCategoryIndex.value;
+                                                createPostHelper.checkCanCreatePost();
                                                 Get.back();
                                               },
                                               rightText: ksDone.tr,
