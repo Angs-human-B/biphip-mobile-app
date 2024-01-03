@@ -361,7 +361,8 @@ const String ksBoostPost = 'Boost post';
 const String ksChoosing = 'Choosing ';
 const String ksYES = 'YES';
 const String ksActiveBoostSetting = ' will active the boost settings on your post';
-const String ksContinueWithoutBoostingSettings = 'You can also continue without enabling boosting setting now & can active the boosting later from the post settings.';
+const String ksContinueWithoutBoostingSettings =
+    'You can also continue without enabling boosting setting now & can active the boosting later from the post settings.';
 const String ksPickStartDateFirst = 'Pick start date first';
 const String ksPickEndDateFirst = 'Pick end date first';
 const String ksPastTimeIsNotAllowed = 'Past time is not allowed';
@@ -414,3 +415,7 @@ const String ksSellingPostHideContentFromFriendAndDFamily =
 const String ksSelectCondition = "Select Condition";
 const String ksClear = "Clear";
 const String ksNoSavedStoreAvailable = "No Saved Store Available";
+const String ksCategoryChangeWarningMessage =
+    "If you change the category, then you will be turned into the very first flow and all of your input of this category will be removed.";
+const String ksWouldYouProceed = "Would you like to proceed?";
+const String ksContinue = "Continue";

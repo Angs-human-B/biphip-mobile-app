@@ -1,10 +1,12 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/auth/onboarding/picture_upload_screen.dart';
 import 'package:bip_hip/views/post/widgets/create_post_bottom_sheet_contents.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CreatePostUpperSection extends StatelessWidget {
   CreatePostUpperSection({super.key});
@@ -178,10 +180,18 @@ class CreatePostUpperSection extends StatelessWidget {
                                 prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
                                 prefixIconColor: createPostController.category.value == "" ? null : createPostController.categoryIconColor.value,
                                 onPressed: () async {
-                                  createPostHelper.initializeCategory();
-                                  createPostController.tempCategory.value = createPostController.category.value;
-                                  Get.toNamed(krSelectCategory);
-                                  await createPostController.getPostCategoryList();
+                                  if (createPostController.category.value != '') {
+                                    categoryResetAlertDialog(
+                                      context: context,
+                                      content: const CategoryResetWarningContent(),
+                                      title: ksWarning,
+                                    );
+                                  } else {
+                                    createPostHelper.initializeCategory();
+                                    createPostController.tempCategory.value = createPostController.category.value;
+                                    Get.toNamed(krSelectCategory);
+                                    await createPostController.getPostCategoryList();
+                                  }
                                 },
                                 buttonHeight: 22,
                                 isCustomButton: true,
@@ -375,6 +385,97 @@ class SubCategoryContent extends StatelessWidget {
               ],
             )
           : Container(alignment: Alignment.center, child: EmptyView(height: height * 0.3, title: 'No sub category found')),
+    );
+  }
+}
+
+void categoryResetAlertDialog({required BuildContext context, required Widget content, required String title}) {
+  showAlertDialog(
+    context: context,
+    child: CommonAlertDialog(
+      hasCloseBtn: false,
+      addContent: content,
+      title: title,
+      // actions: [
+
+      //   kH8sizedBox,
+      // ],
+    ),
+  );
+}
+
+class CategoryResetWarningContent extends StatelessWidget {
+  const CategoryResetWarningContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: k12Padding),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            kiWarningInfo,
+            width: 60,
+            height: 60,
+            fit: BoxFit.cover,
+          ),
+          kH20sizedBox,
+          Text(
+            ksCategoryChangeWarningMessage.tr,
+            style: regular14TextStyle(cBlackColor),
+            textAlign: TextAlign.center,
+          ),
+          kH16sizedBox,
+          Text(
+            ksWouldYouProceed.tr,
+            style: regular14TextStyle(cBlackColor),
+            textAlign: TextAlign.center,
+          ),
+          kH20sizedBox,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomElevatedButton(
+                label: ksCancel,
+                onPressed: () {
+                  Get.back();
+                },
+                buttonColor: cWhiteColor,
+                borderColor: cRedColor,
+                textStyle: semiBold18TextStyle(cRedColor),
+                buttonHeight: h44,
+                buttonWidth: 120,
+              ),
+              CustomElevatedButton(
+                label: ksContinue,
+                onPressed: () async {
+                  Get.find<CreatePostController>().tempCategory.value = '';
+                  Get.find<CreatePostController>().category.value = '';
+                  Get.find<CreatePostController>().isResetCategoryPopupShow.value = true;
+                  CreatePostHelper().initializeCategory();
+                  // Get.find<CreatePostController>().categoryID.value = -1;
+                  // for (int i = 0; i <= Get.find<CreatePostController>().categoryStatusList.length; i++) {
+                  //   Get.find<CreatePostController>().categoryStatusList[i] = false;
+                  // }
+
+                  CreatePostHelper().resetCreatePostData();
+                  Get.toNamed(krSelectCategory);
+                  await Get.find<CreatePostController>().getPostCategoryList();
+                },
+                buttonColor: cPrimaryColor,
+                borderColor: cPrimaryColor,
+                textStyle: semiBold18TextStyle(cWhiteColor),
+                buttonHeight: h44,
+                buttonWidth: 120,
+              ),
+            ],
+          ),
+          kH20sizedBox,
+        ],
+      ),
     );
   }
 }

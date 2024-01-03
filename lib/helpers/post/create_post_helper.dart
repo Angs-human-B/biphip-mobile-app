@@ -275,7 +275,13 @@ class CreatePostHelper {
         isRightButtonShow: true,
       );
     } else {
-      Get.back();
+      if (createPostController.isResetCategoryPopupShow.value) {
+        Get.back();
+        Get.back();
+        createPostController.isResetCategoryPopupShow.value=false;
+      } else {
+        Get.back();
+      }
     }
   }
 
