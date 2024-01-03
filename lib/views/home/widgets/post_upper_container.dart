@@ -95,10 +95,12 @@ class PostUpperContainer extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 2.0),
                       child: RichText(
+                        textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
                         textAlign: TextAlign.left,
                         overflow: TextOverflow.clip,
                         maxLines: 3,
                         text: TextSpan(
+                          style: DefaultTextStyle.of(context).style.copyWith(height: 1.4),
                           children: [
                             TextSpan(
                               text: userName,

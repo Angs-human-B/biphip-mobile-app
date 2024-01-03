@@ -608,7 +608,10 @@ class PostBottomSection extends StatelessWidget {
               ),
             if (isSelfPost && category == 'Selling')
               Padding(
-                padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k12Padding),
+                padding: const EdgeInsets.only(
+                  left: kHorizontalPadding,
+                  right: kHorizontalPadding,
+                ),
                 child: BiddingWidget(
                   totalBids: 25,
                   yourBid: 300,
@@ -626,7 +629,10 @@ class PostBottomSection extends StatelessWidget {
               ),
             if (!isSelfPost && category == 'Selling')
               Padding(
-                padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k12Padding),
+                padding: const EdgeInsets.only(
+                  left: kHorizontalPadding,
+                  right: kHorizontalPadding,
+                ),
                 child: BiddingWidget(
                   totalBids: 25,
                   yourBid: postReactionController.yourBid.value,
@@ -698,7 +704,7 @@ class PostBottomSection extends StatelessWidget {
                 ),
               ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
               child: PostActivityStatusWidget(
                 reactCount: 440,
                 reactionOnPressed: () {
