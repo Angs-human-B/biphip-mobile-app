@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/auth/onboarding/picture_upload_screen.dart';
@@ -385,6 +386,9 @@ class CreatePostHelper {
       //   createPostVideoFile.clear();
       // }
     } else {
+      Get.find<CreatePostController>().tagFriendList.clear();
+      Get.find<CreatePostController>().taggedFriends.clear();
+      Get.find<FriendController>().isFriendListLoading.value = true;
       globalController.commonBottomSheet(
         isScrollControlled: true,
         bottomSheetHeight: height * .9,
@@ -402,6 +406,8 @@ class CreatePostHelper {
         title: ksTagPeople.tr,
         isRightButtonShow: true,
       );
+      await Get.find<FriendController>().getFriendList();
+      Get.find<CreatePostController>().tagFriendList.addAll(Get.find<FriendController>().friendList);
     }
   }
 

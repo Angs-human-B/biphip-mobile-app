@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/post/kid_model.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -84,17 +85,20 @@ class CreatePostController extends GetxController {
 
   final RxList categoryStatusList = RxList([false, false, false, false, false, false, false]);
 
-  final List tagFiendList = [
-    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  ];
+  final RxList<FriendFamilyUserData> tagFriendList = RxList<FriendFamilyUserData>([]);
+  final RxList<Map<String, dynamic>> taggedFriends = RxList<Map<String, dynamic>>([]);
+
+  // final List tagFiendList = [
+  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
+  // ];
 
   final List brandList = [
     {"name": "Takin Ahmed 1", "image_url": kiLogoImageUrl},

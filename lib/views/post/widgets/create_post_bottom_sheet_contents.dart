@@ -1,5 +1,7 @@
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
+import 'package:bip_hip/shimmers/post/create_post_shimmers.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/post/add_brand.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
@@ -698,88 +700,131 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: k2Padding),
-            child: Text(
-              ksSelected.tr,
-              style: semiBold14TextStyle(cBlackColor),
-            ),
-          ),
-          kH8sizedBox,
-          Container(
-            color: cWhiteColor,
-            height: 40,
-            width: width,
-            child: ListView.separated(
-              separatorBuilder: (context, index) => kW8sizedBox,
-              scrollDirection: Axis.horizontal,
-              itemCount: 8,
-              itemBuilder: (context, index) {
-                return Stack(
-                  alignment: AlignmentDirectional.topEnd,
-                  children: [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundImage: AssetImage(createPostController.tagFiendList[index]["image_url"]),
-                    ),
-                    Positioned(
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: cWhiteColor,
-                        ),
-                        child: const Icon(
-                          BipHip.circleCrossNew,
-                          size: 12,
-                          color: cRedColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-          kH12sizedBox,
-          Padding(
-            padding: const EdgeInsets.only(left: k2Padding),
-            child: Text(
-              ksSuggestionAllCap.tr,
-              style: regular14TextStyle(cSmallBodyTextColor),
-            ),
-          ),
-          kH8sizedBox,
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: createPostController.tagFiendList.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: k10Padding),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(k8BorderRadius),
-                  child: TextButton(
-                    style: kTextButtonStyle,
-                    onPressed: () async {},
-                    child: CustomListTile(
-                      padding: const EdgeInsets.symmetric(horizontal: k0Padding, vertical: k4Padding),
-                      leading: CircleAvatar(
-                        radius: 20,
-                        backgroundImage: AssetImage(createPostController.tagFiendList[index]["image_url"]),
-                      ),
-                      title: createPostController.tagFiendList[index]["name"],
+      child: Obx(() => Get.find<FriendController>().isFriendListLoading.value
+          ? const TagFriendShimmer()
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                if (createPostController.taggedFriends.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(left: k2Padding, bottom: k8Padding),
+                    child: Text(
+                      ksSelected.tr,
+                      style: semiBold14TextStyle(cBlackColor),
                     ),
                   ),
+                if (createPostController.taggedFriends.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: k12Padding),
+                    child: Container(
+                      color: cWhiteColor,
+                      height: 40,
+                      width: width,
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) => kW8sizedBox,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: createPostController.taggedFriends.length,
+                        itemBuilder: (context, index) {
+                          return Stack(
+                            alignment: AlignmentDirectional.topEnd,
+                            children: [
+                              Container(
+                                height: h40,
+                                width: h40,
+                                decoration: const BoxDecoration(
+                                  color: cWhiteColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: ClipOval(
+                                  child: Image.network(
+                                    createPostController.taggedFriends[index]['data'].profilePicture.toString(),
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Image.asset(kiProfileDefaultImageUrl);
+                                    },
+                                    loadingBuilder: imageLoadingBuilder,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                child: InkWell(
+                                  onTap: () {
+                                    createPostController.tagFriendList
+                                        .insert(createPostController.taggedFriends[index]['index'], createPostController.taggedFriends[index]['data']);
+                                    createPostController.taggedFriends.removeAt(index);
+                                  },
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: cWhiteColor,
+                                    ),
+                                    child: const Icon(
+                                      BipHip.circleCrossNew,
+                                      size: 12,
+                                      color: cRedColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.only(left: k2Padding),
+                  child: Text(
+                    ksSuggestionAllCap.tr,
+                    style: regular14TextStyle(cSmallBodyTextColor),
+                  ),
                 ),
-              );
-            },
-          ),
-        ],
-      ),
+                kH8sizedBox,
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: createPostController.tagFriendList.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: k10Padding),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(k8BorderRadius),
+                        child: TextButton(
+                          style: kTextButtonStyle,
+                          onPressed: () {
+                            createPostController.taggedFriends.add({'index': index, 'data': createPostController.tagFriendList[index]});
+                            createPostController.tagFriendList.removeAt(index);
+                          },
+                          child: CustomListTile(
+                            padding: const EdgeInsets.symmetric(horizontal: k0Padding, vertical: k4Padding),
+                            leading: Container(
+                              height: h40,
+                              width: h40,
+                              decoration: const BoxDecoration(
+                                color: cWhiteColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: ClipOval(
+                                child: Image.network(
+                                  createPostController.tagFriendList[index].profilePicture.toString(),
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Image.asset(kiProfileDefaultImageUrl);
+                                  },
+                                  loadingBuilder: imageLoadingBuilder,
+                                ),
+                              ),
+                            ),
+                            title: createPostController.tagFriendList[index].fullName,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            )),
     );
   }
 }

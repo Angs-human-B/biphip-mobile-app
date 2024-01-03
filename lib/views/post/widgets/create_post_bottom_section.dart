@@ -17,7 +17,7 @@ class CreatePostBottomSection extends StatelessWidget {
         children: [
           for (int i = 0; i < 4; i++)
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 createPostHelper.getBottomRowOnPressed(i + 1, context);
               },
               style: kTextButtonStyle,
