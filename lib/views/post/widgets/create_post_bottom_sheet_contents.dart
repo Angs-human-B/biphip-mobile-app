@@ -753,6 +753,11 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                                     createPostController.tagFriendList
                                         .insert(createPostController.taggedFriends[index]['index'], createPostController.taggedFriends[index]['data']);
                                     createPostController.taggedFriends.removeAt(index);
+                                    if (createPostController.taggedFriends.isNotEmpty) {
+                                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                    } else {
+                                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                    }
                                   },
                                   child: Container(
                                     decoration: const BoxDecoration(
@@ -795,6 +800,11 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                           onPressed: () {
                             createPostController.taggedFriends.add({'index': index, 'data': createPostController.tagFriendList[index]});
                             createPostController.tagFriendList.removeAt(index);
+                            if (createPostController.taggedFriends.isNotEmpty) {
+                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                            } else {
+                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                            }
                           },
                           child: CustomListTile(
                             padding: const EdgeInsets.symmetric(horizontal: k0Padding, vertical: k4Padding),

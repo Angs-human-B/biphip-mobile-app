@@ -389,6 +389,11 @@ class CreatePostHelper {
       Get.find<CreatePostController>().tagFriendList.clear();
       Get.find<CreatePostController>().taggedFriends.clear();
       Get.find<FriendController>().isFriendListLoading.value = true;
+      if (createPostController.taggedFriends.isNotEmpty) {
+        Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+      } else {
+        Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+      }
       globalController.commonBottomSheet(
         isScrollControlled: true,
         bottomSheetHeight: height * .9,
@@ -399,6 +404,7 @@ class CreatePostHelper {
           Get.back();
         },
         onPressRightButton: () {
+          globalController.isBottomSheetRightButtonActive.value = false;
           Get.back();
         },
         rightText: ksDone.tr,
