@@ -27,7 +27,13 @@ class SelectCategory extends StatelessWidget {
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
-                Get.back();
+                if (createPostController.isResetCategoryPopupShow.value) {
+                  Get.back();
+                  Get.back();
+                  createPostController.isResetCategoryPopupShow.value = false;
+                } else {
+                  Get.back();
+                }
               },
               action: [
                 Obx(
@@ -44,7 +50,7 @@ class SelectCategory extends StatelessWidget {
                             style: kTextButtonStyle,
                             onPressed: createPostController.tempCategory.value != ''
                                 ? () {
-                                  createPostHelper.clearCreateSellingPostView();
+                                    createPostHelper.clearCreateSellingPostView();
                                     createPostHelper.selectCategory(context);
                                   }
                                 : null,

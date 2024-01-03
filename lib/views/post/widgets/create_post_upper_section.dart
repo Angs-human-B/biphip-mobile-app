@@ -1,10 +1,12 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/auth/onboarding/picture_upload_screen.dart';
 import 'package:bip_hip/views/post/widgets/create_post_bottom_sheet_contents.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CreatePostUpperSection extends StatelessWidget {
   CreatePostUpperSection({super.key});
@@ -147,181 +149,185 @@ class CreatePostUpperSection extends StatelessWidget {
                 ),
                 kH4sizedBox,
                 Obx(
-                  () => Column(
+                  () => Row(
                     children: [
-                      Row(
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        direction: Axis.horizontal,
+                        spacing: 4,
                         children: [
-                          Wrap(
-                            alignment: WrapAlignment.center,
-                            direction: Axis.horizontal,
-                            spacing: 4,
-                            children: [
-                              if (createPostController.category.value != "Selling")
-                                CustomElevatedButton(
-                                  isCustomButton: true,
-                                  label: createPostController.postType.value,
-                                  prefixIcon: createPostController.postTypeIcon.value,
-                                  onPressed: () {
-                                    createPostHelper.initializeAudienceText();
-                                    createPostHelper.showAudienceSheet(context);
-                                  },
-                                  buttonHeight: 22,
-                                  suffixIcon: BipHip.downArrow,
-                                  buttonColor: cGreyBoxColor,
-                                  prefixIconColor: cBlackColor,
-                                  suffixIconColor: cBlackColor,
-                                  textStyle: regular12TextStyle(cBlackColor),
-                                ),
-                              // kW8sizedBox,
-                              CustomElevatedButton(
-                                label: createPostController.category.value == "" ? "Category" : createPostController.category.value,
-                                prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
-                                prefixIconColor: createPostController.category.value == "" ? null : createPostController.categoryIconColor.value,
-                                onPressed: () async {
-                                  createPostHelper.initializeCategory();
-                                  createPostController.tempCategory.value = createPostController.category.value;
-                                  Get.toNamed(krSelectCategory);
-                                  await createPostController.getPostCategoryList();
-                                },
-                                buttonHeight: 22,
-                                isCustomButton: true,
-                                buttonColor: cGreyBoxColor,
-                                suffixIcon: createPostController.category.value == "" ? BipHip.plus : BipHip.edit,
-                                suffixIconColor: cBlackColor,
-                                textStyle: regular12TextStyle(cBlackColor),
-                              ),
-                              // kW8sizedBox,
-                              if (createPostController.category.value != "Selling")
-                                ElevatedButton(
-                                    onPressed: createPostController.category.value != ''
-                                        ? () {
-                                            createPostController.tempSubCategory.value = createPostController.subCategory.value;
-                                            createPostController.tempSubCategoryIndex.value = createPostController.subCategoryIndex.value;
-                                            // log(createPostController.tempSubCategoryIndex.value.toString());
-                                            if (createPostController.tempSubCategory.value == '' &&
-                                                Get.find<CreatePostController>().tempSubCategoryIndex.value == -1) {
-                                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                                            } else {
-                                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                                            }
-                                            ll('asd');
-                                            Get.find<GlobalController>().commonBottomSheet(
-                                              context: context,
-                                              content: const SubCategoryContent(),
-                                              onPressCloseButton: () {
-                                                Get.back();
-                                              },
-                                              onPressRightButton: () {
-                                                createPostController.subCategory.value = createPostController.tempSubCategory.value;
-                                                createPostController.subCategoryIndex.value = createPostController.tempSubCategoryIndex.value;
-                                                Get.back();
-                                              },
-                                              rightText: ksDone.tr,
-                                              rightTextStyle: semiBold12TextStyle(cPrimaryColor),
-                                              title: ksSelectSubCategory.tr,
-                                              isRightButtonShow: createPostController.subCategoryList.isEmpty ? false : true,
-                                              isScrollControlled: true,
-                                              bottomSheetHeight: createPostController.subCategoryCustomBottomSheetHeight(),
-                                              // bottomSheetHeight: height * .9
-                                            );
-                                          }
-                                        : null,
-                                    style: ButtonStyle(
-                                      elevation: MaterialStateProperty.all(0),
-                                      padding: MaterialStateProperty.all(EdgeInsets.zero),
-                                      minimumSize: MaterialStateProperty.all(Size.zero),
-                                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(k4BorderRadius),
-                                      )),
-                                      backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                                        if (states.contains(MaterialState.disabled)) {
-                                          return cGreyBoxColor;
+                          if (createPostController.category.value != "Selling")
+                            CustomElevatedButton(
+                              isCustomButton: true,
+                              label: createPostController.postType.value,
+                              prefixIcon: createPostController.postTypeIcon.value,
+                              onPressed: () {
+                                createPostHelper.initializeAudienceText();
+                                createPostHelper.showAudienceSheet(context);
+                              },
+                              buttonHeight: 22,
+                              suffixIcon: BipHip.downArrow,
+                              buttonColor: cGreyBoxColor,
+                              prefixIconColor: cBlackColor,
+                              suffixIconColor: cBlackColor,
+                              textStyle: regular12TextStyle(cBlackColor),
+                            ),
+                          // kW8sizedBox,
+                          CustomElevatedButton(
+                            label: createPostController.category.value == "" ? "Category" : createPostController.category.value,
+                            prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
+                            prefixIconColor: createPostController.category.value == "" ? null : createPostController.categoryIconColor.value,
+                            onPressed: () async {
+                              if (createPostController.category.value != '') {
+                                categoryResetAlertDialog(
+                                  context: context,
+                                  content: const CategoryResetWarningContent(),
+                                  title: ksWarning,
+                                );
+                              } else {
+                                createPostHelper.initializeCategory();
+                                createPostController.tempCategory.value = createPostController.category.value;
+                                Get.toNamed(krSelectCategory);
+                                await createPostController.getPostCategoryList();
+                              }
+                            },
+                            buttonHeight: 22,
+                            isCustomButton: true,
+                            buttonColor: cGreyBoxColor,
+                            suffixIcon: createPostController.category.value == "" ? BipHip.plus : BipHip.edit,
+                            suffixIconColor: cBlackColor,
+                            textStyle: regular12TextStyle(cBlackColor),
+                          ),
+                          // kW8sizedBox,
+                          if (createPostController.category.value != "Selling")
+                            ElevatedButton(
+                                onPressed: createPostController.category.value != ''
+                                    ? () {
+                                        createPostController.tempSubCategory.value = createPostController.subCategory.value;
+                                        createPostController.tempSubCategoryIndex.value = createPostController.subCategoryIndex.value;
+                                        // log(createPostController.tempSubCategoryIndex.value.toString());
+                                        if (createPostController.tempSubCategory.value == '' &&
+                                            Get.find<CreatePostController>().tempSubCategoryIndex.value == -1) {
+                                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
                                         } else {
-                                          return cGreyBoxColor;
+                                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                                         }
-                                      }),
-                                      splashFactory: InkRipple.splashFactory,
-                                    ),
-                                    child: SizedBox(
-                                      height: 22,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 6),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(createPostController.subCategory.value == "" ? "Sub Category" : createPostController.subCategory.value,
-                                                textAlign: TextAlign.center,
-                                                style: createPostController.category.value == ""
-                                                    ? regular12TextStyle(cPlaceHolderColor2)
-                                                    : regular12TextStyle(cBlackColor)),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: k4Padding),
-                                              child: Icon(
-                                                createPostController.subCategory.value == "" ? BipHip.plus : BipHip.edit,
-                                                color: createPostController.category.value == "" ? cIconColor : cBlackColor,
-                                                size: screenWiseSize(kIconSize16, 4),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )),
-                              if (createPostController.category.value == "Selling")
-                                CustomElevatedButton(
-                                  label: createPostController.sellingPostType.value == '' ? ksPostType.tr : createPostController.sellingPostType.value,
-                                  onPressed: () {
-                                    createPostController.tempSellingPostType.value = createPostController.sellingPostType.value;
-                                    createPostHelper.sellingPostTypeSelect();
-                                    Get.find<GlobalController>().commonBottomSheet(
-                                      context: context,
-                                      bottomSheetHeight: isDeviceScreenLarge() ? height * .25 : height * 0.35,
-                                      content: SellingCategoryBottomSheetContent(),
-                                      onPressCloseButton: () {
-                                        Get.back();
-                                      },
-                                      onPressRightButton: () {
-                                        createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
-                                        createPostController.selectedBrandName.value = '';
-                                        createPostController.selectedBrandId.value = -1;
-                                        createPostHelper.checkCanCreatePost();
-                                        createPostHelper.checkCanCreatePost();
                                         Get.find<GlobalController>().commonBottomSheet(
                                           context: context,
-                                          bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
-                                          content: BrandBottomSheetContent(),
+                                          content: const SubCategoryContent(),
                                           onPressCloseButton: () {
                                             Get.back();
                                           },
                                           onPressRightButton: () {
-                                            // boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent()); //* Set it temporary for test case
-                                            Get.back();
-                                            Get.back();
+                                            createPostController.subCategory.value = createPostController.tempSubCategory.value;
+                                            createPostController.subCategoryIndex.value = createPostController.tempSubCategoryIndex.value;
+                                            createPostHelper.checkCanCreatePost();
                                             Get.back();
                                           },
                                           rightText: ksDone.tr,
-                                          rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                          title: ksBrands.tr,
-                                          isRightButtonShow: true,
+                                          rightTextStyle: semiBold12TextStyle(cPrimaryColor),
+                                          title: ksSelectSubCategory.tr,
+                                          isRightButtonShow: createPostController.subCategoryList.isEmpty ? false : true,
+                                          isScrollControlled: true,
+                                          bottomSheetHeight: createPostController.subCategoryCustomBottomSheetHeight(),
+                                          // bottomSheetHeight: height * .9
                                         );
+                                      }
+                                    : null,
+                                style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all(0),
+                                  padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                  minimumSize: MaterialStateProperty.all(Size.zero),
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(k4BorderRadius),
+                                  )),
+                                  backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+                                    if (states.contains(MaterialState.disabled)) {
+                                      return cGreyBoxColor;
+                                    } else {
+                                      return cGreyBoxColor;
+                                    }
+                                  }),
+                                  splashFactory: InkRipple.splashFactory,
+                                ),
+                                child: SizedBox(
+                                  height: 22,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(createPostController.subCategory.value == "" ? "Sub Category" : createPostController.subCategory.value,
+                                            textAlign: TextAlign.center,
+                                            style: createPostController.category.value == ""
+                                                ? regular12TextStyle(cPlaceHolderColor2)
+                                                : regular12TextStyle(cBlackColor)),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: k4Padding),
+                                          child: Icon(
+                                            createPostController.subCategory.value == "" ? BipHip.plus : BipHip.edit,
+                                            color: createPostController.category.value == "" ? cIconColor : cBlackColor,
+                                            size: screenWiseSize(kIconSize16, 4),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )),
+                          if (createPostController.category.value == "Selling")
+                            CustomElevatedButton(
+                              label: createPostController.sellingPostType.value == '' ? ksPostType.tr : createPostController.sellingPostType.value,
+                              onPressed: () {
+                                createPostController.tempSellingPostType.value = createPostController.sellingPostType.value;
+                                createPostHelper.sellingPostTypeSelect();
+                                Get.find<GlobalController>().commonBottomSheet(
+                                  context: context,
+                                  bottomSheetHeight: isDeviceScreenLarge() ? height * .25 : height * 0.35,
+                                  content: SellingCategoryBottomSheetContent(),
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: () {
+                                    createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
+                                    createPostController.selectedBrandName.value = '';
+                                    createPostController.selectedBrandId.value = -1;
+                                    createPostHelper.checkCanCreatePost();
+                                    createPostHelper.checkCanCreatePost();
+                                    Get.find<GlobalController>().commonBottomSheet(
+                                      context: context,
+                                      bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
+                                      content: BrandBottomSheetContent(),
+                                      onPressCloseButton: () {
+                                        Get.back();
                                       },
-                                      rightText: ksNext.tr,
+                                      onPressRightButton: () {
+                                        // boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent()); //* Set it temporary for test case
+                                        Get.back();
+                                        Get.back();
+                                        Get.back();
+                                      },
+                                      rightText: ksDone.tr,
                                       rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                      title: ksSelectPostType.tr,
+                                      title: ksBrands.tr,
                                       isRightButtonShow: true,
                                     );
                                   },
-                                  buttonHeight: 22,
-                                  isCustomButton: true,
-                                  prefixIcon: createPostController.sellingPostType.value == "" ? BipHip.plus : null,
-                                  buttonColor: cGreyBoxColor,
-                                  suffixIconColor: cBlackColor,
-                                  prefixIconColor: cBlackColor,
-                                  suffixIcon: createPostController.sellingPostType.value == "" ? null : BipHip.edit,
-                                  textStyle: regular12TextStyle(cBlackColor),
-                                ),
-                            ],
-                          ),
+                                  rightText: ksNext.tr,
+                                  rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                  title: ksSelectPostType.tr,
+                                  isRightButtonShow: true,
+                                );
+                              },
+                              buttonHeight: 22,
+                              isCustomButton: true,
+                              prefixIcon: createPostController.sellingPostType.value == "" ? BipHip.plus : null,
+                              buttonColor: cGreyBoxColor,
+                              suffixIconColor: cBlackColor,
+                              prefixIconColor: cBlackColor,
+                              suffixIcon: createPostController.sellingPostType.value == "" ? null : BipHip.edit,
+                              textStyle: regular12TextStyle(cBlackColor),
+                            ),
                         ],
                       ),
                     ],
@@ -375,6 +381,97 @@ class SubCategoryContent extends StatelessWidget {
               ],
             )
           : Container(alignment: Alignment.center, child: EmptyView(height: height * 0.3, title: 'No sub category found')),
+    );
+  }
+}
+
+void categoryResetAlertDialog({required BuildContext context, required Widget content, required String title}) {
+  showAlertDialog(
+    context: context,
+    child: CommonAlertDialog(
+      hasCloseBtn: false,
+      addContent: content,
+      title: title,
+      // actions: [
+
+      //   kH8sizedBox,
+      // ],
+    ),
+  );
+}
+
+class CategoryResetWarningContent extends StatelessWidget {
+  const CategoryResetWarningContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: k12Padding),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            kiWarningInfo,
+            width: 60,
+            height: 60,
+            fit: BoxFit.cover,
+          ),
+          kH20sizedBox,
+          Text(
+            ksCategoryChangeWarningMessage.tr,
+            style: regular14TextStyle(cBlackColor),
+            textAlign: TextAlign.center,
+          ),
+          kH16sizedBox,
+          Text(
+            ksWouldYouProceed.tr,
+            style: regular14TextStyle(cBlackColor),
+            textAlign: TextAlign.center,
+          ),
+          kH20sizedBox,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomElevatedButton(
+                label: ksCancel,
+                onPressed: () {
+                  Get.back();
+                },
+                buttonColor: cWhiteColor,
+                borderColor: cRedColor,
+                textStyle: semiBold18TextStyle(cRedColor),
+                buttonHeight: h44,
+                buttonWidth: 120,
+              ),
+              CustomElevatedButton(
+                label: ksContinue,
+                onPressed: () async {
+                  Get.find<CreatePostController>().tempCategory.value = '';
+                  Get.find<CreatePostController>().category.value = '';
+                  Get.find<CreatePostController>().isResetCategoryPopupShow.value = true;
+                  CreatePostHelper().initializeCategory();
+                  // Get.find<CreatePostController>().categoryID.value = -1;
+                  // for (int i = 0; i <= Get.find<CreatePostController>().categoryStatusList.length; i++) {
+                  //   Get.find<CreatePostController>().categoryStatusList[i] = false;
+                  // }
+
+                  CreatePostHelper().resetCreatePostData();
+                  Get.toNamed(krSelectCategory);
+                  await Get.find<CreatePostController>().getPostCategoryList();
+                },
+                buttonColor: cPrimaryColor,
+                borderColor: cPrimaryColor,
+                textStyle: semiBold18TextStyle(cWhiteColor),
+                buttonHeight: h44,
+                buttonWidth: 120,
+              ),
+            ],
+          ),
+          kH20sizedBox,
+        ],
+      ),
     );
   }
 }

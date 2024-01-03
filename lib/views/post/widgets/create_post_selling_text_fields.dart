@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class SellingNewsTextfield extends StatelessWidget {
@@ -17,38 +18,41 @@ class SellingNewsTextfield extends StatelessWidget {
         ),
         kH8sizedBox,
         CustomModifiedTextField(
-          controller: TextEditingController(),
+          controller: createPostController.newsTitleTextEditingController,
           hint: ksTitle.tr,
-          onChanged: (text) {},
+          onChanged: (text) {
+            CreatePostHelper().checkCanCreatePost();
+          },
           onSubmit: (text) {},
           inputAction: TextInputAction.next,
-          inputType: TextInputType.number,
+          inputType: TextInputType.text,
           maxLength: 100,
         ),
         if (createPostController.category.value == "Selling") kH8sizedBox,
-        if (createPostController.category.value == "Selling")
-          CustomModifiedTextField(
-            controller: TextEditingController(),
-            hint: ksPrice.tr,
-            onChanged: (text) {},
-            onSubmit: (text) {},
-            inputAction: TextInputAction.next,
-            inputType: TextInputType.number,
-            maxLength: 10,
-          ),
+        // if (createPostController.category.value == "Selling")
+        //   CustomModifiedTextField(
+        //     controller: createPostController.newsDescriptionTextEditingController,
+        //     hint: ksPrice.tr,
+        //     onChanged: (text) {},
+        //     onSubmit: (text) {},
+        //     inputAction: TextInputAction.next,
+        //     inputType: TextInputType.text,
+        //     maxLength: 10,
+        //   ),
         kH8sizedBox,
         CustomModifiedTextField(
-          controller: TextEditingController(),
+          controller: createPostController.newsDescriptionTextEditingController,
           hint: ksDescription.tr,
-          onChanged: (text) {},
+          onChanged: (text) {
+            CreatePostHelper().checkCanCreatePost();
+          },
           onSubmit: (text) {},
           inputAction: TextInputAction.next,
-          inputType: TextInputType.number,
+          inputType: TextInputType.text,
           maxLength: 512,
           maxLines: 7,
         ),
       ],
     );
-  
   }
 }
