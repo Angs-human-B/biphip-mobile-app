@@ -28,7 +28,11 @@ class SelectInterestScreen extends StatelessWidget {
             child: CustomAppBar(
               hasBackButton: profileController.isRouteFromAboutInfo.value,
               isCenterTitle: profileController.isRouteFromAboutInfo.value,
-              title: profileController.isRouteFromAboutInfo.value ? 'Edit Interest' : '',
+              title: Get.find<GlobalController>().selectedInterests.isNotEmpty && profileController.isRouteFromAboutInfo.value
+                  ? 'Edit Interest'
+                  : Get.find<GlobalController>().selectedInterests.isEmpty && profileController.isRouteFromAboutInfo.value
+                      ? ksAddInterest.tr
+                      : '',
               appBarColor: profileController.isRouteFromAboutInfo.value ? cWhiteColor : cTransparentColor,
               onBack: () {
                 Get.back();

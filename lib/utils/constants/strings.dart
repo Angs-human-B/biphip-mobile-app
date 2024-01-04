@@ -420,3 +420,4 @@ const String ksCategoryChangeWarningMessage =
 const String ksWouldYouProceed = "Would you like to proceed?";
 const String ksContinue = "Continue";
 const String ksAddProfession = "Add Profession";
+const String ksAddInterest = "Add Interest";
