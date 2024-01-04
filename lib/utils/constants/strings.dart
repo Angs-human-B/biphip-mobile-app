@@ -419,3 +419,4 @@ const String ksCategoryChangeWarningMessage =
     "If you change the category, then you will be turned into the very first flow and all of your input of this category will be removed.";
 const String ksWouldYouProceed = "Would you like to proceed?";
 const String ksContinue = "Continue";
+const String ksAddProfession = "Add Profession";

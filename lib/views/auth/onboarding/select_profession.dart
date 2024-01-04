@@ -30,7 +30,7 @@ class SelectProfessionScreen extends StatelessWidget {
               isCenterTitle: profileController.isRouteFromAboutInfo.value,
               appBarColor: profileController.isRouteFromAboutInfo.value ? cWhiteColor : cTransparentColor,
               hasBackButton: profileController.isRouteFromAboutInfo.value,
-              title: profileController.isRouteFromAboutInfo.value ? ksEditProfession.tr : '',
+              title: globalController.selectedProfession.value != '' && profileController.isRouteFromAboutInfo.value ? ksEditProfession.tr : profileController.isRouteFromAboutInfo.value ? ksAddProfession.tr:  '',
               onBack: () {
                 Get.back();
               },
