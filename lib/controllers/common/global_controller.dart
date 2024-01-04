@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/family/widgets/all_family_listview.dart';
@@ -139,6 +140,7 @@ class GlobalController extends GetxController {
     double? bottomSheetHeight,
     bool? isScrollControlled,
     bool? isSearchShow,
+    FutureOr<void> Function()? onPopOutside,
   }) {
     showModalBottomSheet<void>(
       isScrollControlled: isScrollControlled ?? false,
@@ -227,7 +229,7 @@ class GlobalController extends GetxController {
           ],
         );
       },
-    );
+    ).whenComplete(onPopOutside ?? () {});
   }
 
   final RxBool isBottomSheetRightButtonActive = RxBool(true);
