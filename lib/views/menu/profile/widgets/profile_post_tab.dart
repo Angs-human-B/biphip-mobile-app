@@ -142,7 +142,8 @@ class PostTab extends StatelessWidget {
                       title: 'This is a title', //API
                       price: null, //API
                       postText: item.content, //API
-                      mediaList: item.imageUrls, //API
+                      // mediaList: item.imageUrls, //API
+                      mediaList: item.images,
                       isSelfPost: true,
                       isInStock: true,
                       isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,

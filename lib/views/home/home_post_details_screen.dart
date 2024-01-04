@@ -44,7 +44,7 @@ class HomePostDetailsScreen extends StatelessWidget {
                       isCommented: true,
                       isLiked: true,
                       isTextualPost: true,
-                      mediaList: homeController.postData.value!.post.imageUrls,
+                      mediaList: homeController.postData.value!.post.images,
                       isSelfPost: true,
                       isCommentShown: true,
                       showBottomSection: true,
