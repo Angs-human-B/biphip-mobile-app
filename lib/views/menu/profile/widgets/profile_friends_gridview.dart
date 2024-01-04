@@ -122,7 +122,7 @@ class CustomGridViewContainer extends StatelessWidget {
               height: 100,
               width: ((width - 72) / 3),
               child: Image.network(
-                item.profilePicture!,
+                item.profilePicture.toString(),
                 filterQuality: FilterQuality.high,
                 fit: BoxFit.fill,
                 errorBuilder: (context, error, stackTrace) => Container(
