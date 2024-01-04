@@ -62,7 +62,7 @@ class HomePostDetails extends StatelessWidget {
                               kH12sizedBox,
                               CommonPostDetailsWidget(
                                 isTextualPost: true,
-                                mediaList: homeController.postData.value!.post.imageUrls,
+                                mediaList: homeController.postData.value!.post.images,
                                 isCommentShown: true,
                                 showBottomSection: true,
                                 postText: homeController.postData.value!.post.content,

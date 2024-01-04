@@ -200,7 +200,7 @@ class HomePage extends StatelessWidget {
                                         kidName: item.kid == null ? null : item.kid!.name, //API
                                         kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
                                         postText: item.content, //API
-                                        mediaList: item.imageUrls, //API
+                                        mediaList: item.images, //API
                                         isSelfPost: index % 2 != 0,
                                         isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
                                         postID: item.id!,
@@ -209,7 +209,7 @@ class HomePage extends StatelessWidget {
                                         platformName: 'Jane Clothing',
                                         platformLink: 'www.facebook.com/Clothing/lorem',
                                         actionName: null,
-                                        title: 'This is a title', //API
+                                        title: item.title.toString(), //API
                                         price: '360', //API
                                         mainPrice: '400',
                                         discount: '10',
