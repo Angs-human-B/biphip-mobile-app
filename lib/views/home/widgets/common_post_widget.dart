@@ -169,7 +169,7 @@ class CommonPostWidget extends StatelessWidget {
           ),
         ),
         kH8sizedBox,
-        if ((category == 'News' || category == 'Selling') && isCategorized)
+        if ((category == 'News' || category == 'Selling') && isCategorized && title != null)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: kHorizontalPadding),
             child: Text(
@@ -357,7 +357,7 @@ class CommonPostWidget extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: k8CircularBorderRadius,
                             child: Image.network(
-                              Environment.imageBaseUrl + mediaList[0].path.toString(),
+                              mediaList[0].fullPath.toString(),
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) => const Icon(
                                 BipHip.imageFile,
@@ -387,7 +387,7 @@ class CommonPostWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                Environment.imageBaseUrl + mediaList[1].path.toString(),
+                                mediaList[1].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -421,7 +421,7 @@ class CommonPostWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                Environment.imageBaseUrl + mediaList[1].path.toString(),
+                                mediaList[1].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -451,7 +451,7 @@ class CommonPostWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                Environment.imageBaseUrl + mediaList[2].path.toString(),
+                                mediaList[2].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -481,7 +481,7 @@ class CommonPostWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                Environment.imageBaseUrl + mediaList[3].path.toString(),
+                                mediaList[3].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -514,7 +514,7 @@ class CommonPostWidget extends StatelessWidget {
                                   child: ClipRRect(
                                     borderRadius: k8CircularBorderRadius,
                                     child: Image.network(
-                                      Environment.imageBaseUrl + mediaList[4].path.toString(),
+                                      mediaList[4].fullPath.toString(),
                                       fit: BoxFit.cover,
                                       color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
                                       colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,
