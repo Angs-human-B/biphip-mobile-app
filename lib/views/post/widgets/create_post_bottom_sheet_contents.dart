@@ -551,6 +551,13 @@ class BrandBottomSheetContent extends StatelessWidget {
                   bottomSheetHeight: createPostController.savedBrandCustomBottomSheetHeight(),
                   context: context,
                   content: SelectBrandBottomSheetContent(),
+                  onPopOutside: () {
+                    if (createPostController.selectedBrandId.value == -1) {
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                    } else {
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                    }
+                  },
                   onPressCloseButton: () {
                     Get.back();
                   },
