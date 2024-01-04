@@ -30,6 +30,9 @@ class EducationBackgroundContent extends StatelessWidget {
                             borderColor: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index]
                                 ? cPrimaryColor
                                 : cLineColor,
+                            onPressed: () {
+                              editProfileHelper.onSelectEducationBottomSheet(index);
+                            },
                             trailing: CustomRadioButton(
                               onChanged: () {
                                 // profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
@@ -81,6 +84,9 @@ class LinkListContent extends StatelessWidget {
                         child: CustomListTile(
                           title: profileController.linkSourceList[index],
                           borderColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryColor : cLineColor,
+                          onPressed: () {
+                            editProfileHelper.onSelectLinkBottomSheet(index);
+                          },
                           trailing: CustomRadioButton(
                             onChanged: () {
                               // profileController.tempLinkSource.value = profileController.linkSourceList[index];
