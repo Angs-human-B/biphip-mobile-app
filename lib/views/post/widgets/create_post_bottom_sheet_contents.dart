@@ -98,8 +98,20 @@ class KidCategoryContent extends StatelessWidget {
                         bottomSheetHeight: height * .7,
                         context: context,
                         content: KidListBottomSheetContent(),
+                        onPopOutside: () {
+                          if (createPostController.selectedKid.value != null) {
+                            globalController.isBottomSheetRightButtonActive.value = true;
+                          } else {
+                            globalController.isBottomSheetRightButtonActive.value = false;
+                          }
+                        },
                         onPressCloseButton: () {
                           Get.back();
+                          if (createPostController.selectedKid.value != null) {
+                            globalController.isBottomSheetRightButtonActive.value = true;
+                          } else {
+                            globalController.isBottomSheetRightButtonActive.value = false;
+                          }
                         },
                         onPressRightButton: () {
                           createPostController.selectedKid.value = createPostController.tempSelectedKid.value;
@@ -539,6 +551,13 @@ class BrandBottomSheetContent extends StatelessWidget {
                   bottomSheetHeight: createPostController.savedBrandCustomBottomSheetHeight(),
                   context: context,
                   content: SelectBrandBottomSheetContent(),
+                  onPopOutside: () {
+                    if (createPostController.selectedBrandId.value == -1) {
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                    } else {
+                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                    }
+                  },
                   onPressCloseButton: () {
                     Get.back();
                   },
