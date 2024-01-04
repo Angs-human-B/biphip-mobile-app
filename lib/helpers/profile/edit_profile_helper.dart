@@ -738,7 +738,7 @@ class EditProfileHelper {
 
   void editPhone(index) {
     resetTextEditor();
-    profileController.enableSaveButton.value = true;
+    // profileController.enableSaveButton.value = true;
     profileController.phoneID.value = profileController.contactDataList[index].id!;
     profileController.phoneTextEditingController.text = profileController.contactDataList[index].value!;
     getMethod(12);
