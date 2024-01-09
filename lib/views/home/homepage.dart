@@ -188,7 +188,7 @@ class HomePage extends StatelessWidget {
                                         isLiked: index % 2 != 0,
                                         isSharedPost: false,
                                         showBottomSection: true,
-                                        userName: Get.find<GlobalController>().userName.value.toString(),
+                                        userName: item.user!.fullName!,
                                         postTime: '3 hrs ago',
                                         isCategorized: true,
                                         isTextualPost: item.content == null ? false : true, //API
@@ -209,7 +209,7 @@ class HomePage extends StatelessWidget {
                                         platformName: 'Jane Clothing',
                                         platformLink: 'www.facebook.com/Clothing/lorem',
                                         actionName: null,
-                                        title: item.title.toString(), //API
+                                        title: item.title, //API
                                         price: '360', //API
                                         mainPrice: '400',
                                         discount: '10',
