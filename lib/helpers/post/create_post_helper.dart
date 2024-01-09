@@ -70,47 +70,20 @@ class CreatePostHelper {
     }
   }
 
-  void selectAudienceStatusChange(index) {
-    for (int i = 0; i < createPostController.audienceStatusList.length; i++) {
-      if (index == i) {
-        createPostController.audienceStatusList[i] = true;
-      } else {
-        createPostController.audienceStatusList[i] = false;
-      }
-    }
-  }
-
-  void selectAudienceTextChange() {
-    for (int i = 0; i < createPostController.audienceTypeList.length; i++) {
-      if (createPostController.audienceStatusList[i]) {
-        createPostController.postType.value = createPostController.audienceTypeList[i]['title'];
-        createPostController.postTypeIcon.value = createPostController.audienceTypeList[i]['icon'];
-        break;
-      }
-    }
-  }
-
-  void initializeAudienceText() {
-    for (int i = 0; i < createPostController.audienceStatusList.length; i++) {
-      if (createPostController.audienceTypeList[i]['title'] == createPostController.postType.value) {
-        createPostController.audienceStatusList[i] = true;
-      } else {
-        createPostController.audienceStatusList[i] = false;
-      }
-    }
-  }
-
   void showAudienceSheet(context) {
+    createPostController.tempCreatePostSelectedPrivacy.value = createPostController.createPostSelectedPrivacy.value;
     Get.find<GlobalController>().commonBottomSheet(
-      bottomSheetHeight: height * .51,
+      bottomSheetHeight: height * .6,
       context: context,
       content: AudienceContent(),
       onPressCloseButton: () {
         Get.back();
       },
       onPressRightButton: () {
+        createPostController.createPostSelectedPrivacy.value = createPostController.tempCreatePostSelectedPrivacy.value;
+        createPostController.createPostSelectedPrivacyIcon.value = createPostController.tempCreatePostSelectedPrivacyIcon.value;
         ll("message");
-        selectAudienceTextChange();
+        // selectAudienceTextChange();
         Get.back();
       },
       rightText: ksDone.tr,
@@ -150,14 +123,14 @@ class CreatePostHelper {
     }
   }
 
-  void selectProductConditionTextChange() {
-    for (int i = 0; i < createPostController.productConditionList.length; i++) {
-      if (createPostController.productConditionState[i]) {
-        createPostController.selectedProductCondition.value = createPostController.productConditionList[i];
-        break;
-      }
-    }
-  }
+  // void selectProductConditionTextChange() {
+  //   for (int i = 0; i < createPostController.productConditionList.length; i++) {
+  //     if (createPostController.productConditionState[i]) {
+  //       createPostController.selectedProductCondition.value = createPostController.productConditionList[i];
+  //       break;
+  //     }
+  //   }
+  // }
 
   void resetAddBrandPage() {
     createPostController.brandImageLink.value = '';
@@ -279,7 +252,7 @@ class CreatePostHelper {
       if (createPostController.isResetCategoryPopupShow.value) {
         Get.back();
         Get.back();
-        createPostController.isResetCategoryPopupShow.value=false;
+        createPostController.isResetCategoryPopupShow.value = false;
       } else {
         Get.back();
       }
@@ -504,18 +477,6 @@ class CreatePostHelper {
       }
     }
   }
-
-  //*Selected Condition for selling post change
-  void selectConditionStatusChange(index) {
-    for (int i = 0; i < createPostController.productConditionState.length; i++) {
-      if (index == i) {
-        createPostController.productConditionState[i] = true;
-      } else {
-        createPostController.productConditionState[i] = false;
-      }
-    }
-  }
-
   bool checkTodayDate(date) {
     if (date != '') {
       DateTime parsedDate = DateTime.parse(date);

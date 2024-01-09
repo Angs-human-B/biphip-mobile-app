@@ -136,8 +136,8 @@ class PhotoDetails extends StatelessWidget {
                                   children: [
                                     CustomElevatedButton(
                                       isCustomButton: true,
-                                      label: createPostController.postType.value,
-                                      prefixIcon: createPostController.postTypeIcon.value,
+                                      label: createPostController.createPostSelectedPrivacy.value,
+                                      prefixIcon: createPostController.createPostSelectedPrivacyIcon.value,
                                       onPressed: () {},
                                       buttonHeight: 22,
                                       buttonColor: cGreyBoxColor,
@@ -178,21 +178,17 @@ class PhotoDetails extends StatelessWidget {
                     kH20sizedBox,
                     PostActivityStatusWidget(
                       reactCount: 440,
-                      reactionOnPressed: () {
-                      },
+                      reactionOnPressed: () {},
                       giftCount: 50,
                       commentCount: 200,
                       shareCount: 340,
                       isGiftShown: true,
-                      giftOnPressed: () {
-                      },
+                      giftOnPressed: () {},
                     ),
                     LikeSectionWidget(
                       isGiftShown: true,
-                      giftOnPressed: () {
-                      },
-                      commentOnPressed: () {
-                      },
+                      giftOnPressed: () {},
+                      commentOnPressed: () {},
                     ),
                     const CustomDivider(),
                     kH20sizedBox,

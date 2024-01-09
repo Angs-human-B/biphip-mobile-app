@@ -1,19 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
+import 'package:bip_hip/models/post/get_create_post_model.dart';
 import 'package:bip_hip/models/post/kid_model.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class CreatePostController extends GetxController {
-  @override
-  void onInit() {
-    subCategoryList.addAll(subCategoryLists);
-    filteredBusinessTypeList.addAll(businessTypeLists);
-    ll('Filtered busness types : $filteredBusinessTypeList');
-    super.onInit();
-  }
-
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
@@ -21,8 +14,6 @@ class CreatePostController extends GetxController {
   final RxBool isPostButtonActive = RxBool(false);
   final RxBool isTextLimitCrossed = RxBool(false);
   final TextEditingController createPostController = TextEditingController();
-  final RxString postType = RxString('Public');
-  final Rx<IconData> postTypeIcon = Rx<IconData>(BipHip.world);
   final RxString category = RxString('');
   final RxInt categoryID = RxInt(-1);
   final Rx<IconData?> categoryIcon = Rx<IconData?>(null);
@@ -45,7 +36,6 @@ class CreatePostController extends GetxController {
   final RxBool isMediaChanged = RxBool(false);
   final RxString postSecondaryCircleAvatar = RxString('');
   final Rx<File> postSecondaryLocalCirclerAvatar = File('').obs;
-  final RxList audienceStatusList = RxList([true, false, false]);
   final TextEditingController biddingTitleTextEditingController = TextEditingController();
   final TextEditingController biddingPriceTextEditingController = TextEditingController();
   final TextEditingController biddingDiscountAmountTextEditingController = TextEditingController();
@@ -68,9 +58,11 @@ class CreatePostController extends GetxController {
   final RxList<String> businessType = RxList<String>(['Electronics', 'Shop', 'Gadgets', 'Hardware']);
   final RxBool isAddBrandSuffixIconVisible = RxBool(false);
   final List audienceTypeList = [
-    {"title": "Public", "subtitle": "Anyone from BipHip", "icon": BipHip.world},
-    {"title": "Friends", "subtitle": "Your friends from BipHip", "icon": BipHip.friends},
-    {"title": "Only me", "subtitle": "Only you can see", "icon": BipHip.lock},
+    {"icon": BipHip.lock},
+    {"icon": BipHip.world},
+    {"icon": BipHip.friends},
+    {"icon": BipHip.addFamily},
+    {"icon": BipHip.friends},
   ];
 
   final List categoryList = [
@@ -498,43 +490,33 @@ class CreatePostController extends GetxController {
 
   double savedBrandCustomBottomSheetHeight() {
     if (isStoreListLoading.value == true) {
-      ll('1st');
       return height * 0.4;
     } else {
       if (storeList.isEmpty) {
-        ll('2nd');
         ll(storeList.length);
         return height * 0.4;
       } else if (storeList.isNotEmpty && storeList.length <= 1) {
-        ll('3rd');
         ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.2 : height * 0.3;
       } else if (storeList.length >= 2 && storeList.length <= 3) {
-        ll('4th');
         ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.3 : height * 0.4;
       } else if (storeList.length >= 4 && storeList.length <= 5) {
-        ll('5th');
         ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.4 : height * 0.5;
       } else if (storeList.length >= 6 && storeList.length <= 7) {
-        ll('6th');
         ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.5 : height * 0.6;
       } else if (storeList.length >= 8 && storeList.length <= 9) {
-        ll('7th');
         ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.6 : height * 0.7;
       } else if (storeList.length >= 10 && storeList.length <= 11) {
-        ll('8th');
         ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.7 : height * 0.8;
       } else if (storeList.length >= 12 && storeList.length <= 13) {
-        ll('9th');
         ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.8 : height * 0.9;
       } else {
-        ll('10th');
         return height * 0.9;
       }
     }
@@ -606,11 +588,8 @@ class CreatePostController extends GetxController {
   final RxBool isSellingImageChanged = RxBool(false);
   final RxList sellingAllMediaList = RxList([]);
   final RxList<Rx<File>> sellingAllMediaFileList = RxList<Rx<File>>([]);
-  final RxList productConditionList = RxList(["New", "Used", "Like New", "Reconditions", "Refurbished"]);
   final RxString tempSelectedProductCondition = RxString('');
   final RxString selectedProductCondition = RxString('');
-  // final RxString selectedProductCondition = RxString('');
-  final RxList<bool> productConditionState = RxList<bool>([false, false, false, false, false]);
   final RxString tempSelectedPlatform = RxString('');
   final RxString selectedPlatform = RxString('');
   final RxString tempSelectedAction = RxString('');
@@ -624,4 +603,63 @@ class CreatePostController extends GetxController {
   final TextEditingController newsTitleTextEditingController = TextEditingController();
   final TextEditingController newsDescriptionTextEditingController = TextEditingController();
   final RxBool isResetCategoryPopupShow = RxBool(false);
+
+  final RxString tempCreatePostSelectedPrivacy = RxString('Friends');
+  final RxString createPostSelectedPrivacy = RxString('Friends');
+  final Rx<IconData> tempCreatePostSelectedPrivacyIcon  = Rx<IconData>(BipHip.friends);
+  final Rx<IconData> createPostSelectedPrivacyIcon  = Rx<IconData>(BipHip.friends);
+  final RxString tempSelectedProductCategory = RxString('');
+  final RxString selectedProductCategory = RxString('');
+
+  //   //*Get Create Post List Api Call
+  final Rx<GetCreatePostModel?> createPostAllData = Rx<GetCreatePostModel?>(null);
+  final RxList<PostCategory> createPostCategoryList = RxList<PostCategory>([]);
+  final RxList<PostCategory> createPostSubCategoryList = RxList<PostCategory>([]);
+  final RxList<Privacy> createPostPrivacyList = RxList<Privacy>([]);
+  final RxList<Privacy> createPostSellCategoryList = RxList<Privacy>([]);
+  final RxList<Privacy> createPostSellConditionList = RxList<Privacy>([]);
+  final RxBool isGetCreatePostLoading = RxBool(false);
+  Future<void> getCreatePost() async {
+    try {
+      isGetCreatePostLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetCreatePost,
+      ) as CommonDM;
+      if (response.success == true) {
+        createPostCategoryList.clear();
+        createPostSubCategoryList.clear();
+        createPostPrivacyList.clear();
+        createPostSellCategoryList.clear();
+        createPostSellConditionList.clear();
+        createPostAllData.value = GetCreatePostModel.fromJson(response.data);
+        createPostSubCategoryList.addAll(createPostAllData.value!.postSubCategories);
+        createPostPrivacyList.addAll(createPostAllData.value!.privacy);
+        createPostSellCategoryList.addAll(createPostAllData.value!.sellPostCategories);
+        createPostSellConditionList.addAll(createPostAllData.value!.sellPostCondition);
+        for (int i = 0; i < postCategoryList.length; i++) {
+          for (int j = 0; j < categoryList.length; j++) {
+            if (categoryList[j]['title'].toLowerCase() == postCategoryList[i].name!.toLowerCase()) {
+              categoryList[j]['name'] = postCategoryList[i].name!;
+              categoryList[j]['id'] = postCategoryList[i].id!;
+            }
+          }
+        }
+        isGetCreatePostLoading.value = false;
+      } else {
+        isGetCreatePostLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isGetCreatePostLoading.value = true;
+      ll('getCreatePost error: $e');
+    }
+  }
 }

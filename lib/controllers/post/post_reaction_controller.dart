@@ -68,4 +68,8 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       }
     }
   }
+   final TextEditingController cardNumberController = TextEditingController();
+  final TextEditingController mmyyStarController = TextEditingController();
+  final TextEditingController cvvController = TextEditingController();
+  final RxBool giftAgreeCheckBox = RxBool(false);
 }

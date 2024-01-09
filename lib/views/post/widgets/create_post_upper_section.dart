@@ -159,10 +159,11 @@ class CreatePostUpperSection extends StatelessWidget {
                           if (createPostController.category.value != "Selling")
                             CustomElevatedButton(
                               isCustomButton: true,
-                              label: createPostController.postType.value,
-                              prefixIcon: createPostController.postTypeIcon.value,
+                              label: createPostController.createPostSelectedPrivacy.value,
+                              prefixIcon: createPostController.createPostSelectedPrivacyIcon.value,
                               onPressed: () {
-                                createPostHelper.initializeAudienceText();
+                                // createPostHelper.initializeAudienceText();
+                                createPostController.createPostSelectedPrivacy.value;
                                 createPostHelper.showAudienceSheet(context);
                               },
                               buttonHeight: 22,
@@ -227,7 +228,7 @@ class CreatePostUpperSection extends StatelessWidget {
                                           rightText: ksDone.tr,
                                           rightTextStyle: semiBold12TextStyle(cPrimaryColor),
                                           title: ksSelectSubCategory.tr,
-                                          isRightButtonShow: createPostController.subCategoryList.isEmpty ? false : true,
+                                          isRightButtonShow: createPostController.createPostSubCategoryList.isEmpty ? false : true,
                                           isScrollControlled: true,
                                           bottomSheetHeight: createPostController.subCategoryCustomBottomSheetHeight(),
                                           // bottomSheetHeight: height * .9
@@ -348,7 +349,7 @@ class SubCategoryContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Get.find<CreatePostController>().subCategoryList.isNotEmpty
+      () => Get.find<CreatePostController>().createPostSubCategoryList.isNotEmpty
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -360,12 +361,13 @@ class SubCategoryContent extends StatelessWidget {
                     direction: Axis.horizontal,
                     spacing: 8.0,
                     children: [
-                      for (int i = 0; i < Get.find<CreatePostController>().subCategoryList.length; i++)
+                      for (int i = 0; i < Get.find<CreatePostController>().createPostSubCategoryList.length; i++)
                         CustomChoiceChips(
-                          label: Get.find<CreatePostController>().subCategoryList[i]["title"],
+                          label: Get.find<CreatePostController>().createPostSubCategoryList[i].name.toString(),
                           isSelected: (Get.find<CreatePostController>().tempSubCategoryIndex.value == i),
                           onSelected: (value) {
-                            Get.find<CreatePostController>().tempSubCategory.value = Get.find<CreatePostController>().subCategoryList[i]["title"];
+                            Get.find<CreatePostController>().tempSubCategory.value =
+                                Get.find<CreatePostController>().createPostSubCategoryList[i].name.toString();
                             Get.find<CreatePostController>().tempSubCategoryIndex.value = i;
                             if (Get.find<CreatePostController>().tempSubCategory.value == '' &&
                                 Get.find<CreatePostController>().tempSubCategoryIndex.value == -1) {

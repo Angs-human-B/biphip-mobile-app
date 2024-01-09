@@ -141,8 +141,8 @@ class VideoDetails extends StatelessWidget {
                                   children: [
                                     CustomElevatedButton(
                                       isCustomButton: true,
-                                      label: createPostController.postType.value,
-                                      prefixIcon: createPostController.postTypeIcon.value,
+                                      label: createPostController.createPostSelectedPrivacy.value,
+                                      prefixIcon: createPostController.createPostSelectedPrivacyIcon.value,
                                       onPressed: () {},
                                       buttonHeight: 22,
                                       buttonColor: cGreyBoxColor,
