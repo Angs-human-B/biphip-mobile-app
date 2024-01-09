@@ -280,9 +280,69 @@ class CreatePost extends StatelessWidget {
                                       ),
                                       kH4sizedBox,
                                       TextAndIconRowSellingPost(
-                                        text: ksCategory.tr,
+                                        text: createPostController.selectedProductCategory.value == ''
+                                            ? ksCategory.tr
+                                            : createPostController.selectedProductCategory.value,
                                         suffixIcon: BipHip.downArrow,
-                                        onPressed: null,
+                                        onPressed: () {
+                                          createPostController.tempSelectedProductCategory.value = createPostController.selectedProductCategory.value;
+                                          if (createPostController.tempSelectedProductCategory.value == '') {
+                                            globalController.isBottomSheetRightButtonActive.value = false;
+                                          } else {
+                                            globalController.isBottomSheetRightButtonActive.value = true;
+                                          }
+                                          globalController.commonBottomSheet(
+                                              context: context,
+                                              bottomSheetHeight: height * 0.9,
+                                              content: SingleChildScrollView(
+                                                  child: Column(
+                                                children: [
+                                                  ListView.builder(
+                                                      shrinkWrap: true,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      itemCount: createPostController.createPostSellCategoryList.length,
+                                                      itemBuilder: (context, index) {
+                                                        return Padding(
+                                                          padding: const EdgeInsets.only(top: k12Padding),
+                                                          child: Obx(() => OutLinedButton(
+                                                                onPress: () {
+                                                                  createPostController.tempSelectedProductCategory.value =
+                                                                      createPostController.createPostSellCategoryList[index].name.toString();
+                                                                  if (createPostController.tempSelectedProductCategory.value == '') {
+                                                                    globalController.isBottomSheetRightButtonActive.value = false;
+                                                                  } else {
+                                                                    globalController.isBottomSheetRightButtonActive.value = true;
+                                                                  }
+                                                                },
+                                                                buttonText: createPostController.createPostSellCategoryList[index].name.toString(),
+                                                                buttonTextStyle: regular16TextStyle(cBlackColor),
+                                                                borderColor: createPostController.tempSelectedProductCategory.value ==
+                                                                        createPostController.createPostSellCategoryList[index].name.toString()
+                                                                    ? cPrimaryColor
+                                                                    : cLineColor2,
+                                                                buttonColor: createPostController.tempSelectedProductCategory.value ==
+                                                                        createPostController.createPostSellCategoryList[index].name.toString()
+                                                                    ? cPrimaryTint3Color
+                                                                    : cWhiteColor,
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                              )),
+                                                        );
+                                                      }),
+                                                ],
+                                              )),
+                                              onPressCloseButton: () {
+                                                Get.back();
+                                              },
+                                              onPressRightButton: () {
+                                                createPostController.selectedProductCategory.value = createPostController.tempSelectedProductCategory.value;
+                                                createPostHelper.checkCanCreatePost();
+                                                Get.back();
+                                              },
+                                              rightText: ksDone.tr,
+                                              rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                              title: ksSelectCondition.tr,
+                                              isRightButtonShow: true);
+                                        },
                                       ),
                                       kH12sizedBox,
                                       TextAndIconRowSellingPost(

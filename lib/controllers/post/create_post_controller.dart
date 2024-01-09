@@ -597,6 +597,8 @@ class CreatePostController extends GetxController {
   final RxString createPostSelectedPrivacy = RxString('Friends');
   final Rx<IconData> tempCreatePostSelectedPrivacyIcon  = Rx<IconData>(BipHip.friends);
   final Rx<IconData> createPostSelectedPrivacyIcon  = Rx<IconData>(BipHip.friends);
+  final RxString tempSelectedProductCategory = RxString('');
+  final RxString selectedProductCategory = RxString('');
 
   //   //*Get Create Post List Api Call
   final Rx<GetCreatePostModel?> createPostAllData = Rx<GetCreatePostModel?>(null);
