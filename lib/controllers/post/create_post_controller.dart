@@ -1,19 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
+import 'package:bip_hip/models/post/get_create_post_model.dart';
 import 'package:bip_hip/models/post/kid_model.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class CreatePostController extends GetxController {
-  @override
-  void onInit() {
-    subCategoryList.addAll(subCategoryLists);
-    filteredBusinessTypeList.addAll(businessTypeLists);
-    ll('Filtered busness types : $filteredBusinessTypeList');
-    super.onInit();
-  }
-
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
@@ -613,4 +606,56 @@ class CreatePostController extends GetxController {
   final TextEditingController newsTitleTextEditingController = TextEditingController();
   final TextEditingController newsDescriptionTextEditingController = TextEditingController();
   final RxBool isResetCategoryPopupShow = RxBool(false);
+
+  //   //*Get Create Post List Api Call
+  final Rx<GetCreatePostModel?> createPostAllData = Rx<GetCreatePostModel?>(null);
+  final RxList<PostCategory> createPostCategoryList = RxList<PostCategory>([]);
+  final RxList<PostCategory> createPostSubCategoryList = RxList<PostCategory>([]);
+  final RxList<Privacy> createPostPrivacyList = RxList<Privacy>([]);
+  final RxList<Privacy> createPostSellCategoryList = RxList<Privacy>([]);
+  final RxList<Privacy> createPostSellConditionList = RxList<Privacy>([]);
+  final RxBool isGetCreatePostLoading = RxBool(false);
+  Future<void> getCreatePost() async {
+    try {
+      isGetCreatePostLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetCreatePost,
+      ) as CommonDM;
+      if (response.success == true) {
+        createPostCategoryList.clear();
+        createPostSubCategoryList.clear();
+        createPostPrivacyList.clear();
+        createPostSellCategoryList.clear();
+        createPostSellConditionList.clear();
+        createPostAllData.value = GetCreatePostModel.fromJson(response.data);
+        createPostSubCategoryList.addAll(createPostAllData.value!.postSubCategories);
+        createPostPrivacyList.addAll(createPostAllData.value!.privacy);
+        createPostSellCategoryList.addAll(createPostAllData.value!.sellPostCategories);
+        createPostSellConditionList.addAll(createPostAllData.value!.sellPostCondition);
+        for (int i = 0; i < postCategoryList.length; i++) {
+          for (int j = 0; j < categoryList.length; j++) {
+            if (categoryList[j]['title'].toLowerCase() == postCategoryList[i].name!.toLowerCase()) {
+              categoryList[j]['name'] = postCategoryList[i].name!;
+              categoryList[j]['id'] = postCategoryList[i].id!;
+            }
+          }
+        }
+        isGetCreatePostLoading.value = false;
+      } else {
+        isGetCreatePostLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isGetCreatePostLoading.value = true;
+      ll('getCreatePost error: $e');
+    }
+  }
 }

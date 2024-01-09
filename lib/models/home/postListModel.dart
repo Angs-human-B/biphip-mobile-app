@@ -1,5 +1,6 @@
 // import 'package:bip_hip/models/common/common_link_model.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
+import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 
 // class PostListModel {
 //   Posts posts;
@@ -657,25 +658,6 @@ class TaggedFriend {
         mutualFriend: json["mutual_friend"],
     );
 }
-
-class PostCategory {
-    int? id;
-    String? name;
-    int? isActive;
-
-    PostCategory({
-        required this.id,
-        required this.name,
-        required this.isActive,
-    });
-
-    factory PostCategory.fromJson(Map<String, dynamic> json) => PostCategory(
-        id: json["id"],
-        name: json["name"],
-        isActive: json["is_active"],
-    );
-}
-
 class Link {
     String? url;
     String? label;

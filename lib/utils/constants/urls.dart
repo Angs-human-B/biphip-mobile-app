@@ -124,6 +124,7 @@ const String kuAddKid = '/mobile/user/store-kid';
 const String kuAddStore = '/mobile/user/store-store';
 const String kuCreatePost = '/mobile/user/store-post';
 const String kuGetStores = '/mobile/user/get-all-stores';
+const String kuGetCreatePost = '/mobile/user/create-post';
 
 //---------------------------------------
 //* Home page
