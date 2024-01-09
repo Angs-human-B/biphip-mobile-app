@@ -291,6 +291,9 @@ class CreatePostHelper {
     createPostController.resetCreatePost();
     createPostController.selectedPlatform.value = "";
     createPostController.selectedProductCategory.value = '';
+    createPostController.selectedProductCategoryID.value = '';
+    createPostController.selectedProductCondition.value = '';
+    createPostController.selectedProductConditionID.value = '';
     clearCreateSellingPostView();
   }
 
@@ -478,6 +481,7 @@ class CreatePostHelper {
       }
     }
   }
+
   bool checkTodayDate(date) {
     if (date != '') {
       DateTime parsedDate = DateTime.parse(date);
