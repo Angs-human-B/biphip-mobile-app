@@ -297,15 +297,6 @@ class CreatePost extends StatelessWidget {
                                           } else {
                                             globalController.isBottomSheetRightButtonActive.value = true;
                                           }
-                                          if (createPostController.tempSelectedProductCondition.value == '') {
-                                            for (int i = 0; i < createPostController.productConditionList.length; i++) {
-                                              if (createPostController.tempSelectedProductCondition.value == createPostController.productConditionList[i]) {
-                                                createPostController.productConditionState[i] = true;
-                                              } else {
-                                                createPostController.productConditionState[i] = false;
-                                              }
-                                            }
-                                          }
                                           globalController.commonBottomSheet(
                                               context: context,
                                               bottomSheetHeight: isDeviceScreenLarge() ? height * 0.5 : height * 0.75,
@@ -315,31 +306,30 @@ class CreatePost extends StatelessWidget {
                                                   ListView.builder(
                                                       shrinkWrap: true,
                                                       physics: const NeverScrollableScrollPhysics(),
-                                                      itemCount: createPostController.productConditionList.length,
+                                                      itemCount: createPostController.createPostSellConditionList.length,
                                                       itemBuilder: (context, index) {
-                                                        // return Padding(
-                                                        //   padding: const EdgeInsets.only(top: k12Padding),
-                                                        //   child: Text(createPostController.productConditionList[index].toString()),
-                                                        // );
                                                         return Padding(
                                                           padding: const EdgeInsets.only(top: k12Padding),
                                                           child: Obx(() => OutLinedButton(
                                                                 onPress: () {
-                                                                  createPostHelper.selectConditionStatusChange(index);
-                                                                  // globalController.isBottomSheetRightButtonActive.value = true;
                                                                   createPostController.tempSelectedProductCondition.value =
-                                                                      createPostController.productConditionList[index];
+                                                                      createPostController.createPostSellConditionList[index].name.toString();
                                                                   if (createPostController.tempSelectedProductCondition.value == '') {
                                                                     globalController.isBottomSheetRightButtonActive.value = false;
                                                                   } else {
                                                                     globalController.isBottomSheetRightButtonActive.value = true;
                                                                   }
                                                                 },
-                                                                buttonText: createPostController.productConditionList[index].toString(),
+                                                                buttonText: createPostController.createPostSellConditionList[index].name.toString(),
                                                                 buttonTextStyle: regular16TextStyle(cBlackColor),
-                                                                borderColor: createPostController.productConditionState[index] ? cPrimaryColor : cLineColor2,
-                                                                buttonColor:
-                                                                    createPostController.productConditionState[index] ? cPrimaryTint3Color : cWhiteColor,
+                                                                borderColor: createPostController.tempSelectedProductCondition.value ==
+                                                                        createPostController.createPostSellConditionList[index].name.toString()
+                                                                    ? cPrimaryColor
+                                                                    : cLineColor2,
+                                                                buttonColor: createPostController.tempSelectedProductCondition.value ==
+                                                                        createPostController.createPostSellConditionList[index].name.toString()
+                                                                    ? cPrimaryTint3Color
+                                                                    : cWhiteColor,
                                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                               )),
                                                         );
@@ -350,7 +340,7 @@ class CreatePost extends StatelessWidget {
                                                 Get.back();
                                               },
                                               onPressRightButton: () {
-                                                createPostHelper.selectProductConditionTextChange();
+                                                createPostController.selectedProductCondition.value = createPostController.tempSelectedProductCondition.value;
                                                 createPostHelper.checkCanCreatePost();
                                                 Get.back();
                                               },

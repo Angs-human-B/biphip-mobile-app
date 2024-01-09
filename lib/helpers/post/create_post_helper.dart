@@ -123,14 +123,14 @@ class CreatePostHelper {
     }
   }
 
-  void selectProductConditionTextChange() {
-    for (int i = 0; i < createPostController.productConditionList.length; i++) {
-      if (createPostController.productConditionState[i]) {
-        createPostController.selectedProductCondition.value = createPostController.productConditionList[i];
-        break;
-      }
-    }
-  }
+  // void selectProductConditionTextChange() {
+  //   for (int i = 0; i < createPostController.productConditionList.length; i++) {
+  //     if (createPostController.productConditionState[i]) {
+  //       createPostController.selectedProductCondition.value = createPostController.productConditionList[i];
+  //       break;
+  //     }
+  //   }
+  // }
 
   void resetAddBrandPage() {
     createPostController.brandImageLink.value = '';
@@ -477,18 +477,6 @@ class CreatePostHelper {
       }
     }
   }
-
-  //*Selected Condition for selling post change
-  void selectConditionStatusChange(index) {
-    for (int i = 0; i < createPostController.productConditionState.length; i++) {
-      if (index == i) {
-        createPostController.productConditionState[i] = true;
-      } else {
-        createPostController.productConditionState[i] = false;
-      }
-    }
-  }
-
   bool checkTodayDate(date) {
     if (date != '') {
       DateTime parsedDate = DateTime.parse(date);
