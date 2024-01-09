@@ -290,6 +290,7 @@ class CreatePostHelper {
     createPostController.sellingAllMediaFileList.clear();
     createPostController.resetCreatePost();
     createPostController.selectedPlatform.value = "";
+    createPostController.selectedProductCategory.value = '';
     clearCreateSellingPostView();
   }
 

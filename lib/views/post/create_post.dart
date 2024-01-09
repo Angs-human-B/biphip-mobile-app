@@ -308,6 +308,7 @@ class CreatePost extends StatelessWidget {
                                                                 onPress: () {
                                                                   createPostController.tempSelectedProductCategory.value =
                                                                       createPostController.createPostSellCategoryList[index].name.toString();
+                                                                      createPostController.tempSelectedProductCategoryID.value = createPostController.createPostSellCategoryList[index].id.toString();
                                                                   if (createPostController.tempSelectedProductCategory.value == '') {
                                                                     globalController.isBottomSheetRightButtonActive.value = false;
                                                                   } else {
@@ -335,12 +336,13 @@ class CreatePost extends StatelessWidget {
                                               },
                                               onPressRightButton: () {
                                                 createPostController.selectedProductCategory.value = createPostController.tempSelectedProductCategory.value;
+                                                createPostController.selectedProductCategoryID.value = createPostController.tempSelectedProductCategoryID.value;
                                                 createPostHelper.checkCanCreatePost();
                                                 Get.back();
                                               },
                                               rightText: ksDone.tr,
                                               rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                              title: ksSelectCondition.tr,
+                                              title: ksSelectCategory.tr,
                                               isRightButtonShow: true);
                                         },
                                       ),

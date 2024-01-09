@@ -422,6 +422,7 @@ class CreatePostController extends GetxController {
         if (category.value == 'Selling') 'bidding_post_type': (isPublicPost.value && !isPrivatePost.value) ? '0' : '1',
         if (category.value == 'Selling') 'desire_amount': biddingDesiredAmountTextEditingController.text.trim(),
         if (category.value == 'Selling') 'min_bidding_amount': biddingDesiredAmountTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'sell_post_category_id': selectedProductCategoryID.value,
       };
       var response = await apiController.multiMediaUpload(
         url: kuCreatePost,
@@ -609,7 +610,9 @@ class CreatePostController extends GetxController {
   final Rx<IconData> tempCreatePostSelectedPrivacyIcon  = Rx<IconData>(BipHip.friends);
   final Rx<IconData> createPostSelectedPrivacyIcon  = Rx<IconData>(BipHip.friends);
   final RxString tempSelectedProductCategory = RxString('');
+  final RxString tempSelectedProductCategoryID = RxString('');
   final RxString selectedProductCategory = RxString('');
+  final RxString selectedProductCategoryID = RxString('');
 
   //   //*Get Create Post List Api Call
   final Rx<GetCreatePostModel?> createPostAllData = Rx<GetCreatePostModel?>(null);
