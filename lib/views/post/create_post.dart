@@ -376,6 +376,7 @@ class CreatePost extends StatelessWidget {
                                                                 onPress: () {
                                                                   createPostController.tempSelectedProductCondition.value =
                                                                       createPostController.createPostSellConditionList[index].name.toString();
+                                                                      createPostController.tempSelectedProductConditionID.value = createPostController.createPostSellConditionList[index].id.toString();
                                                                   if (createPostController.tempSelectedProductCondition.value == '') {
                                                                     globalController.isBottomSheetRightButtonActive.value = false;
                                                                   } else {
@@ -403,6 +404,7 @@ class CreatePost extends StatelessWidget {
                                               },
                                               onPressRightButton: () {
                                                 createPostController.selectedProductCondition.value = createPostController.tempSelectedProductCondition.value;
+                                                createPostController.selectedProductConditionID.value = createPostController.tempSelectedProductConditionID.value;
                                                 createPostHelper.checkCanCreatePost();
                                                 Get.back();
                                               },

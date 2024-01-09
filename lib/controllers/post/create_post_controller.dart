@@ -423,6 +423,7 @@ class CreatePostController extends GetxController {
         if (category.value == 'Selling') 'desire_amount': biddingDesiredAmountTextEditingController.text.trim(),
         if (category.value == 'Selling') 'min_bidding_amount': biddingDesiredAmountTextEditingController.text.trim(),
         if (category.value == 'Selling') 'sell_post_category_id': selectedProductCategoryID.value,
+        if (category.value == 'Selling') 'sell_post_condition_id': selectedProductConditionID.value,
       };
       var response = await apiController.multiMediaUpload(
         url: kuCreatePost,
@@ -590,7 +591,9 @@ class CreatePostController extends GetxController {
   final RxList sellingAllMediaList = RxList([]);
   final RxList<Rx<File>> sellingAllMediaFileList = RxList<Rx<File>>([]);
   final RxString tempSelectedProductCondition = RxString('');
+  final RxString tempSelectedProductConditionID = RxString('');
   final RxString selectedProductCondition = RxString('');
+  final RxString selectedProductConditionID = RxString('');
   final RxString tempSelectedPlatform = RxString('');
   final RxString selectedPlatform = RxString('');
   final RxString tempSelectedAction = RxString('');
