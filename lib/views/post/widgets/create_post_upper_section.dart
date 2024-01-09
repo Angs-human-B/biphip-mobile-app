@@ -159,10 +159,11 @@ class CreatePostUpperSection extends StatelessWidget {
                           if (createPostController.category.value != "Selling")
                             CustomElevatedButton(
                               isCustomButton: true,
-                              label: createPostController.postType.value,
-                              prefixIcon: createPostController.postTypeIcon.value,
+                              label: createPostController.createPostSelectedPrivacy.value,
+                              prefixIcon: createPostController.createPostSelectedPrivacyIcon.value,
                               onPressed: () {
-                                createPostHelper.initializeAudienceText();
+                                // createPostHelper.initializeAudienceText();
+                                createPostController.createPostSelectedPrivacy.value;
                                 createPostHelper.showAudienceSheet(context);
                               },
                               buttonHeight: 22,

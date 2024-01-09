@@ -14,8 +14,6 @@ class CreatePostController extends GetxController {
   final RxBool isPostButtonActive = RxBool(false);
   final RxBool isTextLimitCrossed = RxBool(false);
   final TextEditingController createPostController = TextEditingController();
-  final RxString postType = RxString('Public');
-  final Rx<IconData> postTypeIcon = Rx<IconData>(BipHip.world);
   final RxString category = RxString('');
   final RxInt categoryID = RxInt(-1);
   final Rx<IconData?> categoryIcon = Rx<IconData?>(null);
@@ -38,7 +36,6 @@ class CreatePostController extends GetxController {
   final RxBool isMediaChanged = RxBool(false);
   final RxString postSecondaryCircleAvatar = RxString('');
   final Rx<File> postSecondaryLocalCirclerAvatar = File('').obs;
-  final RxList audienceStatusList = RxList([true, false, false]);
   final TextEditingController biddingTitleTextEditingController = TextEditingController();
   final TextEditingController biddingPriceTextEditingController = TextEditingController();
   final TextEditingController biddingDiscountAmountTextEditingController = TextEditingController();
@@ -61,9 +58,11 @@ class CreatePostController extends GetxController {
   final RxList<String> businessType = RxList<String>(['Electronics', 'Shop', 'Gadgets', 'Hardware']);
   final RxBool isAddBrandSuffixIconVisible = RxBool(false);
   final List audienceTypeList = [
-    {"title": "Public", "subtitle": "Anyone from BipHip", "icon": BipHip.world},
-    {"title": "Friends", "subtitle": "Your friends from BipHip", "icon": BipHip.friends},
-    {"title": "Only me", "subtitle": "Only you can see", "icon": BipHip.lock},
+    {"icon": BipHip.lock},
+    {"icon": BipHip.world},
+    {"icon": BipHip.friends},
+    {"icon": BipHip.addFamily},
+    {"icon": BipHip.friends},
   ];
 
   final List categoryList = [
@@ -480,43 +479,33 @@ class CreatePostController extends GetxController {
 
   double savedBrandCustomBottomSheetHeight() {
     if (isStoreListLoading.value == true) {
-      ll('1st');
       return height * 0.4;
     } else {
       if (storeList.isEmpty) {
-        ll('2nd');
         ll(storeList.length);
         return height * 0.4;
       } else if (storeList.isNotEmpty && storeList.length <= 1) {
-        ll('3rd');
         ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.2 : height * 0.3;
       } else if (storeList.length >= 2 && storeList.length <= 3) {
-        ll('4th');
         ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.3 : height * 0.4;
       } else if (storeList.length >= 4 && storeList.length <= 5) {
-        ll('5th');
         ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.4 : height * 0.5;
       } else if (storeList.length >= 6 && storeList.length <= 7) {
-        ll('6th');
         ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.5 : height * 0.6;
       } else if (storeList.length >= 8 && storeList.length <= 9) {
-        ll('7th');
         ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.6 : height * 0.7;
       } else if (storeList.length >= 10 && storeList.length <= 11) {
-        ll('8th');
         ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.7 : height * 0.8;
       } else if (storeList.length >= 12 && storeList.length <= 13) {
-        ll('9th');
         ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.8 : height * 0.9;
       } else {
-        ll('10th');
         return height * 0.9;
       }
     }
@@ -606,6 +595,11 @@ class CreatePostController extends GetxController {
   final TextEditingController newsTitleTextEditingController = TextEditingController();
   final TextEditingController newsDescriptionTextEditingController = TextEditingController();
   final RxBool isResetCategoryPopupShow = RxBool(false);
+
+  final RxString tempCreatePostSelectedPrivacy = RxString('Friends');
+  final RxString createPostSelectedPrivacy = RxString('Friends');
+  final Rx<IconData> tempCreatePostSelectedPrivacyIcon  = Rx<IconData>(BipHip.friends);
+  final Rx<IconData> createPostSelectedPrivacyIcon  = Rx<IconData>(BipHip.friends);
 
   //   //*Get Create Post List Api Call
   final Rx<GetCreatePostModel?> createPostAllData = Rx<GetCreatePostModel?>(null);

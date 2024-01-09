@@ -30,17 +30,20 @@ class AudienceContent extends StatelessWidget {
           style: regular14TextStyle(cBlackColor),
         ),
         kH8sizedBox,
-        for (int i = 1; i <= 3; i++)
+        for (int i = 0; i < createPostController.createPostPrivacyList.length; i++)
           Padding(
-            padding: EdgeInsets.only(bottom: i == 3 ? 0.0 : 8.0),
+            padding: const EdgeInsets.only(bottom: k4Padding),
             child: Obx(
               () => CustomListTile(
                 onPressed: () {
-                  CreatePostHelper().selectAudienceStatusChange(i - 1);
+                  // CreatePostHelper().selectAudienceStatusChange(i - 1);
+                  createPostController.tempCreatePostSelectedPrivacy.value = createPostController.createPostPrivacyList[i].name.toString();
+                  createPostController.tempCreatePostSelectedPrivacyIcon.value = createPostController.audienceTypeList[i]['icon'];
                 },
-                itemColor: createPostController.audienceStatusList[i - 1] ? cPrimaryTint3Color : cWhiteColor,
-                title: createPostController.audienceTypeList[i - 1]['title'],
-                subtitle: createPostController.audienceTypeList[i - 1]['subtitle'],
+                itemColor: createPostController.tempCreatePostSelectedPrivacy.value == createPostController.createPostPrivacyList[i].name.toString()
+                    ? cPrimaryTint3Color
+                    : cWhiteColor,
+                title: createPostController.createPostPrivacyList[i].name.toString(),
                 leading: Container(
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
@@ -49,16 +52,17 @@ class AudienceContent extends StatelessWidget {
                   height: h28,
                   width: h28,
                   child: Icon(
-                    createPostController.audienceTypeList[i - 1]['icon'],
+                    createPostController.audienceTypeList[i]['icon'],
                     color: cBlackColor,
                     size: isDeviceScreenLarge() ? h18 : h14,
                   ),
                 ),
                 trailing: CustomRadioButton(
                   onChanged: () {
-                    CreatePostHelper().selectAudienceStatusChange(i - 1);
+                    createPostController.tempCreatePostSelectedPrivacyIcon.value = createPostController.audienceTypeList[i]['icon'];
+                    createPostController.tempCreatePostSelectedPrivacy.value = createPostController.createPostPrivacyList[i].name.toString();
                   },
-                  isSelected: createPostController.audienceStatusList[i - 1],
+                  isSelected: createPostController.tempCreatePostSelectedPrivacy.value == createPostController.createPostPrivacyList[i].name.toString(),
                 ),
               ),
             ),
