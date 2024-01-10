@@ -214,9 +214,9 @@ class HomePage extends StatelessWidget {
                                         platformLink: 'www.facebook.com/Clothing/lorem',
                                         actionName: null,
                                         title: item.title, //API
-                                        price: '360', //API
+                                        price: item.price.toString(), //API
                                         mainPrice: '400',
-                                        discount: '10',
+                                        discount: item.discount.toString(),
                                         isInStock: false,
                                         productCondition: 'New',
                                         productCategory: 'Phone', userImage: item.user!.profilePicture!,
