@@ -65,8 +65,11 @@ class HomeController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         allPostList.clear();
+        ll('1');
         postListData.value = PostListModel.fromJson(response.data);
+        ll('2');
         allPostList.addAll(postListData.value!.posts.data);
+        ll('3');
         isHomePageLoading.value = false;
       } else {
         isHomePageLoading.value = true;
