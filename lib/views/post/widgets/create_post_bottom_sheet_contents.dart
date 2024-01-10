@@ -683,7 +683,7 @@ class SelectBrandBottomSheetContent extends StatelessWidget {
                                   ),
                                   child: ClipOval(
                                     child: Image.network(
-                                      Environment.imageBaseUrl + createPostController.storeList[i].image!,
+                                      createPostController.storeList[i].profilePicture!,
                                       fit: BoxFit.cover,
                                       errorBuilder: (context, error, stackTrace) => const Icon(
                                         BipHip.imageFile,

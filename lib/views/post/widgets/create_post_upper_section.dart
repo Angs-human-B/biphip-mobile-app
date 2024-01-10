@@ -95,7 +95,7 @@ class CreatePostUpperSection extends StatelessWidget {
                         child:
                             // createPostController.selectedKid.value != null?
                             Image.network(
-                      Environment.imageBaseUrl + createPostController.postSecondaryCircleAvatar.value,
+                      createPostController.postSecondaryCircleAvatar.value,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => const Icon(
                         BipHip.imageFile,

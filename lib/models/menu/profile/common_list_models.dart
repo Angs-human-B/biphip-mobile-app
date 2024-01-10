@@ -203,28 +203,153 @@ class StoreModel {
 
 class Store {
     int? id;
+    String? pageType;
+    String? pageId;
     int? userId;
     String? name;
+    dynamic bio;
+    dynamic age;
+    List<dynamic> categories;
     String? image;
-    String? socialLinks;
-    String? brandImage;
+    dynamic cover;
+    dynamic bin;
+    dynamic country;
+    int? rating;
+    List<dynamic> hobbies;
+    List<dynamic> languages;
+    dynamic gender;
+    dynamic privacyLink;
+    String? profilePicture;
+    dynamic coverPhoto;
+    ProPic? proPic;
+    dynamic coverPic;
 
     Store({
         required this.id,
+        required this.pageType,
+        required this.pageId,
         required this.userId,
         required this.name,
+        required this.bio,
+        required this.age,
+        required this.categories,
         required this.image,
-        required this.socialLinks,
-        required this.brandImage,
+        required this.cover,
+        required this.bin,
+        required this.country,
+        required this.rating,
+        required this.hobbies,
+        required this.languages,
+        required this.gender,
+        required this.privacyLink,
+        required this.profilePicture,
+        required this.coverPhoto,
+        required this.proPic,
+        required this.coverPic,
     });
 
     factory Store.fromJson(Map<String, dynamic> json) => Store(
         id: json["id"],
+        pageType: json["page_type"],
+        pageId: json["page_id"],
         userId: json["user_id"],
         name: json["name"],
+        bio: json["bio"],
+        age: json["age"],
+        categories: List<dynamic>.from(json["categories"].map((x) => x)),
         image: json["image"],
-        socialLinks: json["social_links"],
-        brandImage: json["brand_image"],
+        cover: json["cover"],
+        bin: json["bin"],
+        country: json["country"],
+        rating: json["rating"],
+        hobbies: List<dynamic>.from(json["hobbies"].map((x) => x)),
+        languages: List<dynamic>.from(json["languages"].map((x) => x)),
+        gender: json["gender"],
+        privacyLink: json["privacy_link"],
+        profilePicture: json["profile_picture"],
+        coverPhoto: json["cover_photo"],
+        proPic: json["pro_pic"] == null?null:ProPic.fromJson(json["pro_pic"]),
+        coverPic: json["cover_pic"],
     );
 }
 
+class ProPic {
+    int? id;
+    int? userId;
+    dynamic postId;
+    String? fileType;
+    int? imageAlbumId;
+    dynamic imageType;
+    String? storageType;
+    dynamic mimeType;
+    String? title;
+    String? storagePath;
+    String? path;
+    int? filesize;
+    dynamic description;
+    dynamic imageTakenTime;
+    dynamic imageTakenLocation;
+    int? countView;
+    int? countShare;
+    int? countComment;
+    int? countStar;
+    dynamic countReactions;
+    String? fullPath;
+    List<dynamic> taggedFriends;
+    List<String> reactingPersons;
+    int? totalViewCount;
+
+    ProPic({
+        required this.id,
+        required this.userId,
+        required this.postId,
+        required this.fileType,
+        required this.imageAlbumId,
+        required this.imageType,
+        required this.storageType,
+        required this.mimeType,
+        required this.title,
+        required this.storagePath,
+        required this.path,
+        required this.filesize,
+        required this.description,
+        required this.imageTakenTime,
+        required this.imageTakenLocation,
+        required this.countView,
+        required this.countShare,
+        required this.countComment,
+        required this.countStar,
+        required this.countReactions,
+        required this.fullPath,
+        required this.taggedFriends,
+        required this.reactingPersons,
+        required this.totalViewCount,
+    });
+
+    factory ProPic.fromJson(Map<String, dynamic> json) => ProPic(
+        id: json["id"],
+        userId: json["user_id"],
+        postId: json["post_id"],
+        fileType: json["file_type"],
+        imageAlbumId: json["image_album_id"],
+        imageType: json["image_type"],
+        storageType: json["storage_type"],
+        mimeType: json["mime_type"],
+        title: json["title"],
+        storagePath: json["storage_path"],
+        path: json["path"],
+        filesize: json["filesize"],
+        description: json["description"],
+        imageTakenTime: json["image_taken_time"],
+        imageTakenLocation: json["image_taken_location"],
+        countView: json["count_view"],
+        countShare: json["count_share"],
+        countComment: json["count_comment"],
+        countStar: json["count_star"],
+        countReactions: json["count_reactions"],
+        fullPath: json["full_path"],
+        taggedFriends: List<dynamic>.from(json["tagged_friends"].map((x) => x)),
+        reactingPersons: List<String>.from(json["reacting_persons"].map((x) => x)),
+        totalViewCount: json["total_view_count"],
+    );
+}

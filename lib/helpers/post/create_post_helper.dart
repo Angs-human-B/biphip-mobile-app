@@ -117,7 +117,7 @@ class CreatePostHelper {
     for (int i = 0; i < createPostController.storeList.length; i++) {
       if (createPostController.tempSelectedBrandId.value == createPostController.storeList[i].id) {
         createPostController.selectedBrandName.value = createPostController.storeList[i].name.toString();
-        createPostController.selectedBrandImage.value = Environment.imageBaseUrl + createPostController.storeList[i].image!.toString();
+        createPostController.selectedBrandImage.value = createPostController.storeList[i].profilePicture!.toString();
         break;
       }
     }
@@ -229,7 +229,7 @@ class CreatePostHelper {
               for (int i = 0; i < createPostController.storeList.length; i++) {
                 if (createPostController.selectedBrandId.value == createPostController.storeList[i].id) {
                   createPostController.brandID.value = createPostController.storeList[i].id!;
-                  createPostController.selectedBrandImage.value = createPostController.storeList[i].brandImage!;
+                  createPostController.selectedBrandImage.value = createPostController.storeList[i].profilePicture!;
                 }
               }
               createPostController.postSecondaryCircleAvatar.value = createPostController.selectedBrandImage.value;

@@ -402,6 +402,7 @@ class CreatePostController extends GetxController {
 
   Future<void> createPost() async {
     ll(allMediaList);
+    ll('ID: ${brandID.value}');
     try {
       isCreatePostLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -410,7 +411,7 @@ class CreatePostController extends GetxController {
         'content': category.value == 'Selling' ? biddingTitleTextEditingController.text.trim() : createPostController.text.trim(),
         'is_public': '1',
         if (category.value == 'Kids') 'kid_id': kidID.value.toString(),
-        if (category.value == 'Selling') 'store_id': brandID.value.toString(),
+        if (category.value == 'Selling') 'store_id': '55',
         if (category.value == 'Selling') 'sell_post_type': (isRegularPost.value && !isBiddingPost.value) ? '0' : '1',
         if (category.value == 'Selling') 'title': biddingTitleTextEditingController.text.trim(),
         if (category.value == 'Selling') 'price': biddingPriceTextEditingController.text.trim(),
@@ -610,8 +611,8 @@ class CreatePostController extends GetxController {
 
   final RxString tempCreatePostSelectedPrivacy = RxString('Friends');
   final RxString createPostSelectedPrivacy = RxString('Friends');
-  final Rx<IconData> tempCreatePostSelectedPrivacyIcon  = Rx<IconData>(BipHip.friends);
-  final Rx<IconData> createPostSelectedPrivacyIcon  = Rx<IconData>(BipHip.friends);
+  final Rx<IconData> tempCreatePostSelectedPrivacyIcon = Rx<IconData>(BipHip.friends);
+  final Rx<IconData> createPostSelectedPrivacyIcon = Rx<IconData>(BipHip.friends);
   final RxString tempSelectedProductCategory = RxString('');
   final RxString tempSelectedProductCategoryID = RxString('');
   final RxString selectedProductCategory = RxString('');
