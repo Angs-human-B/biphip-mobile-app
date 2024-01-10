@@ -156,9 +156,7 @@ class ImageList {
     required this.countReactions,
     required this.fullPath,
     required this.taggedFriends,
-    // required this.totalReactions,
     required this.reactingPersons,
-    // required this.mostlyReactedReactions,
     required this.totalViewCount,
   });
 
@@ -185,9 +183,7 @@ class ImageList {
         countReactions: json["count_reactions"],
         fullPath: json["full_path"],
         taggedFriends: List<dynamic>.from(json["tagged_friends"].map((x) => x)),
-        // totalReactions: json["total_reactions"],
         reactingPersons: List<String>.from(json["reacting_persons"].map((x) => x)),
-        // mostlyReactedReactions: MostlyReactedReactions.fromJson(json["mostly_reacted_reactions"]),
         totalViewCount: json["total_view_count"],
       );
 }
