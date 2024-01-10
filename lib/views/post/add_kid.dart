@@ -38,8 +38,8 @@ class AddKidPage extends StatelessWidget {
                         child: TextButton(
                           style: kTextButtonStyle,
                           onPressed: createPostController.isSaveKidButtonEnabled.value
-                              ? () {
-                                  createPostHelper.addKid();
+                              ? () async{
+                                 await createPostController.addKid();
                                 }
                               : null,
                           child: Text(
