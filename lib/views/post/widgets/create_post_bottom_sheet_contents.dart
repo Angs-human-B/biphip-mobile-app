@@ -130,7 +130,7 @@ class KidCategoryContent extends StatelessWidget {
                         rightText: ksDone.tr,
                         rightTextStyle: medium14TextStyle(cPrimaryColor),
                         title: ksSelectKids.tr,
-                        isRightButtonShow: true,
+                        isRightButtonShow: createPostController.kidList.isNotEmpty ? true : false,
                       );
                       await createPostController.getKidList();
                     }
@@ -284,67 +284,69 @@ class KidListBottomSheetContent extends StatelessWidget {
     return Obx(
       () => createPostController.isKidListLoading.value
           ? const KidListShimmer()
-          : Column(
-              children: [
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  separatorBuilder: (context, index) => kH8sizedBox,
-                  itemCount: createPostController.kidList.length,
-                  itemBuilder: (context, i) {
-                    return Obx(
-                      () => CustomListTile(
-                        onPressed: () {
-                          createPostController.kidID.value = createPostController.kidList[i].id!;
-                          createPostController.tempSelectedKid.value = createPostController.kidList[i];
-                          if (createPostController.tempSelectedKid.value == null) {
-                            Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                          } else {
-                            Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                          }
-                        },
-                        itemColor: createPostController.kidID.value == createPostController.kidList[i].id! ? cPrimaryTint3Color : cWhiteColor,
-                        borderColor: createPostController.kidID.value == createPostController.kidList[i].id! ? cPrimaryColor : cLineColor,
-                        title: createPostController.kidList[i].name,
-                        leading: Container(
-                          height: h24,
-                          width: h24,
-                          decoration: const BoxDecoration(
-                            color: cWhiteColor,
-                            shape: BoxShape.circle,
-                          ),
-                          child: ClipOval(
-                            child: Image.network(
-                              Environment.imageBaseUrl + createPostController.kidList[i].kidImage,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => const Icon(
-                                BipHip.imageFile,
-                                size: kIconSize120,
-                                color: cIconColor,
+          : createPostController.kidList.isNotEmpty
+              ? Column(
+                  children: [
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      separatorBuilder: (context, index) => kH8sizedBox,
+                      itemCount: createPostController.kidList.length,
+                      itemBuilder: (context, i) {
+                        return Obx(
+                          () => CustomListTile(
+                            onPressed: () {
+                              createPostController.kidID.value = createPostController.kidList[i].id!;
+                              createPostController.tempSelectedKid.value = createPostController.kidList[i];
+                              if (createPostController.tempSelectedKid.value == null) {
+                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                              } else {
+                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                              }
+                            },
+                            itemColor: createPostController.kidID.value == createPostController.kidList[i].id! ? cPrimaryTint3Color : cWhiteColor,
+                            borderColor: createPostController.kidID.value == createPostController.kidList[i].id! ? cPrimaryColor : cLineColor,
+                            title: createPostController.kidList[i].name,
+                            leading: Container(
+                              height: h24,
+                              width: h24,
+                              decoration: const BoxDecoration(
+                                color: cWhiteColor,
+                                shape: BoxShape.circle,
                               ),
-                              // loadingBuilder: imageLoadingBuilder,
+                              child: ClipOval(
+                                child: Image.network(
+                                  Environment.imageBaseUrl + createPostController.kidList[i].kidImage,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => const Icon(
+                                    BipHip.imageFile,
+                                    size: kIconSize120,
+                                    color: cIconColor,
+                                  ),
+                                  // loadingBuilder: imageLoadingBuilder,
+                                ),
+                              ),
+                            ),
+                            trailing: CustomRadioButton(
+                              onChanged: () {
+                                // selectKidStatusChange(i);
+                                createPostController.kidID.value = createPostController.kidList[i].id!;
+                                createPostController.tempSelectedKid.value = createPostController.kidList[i];
+                                if (createPostController.tempSelectedKid.value == null) {
+                                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                } else {
+                                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                }
+                              },
+                              isSelected: createPostController.kidID.value == createPostController.kidList[i].id!,
                             ),
                           ),
-                        ),
-                        trailing: CustomRadioButton(
-                          onChanged: () {
-                            // selectKidStatusChange(i);
-                            createPostController.kidID.value = createPostController.kidList[i].id!;
-                            createPostController.tempSelectedKid.value = createPostController.kidList[i];
-                            if (createPostController.tempSelectedKid.value == null) {
-                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                            } else {
-                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                            }
-                          },
-                          isSelected: createPostController.kidID.value == createPostController.kidList[i].id!,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
+                        );
+                      },
+                    ),
+                  ],
+                )
+              : Container(height: height * 0.6, alignment: Alignment.center, child: EmptyView(title: ksNoKidsAddedYet.tr)),
     );
   }
 }
