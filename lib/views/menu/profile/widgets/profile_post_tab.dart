@@ -132,9 +132,9 @@ class PostTab extends StatelessWidget {
                       postTime: '3 hrs ago',
                       isCategorized: true,
                       isTextualPost: item.content == null ? false : true, //API
-                      category: item.postCategory!.name, //API
-                      categoryIcon: homeController.getCategoryIcon(item.postCategory!.id), // need change API
-                      categoryIconColor: homeController.getCategoryColor(item.postCategory!.id), // Based on API
+                      category: item.postCategory == null ? null : item.postCategory!.name, //API
+                      categoryIcon: item.postCategory == null ? null : homeController.getCategoryIcon(item.postCategory!.id), // need change API
+                      categoryIconColor: item.postCategory == null ? null : homeController.getCategoryColor(item.postCategory!.id), // Based on API
                       privacy: BipHip.world,
                       brandName: item.brand == null ? null : item.brand!.name, //API
                       kidName: item.kid == null ? null : item.kid!.name, //API
@@ -147,6 +147,7 @@ class PostTab extends StatelessWidget {
                       isSelfPost: true,
                       isInStock: true,
                       isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
+                      userImage: item.user!.profilePicture!,
                     ),
                   );
                 })
