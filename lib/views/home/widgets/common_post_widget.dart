@@ -52,12 +52,12 @@ class CommonPostWidget extends StatelessWidget {
     this.platformName,
     this.platformLink,
     this.actionName,
-    this.secondaryImage,
+    this.secondaryImage, required this.userImage,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
   // final RxBool postSeeMore = RxBool(false);
-  final String userName, postTime;
+  final String userName, postTime, userImage;
   final String? category,
       subCategory,
       productCategory,
@@ -163,7 +163,7 @@ class CommonPostWidget extends StatelessWidget {
               kidAge: kidAge,
               title: title,
               subCategory: subCategory,
-              userImage: Get.find<GlobalController>().userImage.value.toString(),
+              userImage: userImage,
               secondaryImage: secondaryImage,
             ),
           ),
@@ -332,7 +332,7 @@ class CommonPostWidget extends StatelessWidget {
                   commentCount: 10,
                   shareCount: 10,
                   giftCount: 10,
-                  isInStock: false,
+                  isInStock: false, userImage: userImage,
                 )),
           ),
         if (mediaList.isNotEmpty)

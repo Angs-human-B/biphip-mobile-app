@@ -106,7 +106,7 @@ class PostUpperContainer extends StatelessWidget {
                               text: userName,
                               style: semiBold16TextStyle(cBlackColor),
                             ),
-                            if (isCategorized)
+                            if (category != null)
                               TextSpan(
                                 text: ' ${ksPostedOn.tr} ',
                                 style: regular16TextStyle(cSmallBodyTextColor),
@@ -124,7 +124,7 @@ class PostUpperContainer extends StatelessWidget {
                                         size: kIconSize14,
                                       ),
                                     ),
-                                    if (isCategorized)
+                                    if (category != null)
                                       Text(
                                         " ${category!}",
                                         style: semiBold14TextStyle(categoryIconColor!),
@@ -132,12 +132,12 @@ class PostUpperContainer extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                            if (subCategory != null)
+                            if (category != null)
                               TextSpan(
                                 text: ' ${ksAt.tr} ',
                                 style: regular16TextStyle(cSmallBodyTextColor),
                               ),
-                            if (subCategory != null)
+                            if (category != null)
                               TextSpan(
                                 text: '($subCategory)',
                                 style: semiBold16TextStyle(cBlackColor),
