@@ -128,7 +128,7 @@ class PostTab extends StatelessWidget {
                       isLiked: false,
                       isSharedPost: false,
                       showBottomSection: true,
-                      userName: 'Rick Sanchez',
+                      userName: item.user!.fullName!,
                       postTime: '3 hrs ago',
                       isCategorized: true,
                       isTextualPost: item.content == null ? false : true, //API
