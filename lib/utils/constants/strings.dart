@@ -424,3 +424,5 @@ const String ksAddInterest = "Add Interest";
 const String ksCardNumber = "Card Number";
 const String ksCVV = "CVV";
 const String ksPayNow = "Pay Now";
+const String ksDeleteConfirmation = "Are you sure you want to delete this?";
+const String ksConfirmation = "Confirmation";

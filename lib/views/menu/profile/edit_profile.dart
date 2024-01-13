@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/helpers/profile/edit_profile_helper.dart';
 import 'package:bip_hip/helpers/profile/profile_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/auth/onboarding/picture_upload_screen.dart';
 import 'package:bip_hip/views/menu/profile/widgets/profile_post_tab.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
@@ -306,6 +307,69 @@ class RowTextEdit extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+void deleteAlertDialog({required BuildContext context, required Widget content, required String title}) {
+  showAlertDialog(
+    context: context,
+    child: CommonAlertDialog(
+      hasCloseBtn: false,
+      addContent: content,
+      title: title,
+    ),
+  );
+}
+
+class DeletePopupContent extends StatelessWidget {
+  const DeletePopupContent({super.key, required this.text, required this.deleteOnPressed});
+  final String text;
+  final VoidCallback deleteOnPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: k12Padding),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            text,
+            style: regular14TextStyle(cBlackColor),
+            textAlign: TextAlign.center,
+          ),
+          kH20sizedBox,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomElevatedButton(
+                label: ksCancel.tr,
+                onPressed: () {
+                  Get.back();
+                },
+                buttonColor: cWhiteColor,
+                borderColor: cLineColor2,
+                textStyle: semiBold18TextStyle(cBlackColor),
+                buttonHeight: h44,
+                buttonWidth: 100,
+              ),
+              CustomElevatedButton(
+                label: ksDelete.tr,
+                onPressed: deleteOnPressed,
+                buttonColor: cRedColor,
+                borderColor: cRedColor,
+                textStyle: semiBold18TextStyle(cWhiteColor),
+                buttonHeight: h44,
+                buttonWidth: 100,
+              ),
+            ],
+          ),
+          kH20sizedBox,
+        ],
+      ),
     );
   }
 }

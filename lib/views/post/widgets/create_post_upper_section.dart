@@ -394,10 +394,6 @@ void categoryResetAlertDialog({required BuildContext context, required Widget co
       hasCloseBtn: false,
       addContent: content,
       title: title,
-      // actions: [
-
-      //   kH8sizedBox,
-      // ],
     ),
   );
 }
@@ -437,7 +433,7 @@ class CategoryResetWarningContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomElevatedButton(
-                label: ksCancel,
+                label: ksCancel.tr,
                 onPressed: () {
                   Get.back();
                 },
@@ -448,7 +444,7 @@ class CategoryResetWarningContent extends StatelessWidget {
                 buttonWidth: 120,
               ),
               CustomElevatedButton(
-                label: ksContinue,
+                label: ksContinue.tr,
                 onPressed: () async {
                   Get.find<CreatePostController>().tempCategory.value = '';
                   Get.find<CreatePostController>().category.value = '';
