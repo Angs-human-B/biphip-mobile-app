@@ -38,8 +38,8 @@ class AddKidPage extends StatelessWidget {
                         child: TextButton(
                           style: kTextButtonStyle,
                           onPressed: createPostController.isSaveKidButtonEnabled.value
-                              ? () async{
-                                 await createPostController.addKid();
+                              ? () async {
+                                  await createPostController.addKid();
                                 }
                               : null,
                           child: Text(
@@ -256,8 +256,7 @@ class AddKidContent extends StatelessWidget {
                   onPressCloseButton: () {
                     Get.back();
                   },
-                  onPressRightButton: () {
-                  },
+                  onPressRightButton: () {},
                   rightText: '',
                   rightTextStyle: regular14TextStyle(cBiddingColor),
                   title: ksUploadPhoto.tr,
