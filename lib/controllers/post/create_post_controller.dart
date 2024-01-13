@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/post/get_create_post_model.dart';
 import 'package:bip_hip/models/post/kid_model.dart';
@@ -214,11 +215,11 @@ class CreatePostController extends GetxController {
         kidData.value = KidModel.fromJson(response.data);
         ll(kidData.value!.name);
         isAddKidPageLoading.value = false;
+        Get.find<KidsController>().getKidsList();
         Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isAddKidPageLoading.value = false;
-
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
