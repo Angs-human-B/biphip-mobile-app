@@ -109,10 +109,10 @@ class ProImage {
   int? countComment;
   int? countStar;
   dynamic countReactions;
-  String fullPath;
+  String? fullPath;
   List<dynamic> taggedFriends;
   List<String> reactingPersons;
-  int totalViewCount;
+  int? totalViewCount;
 
   ProImage({
     required this.id,
