@@ -52,7 +52,8 @@ class CommonPostWidget extends StatelessWidget {
     this.platformName,
     this.platformLink,
     this.actionName,
-    this.secondaryImage, required this.userImage,
+    this.secondaryImage,
+    required this.userImage,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -332,7 +333,8 @@ class CommonPostWidget extends StatelessWidget {
                   commentCount: 10,
                   shareCount: 10,
                   giftCount: 10,
-                  isInStock: false, userImage: userImage,
+                  isInStock: false,
+                  userImage: userImage,
                 )),
           ),
         if (mediaList.isNotEmpty)

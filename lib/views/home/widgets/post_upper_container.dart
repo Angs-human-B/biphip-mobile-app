@@ -44,14 +44,15 @@ class PostUpperContainer extends StatelessWidget {
                       height: h44,
                       width: h44,
                       decoration: const BoxDecoration(
+                        color: cBlackColor,
                         shape: BoxShape.circle,
                       ),
                       child: Image.network(
                         userImage,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) => const Icon(
-                          BipHip.imageFile,
-                          size: kIconSize120,
+                          BipHip.user,
+                          size: kIconSize24,
                           color: cIconColor,
                         ),
                       ),

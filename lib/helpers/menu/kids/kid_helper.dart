@@ -35,7 +35,7 @@ class KidHelper {
       if (kidsController.kidId.value == kidsController.kidList[i].id) {
         kidsController.kidNameTextEditingController.text = kidsController.kidList[i].name ?? '';
         kidsController.kidAgeTextEditingController.text = kidsController.kidList[i].age.toString();
-        kidsController.kidImageLink.value = kidsController.kidList[i].kidImage.toString();
+        kidsController.kidImageLink.value = kidsController.kidList[i].profilePicture.toString();
         kidsController.kidName.value = kidsController.kidNameTextEditingController.text;
         kidsController.kidAge.value = kidsController.kidAgeTextEditingController.text;
       }

@@ -203,7 +203,7 @@ class HomePage extends StatelessWidget {
                                         brandName: item.brand == null ? null : item.brand!.name, //API
                                         kidName: item.kid == null ? null : item.kid!.name, //API
                                         kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                        postText: item.content, //API
+                                        postText: item.content ?? '', //API
                                         mediaList: item.images, //API
                                         isSelfPost: index % 2 != 0,
                                         isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
@@ -219,7 +219,7 @@ class HomePage extends StatelessWidget {
                                         discount: item.discount.toString(),
                                         isInStock: false,
                                         productCondition: 'New',
-                                        productCategory: 'Phone', userImage: item.user!.profilePicture!,
+                                        productCategory: 'Phone', userImage: item.user!.profilePicture ?? '',
                                       ),
                                     );
                                   }),

@@ -42,7 +42,7 @@ class KidsListView extends StatelessWidget {
                                       ),
                                       child: ClipOval(
                                         child: Image.network(
-                                          Environment.imageBaseUrl + kidsController.kidList[index].kidImage.toString(),
+                                          kidsController.kidList[index].profilePicture.toString(),
                                           fit: BoxFit.cover,
                                           errorBuilder: (context, error, stackTrace) {
                                             return Image.asset(kiProfileDefaultImageUrl);
