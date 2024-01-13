@@ -249,7 +249,8 @@ class IntroContents extends StatelessWidget {
                 onPressed: null,
               ),
             // if (profileController.profileData.value!.school != null)
-            for (int i = 0; i < profileController.schoolDataList.length; i++)
+            for (int i = 0; i < 1; i++)
+              //  for (int i = 0; i < profileController.schoolDataList.length; i++)
               LinkUpIconTextRow(
                 icon: BipHip.school,
                 suffixText: checkNullOrStringNull(profileController.schoolDataList[i].school),
@@ -260,7 +261,8 @@ class IntroContents extends StatelessWidget {
                 onPressed: null,
               ),
             // if (profileController.profileData.value!.college != null)
-            for (int i = 0; i < profileController.collegeDataList.length; i++)
+            for (int i = 0; i < 1; i++)
+              //  for (int i = 0; i < profileController.collegeDataList.length; i++)
               LinkUpIconTextRow(
                 icon: BipHip.school,
                 // suffixText: checkNullOrStringNull(profileController.profileData.value!.college!.school),
