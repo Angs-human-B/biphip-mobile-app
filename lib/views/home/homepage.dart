@@ -224,7 +224,7 @@ class HomePage extends StatelessWidget {
                                           isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
                                           postID: item.id!,
                                           secondaryImage: item.kid?.image ?? item.brand?.brandImage,
-                                          subCategory: 'People',
+                                          subCategory: null,
                                           platformName: 'Jane Clothing',
                                           platformLink: 'www.facebook.com/Clothing/lorem',
                                           actionName: null,

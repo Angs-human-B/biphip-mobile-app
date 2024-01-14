@@ -147,6 +147,51 @@ class HomeController extends GetxController {
     }
   }
 
+  //* Get Self Timeline posts
+  final RxList<PostData> allTimelinePostList = RxList<PostData>([]);
+  final RxBool isTimelinePostLoading = RxBool(false);
+  final Rx<String?> timelinePostListSubLink = Rx<String?>(null);
+  final RxBool timelinePostListScrolled = RxBool(false);
+  Future<void> getTimelinePostList() async {
+    try {
+      isTimelinePostLoading.value = true;
+      String suffixUrl = '?take=15';
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetTimelinePostData + suffixUrl,
+      ) as CommonDM;
+      if (response.success == true) {
+        allTimelinePostList.clear();
+        postListScrolled.value = false;
+        postListData.value = PostListModel.fromJson(response.data);
+        allTimelinePostList.addAll(postListData.value!.posts.data);
+        timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
+        if (timelinePostListSubLink.value != null) {
+          postListScrolled.value = false;
+        } else {
+          postListScrolled.value = true;
+        }
+
+        isTimelinePostLoading.value = false;
+      } else {
+        isTimelinePostLoading.value = true;
+
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isTimelinePostLoading.value = true;
+
+      ll('getTimelinePostList error: $e');
+    }
+  }
+
   IconData getCategoryIcon(categoryID) {
     if (categoryID == 3) {
       return BipHip.poetry;

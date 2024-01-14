@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/helpers/menu/menu_helper.dart';
@@ -70,6 +71,7 @@ class Menu extends StatelessWidget {
                               onPressed: () async {
                                 Get.toNamed(krProfile);
                                 await profileController.getProfileOverview();
+                                await Get.find<HomeController>().getTimelinePostList();
                               },
                               leading: ClipOval(
                                 child: Container(

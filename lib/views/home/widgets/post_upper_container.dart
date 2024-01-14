@@ -133,12 +133,12 @@ class PostUpperContainer extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                            if (category != null)
+                            if (subCategory != null)
                               TextSpan(
                                 text: ' ${ksAt.tr} ',
                                 style: regular16TextStyle(cSmallBodyTextColor),
                               ),
-                            if (category != null)
+                            if (subCategory != null)
                               TextSpan(
                                 text: '($subCategory)',
                                 style: semiBold16TextStyle(cBlackColor),

@@ -132,6 +132,7 @@ const String kuGetCreatePost = '/mobile/user/create-post';
 
 const String kuGetAllPosts = '/mobile/user/get-all-posts';
 const String kuGetPostData = '/mobile/user/get-post';
+const String kuGetTimelinePostData = '/mobile/user/get-my-timeline-posts';
 
 //* kids
 //---------------------------------------

@@ -117,9 +117,9 @@ class PostTab extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 separatorBuilder: (context, index) => kH8sizedBox,
-                itemCount: homeController.allPostList.length,
+                itemCount: homeController.allTimelinePostList.length,
                 itemBuilder: (context, index) {
-                  var item = homeController.allPostList[index];
+                  var item = homeController.allTimelinePostList[index];
                   return Container(
                     color: cWhiteColor,
                     width: width,
@@ -131,6 +131,7 @@ class PostTab extends StatelessWidget {
                       userName: item.user!.fullName!,
                       postTime: '3 hrs ago',
                       isCategorized: true,
+                      subCategory: null,
                       isTextualPost: item.content == null ? false : true, //API
                       category: item.postCategory == null ? null : item.postCategory!.name, //API
                       categoryIcon: item.postCategory == null ? null : homeController.getCategoryIcon(item.postCategory!.id), // need change API
@@ -141,13 +142,13 @@ class PostTab extends StatelessWidget {
                       kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
                       title: 'This is a title', //API
                       price: null, //API
-                      postText: item.content, //API
+                      postText: item.content ?? '', //API
                       // mediaList: item.imageUrls, //API
                       mediaList: item.images,
                       isSelfPost: true,
                       isInStock: true,
                       isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
-                      userImage: item.user!.profilePicture!,
+                      userImage: item.user!.profilePicture ?? '',
                     ),
                   );
                 })
