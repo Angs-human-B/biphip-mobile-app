@@ -1,4 +1,5 @@
 import 'package:bip_hip/models/common/common_user_model.dart';
+import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
 
 class CommonUserDataModel {
   User? user;
@@ -162,32 +163,33 @@ class KidListModel {
       );
 }
 
-class Kid {
-  int? id;
-  int? userId;
-  String? name;
-  String? image;
-  int? age;
-  String kidImage;
+// class Kid {
+//   int? id;
+//   int? userId;
+//   String? name;
+//   String? image;
+//   int? age;
+//   String kidImage;
 
-  Kid({
-    required this.id,
-    required this.userId,
-    required this.name,
-    required this.image,
-    required this.age,
-    required this.kidImage,
-  });
+//   Kid({
+//     required this.id,
+//     required this.userId,
+//     required this.name,
+//     required this.image,
+//     required this.age,
+//     required this.kidImage,
+//   });
 
-  factory Kid.fromJson(Map<String, dynamic> json) => Kid(
-        id: json["id"],
-        userId: json["user_id"],
-        name: json["name"],
-        image: json["image"],
-        age: json["age"],
-        kidImage: json["kid_image"],
-      );
-}
+//   factory Kid.fromJson(Map<String, dynamic> json) => Kid(
+//         id: json["id"],
+//         userId: json["user_id"],
+//         name: json["name"],
+//         image: json["image"],
+//         age: json["age"],
+//         kidImage: json["kid_image"],
+//       );
+// }
+
 
 class StoreModel {
     List<Store> stores;

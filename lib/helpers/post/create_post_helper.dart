@@ -180,7 +180,7 @@ class CreatePostHelper {
         },
         onPressRightButton: () {
           if (createPostController.selectedKid.value != null) {
-            createPostController.postSecondaryCircleAvatar.value = createPostController.selectedKid.value!.kidImage;
+            createPostController.postSecondaryCircleAvatar.value = createPostController.selectedKid.value!.profilePicture.toString();
             createPostController.kidID.value = createPostController.selectedKid.value!.id!;
             ll(createPostController.kidID.value);
           } else {
