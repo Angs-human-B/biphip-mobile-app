@@ -9,6 +9,7 @@ import 'package:bip_hip/widgets/post/post_button_widget.dart';
 import 'package:bip_hip/widgets/post/stories_widget.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
+import 'package:flutter/rendering.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -89,142 +90,158 @@ class HomePage extends StatelessWidget {
               body: Obx(
                 () => homeController.isHomePageLoading.value
                     ? const HomePageShimmer()
-                    : SingleChildScrollView(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(
-                              height: 2,
-                            ),
-                            Container(
-                              width: width,
-                              color: cWhiteColor,
-                              child: CustomPostButton(
-                                name: Get.find<GlobalController>().userLastName.value.toString(),
-                                profilePic: Get.find<GlobalController>().userImage.value.toString(),
-                                onPressed: () async {
-                                  CreatePostHelper().resetCreatePostData();
-                                  Get.toNamed(krCreatePost);
-                                  await Get.find<CreatePostController>().getCreatePost();
-                                },
-                                prefixWidget: const Icon(
-                                  BipHip.imageFile,
-                                  color: cIconColor,
+                    : NotificationListener<ScrollNotification>(
+                        onNotification: (scrollNotification) {
+                          if (homeController.postListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                              scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
+                              !homeController.postListScrolled.value) {
+                            homeController.postListScrolled.value = true;
+                            if (homeController.allPostList.isNotEmpty) {
+                              homeController.getMorePostList();
+                            }
+                            return true;
+                          }
+                          return false;
+                        },
+                        child: SingleChildScrollView(
+                          controller: homeController.postListScrollController,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(
+                                height: 2,
+                              ),
+                              Container(
+                                width: width,
+                                color: cWhiteColor,
+                                child: CustomPostButton(
+                                  name: Get.find<GlobalController>().userLastName.value.toString(),
+                                  profilePic: Get.find<GlobalController>().userImage.value.toString(),
+                                  onPressed: () async {
+                                    CreatePostHelper().resetCreatePostData();
+                                    Get.toNamed(krCreatePost);
+                                    await Get.find<CreatePostController>().getCreatePost();
+                                  },
+                                  prefixWidget: const Icon(
+                                    BipHip.imageFile,
+                                    color: cIconColor,
+                                  ),
                                 ),
                               ),
-                            ),
-                            kH8sizedBox,
-                            Container(
-                              color: cWhiteColor,
-                              width: width,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: kHorizontalPadding,
-                                ),
-                                child: DefaultTabController(
-                                  length: 3,
-                                  child: DecoratedBox(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(color: cLineColor, width: 1),
+                              kH8sizedBox,
+                              Container(
+                                color: cWhiteColor,
+                                width: width,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: kHorizontalPadding,
+                                  ),
+                                  child: DefaultTabController(
+                                    length: 3,
+                                    child: DecoratedBox(
+                                      decoration: const BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(color: cLineColor, width: 1),
+                                        ),
                                       ),
-                                    ),
-                                    child: TabBar(
-                                      indicatorColor: cPrimaryColor,
-                                      indicatorWeight: 1,
-                                      unselectedLabelColor: cSmallBodyTextColor,
-                                      unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
-                                      labelStyle: medium14TextStyle(cPrimaryColor),
-                                      labelColor: cPrimaryColor,
-                                      tabs: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                          child: Text(
-                                            ksSelfie.tr,
+                                      child: TabBar(
+                                        indicatorColor: cPrimaryColor,
+                                        indicatorWeight: 1,
+                                        unselectedLabelColor: cSmallBodyTextColor,
+                                        unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
+                                        labelStyle: medium14TextStyle(cPrimaryColor),
+                                        labelColor: cPrimaryColor,
+                                        tabs: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                            child: Text(
+                                              ksSelfie.tr,
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                          child: Text(
-                                            ksDailyQuiz.tr,
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                            child: Text(
+                                              ksDailyQuiz.tr,
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                          child: Text(
-                                            ksWeeklyWinner.tr,
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                            child: Text(
+                                              ksWeeklyWinner.tr,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              color: cWhiteColor,
-                              width: width,
-                              child: const StoriesWidget(),
-                            ),
-                            kH8sizedBox,
-                            if (homeController.allPostList.isEmpty)
-                              SizedBox(
-                                height: height - (2 + 64 + 8 + 158 + 41 + kAppBarSize + MediaQuery.of(context).padding.top + kBottomNavHeight),
-                                child: EmptyView(
-                                  title: ksNoDataAvailable.tr,
-                                ),
+                              Container(
+                                color: cWhiteColor,
+                                width: width,
+                                child: const StoriesWidget(),
                               ),
-                            if (homeController.allPostList.isNotEmpty)
-                              ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  separatorBuilder: (context, index) => kH8sizedBox,
-                                  itemCount: homeController.allPostList.length,
-                                  itemBuilder: (context, index) {
-                                    var item = homeController.allPostList[index];
-                                    return Container(
-                                      color: cWhiteColor,
-                                      width: width,
-                                      child: CommonPostWidget(
-                                        isCommented: index % 2 == 0,
-                                        isLiked: index % 2 != 0,
-                                        isSharedPost: false,
-                                        showBottomSection: true,
-                                        userName: item.user!.fullName!,
-                                        postTime: '3 hrs ago',
-                                        isCategorized: true,
-                                        isTextualPost: item.content == null ? false : true, //API
-                                        category: item.postCategory == null ? null : item.postCategory!.name, //API
-                                        categoryIcon:
-                                            item.postCategory == null ? null : homeController.getCategoryIcon(item.postCategory!.id), // need change API
-                                        categoryIconColor:
-                                            item.postCategory == null ? null : homeController.getCategoryColor(item.postCategory!.id), // Based on API
-                                        privacy: BipHip.world,
-                                        brandName: item.brand == null ? null : item.brand!.name, //API
-                                        kidName: item.kid == null ? null : item.kid!.name, //API
-                                        kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                        postText: item.content ?? '', //API
-                                        mediaList: item.images, //API
-                                        isSelfPost: index % 2 != 0,
-                                        isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
-                                        postID: item.id!,
-                                        secondaryImage: item.kid?.image ?? item.brand?.brandImage,
-                                        subCategory: 'People',
-                                        platformName: 'Jane Clothing',
-                                        platformLink: 'www.facebook.com/Clothing/lorem',
-                                        actionName: null,
-                                        title: item.title, //API
-                                        price: item.price.toString(), //API
-                                        mainPrice: '400',
-                                        discount: item.discount.toString(),
-                                        isInStock: false,
-                                        productCondition: 'New',
-                                        productCategory: 'Phone', userImage: item.user!.profilePicture ?? '',
-                                      ),
-                                    );
-                                  }),
-                            kH8sizedBox,
-                          ],
+                              kH8sizedBox,
+                              if (homeController.allPostList.isEmpty)
+                                SizedBox(
+                                  height: height - (2 + 64 + 8 + 158 + 41 + kAppBarSize + MediaQuery.of(context).padding.top + kBottomNavHeight),
+                                  child: EmptyView(
+                                    title: ksNoDataAvailable.tr,
+                                  ),
+                                ),
+                              if (homeController.allPostList.isNotEmpty)
+                                ListView.separated(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    separatorBuilder: (context, index) => kH8sizedBox,
+                                    itemCount: homeController.allPostList.length,
+                                    itemBuilder: (context, index) {
+                                      var item = homeController.allPostList[index];
+                                      return Container(
+                                        color: cWhiteColor,
+                                        width: width,
+                                        child: CommonPostWidget(
+                                          isCommented: index % 2 == 0,
+                                          isLiked: index % 2 != 0,
+                                          isSharedPost: false,
+                                          showBottomSection: true,
+                                          userName: item.user!.fullName!,
+                                          postTime: '3 hrs ago',
+                                          isCategorized: true,
+                                          isTextualPost: item.content == null ? false : true, //API
+                                          category: item.postCategory == null ? null : item.postCategory!.name, //API
+                                          categoryIcon:
+                                              item.postCategory == null ? null : homeController.getCategoryIcon(item.postCategory!.id), // need change API
+                                          categoryIconColor:
+                                              item.postCategory == null ? null : homeController.getCategoryColor(item.postCategory!.id), // Based on API
+                                          privacy: BipHip.world,
+                                          brandName: item.brand == null ? null : item.brand!.name, //API
+                                          kidName: item.kid == null ? null : item.kid!.name, //API
+                                          kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                                          postText: item.content ?? '', //API
+                                          mediaList: item.images, //API
+                                          isSelfPost: index % 2 != 0,
+                                          isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
+                                          postID: item.id!,
+                                          secondaryImage: item.kid?.image ?? item.brand?.brandImage,
+                                          subCategory: 'People',
+                                          platformName: 'Jane Clothing',
+                                          platformLink: 'www.facebook.com/Clothing/lorem',
+                                          actionName: null,
+                                          title: item.title, //API
+                                          price: item.price.toString(), //API
+                                          mainPrice: '400',
+                                          discount: item.discount.toString(),
+                                          isInStock: false,
+                                          productCondition: 'New',
+                                          productCategory: 'Phone', userImage: item.user!.profilePicture ?? '',
+                                        ),
+                                      );
+                                    }),
+                              if (homeController.allPostList.isNotEmpty && !homeController.postListScrolled.value) const HomePagePaginationShimmer(),
+                              kH8sizedBox,
+                            ],
+                          ),
                         ),
                       ),
               ),

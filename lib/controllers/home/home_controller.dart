@@ -45,31 +45,41 @@ class HomeController extends GetxController {
     ll(seeMore);
   }
 
-  int getBiddingDuration(DateTime endTime){
-     int diff = endTime.difference(DateTime.now()).inSeconds;
-     return diff;
+  int getBiddingDuration(DateTime endTime) {
+    int diff = endTime.difference(DateTime.now()).inSeconds;
+    return diff;
   }
 
   // All post list API Implementation
+  final ScrollController postListScrollController = ScrollController();
   final Rx<PostListModel?> postListData = Rx<PostListModel?>(null);
   final RxList<PostData> allPostList = RxList<PostData>([]);
   final RxBool isHomePageLoading = RxBool(false);
+  final RxBool isHomePagePaginationLoading = RxBool(false);
+  final Rx<String?> postListSubLink = Rx<String?>(null);
+  final RxBool postListScrolled = RxBool(false);
   Future<void> getPostList() async {
     try {
       isHomePageLoading.value = true;
+      String suffixUrl = '?take=15';
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: kuGetAllPosts,
+        url: kuGetAllPosts + suffixUrl,
       ) as CommonDM;
       if (response.success == true) {
         allPostList.clear();
-        ll('1');
+        postListScrolled.value = false;
         postListData.value = PostListModel.fromJson(response.data);
-        ll('2');
         allPostList.addAll(postListData.value!.posts.data);
-        ll('3');
+        postListSubLink.value = postListData.value!.posts.nextPageUrl;
+        if (postListSubLink.value != null) {
+          postListScrolled.value = false;
+        } else {
+          postListScrolled.value = true;
+        }
+
         isHomePageLoading.value = false;
       } else {
         isHomePageLoading.value = true;
@@ -85,6 +95,55 @@ class HomeController extends GetxController {
       isHomePageLoading.value = true;
 
       ll('getPostList error: $e');
+    }
+  }
+
+  //*Get More Post List for pagination
+  Future<void> getMorePostList() async {
+    try {
+      isHomePagePaginationLoading.value = true;
+      String? token = await spController.getBearerToken();
+      dynamic postListSub;
+
+      if (postListSubLink.value == null) {
+        return;
+      } else {
+        postListSub = postListSubLink.value!.split('?');
+      }
+
+      String postListSuffixUrl = '';
+
+      postListSuffixUrl = '?${postListSub[1]}&take=15';
+
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllPosts + postListSuffixUrl,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        postListData.value = PostListModel.fromJson(response.data);
+        allPostList.addAll(postListData.value!.posts.data);
+        postListSubLink.value = postListData.value!.posts.nextPageUrl;
+        if (postListSubLink.value != null) {
+          postListScrolled.value = false;
+        } else {
+          postListScrolled.value = true;
+        }
+
+        isHomePagePaginationLoading.value = false;
+      } else {
+        isHomePagePaginationLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isHomePagePaginationLoading.value = true;
+      ll('getMorePostList error: $e');
     }
   }
 
