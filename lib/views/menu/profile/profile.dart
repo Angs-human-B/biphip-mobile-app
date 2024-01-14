@@ -64,6 +64,7 @@ class Profile extends StatelessWidget {
                                     child: Image.network(
                                       profileController.userData.value!.coverPhoto.toString(),
                                       fit: BoxFit.cover,
+                                      filterQuality: FilterQuality.high,
                                       errorBuilder: (context, error, stackTrace) =>
                                           imageErrorBuilderCover(context, error, stackTrace, BipHip.imageFile, kIconSize120),
                                       loadingBuilder: imageLoadingBuilder,
@@ -94,6 +95,7 @@ class Profile extends StatelessWidget {
                                             child: Image.network(
                                               profileController.userData.value!.profilePicture.toString(),
                                               fit: BoxFit.cover,
+                                              filterQuality: FilterQuality.high,
                                               errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(
                                                 context,
                                                 error,
