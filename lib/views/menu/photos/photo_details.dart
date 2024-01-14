@@ -42,11 +42,20 @@ class PhotoDetails extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    kH24sizedBox,
-                    ClipRRect(
-                      borderRadius: k8CircularBorderRadius,
-                      child: Image.asset(profileController.photoLink.value),
-                    ),
+                    // kH24sizedBox,
+                    // ClipRRect(
+                    //   borderRadius: k8CircularBorderRadius,
+                    //   child: Image.network(
+                    //     'https://unsplash.com/photos/woman-wearing-black-scoop-neck-long-sleeved-shirt-Zz5LQe-VSMY',
+                    //     errorBuilder: (context, error, stackTrace) {
+                    //       return Image.asset(
+                    //         kiProfileDefaultImageUrl,
+                    //         height: h40,
+                    //         width: h40,
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
                     kH20sizedBox,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -174,6 +183,27 @@ class PhotoDetails extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                    Container(
+                      decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
+                      height: 400,
+                      width: (width - 40),
+                      child: ClipRRect(
+                        borderRadius: k8CircularBorderRadius,
+                        child: Image.network(
+                          'https://unsplash.com/photos/woman-wearing-black-scoop-neck-long-sleeved-shirt-Zz5LQe-VSMY',
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            BipHip.user,
+                            size: kIconSize200,
+                            color: cIconColor,
+                          ),
+                          loadingBuilder: imageLoadingBuilder,
+                          frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                            return child;
+                          },
+                        ),
+                      ),
                     ),
                     kH20sizedBox,
                     PostActivityStatusWidget(
