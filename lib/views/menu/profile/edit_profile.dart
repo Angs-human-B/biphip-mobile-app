@@ -323,9 +323,9 @@ void deleteAlertDialog({required BuildContext context, required Widget content, 
 }
 
 class DeletePopupContent extends StatelessWidget {
-  const DeletePopupContent({super.key, required this.text, required this.deleteOnPressed});
+  const DeletePopupContent({super.key, required this.text, this.deleteOnPressed});
   final String text;
-  final VoidCallback deleteOnPressed;
+  final VoidCallback? deleteOnPressed;
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/helpers/profile/edit_profile_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 
 class EditPage extends StatelessWidget {
@@ -35,8 +36,18 @@ class EditPage extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 8.0),
                     child: CustomTextButton(
                         onPressed: () {
-                          editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
-                          Get.back();
+                          deleteAlertDialog(
+                              context: context,
+                              content: DeletePopupContent(
+                                  text: ksDeleteConfirmation.tr,
+                                  deleteOnPressed: () {
+                                    editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
+                                    Get.back();
+                                    Get.back();
+                                  }),
+                              title: ksConfirmation.tr);
+                          // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
+                          // Get.back();
                         },
                         text: ksDelete,
                         textStyle: semiBold14TextStyle(cRedColor)),
@@ -69,10 +80,9 @@ class EditPage extends StatelessWidget {
                               text: (profileController.commonEditPageTitle.value == ksAddLink || profileController.commonEditPageTitle.value == ksEditLink)
                                   ? profileController.linkSource.value
                                   : profileController.educationBackground.value,
-                              hintText:
-                                  (profileController.commonEditPageTitle.value == ksAddLink || profileController.commonEditPageTitle.value == ksEditLink)
-                                      ? ksSelectLinkSource.tr
-                                      : ksSelectEducationInstitute.tr,
+                              hintText: (profileController.commonEditPageTitle.value == ksAddLink || profileController.commonEditPageTitle.value == ksEditLink)
+                                  ? ksSelectLinkSource.tr
+                                  : ksSelectEducationInstitute.tr,
                             ),
                           ),
                         RawAutocomplete(
@@ -142,7 +152,7 @@ class EditPage extends StatelessWidget {
                                     ? [FilteringTextInputFormatter.digitsOnly]
                                     : null,
                                 onSuffixPress: () {
-                                 editProfileHelper.commonTextfieldSuffixOnPressed();
+                                  editProfileHelper.commonTextfieldSuffixOnPressed();
                                 },
                                 onSubmit: (value) {
                                   unFocus(context);
@@ -253,7 +263,7 @@ class EditPage extends StatelessWidget {
                                       prefixIcon: BipHip.calendarFill,
                                       prefixIconSize: screenWiseSize(kIconSize20, 4),
                                       onPressed: () {
-                                       editProfileHelper.endDateButtonOnPressed(context);
+                                        editProfileHelper.endDateButtonOnPressed(context);
                                       },
                                       text: profileController.commonEndDate.value,
                                       hintText: ksEndDate.tr,
@@ -327,4 +337,3 @@ class EditPage extends StatelessWidget {
     );
   }
 }
-

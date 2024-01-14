@@ -42,6 +42,7 @@ class ViewPhoto extends StatelessWidget {
                       child: Image.network(
                         profileController.previewPhoto.value,
                         fit: BoxFit.cover,
+                        filterQuality: FilterQuality.high,
                         errorBuilder: (context, error, stackTrace) => const Icon(
                           BipHip.imageFile,
                           size: kIconSize100,

@@ -130,7 +130,7 @@ class KidCategoryContent extends StatelessWidget {
                         rightText: ksDone.tr,
                         rightTextStyle: medium14TextStyle(cPrimaryColor),
                         title: ksSelectKids.tr,
-                        isRightButtonShow: createPostController.kidList.isNotEmpty ? true : false,
+                        isRightButtonShow: true,
                       );
                       await createPostController.getKidList();
                     }
@@ -157,7 +157,7 @@ class KidCategoryContent extends StatelessWidget {
                 ),
                 child: ClipOval(
                   child: Image.network(
-                    Environment.imageBaseUrl + createPostController.selectedKid.value!.kidImage,
+                    createPostController.selectedKid.value!.profilePicture.toString(),
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => const Icon(
                       BipHip.imageFile,
@@ -316,7 +316,7 @@ class KidListBottomSheetContent extends StatelessWidget {
                               ),
                               child: ClipOval(
                                 child: Image.network(
-                                  Environment.imageBaseUrl + createPostController.kidList[i].kidImage,
+                                  createPostController.kidList[i].profilePicture.toString(),
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) => const Icon(
                                     BipHip.imageFile,

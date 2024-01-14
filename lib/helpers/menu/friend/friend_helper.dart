@@ -32,7 +32,7 @@ class FriendHelper {
     if (friendController.debounce?.isActive ?? false) friendController.debounce!.cancel();
     if (globalController.searchController.text.trim() != '') {
       friendController.isFriendSuffixIconVisible.value = true;
-      friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
+      friendController.debounce = Timer(const Duration(milliseconds: 1200), () async {
         friendController.isFriendSearched.value = true;
         await friendController.getFriendSearchList();
       });
@@ -121,7 +121,7 @@ class FriendHelper {
     if (friendController.debounce?.isActive ?? false) friendController.debounce!.cancel();
     if (globalController.searchController.text.trim() != '') {
       friendController.isFriendSuffixIconVisible.value = true;
-      friendController.debounce = Timer(const Duration(milliseconds: 3000), () async {
+      friendController.debounce = Timer(const Duration(milliseconds: 1200), () async {
         await friendController.getAddFriendList();
       });
     }
