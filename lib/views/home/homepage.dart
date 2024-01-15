@@ -238,7 +238,10 @@ class HomePage extends StatelessWidget {
                                         ),
                                       );
                                     }),
-                              if (homeController.allPostList.isNotEmpty && !homeController.postListScrolled.value) const HomePagePaginationShimmer(),
+                              if (homeController.allPostList.isNotEmpty &&
+                                  homeController.postListScrolled.value &&
+                                  homeController.postListSubLink.value != null)
+                                const HomePagePaginationShimmer(),
                               kH8sizedBox,
                             ],
                           ),

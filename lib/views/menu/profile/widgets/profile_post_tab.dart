@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
+import 'package:bip_hip/shimmers/home/home_page_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
@@ -151,7 +152,12 @@ class PostTab extends StatelessWidget {
                       userImage: item.user!.profilePicture ?? '',
                     ),
                   );
-                })
+                }),
+            if (homeController.allTimelinePostList.isNotEmpty &&
+                homeController.timelinePostListScrolled.value &&
+                homeController.timelinePostListSubLink.value != null)
+              const HomePagePaginationShimmer(),
+            kH8sizedBox,
           ],
         ));
   }

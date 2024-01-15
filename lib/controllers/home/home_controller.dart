@@ -52,6 +52,7 @@ class HomeController extends GetxController {
 
   // All post list API Implementation
   final ScrollController postListScrollController = ScrollController();
+  final ScrollController timelinePostListScrollController = ScrollController();
   final Rx<PostListModel?> postListData = Rx<PostListModel?>(null);
   final RxList<PostData> allPostList = RxList<PostData>([]);
   final RxBool isHomePageLoading = RxBool(false);
@@ -150,12 +151,13 @@ class HomeController extends GetxController {
   //* Get Self Timeline posts
   final RxList<PostData> allTimelinePostList = RxList<PostData>([]);
   final RxBool isTimelinePostLoading = RxBool(false);
+  final RxBool isTimelinePostPaginationLoading = RxBool(false);
   final Rx<String?> timelinePostListSubLink = Rx<String?>(null);
   final RxBool timelinePostListScrolled = RxBool(false);
   Future<void> getTimelinePostList() async {
     try {
       isTimelinePostLoading.value = true;
-      String suffixUrl = '?take=15';
+      String suffixUrl = '?page=1';
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -169,11 +171,10 @@ class HomeController extends GetxController {
         allTimelinePostList.addAll(postListData.value!.posts.data);
         timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (timelinePostListSubLink.value != null) {
-          postListScrolled.value = false;
+          timelinePostListScrolled.value = false;
         } else {
-          postListScrolled.value = true;
+          timelinePostListScrolled.value = true;
         }
-
         isTimelinePostLoading.value = false;
       } else {
         isTimelinePostLoading.value = true;
@@ -189,6 +190,54 @@ class HomeController extends GetxController {
       isTimelinePostLoading.value = true;
 
       ll('getTimelinePostList error: $e');
+    }
+  }
+
+  //*Get More Post List for pagination
+  Future<void> getMoreTimelinePostList() async {
+    try {
+      isTimelinePostPaginationLoading.value = true;
+      String? token = await spController.getBearerToken();
+      dynamic timelinePostListSub;
+
+      if (timelinePostListSubLink.value == null) {
+        return;
+      } else {
+        timelinePostListSub = timelinePostListSubLink.value!.split('?');
+      }
+
+      String timelinePostListSuffixUrl = '';
+
+      timelinePostListSuffixUrl = '?${timelinePostListSub[1]}';
+
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetTimelinePostData + timelinePostListSuffixUrl,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        postListData.value = PostListModel.fromJson(response.data);
+        allTimelinePostList.addAll(postListData.value!.posts.data);
+        timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
+        if (timelinePostListSubLink.value != null) {
+          timelinePostListScrolled.value = false;
+        } else {
+          timelinePostListScrolled.value = true;
+        }
+        isTimelinePostPaginationLoading.value = false;
+      } else {
+        isTimelinePostPaginationLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isTimelinePostPaginationLoading.value = true;
+      ll('getMoreTimelinePostList error: $e');
     }
   }
 
