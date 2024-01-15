@@ -62,7 +62,9 @@ class PendingFamilyListView extends StatelessWidget {
                               },
                             ),
                           ),
-                          if (familyController.sendFamilyRequestList.isNotEmpty && !familyController.sendFamilyListScrolled.value)
+                          if (familyController.sendFamilyRequestList.isNotEmpty &&
+                              familyController.sendFamilyListScrolled.value &&
+                              familyController.sendFamilyListSubLink.value != null)
                             const Center(child: CircularProgressIndicator()),
                         ],
                       ),

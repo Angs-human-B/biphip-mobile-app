@@ -59,7 +59,7 @@ class AllFamilyListView extends StatelessWidget {
                               },
                             ),
                           ),
-                          if (familyController.familyList.isNotEmpty && !familyController.familyListScrolled.value)
+                          if (familyController.familyList.isNotEmpty && familyController.familyListScrolled.value && familyController.familyListSubLink.value != null)
                             const Center(child: CircularProgressIndicator()),
                         ],
                       ),

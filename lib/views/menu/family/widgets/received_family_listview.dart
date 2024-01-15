@@ -64,7 +64,9 @@ class ReceivedFamilyListView extends StatelessWidget {
                               },
                             ),
                           ),
-                          if (familyController.receivedFamilyList.isNotEmpty && !familyController.receivedFamilyListScrolled.value)
+                          if (familyController.receivedFamilyList.isNotEmpty &&
+                              familyController.receivedFamilyListScrolled.value &&
+                              familyController.receivedFamilyListSubLink.value != null)
                             const Center(child: CircularProgressIndicator()),
                         ],
                       ),
@@ -75,4 +77,3 @@ class ReceivedFamilyListView extends StatelessWidget {
     );
   }
 }
-
