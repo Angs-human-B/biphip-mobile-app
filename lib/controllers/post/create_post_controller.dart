@@ -409,7 +409,7 @@ class CreatePostController extends GetxController {
       isCreatePostLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
-        'post_category_id': categoryID.value.toString(),
+        if (category.value != '') 'post_category_id': categoryID.value.toString(),
         'content': category.value == 'Selling' ? biddingTitleTextEditingController.text.trim() : createPostController.text.trim(),
         'is_public': '1',
         if (category.value == 'Kids') 'kid_id': kidID.value.toString(),
