@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: krSplashScreen,
         getPages: routes,
+        theme: ThemeData(useMaterial3: false),
       ),
     );
   }
