@@ -72,12 +72,14 @@ class Photos extends StatelessWidget {
                       childrenDelegate: SliverChildBuilderDelegate(
                         childCount: galleryController.selectedImageList.length,
                         (context, index) {
-                          String imageUrl = galleryController.selectedImageList[index].fullPath;
+                          String imageUrl = galleryController.selectedImageList[index].fullPath.toString();
                           return InkWell(
                             onTap: () async {
-                              galleryController.imageId.value = galleryController.imageDataList[index].id!;
+                              galleryController.imageId.value = galleryController.selectedImageList[index].id!;
+                              ll(galleryController.imageId.value.toString());
                               await galleryController.getImageDetails();
                               Get.toNamed(krPhotoDetails);
+                              // ll(galleryController.selectedImageList.length);
                             },
                             child: Container(
                               decoration: BoxDecoration(

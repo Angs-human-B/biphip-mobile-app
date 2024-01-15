@@ -185,6 +185,7 @@ class PhotoDetails extends StatelessWidget {
                         ),
                       ],
                     ),
+                    kH20sizedBox,
                     Container(
                       decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                       height: 400,
@@ -192,7 +193,7 @@ class PhotoDetails extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: k8CircularBorderRadius,
                         child: Image.network(
-                          Get.find<GalleryController>().imageDetailsData.value!.image!.path.toString(),
+                          Get.find<GalleryController>().imageDetailsData.value!.image!.fullPath.toString(),
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) => const Icon(
                             BipHip.user,
