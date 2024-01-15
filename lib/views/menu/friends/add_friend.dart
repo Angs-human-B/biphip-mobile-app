@@ -118,7 +118,9 @@ class AddFriend extends StatelessWidget {
                                               );
                                             },
                                           ),
-                                          if (friendController.addFriendList.isNotEmpty && !friendController.addFriendListScrolled.value)
+                                          if (friendController.addFriendList.isNotEmpty &&
+                                              friendController.addFriendListScrolled.value &&
+                                              friendController.addFriendListSubLink.value != null)
                                             const Center(child: CircularProgressIndicator()),
                                         ],
                                       ),
