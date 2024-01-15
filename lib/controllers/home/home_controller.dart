@@ -157,7 +157,7 @@ class HomeController extends GetxController {
   Future<void> getTimelinePostList() async {
     try {
       isTimelinePostLoading.value = true;
-      String suffixUrl = '?take=10';
+      String suffixUrl = '?page=1';
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -171,11 +171,10 @@ class HomeController extends GetxController {
         allTimelinePostList.addAll(postListData.value!.posts.data);
         timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (timelinePostListSubLink.value != null) {
-          postListScrolled.value = false;
+          timelinePostListScrolled.value = false;
         } else {
-          postListScrolled.value = true;
+          timelinePostListScrolled.value = true;
         }
-
         isTimelinePostLoading.value = false;
       } else {
         isTimelinePostLoading.value = true;
@@ -209,7 +208,7 @@ class HomeController extends GetxController {
 
       String timelinePostListSuffixUrl = '';
 
-      timelinePostListSuffixUrl = '?${timelinePostListSub[1]}&take=10';
+      timelinePostListSuffixUrl = '?${timelinePostListSub[1]}';
 
       var response = await apiController.commonApiCall(
         requestMethod: kGet,

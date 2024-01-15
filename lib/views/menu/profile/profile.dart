@@ -46,17 +46,18 @@ class Profile extends StatelessWidget {
                     width: width,
                     child: NotificationListener<ScrollNotification>(
                       onNotification: (scrollNotification) {
-                          if (homeController.timelinePostListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
-                              scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
-                              !homeController.timelinePostListScrolled.value) {
-                            homeController.timelinePostListScrolled.value = true;
-                            if (homeController.allTimelinePostList.isNotEmpty) {
-                              homeController.getMoreTimelinePostList();
-                            }
-                            return true;
+                        if (homeController.timelinePostListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                            scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
+                            !homeController.timelinePostListScrolled.value) {
+                              homeController.timelinePostListScrolled.value = true;
+                          if (homeController.allTimelinePostList.isNotEmpty) {
+                            homeController.getMoreTimelinePostList();
                           }
-                          return false;
-                        },
+                          return true;
+                        }
+                        // homeController.timelinePostListScrolled.value = false;
+                        return false;
+                      },
                       child: SingleChildScrollView(
                         controller: homeController.timelinePostListScrollController,
                         physics: const AlwaysScrollableScrollPhysics(),

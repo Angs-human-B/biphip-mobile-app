@@ -153,7 +153,10 @@ class PostTab extends StatelessWidget {
                     ),
                   );
                 }),
-            if (homeController.allTimelinePostList.isNotEmpty && !homeController.timelinePostListScrolled.value) const HomePagePaginationShimmer(),
+            if (homeController.allTimelinePostList.isNotEmpty &&
+                homeController.timelinePostListScrolled.value &&
+                homeController.timelinePostListSubLink.value != null)
+              const HomePagePaginationShimmer(),
             kH8sizedBox,
           ],
         ));
