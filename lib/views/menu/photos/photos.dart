@@ -74,7 +74,9 @@ class Photos extends StatelessWidget {
                         (context, index) {
                           String imageUrl = galleryController.selectedImageList[index].fullPath;
                           return InkWell(
-                            onTap: () {
+                            onTap: () async {
+                              galleryController.imageId.value = galleryController.imageDataList[index].id!;
+                              await galleryController.getImageDetails();
                               Get.toNamed(krPhotoDetails);
                             },
                             child: Container(

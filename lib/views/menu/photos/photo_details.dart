@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -191,7 +192,7 @@ class PhotoDetails extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: k8CircularBorderRadius,
                         child: Image.network(
-                          'https://unsplash.com/photos/woman-wearing-black-scoop-neck-long-sleeved-shirt-Zz5LQe-VSMY',
+                          Get.find<GalleryController>().imageDetailsData.value!.image!.path.toString(),
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) => const Icon(
                             BipHip.user,

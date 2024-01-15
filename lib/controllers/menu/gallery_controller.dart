@@ -1,5 +1,6 @@
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/models/menu/album/album_list_model.dart';
+import 'package:bip_hip/models/menu/album/image_details_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class GalleryController extends GetxController {
@@ -134,4 +135,36 @@ class GalleryController extends GetxController {
 
   List selectedImageList = [];
   final RxString selectedTitle = RxString('');
+  final RxInt imageId = RxInt(-1);
+
+  //*Get Image details Api call
+  final Rx<ImageDetailsModel?> imageDetailsData = Rx<ImageDetailsModel?>(null);
+  // final RxList<Image> kidList = RxList<Image>([]);
+  final RxBool isImageDetailsLoading = RxBool(false);
+  Future<void> getImageDetails() async {
+    try {
+      isImageDetailsLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: '$kuImageDetails/${imageId.value.toString()}',
+      ) as CommonDM;
+      if (response.success == true) {
+        imageDetailsData.value = ImageDetailsModel.fromJson(response.data);
+        isImageDetailsLoading.value = false;
+      } else {
+        isImageDetailsLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isImageDetailsLoading.value = true;
+      ll('getKidsList error: $e');
+    }
+  }
 }
