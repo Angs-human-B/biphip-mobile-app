@@ -115,6 +115,10 @@ class PendingFriendListView extends StatelessWidget {
                               },
                             ),
                           ),
+                          if (friendController.sendFriendRequestList.isNotEmpty &&
+                              friendController.sendFriendListScrolled.value &&
+                              friendController.sendFriendListSubLink.value != null)
+                            const Center(child: CircularProgressIndicator()),
                         ],
                       ),
                     ),

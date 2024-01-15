@@ -63,7 +63,7 @@ class ReceivedFriendListView extends StatelessWidget {
                               },
                             ),
                           ),
-                          if (friendController.receivedFriendList.isNotEmpty && !friendController.receivedFriendListScrolled.value)
+                          if (friendController.receivedFriendList.isNotEmpty && friendController.receivedFriendListScrolled.value && friendController.receivedFriendListSubLink.value!=null)
                             const Center(child: CircularProgressIndicator()),
                         ],
                       ),
