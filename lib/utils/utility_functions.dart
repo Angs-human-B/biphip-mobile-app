@@ -23,6 +23,13 @@ extension CapitalizeExtension on String {
   bool get isValidEmail => RegExp(
           r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
       .hasMatch(this);
+  bool get isValidUrl => RegExp(r'^www.([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*)').hasMatch(this);
+}
+
+bool commonValidUrlCheck(regexValue, urlValue) {
+  String pattern1 = "^$regexValue.([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*)";
+  String pattern2 = "^www.$regexValue.([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*)";
+  return (RegExp(pattern1).hasMatch(urlValue) || RegExp(pattern2).hasMatch(urlValue));
 }
 
 // show alert dialog

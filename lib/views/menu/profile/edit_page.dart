@@ -323,7 +323,9 @@ class EditPage extends StatelessWidget {
                             ? () {
                                 ll(profileController.functionFlag.value);
                                 editProfileHelper.selectFunction(profileController.functionFlag.value);
-                                Get.back();
+                                if (profileController.functionFlag.value != 'ADD LINK' && profileController.functionFlag.value != 'EDIT LINK') {
+                                  Get.back();
+                                }
                                 //_profileController.clearCommonEditPageData();
                               }
                             : null),

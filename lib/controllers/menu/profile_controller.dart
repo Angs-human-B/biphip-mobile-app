@@ -844,6 +844,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
 
       if (response.success == true) {
         linkDataList.add(Link.fromJson(response.data));
+       
         isEditProfileLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
