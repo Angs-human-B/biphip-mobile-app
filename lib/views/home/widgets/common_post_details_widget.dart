@@ -23,7 +23,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (isTextualPost)
+        if (isTextualPost && postText != null)
           Obx(() => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                 child: RichText(
@@ -40,7 +40,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
                   ),
                 ),
               )),
-        if (postText!.length > 256)
+        if ((postText?.length ?? 0) > 256)
           Obx(() => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                 child: TextButton(
