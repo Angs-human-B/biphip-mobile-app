@@ -4,6 +4,7 @@ import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/shimmers/post/create_post_shimmers.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/post/add_brand.dart';
+import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/select_category.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
@@ -250,7 +251,11 @@ class KidCategoryContent extends StatelessWidget {
                     //     rightTextStyle: medium14TextStyle(cPrimaryColor),
                     //     title: ksAddKid.tr,
                     //     isRightButtonShow: true);
-                    Get.toNamed(krAddKid);
+                    // Get.toNamed(krAddKid);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddKidPage()),
+                    );
                   }
                 : null,
             buttonText: ksAddKid.tr,

@@ -40,6 +40,7 @@ class AddKidPage extends StatelessWidget {
                           onPressed: createPostController.isSaveKidButtonEnabled.value
                               ? () async {
                                   await createPostController.addKid();
+                                  createPostController.isKidAdded.value = true;
                                 }
                               : null,
                           child: Text(
