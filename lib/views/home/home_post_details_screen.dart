@@ -22,7 +22,7 @@ class HomePostDetailsScreen extends StatelessWidget {
             child: CustomAppBar(
               hasBackButton: true,
               isCenterTitle: true,
-              title: 'Wahid Murad',
+              title: homeController.postData.value!.post.user!.fullName!,
               onBack: () {
                 Get.back();
               },
@@ -38,11 +38,11 @@ class HomePostDetailsScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: PostUpperContainer(
-                          userName: Get.find<GlobalController>().userName.value.toString(),
+                          userName: homeController.postData.value!.post.user!.fullName!,
                           isCategorized: false,
                           privacy: BipHip.world,
                           postTime: '1hr',
-                          userImage: Get.find<GlobalController>().userImage.value.toString()),
+                          userImage: homeController.postData.value!.post.user!.profilePicture!),
                     ),
                     kH12sizedBox,
                     CommonPostDetailsScreenWidget(
@@ -89,7 +89,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (isTextualPost)
+        if (isTextualPost && postText != null)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
             child: RichText(
