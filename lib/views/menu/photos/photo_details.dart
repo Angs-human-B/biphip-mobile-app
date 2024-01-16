@@ -43,20 +43,6 @@ class PhotoDetails extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // kH24sizedBox,
-                    // ClipRRect(
-                    //   borderRadius: k8CircularBorderRadius,
-                    //   child: Image.network(
-                    //     'https://unsplash.com/photos/woman-wearing-black-scoop-neck-long-sleeved-shirt-Zz5LQe-VSMY',
-                    //     errorBuilder: (context, error, stackTrace) {
-                    //       return Image.asset(
-                    //         kiProfileDefaultImageUrl,
-                    //         height: h40,
-                    //         width: h40,
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
                     kH20sizedBox,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
