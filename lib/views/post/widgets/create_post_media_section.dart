@@ -38,6 +38,7 @@ class CreatePostMediaSection extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       createPostHelper.removeMedia(0);
+                      createPostHelper.checkCanCreatePost();
                     },
                     child: const Icon(
                       BipHip.circleCrossNew,

@@ -43,7 +43,8 @@ class CreatePostHelper {
         createPostController.isPostButtonActive.value = false;
       }
     } else if (createPostController.category.value == 'Kids') {
-      if (createPostController.createPostController.text.trim() != '' && createPostController.selectedKid.value != null) {
+      if ((createPostController.createPostController.text.trim() != '' || createPostController.allMediaList.isNotEmpty) &&
+          (createPostController.kidID.value != -1 || createPostController.kidNameTextEditingController.text != '')) {
         createPostController.isPostButtonActive.value = true;
       } else {
         createPostController.isPostButtonActive.value = false;
@@ -249,13 +250,7 @@ class CreatePostHelper {
         isRightButtonShow: true,
       );
     } else {
-      if (createPostController.isResetCategoryPopupShow.value) {
-        Get.back();
-        Get.back();
-        createPostController.isResetCategoryPopupShow.value = false;
-      } else {
-        Get.back();
-      }
+      Get.back();
     }
   }
 
@@ -355,6 +350,7 @@ class CreatePostHelper {
       if (status) {
         ll("media list length : ${createPostController.mediaLinkList.length}");
         insertMedia(createPostController.mediaLinkList, createPostController.mediaFileList);
+        checkCanCreatePost();
         createPostController.isMediaChanged.value = false;
         createPostController.mediaLinkList.clear();
         createPostController.mediaFileList.clear();
@@ -364,6 +360,7 @@ class CreatePostHelper {
           createPostController.createPostImageFile, 'camera', false, true);
       if (status) {
         insertMedia([createPostController.createPostImageLink], createPostController.createPostImageFile);
+        checkCanCreatePost();
         createPostController.isCreatePostImageChanged.value = false;
         createPostController.createPostImageLink.value = "";
         createPostController.createPostImageFile.clear();

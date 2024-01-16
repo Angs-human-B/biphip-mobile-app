@@ -27,13 +27,7 @@ class SelectCategory extends StatelessWidget {
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
-                if (createPostController.isResetCategoryPopupShow.value) {
-                  Get.back();
-                  Get.back();
-                  createPostController.isResetCategoryPopupShow.value = false;
-                } else {
-                  Get.back();
-                }
+                Get.back();
               },
               action: [
                 Obx(

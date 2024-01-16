@@ -616,7 +616,7 @@ class CreatePostController extends GetxController {
   final RxInt selectedBrandId = RxInt(-1);
   final TextEditingController newsTitleTextEditingController = TextEditingController();
   final TextEditingController newsDescriptionTextEditingController = TextEditingController();
-  final RxBool isResetCategoryPopupShow = RxBool(false);
+  // final RxBool isResetCategoryPopupShow = RxBool(false);
 
   final RxString tempCreatePostSelectedPrivacy = RxString('Friends');
   final RxString createPostSelectedPrivacy = RxString('Friends');
