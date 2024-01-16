@@ -268,6 +268,7 @@ class CreatePostHelper {
     createPostController.isKidImageChanged.value = false;
     createPostController.kidNameTextEditingController.clear();
     createPostController.kidAgeTextEditingController.clear();
+    createPostController.kidSchoolNameTextEditingController.clear();
   }
 
   void resetCreatePostData() {
