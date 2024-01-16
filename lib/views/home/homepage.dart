@@ -118,6 +118,7 @@ class HomePage extends StatelessWidget {
                                   name: Get.find<GlobalController>().userLastName.value.toString(),
                                   profilePic: Get.find<GlobalController>().userImage.value.toString(),
                                   onPressed: () async {
+                                    Get.find<CreatePostController>().isPostedFromProfile.value = false;
                                     CreatePostHelper().resetCreatePostData();
                                     Get.toNamed(krCreatePost);
                                     await Get.find<CreatePostController>().getCreatePost();

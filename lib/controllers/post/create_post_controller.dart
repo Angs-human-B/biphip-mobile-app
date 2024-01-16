@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
@@ -388,6 +389,7 @@ class CreatePostController extends GetxController {
 
   // Create post API Implementation
   final RxBool isCreatePostLoading = RxBool(false);
+  final RxBool isPostedFromProfile = RxBool(false);
 
   void resetCreatePost() {
     createPostController.clear();
@@ -437,6 +439,11 @@ class CreatePostController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
+        if (isPostedFromProfile.value) {
+          await Get.find<HomeController>().getTimelinePostList();
+        } else {
+          await Get.find<HomeController>().getPostList();
+        }
         isCreatePostLoading.value = false;
         Get.back();
         resetCreatePost();
