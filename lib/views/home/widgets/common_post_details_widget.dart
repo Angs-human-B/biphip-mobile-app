@@ -25,7 +25,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
       children: [
         if (isTextualPost && postText != null)
           Obx(() => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                padding: EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: (mediaList.isNotEmpty) ? k16Padding : 0),
                 child: RichText(
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.clip,
@@ -34,7 +34,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: postText!,
-                        style: regular14TextStyle(cBlackColor),
+                        style: (postText!.length < 150 && mediaList.isEmpty) ? regular20TextStyle(cBlackColor) : regular14TextStyle(cBlackColor),
                       ),
                     ],
                   ),
@@ -54,7 +54,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
                   ),
                 ),
               )),
-        kH16sizedBox,
+        // kH16sizedBox,
         if (mediaList.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k12Padding),
