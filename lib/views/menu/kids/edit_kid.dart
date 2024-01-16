@@ -81,7 +81,7 @@ class EditKidPage extends StatelessWidget {
                                         color: cIconColor,
                                       ),
                                     )
-                                  : Image.network(Environment.imageBaseUrl + kidsController.kidImageLink.value),
+                                  : Image.network(kidsController.kidImageLink.value),
                             ),
                           ),
                           isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,

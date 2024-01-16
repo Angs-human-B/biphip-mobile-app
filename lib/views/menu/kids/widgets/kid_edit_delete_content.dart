@@ -1,8 +1,9 @@
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class EditDeleteContent extends StatelessWidget {
-   EditDeleteContent({
+  EditDeleteContent({
     super.key,
   });
   final KidHelper kidHelper = KidHelper();
@@ -17,7 +18,7 @@ class EditDeleteContent extends StatelessWidget {
           prefixIconColor: cIconColor,
           suffixIconColor: cIconColor,
           onPressed: () {
-          kidHelper.kidEditButtonOnPressed();
+            kidHelper.kidEditButtonOnPressed();
             Get.toNamed(krEditKidPage);
           },
           buttonHeight: h32,
@@ -34,6 +35,7 @@ class EditDeleteContent extends StatelessWidget {
           suffixIconColor: cIconColor,
           onPressed: () {
             kidHelper.kidDeleteButtonOnPressed();
+            ll(Get.find<KidsController>().kidId.value);
           },
           buttonHeight: h32,
           buttonWidth: width - 40,

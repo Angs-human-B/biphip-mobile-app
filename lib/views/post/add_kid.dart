@@ -178,14 +178,14 @@ class AddKidPage extends StatelessWidget {
                                 maxLength: 3,
                               ),
                               kH8sizedBox,
-                              CustomCheckBox(
-                                value: createPostController.saveKidInfo.value,
-                                onChanged: (v) {
-                                  createPostController.saveKidInfo.value = !createPostController.saveKidInfo.value;
-                                },
-                                label: ksSaveKidInformation.tr,
-                                textStyle: regular14TextStyle(cBlackColor),
-                              ),
+                              // CustomCheckBox(
+                              //   value: createPostController.saveKidInfo.value,
+                              //   onChanged: (v) {
+                              //     createPostController.saveKidInfo.value = !createPostController.saveKidInfo.value;
+                              //   },
+                              //   label: ksSaveKidInformation.tr,
+                              //   textStyle: regular14TextStyle(cBlackColor),
+                              // ),
                               isDeviceScreenLarge() ? kH40sizedBox : kH30sizedBox,
                             ],
                           ),
