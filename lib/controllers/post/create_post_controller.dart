@@ -17,6 +17,7 @@ class CreatePostController extends GetxController {
   final RxBool isPostButtonActive = RxBool(false);
   final RxBool isTextLimitCrossed = RxBool(false);
   final TextEditingController createPostController = TextEditingController();
+  final RxString tempSelectedCategory = RxString('');
   final RxString category = RxString('');
   final RxInt categoryID = RxInt(-1);
   final Rx<IconData?> categoryIcon = Rx<IconData?>(null);
@@ -183,14 +184,25 @@ class CreatePostController extends GetxController {
   final RxBool isSaveKidButtonEnabled = RxBool(false);
   final RxBool isKidAdded = RxBool(false);
   final RxBool isKidSelected = RxBool(false);
-
+  final Rx<String?> kidNameErrorText = Rx<String?>(null);
   void checkCanAddKidInfo() {
-    if (kidNameTextEditingController.text.trim() != '' && kidAgeTextEditingController.text.trim() != '' && isKidImageChanged.value) {
+    if (kidNameTextEditingController.text.trim().length >= 3 && kidAgeTextEditingController.text.trim() != '' && isKidImageChanged.value) {
       isSaveKidButtonEnabled.value = true;
       globalController.isBottomSheetRightButtonActive.value = true;
     } else {
       globalController.isBottomSheetRightButtonActive.value = false;
       isSaveKidButtonEnabled.value = false;
+    }
+  }
+
+  void kidNameOnChanged() {
+    checkCanAddKidInfo();
+    if (kidNameTextEditingController.text.trim() == '') {
+      kidNameErrorText.value = ksEmptyNameErrorText.tr;
+    } else if (kidNameTextEditingController.text.trim().length < 3) {
+      kidNameErrorText.value = ksKidNameLengthErrorText.tr;
+    } else {
+      kidNameErrorText.value = null;
     }
   }
 
@@ -216,8 +228,8 @@ class CreatePostController extends GetxController {
       if (response.success == true) {
         kidData.value = KidModel.fromJson(response.data);
         ll(kidData.value!.name);
+        await Get.find<KidsController>().getKidsList();
         isAddKidPageLoading.value = false;
-        Get.find<KidsController>().getKidsList();
         Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -240,6 +252,7 @@ class CreatePostController extends GetxController {
   RxList<Kid> kidList = RxList<Kid>([]);
   Rx<Kid?> selectedKid = Rx<Kid?>(null);
   Rx<Kid?> tempSelectedKid = Rx<Kid?>(null);
+  RxInt tempKidID = RxInt(-1);
   RxInt kidID = RxInt(-1);
   RxInt brandID = RxInt(-1);
   RxBool isKidListLoading = RxBool(false);
@@ -616,7 +629,7 @@ class CreatePostController extends GetxController {
   final RxInt selectedBrandId = RxInt(-1);
   final TextEditingController newsTitleTextEditingController = TextEditingController();
   final TextEditingController newsDescriptionTextEditingController = TextEditingController();
-  final RxBool isResetCategoryPopupShow = RxBool(false);
+  // final RxBool isResetCategoryPopupShow = RxBool(false);
 
   final RxString tempCreatePostSelectedPrivacy = RxString('Friends');
   final RxString createPostSelectedPrivacy = RxString('Friends');

@@ -39,6 +39,7 @@ class AddKidPage extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: createPostController.isSaveKidButtonEnabled.value
                               ? () async {
+                                  unFocus(context);
                                   await createPostController.addKid();
                                   createPostController.isKidAdded.value = true;
                                 }
@@ -157,8 +158,10 @@ class AddKidPage extends StatelessWidget {
                               CustomModifiedTextField(
                                 controller: createPostController.kidNameTextEditingController,
                                 hint: ksWriteKidName.tr,
+                                errorText: createPostController.kidNameErrorText.value,
                                 onChanged: (text) {
                                   createPostController.checkCanAddKidInfo();
+                                  createPostController.kidNameOnChanged();
                                 },
                                 onSubmit: (text) {},
                                 inputAction: TextInputAction.next,
@@ -190,15 +193,6 @@ class AddKidPage extends StatelessWidget {
                                 inputType: TextInputType.text,
                                 maxLength: 250,
                               ),
-                              // kH8sizedBox,
-                              // CustomCheckBox(
-                              //   value: createPostController.saveKidInfo.value,
-                              //   onChanged: (v) {
-                              //     createPostController.saveKidInfo.value = !createPostController.saveKidInfo.value;
-                              //   },
-                              //   label: ksSaveKidInformation.tr,
-                              //   textStyle: regular14TextStyle(cBlackColor),
-                              // ),
                               isDeviceScreenLarge() ? kH40sizedBox : kH30sizedBox,
                             ],
                           ),
