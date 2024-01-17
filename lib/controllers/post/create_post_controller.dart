@@ -183,7 +183,7 @@ class CreatePostController extends GetxController {
   final RxBool isSaveKidButtonEnabled = RxBool(false);
   final RxBool isKidAdded = RxBool(false);
   final RxBool isKidSelected = RxBool(false);
-
+  final Rx<String?> kidNameErrorText = Rx<String?>(null);
   void checkCanAddKidInfo() {
     if (kidNameTextEditingController.text.trim() != '' && kidAgeTextEditingController.text.trim() != '' && isKidImageChanged.value) {
       isSaveKidButtonEnabled.value = true;
@@ -193,6 +193,18 @@ class CreatePostController extends GetxController {
       isSaveKidButtonEnabled.value = false;
     }
   }
+
+  void kidNameOnChanged() {
+    checkCanAddKidInfo();
+    if (kidNameTextEditingController.text.trim()== '') {
+      kidNameErrorText.value = ksEmptyNameErrorText.tr;
+    } else if (kidNameTextEditingController.text.trim().length<3) {
+      kidNameErrorText.value = ksKidNameLengthErrorText.tr;
+    } else {
+      kidNameErrorText.value = null;
+    }
+  }
+
 
   //Add kid API Implementation
   Rx<KidModel?> kidData = Rx<KidModel?>(null);

@@ -157,8 +157,10 @@ class AddKidPage extends StatelessWidget {
                               CustomModifiedTextField(
                                 controller: createPostController.kidNameTextEditingController,
                                 hint: ksWriteKidName.tr,
+                                errorText: createPostController.kidNameErrorText.value,
                                 onChanged: (text) {
                                   createPostController.checkCanAddKidInfo();
+                                  createPostController.kidNameOnChanged();
                                 },
                                 onSubmit: (text) {},
                                 inputAction: TextInputAction.next,

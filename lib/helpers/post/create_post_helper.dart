@@ -186,8 +186,7 @@ class CreatePostHelper {
             createPostController.kidID.value = createPostController.selectedKid.value!.id!;
             ll(createPostController.kidID.value);
           } else if (createPostController.isKidAdded.value) {
-            // createPostController.postSecondaryLocalCirclerAvatar.value = createPostController.kidImageFile.value;
-
+            createPostController.postSecondaryLocalCirclerAvatar.value = createPostController.kidImageFile.value;
             createPostController.kidID.value = Get.find<KidsController>().kidList.last.id!;
             ll(createPostController.kidID.value);
           }
@@ -267,6 +266,8 @@ class CreatePostHelper {
     createPostController.isKidImageChanged.value = false;
     createPostController.kidNameTextEditingController.clear();
     createPostController.kidAgeTextEditingController.clear();
+    createPostController.kidSchoolNameTextEditingController.clear();
+    createPostController.kidNameErrorText.value = null;
   }
 
   void resetCreatePostData() {
