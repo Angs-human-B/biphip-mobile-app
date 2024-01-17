@@ -59,7 +59,7 @@ class CreatePostHelper {
         createPostController.isPostButtonActive.value = false;
       }
     } else {
-      if (createPostController.createPostController.text.trim().isNotEmpty) {
+      if (createPostController.createPostController.text.trim().isNotEmpty || createPostController.allMediaList.isNotEmpty) {
         createPostController.isPostButtonActive.value = true;
         if (createPostController.createPostController.text.length > 150) {
           createPostController.isTextLimitCrossed.value = true;

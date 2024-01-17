@@ -236,25 +236,11 @@ class KidCategoryContent extends StatelessWidget {
             onPress: (createPostController.selectedKid.value == null && !createPostController.isKidAdded.value)
                 ? () {
                     CreatePostHelper().resetAddKidPage();
-                    // globalController.commonBottomSheet(
-                    //     bottomSheetHeight: height * 0.9,
-                    //     isScrollControlled: true,
-                    //     context: context,
-                    //     content: AddKidContent(),
-                    //     onPressCloseButton: () {
-                    //       Get.back();
-                    //     },
-                    //     onPressRightButton: () {
-                    //       CreatePostHelper().addKid();
-                    //       for (int i = 0; i <= Get.find<KidsController>().kidList.length; i++) {
-                    //         createPostController.kidID.value = Get.find<KidsController>().kidList[i].id!;
-                    //       }
-                    //     },
-                    //     rightText: ksDone.tr,
-                    //     rightTextStyle: medium14TextStyle(cPrimaryColor),
-                    //     title: ksAddKid.tr,
-                    //     isRightButtonShow: true);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AddKidPage()));
+           
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddKidPage()),
+                    );
                   }
                 : null,
             buttonText: ksAddKid.tr,
