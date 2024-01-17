@@ -38,10 +38,11 @@ class HomePostDetailsScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: PostUpperContainer(
+                        taggedFriend: homeController.postData.value!.post.taggedFriends,
                           userName: homeController.postData.value!.post.user!.fullName!,
                           isCategorized: false,
                           privacy: BipHip.world,
-                          postTime: '1hr',
+                          postTime: homeController.postTimeDifference(homeController.postData.value!.post.createdAt),
                           userImage: homeController.postData.value!.post.user!.profilePicture!),
                     ),
                     kH12sizedBox,

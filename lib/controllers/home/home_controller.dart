@@ -1,5 +1,6 @@
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
   final ApiController apiController = ApiController();
@@ -48,6 +49,27 @@ class HomeController extends GetxController {
   int getBiddingDuration(DateTime endTime) {
     int diff = endTime.difference(DateTime.now()).inSeconds;
     return diff;
+  }
+
+  String postTimeDifference(DateTime inputDate) {
+    final now = DateTime.now();
+    final difference = now.difference(inputDate);
+
+    if (difference.inDays >= 7) {
+      return DateFormat('dd MMMM yyyy').format(inputDate);
+    } else if (difference.inDays >= 1) {
+      if (difference.inDays == 1) {
+        return '${difference.inDays} day ago';
+      } else {
+        return '${difference.inDays} days ago';
+      }
+    } else if (difference.inHours >= 1) {
+      return '${difference.inHours} h ago';
+    } else if (difference.inMinutes >= 1) {
+      return '${difference.inMinutes} m ago';
+    } else {
+      return '${difference.inSeconds} s ago';
+    }
   }
 
   // All post list API Implementation

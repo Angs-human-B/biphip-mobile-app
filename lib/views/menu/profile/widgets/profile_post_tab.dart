@@ -132,7 +132,7 @@ class PostTab extends StatelessWidget {
                       isSharedPost: false,
                       showBottomSection: true,
                       userName: item.user!.fullName!,
-                      postTime: '3 hrs ago',
+                      postTime: homeController.postTimeDifference(item.createdAt),
                       isCategorized: true,
                       subCategory: null,
                       isTextualPost: item.content == null ? false : true, //API
@@ -151,7 +151,7 @@ class PostTab extends StatelessWidget {
                       isSelfPost: true,
                       isInStock: true,
                       isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
-                      userImage: item.user!.profilePicture ?? '',
+                      userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
                     ),
                   );
                 }),
