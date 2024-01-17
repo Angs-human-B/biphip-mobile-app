@@ -1,5 +1,4 @@
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/shimmers/post/create_post_shimmers.dart';
@@ -237,24 +236,25 @@ class KidCategoryContent extends StatelessWidget {
             onPress: (createPostController.selectedKid.value == null && !createPostController.isKidAdded.value)
                 ? () {
                     CreatePostHelper().resetAddKidPage();
-                    globalController.commonBottomSheet(
-                        bottomSheetHeight: height * 0.9,
-                        isScrollControlled: true,
-                        context: context,
-                        content: AddKidContent(),
-                        onPressCloseButton: () {
-                          Get.back();
-                        },
-                        onPressRightButton: () {
-                          CreatePostHelper().addKid();
-                          for (int i = 0; i <= Get.find<KidsController>().kidList.length; i++) {
-                            createPostController.kidID.value = Get.find<KidsController>().kidList[i].id!;
-                          }
-                        },
-                        rightText: ksDone.tr,
-                        rightTextStyle: medium14TextStyle(cPrimaryColor),
-                        title: ksAddKid.tr,
-                        isRightButtonShow: true);
+                    // globalController.commonBottomSheet(
+                    //     bottomSheetHeight: height * 0.9,
+                    //     isScrollControlled: true,
+                    //     context: context,
+                    //     content: AddKidContent(),
+                    //     onPressCloseButton: () {
+                    //       Get.back();
+                    //     },
+                    //     onPressRightButton: () {
+                    //       CreatePostHelper().addKid();
+                    //       for (int i = 0; i <= Get.find<KidsController>().kidList.length; i++) {
+                    //         createPostController.kidID.value = Get.find<KidsController>().kidList[i].id!;
+                    //       }
+                    //     },
+                    //     rightText: ksDone.tr,
+                    //     rightTextStyle: medium14TextStyle(cPrimaryColor),
+                    //     title: ksAddKid.tr,
+                    //     isRightButtonShow: true);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AddKidPage()));
                   }
                 : null,
             buttonText: ksAddKid.tr,

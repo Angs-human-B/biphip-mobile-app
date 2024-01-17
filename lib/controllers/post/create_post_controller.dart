@@ -217,7 +217,7 @@ class CreatePostController extends GetxController {
         kidData.value = KidModel.fromJson(response.data);
         ll(kidData.value!.name);
         isAddKidPageLoading.value = false;
-        Get.find<KidsController>().getKidsList();
+        await Get.find<KidsController>().getKidsList();
         Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {

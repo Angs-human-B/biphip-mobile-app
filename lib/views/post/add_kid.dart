@@ -40,7 +40,7 @@ class AddKidPage extends StatelessWidget {
                           onPressed: createPostController.isSaveKidButtonEnabled.value
                               ? () async {
                                   await createPostController.addKid();
-                                  createPostController.kidID.value;
+                                  createPostController.isKidAdded.value = true;
                                 }
                               : null,
                           child: Text(
@@ -179,6 +179,17 @@ class AddKidPage extends StatelessWidget {
                                 maxLength: 3,
                               ),
                               kH8sizedBox,
+                              CustomModifiedTextField(
+                                controller: createPostController.kidSchoolNameTextEditingController,
+                                hint: ksWriteSchoolName.tr,
+                                onChanged: (text) {
+                                  createPostController.checkCanAddKidInfo();
+                                },
+                                onSubmit: (text) {},
+                                inputAction: TextInputAction.done,
+                                inputType: TextInputType.text,
+                                maxLength: 250,
+                              ),
                               // CustomCheckBox(
                               //   value: createPostController.saveKidInfo.value,
                               //   onChanged: (v) {
