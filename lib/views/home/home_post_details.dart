@@ -61,7 +61,7 @@ class HomePostDetails extends StatelessWidget {
                                   userName: homeController.postData.value!.post.user!.fullName!,
                                   isCategorized: false,
                                   privacy: BipHip.world,
-                                  postTime: '1hr',
+                                  postTime: homeController.postTimeDifference(homeController.postData.value!.post.createdAt),
                                   userImage: homeController.postData.value!.post.user!.profilePicture!,
                                 ),
                               ),
