@@ -129,14 +129,24 @@ class CreatePostUpperSection extends StatelessWidget {
                                   text: Get.find<GlobalController>().userName.value.toString(),
                                   style: semiBold16TextStyle(cBlackColor),
                                 ),
-                                if (createPostController.isTagAdded.value)
+                                if (createPostController.taggedFriends.isNotEmpty)
                                   TextSpan(
                                     text: ' ${ksIsWithSmall.tr} ',
                                     style: regular16TextStyle(cBlackColor),
                                   ),
-                                if (createPostController.isTagAdded.value)
+                                if (createPostController.taggedFriends.isNotEmpty)
                                   TextSpan(
-                                    text: 'Shohag Jalal & 8 ${ksOthersSmall.tr}',
+                                    text: '${createPostController.taggedFriends[0].fullName} ',
+                                    style: semiBold16TextStyle(cBlackColor),
+                                  ),
+                                if (createPostController.taggedFriends.isNotEmpty && createPostController.taggedFriends.length == 2)
+                                  TextSpan(
+                                    text: '& ${createPostController.taggedFriends[1].fullName}',
+                                    style: semiBold16TextStyle(cBlackColor),
+                                  ),
+                                if (createPostController.taggedFriends.isNotEmpty && createPostController.taggedFriends.length > 2)
+                                  TextSpan(
+                                    text: '& ${createPostController.taggedFriends.length - 1} others',
                                     style: semiBold16TextStyle(cBlackColor),
                                   ),
                               ],
