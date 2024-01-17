@@ -46,6 +46,7 @@ class Settings extends StatelessWidget {
                         onPressed: () {
                           menuController.firstNameEditingController.text = globalController.userFirstName.value ?? '';
                           menuController.lastNameEditingController.text = globalController.userLastName.value ?? '';
+                          globalController.isBottomSheetRightButtonActive.value = false;
                           globalController.commonBottomSheet(
                               context: context,
                               isScrollControlled: true,
@@ -56,6 +57,7 @@ class Settings extends StatelessWidget {
                                 Get.back();
                               },
                               onPressRightButton: () async {
+                                globalController.isBottomSheetRightButtonActive.value = false;
                                 unfocus(context);
                                 Get.back();
                                 await menuController.changeName();
@@ -108,6 +110,9 @@ class ChangeNameBottomSheetContent extends StatelessWidget {
         CustomModifiedTextField(
           controller: menuController.firstNameEditingController,
           hint: ksFirstName.tr,
+          onChanged: (v) {
+            menuController.checkCanChangeName();
+          },
         ),
         Text(
           ksLastName.tr,
@@ -117,6 +122,9 @@ class ChangeNameBottomSheetContent extends StatelessWidget {
         CustomModifiedTextField(
           controller: menuController.lastNameEditingController,
           hint: ksLastName.tr,
+          onChanged: (v) {
+            menuController.checkCanChangeName();
+          },
         ),
         kH8sizedBox,
         RichText(
