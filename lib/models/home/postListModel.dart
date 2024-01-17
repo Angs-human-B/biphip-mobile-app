@@ -435,6 +435,8 @@ class PostData {
   dynamic minBiddingAmount;
   dynamic biddingDuration;
   dynamic title;
+  DateTime createdAt;
+  DateTime updatedAt;
   int? postCategoryId;
   int? isPublic;
   int? countView;
@@ -481,6 +483,8 @@ class PostData {
     required this.minBiddingAmount,
     required this.biddingDuration,
     required this.title,
+    required this.createdAt,
+    required this.updatedAt,
     required this.postCategoryId,
     required this.isPublic,
     required this.countView,
@@ -528,6 +532,8 @@ class PostData {
         minBiddingAmount: json["min_bidding_amount"],
         biddingDuration: json["bidding_duration"],
         title: json["title"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
         postCategoryId: json["post_category_id"],
         isPublic: json["is_public"],
         countView: json["count_view"],

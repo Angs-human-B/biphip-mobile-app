@@ -132,7 +132,7 @@ class PostTab extends StatelessWidget {
                       isSharedPost: false,
                       showBottomSection: true,
                       userName: item.user!.fullName!,
-                      postTime: '3 hrs ago',
+                      postTime: homeController.postTimeDifference(item.createdAt),
                       isCategorized: true,
                       subCategory: null,
                       isTextualPost: item.content == null ? false : true, //API
