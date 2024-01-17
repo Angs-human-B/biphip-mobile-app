@@ -27,8 +27,8 @@ extension CapitalizeExtension on String {
 }
 
 bool commonValidUrlCheck(regexValue, urlValue) {
-  String pattern1 = "^$regexValue.([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*)";
-  String pattern2 = "^www.$regexValue.([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*)";
+  String pattern1 = "^$regexValue\\.[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*";
+  String pattern2 = "^www\\.$regexValue\\.[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*";
   return (RegExp(pattern1).hasMatch(urlValue) || RegExp(pattern2).hasMatch(urlValue));
 }
 
