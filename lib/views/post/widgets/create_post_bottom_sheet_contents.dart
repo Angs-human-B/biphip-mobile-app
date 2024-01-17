@@ -721,7 +721,7 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                if (createPostController.taggedFriends.isNotEmpty)
+                if (createPostController.tempTaggedFriends.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(left: k2Padding, bottom: k8Padding),
                     child: Text(
@@ -729,7 +729,7 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                       style: semiBold14TextStyle(cBlackColor),
                     ),
                   ),
-                if (createPostController.taggedFriends.isNotEmpty)
+                if (createPostController.tempTaggedFriends.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(bottom: k12Padding),
                     child: Container(
@@ -739,7 +739,7 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                       child: ListView.separated(
                         separatorBuilder: (context, index) => kW8sizedBox,
                         scrollDirection: Axis.horizontal,
-                        itemCount: createPostController.taggedFriends.length,
+                        itemCount: createPostController.tempTaggedFriends.length,
                         itemBuilder: (context, index) {
                           return Stack(
                             alignment: AlignmentDirectional.topEnd,
@@ -753,7 +753,7 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                                 ),
                                 child: ClipOval(
                                   child: Image.network(
-                                    createPostController.taggedFriends[index]['data'].profilePicture.toString(),
+                                    createPostController.tempTaggedFriends[index].profilePicture.toString(),
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) {
                                       return Image.asset(kiProfileDefaultImageUrl);
@@ -766,9 +766,10 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                                 child: InkWell(
                                   onTap: () {
                                     createPostController.tagFriendList
-                                        .insert(createPostController.taggedFriends[index]['index'], createPostController.taggedFriends[index]['data']);
-                                    createPostController.taggedFriends.removeAt(index);
-                                    if (createPostController.taggedFriends.isNotEmpty) {
+                                        .insert(createPostController.tempTagIndex[index], createPostController.tempTaggedFriends[index]);
+                                    createPostController.tempTagIndex.removeAt(index);
+                                    createPostController.tempTaggedFriends.removeAt(index);
+                                    if (createPostController.tempTaggedFriends.isNotEmpty) {
                                       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                                     } else {
                                       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
@@ -813,9 +814,10 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                         child: TextButton(
                           style: kTextButtonStyle,
                           onPressed: () {
-                            createPostController.taggedFriends.add({'index': index, 'data': createPostController.tagFriendList[index]});
+                            createPostController.tempTaggedFriends.add(createPostController.tagFriendList[index]);
+                            createPostController.tempTagIndex.add(index);
                             createPostController.tagFriendList.removeAt(index);
-                            if (createPostController.taggedFriends.isNotEmpty) {
+                            if (createPostController.tempTaggedFriends.isNotEmpty) {
                               Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                             } else {
                               Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
