@@ -91,7 +91,7 @@ class KidCategoryContent extends StatelessWidget {
                   ? () async {
                       createPostController.isKidListLoading.value = true;
                       createPostController.tempSelectedKid.value = null;
-                      createPostController.kidID.value = -1;
+                     createPostController.tempKidID.value = -1;
                       if (createPostController.tempSelectedKid.value == null) {
                         globalController.isBottomSheetRightButtonActive.value = false;
                       } else {
@@ -300,7 +300,7 @@ class KidListBottomSheetContent extends StatelessWidget {
                         return Obx(
                           () => CustomListTile(
                             onPressed: () {
-                              createPostController.kidID.value = createPostController.kidList[i].id!;
+                              createPostController.tempKidID.value = createPostController.kidList[i].id!;
                               createPostController.tempSelectedKid.value = createPostController.kidList[i];
                               if (createPostController.tempSelectedKid.value == null) {
                                 Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
@@ -308,8 +308,8 @@ class KidListBottomSheetContent extends StatelessWidget {
                                 Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                               }
                             },
-                            itemColor: createPostController.kidID.value == createPostController.kidList[i].id! ? cPrimaryTint3Color : cWhiteColor,
-                            borderColor: createPostController.kidID.value == createPostController.kidList[i].id! ? cPrimaryColor : cLineColor,
+                            itemColor: createPostController.tempKidID.value == createPostController.kidList[i].id! ? cPrimaryTint3Color : cWhiteColor,
+                            borderColor: createPostController.tempKidID.value == createPostController.kidList[i].id! ? cPrimaryColor : cLineColor,
                             title: createPostController.kidList[i].name,
                             leading: Container(
                               height: h24,
@@ -334,7 +334,7 @@ class KidListBottomSheetContent extends StatelessWidget {
                             trailing: CustomRadioButton(
                               onChanged: () {
                                 // selectKidStatusChange(i);
-                                createPostController.kidID.value = createPostController.kidList[i].id!;
+                                createPostController.tempKidID.value = createPostController.kidList[i].id!;
                                 createPostController.tempSelectedKid.value = createPostController.kidList[i];
                                 if (createPostController.tempSelectedKid.value == null) {
                                   Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
@@ -342,7 +342,7 @@ class KidListBottomSheetContent extends StatelessWidget {
                                   Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                                 }
                               },
-                              isSelected: createPostController.kidID.value == createPostController.kidList[i].id!,
+                              isSelected: createPostController.tempKidID.value == createPostController.kidList[i].id!,
                             ),
                           ),
                         );

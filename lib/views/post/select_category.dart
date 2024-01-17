@@ -46,6 +46,11 @@ class SelectCategory extends StatelessWidget {
                                 ? () {
                                     createPostHelper.clearCreateSellingPostView();
                                     createPostHelper.selectCategory(context);
+                                    if (createPostController.category.value == 'Kids') {
+                                      createPostController.tempSelectedCategory.value = 'Kids';
+                                      createPostController.category.value = '';
+                                      ll(createPostController.category.value);
+                                    }
                                   }
                                 : null,
                             child: Text(

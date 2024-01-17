@@ -23,11 +23,7 @@ class CreatePostUpperSection extends StatelessWidget {
           Stack(
             children: [
               SizedBox(
-                width: (createPostController.selectedKid.value != null ||
-                        createPostController.isKidAdded.value ||
-                        createPostController.selectedBrandName.value != '')
-                    ? 70
-                    : h45,
+                width: (createPostController.category.value == 'Kids' || createPostController.selectedBrandName.value != '') ? 70 : h45,
                 child: Row(
                   children: [
                     Container(
@@ -45,7 +41,7 @@ class CreatePostUpperSection extends StatelessWidget {
                   ],
                 ),
               ),
-              if (createPostController.selectedKid.value != null || createPostController.isKidAdded.value)
+              if (createPostController.category.value == 'Kids')
                 Positioned(
                   right: 0,
                   bottom: 0,
@@ -452,8 +448,8 @@ class CategoryResetWarningContent extends StatelessWidget {
 
                   CreatePostHelper().resetCreatePostData();
                   Get.back();
-                  Get.toNamed(krSelectCategory);
-                  await Get.find<CreatePostController>().getPostCategoryList();
+                  // Get.toNamed(krSelectCategory);
+                  // await Get.find<CreatePostController>().getPostCategoryList();
                 },
                 buttonColor: cPrimaryColor,
                 borderColor: cPrimaryColor,

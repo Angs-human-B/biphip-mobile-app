@@ -181,6 +181,7 @@ class CreatePostHelper {
           Get.back();
         },
         onPressRightButton: () async {
+          createPostController.category.value = createPostController.tempCategory.value;
           if (createPostController.selectedKid.value != null) {
             createPostController.postSecondaryCircleAvatar.value = createPostController.selectedKid.value!.profilePicture.toString();
             createPostController.kidID.value = createPostController.selectedKid.value!.id!;
