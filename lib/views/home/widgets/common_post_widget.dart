@@ -276,7 +276,8 @@ class CommonPostWidget extends StatelessWidget {
           ),
         if (isTextualPost)
           Obx(() => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                padding: EdgeInsets.only(
+                    left: kHorizontalPadding, right: kHorizontalPadding, bottom: (mediaList.isNotEmpty || category == 'Selling') ? k12Padding : 0),
                 child: RichText(
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.clip,
@@ -285,7 +286,9 @@ class CommonPostWidget extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: postText,
-                        style: regular14TextStyle(cBlackColor),
+                        style: (postText!.length < 150 && category != 'Selling' && mediaList.isEmpty)
+                            ? regular20TextStyle(cBlackColor)
+                            : regular14TextStyle(cBlackColor),
                       ),
                     ],
                   ),
@@ -305,7 +308,6 @@ class CommonPostWidget extends StatelessWidget {
                   ),
                 ),
               )),
-        kH16sizedBox,
         if (isSharedPost)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),

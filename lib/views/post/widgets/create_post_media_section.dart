@@ -27,6 +27,7 @@ class CreatePostMediaSection extends StatelessWidget {
                     width: width - 40,
                     child: Image.file(
                       createPostController.allMediaFileList[0].value,
+                      filterQuality: FilterQuality.high,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -38,6 +39,7 @@ class CreatePostMediaSection extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       createPostHelper.removeMedia(0);
+                      createPostHelper.checkCanCreatePost();
                     },
                     child: const Icon(
                       BipHip.circleCrossNew,
@@ -65,6 +67,7 @@ class CreatePostMediaSection extends StatelessWidget {
                           width: createPostController.allMediaList.length < 3 ? (width - 40) : (width - 42) / 2,
                           child: Image.file(
                             createPostController.allMediaFileList[1].value,
+                            filterQuality: FilterQuality.high,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -106,6 +109,7 @@ class CreatePostMediaSection extends StatelessWidget {
                           width: (width - 42) / 2,
                           child: Image.file(
                             createPostController.allMediaFileList[2].value,
+                            filterQuality: FilterQuality.high,
                             fit: BoxFit.cover,
                             color: cBlackColor.withOpacity(0.3),
                             colorBlendMode: BlendMode.multiply,

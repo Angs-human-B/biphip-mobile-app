@@ -168,4 +168,14 @@ class MenuSectionController extends GetxController {
       ll('changeName error: $e');
     }
   }
+
+  void checkCanChangeName() {
+    if (firstNameEditingController.text != Get.find<GlobalController>().userFirstName.value ||
+        lastNameEditingController.text != Get.find<GlobalController>().userLastName.value &&
+            (firstNameEditingController.text.trim() != '' && lastNameEditingController.text.trim() != '')) {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+    } else {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+    }
+  }
 }

@@ -23,9 +23,9 @@ class CommonPostDetailsWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (isTextualPost)
+        if (isTextualPost && postText != null)
           Obx(() => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                padding: EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: (mediaList.isNotEmpty) ? k16Padding : 0),
                 child: RichText(
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.clip,
@@ -34,13 +34,13 @@ class CommonPostDetailsWidget extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: postText!,
-                        style: regular14TextStyle(cBlackColor),
+                        style: (postText!.length < 150 && mediaList.isEmpty) ? regular20TextStyle(cBlackColor) : regular14TextStyle(cBlackColor),
                       ),
                     ],
                   ),
                 ),
               )),
-        if (postText!.length > 256)
+        if ((postText?.length ?? 0) > 256)
           Obx(() => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                 child: TextButton(
@@ -54,7 +54,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
                   ),
                 ),
               )),
-        kH16sizedBox,
+        // kH16sizedBox,
         if (mediaList.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k12Padding),

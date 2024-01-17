@@ -57,7 +57,7 @@ class CreatePostHelper {
         createPostController.isPostButtonActive.value = false;
       }
     } else {
-      if (createPostController.createPostController.text.trim().isNotEmpty) {
+      if (createPostController.createPostController.text.trim().isNotEmpty || createPostController.allMediaList.isNotEmpty) {
         createPostController.isPostButtonActive.value = true;
         if (createPostController.createPostController.text.length > 150) {
           createPostController.isTextLimitCrossed.value = true;
@@ -268,6 +268,7 @@ class CreatePostHelper {
     createPostController.isKidImageChanged.value = false;
     createPostController.kidNameTextEditingController.clear();
     createPostController.kidAgeTextEditingController.clear();
+    createPostController.kidSchoolNameTextEditingController.clear();
   }
 
   void resetCreatePostData() {
@@ -355,6 +356,7 @@ class CreatePostHelper {
       if (status) {
         ll("media list length : ${createPostController.mediaLinkList.length}");
         insertMedia(createPostController.mediaLinkList, createPostController.mediaFileList);
+        checkCanCreatePost();
         createPostController.isMediaChanged.value = false;
         createPostController.mediaLinkList.clear();
         createPostController.mediaFileList.clear();
@@ -364,6 +366,7 @@ class CreatePostHelper {
           createPostController.createPostImageFile, 'camera', false, true);
       if (status) {
         insertMedia([createPostController.createPostImageLink], createPostController.createPostImageFile);
+        checkCanCreatePost();
         createPostController.isCreatePostImageChanged.value = false;
         createPostController.createPostImageLink.value = "";
         createPostController.createPostImageFile.clear();

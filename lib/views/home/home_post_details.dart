@@ -28,7 +28,7 @@ class HomePostDetails extends StatelessWidget {
                       child: CustomAppBar(
                         hasBackButton: true,
                         isCenterTitle: true,
-                        title: 'Wahid Murad',
+                        title: homeController.postData.value!.post.user!.fullName!,
                         onBack: () {
                           Get.back();
                         },
@@ -36,7 +36,7 @@ class HomePostDetails extends StatelessWidget {
                     ),
                     floatingActionButton: Container(
                       decoration: const BoxDecoration(color: cWhiteColor, border: Border(top: BorderSide(color: cLineColor))),
-                      height: 112,
+                      height: 120,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                           vertical: k12Padding,
@@ -58,11 +58,11 @@ class HomePostDetails extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                 child: PostUpperContainer(
-                                  userName: Get.find<GlobalController>().userName.value.toString(),
+                                  userName: homeController.postData.value!.post.user!.fullName!,
                                   isCategorized: false,
                                   privacy: BipHip.world,
                                   postTime: '1hr',
-                                  userImage: Get.find<GlobalController>().userImage.value.toString(),
+                                  userImage: homeController.postData.value!.post.user!.profilePicture!,
                                 ),
                               ),
                               kH12sizedBox,

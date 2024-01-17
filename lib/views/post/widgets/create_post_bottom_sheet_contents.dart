@@ -236,21 +236,26 @@ class KidCategoryContent extends StatelessWidget {
             onPress: (createPostController.selectedKid.value == null && !createPostController.isKidAdded.value)
                 ? () {
                     CreatePostHelper().resetAddKidPage();
-                    globalController.commonBottomSheet(
-                        bottomSheetHeight: height * 0.9,
-                        isScrollControlled: true,
-                        context: context,
-                        content: AddKidContent(),
-                        onPressCloseButton: () {
-                          Get.back();
-                        },
-                        onPressRightButton: () {
-                          CreatePostHelper().addKid();
-                        },
-                        rightText: ksDone.tr,
-                        rightTextStyle: medium14TextStyle(cPrimaryColor),
-                        title: ksAddKid.tr,
-                        isRightButtonShow: true);
+                    // globalController.commonBottomSheet(
+                    //     bottomSheetHeight: height * 0.65,
+                    //     isScrollControlled: true,
+                    //     context: context,
+                    //     content: AddKidContent(),
+                    //     onPressCloseButton: () {
+                    //       Get.back();
+                    //     },
+                    //     onPressRightButton: () {
+                    //       CreatePostHelper().addKid();
+                    //     },
+                    //     rightText: ksDone.tr,
+                    //     rightTextStyle: medium14TextStyle(cPrimaryColor),
+                    //     title: ksAddKid.tr,
+                    //     isRightButtonShow: true);
+                    // Get.toNamed(krAddKid);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddKidPage()),
+                    );
                   }
                 : null,
             buttonText: ksAddKid.tr,
