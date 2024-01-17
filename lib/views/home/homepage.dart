@@ -207,7 +207,7 @@ class HomePage extends StatelessWidget {
                                           isSharedPost: false,
                                           showBottomSection: true,
                                           userName: item.user!.fullName!,
-                                          postTime: '3 hrs ago',
+                                          postTime: homeController.postTimeDifference(item.createdAt),
                                           isCategorized: true,
                                           isTextualPost: item.content == null ? false : true, //API
                                           category: item.postCategory == null ? null : item.postCategory!.name, //API
