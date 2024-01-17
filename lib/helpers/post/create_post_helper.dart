@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/auth/onboarding/picture_upload_screen.dart';
@@ -43,7 +44,8 @@ class CreatePostHelper {
         createPostController.isPostButtonActive.value = false;
       }
     } else if (createPostController.category.value == 'Kids') {
-      if (createPostController.createPostController.text.trim() != '' && createPostController.selectedKid.value != null) {
+      if ((createPostController.createPostController.text.trim() != '' || createPostController.allMediaList.isNotEmpty) &&
+          (createPostController.kidID.value != -1)) {
         createPostController.isPostButtonActive.value = true;
       } else {
         createPostController.isPostButtonActive.value = false;
@@ -178,13 +180,16 @@ class CreatePostHelper {
         onPressCloseButton: () {
           Get.back();
         },
-        onPressRightButton: () {
+        onPressRightButton: () async {
+          createPostController.category.value = createPostController.tempCategory.value;
           if (createPostController.selectedKid.value != null) {
             createPostController.postSecondaryCircleAvatar.value = createPostController.selectedKid.value!.profilePicture.toString();
             createPostController.kidID.value = createPostController.selectedKid.value!.id!;
             ll(createPostController.kidID.value);
-          } else {
+          } else if (createPostController.isKidAdded.value) {
             createPostController.postSecondaryLocalCirclerAvatar.value = createPostController.kidImageFile.value;
+            createPostController.kidID.value = Get.find<KidsController>().kidList.last.id!;
+            ll(createPostController.kidID.value);
           }
           Get.back();
           Get.back();
@@ -249,13 +254,7 @@ class CreatePostHelper {
         isRightButtonShow: true,
       );
     } else {
-      if (createPostController.isResetCategoryPopupShow.value) {
-        Get.back();
-        Get.back();
-        createPostController.isResetCategoryPopupShow.value = false;
-      } else {
-        Get.back();
-      }
+      Get.back();
     }
   }
 
@@ -269,6 +268,7 @@ class CreatePostHelper {
     createPostController.kidNameTextEditingController.clear();
     createPostController.kidAgeTextEditingController.clear();
     createPostController.kidSchoolNameTextEditingController.clear();
+    createPostController.kidNameErrorText.value = null;
   }
 
   void resetCreatePostData() {

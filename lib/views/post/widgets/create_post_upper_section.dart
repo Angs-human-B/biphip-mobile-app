@@ -23,11 +23,7 @@ class CreatePostUpperSection extends StatelessWidget {
           Stack(
             children: [
               SizedBox(
-                width: (createPostController.selectedKid.value != null ||
-                        createPostController.isKidAdded.value ||
-                        createPostController.selectedBrandName.value != '')
-                    ? 70
-                    : h45,
+                width: (createPostController.category.value == 'Kids' || createPostController.selectedBrandName.value != '') ? 70 : h45,
                 child: Row(
                   children: [
                     Container(
@@ -45,7 +41,7 @@ class CreatePostUpperSection extends StatelessWidget {
                   ],
                 ),
               ),
-              if (createPostController.selectedKid.value != null || createPostController.isKidAdded.value)
+              if (createPostController.category.value == 'Kids')
                 Positioned(
                   right: 0,
                   bottom: 0,
@@ -59,7 +55,7 @@ class CreatePostUpperSection extends StatelessWidget {
                     child: ClipOval(
                       child: createPostController.selectedKid.value != null
                           ? Image.network(
-                              Environment.imageBaseUrl + createPostController.postSecondaryCircleAvatar.value,
+                              createPostController.postSecondaryCircleAvatar.value,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) => const Icon(
                                 BipHip.imageFile,
@@ -448,16 +444,12 @@ class CategoryResetWarningContent extends StatelessWidget {
                 onPressed: () async {
                   Get.find<CreatePostController>().tempCategory.value = '';
                   Get.find<CreatePostController>().category.value = '';
-                  Get.find<CreatePostController>().isResetCategoryPopupShow.value = true;
                   CreatePostHelper().initializeCategory();
-                  // Get.find<CreatePostController>().categoryID.value = -1;
-                  // for (int i = 0; i <= Get.find<CreatePostController>().categoryStatusList.length; i++) {
-                  //   Get.find<CreatePostController>().categoryStatusList[i] = false;
-                  // }
 
                   CreatePostHelper().resetCreatePostData();
-                  Get.toNamed(krSelectCategory);
-                  await Get.find<CreatePostController>().getPostCategoryList();
+                  Get.back();
+                  // Get.toNamed(krSelectCategory);
+                  // await Get.find<CreatePostController>().getPostCategoryList();
                 },
                 buttonColor: cPrimaryColor,
                 borderColor: cPrimaryColor,
