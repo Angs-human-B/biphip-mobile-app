@@ -151,6 +151,7 @@ const String ksGive = 'Give';
 const String ksPostedOn = 'posted on';
 const String ksChangeName = 'Change name';
 const String ksAt = 'at';
+const String ksWith = 'with';
 const String ksCondition = 'Condition';
 const String ksLastPrice = 'Last price';
 const String ksInStock = 'In Stock';

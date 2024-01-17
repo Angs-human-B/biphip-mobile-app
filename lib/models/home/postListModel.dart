@@ -447,14 +447,14 @@ class PostData {
   int? brandId;
   dynamic timelineId;
   dynamic type;
-  List<dynamic> taggedFriends;
+  List<TaggedFriend> taggedFriends;
   User? user;
   Brand? kid;
   Brand? brand;
   PostCategory? postCategory;
   dynamic postSubCategory;
   List<dynamic> postTags;
-  List<Image> images;
+  List<ImageElement> images;
   List<dynamic> comments;
 
   PostData({
@@ -540,14 +540,14 @@ class PostData {
         brandId: json["brand_id"],
         timelineId: json["timeline_id"],
         type: json["type"],
-        taggedFriends: List<dynamic>.from(json["tagged_friends"].map((x) => x)),
+        taggedFriends: List<TaggedFriend>.from(json["tagged_friends"].map((x) => TaggedFriend.fromJson(x))),
         user: User.fromJson(json["user"]),
         kid: json["kid"] == null ? null : Brand.fromJson(json["kid"]),
         brand: json["brand"] == null ? null : Brand.fromJson(json["brand"]),
         postCategory: json["post_category"] == null ? null : PostCategory.fromJson(json["post_category"]),
         postSubCategory: json["post_sub_category"],
         postTags: List<dynamic>.from(json["post_tags"].map((x) => x)),
-        images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+        images: List<ImageElement>.from(json["images"].map((x) => ImageElement.fromJson(x))),
         comments: List<dynamic>.from(json["comments"].map((x) => x)),
       );
 }
@@ -585,7 +585,7 @@ class Brand {
       );
 }
 
-class Image {
+class ImageElement {
   int? id;
   int? userId;
   int? postId;
@@ -608,7 +608,7 @@ class Image {
   List<TaggedFriend> taggedFriends;
   int? totalViewCount;
 
-  Image({
+  ImageElement({
     required this.id,
     required this.userId,
     required this.postId,
@@ -632,7 +632,7 @@ class Image {
     required this.totalViewCount,
   });
 
-  factory Image.fromJson(Map<String, dynamic> json) => Image(
+  factory ImageElement.fromJson(Map<String, dynamic> json) => ImageElement(
         id: json["id"],
         userId: json["user_id"],
         postId: json["post_id"],

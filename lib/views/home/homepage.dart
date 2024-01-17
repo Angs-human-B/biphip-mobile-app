@@ -235,7 +235,7 @@ class HomePage extends StatelessWidget {
                                           discount: item.discount.toString(),
                                           isInStock: false,
                                           productCondition: 'New',
-                                          productCategory: 'Phone', userImage: item.user!.profilePicture ?? '',
+                                          productCategory: 'Phone', userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
                                         ),
                                       );
                                     }),

@@ -151,7 +151,7 @@ class PostTab extends StatelessWidget {
                       isSelfPost: true,
                       isInStock: true,
                       isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
-                      userImage: item.user!.profilePicture ?? '',
+                      userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
                     ),
                   );
                 }),
