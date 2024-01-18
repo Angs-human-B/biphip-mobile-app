@@ -209,7 +209,6 @@ class HomePage extends StatelessWidget {
                                           userName: item.user!.fullName!,
                                           postTime: homeController.postTimeDifference(item.createdAt),
                                           isCategorized: true,
-                                          isTextualPost: item.content == null ? false : true, //API
                                           category: item.postCategory == null ? null : item.postCategory!.name, //API
                                           categoryIcon:
                                               item.postCategory == null ? null : homeController.getCategoryIcon(item.postCategory!.id), // need change API
