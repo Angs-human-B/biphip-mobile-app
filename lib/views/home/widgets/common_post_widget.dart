@@ -54,7 +54,9 @@ class CommonPostWidget extends StatelessWidget {
     this.platformLink,
     this.actionName,
     this.secondaryImage,
-    required this.userImage, required this.taggedFriends, required this.reactCount,
+    required this.userImage,
+    required this.taggedFriends,
+    required this.reactCount,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -82,7 +84,7 @@ class CommonPostWidget extends StatelessWidget {
   final Color? categoryIconColor;
   final List mediaList;
   final List<TaggedFriend> taggedFriends;
-  final int commentCount, shareCount, giftCount,reactCount,postID;
+  final int commentCount, shareCount, giftCount, reactCount, postID;
   final VoidCallback? postUpperContainerOnPressed;
   final HomeController homeController = Get.find<HomeController>();
 
@@ -167,7 +169,8 @@ class CommonPostWidget extends StatelessWidget {
               title: title,
               subCategory: subCategory,
               userImage: userImage,
-              secondaryImage: secondaryImage, taggedFriend: taggedFriends,
+              secondaryImage: secondaryImage,
+              taggedFriend: taggedFriends,
             ),
           ),
         ),
@@ -591,7 +594,8 @@ class PostBottomSection extends StatelessWidget {
       this.platformName,
       this.platformLink,
       this.actionName,
-      this.actionOnPressed, required this.reactCount});
+      this.actionOnPressed,
+      required this.reactCount});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
@@ -712,24 +716,27 @@ class PostBottomSection extends StatelessWidget {
                   isPlaceBid: true,
                 ),
               ),
-            Padding(
-              padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
-              child: PostActivityStatusWidget(
-                reactCount: reactCount,
-                reactionOnPressed: () {
-                  postReactionController.giftFilter(0);
-                  globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                },
-                giftCount: giftCount,
-                commentCount: commentCount,
-                shareCount: shareCount,
-                isGiftShown: true,
-                giftOnPressed: () {
-                  postReactionController.giftFilter(0);
-                  globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                },
+            if (reactCount != 0 || commentCount != 0 || shareCount != 0 || giftCount != 0)
+              Padding(
+                padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
+                child: PostActivityStatusWidget(
+                  reactCount: reactCount,
+                  reactionOnPressed: () {
+                    postReactionController.giftFilter(0);
+                    globalController.blankBottomSheet(
+                        context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                  },
+                  giftCount: giftCount,
+                  commentCount: commentCount,
+                  shareCount: shareCount,
+                  isGiftShown: true,
+                  giftOnPressed: () {
+                    postReactionController.giftFilter(0);
+                    globalController.blankBottomSheet(
+                        context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                  },
+                ),
               ),
-            ),
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: kHorizontalPadding,
