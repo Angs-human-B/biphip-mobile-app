@@ -1,10 +1,11 @@
+import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PostActivityStatusWidget extends StatelessWidget {
   const PostActivityStatusWidget(
       {super.key,
-      required this.reactCount,
+      this.reactCount,
       required this.commentCount,
       required this.giftCount,
       required this.shareCount,
@@ -13,7 +14,8 @@ class PostActivityStatusWidget extends StatelessWidget {
       this.shareOnPressed,
       this.giftOnPressed,
       this.reactionOnPressed});
-  final int reactCount, commentCount, giftCount, shareCount;
+  final int commentCount, giftCount, shareCount;
+  final CountReactions? reactCount;
   final bool isGiftShown;
   final VoidCallback? reactionOnPressed, commentOnPressed, shareOnPressed, giftOnPressed;
 
@@ -23,7 +25,7 @@ class PostActivityStatusWidget extends StatelessWidget {
       // mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        if (reactCount != 0)
+        if (reactCount != null)
           InkWell(
             onTap: reactionOnPressed,
             child: ReactionView(
@@ -48,16 +50,16 @@ class PostActivityStatusWidget extends StatelessWidget {
 class ReactionView extends StatelessWidget {
   const ReactionView({super.key, required this.isPost, this.reactCount});
   final bool isPost;
-  final int? reactCount;
+  final CountReactions? reactCount;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (!isPost && reactCount != 0)
+        if (!isPost && reactCount?.all != null)
           Text(
-            reactCount! >= 1000 ? '${(reactCount! / 1000).toStringAsFixed(1)}k' : reactCount.toString(),
+            reactCount!.all >= 1000 ? '${(reactCount!.all / 1000).toStringAsFixed(1)}k' : reactCount!.all.toString(),
             style: regular10TextStyle(cSmallBodyTextColor),
           ),
         kW4sizedBox,
@@ -88,9 +90,9 @@ class ReactionView extends StatelessWidget {
           ],
         ),
         kW4sizedBox,
-        if (isPost && reactCount != 0)
+        if (isPost && reactCount != null)
           Text(
-            reactCount! > 1000 ? '${(reactCount! / 1000).toStringAsFixed(1)}k' : reactCount.toString(),
+            reactCount!.all > 1000 ? '${(reactCount!.all / 1000).toStringAsFixed(1)}k' : reactCount!.all.toString(),
             style: regular10TextStyle(cSmallBodyTextColor),
           ),
       ],

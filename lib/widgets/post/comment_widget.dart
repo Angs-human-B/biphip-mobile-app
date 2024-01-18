@@ -171,7 +171,7 @@ class CommentWidget extends StatelessWidget {
                           ),
                         ),
                       const Spacer(),
-                      if (isReactButtonShown) ReactionView(isPost: false, reactCount: reactCount)
+                      if (isReactButtonShown) const ReactionView(isPost: false, reactCount: null)
                     ],
                   ),
                 ),
@@ -353,7 +353,7 @@ class ReplyCommentWidget extends StatelessWidget {
                         ),
                       ),
                     const Spacer(),
-                    if (isReactButtonShown) ReactionView(isPost: false, reactCount: reactCount)
+                    if (isReactButtonShown) const ReactionView(isPost: false, reactCount: null)
                   ],
                 ),
               ),

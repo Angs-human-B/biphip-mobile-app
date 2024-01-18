@@ -56,7 +56,7 @@ class CommonPostWidget extends StatelessWidget {
     this.secondaryImage,
     required this.userImage,
     required this.taggedFriends,
-    required this.reactCount,
+    this.reactCount,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -84,7 +84,8 @@ class CommonPostWidget extends StatelessWidget {
   final Color? categoryIconColor;
   final List mediaList;
   final List<TaggedFriend> taggedFriends;
-  final int commentCount, shareCount, giftCount, reactCount, postID;
+  final CountReactions? reactCount;
+  final int commentCount, shareCount, giftCount, postID;
   final VoidCallback? postUpperContainerOnPressed;
   final HomeController homeController = Get.find<HomeController>();
 
@@ -324,7 +325,7 @@ class CommonPostWidget extends StatelessWidget {
                 child: CommonPostWidget(
                   taggedFriends: [],
                   postID: 0,
-                  reactCount: 67,
+                  reactCount: null,
                   isCommented: false,
                   isLiked: false,
                   mediaList: const [],
@@ -595,13 +596,14 @@ class PostBottomSection extends StatelessWidget {
       this.platformLink,
       this.actionName,
       this.actionOnPressed,
-      required this.reactCount});
+      this.reactCount});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   final bool isSelfPost, isCommentShown;
   final RxBool showComment = RxBool(false);
-  final int commentCount, shareCount, giftCount, reactCount;
+  final int commentCount, shareCount, giftCount;
+  final CountReactions? reactCount;
   final String? category, platformName, platformLink, actionName;
   final VoidCallback? actionOnPressed;
 
@@ -716,7 +718,7 @@ class PostBottomSection extends StatelessWidget {
                   isPlaceBid: true,
                 ),
               ),
-            if (reactCount != 0 || commentCount != 0 || shareCount != 0 || giftCount != 0)
+            if (reactCount != null || commentCount != 0 || shareCount != 0 || giftCount != 0)
               Padding(
                 padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
                 child: PostActivityStatusWidget(

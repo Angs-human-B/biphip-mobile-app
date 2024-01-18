@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
@@ -55,7 +56,7 @@ class HomePostDetailsScreen extends StatelessWidget {
                       isCommentShown: true,
                       showBottomSection: true,
                       postText: homeController.postData.value!.post.content,
-                      reactCount: homeController.postData.value!.post.countReactions!.all,
+                      reactCount: homeController.postData.value!.post.countReactions,
                     ),
                   ],
                 ),
@@ -80,10 +81,10 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
     required this.mediaList,
     required this.isSelfPost,
     required this.isCommentShown,
-    required this.showBottomSection, required this.reactCount,
+    required this.showBottomSection,  this.reactCount,
   });
   final bool isCommented, isLiked, isTextualPost, isSelfPost, isCommentShown, showBottomSection;
-  final int reactCount;
+  final CountReactions? reactCount;
   final String? category, title, postText;
   final List mediaList;
 
@@ -159,7 +160,8 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                             isSelfPost: true,
                             commentCount: 0,
                             shareCount: 0,
-                            giftCount: 0, reactCount: 67,
+                            giftCount: 0, 
+                            // reactCount: reactCount,
                           ),
                         ],
                       );
