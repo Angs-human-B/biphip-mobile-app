@@ -70,6 +70,20 @@ class CreatePostHelper {
     }
   }
 
+  void onSelectPostSubCategory(index) {
+    if (createPostController.tempSubCategoryIndex.value == index) {
+      createPostController.tempSubCategoryIndex.value = -1;
+      createPostController.subCategoryIndex.value = -1;
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+      createPostController.tempSubCategory.value = '';
+      createPostController.subCategory.value = '';
+    } else {
+      createPostController.tempSubCategoryIndex.value = index;
+      Get.find<CreatePostController>().tempSubCategory.value = Get.find<CreatePostController>().createPostSubCategoryList[index].name.toString();
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+    }
+  }
+
   void showAudienceSheet(context) {
     createPostController.tempCreatePostSelectedPrivacy.value = createPostController.createPostSelectedPrivacy.value;
     Get.find<GlobalController>().commonBottomSheet(
