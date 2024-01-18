@@ -442,6 +442,8 @@ class CreatePostController extends GetxController {
         if (category.value == 'Selling') 'min_bidding_amount': biddingDesiredAmountTextEditingController.text.trim(),
         if (category.value == 'Selling') 'sell_post_category_id': selectedProductCategoryID.value,
         if (category.value == 'Selling') 'sell_post_condition_id': selectedProductConditionID.value,
+        if (category.value == 'News') 'title': newsTitleTextEditingController.text.trim(),
+        if (category.value == 'News') 'description': newsDescriptionTextEditingController.text.trim()
       };
       var response = await apiController.multiMediaUpload(
         url: kuCreatePost,

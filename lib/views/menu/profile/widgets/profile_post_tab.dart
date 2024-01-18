@@ -134,8 +134,7 @@ class PostTab extends StatelessWidget {
                       userName: item.user!.fullName!,
                       postTime: '3 hrs ago',
                       isCategorized: true,
-                      subCategory: null,
-                      isTextualPost: item.content == null ? false : true, //API
+                      subCategory: null, //API
                       category: item.postCategory == null ? null : item.postCategory!.name, //API
                       categoryIcon: item.postCategory == null ? null : homeController.getCategoryIcon(item.postCategory!.id), // need change API
                       categoryIconColor: item.postCategory == null ? null : homeController.getCategoryColor(item.postCategory!.id), // Based on API
