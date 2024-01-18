@@ -284,6 +284,11 @@ class CreatePostHelper {
   }
 
   void resetCreatePostData() {
+    createPostController.taggedFriends.clear();
+    createPostController.tempTaggedFriends.clear();
+    createPostController.tempTagIndex.clear();
+    createPostController.tagFriendList.clear();
+    Get.find<FriendController>().friendList.clear();
     createPostController.isKidAdded.value = false;
     createPostController.selectedKid.value = null;
     createPostController.postSecondaryCircleAvatar.value = '';
@@ -392,10 +397,11 @@ class CreatePostHelper {
       //   createPostVideoFile.clear();
       // }
     } else {
-      Get.find<CreatePostController>().tagFriendList.clear();
-      Get.find<CreatePostController>().taggedFriends.clear();
+      // createPostController.tagFriendList.clear();
+      // createPostController.tempTaggedFriends.clear();
       Get.find<FriendController>().isFriendListLoading.value = true;
-      if (createPostController.taggedFriends.isNotEmpty) {
+      createPostController.tempTaggedFriends.addAll(createPostController.taggedFriends);
+      if (createPostController.tempTaggedFriends.isNotEmpty) {
         Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
       } else {
         Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
@@ -410,6 +416,9 @@ class CreatePostHelper {
           Get.back();
         },
         onPressRightButton: () {
+          createPostController.taggedFriends.clear();
+          createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
+          createPostController.tempTaggedFriends.clear();
           globalController.isBottomSheetRightButtonActive.value = false;
           Get.back();
         },
@@ -418,8 +427,15 @@ class CreatePostHelper {
         title: ksTagPeople.tr,
         isRightButtonShow: true,
       );
-      await Get.find<FriendController>().getFriendList();
-      Get.find<CreatePostController>().tagFriendList.addAll(Get.find<FriendController>().friendList);
+      if (Get.find<FriendController>().friendList.isEmpty) {
+        await Get.find<FriendController>().getFriendList();
+        createPostController.tagFriendList.addAll(Get.find<FriendController>().friendList);
+      } else {
+        for (int i = 0; i < createPostController.tempTaggedFriends.length; i++) {
+          createPostController.tagFriendList.remove(createPostController.tempTaggedFriends);
+        }
+        Get.find<FriendController>().isFriendListLoading.value = false;
+      }
     }
   }
 

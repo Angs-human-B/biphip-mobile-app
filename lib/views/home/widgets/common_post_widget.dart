@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
+import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
@@ -52,7 +53,7 @@ class CommonPostWidget extends StatelessWidget {
     this.platformLink,
     this.actionName,
     this.secondaryImage,
-    required this.userImage,
+    required this.userImage, required this.taggedFriends,
   });
   final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -79,6 +80,7 @@ class CommonPostWidget extends StatelessWidget {
   final IconData privacy;
   final Color? categoryIconColor;
   final List mediaList;
+  final List<TaggedFriend> taggedFriends;
   final int commentCount, shareCount, giftCount, postID;
   final VoidCallback? postUpperContainerOnPressed;
   final HomeController homeController = Get.find<HomeController>();
@@ -164,7 +166,7 @@ class CommonPostWidget extends StatelessWidget {
               title: title,
               subCategory: subCategory,
               userImage: userImage,
-              secondaryImage: secondaryImage,
+              secondaryImage: secondaryImage, taggedFriend: taggedFriends,
             ),
           ),
         ),
@@ -316,6 +318,7 @@ class CommonPostWidget extends StatelessWidget {
                   border: Border.all(color: cLineColor),
                 ),
                 child: CommonPostWidget(
+                  taggedFriends: [],
                   postID: 0,
                   isCommented: false,
                   isLiked: false,

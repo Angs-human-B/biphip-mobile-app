@@ -1,3 +1,4 @@
+import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class PostUpperContainer extends StatelessWidget {
@@ -18,6 +19,7 @@ class PostUpperContainer extends StatelessWidget {
     this.subCategory,
     required this.userImage,
     this.secondaryImage,
+    required this.taggedFriend,
   });
 
   final String userName, postTime, userImage;
@@ -26,6 +28,7 @@ class PostUpperContainer extends StatelessWidget {
   final IconData privacy;
   final Color? categoryIconColor;
   final bool isCategorized;
+  final List<TaggedFriend>? taggedFriend;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +75,7 @@ class PostUpperContainer extends StatelessWidget {
                     width: h45,
                     decoration: const BoxDecoration(shape: BoxShape.circle, color: cBlackColor),
                     child: Image.network(
-                      Environment.imageBaseUrl + secondaryImage!,
+                      secondaryImage!,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => const Icon(
                         BipHip.user,
@@ -112,7 +115,7 @@ class PostUpperContainer extends StatelessWidget {
                                 text: ' ${ksPostedOn.tr} ',
                                 style: regular16TextStyle(cSmallBodyTextColor),
                               ),
-                            if (isCategorized)
+                            if (category != null)
                               WidgetSpan(
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -141,6 +144,26 @@ class PostUpperContainer extends StatelessWidget {
                             if (subCategory != null)
                               TextSpan(
                                 text: '($subCategory)',
+                                style: semiBold16TextStyle(cBlackColor),
+                              ),
+                            if (taggedFriend!.isNotEmpty)
+                              TextSpan(
+                                text: ' ${ksWith.tr} ',
+                                style: regular16TextStyle(cSmallBodyTextColor),
+                              ),
+                            if (taggedFriend!.isNotEmpty)
+                              TextSpan(
+                                text: '${taggedFriend![0].fullName}',
+                                style: semiBold16TextStyle(cBlackColor),
+                              ),
+                            if (taggedFriend!.isNotEmpty && taggedFriend!.length == 2)
+                              TextSpan(
+                                text: ' & ${taggedFriend?[1].fullName}',
+                                style: semiBold16TextStyle(cBlackColor),
+                              ),
+                            if (taggedFriend!.isNotEmpty && taggedFriend!.length > 2)
+                              TextSpan(
+                                text: ' & ${taggedFriend!.length - 1} others',
                                 style: semiBold16TextStyle(cBlackColor),
                               ),
                             const TextSpan(text: '\n'),

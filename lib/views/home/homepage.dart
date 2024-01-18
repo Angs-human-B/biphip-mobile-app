@@ -207,8 +207,9 @@ class HomePage extends StatelessWidget {
                                           isSharedPost: false,
                                           showBottomSection: true,
                                           userName: item.user!.fullName!,
-                                          postTime: '3 hrs ago',
-                                          isCategorized: true, //API
+                                          postTime: homeController.postTimeDifference(item.createdAt),
+                                          isCategorized: true,
+                                          isTextualPost: item.content == null ? false : true, //API
                                           category: item.postCategory == null ? null : item.postCategory!.name, //API
                                           categoryIcon:
                                               item.postCategory == null ? null : homeController.getCategoryIcon(item.postCategory!.id), // need change API
@@ -223,7 +224,7 @@ class HomePage extends StatelessWidget {
                                           isSelfPost: index % 2 != 0,
                                           isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
                                           postID: item.id!,
-                                          secondaryImage: item.kid?.image ?? item.brand?.brandImage,
+                                          secondaryImage: item.kid?.profilePicture ?? item.brand?.profilePicture,
                                           subCategory: null,
                                           platformName: 'Jane Clothing',
                                           platformLink: 'www.facebook.com/Clothing/lorem',
@@ -234,7 +235,7 @@ class HomePage extends StatelessWidget {
                                           discount: item.discount.toString(),
                                           isInStock: false,
                                           productCondition: 'New',
-                                          productCategory: 'Phone', userImage: item.user!.profilePicture ?? '',
+                                          productCategory: 'Phone', userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
                                         ),
                                       );
                                     }),
