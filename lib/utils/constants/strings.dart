@@ -159,6 +159,7 @@ const String ksStockOut = 'Stock Out';
 const String ksDuration = 'Duration';
 const String ksDesiredAmount = 'Desired\nAmount';
 const String ksMinimumBiddingAmount = 'Minimum Bidding\nAmount';
+const String ksTaggedFreinds = 'Tagged friends';
 
 //---------------------------------------
 //* Menu
