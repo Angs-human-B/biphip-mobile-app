@@ -218,7 +218,7 @@ class HomePage extends StatelessWidget {
                                           brandName: item.brand == null ? null : item.brand!.name, //API
                                           kidName: item.kid == null ? null : item.kid!.name, //API
                                           kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                          postText: item.postCategory!.name == 'News' ? item.description ?? '' : item.content ?? '', //API
+                                          postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
                                           mediaList: item.images, //API
                                           isSelfPost: index % 2 != 0,
                                           isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
