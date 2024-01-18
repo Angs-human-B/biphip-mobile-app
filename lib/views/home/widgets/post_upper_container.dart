@@ -162,9 +162,30 @@ class PostUpperContainer extends StatelessWidget {
                                 style: semiBold16TextStyle(cBlackColor),
                               ),
                             if (taggedFriend!.isNotEmpty && taggedFriend!.length > 2)
-                              TextSpan(
-                                text: ' & ${taggedFriend!.length - 1} others',
-                                style: semiBold16TextStyle(cBlackColor),
+                              WidgetSpan(
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.find<GlobalController>().commonBottomSheet(
+                                        context: context,
+                                        isScrollControlled: true,
+                                        bottomSheetHeight: taggedFriend!.length > 10 ? height * 0.6 : null,
+                                        content: TaggedFriendContent(
+                                          taggedFriend: taggedFriend!,
+                                        ),
+                                        onPressCloseButton: () {
+                                          Get.back();
+                                        },
+                                        onPressRightButton: () {},
+                                        rightText: ksDone.tr,
+                                        rightTextStyle: regular14TextStyle(cPrimaryColor),
+                                        title: ksTaggedFreinds.tr,
+                                        isRightButtonShow: false);
+                                  },
+                                  child: Text(
+                                    ' & ${taggedFriend!.length - 1} others',
+                                    style: semiBold16TextStyle(cBlackColor),
+                                  ),
+                                ),
                               ),
                             const TextSpan(text: '\n'),
                             WidgetSpan(
@@ -194,6 +215,48 @@ class PostUpperContainer extends StatelessWidget {
             ],
           ),
         ),
+      ],
+    );
+  }
+}
+
+class TaggedFriendContent extends StatelessWidget {
+  const TaggedFriendContent({super.key, required this.taggedFriend});
+  final List<TaggedFriend> taggedFriend;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: taggedFriend.length,
+            itemBuilder: (context, index) {
+              return CustomListTile(
+                leading: Container(
+                  height: h26,
+                  width: h26,
+                  decoration: const BoxDecoration(
+                    color: cWhiteColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: ClipOval(
+                    child: Image.network(
+                      taggedFriend[index].profilePicture.toString(),
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => const Icon(
+                        BipHip.user,
+                        size: kIconSize24,
+                        color: cIconColor,
+                      ),
+                      // loadingBuilder: imageLoadingBuilder,
+                    ),
+                  ),
+                ),
+                title: taggedFriend[index].fullName,
+              );
+            })
       ],
     );
   }
