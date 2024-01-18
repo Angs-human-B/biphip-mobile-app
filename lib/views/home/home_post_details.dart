@@ -64,6 +64,14 @@ class HomePostDetails extends StatelessWidget {
                                   privacy: BipHip.world,
                                   postTime: homeController.postTimeDifference(homeController.postData.value!.post.createdAt),
                                   userImage: homeController.postData.value!.post.user!.profilePicture!,
+                                  category:
+                                      homeController.postData.value!.post.postCategory == null ? null : homeController.postData.value!.post.postCategory!.name,
+                                  categoryIcon: homeController.postData.value!.post.postCategory == null
+                                      ? null
+                                      : homeController.getCategoryIcon(homeController.postData.value!.post.postCategory?.id),
+                                  categoryIconColor: homeController.postData.value!.post.postCategory == null
+                                      ? null
+                                      : homeController.getCategoryColor(homeController.postData.value!.post.postCategory?.id),
                                 ),
                               ),
                               kH12sizedBox,

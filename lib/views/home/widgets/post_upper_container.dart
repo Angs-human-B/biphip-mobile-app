@@ -136,6 +136,7 @@ class PostUpperContainer extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                            
                             if (subCategory != null)
                               TextSpan(
                                 text: ' ${ksAt.tr} ',
