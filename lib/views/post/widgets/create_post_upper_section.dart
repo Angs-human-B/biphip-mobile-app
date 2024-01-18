@@ -376,15 +376,13 @@ class SubCategoryContent extends StatelessWidget {
                           label: Get.find<CreatePostController>().createPostSubCategoryList[i].name.toString(),
                           isSelected: (Get.find<CreatePostController>().tempSubCategoryIndex.value == i),
                           onSelected: (value) {
-                            Get.find<CreatePostController>().tempSubCategory.value =
-                                Get.find<CreatePostController>().createPostSubCategoryList[i].name.toString();
-                            Get.find<CreatePostController>().tempSubCategoryIndex.value = i;
-                            if (Get.find<CreatePostController>().tempSubCategory.value == '' &&
-                                Get.find<CreatePostController>().tempSubCategoryIndex.value == -1) {
-                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                            } else {
-                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                            }
+                            CreatePostHelper().onSelectPostSubCategory(i);
+                            // if (Get.find<CreatePostController>().tempSubCategory.value == '' &&
+                            //     Get.find<CreatePostController>().tempSubCategoryIndex.value == -1) {
+                            //   Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                            // } else {
+                            //   Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                            // }
                           },
                         )
                     ],
