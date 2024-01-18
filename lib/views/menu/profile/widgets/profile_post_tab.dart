@@ -140,7 +140,7 @@ class PostTab extends StatelessWidget {
                       categoryIcon: item.postCategory == null ? null : homeController.getCategoryIcon(item.postCategory!.id), // need change API
                       categoryIconColor: item.postCategory == null ? null : homeController.getCategoryColor(item.postCategory!.id), // Based on API
                       privacy: BipHip.world,
-                      brandName: item.brand == null ? null : item.brand!.name, //API
+                      brandName: item.store == null ? null : item.store!.name, //API
                       kidName: item.kid == null ? null : item.kid!.name, //API
                       kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
                       title: 'This is a title', //API

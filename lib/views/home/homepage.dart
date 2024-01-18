@@ -216,7 +216,7 @@ class HomePage extends StatelessWidget {
                                           categoryIconColor:
                                               item.postCategory == null ? null : homeController.getCategoryColor(item.postCategory!.id), // Based on API
                                           privacy: BipHip.world,
-                                          brandName: item.brand == null ? null : item.brand!.name, //API
+                                          brandName: item.store == null ? null : item.store!.name, //API
                                           kidName: item.kid == null ? null : item.kid!.name, //API
                                           kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
                                           postText: item.content ?? '', //API
@@ -224,7 +224,7 @@ class HomePage extends StatelessWidget {
                                           isSelfPost: index % 2 != 0,
                                           isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
                                           postID: item.id!,
-                                          secondaryImage: item.kid?.image ?? item.brand?.brandImage,
+                                          secondaryImage: item.kid?.image ?? item.store?.brandImage,
                                           subCategory: null,
                                           platformName: 'Jane Clothing',
                                           platformLink: 'www.facebook.com/Clothing/lorem',
