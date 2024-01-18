@@ -51,12 +51,10 @@ class CreatePostHelper {
         createPostController.isPostButtonActive.value = false;
       }
     } else if (createPostController.category.value == 'News') {
-      if (createPostController.newsTitleTextEditingController.text.trim() != '' &&
-          createPostController.newsDescriptionTextEditingController.text.trim() != '' &&
-          createPostController.subCategoryIndex.value != -1) {
-        createPostController.isPostButtonActive.value = true;
-      } else {
+      if (createPostController.newsTitleTextEditingController.text.trim() == '') {
         createPostController.isPostButtonActive.value = false;
+      } else {
+        createPostController.isPostButtonActive.value = true;
       }
     } else {
       if (createPostController.createPostController.text.trim().isNotEmpty || createPostController.allMediaList.isNotEmpty) {
@@ -69,6 +67,20 @@ class CreatePostHelper {
       } else {
         createPostController.isPostButtonActive.value = false;
       }
+    }
+  }
+
+  void onSelectPostSubCategory(index) {
+    if (createPostController.tempSubCategoryIndex.value == index) {
+      createPostController.tempSubCategoryIndex.value = -1;
+      createPostController.subCategoryIndex.value = -1;
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+      createPostController.tempSubCategory.value = '';
+      createPostController.subCategory.value = '';
+    } else {
+      createPostController.tempSubCategoryIndex.value = index;
+      Get.find<CreatePostController>().tempSubCategory.value = Get.find<CreatePostController>().createPostSubCategoryList[index].name.toString();
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
     }
   }
 

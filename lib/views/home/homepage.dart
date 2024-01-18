@@ -209,7 +209,6 @@ class HomePage extends StatelessWidget {
                                           userName: item.user!.fullName!,
                                           postTime: homeController.postTimeDifference(item.createdAt),
                                           isCategorized: true,
-                                          isTextualPost: item.content == null ? false : true, //API
                                           category: item.postCategory == null ? null : item.postCategory!.name, //API
                                           categoryIcon:
                                               item.postCategory == null ? null : homeController.getCategoryIcon(item.postCategory!.id), // need change API
@@ -219,13 +218,13 @@ class HomePage extends StatelessWidget {
                                           brandName: item.store == null ? null : item.store!.name, //API
                                           kidName: item.kid == null ? null : item.kid!.name, //API
                                           kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                          postText: item.content ?? '', //API
+                                          postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
                                           mediaList: item.images, //API
                                           isSelfPost: index % 2 != 0,
                                           isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
                                           reactCount: item.countReactions,
                                           postID: item.id!,
-                                          secondaryImage: item.kid?.image ?? item.store?.brandImage,
+                                          secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
                                           subCategory: null,
                                           platformName: 'Jane Clothing',
                                           platformLink: 'www.facebook.com/Clothing/lorem',

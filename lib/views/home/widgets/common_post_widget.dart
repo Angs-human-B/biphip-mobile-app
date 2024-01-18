@@ -23,7 +23,6 @@ class CommonPostWidget extends StatelessWidget {
     required this.userName,
     required this.postTime,
     required this.privacy,
-    required this.isTextualPost,
     this.category,
     this.brandName,
     this.kidName,
@@ -58,7 +57,7 @@ class CommonPostWidget extends StatelessWidget {
     required this.taggedFriends,
     this.reactCount,
   });
-  final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
+  final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
   // final RxBool postSeeMore = RxBool(false);
   final String userName, postTime, userImage;
@@ -280,7 +279,7 @@ class CommonPostWidget extends StatelessWidget {
               style: regular14TextStyle(cSmallBodyTextColor).copyWith(decoration: TextDecoration.lineThrough),
             ),
           ),
-        if (isTextualPost)
+        if (postText != '')
           Obx(() => Padding(
                 padding: EdgeInsets.only(
                     left: kHorizontalPadding, right: kHorizontalPadding, bottom: (mediaList.isNotEmpty || category == 'Selling') ? k12Padding : 0),
@@ -333,7 +332,6 @@ class CommonPostWidget extends StatelessWidget {
                   userName: 'Steve Sanchez',
                   postTime: '5 hrs ago',
                   privacy: BipHip.world,
-                  isTextualPost: true,
                   isSelfPost: false,
                   isCommentShown: false,
                   isSharedPost: false,

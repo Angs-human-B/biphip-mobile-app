@@ -115,30 +115,9 @@ class EditProfileHelper {
       await profileController.updateContact(profileController.emailID.value, 'email');
       profileController.commonEditTextEditingController.clear();
     } else if (functionFlag == 'ADD LINK') {
-      if (profileController.linkSource.value == 'Website' && profileController.linkTextEditingController.text.isValidUrl) {
-        Get.back();
-        await profileController.storeLink(profileController.linkSource.value);
-        profileController.linkTextEditingController.clear();
-        profileController.commonEditTextEditingController.clear();
-        profileController.linkSource.value = '';
-      } else if (commonValidUrlCheck(profileController.linkSource.value.toLowerCase(), profileController.linkTextEditingController.text.toLowerCase())) {
-        Get.back();
-        await profileController.storeLink(profileController.linkSource.value);
-        profileController.linkTextEditingController.clear();
-        profileController.commonEditTextEditingController.clear();
-        profileController.linkSource.value = '';
-      } else {
-        globalController.showSnackBar(title: 'Warning', message: 'Please Enter a valid url', color: cAmberColor);
-        // profileController.linkTextEditingController.clear();
-        // profileController.commonEditTextEditingController.clear();
-      }
-      // profileController.linkTextEditingController.text.isValidUrl;
-      // profileController.linkTextEditingController.clear();
-      // profileController.commonEditTextEditingController.clear();
-      // profileController.linkSource.value = '';
+      addSocialLinkValidation();
     } else if (functionFlag == 'EDIT LINK') {
-      await profileController.updateLink(profileController.linkID.value, profileController.linkSource.value);
-      profileController.commonEditTextEditingController.clear();
+      editSocialLinkValidation();
     } else if (functionFlag == 'EDIT HOMETOWN DELETE') {
       await profileController.deleteCity(profileController.hometownData.value!.id);
       profileController.homeTownTextEditingController.clear();
@@ -169,6 +148,42 @@ class EditProfileHelper {
     } else if (functionFlag == 'EDIT LINK DELETE') {
       await profileController.deleteLink(profileController.linkID.value);
       profileController.commonEditTextEditingController.clear();
+    }
+  }
+
+  void addSocialLinkValidation() async {
+    if (profileController.linkSource.value == 'Website' && profileController.linkTextEditingController.text.isValidUrl) {
+      Get.back();
+      await profileController.storeLink(profileController.linkSource.value);
+      profileController.linkTextEditingController.clear();
+      profileController.commonEditTextEditingController.clear();
+      profileController.linkSource.value = '';
+    } else if (commonValidUrlCheck(profileController.linkSource.value.toLowerCase(), profileController.linkTextEditingController.text.toLowerCase())) {
+      Get.back();
+      await profileController.storeLink(profileController.linkSource.value);
+      profileController.linkTextEditingController.clear();
+      profileController.commonEditTextEditingController.clear();
+      profileController.linkSource.value = '';
+    } else {
+      globalController.showSnackBar(title: 'Warning', message: 'Please Enter a valid url', color: cAmberColor);
+    }
+  }
+
+  void editSocialLinkValidation() async {
+    if (profileController.linkSource.value == 'Website' && profileController.linkTextEditingController.text.isValidUrl) {
+      Get.back();
+      await profileController.updateLink(profileController.linkID.value, profileController.linkSource.value);
+      profileController.linkTextEditingController.clear();
+      profileController.commonEditTextEditingController.clear();
+      profileController.linkSource.value = '';
+    } else if (commonValidUrlCheck(profileController.linkSource.value.toLowerCase(), profileController.linkTextEditingController.text.toLowerCase())) {
+      Get.back();
+      await profileController.updateLink(profileController.linkID.value, profileController.linkSource.value);
+      profileController.linkTextEditingController.clear();
+      profileController.commonEditTextEditingController.clear();
+      profileController.linkSource.value = '';
+    } else {
+      globalController.showSnackBar(title: 'Warning', message: 'Please Enter a valid url', color: cAmberColor);
     }
   }
 

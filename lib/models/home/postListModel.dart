@@ -573,6 +573,7 @@ class Brand {
   String? brandImage;
   int? age;
   String? kidImage;
+  String? profilePicture;
 
   Brand({
     required this.id,
@@ -583,6 +584,7 @@ class Brand {
     this.brandImage,
     this.age,
     this.kidImage,
+    required this.profilePicture,
   });
 
   factory Brand.fromJson(Map<String, dynamic> json) => Brand(
@@ -594,6 +596,7 @@ class Brand {
         brandImage: json["brand_image"],
         age: json["age"],
         kidImage: json["kid_image"],
+        profilePicture: json["profile_picture"]
       );
 }
 
