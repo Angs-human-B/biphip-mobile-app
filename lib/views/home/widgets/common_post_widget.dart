@@ -54,7 +54,7 @@ class CommonPostWidget extends StatelessWidget {
     this.platformLink,
     this.actionName,
     this.secondaryImage,
-    required this.userImage, required this.taggedFriends,
+    required this.userImage, required this.taggedFriends, required this.reactCount,
   });
   final bool isCommented, isLiked, isCategorized, isTextualPost, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -82,7 +82,7 @@ class CommonPostWidget extends StatelessWidget {
   final Color? categoryIconColor;
   final List mediaList;
   final List<TaggedFriend> taggedFriends;
-  final int commentCount, shareCount, giftCount, postID;
+  final int commentCount, shareCount, giftCount,reactCount,postID;
   final VoidCallback? postUpperContainerOnPressed;
   final HomeController homeController = Get.find<HomeController>();
 
@@ -321,6 +321,7 @@ class CommonPostWidget extends StatelessWidget {
                 child: CommonPostWidget(
                   taggedFriends: [],
                   postID: 0,
+                  reactCount: 67,
                   isCommented: false,
                   isLiked: false,
                   mediaList: const [],
@@ -563,6 +564,7 @@ class CommonPostWidget extends StatelessWidget {
             isSelfPost: isSelfPost,
             isCommentShown: isCommentShown,
             commentCount: commentCount,
+            reactCount: reactCount,
             shareCount: shareCount,
             giftCount: giftCount,
             category: category,
@@ -589,13 +591,13 @@ class PostBottomSection extends StatelessWidget {
       this.platformName,
       this.platformLink,
       this.actionName,
-      this.actionOnPressed});
+      this.actionOnPressed, required this.reactCount});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   final bool isSelfPost, isCommentShown;
   final RxBool showComment = RxBool(false);
-  final int commentCount, shareCount, giftCount;
+  final int commentCount, shareCount, giftCount, reactCount;
   final String? category, platformName, platformLink, actionName;
   final VoidCallback? actionOnPressed;
 
@@ -713,7 +715,7 @@ class PostBottomSection extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
               child: PostActivityStatusWidget(
-                reactCount: 440,
+                reactCount: reactCount,
                 reactionOnPressed: () {
                   postReactionController.giftFilter(0);
                   globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);

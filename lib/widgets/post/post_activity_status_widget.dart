@@ -23,13 +23,14 @@ class PostActivityStatusWidget extends StatelessWidget {
       // mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        InkWell(
-          onTap: reactionOnPressed,
-          child: ReactionView(
-            isPost: true,
-            reactCount: reactCount,
+        if (reactCount != 0)
+          InkWell(
+            onTap: reactionOnPressed,
+            child: ReactionView(
+              isPost: true,
+              reactCount: reactCount,
+            ),
           ),
-        ),
         CommentShareRecord(
           commentCount: commentCount,
           commentOnPressed: commentOnPressed,
@@ -45,18 +46,18 @@ class PostActivityStatusWidget extends StatelessWidget {
 }
 
 class ReactionView extends StatelessWidget {
-  const ReactionView({super.key, required this.isPost, required this.reactCount});
+  const ReactionView({super.key, required this.isPost, this.reactCount});
   final bool isPost;
-  final int reactCount;
+  final int? reactCount;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (!isPost)
+        if (!isPost && reactCount != 0)
           Text(
-            reactCount >= 1000 ? '${(reactCount / 1000).toStringAsFixed(1)}k' : reactCount.toString(),
+            reactCount! >= 1000 ? '${(reactCount! / 1000).toStringAsFixed(1)}k' : reactCount.toString(),
             style: regular10TextStyle(cSmallBodyTextColor),
           ),
         kW4sizedBox,
@@ -87,9 +88,9 @@ class ReactionView extends StatelessWidget {
           ],
         ),
         kW4sizedBox,
-        if (isPost)
+        if (isPost && reactCount != 0)
           Text(
-            reactCount > 1000 ? '${(reactCount / 1000).toStringAsFixed(1)}k' : reactCount.toString(),
+            reactCount! > 1000 ? '${(reactCount! / 1000).toStringAsFixed(1)}k' : reactCount.toString(),
             style: regular10TextStyle(cSmallBodyTextColor),
           ),
       ],

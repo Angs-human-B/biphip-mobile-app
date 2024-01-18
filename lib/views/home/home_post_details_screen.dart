@@ -55,6 +55,7 @@ class HomePostDetailsScreen extends StatelessWidget {
                       isCommentShown: true,
                       showBottomSection: true,
                       postText: homeController.postData.value!.post.content,
+                      reactCount: homeController.postData.value!.post.countReactions!.all,
                     ),
                   ],
                 ),
@@ -79,9 +80,10 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
     required this.mediaList,
     required this.isSelfPost,
     required this.isCommentShown,
-    required this.showBottomSection,
+    required this.showBottomSection, required this.reactCount,
   });
   final bool isCommented, isLiked, isTextualPost, isSelfPost, isCommentShown, showBottomSection;
+  final int reactCount;
   final String? category, title, postText;
   final List mediaList;
 
@@ -111,7 +113,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
           isSelfPost: true,
           commentCount: 0,
           shareCount: 0,
-          giftCount: 0,
+          giftCount: 0, reactCount: reactCount,
         ),
         if (mediaList.isNotEmpty)
           Container(
@@ -157,7 +159,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                             isSelfPost: true,
                             commentCount: 0,
                             shareCount: 0,
-                            giftCount: 0,
+                            giftCount: 0, reactCount: 67,
                           ),
                         ],
                       );

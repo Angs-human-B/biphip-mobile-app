@@ -223,6 +223,7 @@ class HomePage extends StatelessWidget {
                                           mediaList: item.images, //API
                                           isSelfPost: index % 2 != 0,
                                           isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
+                                          reactCount: item.countReactions?.all??0,
                                           postID: item.id!,
                                           secondaryImage: item.kid?.image ?? item.store?.brandImage,
                                           subCategory: null,
