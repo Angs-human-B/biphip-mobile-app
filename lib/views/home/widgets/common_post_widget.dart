@@ -53,7 +53,8 @@ class CommonPostWidget extends StatelessWidget {
     this.platformLink,
     this.actionName,
     this.secondaryImage,
-    required this.userImage, required this.taggedFriends,
+    required this.userImage,
+    required this.taggedFriends,
   });
   final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -166,7 +167,8 @@ class CommonPostWidget extends StatelessWidget {
               title: title,
               subCategory: subCategory,
               userImage: userImage,
-              secondaryImage: secondaryImage, taggedFriend: taggedFriends,
+              secondaryImage: secondaryImage,
+              taggedFriend: taggedFriends,
             ),
           ),
         ),
@@ -354,7 +356,10 @@ class CommonPostWidget extends StatelessWidget {
                     children: [
                       TextButton(
                         style: kTextButtonStyle,
-                        onPressed: () {},
+                        onPressed: () async {
+                          Get.toNamed(krHomePostDetailsScreen);
+                          await Get.find<HomeController>().getPostData(postID);
+                        },
                         child: Container(
                           decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                           height: mediaList.length < 2 ? 302 : 150,
@@ -384,7 +389,10 @@ class CommonPostWidget extends StatelessWidget {
                       if (mediaList.length > 3)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () async {
+                            Get.toNamed(krHomePostDetailsScreen);
+                            await Get.find<HomeController>().getPostData(postID);
+                          },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
@@ -418,7 +426,10 @@ class CommonPostWidget extends StatelessWidget {
                       if (mediaList.length < 4 && mediaList.length > 1)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () async {
+                            Get.toNamed(krHomePostDetailsScreen);
+                            await Get.find<HomeController>().getPostData(postID);
+                          },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
@@ -448,7 +459,10 @@ class CommonPostWidget extends StatelessWidget {
                       if (mediaList.length > 2)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () async {
+                            Get.toNamed(krHomePostDetailsScreen);
+                            await Get.find<HomeController>().getPostData(postID);
+                          },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
@@ -478,7 +492,10 @@ class CommonPostWidget extends StatelessWidget {
                       if (mediaList.length > 3)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () async {
+                            Get.toNamed(krHomePostDetailsScreen);
+                            await Get.find<HomeController>().getPostData(postID);
+                          },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
@@ -511,7 +528,10 @@ class CommonPostWidget extends StatelessWidget {
                           children: [
                             TextButton(
                               style: kTextButtonStyle,
-                              onPressed: () {},
+                              onPressed: () async {
+                                Get.toNamed(krHomePostDetailsScreen);
+                                await Get.find<HomeController>().getPostData(postID);
+                              },
                               child: Container(
                                   decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                                   height: 150,

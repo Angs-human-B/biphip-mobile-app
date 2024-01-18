@@ -284,6 +284,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
               ),
             ),
           ),
+
         if (showBottomSection)
           PostBottomSection(
             isCommentShown: isCommentShown,
