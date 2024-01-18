@@ -47,8 +47,8 @@ class SellingNewsTextfield extends StatelessWidget {
             CreatePostHelper().checkCanCreatePost();
           },
           onSubmit: (text) {},
-          inputAction: TextInputAction.next,
-          inputType: TextInputType.text,
+          inputAction: TextInputAction.newline,
+          inputType: TextInputType.multiline,
           maxLength: 512,
           maxLines: 7,
         ),
