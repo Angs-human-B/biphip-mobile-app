@@ -75,7 +75,7 @@ class PostUpperContainer extends StatelessWidget {
                     width: h45,
                     decoration: const BoxDecoration(shape: BoxShape.circle, color: cBlackColor),
                     child: Image.network(
-                      Environment.imageBaseUrl + secondaryImage!,
+                      secondaryImage!,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => const Icon(
                         BipHip.user,
