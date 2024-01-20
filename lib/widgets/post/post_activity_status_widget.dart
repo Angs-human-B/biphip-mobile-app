@@ -59,7 +59,7 @@ class ReactionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get.find<PostReactionController>().reactionView(reactCount?.toJson());
+    Get.find<PostReactionController>().reactionView(reactCount?.toJson());
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
