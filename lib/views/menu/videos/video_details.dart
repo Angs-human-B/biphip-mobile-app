@@ -182,7 +182,7 @@ class VideoDetails extends StatelessWidget {
                     ),
                     kH20sizedBox,
                     PostActivityStatusWidget(
-                      reactCount: 440,
+                      // reactCount: 440,
                       reactionOnPressed: () {
                       },
                       giftCount: 50,

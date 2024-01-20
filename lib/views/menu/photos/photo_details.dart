@@ -195,7 +195,7 @@ class PhotoDetails extends StatelessWidget {
                     ),
                     kH20sizedBox,
                     PostActivityStatusWidget(
-                      reactCount: 440,
+                      // reactCount: ,
                       reactionOnPressed: () {},
                       giftCount: 50,
                       commentCount: 200,

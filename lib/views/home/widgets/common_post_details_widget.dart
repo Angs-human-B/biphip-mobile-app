@@ -300,6 +300,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
             commentCount: 0,
             shareCount: 0,
             giftCount: 0,
+            // reactCount: 67,
           ),
       ],
     );

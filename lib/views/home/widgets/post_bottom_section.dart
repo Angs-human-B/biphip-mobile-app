@@ -22,7 +22,7 @@ class PostBottomSection extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
               child: PostActivityStatusWidget(
-                reactCount: 440,
+                // reactCount: 440,
                 reactionOnPressed: () {
                   postReactionController.giftFilter(0);
                   globalController.blankBottomSheet(
