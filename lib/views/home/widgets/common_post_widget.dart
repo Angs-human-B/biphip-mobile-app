@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
@@ -53,7 +54,8 @@ class CommonPostWidget extends StatelessWidget {
     this.platformLink,
     this.actionName,
     this.secondaryImage,
-    required this.userImage, required this.taggedFriends,
+    required this.userImage,
+    required this.taggedFriends,
   });
   final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -166,7 +168,8 @@ class CommonPostWidget extends StatelessWidget {
               title: title,
               subCategory: subCategory,
               userImage: userImage,
-              secondaryImage: secondaryImage, taggedFriend: taggedFriends,
+              secondaryImage: secondaryImage,
+              taggedFriend: taggedFriends,
             ),
           ),
         ),
@@ -354,7 +357,16 @@ class CommonPostWidget extends StatelessWidget {
                     children: [
                       TextButton(
                         style: kTextButtonStyle,
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (postText != null && postText?.trim() != '' && mediaList.isNotEmpty) {
+                            Get.toNamed(krHomePostDetailsScreen);
+                            await Get.find<HomeController>().getPostData(postID);
+                          } else {
+                            Get.to(() => CommonPhotoView(
+                                  image: Environment.imageBaseUrl + mediaList[0].path.toString(),
+                                ));
+                          }
+                        },
                         child: Container(
                           decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                           height: mediaList.length < 2 ? 302 : 150,
@@ -384,7 +396,10 @@ class CommonPostWidget extends StatelessWidget {
                       if (mediaList.length > 3)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () async {
+                            Get.toNamed(krHomePostDetailsScreen);
+                            await Get.find<HomeController>().getPostData(postID);
+                          },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
@@ -418,7 +433,10 @@ class CommonPostWidget extends StatelessWidget {
                       if (mediaList.length < 4 && mediaList.length > 1)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () async {
+                            Get.toNamed(krHomePostDetailsScreen);
+                            await Get.find<HomeController>().getPostData(postID);
+                          },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
@@ -448,7 +466,10 @@ class CommonPostWidget extends StatelessWidget {
                       if (mediaList.length > 2)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () async {
+                            Get.toNamed(krHomePostDetailsScreen);
+                            await Get.find<HomeController>().getPostData(postID);
+                          },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
@@ -478,7 +499,10 @@ class CommonPostWidget extends StatelessWidget {
                       if (mediaList.length > 3)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () async {
+                            Get.toNamed(krHomePostDetailsScreen);
+                            await Get.find<HomeController>().getPostData(postID);
+                          },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
@@ -511,7 +535,10 @@ class CommonPostWidget extends StatelessWidget {
                           children: [
                             TextButton(
                               style: kTextButtonStyle,
-                              onPressed: () {},
+                              onPressed: () async {
+                                Get.toNamed(krHomePostDetailsScreen);
+                                await Get.find<HomeController>().getPostData(postID);
+                              },
                               child: Container(
                                   decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                                   height: 150,
