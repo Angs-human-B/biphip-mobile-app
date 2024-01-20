@@ -56,18 +56,24 @@ class HomePostDetailsScreen extends StatelessWidget {
                                 categoryIconColor: homeController.postData.value!.post.postCategory == null
                                     ? null
                                     : homeController.getCategoryColor(homeController.postData.value!.post.postCategory?.id),
+                                kidName: homeController.postData.value!.post.kid == null ? null : homeController.postData.value!.post.kid!.name, //API
+                                kidAge: homeController.postData.value!.post.kid == null ? null : homeController.postData.value!.post.kid!.age.toString(), //API
+                                brandName: homeController.postData.value!.post.brand == null ? null : homeController.postData.value!.post.brand!.name, //API
                               ),
                             ),
                             kH12sizedBox,
                             CommonPostDetailsScreenWidget(
                               isCommented: true,
                               isLiked: true,
-                              isTextualPost: true,
                               mediaList: homeController.postData.value!.post.images,
                               isSelfPost: true,
                               isCommentShown: true,
                               showBottomSection: true,
-                              postText: homeController.postData.value!.post.content,
+                              postText: homeController.postData.value!.post.postCategory?.name == 'News'
+                                  ? homeController.postData.value!.post.description ?? ''
+                                  : homeController.postData.value!.post.content ?? '', //API
+                              // title: homeController.postData.value!.post.title, //API
+                              title: homeController.postData.value!.post.title, //API
                             ),
                           ],
                         ),
@@ -86,7 +92,6 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
     super.key,
     required this.isCommented,
     required this.isLiked,
-    required this.isTextualPost,
     this.category,
     this.title,
     this.postText,
@@ -95,7 +100,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
     required this.isCommentShown,
     required this.showBottomSection,
   });
-  final bool isCommented, isLiked, isTextualPost, isSelfPost, isCommentShown, showBottomSection;
+  final bool isCommented, isLiked, isSelfPost, isCommentShown, showBottomSection;
   final String? category, title, postText;
   final List mediaList;
 
@@ -104,7 +109,16 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (isTextualPost && postText != null)
+        if (title != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: kHorizontalPadding),
+            child: Text(
+              title!,
+              // overflow: TextOverflow.clip,
+              style: semiBold14TextStyle(cBlackColor),
+            ),
+          ),
+        if (postText != null)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
             child: RichText(

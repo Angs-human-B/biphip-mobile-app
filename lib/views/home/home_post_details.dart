@@ -72,15 +72,22 @@ class HomePostDetails extends StatelessWidget {
                                   categoryIconColor: homeController.postData.value!.post.postCategory == null
                                       ? null
                                       : homeController.getCategoryColor(homeController.postData.value!.post.postCategory?.id),
+                                  kidName: homeController.postData.value!.post.kid == null ? null : homeController.postData.value!.post.kid!.name, //API
+                                  kidAge:
+                                      homeController.postData.value!.post.kid == null ? null : homeController.postData.value!.post.kid!.age.toString(), //API
+                                  brandName: homeController.postData.value!.post.brand == null ? null : homeController.postData.value!.post.brand!.name, //API
                                 ),
                               ),
                               kH12sizedBox,
                               CommonPostDetailsWidget(
-                                isTextualPost: true,
                                 mediaList: homeController.postData.value!.post.images,
                                 isCommentShown: true,
                                 showBottomSection: true,
-                                postText: homeController.postData.value!.post.content,
+                                postText: homeController.postData.value!.post.postCategory?.name == 'News'
+                                    ? homeController.postData.value!.post.description ?? ''
+                                    : homeController.postData.value!.post.content ?? '', //API
+                                // title: homeController.postData.value!.post.title, //API
+                                title: homeController.postData.value!.post.title, //API
                               ),
                               const SizedBox(
                                 height: 110,
