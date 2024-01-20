@@ -331,4 +331,5 @@ class HomeController extends GetxController {
       ll('getPostData error: $e');
     }
   }
+  
 }

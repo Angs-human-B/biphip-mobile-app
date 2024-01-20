@@ -5,7 +5,6 @@ import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 class CommonPostDetailsWidget extends StatelessWidget {
   CommonPostDetailsWidget({
     super.key,
-    required this.isTextualPost,
     this.category,
     this.title,
     this.postText,
@@ -13,7 +12,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
     required this.isCommentShown,
     required this.showBottomSection,
   });
-  final bool isTextualPost, isCommentShown, showBottomSection;
+  final bool isCommentShown, showBottomSection;
   final String? category, title, postText;
   final List mediaList;
   final HomeController homeController = Get.find<HomeController>();
@@ -23,7 +22,16 @@ class CommonPostDetailsWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (isTextualPost && postText != null)
+        if (title != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: kHorizontalPadding),
+            child: Text(
+              title!,
+              overflow: TextOverflow.clip,
+              style: semiBold14TextStyle(cBlackColor),
+            ),
+          ),
+        if (postText != null)
           Obx(() => Padding(
                 padding: EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: (mediaList.isNotEmpty) ? k16Padding : 0),
                 child: RichText(
@@ -284,6 +292,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
               ),
             ),
           ),
+
         if (showBottomSection)
           PostBottomSection(
             isCommentShown: isCommentShown,

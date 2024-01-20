@@ -10,7 +10,7 @@ class CustomAppBar extends StatelessWidget {
     this.iconColor,
     this.titleColor,
     this.appBarColor,
-    this.isCenterTitle,
+    this.isCenterTitle, this.systemUiOverlayStyle,
   }) : super(key: key);
 
   final dynamic title;
@@ -21,11 +21,12 @@ class CustomAppBar extends StatelessWidget {
   final Color? iconColor;
   final Color? titleColor;
   final Color? appBarColor;
+  final SystemUiOverlayStyle ? systemUiOverlayStyle;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      systemOverlayStyle: SystemUiOverlayStyle.dark,
+      systemOverlayStyle: systemUiOverlayStyle ?? SystemUiOverlayStyle.dark,
       centerTitle: isCenterTitle ?? true,
       automaticallyImplyLeading: false,
       elevation: kCommonElevation,

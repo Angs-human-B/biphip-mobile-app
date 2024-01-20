@@ -142,9 +142,10 @@ class PostTab extends StatelessWidget {
                       brandName: item.store == null ? null : item.store!.name, //API
                       kidName: item.kid == null ? null : item.kid!.name, //API
                       kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                      title: 'This is a title', //API
+                      title: item.title, //API
+                      postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
                       price: null, //API
-                      postText: item.content ?? '', //API
+
                       // mediaList: item.imageUrls, //API
                       mediaList: item.images,
                       isSelfPost: true,
