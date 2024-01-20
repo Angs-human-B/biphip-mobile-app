@@ -60,6 +60,8 @@ class HomePostDetailsScreen extends StatelessWidget {
                                 kidName: homeController.postData.value!.post.kid == null ? null : homeController.postData.value!.post.kid!.name, //API
                                 kidAge: homeController.postData.value!.post.kid == null ? null : homeController.postData.value!.post.kid!.age.toString(), //API
                                 brandName: homeController.postData.value!.post.brand == null ? null : homeController.postData.value!.post.brand!.name, //API
+                                secondaryImage:
+                                    homeController.postData.value!.post.kid?.profilePicture ?? homeController.postData.value!.post.brand?.profilePicture,
                               ),
                             ),
                             kH12sizedBox,
@@ -158,7 +160,9 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                           TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
-                              Get.to(()=> CommonPhotoView(image: Environment.imageBaseUrl + mediaList[index].path.toString(),));
+                              Get.to(() => CommonPhotoView(
+                                    image: Environment.imageBaseUrl + mediaList[index].path.toString(),
+                                  ));
                             },
                             child: Container(
                               decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
