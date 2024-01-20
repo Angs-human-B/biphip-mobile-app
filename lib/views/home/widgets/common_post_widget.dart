@@ -56,6 +56,7 @@ class CommonPostWidget extends StatelessWidget {
     this.secondaryImage,
     required this.userImage,
     required this.taggedFriends,
+    this.reactCount,
   });
   final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -83,6 +84,7 @@ class CommonPostWidget extends StatelessWidget {
   final Color? categoryIconColor;
   final List mediaList;
   final List<TaggedFriend> taggedFriends;
+  final CountReactions? reactCount;
   final int commentCount, shareCount, giftCount, postID;
   final VoidCallback? postUpperContainerOnPressed;
   final HomeController homeController = Get.find<HomeController>();
@@ -323,6 +325,7 @@ class CommonPostWidget extends StatelessWidget {
                 child: CommonPostWidget(
                   taggedFriends: [],
                   postID: 0,
+                  reactCount: null,
                   isCommented: false,
                   isLiked: false,
                   mediaList: const [],
@@ -588,6 +591,7 @@ class CommonPostWidget extends StatelessWidget {
             isSelfPost: isSelfPost,
             isCommentShown: isCommentShown,
             commentCount: commentCount,
+            reactCount: reactCount,
             shareCount: shareCount,
             giftCount: giftCount,
             category: category,
@@ -614,13 +618,15 @@ class PostBottomSection extends StatelessWidget {
       this.platformName,
       this.platformLink,
       this.actionName,
-      this.actionOnPressed});
+      this.actionOnPressed,
+      this.reactCount});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   final bool isSelfPost, isCommentShown;
   final RxBool showComment = RxBool(false);
   final int commentCount, shareCount, giftCount;
+  final CountReactions? reactCount;
   final String? category, platformName, platformLink, actionName;
   final VoidCallback? actionOnPressed;
 
@@ -735,24 +741,27 @@ class PostBottomSection extends StatelessWidget {
                   isPlaceBid: true,
                 ),
               ),
-            Padding(
-              padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
-              child: PostActivityStatusWidget(
-                reactCount: 440,
-                reactionOnPressed: () {
-                  postReactionController.giftFilter(0);
-                  globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                },
-                giftCount: giftCount,
-                commentCount: commentCount,
-                shareCount: shareCount,
-                isGiftShown: true,
-                giftOnPressed: () {
-                  postReactionController.giftFilter(0);
-                  globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                },
+            if (reactCount != null || commentCount != 0 || shareCount != 0 || giftCount != 0)
+              Padding(
+                padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
+                child: PostActivityStatusWidget(
+                  reactCount: reactCount,
+                  reactionOnPressed: () {
+                    postReactionController.giftFilter(0);
+                    globalController.blankBottomSheet(
+                        context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                  },
+                  giftCount: giftCount,
+                  commentCount: commentCount,
+                  shareCount: shareCount,
+                  isGiftShown: true,
+                  giftOnPressed: () {
+                    postReactionController.giftFilter(0);
+                    globalController.blankBottomSheet(
+                        context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                  },
+                ),
               ),
-            ),
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: kHorizontalPadding,
@@ -1105,7 +1114,7 @@ class BadgeTabViewContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 6,
       child: Obx(
         () => Column(
           children: [
@@ -1124,22 +1133,27 @@ class BadgeTabViewContent extends StatelessWidget {
                   ),
                   ReactionBottomSheetTab(
                     isReactionImageShown: true,
-                    reactionImage: kiBadge1SvgImageUrl,
+                    reactionImage: kiLikeSvgImageUrl,
                     text: postReactionController.badgeCount1.value.toString(),
                   ),
                   ReactionBottomSheetTab(
                     isReactionImageShown: true,
-                    reactionImage: kiBadge2SvgImageUrl,
+                    reactionImage: kiLoveSvgImageUrl,
                     text: postReactionController.badgeCount2.value.toString(),
                   ),
                   ReactionBottomSheetTab(
                     isReactionImageShown: true,
-                    reactionImage: kiBadge1SvgImageUrl,
+                    reactionImage: kiHahaSvgImageUrl,
                     text: postReactionController.badgeCount3.value.toString(),
                   ),
                   ReactionBottomSheetTab(
                     isReactionImageShown: true,
-                    reactionImage: kiBadge1SvgImageUrl,
+                    reactionImage: kiWowSvgImageUrl,
+                    text: postReactionController.badgeCount4.value.toString(),
+                  ),
+                  ReactionBottomSheetTab(
+                    isReactionImageShown: true,
+                    reactionImage: kiAngrySvgImageUrl,
                     text: postReactionController.badgeCount4.value.toString(),
                   ),
                 ],

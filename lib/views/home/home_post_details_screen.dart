@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/shimmers/home/home_page_details_screen_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
@@ -77,6 +78,7 @@ class HomePostDetailsScreen extends StatelessWidget {
                                   : homeController.postData.value!.post.content ?? '', //API
                               // title: homeController.postData.value!.post.title, //API
                               title: homeController.postData.value!.post.title, //API
+                              reactCount: homeController.postData.value!.post.countReactions,
                             ),
                           ],
                         ),
@@ -101,8 +103,10 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
     required this.mediaList,
     required this.isSelfPost,
     required this.isCommentShown,
-    required this.showBottomSection,
+    required this.showBottomSection,  this.reactCount,
   });
+
+  final CountReactions? reactCount;
   final bool isCommented, isLiked, isSelfPost, isCommentShown, showBottomSection;
   final String? category, title, postText;
   final List mediaList;
@@ -142,7 +146,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
           isSelfPost: true,
           commentCount: 0,
           shareCount: 0,
-          giftCount: 0,
+          giftCount: 0, reactCount: reactCount,
         ),
         if (mediaList.isNotEmpty)
           Container(
@@ -192,7 +196,8 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                             isSelfPost: true,
                             commentCount: 0,
                             shareCount: 0,
-                            giftCount: 0,
+                            giftCount: 0, 
+                            // reactCount: reactCount,
                           ),
                         ],
                       );

@@ -24,7 +24,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   void onInit() {
     super.onInit();
     tabController = TabController(
-      length: 5,
+      length: 6,
       animationDuration: Duration.zero,
       vsync: this,
     );
@@ -68,8 +68,53 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       }
     }
   }
-   final TextEditingController cardNumberController = TextEditingController();
+
+  final TextEditingController cardNumberController = TextEditingController();
   final TextEditingController mmyyStarController = TextEditingController();
   final TextEditingController cvvController = TextEditingController();
   final RxBool giftAgreeCheckBox = RxBool(false);
+  final RxList reactEmojiList = RxList([]);
+
+  List reactionView(map) {
+    map.remove('All');
+    reactEmojiList.clear();
+    List<MapEntry<String, dynamic>> entries = map.entries.toList();
+    ll(entries);
+    if (entries.length > 1) {
+      entries.sort((a, b) => b.value.compareTo(a.value));
+    }
+
+    List<MapEntry<String, dynamic>> topThree = entries.take(3).toList();
+
+    for (int index = 0; index < topThree.length; index++) {
+      if (topThree[index].value == 0) {
+        continue;
+      }
+      if (topThree[index].key == 'like') {
+        reactEmojiList.add(kiLikeSvgImageUrl);
+      } else if (topThree[index].key == 'love') {
+        reactEmojiList.add(kiLoveSvgImageUrl);
+      } else if (topThree[index].key == 'sad') {
+        reactEmojiList.add(kiSadSvgImageUrl);
+      } else if (topThree[index].key == 'wow') {
+        reactEmojiList.add(kiWowSvgImageUrl);
+      } else if (topThree[index].key == 'haha') {
+        reactEmojiList.add(kiHahaSvgImageUrl);
+      } else {
+        reactEmojiList.add(kiAngrySvgImageUrl);
+      }
+    }
+    // ll(reactEmojiList);
+    return reactEmojiList;
+  }
+
+  double reactStackWidthGetter() {
+    if (reactEmojiList.length == 1) {
+      return 15;
+    } else if (reactEmojiList.length == 2) {
+      return 30;
+    } else {
+      return 35;
+    }
+  }
 }
