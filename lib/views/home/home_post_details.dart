@@ -75,9 +75,9 @@ class HomePostDetails extends StatelessWidget {
                                   kidName: homeController.postData.value!.post.kid == null ? null : homeController.postData.value!.post.kid!.name, //API
                                   kidAge:
                                       homeController.postData.value!.post.kid == null ? null : homeController.postData.value!.post.kid!.age.toString(), //API
-                                  brandName: homeController.postData.value!.post.brand == null ? null : homeController.postData.value!.post.brand!.name, //API
+                                  brandName: homeController.postData.value!.post.store == null ? null : homeController.postData.value!.post.store!.name, //API
                                   secondaryImage:
-                                      homeController.postData.value!.post.kid?.profilePicture ?? homeController.postData.value!.post.brand?.profilePicture,
+                                      homeController.postData.value!.post.kid?.profilePicture ?? homeController.postData.value!.post.store?.profilePicture,
                                 ),
                               ),
                               kH12sizedBox,
