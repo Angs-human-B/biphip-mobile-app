@@ -9,16 +9,17 @@ class CommonPhotoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: cBlackColor,
+      color: Colors.black,
       child: SafeArea(
         top: false,
         child: Scaffold(
-          backgroundColor: cBlackColor,
+          backgroundColor: Colors.black,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              appBarColor: cBlackColor,
+              systemUiOverlayStyle: SystemUiOverlayStyle.light,
+              appBarColor: Colors.black,
               hasBackButton: true,
               iconColor: cWhiteColor,
               isCenterTitle: true,
@@ -40,7 +41,8 @@ class CommonPhotoView extends StatelessWidget {
                       height: height * 0.7,
                       child: Image.network(
                         image,
-                        fit: BoxFit.cover,
+                        // fit: BoxFit.contain,
+                        fit: BoxFit.contain,
                         filterQuality: FilterQuality.high,
                         errorBuilder: (context, error, stackTrace) => const Icon(
                           BipHip.imageFile,
