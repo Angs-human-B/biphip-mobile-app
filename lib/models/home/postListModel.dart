@@ -544,7 +544,7 @@ class PostData {
         countShare: json["count_share"],
         countComment: json["count_comment"],
         countStar: json["count_star"],
-        countReactions: json["count_reactions"]== null?null:CountReactions.fromJson(json["count_reactions"]),
+        countReactions: json["count_reactions"] == null ? null : CountReactions.fromJson(json["count_reactions"]),
         postSubCategoryId: json["post_sub_category_id"],
         kidId: json["kid_id"],
         storeId: json["store_id"],
@@ -588,16 +588,15 @@ class Brand {
   });
 
   factory Brand.fromJson(Map<String, dynamic> json) => Brand(
-        id: json["id"],
-        userId: json["user_id"],
-        name: json["name"],
-        image: json["image"],
-        socialLinks: json["social_links"],
-        brandImage: json["brand_image"],
-        age: json["age"],
-        kidImage: json["kid_image"],
-        profilePicture: json["profile_picture"]
-      );
+      id: json["id"],
+      userId: json["user_id"],
+      name: json["name"],
+      image: json["image"],
+      socialLinks: json["social_links"],
+      brandImage: json["brand_image"],
+      age: json["age"],
+      kidImage: json["kid_image"],
+      profilePicture: json["profile_picture"]);
 }
 
 class ImageElement {
@@ -742,37 +741,37 @@ class Link {
 }
 
 class Comment {
-    int id;
-    int userId;
-    dynamic countReactions;
-    String comment;
-    dynamic mentionUserIds;
-    int isEdit;
-    DateTime createdAt;
-    DateTime updatedAt;
-    int refType;
-    int refId;
-    List<dynamic> mentionUsers;
-    StoreModel refRelation;
-    List<CommentReply> commentReplies;
+  int? id;
+  int? userId;
+  dynamic countReactions;
+  String? comment;
+  dynamic mentionUserIds;
+  int? isEdit;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? refType;
+  int? refId;
+  List<dynamic> mentionUsers;
+  StoreModel? refRelation;
+  List<CommentReply> commentReplies;
 
-    Comment({
-        required this.id,
-        required this.userId,
-        required this.countReactions,
-        required this.comment,
-        required this.mentionUserIds,
-        required this.isEdit,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.refType,
-        required this.refId,
-        required this.mentionUsers,
-        required this.refRelation,
-        required this.commentReplies,
-    });
+  Comment({
+    required this.id,
+    required this.userId,
+    required this.countReactions,
+    required this.comment,
+    required this.mentionUserIds,
+    required this.isEdit,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.refType,
+    required this.refId,
+    required this.mentionUsers,
+    required this.refRelation,
+    required this.commentReplies,
+  });
 
-    factory Comment.fromJson(Map<String, dynamic> json) => Comment(
+  factory Comment.fromJson(Map<String, dynamic> json) => Comment(
         id: json["id"],
         userId: json["user_id"],
         countReactions: json["count_reactions"],
@@ -784,37 +783,37 @@ class Comment {
         refType: json["ref_type"],
         refId: json["ref_id"],
         mentionUsers: List<dynamic>.from(json["mention_users"].map((x) => x)),
-        refRelation: StoreModel.fromJson(json["ref_relation"]),
+        refRelation: json["ref_relation"] == null ? null : StoreModel.fromJson(json["ref_relation"]),
         commentReplies: List<CommentReply>.from(json["comment_replies"].map((x) => CommentReply.fromJson(x))),
-    );
+      );
 }
 
 class CommentReply {
-    int id;
-    int commentId;
-    int userId;
-    dynamic countReactions;
-    String reply;
-    String mentionUserIds;
-    int isEdit;
-    DateTime createdAt;
-    DateTime updatedAt;
-    List<MentionUser> mentionUsers;
+  int? id;
+  int? commentId;
+  int? userId;
+  dynamic countReactions;
+  String? reply;
+  String? mentionUserIds;
+  int? isEdit;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  List<MentionUser> mentionUsers;
 
-    CommentReply({
-        required this.id,
-        required this.commentId,
-        required this.userId,
-        required this.countReactions,
-        required this.reply,
-        required this.mentionUserIds,
-        required this.isEdit,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.mentionUsers,
-    });
+  CommentReply({
+    required this.id,
+    required this.commentId,
+    required this.userId,
+    required this.countReactions,
+    required this.reply,
+    required this.mentionUserIds,
+    required this.isEdit,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.mentionUsers,
+  });
 
-    factory CommentReply.fromJson(Map<String, dynamic> json) => CommentReply(
+  factory CommentReply.fromJson(Map<String, dynamic> json) => CommentReply(
         id: json["id"],
         commentId: json["comment_id"],
         userId: json["user_id"],
@@ -825,35 +824,56 @@ class CommentReply {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         mentionUsers: List<MentionUser>.from(json["mention_users"].map((x) => MentionUser.fromJson(x))),
-    );
+      );
 }
 
 class MentionUser {
-    int id;
-    String fullName;
+  int? id;
+  String? fullName;
 
-    MentionUser({
-        required this.id,
-        required this.fullName,
-    });
+  MentionUser({
+    required this.id,
+    required this.fullName,
+  });
 
-    factory MentionUser.fromJson(Map<String, dynamic> json) => MentionUser(
+  factory MentionUser.fromJson(Map<String, dynamic> json) => MentionUser(
         id: json["id"],
         fullName: json["full_name"],
-    );
+      );
 }
 
 class CountReactions {
-    int all;
-    int wow;
+  int? all;
+  int? haha;
+  int? like;
+  int? love;
+  int? sad;
+  int? wow;
 
-    CountReactions({
-        required this.all,
-        required this.wow,
-    });
+  CountReactions({
+    required this.all,
+    required this.haha,
+    required this.like,
+    required this.love,
+    required this.sad,
+    required this.wow,
+  });
 
-    factory CountReactions.fromJson(Map<String, dynamic> json) => CountReactions(
-        all: json["All"],
-        wow: json["wow"],
-    );
+  factory CountReactions.fromJson(Map<String, dynamic> json) => CountReactions(
+        all: json["All"] ?? 0,
+        haha: json["haha"] ?? 0,
+        like: json["like"] ?? 0,
+        love: json["love"] ?? 0,
+        sad: json["sad"] ?? 0,
+        wow: json["wow"] ?? 0,
+      );
+
+  Map<String, dynamic> toJson() => {
+        "All": all,
+        "haha": haha,
+        "like": like,
+        "love": love,
+        "sad": sad,
+        "wow": wow,
+      };
 }

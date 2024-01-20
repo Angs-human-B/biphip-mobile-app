@@ -1089,7 +1089,7 @@ class BadgeTabViewContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 6,
       child: Obx(
         () => Column(
           children: [
@@ -1108,22 +1108,27 @@ class BadgeTabViewContent extends StatelessWidget {
                   ),
                   ReactionBottomSheetTab(
                     isReactionImageShown: true,
-                    reactionImage: kiBadge1SvgImageUrl,
+                    reactionImage: kiLikeSvgImageUrl,
                     text: postReactionController.badgeCount1.value.toString(),
                   ),
                   ReactionBottomSheetTab(
                     isReactionImageShown: true,
-                    reactionImage: kiBadge2SvgImageUrl,
+                    reactionImage: kiLoveSvgImageUrl,
                     text: postReactionController.badgeCount2.value.toString(),
                   ),
                   ReactionBottomSheetTab(
                     isReactionImageShown: true,
-                    reactionImage: kiBadge1SvgImageUrl,
+                    reactionImage: kiHahaSvgImageUrl,
                     text: postReactionController.badgeCount3.value.toString(),
                   ),
                   ReactionBottomSheetTab(
                     isReactionImageShown: true,
-                    reactionImage: kiBadge1SvgImageUrl,
+                    reactionImage: kiWowSvgImageUrl,
+                    text: postReactionController.badgeCount4.value.toString(),
+                  ),
+                  ReactionBottomSheetTab(
+                    isReactionImageShown: true,
+                    reactionImage: kiAngrySvgImageUrl,
                     text: postReactionController.badgeCount4.value.toString(),
                   ),
                 ],
