@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/shimmers/home/home_page_details_screen_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 
@@ -114,7 +115,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: kHorizontalPadding),
             child: Text(
               title!,
-              // overflow: TextOverflow.clip,
+              overflow: TextOverflow.clip,
               style: semiBold14TextStyle(cBlackColor),
             ),
           ),
@@ -156,7 +157,9 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                         children: [
                           TextButton(
                             style: kTextButtonStyle,
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.to(()=> CommonPhotoView(image: Environment.imageBaseUrl + mediaList[index].path.toString(),));
+                            },
                             child: Container(
                               decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                               height: 300,

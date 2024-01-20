@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
@@ -357,8 +358,14 @@ class CommonPostWidget extends StatelessWidget {
                       TextButton(
                         style: kTextButtonStyle,
                         onPressed: () async {
-                          Get.toNamed(krHomePostDetailsScreen);
-                          await Get.find<HomeController>().getPostData(postID);
+                          if (postText != null && postText?.trim() != '' && mediaList.isNotEmpty) {
+                            Get.toNamed(krHomePostDetailsScreen);
+                            await Get.find<HomeController>().getPostData(postID);
+                          } else {
+                            Get.to(() => CommonPhotoView(
+                                  image: Environment.imageBaseUrl + mediaList[0].path.toString(),
+                                ));
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
