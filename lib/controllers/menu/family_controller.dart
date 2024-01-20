@@ -430,6 +430,7 @@ class FamilyController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
+        await getSendFamilyRequestList();
         isSendFamilyRequestLoading.value = false;
         globalController.searchController.clear();
         Get.back();
