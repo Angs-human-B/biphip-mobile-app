@@ -365,9 +365,14 @@ class CommonPostWidget extends StatelessWidget {
                             Get.toNamed(krHomePostDetailsScreen);
                             await Get.find<HomeController>().getPostData(postID);
                           } else {
-                            Get.to(() => CommonPhotoView(
-                                  image: Environment.imageBaseUrl + mediaList[0].path.toString(),
-                                ));
+                            if (mediaList.length > 0) {
+                              Get.toNamed(krHomePostDetailsScreen);
+                              await Get.find<HomeController>().getPostData(postID);
+                            } else {
+                              Get.to(() => CommonPhotoView(
+                                    image: Environment.imageBaseUrl + mediaList[0].path.toString(),
+                                  ));
+                            }
                           }
                         },
                         child: Container(

@@ -1,5 +1,6 @@
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
@@ -331,5 +332,25 @@ class HomeController extends GetxController {
       ll('getPostData error: $e');
     }
   }
+
+  List<String> getImageUrl() {
+    List<String> images = [];
+    if (postData.value!.post.images.isEmpty) {
+      return images;
+    }
+    for (int i = 0; i < postData.value!.post.images.length; i++) {
+      images.add(postData.value!.post.images[i].fullPath ?? '');
+    }
+    return images;
+  }
+// final RxInt imageIndex = RxInt(0);
+//   void openGallery() {
+//     Get.to(() => GalleryWidget(
+//           urlImages: getImageUrl(),
+//           index: imageIndex.value,
+//         ));
+//   }
+
   
+//   final PageController pageController = PageController();
 }
