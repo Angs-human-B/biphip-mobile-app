@@ -331,5 +331,34 @@ class HomeController extends GetxController {
       ll('getPostData error: $e');
     }
   }
-  
+//   List<Reaction<String>> reactions = [
+//  const Reaction<String>(
+//     value: 'love',
+//     icon: Icon(Icons.favorite, color: Colors.pink),
+//  ),
+//  const Reaction<String>(
+//     value: 'like',
+//     icon: Icon(Icons.thumb_up, color: Colors.blue),
+//  ),
+//  const Reaction<String>(
+//     value: 'angry',
+//     icon: Icon(Icons.sentiment_very_dissatisfied, color: Colors.red),
+//  ),
+//  const Reaction<String>(
+//     value: 'haha',
+//     icon: Icon(Icons.mood, color: Colors.yellow),
+//  ),
+//  const Reaction<String>(
+//     value: 'wow',
+//     icon: Icon(Icons.sentiment_very_satisfied, color: Colors.green),
+//  ),
+//  const Reaction<String>(
+//     value: 'sad',
+//     icon: Icon(Icons.sentiment_dissatisfied, color: Colors.purple),
+//  ),
+// ];
+// Reaction<String>? selectedReaction;
+  final Rx<IconData?> selectedReactionIcon = Rx<IconData?>(null);
+  final Rx<String?> selectedReactionText = Rx<String?>(null);
+
 }

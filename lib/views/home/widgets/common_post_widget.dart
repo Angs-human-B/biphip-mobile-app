@@ -768,6 +768,9 @@ class PostBottomSection extends StatelessWidget {
               ),
               child: LikeSectionWidget(
                 isGiftShown: true,
+                likeOnTap: (){
+               
+                },
                 giftOnPressed: () {
                   globalController.blankBottomSheet(context: context, content: GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
