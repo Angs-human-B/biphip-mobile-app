@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/common/binder_controller.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -7,6 +8,9 @@ void main() async {
   BinderController().dependencies();
   await dotenv.load(fileName: Environment.fileName);
   ll("Filename : ${Environment.fileName}");
+  await Firebase.initializeApp(
+      options: FirebaseOptions(
+          apiKey: Environment.apiKey, appId: Environment.appId, messagingSenderId: Environment.messagingSenderId, projectId: Environment.projectId));
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
