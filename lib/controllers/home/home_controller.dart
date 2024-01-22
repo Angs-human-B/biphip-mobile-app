@@ -1,5 +1,6 @@
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
@@ -331,6 +332,7 @@ class HomeController extends GetxController {
       ll('getPostData error: $e');
     }
   }
+
 //   List<Reaction<String>> reactions = [
 //  const Reaction<String>(
 //     value: 'love',
@@ -358,7 +360,40 @@ class HomeController extends GetxController {
 //  ),
 // ];
 // Reaction<String>? selectedReaction;
-  final Rx<IconData?> selectedReactionIcon = Rx<IconData?>(null);
   final Rx<String?> selectedReactionText = Rx<String?>(null);
-
+  final ScrollController scrollController = ScrollController();
+  final RxBool isReactionSelected = RxBool(false);
+  showSelectedReaction() {
+    if (selectedReactionText.value == 'Love') {
+      return SvgPicture.asset(
+        kiLoveSvgImageUrl,
+        width: 20,
+      );
+    } else if (selectedReactionText.value == 'Like') {
+      return SvgPicture.asset(
+        kiLikeSvgImageUrl,
+        width: 20,
+      );
+    } else if (selectedReactionText.value == 'Haha') {
+      return SvgPicture.asset(
+        kiHahaSvgImageUrl,
+        width: 20,
+      );
+    } else if (selectedReactionText.value == 'Wow') {
+      return SvgPicture.asset(
+        kiWowSvgImageUrl,
+        width: 20,
+      );
+    } else if (selectedReactionText.value == 'Sad') {
+      return SvgPicture.asset(
+        kiSadSvgImageUrl,
+        width: 20,
+      );
+    } else if (selectedReactionText.value == 'Angry') {
+      return SvgPicture.asset(
+        kiAngrySvgImageUrl,
+        width: 20,
+      );
+    }
+  }
 }
