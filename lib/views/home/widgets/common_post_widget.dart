@@ -369,10 +369,8 @@ class CommonPostWidget extends StatelessWidget {
                       TextButton(
                         style: kTextButtonStyle,
                         onPressed: () async {
-                          if (postText != null && postText?.trim() != '' && mediaList.isNotEmpty) {
-                            Get.to(() => HomePostDetailsScreen(
-                                  postIndex: postIndex,
-                                ));
+                          if ((postText != null && postText?.trim() != '') || mediaList.length > 1) {
+                            Get.toNamed(krHomePostDetailsScreen);
                             await Get.find<HomeController>().getPostData(postID);
                           } else {
                             Get.to(() => CommonPhotoView(
