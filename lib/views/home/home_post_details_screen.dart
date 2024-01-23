@@ -199,7 +199,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                           ),
                           kH12sizedBox,
                           PostBottomSection(
-                            postIndex: postIndex,
+                            postIndex: 1,
                             isCommentShown: isCommentShown,
                             isSelfPost: true,
                             commentCount: 0,
