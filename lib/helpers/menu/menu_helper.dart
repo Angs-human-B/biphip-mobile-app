@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/controllers/auth/social_login_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
@@ -84,5 +85,6 @@ class MenuHelper {
     } else {
       await Get.find<AuthenticationController>().logout();
     }
+    await Get.find<SocialLogInController>().socialLogout();
   }
 }

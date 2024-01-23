@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/controllers/auth/social_login_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
@@ -17,6 +18,7 @@ class BinderController implements Bindings {
     Get.put<SplashScreenController>(SplashScreenController());
     Get.put<GlobalController>(GlobalController(), permanent: true);
     Get.put<AuthenticationController>(AuthenticationController());
+    Get.put<SocialLogInController>(SocialLogInController());
     Get.put<HomeController>(HomeController());
     Get.put<ProfileController>(ProfileController());
     Get.put<FriendController>(FriendController());
