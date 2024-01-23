@@ -1,6 +1,8 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 class CommonPhotoView extends StatelessWidget {
   CommonPhotoView({super.key, required this.image, this.postIndex});
@@ -37,20 +39,23 @@ class CommonPhotoView extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      width: width,
-                      height: height * 0.7,
-                      child: Image.network(
-                        image,
-                        // fit: BoxFit.contain,
-                        fit: BoxFit.contain,
-                        filterQuality: FilterQuality.high,
-                        errorBuilder: (context, error, stackTrace) => const Icon(
-                          BipHip.imageFile,
-                          size: kIconSize100,
-                          color: cIconColor,
+                    InkWell(
+                      onTap: () {},
+                      child: SizedBox(
+                        width: width,
+                        height: height * 0.7,
+                        child: Image.network(
+                          image,
+                          // fit: BoxFit.contain,
+                          fit: BoxFit.contain,
+                          filterQuality: FilterQuality.high,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            BipHip.imageFile,
+                            size: kIconSize100,
+                            color: cIconColor,
+                          ),
+                          loadingBuilder: imageLoadingBuilder,
                         ),
-                        loadingBuilder: imageLoadingBuilder,
                       ),
                     ),
                   ],
@@ -77,6 +82,50 @@ class CommonPhotoView extends StatelessWidget {
                 ),
               )
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class GalleryWidget extends StatelessWidget {
+  GalleryWidget({super.key, required this.urlImages, required this.index}) : pageController = PageController(initialPage: index);
+  final List<String> urlImages;
+  final int index;
+  final PageController pageController;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.black,
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+          backgroundColor: Colors.black,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kAppBarSize),
+            //* info:: appBar
+            child: CustomAppBar(
+              systemUiOverlayStyle: SystemUiOverlayStyle.light,
+              appBarColor: Colors.black,
+              hasBackButton: true,
+              iconColor: cWhiteColor,
+              isCenterTitle: true,
+              onBack: () {
+                Get.back();
+              },
+            ),
+          ),
+          body: PhotoViewGallery.builder(
+            pageController: pageController,
+            itemCount: urlImages.length,
+            builder: (context, index) {
+              return PhotoViewGalleryPageOptions(
+                imageProvider: NetworkImage(urlImages[index]),
+                minScale: PhotoViewComputedScale.contained,
+                maxScale: PhotoViewComputedScale.contained * 5,
+              );
+            },
           ),
         ),
       ),

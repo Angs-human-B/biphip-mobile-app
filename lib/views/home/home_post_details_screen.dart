@@ -171,8 +171,13 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                           TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
-                              Get.to(() => CommonPhotoView(
-                                    image: Environment.imageBaseUrl + mediaList[index].path.toString(),
+                              // Get.to(() => CommonPhotoView(
+                              //       image: Environment.imageBaseUrl + mediaList[index].path.toString(),
+                              //     ));
+                              // Get.find<HomeController>().openGallery();
+                              Get.to(() => GalleryWidget(
+                                    urlImages: Get.find<HomeController>().getImageUrl(),
+                                    index: index,
                                   ));
                             },
                             child: Container(
