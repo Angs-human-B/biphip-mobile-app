@@ -377,6 +377,7 @@ class CommonPostWidget extends StatelessWidget {
                           } else {
                             Get.to(() => CommonPhotoView(
                                   image: Environment.imageBaseUrl + mediaList[0].path.toString(),
+                                  postIndex: postIndex,
                                 ));
                           }
                         },
