@@ -60,7 +60,6 @@ class SocialLogInController extends GetxController {
             'name': userData['name'],
           };
           await socialLogin(body);
-          await spController.saveIsFacebookLogin(true);
         });
       });
     } catch (e) {
@@ -79,6 +78,11 @@ class SocialLogInController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
+        if(body['provider'] == 'facebook'){
+          await spController.saveIsFacebookLogin(true);
+        }else if(body['provider'] == 'firebase'){
+          await spController.saveIsGmailLogin(true);
+        }
         LoginModel loginData = LoginModel.fromJson(response.data);
         Get.find<ProfileController>().userData.value = loginData.user;
         await spController.saveBearerToken(loginData.token);
