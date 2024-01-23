@@ -50,7 +50,7 @@ class HomePostDetailsScreen extends StatelessWidget {
                                 isCategorized: true,
                                 privacy: BipHip.world,
                                 postTime: homeController.postTimeDifference(homeController.postData.value!.post.createdAt),
-                                userImage: homeController.postData.value!.post.user!.profilePicture!,
+                                userImage: homeController.postData.value!.post.user!.profilePicture.toString(),
                                 category:
                                     homeController.postData.value!.post.postCategory == null ? null : homeController.postData.value!.post.postCategory!.name,
                                 categoryIcon: homeController.postData.value!.post.postCategory == null
@@ -173,6 +173,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                             onPressed: () {
                               Get.to(() => CommonPhotoView(
                                     image: Environment.imageBaseUrl + mediaList[index].path.toString(),
+                                    postIndex: postIndex,
                                   ));
                             },
                             child: Container(
@@ -199,7 +200,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                           ),
                           kH12sizedBox,
                           PostBottomSection(
-                            postIndex: 1,
+                            postIndex: postIndex,
                             isCommentShown: isCommentShown,
                             isSelfPost: true,
                             commentCount: 0,
