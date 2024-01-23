@@ -40,7 +40,6 @@ class SocialLogInController extends GetxController {
         'user_name': _user?.id,
         'name': _user?.displayName,
       };
-      ll(body);
       await socialLogin(body);
       await spController.saveIsGmailLogin(true);
     } catch (e) {
@@ -81,16 +80,12 @@ class SocialLogInController extends GetxController {
 
       if (response.success == true) {
         LoginModel loginData = LoginModel.fromJson(response.data);
-        ll('rrrr');
         Get.find<ProfileController>().userData.value = loginData.user;
-        ll('ttttt');
         await spController.saveBearerToken(loginData.token);
         Get.find<AuthenticationController>().isLoginRememberCheck.value = true;
         await spController.saveRememberMe(Get.find<AuthenticationController>().isLoginRememberCheck.value);
         await spController.saveUserName(loginData.user.fullName.toString());
-        ll('gh');
         await spController.saveUserFirstName(loginData.user.firstName.toString());
-        ll('gu');
         await spController.saveUserLastName(loginData.user.lastName.toString());
         await spController.saveUserImage(loginData.user.profilePicture.toString());
         await spController.saveUserEmail(loginData.user.email.toString());
