@@ -82,6 +82,7 @@ class SpController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getBool(kRememberMe);
   }
+
   Future<void> saveIsFacebookLogin(value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setBool(kIsFacebookLogin, value);
@@ -91,6 +92,7 @@ class SpController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getBool(kIsFacebookLogin);
   }
+
   Future<void> saveIsGmailLogin(value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setBool(kIsGmailLogin, value);
@@ -181,5 +183,7 @@ class SpController {
     await preferences.remove(kUserEmail);
     await preferences.remove(kUserFirstName);
     await preferences.remove(kUserLastName);
+    await preferences.remove(kIsFacebookLogin);
+    await preferences.remove(kIsGmailLogin);
   }
 }

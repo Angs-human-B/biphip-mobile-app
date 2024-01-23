@@ -75,7 +75,14 @@ class MenuHelper {
 
   void logout() async {
     var status = await spController.getRememberMe();
+    bool? isGmailLoggedInUser = await spController.getIsGmailLogin();
+    bool? isFacebookLoggedInUser = await spController.getIsFacebookLogin();
     if (status == true) {
+      if (isGmailLoggedInUser != null && isGmailLoggedInUser == true) {
+        await Get.find<SocialLogInController>().gmailLogout();
+      } else if (isFacebookLoggedInUser != null && isFacebookLoggedInUser == true) {
+        await Get.find<SocialLogInController>().facebookLogout();
+      }
       await Get.find<AuthenticationController>().getSavedUsers();
       Get.offAllNamed(krSavedUserLogin);
       await spController.onLogout();
@@ -85,6 +92,5 @@ class MenuHelper {
     } else {
       await Get.find<AuthenticationController>().logout();
     }
-    await Get.find<SocialLogInController>().socialLogout();
   }
 }

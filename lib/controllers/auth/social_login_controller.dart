@@ -17,7 +17,7 @@ class SocialLogInController extends GetxController {
 
   Future googleLogIn() async {
     try {
-      await socialLogout();
+      await gmailLogout();
       final googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
         return;
@@ -42,6 +42,7 @@ class SocialLogInController extends GetxController {
       };
       ll(body);
       await socialLogin(body);
+      await spController.saveIsGmailLogin(true);
     } catch (e) {
       ll('Error: $e');
     }
@@ -52,10 +53,6 @@ class SocialLogInController extends GetxController {
       await FacebookAuth.instance.logOut();
       FacebookAuth.instance.login(permissions: ['public_profile', 'email']).then((value) {
         FacebookAuth.instance.getUserData().then((userData) async {
-          // final credential = FacebookAuthProvider.credential(
-          //   value.accessToken!.token,
-          // );
-          // await FirebaseAuth.instance.signInWithCredential(credential);
           Map<String, dynamic> body = {
             'token': value.accessToken!.token,
             'provider': 'facebook',
@@ -64,6 +61,7 @@ class SocialLogInController extends GetxController {
             'name': userData['name'],
           };
           await socialLogin(body);
+          await spController.saveIsFacebookLogin(true);
         });
       });
     } catch (e) {
@@ -124,9 +122,12 @@ class SocialLogInController extends GetxController {
     }
   }
 
-  Future socialLogout() async {
+  Future gmailLogout() async {
     await googleSignIn.signOut();
     await FirebaseAuth.instance.signOut();
+  }
+
+  Future facebookLogout() async {
     await FacebookAuth.instance.logOut();
   }
 }
