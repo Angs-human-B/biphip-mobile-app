@@ -144,6 +144,9 @@ class Login extends StatelessWidget {
                           onPressedGoogle: () async {
                             await Get.find<SocialLogInController>().googleLogIn();
                           },
+                          onPressedFacebook: () async {
+                            await Get.find<SocialLogInController>().facebookLogIn();
+                          },
                         ),
                         kH12sizedBox,
                         LinkupTextRow(

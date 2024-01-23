@@ -4,6 +4,7 @@ import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/auth/login_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class SocialLogInController extends GetxController {
@@ -39,9 +40,34 @@ class SocialLogInController extends GetxController {
         'user_name': _user?.id,
         'name': _user?.displayName,
       };
+      ll(body);
       await socialLogin(body);
     } catch (e) {
       ll('Error: $e');
+    }
+  }
+
+  Future<void> facebookLogIn() async {
+    try {
+      await FacebookAuth.instance.logOut();
+      FacebookAuth.instance.login(permissions: ['public_profile', 'email']).then((value) {
+        FacebookAuth.instance.getUserData().then((userData) async {
+          // final credential = FacebookAuthProvider.credential(
+          //   value.accessToken!.token,
+          // );
+          // await FirebaseAuth.instance.signInWithCredential(credential);
+          Map<String, dynamic> body = {
+            'token': value.accessToken!.token,
+            'provider': 'facebook',
+            'email': userData['email'],
+            'user_name': userData['id'],
+            'name': userData['name'],
+          };
+          await socialLogin(body);
+        });
+      });
+    } catch (e) {
+      ll("error: $e");
     }
   }
 
@@ -101,5 +127,6 @@ class SocialLogInController extends GetxController {
   Future socialLogout() async {
     await googleSignIn.signOut();
     await FirebaseAuth.instance.signOut();
+    await FacebookAuth.instance.logOut();
   }
 }
