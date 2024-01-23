@@ -6,7 +6,8 @@ import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/widgets/post/comment_textfield.dart';
 
 class HomePostDetails extends StatelessWidget {
-  HomePostDetails({super.key});
+  HomePostDetails({super.key, this.postIndex});
+  final int? postIndex;
 
   final HomeController homeController = Get.find<HomeController>();
   @override
@@ -63,7 +64,7 @@ class HomePostDetails extends StatelessWidget {
                                   isCategorized: false,
                                   privacy: BipHip.world,
                                   postTime: homeController.postTimeDifference(homeController.postData.value!.post.createdAt),
-                                  userImage: homeController.postData.value!.post.user!.profilePicture!,
+                                  userImage: homeController.postData.value!.post.user!.profilePicture.toString(),
                                   category:
                                       homeController.postData.value!.post.postCategory == null ? null : homeController.postData.value!.post.postCategory!.name,
                                   categoryIcon: homeController.postData.value!.post.postCategory == null
@@ -85,6 +86,7 @@ class HomePostDetails extends StatelessWidget {
                                 mediaList: homeController.postData.value!.post.images,
                                 isCommentShown: true,
                                 showBottomSection: true,
+                                postIndex: postIndex,
                                 postText: homeController.postData.value!.post.postCategory?.name == 'News'
                                     ? homeController.postData.value!.post.description ?? ''
                                     : homeController.postData.value!.post.content ?? '', //API

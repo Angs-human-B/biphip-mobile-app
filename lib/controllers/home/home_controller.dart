@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:intl/intl.dart';
@@ -93,9 +94,17 @@ class HomeController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         allPostList.clear();
+        Get.find<PostReactionController>().reactions.clear();
         postListScrolled.value = false;
         postListData.value = PostListModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
+        //!Future should be changed
+        for (int i = 0; i < postListData.value!.posts.data.length; i++) {
+          Get.find<PostReactionController>().reactions.add({
+            'reaction': ''.obs,
+            'state': false.obs,
+          });
+        }
         postListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
@@ -147,6 +156,13 @@ class HomeController extends GetxController {
       if (response.success == true) {
         postListData.value = PostListModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
+        //!Future should be changed
+        for (int i = 0; i < postListData.value!.posts.data.length; i++) {
+          Get.find<PostReactionController>().reactions.add({
+            'reaction': ''.obs,
+            'state': false.obs,
+          });
+        }
         postListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
