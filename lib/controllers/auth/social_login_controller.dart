@@ -41,7 +41,6 @@ class SocialLogInController extends GetxController {
         'name': _user?.displayName,
       };
       await socialLogin(body);
-      await spController.saveIsGmailLogin(true);
     } catch (e) {
       ll('Error: $e');
     }
