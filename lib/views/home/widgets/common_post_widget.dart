@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_post_details.dart';
+import 'package:bip_hip/views/home/home_post_details_screen.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
@@ -369,7 +370,9 @@ class CommonPostWidget extends StatelessWidget {
                         style: kTextButtonStyle,
                         onPressed: () async {
                           if (postText != null && postText?.trim() != '' && mediaList.isNotEmpty) {
-                            Get.toNamed(krHomePostDetailsScreen);
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
                             await Get.find<HomeController>().getPostData(postID);
                           } else {
                             Get.to(() => CommonPhotoView(
@@ -407,7 +410,9 @@ class CommonPostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            Get.toNamed(krHomePostDetailsScreen);
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
                             await Get.find<HomeController>().getPostData(postID);
                           },
                           child: Container(
@@ -444,7 +449,9 @@ class CommonPostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            Get.toNamed(krHomePostDetailsScreen);
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
                             await Get.find<HomeController>().getPostData(postID);
                           },
                           child: Container(
@@ -477,7 +484,9 @@ class CommonPostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            Get.toNamed(krHomePostDetailsScreen);
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
                             await Get.find<HomeController>().getPostData(postID);
                           },
                           child: Container(
@@ -546,7 +555,9 @@ class CommonPostWidget extends StatelessWidget {
                             TextButton(
                               style: kTextButtonStyle,
                               onPressed: () async {
-                                Get.toNamed(krHomePostDetailsScreen);
+                                Get.to(() => HomePostDetailsScreen(
+                                      postIndex: postIndex,
+                                    ));
                                 await Get.find<HomeController>().getPostData(postID);
                               },
                               child: Container(

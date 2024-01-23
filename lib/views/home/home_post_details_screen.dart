@@ -7,7 +7,8 @@ import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 
 class HomePostDetailsScreen extends StatelessWidget {
-  HomePostDetailsScreen({super.key});
+  HomePostDetailsScreen({super.key, this.postIndex});
+  final int? postIndex;
 
   final HomeController homeController = Get.find<HomeController>();
 
@@ -67,6 +68,7 @@ class HomePostDetailsScreen extends StatelessWidget {
                             ),
                             kH12sizedBox,
                             CommonPostDetailsScreenWidget(
+                              postIndex: postIndex,
                               isCommented: true,
                               isLiked: true,
                               mediaList: homeController.postData.value!.post.images,
@@ -103,13 +105,16 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
     required this.mediaList,
     required this.isSelfPost,
     required this.isCommentShown,
-    required this.showBottomSection,  this.reactCount,
+    required this.showBottomSection,
+    this.reactCount,
+    this.postIndex,
   });
 
   final CountReactions? reactCount;
   final bool isCommented, isLiked, isSelfPost, isCommentShown, showBottomSection;
   final String? category, title, postText;
   final List mediaList;
+  final int? postIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -142,11 +147,13 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
             ),
           ),
         PostBottomSection(
+          postIndex: postIndex,
           isCommentShown: isCommentShown,
           isSelfPost: true,
           commentCount: 0,
           shareCount: 0,
-          giftCount: 0, reactCount: reactCount,
+          giftCount: 0,
+          reactCount: reactCount,
         ),
         if (mediaList.isNotEmpty)
           Container(
@@ -192,11 +199,12 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                           ),
                           kH12sizedBox,
                           PostBottomSection(
+                            postIndex: postIndex,
                             isCommentShown: isCommentShown,
                             isSelfPost: true,
                             commentCount: 0,
                             shareCount: 0,
-                            giftCount: 0, 
+                            giftCount: 0,
                             // reactCount: reactCount,
                           ),
                         ],
