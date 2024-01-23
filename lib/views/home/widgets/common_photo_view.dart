@@ -5,8 +5,9 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class CommonPhotoView extends StatelessWidget {
-  CommonPhotoView({super.key, required this.image});
+  CommonPhotoView({super.key, required this.image, this.postIndex});
   final String image;
+  final int? postIndex;
   final HomeController homeController = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
@@ -71,7 +72,8 @@ class CommonPhotoView extends StatelessWidget {
                         height: 1,
                         width: width - 40,
                       ),
-                      const LikeSectionWidget(
+                      LikeSectionWidget(
+                        postIndex: postIndex,
                         sectionColor: cWhiteColor,
                         isGiftShown: false,
                       ),

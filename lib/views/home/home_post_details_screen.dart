@@ -7,7 +7,8 @@ import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 
 class HomePostDetailsScreen extends StatelessWidget {
-  HomePostDetailsScreen({super.key});
+  HomePostDetailsScreen({super.key, this.postIndex});
+  final int? postIndex;
 
   final HomeController homeController = Get.find<HomeController>();
 
@@ -49,7 +50,7 @@ class HomePostDetailsScreen extends StatelessWidget {
                                 isCategorized: true,
                                 privacy: BipHip.world,
                                 postTime: homeController.postTimeDifference(homeController.postData.value!.post.createdAt),
-                                userImage: homeController.postData.value!.post.user!.profilePicture!,
+                                userImage: homeController.postData.value!.post.user!.profilePicture.toString(),
                                 category:
                                     homeController.postData.value!.post.postCategory == null ? null : homeController.postData.value!.post.postCategory!.name,
                                 categoryIcon: homeController.postData.value!.post.postCategory == null
@@ -67,6 +68,7 @@ class HomePostDetailsScreen extends StatelessWidget {
                             ),
                             kH12sizedBox,
                             CommonPostDetailsScreenWidget(
+                              postIndex: postIndex,
                               isCommented: true,
                               isLiked: true,
                               mediaList: homeController.postData.value!.post.images,
@@ -105,12 +107,14 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
     required this.isCommentShown,
     required this.showBottomSection,
     this.reactCount,
+    this.postIndex,
   });
 
   final CountReactions? reactCount;
   final bool isCommented, isLiked, isSelfPost, isCommentShown, showBottomSection;
   final String? category, title, postText;
   final List mediaList;
+  final int? postIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -143,6 +147,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
             ),
           ),
         PostBottomSection(
+          postIndex: postIndex,
           isCommentShown: isCommentShown,
           isSelfPost: true,
           commentCount: 0,
@@ -166,13 +171,9 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                           TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
-                              // Get.to(() => CommonPhotoView(
-                              //       image: Environment.imageBaseUrl + mediaList[index].path.toString(),
-                              //     ));
-                              // Get.find<HomeController>().openGallery();
-                              Get.to(() => GalleryWidget(
-                                    urlImages: Get.find<HomeController>().getImageUrl(),
-                                    index: index,
+                              Get.to(() => CommonPhotoView(
+                                    image: Environment.imageBaseUrl + mediaList[index].path.toString(),
+                                    postIndex: postIndex,
                                   ));
                             },
                             child: Container(
@@ -199,6 +200,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                           ),
                           kH12sizedBox,
                           PostBottomSection(
+                            postIndex: postIndex,
                             isCommentShown: isCommentShown,
                             isSelfPost: true,
                             commentCount: 0,
