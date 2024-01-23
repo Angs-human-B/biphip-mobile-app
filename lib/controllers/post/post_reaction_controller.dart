@@ -119,50 +119,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
-  List<Map<String, dynamic>> reactions = [
-    // {'value': 'Love', 'State': false},
-    // {'value': 'Like', 'State': false},
-    // {'value': 'Haha', 'State': false},
-    // {'value': 'Wow', 'State': false},
-    // {'value': 'Sad', 'State': false},
-    // {'value': 'Angry', 'State': false},
-  ];
+  List<Map<String, dynamic>> reactions = [];
   final Rx<String?> selectedReactionText = Rx<String?>(null);
   final ScrollController scrollController = ScrollController();
-  // final RxBool isReactionSelected = RxBool(false);
-//  selectedReaction({required int index}){
-//    if (selectedReactionText.value == 'Love') {
-//       return SvgPicture.asset(
-//         kiLoveSvgImageUrl,
-//         width: 20,
-//       );
-//     } else if (selectedReactionText.value == 'Like') {
-//       return SvgPicture.asset(
-//         kiLikeSvgImageUrl,
-//         width: 20,
-//       );
-//     } else if (selectedReactionText.value == 'Haha') {
-//       return SvgPicture.asset(
-//         kiHahaSvgImageUrl,
-//         width: 20,
-//       );
-//     } else if (selectedReactionText.value == 'Wow') {
-//       return SvgPicture.asset(
-//         kiWowSvgImageUrl,
-//         width: 20,
-//       );
-//     } else if (selectedReactionText.value == 'Sad') {
-//       return SvgPicture.asset(
-//         kiSadSvgImageUrl,
-//         width: 20,
-//       );
-//     } else if (selectedReactionText.value == 'Angry') {
-//       return SvgPicture.asset(
-//         kiAngrySvgImageUrl,
-//         width: 20,
-//       );
-//     }
-// }
+  final RxInt postIndex = RxInt(-1);
 
   selectedReaction(postIndex) {
     if (Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == 'Love') {
