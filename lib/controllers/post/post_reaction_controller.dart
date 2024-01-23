@@ -1,4 +1,5 @@
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:flutter_svg/svg.dart';
 
 class PostReactionController extends GetxController with GetSingleTickerProviderStateMixin {
   final RxInt selectedBidIndex = RxInt(-1);
@@ -115,6 +116,85 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       return 30;
     } else {
       return 35;
+    }
+  }
+
+  List<Map<String, dynamic>> reactions = [
+    // {'value': 'Love', 'State': false},
+    // {'value': 'Like', 'State': false},
+    // {'value': 'Haha', 'State': false},
+    // {'value': 'Wow', 'State': false},
+    // {'value': 'Sad', 'State': false},
+    // {'value': 'Angry', 'State': false},
+  ];
+  final Rx<String?> selectedReactionText = Rx<String?>(null);
+  final ScrollController scrollController = ScrollController();
+  // final RxBool isReactionSelected = RxBool(false);
+//  selectedReaction({required int index}){
+//    if (selectedReactionText.value == 'Love') {
+//       return SvgPicture.asset(
+//         kiLoveSvgImageUrl,
+//         width: 20,
+//       );
+//     } else if (selectedReactionText.value == 'Like') {
+//       return SvgPicture.asset(
+//         kiLikeSvgImageUrl,
+//         width: 20,
+//       );
+//     } else if (selectedReactionText.value == 'Haha') {
+//       return SvgPicture.asset(
+//         kiHahaSvgImageUrl,
+//         width: 20,
+//       );
+//     } else if (selectedReactionText.value == 'Wow') {
+//       return SvgPicture.asset(
+//         kiWowSvgImageUrl,
+//         width: 20,
+//       );
+//     } else if (selectedReactionText.value == 'Sad') {
+//       return SvgPicture.asset(
+//         kiSadSvgImageUrl,
+//         width: 20,
+//       );
+//     } else if (selectedReactionText.value == 'Angry') {
+//       return SvgPicture.asset(
+//         kiAngrySvgImageUrl,
+//         width: 20,
+//       );
+//     }
+// }
+
+  selectedReaction(postIndex) {
+    if (Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == 'Love') {
+      return SvgPicture.asset(
+        kiLoveSvgImageUrl,
+        width: 20,
+      );
+    } else if (Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == 'Like') {
+      return SvgPicture.asset(
+        kiLikeSvgImageUrl,
+        width: 20,
+      );
+    } else if (Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == 'Haha') {
+      return SvgPicture.asset(
+        kiHahaSvgImageUrl,
+        width: 20,
+      );
+    } else if (Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == 'Wow') {
+      return SvgPicture.asset(
+        kiWowSvgImageUrl,
+        width: 20,
+      );
+    } else if (Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == 'Sad') {
+      return SvgPicture.asset(
+        kiSadSvgImageUrl,
+        width: 20,
+      );
+    } else if (Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == 'Angry') {
+      return SvgPicture.asset(
+        kiAngrySvgImageUrl,
+        width: 20,
+      );
     }
   }
 }

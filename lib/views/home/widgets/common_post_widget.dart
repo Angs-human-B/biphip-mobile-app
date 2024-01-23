@@ -57,6 +57,7 @@ class CommonPostWidget extends StatelessWidget {
     required this.userImage,
     required this.taggedFriends,
     this.reactCount,
+    this.postIndex,
   });
   final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -86,6 +87,7 @@ class CommonPostWidget extends StatelessWidget {
   final List<TaggedFriend> taggedFriends;
   final CountReactions? reactCount;
   final int commentCount, shareCount, giftCount, postID;
+  final int? postIndex;
   final VoidCallback? postUpperContainerOnPressed;
   final HomeController homeController = Get.find<HomeController>();
 
@@ -588,6 +590,7 @@ class CommonPostWidget extends StatelessWidget {
           ),
         if (showBottomSection)
           PostBottomSection(
+            postIndex: postIndex,
             isSelfPost: isSelfPost,
             isCommentShown: isCommentShown,
             commentCount: commentCount,
@@ -619,13 +622,15 @@ class PostBottomSection extends StatelessWidget {
       this.platformLink,
       this.actionName,
       this.actionOnPressed,
-      this.reactCount});
+      this.reactCount,
+      this.postIndex});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   final bool isSelfPost, isCommentShown;
   final RxBool showComment = RxBool(false);
   final int commentCount, shareCount, giftCount;
+  final int? postIndex;
   final CountReactions? reactCount;
   final String? category, platformName, platformLink, actionName;
   final VoidCallback? actionOnPressed;
@@ -767,10 +772,9 @@ class PostBottomSection extends StatelessWidget {
                 horizontal: kHorizontalPadding,
               ),
               child: LikeSectionWidget(
+                postIndex: postIndex,
                 isGiftShown: true,
-                likeOnTap: (){
-               
-                },
+                likeOnTap: () {},
                 giftOnPressed: () {
                   globalController.blankBottomSheet(context: context, content: GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },

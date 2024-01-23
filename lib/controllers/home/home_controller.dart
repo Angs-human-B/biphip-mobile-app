@@ -1,6 +1,6 @@
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
@@ -94,9 +94,17 @@ class HomeController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         allPostList.clear();
+        Get.find<PostReactionController>().reactions.clear();
         postListScrolled.value = false;
         postListData.value = PostListModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
+        //!Future should be changed
+        for (int i = 0; i < postListData.value!.posts.data.length; i++) {
+          Get.find<PostReactionController>().reactions.add({
+            'reaction': ''.obs,
+            'state': false.obs,
+          });
+        }
         postListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
@@ -148,6 +156,13 @@ class HomeController extends GetxController {
       if (response.success == true) {
         postListData.value = PostListModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
+        //!Future should be changed
+        for (int i = 0; i < postListData.value!.posts.data.length; i++) {
+          Get.find<PostReactionController>().reactions.add({
+            'reaction': ''.obs,
+            'state': false.obs,
+          });
+        }
         postListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
@@ -330,70 +345,6 @@ class HomeController extends GetxController {
     } catch (e) {
       isPostDetailsPageLoading.value = true;
       ll('getPostData error: $e');
-    }
-  }
-
-//   List<Reaction<String>> reactions = [
-//  const Reaction<String>(
-//     value: 'love',
-//     icon: Icon(Icons.favorite, color: Colors.pink),
-//  ),
-//  const Reaction<String>(
-//     value: 'like',
-//     icon: Icon(Icons.thumb_up, color: Colors.blue),
-//  ),
-//  const Reaction<String>(
-//     value: 'angry',
-//     icon: Icon(Icons.sentiment_very_dissatisfied, color: Colors.red),
-//  ),
-//  const Reaction<String>(
-//     value: 'haha',
-//     icon: Icon(Icons.mood, color: Colors.yellow),
-//  ),
-//  const Reaction<String>(
-//     value: 'wow',
-//     icon: Icon(Icons.sentiment_very_satisfied, color: Colors.green),
-//  ),
-//  const Reaction<String>(
-//     value: 'sad',
-//     icon: Icon(Icons.sentiment_dissatisfied, color: Colors.purple),
-//  ),
-// ];
-// Reaction<String>? selectedReaction;
-  final Rx<String?> selectedReactionText = Rx<String?>(null);
-  final ScrollController scrollController = ScrollController();
-  final RxBool isReactionSelected = RxBool(false);
-  showSelectedReaction() {
-    if (selectedReactionText.value == 'Love') {
-      return SvgPicture.asset(
-        kiLoveSvgImageUrl,
-        width: 20,
-      );
-    } else if (selectedReactionText.value == 'Like') {
-      return SvgPicture.asset(
-        kiLikeSvgImageUrl,
-        width: 20,
-      );
-    } else if (selectedReactionText.value == 'Haha') {
-      return SvgPicture.asset(
-        kiHahaSvgImageUrl,
-        width: 20,
-      );
-    } else if (selectedReactionText.value == 'Wow') {
-      return SvgPicture.asset(
-        kiWowSvgImageUrl,
-        width: 20,
-      );
-    } else if (selectedReactionText.value == 'Sad') {
-      return SvgPicture.asset(
-        kiSadSvgImageUrl,
-        width: 20,
-      );
-    } else if (selectedReactionText.value == 'Angry') {
-      return SvgPicture.asset(
-        kiAngrySvgImageUrl,
-        width: 20,
-      );
     }
   }
 }

@@ -202,6 +202,7 @@ class HomePage extends StatelessWidget {
                                         color: cWhiteColor,
                                         width: width,
                                         child: CommonPostWidget(
+                                          postIndex: index,
                                           isCommented: index % 2 == 0,
                                           isLiked: index % 2 != 0,
                                           isSharedPost: false,

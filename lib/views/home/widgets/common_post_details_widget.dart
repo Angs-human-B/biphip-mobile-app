@@ -8,6 +8,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
     this.category,
     this.title,
     this.postText,
+    this.postIndex,
     required this.mediaList,
     required this.isCommentShown,
     required this.showBottomSection,
@@ -15,6 +16,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
   final bool isCommentShown, showBottomSection;
   final String? category, title, postText;
   final List mediaList;
+  final int? postIndex;
   final HomeController homeController = Get.find<HomeController>();
 
   @override
@@ -295,6 +297,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
 
         if (showBottomSection)
           PostBottomSection(
+            postIndex: postIndex,
             isCommentShown: isCommentShown,
             isSelfPost: true,
             commentCount: 0,

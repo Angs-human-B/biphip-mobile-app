@@ -20,6 +20,7 @@ class PostUpperContainer extends StatelessWidget {
     required this.userImage,
     this.secondaryImage,
     required this.taggedFriend,
+    this.postIndex,
   });
 
   final String userName, postTime, userImage;
@@ -29,6 +30,7 @@ class PostUpperContainer extends StatelessWidget {
   final Color? categoryIconColor;
   final bool isCategorized;
   final List<TaggedFriend>? taggedFriend;
+  final int ? postIndex;
 
   @override
   Widget build(BuildContext context) {

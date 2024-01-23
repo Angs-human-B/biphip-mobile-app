@@ -1,11 +1,10 @@
-import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/svg.dart';
 
 class LikeSectionWidget extends StatelessWidget {
-
-   const LikeSectionWidget(
+  const LikeSectionWidget(
       {super.key,
       this.likeOnLongPressed,
       this.commentOnPressed,
@@ -13,11 +12,13 @@ class LikeSectionWidget extends StatelessWidget {
       this.giftOnPressed,
       this.likeOnTap,
       required this.isGiftShown,
-      this.sectionColor});
+      this.sectionColor,
+      this.postIndex});
 
   final VoidCallback? likeOnTap, likeOnLongPressed, commentOnPressed, shareOnPressed, giftOnPressed;
   final Color? sectionColor;
   final bool isGiftShown;
+  final int? postIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +38,7 @@ class LikeSectionWidget extends StatelessWidget {
             child: PopupMenuButton(
               padding: EdgeInsets.zero,
               offset: const Offset(0, -60),
-              onCanceled: () {
-              },
-              // constraints: const BoxConstraints(),
+              onCanceled: () {},
               position: PopupMenuPosition.over,
               tooltip: '',
               itemBuilder: (context) => [
@@ -54,8 +53,8 @@ class LikeSectionWidget extends StatelessWidget {
                         child: ReactionButton<String>(
                           itemSize: const Size.square(50),
                           onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<HomeController>().selectedReactionText.value = 'Love';
-                            Get.find<HomeController>().isReactionSelected.value = true;
+                            Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value = 'Love';
+                            Get.find<PostReactionController>().reactions[postIndex!]['state'].value = true;
                             Get.back();
                           },
                           reactions: <Reaction<String>>[
@@ -87,8 +86,8 @@ class LikeSectionWidget extends StatelessWidget {
                           itemAnimationDuration: const Duration(milliseconds: 500),
                           itemSize: const Size.square(50),
                           onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<HomeController>().selectedReactionText.value = 'Like';
-                            Get.find<HomeController>().isReactionSelected.value = true;
+                            Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value = 'Like';
+                            Get.find<PostReactionController>().reactions[postIndex!]['state'].value = true;
                             Get.back();
                           },
                           reactions: <Reaction<String>>[
@@ -117,8 +116,8 @@ class LikeSectionWidget extends StatelessWidget {
                         child: ReactionButton<String>(
                           itemSize: const Size.square(50),
                           onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<HomeController>().selectedReactionText.value = 'Haha';
-                            Get.find<HomeController>().isReactionSelected.value = true;
+                            Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value = 'Haha';
+                            Get.find<PostReactionController>().reactions[postIndex!]['state'].value = true;
                             Get.back();
                           },
                           reactions: <Reaction<String>>[
@@ -147,8 +146,8 @@ class LikeSectionWidget extends StatelessWidget {
                         child: ReactionButton<String>(
                           itemSize: const Size.square(50),
                           onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<HomeController>().selectedReactionText.value = 'Wow';
-                            Get.find<HomeController>().isReactionSelected.value = true;
+                            Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value = 'Wow';
+                            Get.find<PostReactionController>().reactions[postIndex!]['state'].value = true;
                             Get.back();
                           },
                           reactions: <Reaction<String>>[
@@ -177,8 +176,8 @@ class LikeSectionWidget extends StatelessWidget {
                         child: ReactionButton<String>(
                           itemSize: const Size.square(50),
                           onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<HomeController>().selectedReactionText.value = 'Sad';
-                            Get.find<HomeController>().isReactionSelected.value = true;
+                            Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value = 'Sad';
+                            Get.find<PostReactionController>().reactions[postIndex!]['state'].value = true;
                             Get.back();
                           },
                           reactions: <Reaction<String>>[
@@ -207,8 +206,8 @@ class LikeSectionWidget extends StatelessWidget {
                         child: ReactionButton<String>(
                           itemSize: const Size.square(50),
                           onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<HomeController>().selectedReactionText.value = 'Angry';
-                            Get.find<HomeController>().isReactionSelected.value = true;
+                            Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value = 'Angry';
+                            Get.find<PostReactionController>().reactions[postIndex!]['state'].value = true;
                             Get.back();
                           },
                           reactions: <Reaction<String>>[
@@ -239,29 +238,29 @@ class LikeSectionWidget extends StatelessWidget {
               child: SizedBox(
                 width: isGiftShown ? (width - 40) / 4 : (width - 40) / 3,
                 height: 44,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Obx(() => Text(
-                          Get.find<HomeController>().selectedReactionText.value ?? ksLove.tr,
+                child: Obx(() => Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value == ''
+                              ? ksLove.tr
+                              : Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value,
                           style: semiBold12TextStyle(sectionColor ?? cIconColor),
-                        )),
-                    kW4sizedBox,
-                    Obx(() => Get.find<HomeController>().selectedReactionText.value == null
-                        ? Icon(
-                            BipHip.love,
-                            color: sectionColor ?? cIconColor,
-                            size: kIconSize20,
-                          )
-                        : Get.find<HomeController>().showSelectedReaction()),
-                  ],
-                ),
+                        ),
+                        kW4sizedBox,
+                        Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value == ''
+                            ? const Icon(
+                                BipHip.love,
+                                color: cIconColor,
+                                size: kIconSize20,
+                              )
+                            : Get.find<PostReactionController>().selectedReaction(postIndex),
+                      ],
+                    )),
               ),
             ),
           ),
         ),
-        
-       
         InkWell(
           onTap: commentOnPressed,
           child: SizedBox(
