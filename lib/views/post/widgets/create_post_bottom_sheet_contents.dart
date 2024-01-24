@@ -91,7 +91,7 @@ class KidCategoryContent extends StatelessWidget {
                   ? () async {
                       createPostController.isKidListLoading.value = true;
                       createPostController.tempSelectedKid.value = null;
-                     createPostController.tempKidID.value = -1;
+                      createPostController.tempKidID.value = -1;
                       if (createPostController.tempSelectedKid.value == null) {
                         globalController.isBottomSheetRightButtonActive.value = false;
                       } else {
@@ -236,7 +236,7 @@ class KidCategoryContent extends StatelessWidget {
             onPress: (createPostController.selectedKid.value == null && !createPostController.isKidAdded.value)
                 ? () {
                     CreatePostHelper().resetAddKidPage();
-           
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => AddKidPage()),
@@ -462,6 +462,7 @@ class SellingCategoryBottomSheetContent extends StatelessWidget {
 class BrandBottomSheetContent extends StatelessWidget {
   BrandBottomSheetContent({super.key});
   final CreatePostController createPostController = Get.find<CreatePostController>();
+  final CreatePostHelper createPostHelper = CreatePostHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -558,7 +559,7 @@ class BrandBottomSheetContent extends StatelessWidget {
                     Get.back();
                   },
                   onPressRightButton: () {
-                    CreatePostHelper().selectBrandTextChange();
+                    createPostHelper.selectBrandTextChange();
                     createPostController.selectedBrandId.value = createPostController.tempSelectedBrandId.value;
                     Get.back();
                   },
@@ -588,6 +589,7 @@ class BrandBottomSheetContent extends StatelessWidget {
                 onPress: createPostController.selectedBrandId.value == -1
                     ? () {
                         // Get.to(() => AddBrandPage());
+                        createPostHelper.resetAddBrandPage();
                         createPostController.isBrandAdded.value = false;
                         Navigator.push(
                           context,
@@ -670,16 +672,16 @@ class SelectBrandBottomSheetContent extends StatelessWidget {
                                   height: h24,
                                   width: h24,
                                   decoration: const BoxDecoration(
-                                    color: cWhiteColor,
+                                    color: cBlackColor,
                                     shape: BoxShape.circle,
                                   ),
                                   child: ClipOval(
                                     child: Image.network(
-                                      createPostController.storeList[i].profilePicture!,
+                                      createPostController.storeList[i].profilePicture ?? '',
                                       fit: BoxFit.cover,
                                       errorBuilder: (context, error, stackTrace) => const Icon(
                                         BipHip.imageFile,
-                                        // size: kIconSize20,
+                                        size: kIconSize16,
                                         color: cIconColor,
                                       ),
                                       // loadingBuilder: imageLoadingBuilder,

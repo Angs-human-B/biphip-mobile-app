@@ -308,6 +308,7 @@ class CreatePostController extends GetxController {
       Map<String, String> body = {
         'name': brandNameTextEditingController.text.trim(),
         'social_links': json.encode(brandSocialLinkList),
+        'business_category': businessTypeTextEditingController.text.trim()
       };
       var response = await apiController.mediaUpload(
         url: kuAddStore,
@@ -395,7 +396,8 @@ class CreatePostController extends GetxController {
             brandFacebookLinkTextEditingController.text.trim() != '' ||
             brandLinkedInLinkTextEditingController.text.trim() != '' ||
             brandTwitterTextEditingController.text.trim() != '' ||
-            brandYoutubeLinkTextEditingController.text.trim() != '')) {
+            brandYoutubeLinkTextEditingController.text.trim() != '') &&
+        businessTypeTextEditingController.text.trim() != '') {
       isSaveBrandButtonEnabled.value = true;
     } else {
       isSaveBrandButtonEnabled.value = false;
