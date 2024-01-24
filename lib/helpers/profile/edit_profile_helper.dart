@@ -152,7 +152,7 @@ class EditProfileHelper {
   }
 
   void addSocialLinkValidation() async {
-    if (profileController.linkSource.value == 'Website' && profileController.linkTextEditingController.text.isValidUrl) {
+    if (profileController.linkSource.value == 'Website' && profileController.linkTextEditingController.text.toLowerCase().isValidUrl) {
       Get.back();
       await profileController.storeLink(profileController.linkSource.value);
       profileController.linkTextEditingController.clear();
@@ -170,7 +170,7 @@ class EditProfileHelper {
   }
 
   void editSocialLinkValidation() async {
-    if (profileController.linkSource.value == 'Website' && profileController.linkTextEditingController.text.isValidUrl) {
+    if (profileController.linkSource.value == 'Website' && profileController.linkTextEditingController.text.toLowerCase().isValidUrl) {
       Get.back();
       await profileController.updateLink(profileController.linkID.value, profileController.linkSource.value);
       profileController.linkTextEditingController.clear();
