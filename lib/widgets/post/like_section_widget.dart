@@ -25,33 +25,33 @@ class LikeSectionWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        NotificationListener<ScrollNotification>(
-          onNotification: (scrollNotification) {
-            ll(scrollNotification);
-            return true;
-          },
-          child: Theme(
-            data: ThemeData(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-            ),
-            child: PopupMenuButton(
-              padding: EdgeInsets.zero,
-              offset: const Offset(0, -60),
-              onCanceled: () {},
-              position: PopupMenuPosition.over,
-              tooltip: '',
-              itemBuilder: (context) => [
-                PopupMenuItem<int>(
-                  onTap: null,
-                  value: 1,
+        Theme(
+          data: ThemeData(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+          ),
+          child: PopupMenuButton(
+            padding: EdgeInsets.zero,
+            offset: const Offset(0, -60),
+            elevation: 1,
+            onCanceled: () {},
+            position: PopupMenuPosition.over,
+            tooltip: '',
+            itemBuilder: (context) => [
+              PopupMenuItem<int>(
+                height: 25,
+                onTap: null,
+                value: 1,
+                padding: EdgeInsets.zero,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       InkWell(
                         splashFactory: InkRipple.splashFactory,
                         child: ReactionButton<String>(
-                          itemSize: const Size.square(50),
+                          itemSize: const Size.square(48),
                           onReactionChanged: (Reaction<String>? reaction) {
                             Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Love';
                             Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
@@ -62,7 +62,7 @@ class LikeSectionWidget extends StatelessWidget {
                               value: 'love',
                               icon: SvgPicture.asset(
                                 kiLoveSvgImageUrl,
-                                width: 20,
+                                width: 38,
                               ),
                             ),
                           ],
@@ -70,13 +70,13 @@ class LikeSectionWidget extends StatelessWidget {
                             value: 'love',
                             icon: SvgPicture.asset(
                               kiLoveSvgImageUrl,
-                              width: 20,
+                              width: 38,
                             ),
                           ),
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        padding: EdgeInsets.symmetric(horizontal: 4),
                       ),
                       InkWell(
                         splashFactory: InkRipple.splashFactory,
@@ -84,7 +84,7 @@ class LikeSectionWidget extends StatelessWidget {
                           animateBox: true,
                           boxAnimationDuration: const Duration(milliseconds: 500),
                           itemAnimationDuration: const Duration(milliseconds: 500),
-                          itemSize: const Size.square(50),
+                          itemSize: const Size.square(48),
                           onReactionChanged: (Reaction<String>? reaction) {
                             Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Like';
                             Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
@@ -95,7 +95,7 @@ class LikeSectionWidget extends StatelessWidget {
                               value: 'like',
                               icon: SvgPicture.asset(
                                 kiLikeSvgImageUrl,
-                                width: 20,
+                                width: 38,
                               ),
                             ),
                           ],
@@ -103,18 +103,18 @@ class LikeSectionWidget extends StatelessWidget {
                             value: 'like',
                             icon: SvgPicture.asset(
                               kiLikeSvgImageUrl,
-                              width: 20,
+                              width: 38,
                             ),
                           ),
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        padding: EdgeInsets.symmetric(horizontal: 4),
                       ),
                       InkWell(
                         splashFactory: InkRipple.splashFactory,
                         child: ReactionButton<String>(
-                          itemSize: const Size.square(50),
+                          itemSize: const Size.square(48),
                           onReactionChanged: (Reaction<String>? reaction) {
                             Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Haha';
                             Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
@@ -125,7 +125,7 @@ class LikeSectionWidget extends StatelessWidget {
                               value: 'haha',
                               icon: SvgPicture.asset(
                                 kiHahaSvgImageUrl,
-                                width: 20,
+                                width: 38,
                               ),
                             ),
                           ],
@@ -133,18 +133,18 @@ class LikeSectionWidget extends StatelessWidget {
                             value: 'haha',
                             icon: SvgPicture.asset(
                               kiHahaSvgImageUrl,
-                              width: 20,
+                              width: 38,
                             ),
                           ),
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        padding: EdgeInsets.symmetric(horizontal: 4),
                       ),
                       InkWell(
                         splashFactory: InkRipple.splashFactory,
                         child: ReactionButton<String>(
-                          itemSize: const Size.square(50),
+                          itemSize: const Size.square(48),
                           onReactionChanged: (Reaction<String>? reaction) {
                             Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Wow';
                             Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
@@ -155,7 +155,7 @@ class LikeSectionWidget extends StatelessWidget {
                               value: 'wow',
                               icon: SvgPicture.asset(
                                 kiWowSvgImageUrl,
-                                width: 20,
+                                width: 38,
                               ),
                             ),
                           ],
@@ -163,18 +163,18 @@ class LikeSectionWidget extends StatelessWidget {
                             value: 'wow',
                             icon: SvgPicture.asset(
                               kiWowSvgImageUrl,
-                              width: 20,
+                              width: 38,
                             ),
                           ),
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        padding: EdgeInsets.symmetric(horizontal: 4),
                       ),
                       InkWell(
                         splashFactory: InkRipple.splashFactory,
                         child: ReactionButton<String>(
-                          itemSize: const Size.square(50),
+                          itemSize: const Size.square(48),
                           onReactionChanged: (Reaction<String>? reaction) {
                             Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Sad';
                             Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
@@ -185,7 +185,7 @@ class LikeSectionWidget extends StatelessWidget {
                               value: 'sad',
                               icon: SvgPicture.asset(
                                 kiSadSvgImageUrl,
-                                width: 20,
+                                width: 38,
                               ),
                             ),
                           ],
@@ -193,18 +193,18 @@ class LikeSectionWidget extends StatelessWidget {
                             value: 'sad',
                             icon: SvgPicture.asset(
                               kiSadSvgImageUrl,
-                              width: 20,
+                              width: 38,
                             ),
                           ),
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        padding: EdgeInsets.symmetric(horizontal: 4),
                       ),
                       InkWell(
                         splashFactory: InkRipple.splashFactory,
                         child: ReactionButton<String>(
-                          itemSize: const Size.square(50),
+                          itemSize: const Size.square(48),
                           onReactionChanged: (Reaction<String>? reaction) {
                             Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Angry';
                             Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
@@ -215,7 +215,7 @@ class LikeSectionWidget extends StatelessWidget {
                               value: 'angry',
                               icon: SvgPicture.asset(
                                 kiAngrySvgImageUrl,
-                                width: 20,
+                                width: 38,
                               ),
                             ),
                           ],
@@ -223,7 +223,7 @@ class LikeSectionWidget extends StatelessWidget {
                             value: 'angry',
                             icon: SvgPicture.asset(
                               kiAngrySvgImageUrl,
-                              width: 20,
+                              width: 38,
                             ),
                           ),
                         ),
@@ -231,33 +231,33 @@ class LikeSectionWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-              ],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(180),
               ),
-              child: SizedBox(
-                width: isGiftShown ? (width - 40) / 4 : (width - 40) / 3,
-                height: 44,
-                child: Obx(() => Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == ''
-                              ? ksLove.tr
-                              : Get.find<PostReactionController>().reactions[postIndex]['reaction'].value,
-                          style: semiBold12TextStyle(sectionColor ?? cIconColor),
-                        ),
-                        kW4sizedBox,
+            ],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(180),
+            ),
+            child: SizedBox(
+              width: isGiftShown ? (width - 40) / 4 : (width - 40) / 3,
+              height: 44,
+              child: Obx(() => Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
                         Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == ''
-                            ? const Icon(
-                                BipHip.love,
-                                color: cIconColor,
-                                size: kIconSize20,
-                              )
-                            : Get.find<PostReactionController>().selectedReaction(postIndex),
-                      ],
-                    )),
-              ),
+                            ? ksLove.tr
+                            : Get.find<PostReactionController>().reactions[postIndex]['reaction'].value,
+                        style: semiBold12TextStyle(sectionColor ?? cIconColor),
+                      ),
+                      kW4sizedBox,
+                      Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == ''
+                          ? const Icon(
+                              BipHip.love,
+                              color: cIconColor,
+                              size: kIconSize20,
+                            )
+                          : Get.find<PostReactionController>().selectedReaction(postIndex),
+                    ],
+                  )),
             ),
           ),
         ),
