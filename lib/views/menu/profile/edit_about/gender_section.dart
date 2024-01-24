@@ -31,7 +31,7 @@ class GenderSection extends StatelessWidget {
               },
               text: profileController.selectedGender.value != ''
                   ? profileController.selectedGender.value
-                  : checkNullOrStringNull(profileController.userData.value!.gender) ?? ksSelectGender.tr,
+                  : checkNullOrStringNull(profileController.userData.value!.gender!.trim()) ?? ksSelectGender.tr,
               hintText: ksSelectGender.tr,
             ),
             if (profileController.isGenderSelected.value) kH12sizedBox,
