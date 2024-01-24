@@ -104,6 +104,9 @@ class AllFriendListView extends StatelessWidget {
                                                 if (friendController.friendActionSelect.value == 'Follow') {
                                                   await friendController.followUser();
                                                 }
+                                                  if (friendController.friendActionSelect.value == 'Add Family') {
+                                                  Get.toNamed(krAddFamily);
+                                                }
                                                 friendController.friendActionSelect.value = '';
                                               },
                                               rightText: ksDone.tr,
