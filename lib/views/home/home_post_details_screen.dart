@@ -103,7 +103,8 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
     required this.mediaList,
     required this.isSelfPost,
     required this.isCommentShown,
-    required this.showBottomSection,  this.reactCount,
+    required this.showBottomSection,
+    this.reactCount,
   });
 
   final CountReactions? reactCount;
@@ -146,7 +147,8 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
           isSelfPost: true,
           commentCount: 0,
           shareCount: 0,
-          giftCount: 0, reactCount: reactCount,
+          giftCount: 0,
+          reactCount: reactCount,
         ),
         if (mediaList.isNotEmpty)
           Container(
@@ -164,8 +166,13 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                           TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
-                              Get.to(() => CommonPhotoView(
-                                    image: Environment.imageBaseUrl + mediaList[index].path.toString(),
+                              // Get.to(() => CommonPhotoView(
+                              //       image: Environment.imageBaseUrl + mediaList[index].path.toString(),
+                              //     ));
+                              // Get.find<HomeController>().openGallery();
+                              Get.to(() => GalleryWidget(
+                                    urlImages: Get.find<HomeController>().getImageUrl(),
+                                    index: index,
                                   ));
                             },
                             child: Container(
@@ -196,7 +203,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                             isSelfPost: true,
                             commentCount: 0,
                             shareCount: 0,
-                            giftCount: 0, 
+                            giftCount: 0,
                             // reactCount: reactCount,
                           ),
                         ],

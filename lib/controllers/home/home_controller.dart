@@ -331,5 +331,15 @@ class HomeController extends GetxController {
       ll('getPostData error: $e');
     }
   }
-  
+
+  List<String> getImageUrl() {
+    List<String> images = [];
+    if (postData.value!.post.images.isEmpty) {
+      return images;
+    }
+    for (int i = 0; i < postData.value!.post.images.length; i++) {
+      images.add(postData.value!.post.images[i].fullPath ?? '');
+    }
+    return images;
+  }
 }
