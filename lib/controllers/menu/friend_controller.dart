@@ -299,6 +299,7 @@ class FriendController extends GetxController {
           if (userId.value == friendList[index].id) {
             friendList.removeAt(index);
             allFriendCount.value--;
+            searchedFriendCount.value--;
           }
         }
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
