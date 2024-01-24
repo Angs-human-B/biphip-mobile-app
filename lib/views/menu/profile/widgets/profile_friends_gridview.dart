@@ -23,6 +23,10 @@ class FriendFamilyTab extends StatelessWidget {
                     header: ksFriends.tr,
                     count: friendController.allFriendCount.toString(),
                     friendList: friendController.friendList,
+                    isFriendFamilyNotEmpty: friendController.friendList.isNotEmpty ? true : false,
+                    seeAll: () {
+                      Get.toNamed(krFriends);
+                    },
                   ),
           ),
           kH12sizedBox,
@@ -35,6 +39,10 @@ class FriendFamilyTab extends StatelessWidget {
                     header: ksFamily.tr,
                     count: familyController.allFamilyCount.toString(),
                     friendList: familyController.familyList,
+                    isFriendFamilyNotEmpty: familyController.familyList.isNotEmpty ? true : false,
+                    seeAll: () {
+                      Get.toNamed(krFamily);
+                    },
                   ),
                 ),
         ],
@@ -44,12 +52,14 @@ class FriendFamilyTab extends StatelessWidget {
 }
 
 class FriendsFamilyGridView extends StatelessWidget {
-  const FriendsFamilyGridView({super.key, required this.header, required this.count, this.seeAll, required this.friendList});
+  const FriendsFamilyGridView(
+      {super.key, required this.header, required this.count, this.seeAll, required this.friendList, required this.isFriendFamilyNotEmpty});
 
   final String header;
   final String count;
   final VoidCallback? seeAll;
   final List<FriendFamilyUserData> friendList;
+  final bool isFriendFamilyNotEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +86,7 @@ class FriendsFamilyGridView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  CustomTextButton(onPressed: seeAll, text: ksSeeAll.tr, textStyle: semiBold14TextStyle(cPrimaryColor)),
+                  if (isFriendFamilyNotEmpty) CustomTextButton(onPressed: seeAll, text: ksSeeAll.tr, textStyle: semiBold14TextStyle(cPrimaryColor)),
                 ],
               ),
               kH12sizedBox,
@@ -84,8 +94,8 @@ class FriendsFamilyGridView extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: friendList.length <= 6 ? friendList.length : 6,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: .8,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: isDeviceScreenLarge() ? 0.7 : 0.8,
                   crossAxisCount: 3,
                   crossAxisSpacing: k10Padding,
                   mainAxisSpacing: k4Padding,
