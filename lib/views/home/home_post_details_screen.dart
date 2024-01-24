@@ -7,8 +7,8 @@ import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 
 class HomePostDetailsScreen extends StatelessWidget {
-  HomePostDetailsScreen({super.key, this.postIndex});
-  final int? postIndex;
+  HomePostDetailsScreen({super.key, this.postIndex = 0});
+  final int postIndex;
 
   final HomeController homeController = Get.find<HomeController>();
 
@@ -107,14 +107,14 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
     required this.isCommentShown,
     required this.showBottomSection,
     this.reactCount,
-    this.postIndex,
+    this.postIndex = 0,
   });
 
   final CountReactions? reactCount;
   final bool isCommented, isLiked, isSelfPost, isCommentShown, showBottomSection;
   final String? category, title, postText;
   final List mediaList;
-  final int? postIndex;
+  final int postIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -171,9 +171,9 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                           TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
-                              Get.to(() => CommonPhotoView(
-                                    image: Environment.imageBaseUrl + mediaList[index].path.toString(),
-                                    postIndex: postIndex,
+                              Get.to(() => GalleryWidget(
+                                    urlImages: Get.find<HomeController>().getImageUrl(),
+                                    index: index,
                                   ));
                             },
                             child: Container(

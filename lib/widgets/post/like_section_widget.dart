@@ -13,12 +13,12 @@ class LikeSectionWidget extends StatelessWidget {
       this.likeOnTap,
       required this.isGiftShown,
       this.sectionColor,
-      this.postIndex});
+      this.postIndex = 0});
 
   final VoidCallback? likeOnTap, likeOnLongPressed, commentOnPressed, shareOnPressed, giftOnPressed;
   final Color? sectionColor;
   final bool isGiftShown;
-  final int? postIndex;
+  final int postIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +53,8 @@ class LikeSectionWidget extends StatelessWidget {
                         child: ReactionButton<String>(
                           itemSize: const Size.square(50),
                           onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value = 'Love';
-                            Get.find<PostReactionController>().reactions[postIndex!]['state'].value = true;
+                            Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Love';
+                            Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
                             Get.back();
                           },
                           reactions: <Reaction<String>>[
@@ -86,8 +86,8 @@ class LikeSectionWidget extends StatelessWidget {
                           itemAnimationDuration: const Duration(milliseconds: 500),
                           itemSize: const Size.square(50),
                           onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value = 'Like';
-                            Get.find<PostReactionController>().reactions[postIndex!]['state'].value = true;
+                            Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Like';
+                            Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
                             Get.back();
                           },
                           reactions: <Reaction<String>>[
@@ -116,8 +116,8 @@ class LikeSectionWidget extends StatelessWidget {
                         child: ReactionButton<String>(
                           itemSize: const Size.square(50),
                           onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value = 'Haha';
-                            Get.find<PostReactionController>().reactions[postIndex!]['state'].value = true;
+                            Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Haha';
+                            Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
                             Get.back();
                           },
                           reactions: <Reaction<String>>[
@@ -146,8 +146,8 @@ class LikeSectionWidget extends StatelessWidget {
                         child: ReactionButton<String>(
                           itemSize: const Size.square(50),
                           onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value = 'Wow';
-                            Get.find<PostReactionController>().reactions[postIndex!]['state'].value = true;
+                            Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Wow';
+                            Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
                             Get.back();
                           },
                           reactions: <Reaction<String>>[
@@ -176,8 +176,8 @@ class LikeSectionWidget extends StatelessWidget {
                         child: ReactionButton<String>(
                           itemSize: const Size.square(50),
                           onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value = 'Sad';
-                            Get.find<PostReactionController>().reactions[postIndex!]['state'].value = true;
+                            Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Sad';
+                            Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
                             Get.back();
                           },
                           reactions: <Reaction<String>>[
@@ -206,8 +206,8 @@ class LikeSectionWidget extends StatelessWidget {
                         child: ReactionButton<String>(
                           itemSize: const Size.square(50),
                           onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value = 'Angry';
-                            Get.find<PostReactionController>().reactions[postIndex!]['state'].value = true;
+                            Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Angry';
+                            Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
                             Get.back();
                           },
                           reactions: <Reaction<String>>[
@@ -242,13 +242,13 @@ class LikeSectionWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value == ''
+                          Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == ''
                               ? ksLove.tr
-                              : Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value,
+                              : Get.find<PostReactionController>().reactions[postIndex]['reaction'].value,
                           style: semiBold12TextStyle(sectionColor ?? cIconColor),
                         ),
                         kW4sizedBox,
-                        Get.find<PostReactionController>().reactions[postIndex!]['reaction'].value == ''
+                        Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == ''
                             ? const Icon(
                                 BipHip.love,
                                 color: cIconColor,

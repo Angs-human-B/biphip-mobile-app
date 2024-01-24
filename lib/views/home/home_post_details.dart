@@ -6,8 +6,8 @@ import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/widgets/post/comment_textfield.dart';
 
 class HomePostDetails extends StatelessWidget {
-  HomePostDetails({super.key, this.postIndex});
-  final int? postIndex;
+  HomePostDetails({super.key, this.postIndex = 0});
+  final int postIndex;
 
   final HomeController homeController = Get.find<HomeController>();
   @override

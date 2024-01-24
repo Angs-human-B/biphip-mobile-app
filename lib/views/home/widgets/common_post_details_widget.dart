@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 
 class CommonPostDetailsWidget extends StatelessWidget {
@@ -8,7 +9,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
     this.category,
     this.title,
     this.postText,
-    this.postIndex,
+    this.postIndex = 0,
     required this.mediaList,
     required this.isCommentShown,
     required this.showBottomSection,
@@ -16,7 +17,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
   final bool isCommentShown, showBottomSection;
   final String? category, title, postText;
   final List mediaList;
-  final int? postIndex;
+  final int postIndex;
   final HomeController homeController = Get.find<HomeController>();
 
   @override
@@ -78,8 +79,15 @@ class CommonPostDetailsWidget extends StatelessWidget {
                     children: [
                       TextButton(
                         style: kTextButtonStyle,
-                        onPressed: () {
-                          Get.toNamed(krHomePostDetailsScreen);
+                        onPressed: () async {
+                          if ((postText != null && postText?.trim() != '') || mediaList.length > 1) {
+                            Get.toNamed(krHomePostDetailsScreen);
+                          } else {
+                            Get.to(() => CommonPhotoView(
+                                  image: Environment.imageBaseUrl + mediaList[0].path.toString(),
+                                  postIndex: postIndex,
+                                ));
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
