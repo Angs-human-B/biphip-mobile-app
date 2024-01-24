@@ -113,7 +113,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     if (reactEmojiList.length == 1) {
       return 15;
     } else if (reactEmojiList.length == 2) {
-      return 30;
+      return 25;
     } else {
       return 35;
     }
