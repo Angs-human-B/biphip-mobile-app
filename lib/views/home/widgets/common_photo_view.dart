@@ -5,9 +5,9 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class CommonPhotoView extends StatelessWidget {
-  CommonPhotoView({super.key, required this.image, this.postIndex});
+  CommonPhotoView({super.key, required this.image, this.postIndex = 0});
   final String image;
-  final int? postIndex;
+  final int postIndex;
   final HomeController homeController = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
@@ -116,16 +116,37 @@ class GalleryWidget extends StatelessWidget {
               },
             ),
           ),
-          body: PhotoViewGallery.builder(
-            pageController: pageController,
-            itemCount: urlImages.length,
-            builder: (context, index) {
-              return PhotoViewGalleryPageOptions(
-                imageProvider: NetworkImage(urlImages[index]),
-                minScale: PhotoViewComputedScale.contained,
-                maxScale: PhotoViewComputedScale.contained * 5,
-              );
-            },
+          body: Stack(
+            children: [
+              PhotoViewGallery.builder(
+                pageController: pageController,
+                itemCount: urlImages.length,
+                builder: (context, index) {
+                  return PhotoViewGalleryPageOptions(
+                    imageProvider: NetworkImage(urlImages[index]),
+                    minScale: PhotoViewComputedScale.contained,
+                    maxScale: PhotoViewComputedScale.contained * 5,
+                  );
+                },
+              ),
+              Positioned(
+                bottom: 5,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                  child: Column(children: [
+                    Container(
+                      color: cWhiteColor,
+                      height: 1,
+                      width: width - 40,
+                    ),
+                    const LikeSectionWidget(
+                      sectionColor: cWhiteColor,
+                      isGiftShown: false,
+                    ),
+                  ]),
+                ),
+              ),
+            ],
           ),
         ),
       ),
