@@ -51,15 +51,21 @@ class AllFamilyListView extends StatelessWidget {
                                       subTitle: familyController.familyList[index].familyRelationStatus ?? ksNA.tr,
                                       firstButtonText: ksMessage.tr,
                                       secondButtonText: ksBlock.tr,
-                                      firstButtonOnPressed: () {},
-                                      secondButtonOnPressed: () {},
+                                      firstButtonOnPressed: () {
+                                        unFocus(context);
+                                      },
+                                      secondButtonOnPressed: () {
+                                        unFocus(context);
+                                      },
                                     ),
                                   ),
                                 );
                               },
                             ),
                           ),
-                          if (familyController.familyList.isNotEmpty && familyController.familyListScrolled.value && familyController.familyListSubLink.value != null)
+                          if (familyController.familyList.isNotEmpty &&
+                              familyController.familyListScrolled.value &&
+                              familyController.familyListSubLink.value != null)
                             const Center(child: CircularProgressIndicator()),
                         ],
                       ),
@@ -70,4 +76,3 @@ class AllFamilyListView extends StatelessWidget {
     );
   }
 }
-
