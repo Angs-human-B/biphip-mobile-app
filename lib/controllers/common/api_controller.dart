@@ -99,7 +99,9 @@ class ApiController {
       );
       ll("response statusCode : ${response.statusCode}");
       if (response.statusCode == 200) {
-        ll("response body : ${response.body}");
+        final object = json.decode(response.body.toString());
+        final prettyString = const JsonEncoder.withIndent('  ').convert(object);
+        log("Response : $prettyString");
         CommonDM cm = convertToCommonObject(jsonDecode(response.body));
         return cm;
         // return jsonDecode(response.body);
@@ -151,10 +153,11 @@ class ApiController {
       });
       ll("response statusCode : ${response.statusCode}");
       if (response.statusCode == 200) {
-        ll("response body : ${response.data}");
+        final object = json.decode(response.toString());
+        final prettyString = const JsonEncoder.withIndent('  ').convert(object);
+        log("Response : $prettyString");
         CommonDM cm = convertToCommonObject(response.data);
         return cm;
-        // return jsonDecode(response.body);
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
         Get.offAllNamed(krLogin);

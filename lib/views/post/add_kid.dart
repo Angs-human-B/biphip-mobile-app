@@ -87,6 +87,7 @@ class AddKidPage extends StatelessWidget {
                           isDeviceScreenLarge() ? kH20sizedBox : kH10sizedBox,
                           OutLinedButton(
                             onPress: () {
+                              unFocus(context);
                               globalController.commonBottomSheet(
                                   context: context,
                                   onPressCloseButton: () {

@@ -75,6 +75,7 @@ class AllFriendListView extends StatelessWidget {
                                       ),
                                       trailing: CustomIconButton(
                                           onPress: () {
+                                            unFocus(context);
                                             friendController.friendActionSelect.value = '';
                                             friendController.allFriendFollowStatus.value = friendController.friendList[index].followStatus!;
                                             if (friendController.friendActionSelect.value == '') {
@@ -103,6 +104,9 @@ class AllFriendListView extends StatelessWidget {
                                                 if (friendController.friendActionSelect.value == 'Follow') {
                                                   await friendController.followUser();
                                                 }
+                                                  if (friendController.friendActionSelect.value == 'Add Family') {
+                                                  Get.toNamed(krAddFamily);
+                                                }
                                                 friendController.friendActionSelect.value = '';
                                               },
                                               rightText: ksDone.tr,
@@ -119,7 +123,9 @@ class AllFriendListView extends StatelessWidget {
                               },
                             ),
                           ),
-                          if (friendController.friendList.isNotEmpty && friendController.friendListScrolled.value && friendController.friendListSubLink.value !=null)
+                          if (friendController.friendList.isNotEmpty &&
+                              friendController.friendListScrolled.value &&
+                              friendController.friendListSubLink.value != null)
                             const Center(child: CircularProgressIndicator()),
                         ],
                       ),

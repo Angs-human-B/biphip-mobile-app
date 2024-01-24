@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bip_hip/helpers/menu/family/family_helper.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/family/common_family_model.dart';
 import 'package:bip_hip/models/menu/family/family_relation_model.dart';
@@ -430,10 +431,10 @@ class FamilyController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        await getSendFamilyRequestList();
+        Get.back();
+        FamilyHelper().pendingFamilyTapableButtOnPressed();
         isSendFamilyRequestLoading.value = false;
         globalController.searchController.clear();
-        Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor);
       } else {
         isSendFamilyRequestLoading.value = false;

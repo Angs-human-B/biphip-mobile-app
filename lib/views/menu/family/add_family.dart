@@ -136,8 +136,8 @@ class AddFamily extends StatelessWidget {
                           hintText: ksSelectRelation.tr,
                           text: familyController.relation.value,
                           onPressed: () async {
-                            familyHelper.setRelationBottomSheetValue();
                             unFocus(context);
+                            familyHelper.setRelationBottomSheetValue();
                             familyController.isFamilyRelationListLoading.value = true;
                             Get.find<GlobalController>().commonBottomSheet(
                               context: context,
