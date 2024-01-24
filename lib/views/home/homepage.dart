@@ -115,7 +115,9 @@ class HomePage extends StatelessWidget {
                                 width: width,
                                 color: cWhiteColor,
                                 child: CustomPostButton(
-                                  name: Get.find<GlobalController>().userLastName.value.toString(),
+                                  name: checkNullOrStringNull(Get.find<GlobalController>().userLastName.value.toString().trim()) != null
+                                      ? Get.find<GlobalController>().userLastName.value.toString()
+                                      : Get.find<GlobalController>().userName.value.toString(),
                                   profilePic: Get.find<GlobalController>().userImage.value.toString(),
                                   onPressed: () async {
                                     Get.find<CreatePostController>().isPostedFromProfile.value = false;

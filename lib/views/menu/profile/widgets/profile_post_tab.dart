@@ -65,7 +65,9 @@ class PostTab extends StatelessWidget {
             Container(
               color: cWhiteColor,
               child: CustomPostButton(
-                name: Get.find<GlobalController>().userLastName.value.toString(),
+                name: checkNullOrStringNull(Get.find<GlobalController>().userLastName.value.toString().trim()) != null
+                    ? Get.find<GlobalController>().userLastName.value.toString()
+                    : Get.find<GlobalController>().userName.value.toString(),
                 profilePic: Get.find<GlobalController>().userImage.value.toString(),
                 onPressed: () {
                   Get.find<CreatePostController>().isPostedFromProfile.value = true;
