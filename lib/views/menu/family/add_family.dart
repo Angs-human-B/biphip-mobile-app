@@ -7,7 +7,8 @@ import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 import 'package:bip_hip/views/menu/family/widgets/relation_content.dart';
 
 class AddFamily extends StatelessWidget {
-  AddFamily({super.key});
+  AddFamily({super.key, this.name});
+  final String? name;
   final FamilyController familyController = Get.find<FamilyController>();
   final FriendController friendController = Get.find<FriendController>();
   final GlobalController globalController = Get.find<GlobalController>();
@@ -63,74 +64,100 @@ class AddFamily extends StatelessWidget {
                     () => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        RawAutocomplete(
-                          textEditingController: globalController.searchController,
-                          focusNode: familyController.addFamilyFocusNode,
-                          optionsBuilder: (TextEditingValue textEditingValue) {
-                            return friendController.tempFriendList.where((word) => word.toLowerCase().contains(textEditingValue.text.toLowerCase()));
-                          },
-                          onSelected: (option) {
-                            globalController.searchController.text = option;
-                          },
-                          optionsViewBuilder: (context, Function(String) onSelected, options) {
-                            return Align(
-                              alignment: Alignment.topLeft,
-                              child: SizedBox(
-                                width: width - 40,
-                                child: Material(
-                                  elevation: 4,
-                                  child: ListView.separated(
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.zero,
-                                    itemBuilder: (context, index) {
-                                      final option = options.elementAt(index);
-                                      return CustomListTile(
-                                        title: Text(
-                                          option.toString(),
-                                          style: medium16TextStyle(cBlackColor),
-                                        ),
-                                        onPressed: () {
-                                          onSelected(option.toString());
-                                          familyHelper.addFamilySetAutoComplete(option: option);
-                                          unfocus(context);
-                                        },
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) => Container(
-                                      height: 1,
-                                      color: cLineColor,
+                        if (name != null)
+                          Container(
+                            width: width - 40,
+                            height: 50,
+                            color: cGreyBoxColor,
+                            child: Row(
+                              children: [
+                                // Padding(
+                                //   padding: const EdgeInsets.symmetric(horizontal: k8Padding),
+                                //   child: Transform.scale(
+                                //     scale: 0.85,
+                                //     child: Icon(
+                                //       BipHip.search,
+                                //       size: screenWiseSize(kIconSize20, 4),
+                                //     ),
+                                //   ),
+                                // ),
+                                kW8sizedBox,
+                                Text(
+                                  name!,
+                                  style: regular16TextStyle(cBlackColor),
+                                ),
+                              ],
+                            ),
+                          ),
+                        if (name == null)
+                          RawAutocomplete(
+                            textEditingController: globalController.searchController,
+                            focusNode: familyController.addFamilyFocusNode,
+                            optionsBuilder: (TextEditingValue textEditingValue) async {
+                              return friendController.tempFriendList.where((word) => word.toLowerCase().contains(textEditingValue.text.toLowerCase()));
+                            },
+                            onSelected: (option) {
+                              globalController.searchController.text = option;
+                            },
+                            optionsViewBuilder: (context, Function(String) onSelected, options) {
+                              return Align(
+                                alignment: Alignment.topLeft,
+                                child: SizedBox(
+                                  width: width - 40,
+                                  child: Material(
+                                    elevation: 4,
+                                    child: ListView.separated(
+                                      shrinkWrap: true,
+                                      padding: EdgeInsets.zero,
+                                      itemBuilder: (context, index) {
+                                        final option = options.elementAt(index);
+                                        return CustomListTile(
+                                          title: Text(
+                                            option.toString(),
+                                            style: medium16TextStyle(cBlackColor),
+                                          ),
+                                          onPressed: () {
+                                            onSelected(option.toString());
+                                            familyHelper.addFamilySetAutoComplete(option: option);
+                                            unfocus(context);
+                                          },
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) => Container(
+                                        height: 1,
+                                        color: cLineColor,
+                                      ),
+                                      itemCount: options.length,
                                     ),
-                                    itemCount: options.length,
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                          fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
-                            return Obx(() => CustomModifiedTextField(
-                                  borderRadius: h8,
-                                  controller: globalController.searchController,
-                                  focusNode: focusNode,
-                                  prefixIcon: BipHip.search,
-                                  suffixIcon: familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
-                                  hint: ksSearch.tr,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    vertical: k12Padding,
-                                  ),
-                                  textInputStyle: regular16TextStyle(cBlackColor),
-                                  onSuffixPress: () {
-                                    familyHelper.familySearchReset();
-                                  },
-                                  onSubmit: (v) {
-                                    unfocus(context);
-                                    familyController.isFamilySuffixIconVisible.value = false;
-                                  },
-                                  onChanged: (v) {
-                                    familyHelper.addSearchResultToFamilyList();
-                                  },
-                                ));
-                          },
-                        ),
+                              );
+                            },
+                            fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                              return Obx(() => CustomModifiedTextField(
+                                    borderRadius: h8,
+                                    controller: globalController.searchController,
+                                    focusNode: focusNode,
+                                    prefixIcon: BipHip.search,
+                                    suffixIcon: familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                                    hint: ksSearch.tr,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      vertical: k12Padding,
+                                    ),
+                                    textInputStyle: regular16TextStyle(cBlackColor),
+                                    onSuffixPress: () {
+                                      familyHelper.familySearchReset();
+                                    },
+                                    onSubmit: (v) {
+                                      unfocus(context);
+                                      familyController.isFamilySuffixIconVisible.value = false;
+                                    },
+                                    onChanged: (v) {
+                                      familyHelper.addSearchResultToFamilyList();
+                                    },
+                                  ));
+                            },
+                          ),
                         kH12sizedBox,
                         CustomSelectionButton(
                           hintText: ksSelectRelation.tr,
