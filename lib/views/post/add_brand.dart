@@ -182,6 +182,7 @@ class AddBrandPage extends StatelessWidget {
                                 },
                                 onSelected: (option) {
                                   createPostController.businessTypeTextEditingController.text = option;
+                                  createPostController.checkCanSaveBrand();
                                 },
                                 optionsViewBuilder: (context, Function(String) onSelected, options) {
                                   return Align(
@@ -229,6 +230,7 @@ class AddBrandPage extends StatelessWidget {
                                       onSuffixPress: () {
                                         createPostController.isAddBrandSuffixIconVisible.value = false;
                                         createPostController.businessTypeTextEditingController.clear();
+                                        createPostController.checkCanSaveBrand();
                                       },
                                       onChanged: (text) {
                                         if (createPostController.businessTypeTextEditingController.text.trim() != '') {
@@ -236,6 +238,7 @@ class AddBrandPage extends StatelessWidget {
                                         } else {
                                           createPostController.isAddBrandSuffixIconVisible.value = false;
                                         }
+                                        createPostController.checkCanSaveBrand();
                                       },
                                       onSubmit: (text) {
                                         createPostController.isAddBrandSuffixIconVisible.value = false;
