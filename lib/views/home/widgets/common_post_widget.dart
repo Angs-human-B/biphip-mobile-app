@@ -2,6 +2,8 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/home_post_details.dart';
+import 'package:bip_hip/views/home/home_post_details_screen.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
@@ -57,6 +59,7 @@ class CommonPostWidget extends StatelessWidget {
     required this.userImage,
     required this.taggedFriends,
     this.reactCount,
+    this.postIndex,
   });
   final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -86,6 +89,7 @@ class CommonPostWidget extends StatelessWidget {
   final List<TaggedFriend> taggedFriends;
   final CountReactions? reactCount;
   final int commentCount, shareCount, giftCount, postID;
+  final int? postIndex;
   final VoidCallback? postUpperContainerOnPressed;
   final HomeController homeController = Get.find<HomeController>();
 
@@ -151,7 +155,11 @@ class CommonPostWidget extends StatelessWidget {
         InkWell(
           onTap: () async {
             // ll('Upper container');
-            Get.toNamed(krHomePostDetails);
+            Get.find<PostReactionController>().postIndex.value = postIndex!;
+            // Get.toNamed(krHomePostDetails);
+            Get.to(() => HomePostDetails(
+                  postIndex: postIndex,
+                ));
             await Get.find<HomeController>().getPostData(postID);
           },
           child: Padding(
@@ -367,6 +375,7 @@ class CommonPostWidget extends StatelessWidget {
                           } else {
                             Get.to(() => CommonPhotoView(
                                   image: Environment.imageBaseUrl + mediaList[0].path.toString(),
+                                  postIndex: postIndex,
                                 ));
                           }
                         },
@@ -400,7 +409,9 @@ class CommonPostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            Get.toNamed(krHomePostDetailsScreen);
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
                             await Get.find<HomeController>().getPostData(postID);
                           },
                           child: Container(
@@ -437,7 +448,9 @@ class CommonPostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            Get.toNamed(krHomePostDetailsScreen);
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
                             await Get.find<HomeController>().getPostData(postID);
                           },
                           child: Container(
@@ -470,7 +483,9 @@ class CommonPostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            Get.toNamed(krHomePostDetailsScreen);
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
                             await Get.find<HomeController>().getPostData(postID);
                           },
                           child: Container(
@@ -539,7 +554,9 @@ class CommonPostWidget extends StatelessWidget {
                             TextButton(
                               style: kTextButtonStyle,
                               onPressed: () async {
-                                Get.toNamed(krHomePostDetailsScreen);
+                                Get.to(() => HomePostDetailsScreen(
+                                      postIndex: postIndex,
+                                    ));
                                 await Get.find<HomeController>().getPostData(postID);
                               },
                               child: Container(
@@ -588,6 +605,7 @@ class CommonPostWidget extends StatelessWidget {
           ),
         if (showBottomSection)
           PostBottomSection(
+            postIndex: postIndex,
             isSelfPost: isSelfPost,
             isCommentShown: isCommentShown,
             commentCount: commentCount,
@@ -619,13 +637,15 @@ class PostBottomSection extends StatelessWidget {
       this.platformLink,
       this.actionName,
       this.actionOnPressed,
-      this.reactCount});
+      this.reactCount,
+      this.postIndex});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   final bool isSelfPost, isCommentShown;
   final RxBool showComment = RxBool(false);
   final int commentCount, shareCount, giftCount;
+  final int? postIndex;
   final CountReactions? reactCount;
   final String? category, platformName, platformLink, actionName;
   final VoidCallback? actionOnPressed;
@@ -767,7 +787,9 @@ class PostBottomSection extends StatelessWidget {
                 horizontal: kHorizontalPadding,
               ),
               child: LikeSectionWidget(
+                postIndex: postIndex,
                 isGiftShown: true,
+                likeOnTap: () {},
                 giftOnPressed: () {
                   globalController.blankBottomSheet(context: context, content: GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },

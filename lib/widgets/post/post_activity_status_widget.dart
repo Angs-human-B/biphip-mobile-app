@@ -59,7 +59,7 @@ class ReactionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get.find<PostReactionController>().reactionView(reactCount?.toJson());
+    if (reactCount != null) Get.find<PostReactionController>().reactionView(reactCount?.toJson());
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -69,32 +69,33 @@ class ReactionView extends StatelessWidget {
             style: regular10TextStyle(cSmallBodyTextColor),
           ),
         kW4sizedBox,
-        Stack(
-          children: [
-            SizedBox(
-              width: Get.find<PostReactionController>().reactStackWidthGetter(),
-              height: 15,
-            ),
-            for (int index = 0; index < Get.find<PostReactionController>().reactionView(reactCount?.toJson()).length; index++)
-              Positioned(
-                left: index * 10,
-                child: Container(
-                  height: 15,
-                  width: 15,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: cWhiteColor, width: 1),
-                  ),
-                  child: ClipOval(
-                    child: SvgPicture.asset(
-                      Get.find<PostReactionController>().reactionView(reactCount?.toJson())[index],
-                      fit: BoxFit.cover,
+        if (reactCount != null)
+          Stack(
+            children: [
+              SizedBox(
+                width: Get.find<PostReactionController>().reactStackWidthGetter(),
+                height: 15,
+              ),
+              for (int index = 0; index < Get.find<PostReactionController>().reactionView(reactCount?.toJson()).length; index++)
+                Positioned(
+                  left: index * 10,
+                  child: Container(
+                    height: 15,
+                    width: 15,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: cWhiteColor, width: 1),
+                    ),
+                    child: ClipOval(
+                      child: SvgPicture.asset(
+                        Get.find<PostReactionController>().reactionView(reactCount?.toJson())[index],
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
-              ),
-          ],
-        ),
+            ],
+          ),
         kW4sizedBox,
         if (isPost && reactCount != null)
           Text(
