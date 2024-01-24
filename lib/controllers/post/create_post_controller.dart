@@ -302,12 +302,14 @@ class CreatePostController extends GetxController {
   final TextEditingController brandInstagramTextEditingController = TextEditingController();
   final RxList brandSocialLinkList = RxList([]);
   Future<void> addBrand() async {
+    ll(brandImageFile.value.path);
     try {
       isAddBrandPageLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         'name': brandNameTextEditingController.text.trim(),
         'social_links': json.encode(brandSocialLinkList),
+        'profile_picture': brandImageFile.value.path,
         'business_category': businessTypeTextEditingController.text.trim()
       };
       var response = await apiController.mediaUpload(
