@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/controllers/auth/social_login_controller.dart';
 import 'package:bip_hip/helpers/auth/login_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/checkbox_and_container.dart';
@@ -139,7 +140,14 @@ class Login extends StatelessWidget {
                           style: regular14TextStyle(cBlackColor),
                         ),
                         kH8sizedBox,
-                        const OtherLoginPlatform(),
+                        OtherLoginPlatform(
+                          onPressedGoogle: () async {
+                            await Get.find<SocialLogInController>().googleLogIn();
+                          },
+                          onPressedFacebook: () async {
+                            await Get.find<SocialLogInController>().facebookLogIn();
+                          },
+                        ),
                         kH12sizedBox,
                         LinkupTextRow(
                           prefix: ksDoNotHaveAnyAccount.tr,
@@ -202,16 +210,16 @@ class OtherLoginPlatform extends StatelessWidget {
             width: 40,
           ),
         ),
-        kW8sizedBox,
-        TextButton(
-          onPressed: onPressedTwitter,
-          style: kTextButtonStyle,
-          child: Image.asset(
-            kiTwitterImageUrl,
-            height: 40,
-            width: 40,
-          ),
-        ),
+        // kW8sizedBox,
+        // TextButton(
+        //   onPressed: onPressedTwitter,
+        //   style: kTextButtonStyle,
+        //   child: Image.asset(
+        //     kiTwitterImageUrl,
+        //     height: 40,
+        //     width: 40,
+        //   ),
+        // ),
       ],
     );
   }

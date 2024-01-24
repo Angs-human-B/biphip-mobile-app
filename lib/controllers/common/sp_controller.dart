@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const kBearerToken = 'kBearerToken';
 const kRememberMe = "kRememberMe";
+const kIsFacebookLogin = 'kIsFacebookLogin';
+const kIsGmailLogin = 'kIsGmailLogin';
 const kUserName = "kUserName";
 const kUserImage = "kUserImage";
 const kUserEmail = "kUserEmail";
@@ -79,6 +81,26 @@ class SpController {
   Future<bool?> getRememberMe() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getBool(kRememberMe);
+  }
+
+  Future<void> saveIsFacebookLogin(value) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setBool(kIsFacebookLogin, value);
+  }
+
+  Future<bool?> getIsFacebookLogin() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(kIsFacebookLogin);
+  }
+
+  Future<void> saveIsGmailLogin(value) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setBool(kIsGmailLogin, value);
+  }
+
+  Future<bool?> getIsGmailLogin() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(kIsGmailLogin);
   }
 
   //* save user name
@@ -161,5 +183,7 @@ class SpController {
     await preferences.remove(kUserEmail);
     await preferences.remove(kUserFirstName);
     await preferences.remove(kUserLastName);
+    await preferences.remove(kIsFacebookLogin);
+    await preferences.remove(kIsGmailLogin);
   }
 }

@@ -21,4 +21,17 @@ class Environment {
     return dotenv.get('Image_Base_Url');
   }
 
+  static String get appId{
+    return dotenv.get('App_Id');
+  }
+  static String get apiKey{
+    return dotenv.get('Api_Key');
+  }
+  static String get messagingSenderId{
+    return dotenv.get('Messaging_Sender_Id');
+  }
+  static String get projectId{
+    return dotenv.get('Project_Id');
+  }
+
 }

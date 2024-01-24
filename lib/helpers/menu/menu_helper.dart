@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/controllers/auth/social_login_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
@@ -74,7 +75,14 @@ class MenuHelper {
 
   void logout() async {
     var status = await spController.getRememberMe();
+    bool? isGmailLoggedInUser = await spController.getIsGmailLogin();
+    bool? isFacebookLoggedInUser = await spController.getIsFacebookLogin();
     if (status == true) {
+      if (isGmailLoggedInUser != null && isGmailLoggedInUser == true) {
+        await Get.find<SocialLogInController>().gmailLogout();
+      } else if (isFacebookLoggedInUser != null && isFacebookLoggedInUser == true) {
+        await Get.find<SocialLogInController>().facebookLogout();
+      }
       await Get.find<AuthenticationController>().getSavedUsers();
       Get.offAllNamed(krSavedUserLogin);
       await spController.onLogout();

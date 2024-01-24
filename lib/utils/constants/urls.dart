@@ -27,6 +27,7 @@ const String kuGetAllKidList = '/mobile/user/get-all-kids';
 
 const String kuLogin = '/mobile/login';
 const String kuRegistration = '/mobile/signup';
+const String kuSocialLogIn = '/mobile/social-login';
 const String kuRegistrationVerifyOTP = '/mobile/user/verify-email-otp';
 const String kuRegistrationResendOTP = '/mobile/resend-otp';
 const String kuForgetPassword = '/mobile/forgot-password';
