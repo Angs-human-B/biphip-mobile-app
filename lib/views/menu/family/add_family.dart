@@ -117,9 +117,9 @@ class AddFamily extends StatelessWidget {
                                             style: medium16TextStyle(cBlackColor),
                                           ),
                                           onPressed: () {
+                                            unfocus(context);
                                             onSelected(option.toString());
                                             familyHelper.addFamilySetAutoComplete(option: option);
-                                            unfocus(context);
                                           },
                                         );
                                       },
@@ -176,8 +176,8 @@ class AddFamily extends StatelessWidget {
                                 Get.back();
                               },
                               onPressRightButton: () {
-                                familyHelper.selectRelation();
                                 unfocus(context);
+                                familyHelper.selectRelation();
                               },
                               rightText: ksDone.tr,
                               rightTextStyle: semiBold16TextStyle(cPrimaryColor),
