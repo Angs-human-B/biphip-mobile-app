@@ -97,7 +97,7 @@ class AllFriendListView extends StatelessWidget {
                                               },
                                               onPressRightButton: () async {
                                                 friendController.userId.value = friendController.friendList[index].id!;
-                                                Get.find<FamilyController>().userId.value = friendController.friendList[index].id!;
+
                                                 ll(friendController.userId.value);
                                                 Get.back();
                                                 if (friendController.friendActionSelect.value == 'Unfriend') {
@@ -110,9 +110,9 @@ class AllFriendListView extends StatelessWidget {
                                                   await friendController.followUser();
                                                 }
                                                 if (friendController.friendActionSelect.value == 'Add Family') {
-                                                  ll(friendController.friendList[index].fullName);
-                                                  // Get.toNamed(krAddFamily);
-                                                  globalController.searchController.text = friendController.friendList[index].fullName.toString();
+                                                  Get.find<FamilyController>().clearAddFamilyData();
+                                                  Get.find<FamilyController>().isRouteFromAllFriend.value = true;
+                                                  Get.find<FamilyController>().userId.value = friendController.friendList[index].id!;
                                                   Get.to(() => AddFamily(name: friendController.friendList[index].fullName));
                                                 }
                                                 friendController.friendActionSelect.value = '';
