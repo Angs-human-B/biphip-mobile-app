@@ -621,7 +621,8 @@ class BrandBottomSheetContent extends StatelessWidget {
             child: InkWell(
               onTap: createPostController.selectedBrandId.value == -1
                   ? () {
-                      Get.offAndToNamed(krCreatePost);
+                      Get.offNamedUntil(krCreatePost, ModalRoute.withName(krHome));
+                      
                     }
                   : null,
               child: Text(
