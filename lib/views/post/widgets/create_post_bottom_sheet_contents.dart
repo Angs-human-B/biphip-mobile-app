@@ -621,7 +621,7 @@ class BrandBottomSheetContent extends StatelessWidget {
             child: InkWell(
               onTap: createPostController.selectedBrandId.value == -1
                   ? () {
-                      Get.toNamed(krCreatePost);
+                      Get.offAndToNamed(krCreatePost);
                     }
                   : null,
               child: Text(
@@ -891,5 +891,137 @@ class BoostPostContent extends StatelessWidget {
         )
       ],
     );
+  }
+}
+
+class ProductConditionContent extends StatelessWidget {
+  ProductConditionContent({super.key});
+  final CreatePostController createPostController = Get.find<CreatePostController>();
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+        child: Column(
+      children: [
+        ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: createPostController.createPostSellConditionList.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(top: k12Padding),
+                child: Obx(() => OutLinedButton(
+                      onPress: () {
+                        createPostController.tempSelectedProductCondition.value = createPostController.createPostSellConditionList[index].name.toString();
+                        createPostController.tempSelectedProductConditionID.value = createPostController.createPostSellConditionList[index].id.toString();
+                        if (createPostController.tempSelectedProductCondition.value == '') {
+                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                        } else {
+                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                        }
+                      },
+                      buttonText: createPostController.createPostSellConditionList[index].name.toString(),
+                      buttonTextStyle: regular16TextStyle(cBlackColor),
+                      borderColor:
+                          createPostController.tempSelectedProductCondition.value == createPostController.createPostSellConditionList[index].name.toString()
+                              ? cPrimaryColor
+                              : cLineColor2,
+                      buttonColor:
+                          createPostController.tempSelectedProductCondition.value == createPostController.createPostSellConditionList[index].name.toString()
+                              ? cPrimaryTint3Color
+                              : cWhiteColor,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    )),
+              );
+            }),
+      ],
+    ));
+  }
+}
+
+class ProductCategoryContent extends StatelessWidget {
+  ProductCategoryContent({super.key});
+  final CreatePostController createPostController = Get.find<CreatePostController>();
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+        child: Column(
+      children: [
+        ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: createPostController.createPostSellCategoryList.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(top: k12Padding),
+                child: Obx(() => OutLinedButton(
+                      onPress: () {
+                        createPostController.tempSelectedProductCategory.value = createPostController.createPostSellCategoryList[index].name.toString();
+                        createPostController.tempSelectedProductCategoryID.value = createPostController.createPostSellCategoryList[index].id.toString();
+                        if (createPostController.tempSelectedProductCategory.value == '') {
+                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                        } else {
+                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                        }
+                      },
+                      buttonText: createPostController.createPostSellCategoryList[index].name.toString(),
+                      buttonTextStyle: regular16TextStyle(cBlackColor),
+                      borderColor:
+                          createPostController.tempSelectedProductCategory.value == createPostController.createPostSellCategoryList[index].name.toString()
+                              ? cPrimaryColor
+                              : cLineColor2,
+                      buttonColor:
+                          createPostController.tempSelectedProductCategory.value == createPostController.createPostSellCategoryList[index].name.toString()
+                              ? cPrimaryTint3Color
+                              : cWhiteColor,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    )),
+              );
+            }),
+      ],
+    ));
+  }
+}
+
+class ProductAvailabilityContent extends StatelessWidget {
+  ProductAvailabilityContent({super.key});
+  final CreatePostController createPostController = Get.find<CreatePostController>();
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+        child: Column(
+      children: [
+        ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: createPostController.productAvailabilityList.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(top: k12Padding),
+                child: Obx(() => OutLinedButton(
+                      onPress: () {
+                        createPostController.temporaryProductAvailability.value = createPostController.productAvailabilityList[index]['name'].toString();
+                        createPostController.temporaryProductAvailabilityId.value = createPostController.productAvailabilityList[index]['id'];
+                        if (createPostController.temporaryProductAvailability.value == '') {
+                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                        } else {
+                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                        }
+                      },
+                      buttonText: createPostController.productAvailabilityList[index]['name'].toString(),
+                      buttonTextStyle: regular16TextStyle(cBlackColor),
+                      borderColor:
+                          createPostController.temporaryProductAvailability.value == createPostController.productAvailabilityList[index]['name'].toString()
+                              ? cPrimaryColor
+                              : cLineColor2,
+                      buttonColor:
+                          createPostController.temporaryProductAvailability.value == createPostController.productAvailabilityList[index]['name'].toString()
+                              ? cPrimaryTint3Color
+                              : cWhiteColor,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    )),
+              );
+            }),
+      ],
+    ));
   }
 }
