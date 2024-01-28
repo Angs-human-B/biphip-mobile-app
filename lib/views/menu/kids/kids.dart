@@ -3,6 +3,7 @@ import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/widgets/kid_listview.dart';
+import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 
 class KidsPage extends StatelessWidget {
   KidsPage({super.key});
@@ -31,26 +32,31 @@ class KidsPage extends StatelessWidget {
                       Get.back();
                     },
                     action: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: k20Padding),
-                        child: TextButton(
-                          style: kTextButtonStyle,
-                          onPressed: () {
-                            createPostHelper.resetAddKidPage();
-                            Get.toNamed(krAddKid);
-                          },
-                          child: Text(
-                            ksAdd.tr,
-                            style: semiBold16TextStyle(cPrimaryColor),
+                      if (kidsController.kidList.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(right: k20Padding),
+                          child: TextButton(
+                            style: kTextButtonStyle,
+                            onPressed: () {
+                              // createPostHelper.resetAddKidPage();
+                              // Get.toNamed(krAddKid);
+                            },
+                            child: Text(
+                              ksAdd.tr,
+                              style: semiBold16TextStyle(cPrimaryColor),
+                            ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),
                 body: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    kH8sizedBox,
+                    const CustomDivider(
+                      thickness: 1,
+                    ),
                     Obx(() => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                           child: kidsController.isKidsListLoading.value
