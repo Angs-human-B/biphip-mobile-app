@@ -58,7 +58,6 @@ class AddKidBasicInfo extends StatelessWidget {
                           hint: ksWriteKidName.tr,
                           errorText: kidsController.kidNameErrorText.value,
                           onChanged: (text) {
-                            kidsController.checkCanAddKidInfo();
                             kidsController.kidNameOnChanged();
                           },
                           onSubmit: (text) {},
@@ -99,7 +98,7 @@ class AddKidBasicInfo extends StatelessWidget {
                           controller: kidsController.kidSchoolNameTextEditingController,
                           hint: ksWriteSchoolName.tr,
                           onChanged: (text) {
-                            kidsController.checkCanAddKidInfo();
+                            kidsController.checkNextButtonEnable();
                           },
                           onSubmit: (text) {},
                           inputAction: TextInputAction.done,
@@ -111,13 +110,13 @@ class AddKidBasicInfo extends StatelessWidget {
                   ),
                 ),
                 isDeviceScreenLarge() ? kH100sizedBox : kH60sizedBox,
-                CustomElevatedButton(
-                  buttonWidth: width - 40,
-                  buttonHeight: h40,
-                  label: ksNext.tr,
-                  onPressed: () {},
-                  textStyle: semiBold16TextStyle(cWhiteColor),
-                ),
+                Obx(() => CustomElevatedButton(
+                      buttonWidth: width - 40,
+                      buttonHeight: h40,
+                      label: ksNext.tr,
+                      onPressed: kidsController.isNextButtonEnabled.value ? () {} : null,
+                      textStyle: semiBold16TextStyle(cWhiteColor),
+                    )),
               ],
             ),
           ),

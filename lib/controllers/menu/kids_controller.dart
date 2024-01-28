@@ -94,16 +94,16 @@ class KidsController extends GetxController {
   final RxString kidAge = RxString('');
   final Rx<String?> kidNameErrorText = Rx<String?>(null);
   final Rx<String?> kidAgeErrorText = Rx<String?>(null);
-  void checkCanAddKidInfo() {
-    if (kidNameTextEditingController.text.trim().length >= 3 && kidAgeTextEditingController.text.trim() != '' && isKidImageChanged.value) {
-      isSaveKidButtonEnabled.value = true;
+  final RxBool isNextButtonEnabled = RxBool(false);
+  void checkNextButtonEnable() {
+    if (kidNameTextEditingController.text.trim().length >= 3 && int.parse(kidAgeTextEditingController.text.trim()) <= 17) {
+      isNextButtonEnabled.value = true;
     } else {
-      isSaveKidButtonEnabled.value = false;
+      isNextButtonEnabled.value = false;
     }
   }
 
   void kidNameOnChanged() {
-    checkCanAddKidInfo();
     if (kidNameTextEditingController.text.trim() == '') {
       kidNameErrorText.value = ksEmptyNameErrorText.tr;
     } else if (kidNameTextEditingController.text.trim().length < 3) {
@@ -114,9 +114,10 @@ class KidsController extends GetxController {
   }
 
   void kidAgeOnChanged() {
+    checkNextButtonEnable();
     if (kidAgeTextEditingController.text.trim() == '') {
       kidAgeErrorText.value = ksEmptyKidAgeErrorText.tr;
-    } else if (int.parse(kidAgeTextEditingController.text.trim()) > 17) {
+    } else if (kidAgeTextEditingController.text.trim() != '' && int.parse(kidAgeTextEditingController.text) > 17) {
       kidAgeErrorText.value = ksKidAgeErrorText.tr;
     } else {
       kidAgeErrorText.value = null;
