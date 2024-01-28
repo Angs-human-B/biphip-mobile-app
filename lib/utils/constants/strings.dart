@@ -435,3 +435,4 @@ const String ksOtherKnowAboutYourKid = "Let other users know about your Kid";
 const String ks1of4 = "1 of 4";
 const String ksEmptyKidAgeErrorText = "Kid Age can't be empty";
 const String ksKidAgeErrorText = "Kid Age must be 0 to 17";
+const String ksPrevious = "Previous";

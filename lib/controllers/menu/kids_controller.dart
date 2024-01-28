@@ -104,7 +104,7 @@ class KidsController extends GetxController {
   }
 
   void kidNameOnChanged() {
-    if (kidNameTextEditingController.text.trim() == '') {
+    if (kidNameTextEditingController.text.toString().trim() == '') {
       kidNameErrorText.value = ksEmptyNameErrorText.tr;
     } else if (kidNameTextEditingController.text.trim().length < 3) {
       kidNameErrorText.value = ksKidNameLengthErrorText.tr;
@@ -115,13 +115,21 @@ class KidsController extends GetxController {
 
   void kidAgeOnChanged() {
     checkNextButtonEnable();
-    if (kidAgeTextEditingController.text.trim() == '') {
+    if (kidAgeTextEditingController.text.isEmpty) {
       kidAgeErrorText.value = ksEmptyKidAgeErrorText.tr;
-    } else if (kidAgeTextEditingController.text.trim() != '' && int.parse(kidAgeTextEditingController.text) > 17) {
+    } else if (kidAgeTextEditingController.text.isNotEmpty && int.parse(kidAgeTextEditingController.text) > 17) {
       kidAgeErrorText.value = ksKidAgeErrorText.tr;
     } else {
       kidAgeErrorText.value = null;
     }
+  }
+
+  void resetKidsData() {
+    kidNameTextEditingController.clear();
+    kidAgeTextEditingController.clear();
+    kidSchoolNameTextEditingController.clear();
+    kidNameErrorText.value = null;
+    kidAgeErrorText.value = null;
   }
 
   //*Edit Kid Api Call

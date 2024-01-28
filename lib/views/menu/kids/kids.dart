@@ -38,8 +38,8 @@ class KidsPage extends StatelessWidget {
                           child: TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
-                              // createPostHelper.resetAddKidPage();
                               // Get.toNamed(krAddKid);
+                              kidsController.resetKidsData();
                               Get.toNamed(krAddKidBasicInfo);
                             },
                             child: Text(
@@ -51,30 +51,32 @@ class KidsPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                body: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    kH8sizedBox,
-                    const CustomDivider(
-                      thickness: 1,
-                    ),
-                    Obx(() => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                          child: kidsController.isKidsListLoading.value
-                              ? Padding(
-                                  padding: const EdgeInsets.only(bottom: k12Padding),
-                                  child: ShimmerCommon(
-                                    widget: Container(
-                                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                                      height: 16,
-                                      width: 120,
+                body: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      kH8sizedBox,
+                      const CustomDivider(
+                        thickness: 1,
+                      ),
+                      Obx(() => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                            child: kidsController.isKidsListLoading.value
+                                ? Padding(
+                                    padding: const EdgeInsets.only(bottom: k12Padding),
+                                    child: ShimmerCommon(
+                                      widget: Container(
+                                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                        height: 16,
+                                        width: 120,
+                                      ),
                                     ),
-                                  ),
-                                )
-                              : kidHelper.totalKidShow(),
-                        )),
-                    KidsListView(),
-                  ],
+                                  )
+                                : kidHelper.totalKidShow(),
+                          )),
+                      KidsListView(),
+                    ],
+                  ),
                 ),
               ),
             ),

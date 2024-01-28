@@ -114,7 +114,11 @@ class AddKidBasicInfo extends StatelessWidget {
                       buttonWidth: width - 40,
                       buttonHeight: h40,
                       label: ksNext.tr,
-                      onPressed: kidsController.isNextButtonEnabled.value ? () {} : null,
+                      onPressed: kidsController.isNextButtonEnabled.value
+                          ? () {
+                              Get.toNamed(krAddKidContactInfo);
+                            }
+                          : null,
                       textStyle: semiBold16TextStyle(cWhiteColor),
                     )),
               ],

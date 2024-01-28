@@ -13,6 +13,7 @@ import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_basic_info.dart';
+import 'package:bip_hip/views/menu/kids/add_kid_contact_info.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/create_post.dart';
 import 'package:bip_hip/views/post/upload_media_list.dart';
@@ -96,7 +97,8 @@ const String krGalleryVideos = '/gallery-videos';
 //*Kids
 const String krKidsPage = '/kids-page';
 const String krEditKidPage = '/edit-kids-page';
-const String krAddKidBasicInfo = '/add-kids-basic-info';
+const String krAddKidBasicInfo = '/add-kid-basic-info';
+const String krAddKidContactInfo = '/add-kid-contact-info';
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -155,5 +157,6 @@ List<GetPage<dynamic>>? routes = [
   //*Kids
   GetPage(name: krKidsPage, page: () => KidsPage(), transition: Transition.noTransition),
   GetPage(name: krEditKidPage, page: () => EditKidPage(), transition: Transition.noTransition),
-    GetPage(name: krAddKidBasicInfo, page: () => AddKidBasicInfo(), transition: Transition.noTransition),
+  GetPage(name: krAddKidBasicInfo, page: () => AddKidBasicInfo(), transition: Transition.noTransition),
+  GetPage(name: krAddKidContactInfo, page: () => AddKidContactInfo(), transition: Transition.noTransition),
 ];

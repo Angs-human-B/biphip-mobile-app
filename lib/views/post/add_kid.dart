@@ -53,6 +53,7 @@ class AddKidPage extends StatelessWidget {
                     ],
                   ),
                 ),
+              
                 body: SizedBox(
                   height: height,
                   width: width,
