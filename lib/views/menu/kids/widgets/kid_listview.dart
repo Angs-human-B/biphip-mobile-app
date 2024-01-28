@@ -83,32 +83,38 @@ class KidsListView extends StatelessWidget {
                   ),
                 ),
               )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    kikids,
-                    height: 200,
+            : Container(
+                alignment: Alignment.center,
+                // width: width,
+                height: height * 0.6,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SvgPicture.asset(
+                        kikidImage,
+                        height: 200,
+                      ),
+                      kH10sizedBox,
+                      Text(
+                        ksNoKidsAddedYet.tr,
+                        style: semiBold20TextStyle(cSmallBodyTextColor),
+                      ),
+                      kH20sizedBox,
+                      CustomElevatedButton(
+                        buttonWidth: 120,
+                        buttonHeight: h44,
+                        label: ksAddKid.tr,
+                        textStyle: semiBold16TextStyle(cWhiteColor),
+                        onPressed: () {
+                          kidsController.resetKidsData();
+                          Get.toNamed(krAddKidBasicInfo);
+                        },
+                        prefixIcon: BipHip.plus,
+                        prefixIconSize: kIconSize20,
+                      ),
+                    ],
                   ),
-                  kH10sizedBox,
-                  Text(
-                    ksNoKidsAddedYet.tr,
-                    style: semiBold20TextStyle(cSmallBodyTextColor),
-                  ),
-                  kH20sizedBox,
-                  CustomElevatedButton(
-                    buttonWidth: 120,
-                    buttonHeight: h44,
-                    label: ksAddKid.tr,
-                    textStyle: semiBold16TextStyle(cWhiteColor),
-                    onPressed: () {
-                      kidsController.resetKidsData();
-                      Get.toNamed(krAddKidBasicInfo);
-                    },
-                    prefixIcon: BipHip.plus,
-                    prefixIconSize: kIconSize20,
-                  ),
-                ],
+                ),
               ));
   }
 }

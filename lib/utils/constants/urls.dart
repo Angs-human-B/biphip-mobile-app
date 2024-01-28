@@ -192,4 +192,4 @@ const String kiBoostPostSvgUrl = 'assets/svg/boost_post_banner.svg';
 const String kiInstagramSvgUrl = 'assets/svg/instagram.svg';
 const String kiTwitterX2SvgUrl = 'assets/svg/twitter_x.svg';
 const String kiWarningInfo = 'assets/svg/warning_info.svg';
-const String kikids = 'assets/svg/kids.svg';
+const String kikidImage = 'assets/svg/kid_image.svg';

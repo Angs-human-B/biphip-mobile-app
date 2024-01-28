@@ -451,3 +451,6 @@ const String ksFacebook = "Facebook";
 const String ksInstagram = "Instagram";
 const String ksTwitter = "Twitter";
 const String ksYoutube = "Youtube";
+const String ksUploadImages = "Upload images";
+const String ksUploadProfileAndCoverPhoto = "Upload Profile and cover photo.";
+const String ks4of4 = "4 of 4";

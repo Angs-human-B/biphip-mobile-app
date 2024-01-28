@@ -3,8 +3,8 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_basic_info.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 
-class AddKidSocialLinks extends StatelessWidget {
-  AddKidSocialLinks({super.key});
+class AddKidUploadImage extends StatelessWidget {
+  AddKidUploadImage({super.key});
   final KidsController kidsController = Get.find<KidsController>();
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class AddKidSocialLinks extends StatelessWidget {
                   child: TextButton(
                     style: kTextButtonStyle,
                     onPressed: () {
-                      Get.toNamed(krAddKidUploadImage);
+                      Get.toNamed(krAddKidSocialLinks);
                     },
                     child: Text(
                       ksSkip.tr,
@@ -59,10 +59,10 @@ class AddKidSocialLinks extends StatelessWidget {
                   thickness: 1,
                 ),
                 KidTopTitleSubtitleAndCircularProgressBar(
-                  title: ksSocialLinks.tr,
-                  subTitle: ksAddSocialLinksForKid.tr,
-                  circularCenterText: ks3of4.tr,
-                  percent: 0.75,
+                  title: ksUploadImages.tr,
+                  subTitle: ksUploadProfileAndCoverPhoto.tr,
+                  circularCenterText: ks4of4.tr,
+                  percent: 1,
                 ),
                 kH16sizedBox,
                 const Padding(
@@ -146,7 +146,6 @@ class AddKidSocialLinks extends StatelessWidget {
               ],
             ),
           ),
-        
         ),
       ),
     );
