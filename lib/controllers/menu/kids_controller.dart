@@ -28,7 +28,7 @@ class KidsController extends GetxController {
         totalKidsCount.value = kidList.length;
         isKidsListLoading.value = false;
       } else {
-       isKidsListLoading.value = true;
+        isKidsListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -37,7 +37,7 @@ class KidsController extends GetxController {
         }
       }
     } catch (e) {
-     isKidsListLoading.value = true;
+      isKidsListLoading.value = true;
       ll('getKidsList error: $e');
     }
   }
@@ -86,11 +86,42 @@ class KidsController extends GetxController {
   final RxBool isKidImageChanged = RxBool(false);
   final TextEditingController kidNameTextEditingController = TextEditingController();
   final TextEditingController kidAgeTextEditingController = TextEditingController();
+  final TextEditingController kidSchoolNameTextEditingController = TextEditingController();
   final RxBool isSaveKidButtonEnabled = RxBool(false);
   final RxBool isKidAdded = RxBool(false);
   final RxBool isKidSelected = RxBool(false);
   final RxString kidName = RxString('');
   final RxString kidAge = RxString('');
+  final Rx<String?> kidNameErrorText = Rx<String?>(null);
+  final Rx<String?> kidAgeErrorText = Rx<String?>(null);
+  void checkCanAddKidInfo() {
+    if (kidNameTextEditingController.text.trim().length >= 3 && kidAgeTextEditingController.text.trim() != '' && isKidImageChanged.value) {
+      isSaveKidButtonEnabled.value = true;
+    } else {
+      isSaveKidButtonEnabled.value = false;
+    }
+  }
+
+  void kidNameOnChanged() {
+    checkCanAddKidInfo();
+    if (kidNameTextEditingController.text.trim() == '') {
+      kidNameErrorText.value = ksEmptyNameErrorText.tr;
+    } else if (kidNameTextEditingController.text.trim().length < 3) {
+      kidNameErrorText.value = ksKidNameLengthErrorText.tr;
+    } else {
+      kidNameErrorText.value = null;
+    }
+  }
+
+  void kidAgeOnChanged() {
+    if (kidAgeTextEditingController.text.trim() == '') {
+      kidAgeErrorText.value = ksEmptyKidAgeErrorText.tr;
+    } else if (int.parse(kidAgeTextEditingController.text.trim()) > 17) {
+      kidAgeErrorText.value = ksKidAgeErrorText.tr;
+    } else {
+      kidAgeErrorText.value = null;
+    }
+  }
 
   //*Edit Kid Api Call
   final RxBool isEditKidLoading = RxBool(false);

@@ -101,7 +101,7 @@ class KidsListView extends StatelessWidget {
                     CustomElevatedButton(
                       buttonWidth: 120,
                       buttonHeight: h44,
-                      label: ksAddKid,
+                      label: ksAddKid.tr,
                       textStyle: semiBold16TextStyle(cWhiteColor),
                       onPressed: () {
                         Get.toNamed(krAddKidBasicInfo);
