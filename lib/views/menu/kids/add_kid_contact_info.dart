@@ -43,7 +43,7 @@ class AddKidContactInfo extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {},
                     child: Text(
-                      ksNext.tr,
+                      ksSkip.tr,
                       style: medium14TextStyle(cPrimaryColor),
                     ),
                   ),
