@@ -136,6 +136,14 @@ class KidsController extends GetxController {
   final TextEditingController kidTwitterController = TextEditingController();
   final TextEditingController kidYoutubeController = TextEditingController();
 
+  //*Kid Profile and cover photo
+   final RxString kidProfileImageLink = RxString('');
+  final Rx<File> kidProfileImageFile = File('').obs;
+  final RxBool isKidProfileImageChanged = RxBool(false);
+   final RxString kidCoverImageLink = RxString('');
+  final Rx<File> kidCoverImageFile = File('').obs;
+  final RxBool isKidCoverImageChanged = RxBool(false);
+
 
   void resetKidsData() {
     kidNameTextEditingController.clear();
