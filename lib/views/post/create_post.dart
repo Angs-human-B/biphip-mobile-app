@@ -283,6 +283,9 @@ class CreatePost extends StatelessWidget {
                                         text: createPostController.selectedProductCategory.value == ''
                                             ? ksCategory.tr
                                             : createPostController.selectedProductCategory.value,
+                                        textStyle: createPostController.selectedProductCategory.value == ''
+                                            ? regular16TextStyle(cPlaceHolderColor)
+                                            : regular16TextStyle(cBlackColor),
                                         suffixIcon: BipHip.downArrow,
                                         onPressed: () {
                                           createPostController.tempSelectedProductCategory.value = createPostController.selectedProductCategory.value;
@@ -316,6 +319,9 @@ class CreatePost extends StatelessWidget {
                                         text: createPostController.selectedProductCondition.value == ''
                                             ? ksCondition.tr
                                             : createPostController.selectedProductCondition.value,
+                                        textStyle: createPostController.selectedProductCondition.value == ''
+                                            ? regular16TextStyle(cPlaceHolderColor)
+                                            : regular16TextStyle(cBlackColor),
                                         suffixIcon: BipHip.downArrow,
                                         onPressed: () {
                                           createPostController.tempSelectedProductCondition.value = createPostController.selectedProductCondition.value;
@@ -398,6 +404,9 @@ class CreatePost extends StatelessWidget {
                                             text: createPostController.productAvailability.value == ''
                                                 ? ksAvailability.tr
                                                 : createPostController.productAvailability.value,
+                                            textStyle: createPostController.productAvailability.value == ''
+                                                ? regular16TextStyle(cPlaceHolderColor)
+                                                : regular16TextStyle(cBlackColor),
                                             suffixIcon: BipHip.downArrow,
                                             onPressed: () {
                                               createPostController.temporaryProductAvailability.value = createPostController.productAvailability.value;
@@ -728,11 +737,12 @@ class CreatePost extends StatelessWidget {
 }
 
 class TextAndIconRowSellingPost extends StatelessWidget {
-  const TextAndIconRowSellingPost({super.key, required this.text, this.suffixIcon, this.onPressed, this.prefixIcon, this.width});
+  const TextAndIconRowSellingPost({super.key, required this.text, this.suffixIcon, this.onPressed, this.prefixIcon, this.width, this.textStyle});
   final String text;
   final double? width;
   final IconData? suffixIcon, prefixIcon;
   final VoidCallback? onPressed;
+  final TextStyle? textStyle;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -760,7 +770,7 @@ class TextAndIconRowSellingPost extends StatelessWidget {
               Expanded(
                 child: Text(
                   text,
-                  style: regular16TextStyle(cPlaceHolderColor),
+                  style: textStyle ?? regular16TextStyle(cPlaceHolderColor),
                 ),
               ),
               if (suffixIcon != null)
