@@ -1,7 +1,11 @@
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/kids/add_kid_basic_info.dart';
+import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 
 class AddKidContactInfo extends StatelessWidget {
-  const AddKidContactInfo({super.key});
+  AddKidContactInfo({super.key});
+  final KidsController kidsController = Get.find<KidsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,9 @@ class AddKidContactInfo extends StatelessWidget {
               leadingWidth: 80,
               leadingWidget: Center(
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Get.back();
+                  },
                   child: Text(
                     ksPrevious.tr,
                     style: semiBold14TextStyle(cPrimaryColor),
@@ -41,6 +47,92 @@ class AddKidContactInfo extends StatelessWidget {
                       style: medium14TextStyle(cPrimaryColor),
                     ),
                   ),
+                ),
+              ],
+            ),
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                const CustomDivider(
+                  thickness: 1,
+                ),
+                KidTopTitleSubtitleAndCircularProgressBar(
+                  title: ksContactInfo.tr,
+                  subTitle: ksAddParentContactInfo.tr,
+                  circularCenterText: ks2of4.tr,
+                  percent: 0.50,
+                ),
+                kH16sizedBox,
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                  child: CustomDivider(
+                    thickness: 1,
+                  ),
+                ),
+                Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding).copyWith(top: k16Padding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomModifiedTextField(
+                          controller: kidsController.kidParentEmailController,
+                          hint: ksEnterKidParentEmail.tr,
+                          onChanged: (text) {},
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.next,
+                          inputType: TextInputType.text,
+                          maxLength: 50,
+                        ),
+                        kH8sizedBox,
+                        CustomModifiedTextField(
+                          controller: kidsController.kidParentPhoneController,
+                          hint: ksEnterKidParentPhone.tr,
+                          errorText: kidsController.kidAgeErrorText.value,
+                          onChanged: (text) {},
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.done,
+                          inputType: TextInputType.number,
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                          maxLength: 3,
+                        ),
+                        kH8sizedBox,
+                        CustomModifiedTextField(
+                          controller: kidsController.kidParentAddressController,
+                          hint: ksEnterKidParentAddress.tr,
+                          onChanged: (text) {},
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.done,
+                          inputType: TextInputType.text,
+                          maxLength: 25,
+                        ),
+                        kH8sizedBox,
+                        CustomModifiedTextField(
+                          controller: kidsController.kidBioController,
+                          hint: ksEnterKidBio.tr,
+                          onChanged: (text) {
+                            kidsController.checkNextButtonEnable();
+                          },
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.newline,
+                          inputType: TextInputType.multiline,
+                          maxLines: 5,
+                          maxLength: 256,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                kH100sizedBox,
+                CustomElevatedButton(
+                  buttonWidth: width - 40,
+                  buttonHeight: h40,
+                  label: ksNext.tr,
+                  onPressed: () {
+                    Get.toNamed(krAddKidContactInfo);
+                  },
+                  textStyle: semiBold16TextStyle(cWhiteColor),
                 ),
               ],
             ),

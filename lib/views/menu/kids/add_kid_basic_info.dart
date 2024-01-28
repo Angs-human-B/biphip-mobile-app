@@ -116,6 +116,8 @@ class AddKidBasicInfo extends StatelessWidget {
                       label: ksNext.tr,
                       onPressed: kidsController.isNextButtonEnabled.value
                           ? () {
+                              // kidsController.kidParentEmailController.text = Get.find<ProfileController>().userData.value!.email.toString();
+                              // kidsController.kidParentPhoneController.text = Get.find<ProfileController>().userData.value!.phone.toString();
                               Get.toNamed(krAddKidContactInfo);
                             }
                           : null,

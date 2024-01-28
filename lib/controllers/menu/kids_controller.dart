@@ -124,12 +124,17 @@ class KidsController extends GetxController {
     }
   }
 
+  final TextEditingController kidParentEmailController = TextEditingController();
+  final TextEditingController kidParentPhoneController = TextEditingController();
+  final TextEditingController kidParentAddressController = TextEditingController();
+  final TextEditingController kidBioController = TextEditingController();
   void resetKidsData() {
     kidNameTextEditingController.clear();
     kidAgeTextEditingController.clear();
     kidSchoolNameTextEditingController.clear();
     kidNameErrorText.value = null;
     kidAgeErrorText.value = null;
+    isNextButtonEnabled.value = false;
   }
 
   //*Edit Kid Api Call
