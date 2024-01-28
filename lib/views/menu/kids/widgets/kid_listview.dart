@@ -102,10 +102,12 @@ class KidsListView extends StatelessWidget {
                       buttonWidth: 120,
                       buttonHeight: h44,
                       label: ksAddKid,
+                      textStyle: semiBold16TextStyle(cWhiteColor),
                       onPressed: () {
-                        
+                        Get.toNamed(krAddKidBasicInfo);
                       },
                       prefixIcon: BipHip.plus,
+                      prefixIconSize: kIconSize20,
                     ),
                   ],
                 ),

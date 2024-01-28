@@ -40,6 +40,7 @@ class KidsPage extends StatelessWidget {
                             onPressed: () {
                               // createPostHelper.resetAddKidPage();
                               // Get.toNamed(krAddKid);
+                              Get.toNamed(krAddKidBasicInfo);
                             },
                             child: Text(
                               ksAdd.tr,
