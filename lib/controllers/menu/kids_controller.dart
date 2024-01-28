@@ -128,6 +128,15 @@ class KidsController extends GetxController {
   final TextEditingController kidParentPhoneController = TextEditingController();
   final TextEditingController kidParentAddressController = TextEditingController();
   final TextEditingController kidBioController = TextEditingController();
+
+    //*Social Links
+  final TextEditingController kidWebsiteController = TextEditingController();
+  final TextEditingController kidFacebookController = TextEditingController();
+  final TextEditingController kidInstagramController = TextEditingController();
+  final TextEditingController kidTwitterController = TextEditingController();
+  final TextEditingController kidYoutubeController = TextEditingController();
+
+
   void resetKidsData() {
     kidNameTextEditingController.clear();
     kidAgeTextEditingController.clear();

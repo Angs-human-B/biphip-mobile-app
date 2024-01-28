@@ -41,7 +41,9 @@ class AddKidContactInfo extends StatelessWidget {
                   padding: const EdgeInsets.only(right: h20),
                   child: TextButton(
                     style: kTextButtonStyle,
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(krAddKidSocialLinks);
+                    },
                     child: Text(
                       ksSkip.tr,
                       style: medium14TextStyle(cPrimaryColor),
@@ -92,7 +94,7 @@ class AddKidContactInfo extends StatelessWidget {
                           errorText: kidsController.kidAgeErrorText.value,
                           onChanged: (text) {},
                           onSubmit: (text) {},
-                          inputAction: TextInputAction.done,
+                          inputAction: TextInputAction.next,
                           inputType: TextInputType.number,
                           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                           maxLength: 3,
@@ -103,7 +105,7 @@ class AddKidContactInfo extends StatelessWidget {
                           hint: ksEnterKidParentAddress.tr,
                           onChanged: (text) {},
                           onSubmit: (text) {},
-                          inputAction: TextInputAction.done,
+                          inputAction: TextInputAction.next,
                           inputType: TextInputType.text,
                           maxLength: 25,
                         ),
@@ -112,7 +114,6 @@ class AddKidContactInfo extends StatelessWidget {
                           controller: kidsController.kidBioController,
                           hint: ksEnterKidBio.tr,
                           onChanged: (text) {
-                            kidsController.checkNextButtonEnable();
                           },
                           onSubmit: (text) {},
                           inputAction: TextInputAction.newline,
@@ -130,13 +131,15 @@ class AddKidContactInfo extends StatelessWidget {
                   buttonHeight: h40,
                   label: ksNext.tr,
                   onPressed: () {
-                    Get.toNamed(krAddKidContactInfo);
+                    Get.toNamed(krAddKidSocialLinks);
                   },
                   textStyle: semiBold16TextStyle(cWhiteColor),
                 ),
               ],
             ),
           ),
+        
+        
         ),
       ),
     );
