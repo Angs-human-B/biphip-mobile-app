@@ -1,7 +1,6 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/shimmers/menu/friends/all_pending_friend_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/kids/widgets/kid_edit_delete_content.dart';
 import 'package:flutter_svg/svg.dart';
 
 class KidsListView extends StatelessWidget {
@@ -54,25 +53,43 @@ class KidsListView extends StatelessWidget {
                                     kidsController.kidList[index].name ?? ksNA.tr,
                                     style: semiBold16TextStyle(cBlackColor),
                                   ),
-                                  trailing: CustomIconButton(
-                                      onPress: () {
-                                        kidsController.kidId.value = kidsController.kidList[index].id!;
-                                        globalController.commonBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          content: EditDeleteContent(),
-                                          onPressCloseButton: () {
-                                            Get.back();
-                                          },
-                                          onPressRightButton: null,
-                                          rightText: ksDone.tr,
-                                          rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                          title: ksAction.tr,
-                                          isRightButtonShow: false,
-                                          bottomSheetHeight: 150,
-                                        );
-                                      },
-                                      icon: BipHip.system),
+                                  // trailing: CustomIconButton(
+                                  //     onPress: () {
+                                  //       kidsController.kidId.value = kidsController.kidList[index].id!;
+                                  //       globalController.commonBottomSheet(
+                                  //         context: context,
+                                  //         isScrollControlled: true,
+                                  //         content: EditDeleteContent(),
+                                  //         onPressCloseButton: () {
+                                  //           Get.back();
+                                  //         },
+                                  //         onPressRightButton: null,
+                                  //         rightText: ksDone.tr,
+                                  //         rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                  //         title: ksAction.tr,
+                                  //         isRightButtonShow: false,
+                                  //         bottomSheetHeight: 150,
+                                  //       );
+                                  //     },
+                                  //     icon: BipHip.system),
+
+                                  subtitle: Row(
+                                    children: [
+                                      Container(
+                                        width: 8,
+                                        height: 8,
+                                        decoration: const BoxDecoration(
+                                          color: cPrimaryColor,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      kW4sizedBox,
+                                      Text(
+                                        '2 Notifications',
+                                        style: regular14TextStyle(cBlackColor),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
