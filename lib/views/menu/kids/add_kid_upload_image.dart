@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_basic_info.dart';
@@ -70,7 +71,7 @@ class AddKidUploadImage extends StatelessWidget {
                           subTitle: ksMaximumPhotoSize,
                           profileCoverPhoto: kidsController.isKidProfileImageChanged.value ? kidsController.kidProfileImageFile.value : null,
                           removePictureOnPressed: () {
-                           kidsController.resetKidProfilePictureData();
+                            kidsController.resetKidProfilePictureData();
                           },
                           onPressed: () {
                             unFocus(context);
@@ -96,7 +97,7 @@ class AddKidUploadImage extends StatelessWidget {
                             subTitle: ksMaximumPhotoSize,
                             profileCoverPhoto: kidsController.isKidCoverImageChanged.value ? kidsController.kidCoverImageFile.value : null,
                             removePictureOnPressed: () {
-                            kidsController.resetKidCoverPhotoData();
+                              kidsController.resetKidCoverPhotoData();
                             },
                             onPressed: () {
                               unFocus(context);
@@ -136,8 +137,14 @@ class AddKidUploadImage extends StatelessWidget {
 }
 
 class KidProfileAndCoverPhotoUpload extends StatelessWidget {
-  const KidProfileAndCoverPhotoUpload(
-      {super.key, required this.title, required this.subTitle, this.onPressed, this.profileCoverPhoto, this.removePictureOnPressed});
+  const KidProfileAndCoverPhotoUpload({
+    super.key,
+    required this.title,
+    required this.subTitle,
+    this.onPressed,
+    this.profileCoverPhoto,
+    this.removePictureOnPressed,
+  });
   final String title;
   final String subTitle;
   final VoidCallback? onPressed;
@@ -189,17 +196,37 @@ class KidProfileAndCoverPhotoUpload extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(k8BorderRadius),
-                child: SizedBox(
+                child: Container(
                   width: width - 40,
                   height: 140,
-                  child: Image.file(
-                    profileCoverPhoto!,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => const Icon(
-                      BipHip.user,
-                      size: kIconSize60,
-                      color: cIconColor,
-                    ),
+                  color: cTransparentColor.withOpacity(0.4),
+                  child: Stack(
+                    children: [
+                      ImageFiltered(
+                        imageFilter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                        child: Image.file(
+                          profileCoverPhoto!,
+                          width: width - 40,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            BipHip.user,
+                            size: kIconSize60,
+                            color: cIconColor,
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Image.file(
+                          profileCoverPhoto!,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            BipHip.user,
+                            size: kIconSize60,
+                            color: cIconColor,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
