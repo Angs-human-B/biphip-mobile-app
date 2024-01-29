@@ -3,7 +3,6 @@ import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/widgets/kid_listview.dart';
-import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 
 class KidsPage extends StatelessWidget {
   KidsPage({super.key});
@@ -38,12 +37,11 @@ class KidsPage extends StatelessWidget {
                           child: TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
-                              // Get.toNamed(krAddKid);
                               kidsController.resetKidsData();
                               Get.toNamed(krAddKidBasicInfo);
                             },
                             child: Text(
-                              ksAdd.tr,
+                              ksAddKid.tr,
                               style: semiBold16TextStyle(cPrimaryColor),
                             ),
                           ),
@@ -51,32 +49,30 @@ class KidsPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                body: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      kH8sizedBox,
-                      const CustomDivider(
-                        thickness: 1,
-                      ),
-                      Obx(() => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                            child: kidsController.isKidsListLoading.value
-                                ? Padding(
-                                    padding: const EdgeInsets.only(bottom: k12Padding),
-                                    child: ShimmerCommon(
-                                      widget: Container(
-                                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                                        height: 16,
-                                        width: 120,
-                                      ),
+                body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    kH8sizedBox,
+                    // const CustomDivider(
+                    //   thickness: 1,
+                    // ),
+                    Obx(() => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                          child: kidsController.isKidsListLoading.value
+                              ? Padding(
+                                  padding: const EdgeInsets.only(bottom: k12Padding),
+                                  child: ShimmerCommon(
+                                    widget: Container(
+                                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                      height: 16,
+                                      width: 120,
                                     ),
-                                  )
-                                : kidHelper.totalKidShow(),
-                          )),
-                      KidsListView(),
-                    ],
-                  ),
+                                  ),
+                                )
+                              : kidHelper.totalKidShow(),
+                        )),
+                    KidsListView(),
+                  ],
                 ),
               ),
             ),
