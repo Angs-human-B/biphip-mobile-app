@@ -87,13 +87,12 @@ class AddKidSocialLinks extends StatelessWidget {
                       ),
                       kH8sizedBox,
                       CustomModifiedTextField(
-                        controller: kidsController.kidWebsiteController,
+                        controller: kidsController.kidFacebookController,
                         hint: ksFacebook.tr,
                         onChanged: (text) {},
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.text,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         maxLength: 3,
                       ),
                       kH8sizedBox,
@@ -146,7 +145,6 @@ class AddKidSocialLinks extends StatelessWidget {
               ],
             ),
           ),
-        
         ),
       ),
     );

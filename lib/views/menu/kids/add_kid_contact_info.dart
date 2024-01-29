@@ -97,7 +97,7 @@ class AddKidContactInfo extends StatelessWidget {
                           inputAction: TextInputAction.next,
                           inputType: TextInputType.number,
                           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                          maxLength: 3,
+                          maxLength: 15,
                         ),
                         kH8sizedBox,
                         CustomModifiedTextField(
@@ -113,8 +113,7 @@ class AddKidContactInfo extends StatelessWidget {
                         CustomModifiedTextField(
                           controller: kidsController.kidBioController,
                           hint: ksEnterKidBio.tr,
-                          onChanged: (text) {
-                          },
+                          onChanged: (text) {},
                           onSubmit: (text) {},
                           inputAction: TextInputAction.newline,
                           inputType: TextInputType.multiline,
@@ -138,8 +137,6 @@ class AddKidContactInfo extends StatelessWidget {
               ],
             ),
           ),
-        
-        
         ),
       ),
     );

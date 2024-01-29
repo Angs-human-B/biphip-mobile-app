@@ -125,7 +125,7 @@ class AddKidUploadImage extends StatelessWidget {
                   buttonHeight: h40,
                   label: ksComplete.tr,
                   onPressed: () {
-                    Get.toNamed(krKidsPage);
+                    Get.offNamedUntil(krKidsPage, ModalRoute.withName(krMenu));
                   },
                   textStyle: semiBold16TextStyle(cWhiteColor),
                 ),

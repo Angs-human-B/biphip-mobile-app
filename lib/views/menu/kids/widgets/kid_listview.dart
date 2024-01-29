@@ -50,26 +50,6 @@ class KidsListView extends StatelessWidget {
                                 kidsController.kidList[index].name ?? ksNA.tr,
                                 style: semiBold16TextStyle(cBlackColor),
                               ),
-                              // trailing: CustomIconButton(
-                              //     onPress: () {
-                              //       kidsController.kidId.value = kidsController.kidList[index].id!;
-                              //       globalController.commonBottomSheet(
-                              //         context: context,
-                              //         isScrollControlled: true,
-                              //         content: EditDeleteContent(),
-                              //         onPressCloseButton: () {
-                              //           Get.back();
-                              //         },
-                              //         onPressRightButton: null,
-                              //         rightText: ksDone.tr,
-                              //         rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                              //         title: ksAction.tr,
-                              //         isRightButtonShow: false,
-                              //         bottomSheetHeight: 150,
-                              //       );
-                              //     },
-                              //     icon: BipHip.system),
-
                               subtitle: Row(
                                 children: [
                                   Container(
