@@ -29,6 +29,11 @@ class RelationContent extends StatelessWidget {
               trailing: CustomRadioButton(
                 onChanged: () {
                   familyController.tempRelation.value = familyController.familyRelationList[index].name;
+                  if (familyController.tempRelation.value == '') {
+                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                  } else {
+                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                  }
                 },
                 isSelected: familyController.tempRelation.value == familyController.familyRelationList[index].name,
               ),

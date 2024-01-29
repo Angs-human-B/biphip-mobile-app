@@ -431,10 +431,17 @@ class FamilyController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        Get.back();
-        FamilyHelper().pendingFamilyTapableButtOnPressed();
-        isSendFamilyRequestLoading.value = false;
-        globalController.searchController.clear();
+        if (isRouteFromAllFriend.value) {
+          isRouteFromAllFriend.value = false;
+          Get.offNamedUntil(krMenu, (route) => true);
+          Get.toNamed(krFamily);
+          FamilyHelper().pendingFamilyTapableButtOnPressed();
+        } else {
+          Get.back();
+          FamilyHelper().pendingFamilyTapableButtOnPressed();
+          isSendFamilyRequestLoading.value = false;
+          globalController.searchController.clear();
+        }
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor);
       } else {
         isSendFamilyRequestLoading.value = false;
@@ -497,4 +504,5 @@ class FamilyController extends GetxController {
 
   Timer? debounce;
   final RxBool isFamilySuffixIconVisible = RxBool(false);
+  final RxBool isRouteFromAllFriend = RxBool(false);
 }

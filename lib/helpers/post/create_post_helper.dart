@@ -85,6 +85,7 @@ class CreatePostHelper {
   }
 
   void showAudienceSheet(context) {
+    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
     createPostController.tempCreatePostSelectedPrivacy.value = createPostController.createPostSelectedPrivacy.value;
     Get.find<GlobalController>().commonBottomSheet(
       bottomSheetHeight: height * .6,
@@ -131,7 +132,7 @@ class CreatePostHelper {
     for (int i = 0; i < createPostController.storeList.length; i++) {
       if (createPostController.tempSelectedBrandId.value == createPostController.storeList[i].id) {
         createPostController.selectedBrandName.value = createPostController.storeList[i].name.toString();
-        createPostController.selectedBrandImage.value = createPostController.storeList[i].profilePicture!.toString();
+        createPostController.selectedBrandImage.value = createPostController.storeList[i].profilePicture.toString();
         break;
       }
     }
@@ -227,7 +228,7 @@ class CreatePostHelper {
         },
         onPressRightButton: () {
           createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
-          createPostController.selectedBrandId.value = -1;
+          // createPostController.selectedBrandId.value = -1;
           checkCanCreatePost();
           if (createPostController.selectedBrandId.value == -1) {
             globalController.isBottomSheetRightButtonActive.value = false;
@@ -246,13 +247,11 @@ class CreatePostHelper {
               for (int i = 0; i < createPostController.storeList.length; i++) {
                 if (createPostController.selectedBrandId.value == createPostController.storeList[i].id) {
                   createPostController.brandID.value = createPostController.storeList[i].id!;
-                  createPostController.selectedBrandImage.value = createPostController.storeList[i].profilePicture!;
+                  createPostController.selectedBrandImage.value = createPostController.storeList[i].profilePicture.toString();
                 }
               }
               createPostController.postSecondaryCircleAvatar.value = createPostController.selectedBrandImage.value;
-              Get.back();
-              Get.back();
-              Get.back();
+              Get.offNamedUntil(krCreatePost, ModalRoute.withName(krHome));
             },
             rightText: ksDone.tr,
             rightTextStyle: medium14TextStyle(cPrimaryColor),
@@ -312,6 +311,10 @@ class CreatePostHelper {
     createPostController.selectedProductCategoryID.value = '';
     createPostController.selectedProductCondition.value = '';
     createPostController.selectedProductConditionID.value = '';
+    createPostController.tempCreatePostSelectedPrivacy.value = 'Friends';
+    createPostController.tempCreatePostSelectedPrivacyIcon.value = BipHip.friends;
+    createPostController.createPostSelectedPrivacyIcon.value = BipHip.friends;
+    createPostController.createPostSelectedPrivacy.value = 'Friends';
     clearCreateSellingPostView();
   }
 
