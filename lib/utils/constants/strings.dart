@@ -333,6 +333,7 @@ const String ksPlatformAndAction = "Platform & Actions";
 const String ksSelectPlatform = "Select platform";
 const String ksSelectAction = "Select action";
 const String ksWhatsOnYourMind = "What's on your mind";
+const String ksAddACaption = "Add a caption...";
 const String ksMore = "More";
 const String ksTitle = "Title";
 const String ksPrice = "Price";

@@ -18,7 +18,7 @@ class AllFriendActionContent extends StatelessWidget {
         ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: friendController.friendActionList.length,
+          itemCount: friendController.familyRelationStatus.value == null ? friendController.friendActionList.length : 2,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
               () => Padding(
