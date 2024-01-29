@@ -70,7 +70,11 @@ class EditProfileHelper {
       profileController.commonEditTextEditingController.clear();
       profileController.presentAddressTextEditingController.clear();
     } else if (functionFlag == 'EDIT PRESENT') {
-      await profileController.updateCity(profileController.cityID.value);
+      if (profileController.isCommonEditCheckBoxSelected.value) {
+        await profileController.setCity();
+      } else {
+        await profileController.updateCity(profileController.cityID.value);
+      }
       profileController.presentAddressTextEditingController.clear();
       profileController.commonEditTextEditingController.clear();
     } else if (functionFlag == 'ADD SCHOOL') {
