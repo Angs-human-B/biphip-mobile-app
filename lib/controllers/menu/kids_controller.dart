@@ -96,7 +96,8 @@ class KidsController extends GetxController {
   final Rx<String?> kidAgeErrorText = Rx<String?>(null);
   final RxBool isNextButtonEnabled = RxBool(false);
   void checkNextButtonEnable() {
-    if (kidNameTextEditingController.text.trim().length >= 3 && int.parse(kidAgeTextEditingController.text.trim()) <= 17) {
+    if (kidNameTextEditingController.text.trim().length >= 3 &&
+        (kidAgeTextEditingController.text.isNotEmpty && int.parse(kidAgeTextEditingController.text.toString()) <= 17)) {
       isNextButtonEnabled.value = true;
     } else {
       isNextButtonEnabled.value = false;
@@ -104,6 +105,7 @@ class KidsController extends GetxController {
   }
 
   void kidNameOnChanged() {
+    checkNextButtonEnable();
     if (kidNameTextEditingController.text.toString().trim() == '') {
       kidNameErrorText.value = ksEmptyNameErrorText.tr;
     } else if (kidNameTextEditingController.text.trim().length < 3) {
@@ -115,9 +117,9 @@ class KidsController extends GetxController {
 
   void kidAgeOnChanged() {
     checkNextButtonEnable();
-    if (kidAgeTextEditingController.text.isEmpty) {
+    if (kidAgeTextEditingController.text.toString().trim() == '') {
       kidAgeErrorText.value = ksEmptyKidAgeErrorText.tr;
-    } else if (kidAgeTextEditingController.text.isNotEmpty && int.parse(kidAgeTextEditingController.text) > 17) {
+    } else if (kidAgeTextEditingController.text.toString().trim() != '' && int.parse(kidAgeTextEditingController.text.toString()) > 17) {
       kidAgeErrorText.value = ksKidAgeErrorText.tr;
     } else {
       kidAgeErrorText.value = null;
