@@ -445,12 +445,13 @@ class CreatePostController extends GetxController {
         if (category.value == 'Selling') 'description': biddingDescriptionTextEditingController.text.trim(),
         if (category.value == 'Selling') 'product_tags': biddingProductTagTextEditingController.text.trim(),
         if (category.value == 'Selling') 'sku': biddingSKUTextEditingController.text.trim(),
-        if (category.value == 'Selling') 'is_hide_fnf': isHideFriendFamilySwitch.value ? '0' : '1',
         if (category.value == 'Selling') 'bidding_post_type': (isPublicPost.value && !isPrivatePost.value) ? '0' : '1',
         if (category.value == 'Selling') 'desire_amount': biddingDesiredAmountTextEditingController.text.trim(),
         if (category.value == 'Selling') 'min_bidding_amount': biddingDesiredAmountTextEditingController.text.trim(),
         if (category.value == 'Selling') 'sell_post_category_id': selectedProductCategoryID.value,
         if (category.value == 'Selling') 'sell_post_condition_id': selectedProductConditionID.value,
+        if (category.value == 'Selling') 'sell_post_availabilty': productAvailabilityId.value,
+        if (category.value == 'Selling') 'is_hide_fnf': isHideFriendFamilySwitch.value ? '1' : '0',
         if (category.value == 'News') 'title': newsTitleTextEditingController.text.trim(),
         if (category.value == 'News') 'description': newsDescriptionTextEditingController.text.trim()
       };
@@ -469,7 +470,7 @@ class CreatePostController extends GetxController {
           await Get.find<HomeController>().getPostList();
         }
         isCreatePostLoading.value = false;
-        Get.back();
+        Get.offAllNamed(krHome);
         resetCreatePost();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -489,16 +490,10 @@ class CreatePostController extends GetxController {
 
   final RxString tempSubCategory = RxString('');
   final RxString subCategory = RxString('');
-  // final RxList subCategoryList = RxList(subCategoryLists);
   final RxList subCategoryList = RxList([]);
 
   final RxInt tempSubCategoryIndex = RxInt(-1);
   final RxInt subCategoryIndex = RxInt(-1);
-  final List subCategoryLists = [
-    // {"id": '', "title": "Drawing"},
-    {"id": '', "title": "Birthday"},
-    {"id": '', "title": "School"},
-  ];
   final RxBool isSubCategorySelected = RxBool(false);
   double subCategoryCustomBottomSheetHeight() {
     if (subCategoryList.isEmpty) {
@@ -557,44 +552,6 @@ class CreatePostController extends GetxController {
       }
     }
   }
-  // double savedBrandCustomBottomSheetHeight() {
-  //     if (storeListLength.value==0) {
-  //       ll('2nd');
-  //       ll(storeList.length);
-  //       return height * 0.4;
-  //     } else if (storeListLength.value>=0 && storeList.length <= 1) {
-  //       ll('3rd');
-  //       ll(storeList.length);
-  //       return isDeviceScreenLarge() ? height * 0.2 : height * 0.3;
-  //     } else if (storeListLength.value >= 2 && storeListLength.value <= 3) {
-  //       ll('4th');
-  //       ll(storeList.length);
-  //       return isDeviceScreenLarge() ? height * 0.3 : height * 0.4;
-  //     } else if (storeList.length >= 4 && storeList.length <= 5) {
-  //       ll('5th');
-  //       ll(storeList.length);
-  //       return isDeviceScreenLarge() ? height * 0.4 : height * 0.5;
-  //     } else if (storeList.length >= 6 && storeList.length <= 7) {
-  //       ll('6th');
-  //       ll(storeList.length);
-  //       return isDeviceScreenLarge() ? height * 0.5 : height * 0.6;
-  //     } else if (storeList.length >= 8 && storeList.length <= 9) {
-  //       ll('7th');
-  //       ll(storeList.length);
-  //       return isDeviceScreenLarge() ? height * 0.6 : height * 0.7;
-  //     } else if (storeList.length >= 10 && storeList.length <= 11) {
-  //       ll('8th');
-  //       ll(storeList.length);
-  //       return isDeviceScreenLarge() ? height * 0.7 : height * 0.8;
-  //     } else if (storeList.length >= 12 && storeList.length <= 13) {
-  //       ll('9th');
-  //       ll(storeList.length);
-  //       return isDeviceScreenLarge() ? height * 0.8 : height * 0.9;
-  //     } else {
-  //       ll('10th');
-  //       return height * 0.9;
-  //     }
-  // }
 
   final RxBool isRegularPost = RxBool(false);
   final RxBool isBiddingPost = RxBool(false);
@@ -605,16 +562,6 @@ class CreatePostController extends GetxController {
   // final RxList businessTypeList = RxList([]);
   final RxList filteredBusinessTypeList = RxList([]);
   final RxInt businessTypeIndex = RxInt(-1);
-  void filterList(String query) {
-    // filteredBusinessTypeList.clear();
-    for (var item in filteredBusinessTypeList) {
-      if (item.toLowerCase().contains(query.toLowerCase())) {
-        filteredBusinessTypeList.clear();
-        filteredBusinessTypeList.add(item);
-        ll('after filtering the list : $filteredBusinessTypeList');
-      }
-    }
-  }
 
   final RxBool isBrandAdded = RxBool(false);
   final Rx<File> selectedBrandImageFile = File('').obs;
@@ -640,8 +587,6 @@ class CreatePostController extends GetxController {
   final RxInt selectedBrandId = RxInt(-1);
   final TextEditingController newsTitleTextEditingController = TextEditingController();
   final TextEditingController newsDescriptionTextEditingController = TextEditingController();
-  // final RxBool isResetCategoryPopupShow = RxBool(false);
-
   final RxString tempCreatePostSelectedPrivacy = RxString('Friends');
   final RxString createPostSelectedPrivacy = RxString('Friends');
   final Rx<IconData> tempCreatePostSelectedPrivacyIcon = Rx<IconData>(BipHip.friends);
@@ -702,4 +647,14 @@ class CreatePostController extends GetxController {
       ll('getCreatePost error: $e');
     }
   }
+
+  //*Product Availability List
+  final List productAvailabilityList = [
+    {'id': '0', 'name': 'List as single item'},
+    {'id': '1', 'name': 'list as  in stock'}
+  ];
+  final RxString productAvailabilityId = RxString('');
+  final RxString temporaryProductAvailabilityId = RxString('');
+  final RxString temporaryProductAvailability = RxString('');
+  final RxString productAvailability = RxString('');
 }
