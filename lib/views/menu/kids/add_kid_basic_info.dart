@@ -109,7 +109,7 @@ class AddKidBasicInfo extends StatelessWidget {
                     ),
                   ),
                 ),
-                isDeviceScreenLarge() ? kH100sizedBox : kH60sizedBox,
+                kH100sizedBox,
                 Obx(() => CustomElevatedButton(
                       buttonWidth: width - 40,
                       buttonHeight: h40,
