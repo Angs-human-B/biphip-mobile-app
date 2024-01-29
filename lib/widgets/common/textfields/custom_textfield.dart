@@ -55,7 +55,7 @@ class CustomModifiedTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var inputStyle = regular16TextStyle(cBlackColor);
-    var hintStyle = regular16TextStyle(cPlaceHolderColor);
+    var hintStyle = regular16TextStyle(cPlaceHolderColor2);
     return Theme(
       data: ThemeData(
           inputDecorationTheme: InputDecorationTheme(
