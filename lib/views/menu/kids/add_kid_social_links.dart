@@ -83,7 +83,7 @@ class AddKidSocialLinks extends StatelessWidget {
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.text,
-                        maxLength: 50,
+                        maxLength: 256,
                       ),
                       kH8sizedBox,
                       CustomModifiedTextField(
@@ -93,7 +93,7 @@ class AddKidSocialLinks extends StatelessWidget {
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.text,
-                        maxLength: 3,
+                        maxLength: 256,
                       ),
                       kH8sizedBox,
                       CustomModifiedTextField(
@@ -103,7 +103,7 @@ class AddKidSocialLinks extends StatelessWidget {
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.text,
-                        maxLength: 25,
+                        maxLength: 256,
                       ),
                       kH8sizedBox,
                       CustomModifiedTextField(
@@ -115,8 +115,7 @@ class AddKidSocialLinks extends StatelessWidget {
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.text,
-                        maxLines: 1,
-                        maxLength: 50,
+                        maxLength: 256,
                       ),
                       kH8sizedBox,
                       CustomModifiedTextField(
@@ -126,8 +125,7 @@ class AddKidSocialLinks extends StatelessWidget {
                         onSubmit: (text) {},
                         inputAction: TextInputAction.done,
                         inputType: TextInputType.text,
-                        maxLines: 1,
-                        maxLength: 50,
+                        maxLength: 256,
                       ),
                     ],
                   ),
