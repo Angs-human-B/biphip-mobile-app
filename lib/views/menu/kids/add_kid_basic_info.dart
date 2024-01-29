@@ -143,26 +143,25 @@ class KidTopTitleSubtitleAndCircularProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding).copyWith(top: k16Padding),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: semiBold18TextStyle(cBlackColor),
-              ),
-              kH4sizedBox,
-              Text(
-                subTitle,
-                style: regular14TextStyle(cSmallBodyTextColor),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: CustomCircularProgressBar(
+      child: LimitedBox(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: semiBold18TextStyle(cBlackColor),
+                ),
+                kH4sizedBox,
+                Text(
+                  subTitle,
+                  style: regular14TextStyle(cSmallBodyTextColor),
+                ),
+              ],
+            ),
+            CustomCircularProgressBar(
               percent: percent,
               radius: h32,
               lineWidth: 5,
@@ -171,8 +170,8 @@ class KidTopTitleSubtitleAndCircularProgressBar extends StatelessWidget {
                 style: regular16TextStyle(cBlackColor),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

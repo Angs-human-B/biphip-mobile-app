@@ -70,9 +70,7 @@ class AddKidUploadImage extends StatelessWidget {
                           subTitle: ksMaximumPhotoSize,
                           profileCoverPhoto: kidsController.isKidProfileImageChanged.value ? kidsController.kidProfileImageFile.value : null,
                           removePictureOnPressed: () {
-                            kidsController.isKidProfileImageChanged.value = false;
-                            kidsController.kidImageLink.value = '';
-                            kidsController.kidProfileImageFile.value = File('');
+                           kidsController.resetKidProfilePictureData();
                           },
                           onPressed: () {
                             unFocus(context);
@@ -98,9 +96,7 @@ class AddKidUploadImage extends StatelessWidget {
                             subTitle: ksMaximumPhotoSize,
                             profileCoverPhoto: kidsController.isKidCoverImageChanged.value ? kidsController.kidCoverImageFile.value : null,
                             removePictureOnPressed: () {
-                              kidsController.isKidCoverImageChanged.value = false;
-                              kidsController.kidCoverImageLink.value = '';
-                              kidsController.kidCoverImageFile.value = File('');
+                            kidsController.resetKidCoverPhotoData();
                             },
                             onPressed: () {
                               unFocus(context);

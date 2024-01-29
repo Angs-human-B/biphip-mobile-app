@@ -129,7 +129,7 @@ class KidsController extends GetxController {
   final TextEditingController kidParentAddressController = TextEditingController();
   final TextEditingController kidBioController = TextEditingController();
 
-    //*Social Links
+  //*Social Links
   final TextEditingController kidWebsiteController = TextEditingController();
   final TextEditingController kidFacebookController = TextEditingController();
   final TextEditingController kidInstagramController = TextEditingController();
@@ -137,13 +137,24 @@ class KidsController extends GetxController {
   final TextEditingController kidYoutubeController = TextEditingController();
 
   //*Kid Profile and cover photo
-   final RxString kidProfileImageLink = RxString('');
+  final RxString kidProfileImageLink = RxString('');
   final Rx<File> kidProfileImageFile = File('').obs;
   final RxBool isKidProfileImageChanged = RxBool(false);
-   final RxString kidCoverImageLink = RxString('');
+  final RxString kidCoverImageLink = RxString('');
   final Rx<File> kidCoverImageFile = File('').obs;
   final RxBool isKidCoverImageChanged = RxBool(false);
 
+  void resetKidProfilePictureData() {
+    isKidProfileImageChanged.value = false;
+    kidImageLink.value = '';
+    kidProfileImageFile.value = File('');
+  }
+
+  void resetKidCoverPhotoData() {
+    isKidCoverImageChanged.value = false;
+    kidCoverImageLink.value = '';
+    kidCoverImageFile.value = File('');
+  }
 
   void resetKidsData() {
     kidNameTextEditingController.clear();
@@ -152,6 +163,8 @@ class KidsController extends GetxController {
     kidNameErrorText.value = null;
     kidAgeErrorText.value = null;
     isNextButtonEnabled.value = false;
+    resetKidProfilePictureData();
+    resetKidCoverPhotoData();
   }
 
   //*Edit Kid Api Call
