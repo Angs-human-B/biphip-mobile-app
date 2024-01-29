@@ -199,34 +199,24 @@ class KidProfileAndCoverPhotoUpload extends StatelessWidget {
                 child: Container(
                   width: width - 40,
                   height: 140,
-                  color: cTransparentColor.withOpacity(0.4),
-                  child: Stack(
-                    children: [
-                      ImageFiltered(
-                        imageFilter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                        child: Image.file(
-                          profileCoverPhoto!,
-                          width: width - 40,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            BipHip.user,
-                            size: kIconSize60,
-                            color: cIconColor,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: FileImage(
+                            profileCoverPhoto!,
                           ),
+                          fit: BoxFit.cover)),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                    child: Container(
+                      width: width - 40,
+                      height: 140,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: FileImage(profileCoverPhoto!),
+                          fit: BoxFit.contain,
                         ),
                       ),
-                      Center(
-                        child: Image.file(
-                          profileCoverPhoto!,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            BipHip.user,
-                            size: kIconSize60,
-                            color: cIconColor,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
