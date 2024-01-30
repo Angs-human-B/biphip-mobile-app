@@ -75,9 +75,7 @@ class KidsListView extends StatelessWidget {
                   ),
                 ),
               )
-            : Container(
-                alignment: Alignment.center,
-                height: height * 0.6,
+            : Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

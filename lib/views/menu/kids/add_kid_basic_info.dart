@@ -104,7 +104,7 @@ class AddKidBasicInfo extends StatelessWidget {
                           onSubmit: (text) {},
                           inputAction: TextInputAction.done,
                           inputType: TextInputType.text,
-                          maxLength: 25,
+                          maxLength: 50,
                         ),
                       ],
                     ),

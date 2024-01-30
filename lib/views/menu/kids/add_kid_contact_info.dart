@@ -82,7 +82,7 @@ class AddKidContactInfo extends StatelessWidget {
                       children: [
                         CustomModifiedTextField(
                           controller: kidsController.kidParentEmailController,
-                          hint: ksEnterKidParentEmail.tr,
+                          hint: ksParentEmail.tr,
                           onChanged: (text) {},
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,
@@ -92,7 +92,7 @@ class AddKidContactInfo extends StatelessWidget {
                         kH8sizedBox,
                         CustomModifiedTextField(
                           controller: kidsController.kidParentPhoneController,
-                          hint: ksEnterKidParentPhone.tr,
+                          hint: ksParentPhone.tr,
                           errorText: kidsController.kidAgeErrorText.value,
                           onChanged: (text) {},
                           onSubmit: (text) {},
@@ -104,12 +104,12 @@ class AddKidContactInfo extends StatelessWidget {
                         kH8sizedBox,
                         CustomModifiedTextField(
                           controller: kidsController.kidParentAddressController,
-                          hint: ksEnterKidParentAddress.tr,
+                          hint: ksParentAddress.tr,
                           onChanged: (text) {},
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,
                           inputType: TextInputType.text,
-                          maxLength: 25,
+                          maxLength: 50,
                         ),
                         kH8sizedBox,
                         CustomModifiedTextField(
