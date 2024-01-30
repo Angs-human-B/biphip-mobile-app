@@ -143,6 +143,7 @@ class AddKidSocialLinks extends StatelessWidget {
                   },
                   textStyle: semiBold16TextStyle(cWhiteColor),
                 ),
+                kH30sizedBox,
               ],
             ),
           ),
