@@ -59,6 +59,9 @@ class StoreController extends GetxController {
   final TextEditingController storeInstagramController = TextEditingController();
   final TextEditingController storeTwitterController = TextEditingController();
   final TextEditingController storeYoutubeController = TextEditingController();
+  //*Documents
+  final TextEditingController businessIdentificationNumberController = TextEditingController();
+
   void resetStoreData() {
     storeNameController.clear();
     businessTypeTextEditingController.clear();

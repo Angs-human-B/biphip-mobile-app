@@ -2,10 +2,12 @@ import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_basic_info.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
+import 'package:flutter_svg/svg.dart';
 
-class AddStoreSocialLinks extends StatelessWidget {
-  AddStoreSocialLinks({super.key});
+class AddStoreDocuments extends StatelessWidget {
+  AddStoreDocuments({super.key});
   final StoreController storeController = Get.find<StoreController>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,7 +45,7 @@ class AddStoreSocialLinks extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       unFocus(context);
-                      Get.toNamed(krAddStoreDocuments);
+                      // Get.toNamed(krAddKidUploadImage);
                     },
                     child: Text(
                       ksSkip.tr,
@@ -54,8 +56,6 @@ class AddStoreSocialLinks extends StatelessWidget {
               ],
             ),
           ),
-        
-        
           body: SingleChildScrollView(
             child: Column(
               children: [
@@ -63,10 +63,10 @@ class AddStoreSocialLinks extends StatelessWidget {
                   thickness: 1,
                 ),
                 KidTopTitleSubtitleAndCircularProgressBar(
-                  title: ksSocialLinks.tr,
-                  subTitle: ksAddSocialLinksForStore.tr,
-                  circularCenterText: ks3of5.tr,
-                  percent: 0.6,
+                  title: ksDocuments.tr,
+                  subTitle: ksElevateBusinessImageAndDocument.tr,
+                  circularCenterText: ks4of5.tr,
+                  percent: 0.8,
                 ),
                 kH16sizedBox,
                 const Padding(
@@ -80,54 +80,57 @@ class AddStoreSocialLinks extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomModifiedTextField(
-                        controller: storeController.storeWebsiteController,
-                        hint: ksWebsite.tr,
-                        onChanged: (text) {},
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.next,
-                        inputType: TextInputType.text,
-                        maxLength: 256,
+                      kH16sizedBox,
+                      Text(
+                        ksBusinessIdentificationNumber.tr,
+                        style: semiBold16TextStyle(cBlackColor),
                       ),
                       kH8sizedBox,
                       CustomModifiedTextField(
-                        controller: storeController.storeFacebookController,
-                        hint: ksFacebook.tr,
+                        controller: storeController.businessIdentificationNumberController,
+                        hint: ksBIN.tr,
                         onChanged: (text) {},
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
-                        inputType: TextInputType.text,
-                        maxLength: 256,
+                        inputType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        maxLength: 15,
                       ),
                       kH8sizedBox,
-                      CustomModifiedTextField(
-                        controller: storeController.storeInstagramController,
-                        hint: ksInstagram.tr,
-                        onChanged: (text) {},
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.next,
-                        inputType: TextInputType.text,
-                        maxLength: 256,
+                      Text(
+                        ksLegalPapers.tr,
+                        style: semiBold16TextStyle(cBlackColor),
                       ),
                       kH8sizedBox,
-                      CustomModifiedTextField(
-                        controller: storeController.storeTwitterController,
-                        hint: ksTwitter.tr,
-                        onChanged: (text) {},
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.next,
-                        inputType: TextInputType.text,
-                        maxLength: 256,
+                      Text(
+                        ksLegalPapersLicenseOrImage.tr,
+                        style: regular14TextStyle(cSmallBodyTextColor),
                       ),
                       kH8sizedBox,
-                      CustomModifiedTextField(
-                        controller: storeController.storeYoutubeController,
-                        hint: ksYoutube.tr,
-                        onChanged: (text) {},
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.done,
-                        inputType: TextInputType.text,
-                        maxLength: 256,
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          width: width - 40,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            color: cInputFieldColor,
+                            borderRadius: BorderRadius.circular(k8BorderRadius),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                kiUploadImage,
+                                height: 40,
+                              ),
+                              kH8sizedBox,
+                              Text(
+                                ksUploadImage,
+                                style: semiBold16TextStyle(cPrimaryColor),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -139,7 +142,7 @@ class AddStoreSocialLinks extends StatelessWidget {
                   label: ksNext.tr,
                   onPressed: () {
                     unFocus(context);
-                   Get.toNamed(krAddStoreDocuments);
+                    Get.toNamed(krAddStoreDocuments);
                   },
                   textStyle: semiBold16TextStyle(cWhiteColor),
                 ),
@@ -147,7 +150,6 @@ class AddStoreSocialLinks extends StatelessWidget {
               ],
             ),
           ),
-       
         ),
       ),
     );

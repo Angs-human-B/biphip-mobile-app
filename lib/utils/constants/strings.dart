@@ -472,4 +472,10 @@ const String ksStoreAddress = "Store address";
 const String ksStoreBio = "Store bio";
 const String ksStoreInfoVisibleAllUser = "Your contact info will be visible to all users";
 const String ksAddSocialLinksForStore = "Add social links where the store has profile";
-
+const String ksDocuments = "Documents";
+const String ks4of5 = "4 of 5";
+const String ksElevateBusinessImageAndDocument = "Elevate your business image with documents";
+const String ksBusinessIdentificationNumber = "Business Identification Number";
+const String ksBIN = "BIN";
+const String ksLegalPapers = "Legal Papers";
+const String ksLegalPapersLicenseOrImage = "Upload your legal papers License/Image.";

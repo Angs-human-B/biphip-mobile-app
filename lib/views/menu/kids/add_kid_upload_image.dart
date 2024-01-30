@@ -196,6 +196,7 @@ class KidProfileAndCoverPhotoUpload extends StatelessWidget {
               ),
             ),
           ),
+       
         if (profileCoverPhoto != null)
           Stack(
             children: [
