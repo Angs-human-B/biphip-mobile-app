@@ -479,3 +479,4 @@ const String ksBusinessIdentificationNumber = "Business Identification Number";
 const String ksBIN = "BIN";
 const String ksLegalPapers = "Legal Papers";
 const String ksLegalPapersLicenseOrImage = "Upload your legal papers License/Image.";
+const String ks5of5 = "5 of 5";

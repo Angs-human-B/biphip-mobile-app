@@ -16,6 +16,7 @@ import 'package:bip_hip/views/menu/store/add_store_basic_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_contact_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_documents.dart';
 import 'package:bip_hip/views/menu/store/add_store_social_links.dart';
+import 'package:bip_hip/views/menu/store/add_store_upload_image.dart';
 import 'package:bip_hip/views/menu/store/store.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_basic_info.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_contact_info.dart';
@@ -115,6 +116,7 @@ const String krAddStoreBasicInfo = '/add-store-basic-info';
 const String krAddStoreContactInfo = '/add-store-contact-info';
 const String krAddStoreSocialLinks = '/add-store-social-links';
 const String krAddStoreDocuments = '/add-store-documents';
+const String krAddStoreUploadImage = '/add-store-upload-image';
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -183,4 +185,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krAddStoreContactInfo, page: () => AddStoreContactInfo(), transition: Transition.noTransition),
   GetPage(name: krAddStoreSocialLinks, page: () => AddStoreSocialLinks(), transition: Transition.noTransition),
   GetPage(name: krAddStoreDocuments, page: () => AddStoreDocuments(), transition: Transition.noTransition),
+  GetPage(name: krAddStoreUploadImage, page: () => AddStoreUploadImage(), transition: Transition.noTransition),
 ];

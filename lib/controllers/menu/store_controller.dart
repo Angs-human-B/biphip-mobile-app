@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 
@@ -62,6 +64,26 @@ class StoreController extends GetxController {
   //*Documents
   final TextEditingController businessIdentificationNumberController = TextEditingController();
 
+  //*Store Profile and cover photo
+  final RxString storeProfileImageLink = RxString('');
+  final Rx<File> storeProfileImageFile = File('').obs;
+  final RxBool isStoreProfileImageChanged = RxBool(false);
+  final RxString storeCoverImageLink = RxString('');
+  final Rx<File> storeCoverImageFile = File('').obs;
+  final RxBool isStoreCoverImageChanged = RxBool(false);
+
+  void resetStoreProfilePictureData() {
+    isStoreProfileImageChanged.value = false;
+    storeProfileImageLink.value = '';
+    storeProfileImageFile.value = File('');
+  }
+
+  void resetStoreCoverPhotoData() {
+    isStoreCoverImageChanged.value = false;
+    storeCoverImageLink.value = '';
+    storeCoverImageFile.value = File('');
+  }
+
   void resetStoreData() {
     storeNameController.clear();
     businessTypeTextEditingController.clear();
@@ -76,5 +98,7 @@ class StoreController extends GetxController {
     storeInstagramController.clear();
     storeTwitterController.clear();
     storeYoutubeController.clear();
+    resetStoreProfilePictureData();
+    resetStoreCoverPhotoData();
   }
 }

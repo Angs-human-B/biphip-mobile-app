@@ -1,14 +1,12 @@
-import 'dart:io';
-import 'dart:ui';
-import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_basic_info.dart';
+import 'package:bip_hip/views/menu/kids/add_kid_upload_image.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
-import 'package:flutter_svg/svg.dart';
 
-class AddKidUploadImage extends StatelessWidget {
-  AddKidUploadImage({super.key});
-  final KidsController kidsController = Get.find<KidsController>();
+class AddStoreUploadImage extends StatelessWidget {
+  AddStoreUploadImage({super.key});
+  final StoreController storeController = Get.find<StoreController>();
   final GlobalController globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
@@ -51,7 +49,7 @@ class AddKidUploadImage extends StatelessWidget {
                 KidTopTitleSubtitleAndCircularProgressBar(
                   title: ksUploadImages.tr,
                   subTitle: ksUploadProfileAndCoverPhoto.tr,
-                  circularCenterText: ks4of4.tr,
+                  circularCenterText: ks5of5.tr,
                   percent: 1,
                 ),
                 kH16sizedBox,
@@ -70,9 +68,9 @@ class AddKidUploadImage extends StatelessWidget {
                         () => KidProfileAndCoverPhotoUpload(
                           title: ksProfilePicture,
                           subTitle: ksMaximumPhotoSize,
-                          profileCoverPhoto: kidsController.isKidProfileImageChanged.value ? kidsController.kidProfileImageFile.value : null,
+                          profileCoverPhoto: storeController.isStoreProfileImageChanged.value ? storeController.storeProfileImageFile.value : null,
                           removePictureOnPressed: () {
-                            kidsController.resetKidProfilePictureData();
+                            storeController.resetStoreProfilePictureData();
                           },
                           onPressed: () {
                             unFocus(context);
@@ -88,7 +86,7 @@ class AddKidUploadImage extends StatelessWidget {
                                 isRightButtonShow: false,
                                 isScrollControlled: false,
                                 bottomSheetHeight: 180,
-                                content: ProfilePictureUploadContent());
+                                content: StoreProfilePictureUploadContent());
                           },
                         ),
                       ),
@@ -96,9 +94,9 @@ class AddKidUploadImage extends StatelessWidget {
                       Obx(() => KidProfileAndCoverPhotoUpload(
                             title: ksCoverPhoto,
                             subTitle: ksMaximumPhotoSize,
-                            profileCoverPhoto: kidsController.isKidCoverImageChanged.value ? kidsController.kidCoverImageFile.value : null,
+                            profileCoverPhoto: storeController.isStoreCoverImageChanged.value ? storeController.storeCoverImageFile.value : null,
                             removePictureOnPressed: () {
-                              kidsController.resetKidCoverPhotoData();
+                              storeController.resetStoreCoverPhotoData();
                             },
                             onPressed: () {
                               unFocus(context);
@@ -114,7 +112,7 @@ class AddKidUploadImage extends StatelessWidget {
                                   isRightButtonShow: false,
                                   isScrollControlled: false,
                                   bottomSheetHeight: 180,
-                                  content: KidCoverPhotoUploadContent());
+                                  content: StoreCoverPhotoUploadContent());
                             },
                           )),
                     ],
@@ -141,120 +139,9 @@ class AddKidUploadImage extends StatelessWidget {
   }
 }
 
-
-class KidProfileAndCoverPhotoUpload extends StatelessWidget {
-  const KidProfileAndCoverPhotoUpload({
-    super.key,
-    required this.title,
-    required this.subTitle,
-    this.onPressed,
-    this.profileCoverPhoto,
-    this.removePictureOnPressed,
-  });
-  final String title;
-  final String subTitle;
-  final VoidCallback? onPressed;
-  final VoidCallback? removePictureOnPressed;
-  final File? profileCoverPhoto;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: semiBold16TextStyle(cBlackColor),
-        ),
-        kH4sizedBox,
-        Text(
-          subTitle,
-          style: regular14TextStyle(cSmallBodyTextColor),
-        ),
-        kH8sizedBox,
-        if (profileCoverPhoto == null)
-          InkWell(
-            onTap: onPressed,
-            child: Container(
-              width: width - 40,
-              height: 140,
-              decoration: BoxDecoration(
-                color: cInputFieldColor,
-                borderRadius: BorderRadius.circular(k8BorderRadius),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    kiUploadImage,
-                    height: 40,
-                  ),
-                  kH8sizedBox,
-                  Text(
-                    ksUploadImage,
-                    style: semiBold16TextStyle(cPrimaryColor),
-                  ),
-                ],
-              ),
-            ),
-          ),
-       
-        if (profileCoverPhoto != null)
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(k8BorderRadius),
-                child: Container(
-                  width: width - 40,
-                  height: 140,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: FileImage(
-                            profileCoverPhoto!,
-                          ),
-                          fit: BoxFit.cover)),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                    child: Container(
-                      width: width - 40,
-                      height: 140,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: FileImage(profileCoverPhoto!),
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                  top: 8,
-                  right: 8,
-                  child: Container(
-                    width: h20,
-                    height: h20,
-                    decoration: const BoxDecoration(
-                      color: cRedColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                        child: CustomIconButton(
-                      onPress: removePictureOnPressed,
-                      icon: BipHip.cross,
-                      iconColor: cWhiteColor,
-                      size: kIconSize14,
-                    )),
-                  )),
-            ],
-          ),
-      ],
-    );
-  }
-}
-
-class ProfilePictureUploadContent extends StatelessWidget {
-  ProfilePictureUploadContent({super.key});
-  final KidsController kidsController = Get.find<KidsController>();
+class StoreProfilePictureUploadContent extends StatelessWidget {
+  StoreProfilePictureUploadContent({super.key});
+  final StoreController storeController = Get.find<StoreController>();
   final GlobalController globalController = Get.find<GlobalController>();
 
   @override
@@ -269,7 +156,7 @@ class ProfilePictureUploadContent extends StatelessWidget {
           suffixIconColor: cIconColor,
           onPressed: () async {
             await globalController.selectImageSource(
-                kidsController.isKidProfileImageChanged, kidsController.kidProfileImageLink, kidsController.kidProfileImageFile, 'camera', true);
+                storeController.isStoreProfileImageChanged, storeController.storeProfileImageLink, storeController.storeProfileImageFile, 'camera', true);
           },
           buttonHeight: h32,
           buttonWidth: width - 40,
@@ -285,7 +172,7 @@ class ProfilePictureUploadContent extends StatelessWidget {
           suffixIconColor: cIconColor,
           onPressed: () async {
             await globalController.selectImageSource(
-                kidsController.isKidProfileImageChanged, kidsController.kidProfileImageLink, kidsController.kidProfileImageFile, 'gallery', true);
+                storeController.isStoreProfileImageChanged, storeController.storeProfileImageLink, storeController.storeProfileImageFile, 'gallery', true);
           },
           buttonHeight: h32,
           buttonWidth: width - 40,
@@ -298,10 +185,9 @@ class ProfilePictureUploadContent extends StatelessWidget {
   }
 }
 
-
-class KidCoverPhotoUploadContent extends StatelessWidget {
-  KidCoverPhotoUploadContent({super.key});
-  final KidsController kidsController = Get.find<KidsController>();
+class StoreCoverPhotoUploadContent extends StatelessWidget {
+  StoreCoverPhotoUploadContent({super.key});
+  final StoreController storeController = Get.find<StoreController>();
   final GlobalController globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
@@ -315,7 +201,7 @@ class KidCoverPhotoUploadContent extends StatelessWidget {
           suffixIconColor: cIconColor,
           onPressed: () async {
             await globalController.selectImageSource(
-                kidsController.isKidCoverImageChanged, kidsController.kidCoverImageLink, kidsController.kidCoverImageFile, 'camera', true);
+                storeController.isStoreCoverImageChanged, storeController.storeCoverImageLink, storeController.storeCoverImageFile, 'camera', true);
           },
           buttonHeight: h32,
           buttonWidth: width - 40,
@@ -331,7 +217,7 @@ class KidCoverPhotoUploadContent extends StatelessWidget {
           suffixIconColor: cIconColor,
           onPressed: () async {
             await globalController.selectImageSource(
-                kidsController.isKidCoverImageChanged, kidsController.kidCoverImageLink, kidsController.kidCoverImageFile, 'gallery', true);
+                storeController.isStoreCoverImageChanged, storeController.storeCoverImageLink, storeController.storeCoverImageFile, 'gallery', true);
           },
           buttonHeight: h32,
           buttonWidth: width - 40,

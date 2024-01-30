@@ -45,7 +45,7 @@ class AddStoreDocuments extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       unFocus(context);
-                      // Get.toNamed(krAddKidUploadImage);
+                      Get.toNamed(krAddStoreUploadImage);
                     },
                     child: Text(
                       ksSkip.tr,
@@ -142,7 +142,7 @@ class AddStoreDocuments extends StatelessWidget {
                   label: ksNext.tr,
                   onPressed: () {
                     unFocus(context);
-                    Get.toNamed(krAddStoreDocuments);
+                    Get.toNamed(krAddStoreUploadImage);
                   },
                   textStyle: semiBold16TextStyle(cWhiteColor),
                 ),
