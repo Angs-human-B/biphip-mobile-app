@@ -41,12 +41,31 @@ class StoreController extends GetxController {
     }
   }
 
+  //*Store Basic info
   final TextEditingController storeNameController = TextEditingController();
   final TextEditingController businessTypeTextEditingController = TextEditingController();
   final RxList<String> businessType = RxList<String>(['Electronics', 'Shop', 'Gadgets', 'Hardware']);
   final RxBool isBusinessTypeSuffixIconVisible = RxBool(false);
-  void resetStoreData(){
+  //*Store contact info
+  final TextEditingController storeEmailController = TextEditingController();
+  final TextEditingController storePhoneController = TextEditingController();
+  final TextEditingController storeAddressController = TextEditingController();
+  final TextEditingController storeBioController = TextEditingController();
+  final RxInt storeBioCount = RxInt(0);
+
+  //*Social Links
+  final TextEditingController kidWebsiteController = TextEditingController();
+  final TextEditingController kidFacebookController = TextEditingController();
+  final TextEditingController kidInstagramController = TextEditingController();
+  final TextEditingController kidTwitterController = TextEditingController();
+  final TextEditingController kidYoutubeController = TextEditingController();
+  void resetStoreData() {
     storeNameController.clear();
     businessTypeTextEditingController.clear();
+    isBusinessTypeSuffixIconVisible.value = false;
+    storeEmailController.clear();
+    storePhoneController.clear();
+    storeAddressController.clear();
+    storeBioController.clear();
   }
 }

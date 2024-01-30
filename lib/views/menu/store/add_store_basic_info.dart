@@ -144,6 +144,7 @@ class AddStoreBasicInfo extends StatelessWidget {
                   label: ksNext.tr,
                   onPressed: () {
                     unFocus(context);
+                    Get.toNamed(krAddStoreContactInfo);
                   },
                   textStyle: semiBold16TextStyle(cWhiteColor),
                 ),

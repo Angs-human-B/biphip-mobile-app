@@ -464,3 +464,9 @@ const String ksComplete = "Complete";
 const String ksStoreName = "Store name";
 const String ksOtherKnowAboutYourStore = "Let other users know about your business";
 const String ks1of5 = "1 of 5";
+const String ks2of5 = "2 of 5";
+const String ksStoreEmail = "Store email";
+const String ksStorePhone = "Store phone";
+const String ksStoreAddress = "Store address";
+const String ksStoreBio = "Store bio";
+

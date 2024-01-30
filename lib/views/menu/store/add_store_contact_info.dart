@@ -1,11 +1,11 @@
-import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_basic_info.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 
-class AddKidContactInfo extends StatelessWidget {
-  AddKidContactInfo({super.key});
-  final KidsController kidsController = Get.find<KidsController>();
+class AddStoreContactInfo extends StatelessWidget {
+  AddStoreContactInfo({super.key});
+  final StoreController storeController = Get.find<StoreController>();
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +64,8 @@ class AddKidContactInfo extends StatelessWidget {
                 KidTopTitleSubtitleAndCircularProgressBar(
                   title: ksContactInfo.tr,
                   subTitle: ksAddParentContactInfo.tr,
-                  circularCenterText: ks2of4.tr,
-                  percent: 0.50,
+                  circularCenterText: ks2of5.tr,
+                  percent: 0.4,
                 ),
                 kH16sizedBox,
                 const Padding(
@@ -81,8 +81,8 @@ class AddKidContactInfo extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomModifiedTextField(
-                          controller: kidsController.kidParentEmailController,
-                          hint: ksParentEmail.tr,
+                          controller: storeController.storeEmailController,
+                          hint: ksStoreEmail.tr,
                           onChanged: (text) {},
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,
@@ -91,8 +91,8 @@ class AddKidContactInfo extends StatelessWidget {
                         ),
                         kH8sizedBox,
                         CustomModifiedTextField(
-                          controller: kidsController.kidParentPhoneController,
-                          hint: ksParentPhone.tr,
+                          controller: storeController.storePhoneController,
+                          hint: ksStorePhone.tr,
                           onChanged: (text) {},
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,
@@ -102,8 +102,8 @@ class AddKidContactInfo extends StatelessWidget {
                         ),
                         kH8sizedBox,
                         CustomModifiedTextField(
-                          controller: kidsController.kidParentAddressController,
-                          hint: ksParentAddress.tr,
+                          controller: storeController.storeAddressController,
+                          hint: ksStoreAddress.tr,
                           onChanged: (text) {},
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,
@@ -112,10 +112,10 @@ class AddKidContactInfo extends StatelessWidget {
                         ),
                         kH8sizedBox,
                         CustomModifiedTextField(
-                          controller: kidsController.kidBioController,
+                          controller: storeController.storeBioController,
                           hint: ksKidBio.tr,
                           onChanged: (text) {
-                            kidsController.kidBioCount.value = text.length;
+                            storeController.storeBioCount.value = text.length;
                           },
                           onSubmit: (text) {},
                           inputAction: TextInputAction.newline,
@@ -127,7 +127,7 @@ class AddKidContactInfo extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              '${kidsController.kidBioCount.value}/256',
+                              '${storeController.storeBioCount.value}/256',
                               style: regular14TextStyle(cIconColor),
                             ),
                           ],
