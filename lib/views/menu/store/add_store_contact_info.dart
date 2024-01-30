@@ -20,7 +20,7 @@ class AddStoreContactInfo extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: ksAddKid.tr,
+              title: ksAddStore.tr,
               hasBackButton: false,
               leadingWidth: 80,
               leadingWidget: Center(
@@ -44,7 +44,7 @@ class AddStoreContactInfo extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       unFocus(context);
-                      Get.toNamed(krAddKidSocialLinks);
+                      // Get.toNamed(krAddKidSocialLinks);
                     },
                     child: Text(
                       ksSkip.tr,
@@ -63,7 +63,7 @@ class AddStoreContactInfo extends StatelessWidget {
                 ),
                 KidTopTitleSubtitleAndCircularProgressBar(
                   title: ksContactInfo.tr,
-                  subTitle: ksAddParentContactInfo.tr,
+                  subTitle: ksStoreInfoVisibleAllUser.tr,
                   circularCenterText: ks2of5.tr,
                   percent: 0.4,
                 ),
@@ -143,7 +143,7 @@ class AddStoreContactInfo extends StatelessWidget {
                   label: ksNext.tr,
                   onPressed: () {
                     unFocus(context);
-                    Get.toNamed(krAddKidSocialLinks);
+                    // Get.toNamed(krAddKidSocialLinks);
                   },
                   textStyle: semiBold16TextStyle(cWhiteColor),
                 ),

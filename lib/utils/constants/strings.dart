@@ -469,4 +469,5 @@ const String ksStoreEmail = "Store email";
 const String ksStorePhone = "Store phone";
 const String ksStoreAddress = "Store address";
 const String ksStoreBio = "Store bio";
+const String ksStoreInfoVisibleAllUser = "Your contact info will be visible to all users";
 

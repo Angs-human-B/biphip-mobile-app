@@ -54,11 +54,11 @@ class StoreController extends GetxController {
   final RxInt storeBioCount = RxInt(0);
 
   //*Social Links
-  final TextEditingController kidWebsiteController = TextEditingController();
-  final TextEditingController kidFacebookController = TextEditingController();
-  final TextEditingController kidInstagramController = TextEditingController();
-  final TextEditingController kidTwitterController = TextEditingController();
-  final TextEditingController kidYoutubeController = TextEditingController();
+  final TextEditingController storeWebsiteController = TextEditingController();
+  final TextEditingController storeFacebookController = TextEditingController();
+  final TextEditingController storeInstagramController = TextEditingController();
+  final TextEditingController storeTwitterController = TextEditingController();
+  final TextEditingController storeYoutubeController = TextEditingController();
   void resetStoreData() {
     storeNameController.clear();
     businessTypeTextEditingController.clear();

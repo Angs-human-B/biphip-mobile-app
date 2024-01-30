@@ -117,7 +117,7 @@ class AddKidBasicInfo extends StatelessWidget {
                       label: ksNext.tr,
                       onPressed: kidsController.isNextButtonEnabled.value
                           ? () {
-                            unFocus(context);
+                              unFocus(context);
                               // kidsController.kidParentEmailController.text = Get.find<ProfileController>().userData.value!.email.toString();
                               // kidsController.kidParentPhoneController.text = Get.find<ProfileController>().userData.value!.phone.toString();
                               Get.toNamed(krAddKidContactInfo);
@@ -125,7 +125,7 @@ class AddKidBasicInfo extends StatelessWidget {
                           : null,
                       textStyle: semiBold16TextStyle(cWhiteColor),
                     )),
-                    kH30sizedBox,
+                kH30sizedBox,
               ],
             ),
           ),
@@ -146,11 +146,11 @@ class KidTopTitleSubtitleAndCircularProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding).copyWith(top: k16Padding),
-      child: LimitedBox(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -164,17 +164,17 @@ class KidTopTitleSubtitleAndCircularProgressBar extends StatelessWidget {
                 ),
               ],
             ),
-            CustomCircularProgressBar(
-              percent: percent,
-              radius: h32,
-              lineWidth: 5,
-              centerWidget: Text(
-                circularCenterText,
-                style: regular16TextStyle(cBlackColor),
-              ),
+          ),
+          CustomCircularProgressBar(
+            percent: percent,
+            radius: h32,
+            lineWidth: 5,
+            centerWidget: Text(
+              circularCenterText,
+              style: regular16TextStyle(cBlackColor),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
