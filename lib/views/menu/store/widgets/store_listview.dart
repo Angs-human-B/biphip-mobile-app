@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/menu/store_controller.dart';
-import 'package:bip_hip/shimmers/menu/friends/all_pending_friend_shimmer.dart';
+import 'package:bip_hip/shimmers/menu/kids/kid_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -10,7 +10,7 @@ class StoreListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => storeController.isStoreListLoading.value
-        ? const AllPendingFriendShimmer()
+        ? const StoreKidsShimmer()
         : storeController.storeList.isNotEmpty
             ? Expanded(
                 child: SingleChildScrollView(
