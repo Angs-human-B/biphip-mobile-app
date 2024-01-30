@@ -62,7 +62,7 @@ class AddStoreSocialLinks extends StatelessWidget {
                 ),
                 KidTopTitleSubtitleAndCircularProgressBar(
                   title: ksSocialLinks.tr,
-                  subTitle: ksAddStore.tr,
+                  subTitle: ksAddSocialLinksForStore.tr,
                   circularCenterText: ks3of5.tr,
                   percent: 0.6,
                 ),

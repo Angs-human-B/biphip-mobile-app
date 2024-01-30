@@ -471,5 +471,5 @@ const String ksStorePhone = "Store phone";
 const String ksStoreAddress = "Store address";
 const String ksStoreBio = "Store bio";
 const String ksStoreInfoVisibleAllUser = "Your contact info will be visible to all users";
-// const String ksStoreInfoVisibleAllUser = "Add social links where the kid has profile";
+const String ksAddSocialLinksForStore = "Add social links where the store has profile";
 
