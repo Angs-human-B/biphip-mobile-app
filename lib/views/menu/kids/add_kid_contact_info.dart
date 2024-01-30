@@ -114,7 +114,7 @@ class AddKidContactInfo extends StatelessWidget {
                         kH8sizedBox,
                         CustomModifiedTextField(
                           controller: kidsController.kidBioController,
-                          hint: ksEnterKidBio.tr,
+                          hint: ksKidBio.tr,
                           onChanged: (text) {
                             kidsController.kidBioCount.value = text.length;
                           },
