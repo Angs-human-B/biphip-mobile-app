@@ -37,7 +37,7 @@ class AddStoreBasicInfo extends StatelessWidget {
                 ),
                 KidTopTitleSubtitleAndCircularProgressBar(
                   title: ksBasicInfo.tr,
-                  subTitle: ksOtherKnowAboutYourKid.tr,
+                  subTitle: ksOtherKnowAboutYourStore.tr,
                   circularCenterText: ks1of5.tr,
                   percent: 0.2,
                 ),
