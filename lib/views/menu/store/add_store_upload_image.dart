@@ -21,7 +21,7 @@ class AddStoreUploadImage extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: ksAddKid.tr,
+              title: ksAddStore.tr,
               hasBackButton: false,
               leadingWidth: 80,
               leadingWidget: Center(
