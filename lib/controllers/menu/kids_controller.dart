@@ -130,6 +130,7 @@ class KidsController extends GetxController {
   final TextEditingController kidParentPhoneController = TextEditingController();
   final TextEditingController kidParentAddressController = TextEditingController();
   final TextEditingController kidBioController = TextEditingController();
+  final RxInt kidBioCount = RxInt(0);
 
   //*Social Links
   final TextEditingController kidWebsiteController = TextEditingController();

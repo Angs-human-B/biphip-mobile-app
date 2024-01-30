@@ -113,13 +113,24 @@ class AddKidContactInfo extends StatelessWidget {
                         CustomModifiedTextField(
                           controller: kidsController.kidBioController,
                           hint: ksEnterKidBio.tr,
-                          onChanged: (text) {},
+                          onChanged: (text) {
+                            kidsController.kidBioCount.value = text.length;
+                          },
                           onSubmit: (text) {},
                           inputAction: TextInputAction.newline,
                           inputType: TextInputType.multiline,
                           maxLines: 5,
                           maxLength: 256,
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              '${kidsController.kidBioCount.value}/256',
+                              style: regular14TextStyle(cIconColor),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
