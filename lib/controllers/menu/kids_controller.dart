@@ -28,7 +28,7 @@ class KidsController extends GetxController {
         totalKidsCount.value = kidList.length;
         isKidsListLoading.value = false;
       } else {
-       isKidsListLoading.value = true;
+        isKidsListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -37,7 +37,7 @@ class KidsController extends GetxController {
         }
       }
     } catch (e) {
-     isKidsListLoading.value = true;
+      isKidsListLoading.value = true;
       ll('getKidsList error: $e');
     }
   }
@@ -86,11 +86,98 @@ class KidsController extends GetxController {
   final RxBool isKidImageChanged = RxBool(false);
   final TextEditingController kidNameTextEditingController = TextEditingController();
   final TextEditingController kidAgeTextEditingController = TextEditingController();
+  final TextEditingController kidSchoolNameTextEditingController = TextEditingController();
   final RxBool isSaveKidButtonEnabled = RxBool(false);
   final RxBool isKidAdded = RxBool(false);
   final RxBool isKidSelected = RxBool(false);
   final RxString kidName = RxString('');
   final RxString kidAge = RxString('');
+  final Rx<String?> kidNameErrorText = Rx<String?>(null);
+  final Rx<String?> kidAgeErrorText = Rx<String?>(null);
+  final RxBool isNextButtonEnabled = RxBool(false);
+  void checkNextButtonEnable() {
+    if (kidNameTextEditingController.text.trim().length >= 3 &&
+        (kidAgeTextEditingController.text.isNotEmpty && int.parse(kidAgeTextEditingController.text.toString()) <= 17)) {
+      isNextButtonEnabled.value = true;
+    } else {
+      isNextButtonEnabled.value = false;
+    }
+  }
+
+  void kidNameOnChanged() {
+    checkNextButtonEnable();
+    if (kidNameTextEditingController.text.toString().trim() == '') {
+      kidNameErrorText.value = ksEmptyNameErrorText.tr;
+    } else if (kidNameTextEditingController.text.trim().length < 3) {
+      kidNameErrorText.value = ksKidNameLengthErrorText.tr;
+    } else {
+      kidNameErrorText.value = null;
+    }
+  }
+
+  void kidAgeOnChanged() {
+    checkNextButtonEnable();
+    if (kidAgeTextEditingController.text.toString().trim() == '') {
+      kidAgeErrorText.value = ksEmptyKidAgeErrorText.tr;
+    } else if (kidAgeTextEditingController.text.toString().trim() != '' && int.parse(kidAgeTextEditingController.text.toString()) > 17) {
+      kidAgeErrorText.value = ksKidAgeErrorText.tr;
+    } else {
+      kidAgeErrorText.value = null;
+    }
+  }
+
+  final TextEditingController kidParentEmailController = TextEditingController();
+  final TextEditingController kidParentPhoneController = TextEditingController();
+  final TextEditingController kidParentAddressController = TextEditingController();
+  final TextEditingController kidBioController = TextEditingController();
+  final RxInt kidBioCount = RxInt(0);
+
+  //*Social Links
+  final TextEditingController kidWebsiteController = TextEditingController();
+  final TextEditingController kidFacebookController = TextEditingController();
+  final TextEditingController kidInstagramController = TextEditingController();
+  final TextEditingController kidTwitterController = TextEditingController();
+  final TextEditingController kidYoutubeController = TextEditingController();
+
+  //*Kid Profile and cover photo
+  final RxString kidProfileImageLink = RxString('');
+  final Rx<File> kidProfileImageFile = File('').obs;
+  final RxBool isKidProfileImageChanged = RxBool(false);
+  final RxString kidCoverImageLink = RxString('');
+  final Rx<File> kidCoverImageFile = File('').obs;
+  final RxBool isKidCoverImageChanged = RxBool(false);
+
+  void resetKidProfilePictureData() {
+    isKidProfileImageChanged.value = false;
+    kidImageLink.value = '';
+    kidProfileImageFile.value = File('');
+  }
+
+  void resetKidCoverPhotoData() {
+    isKidCoverImageChanged.value = false;
+    kidCoverImageLink.value = '';
+    kidCoverImageFile.value = File('');
+  }
+
+  void resetKidsData() {
+    kidNameTextEditingController.clear();
+    kidAgeTextEditingController.clear();
+    kidSchoolNameTextEditingController.clear();
+    kidParentEmailController.clear();
+    kidParentPhoneController.clear();
+    kidParentAddressController.clear();
+    kidBioController.clear();
+    kidWebsiteController.clear();
+    kidFacebookController.clear();
+    kidInstagramController.clear();
+    kidTwitterController.clear();
+    kidYoutubeController.clear();
+    isNextButtonEnabled.value = false;
+    kidNameErrorText.value = null;
+    kidAgeErrorText.value = null;
+    resetKidProfilePictureData();
+    resetKidCoverPhotoData();
+  }
 
   //*Edit Kid Api Call
   final RxBool isEditKidLoading = RxBool(false);

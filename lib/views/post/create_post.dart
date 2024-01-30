@@ -3,10 +3,10 @@ import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/post/widgets/common_category_button.dart';
 import 'package:bip_hip/views/post/widgets/create_post_bottom_section.dart';
+import 'package:bip_hip/views/post/widgets/create_post_bottom_sheet_contents.dart';
 import 'package:bip_hip/views/post/widgets/create_post_media_section.dart';
 import 'package:bip_hip/views/post/widgets/create_post_selling_text_fields.dart';
 import 'package:bip_hip/views/post/widgets/create_post_upper_section.dart';
-import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
@@ -283,6 +283,9 @@ class CreatePost extends StatelessWidget {
                                         text: createPostController.selectedProductCategory.value == ''
                                             ? ksCategory.tr
                                             : createPostController.selectedProductCategory.value,
+                                        textStyle: createPostController.selectedProductCategory.value == ''
+                                            ? regular16TextStyle(cPlaceHolderColor)
+                                            : regular16TextStyle(cBlackColor),
                                         suffixIcon: BipHip.downArrow,
                                         onPressed: () {
                                           createPostController.tempSelectedProductCategory.value = createPostController.selectedProductCategory.value;
@@ -294,43 +297,8 @@ class CreatePost extends StatelessWidget {
                                           globalController.commonBottomSheet(
                                               context: context,
                                               bottomSheetHeight: height * 0.9,
-                                              content: SingleChildScrollView(
-                                                  child: Column(
-                                                children: [
-                                                  ListView.builder(
-                                                      shrinkWrap: true,
-                                                      physics: const NeverScrollableScrollPhysics(),
-                                                      itemCount: createPostController.createPostSellCategoryList.length,
-                                                      itemBuilder: (context, index) {
-                                                        return Padding(
-                                                          padding: const EdgeInsets.only(top: k12Padding),
-                                                          child: Obx(() => OutLinedButton(
-                                                                onPress: () {
-                                                                  createPostController.tempSelectedProductCategory.value =
-                                                                      createPostController.createPostSellCategoryList[index].name.toString();
-                                                                      createPostController.tempSelectedProductCategoryID.value = createPostController.createPostSellCategoryList[index].id.toString();
-                                                                  if (createPostController.tempSelectedProductCategory.value == '') {
-                                                                    globalController.isBottomSheetRightButtonActive.value = false;
-                                                                  } else {
-                                                                    globalController.isBottomSheetRightButtonActive.value = true;
-                                                                  }
-                                                                },
-                                                                buttonText: createPostController.createPostSellCategoryList[index].name.toString(),
-                                                                buttonTextStyle: regular16TextStyle(cBlackColor),
-                                                                borderColor: createPostController.tempSelectedProductCategory.value ==
-                                                                        createPostController.createPostSellCategoryList[index].name.toString()
-                                                                    ? cPrimaryColor
-                                                                    : cLineColor2,
-                                                                buttonColor: createPostController.tempSelectedProductCategory.value ==
-                                                                        createPostController.createPostSellCategoryList[index].name.toString()
-                                                                    ? cPrimaryTint3Color
-                                                                    : cWhiteColor,
-                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                              )),
-                                                        );
-                                                      }),
-                                                ],
-                                              )),
+                                              isScrollControlled: true,
+                                              content: ProductCategoryContent(),
                                               onPressCloseButton: () {
                                                 Get.back();
                                               },
@@ -351,6 +319,9 @@ class CreatePost extends StatelessWidget {
                                         text: createPostController.selectedProductCondition.value == ''
                                             ? ksCondition.tr
                                             : createPostController.selectedProductCondition.value,
+                                        textStyle: createPostController.selectedProductCondition.value == ''
+                                            ? regular16TextStyle(cPlaceHolderColor)
+                                            : regular16TextStyle(cBlackColor),
                                         suffixIcon: BipHip.downArrow,
                                         onPressed: () {
                                           createPostController.tempSelectedProductCondition.value = createPostController.selectedProductCondition.value;
@@ -361,50 +332,15 @@ class CreatePost extends StatelessWidget {
                                           }
                                           globalController.commonBottomSheet(
                                               context: context,
-                                              bottomSheetHeight: isDeviceScreenLarge() ? height * 0.5 : height * 0.75,
-                                              content: SingleChildScrollView(
-                                                  child: Column(
-                                                children: [
-                                                  ListView.builder(
-                                                      shrinkWrap: true,
-                                                      physics: const NeverScrollableScrollPhysics(),
-                                                      itemCount: createPostController.createPostSellConditionList.length,
-                                                      itemBuilder: (context, index) {
-                                                        return Padding(
-                                                          padding: const EdgeInsets.only(top: k12Padding),
-                                                          child: Obx(() => OutLinedButton(
-                                                                onPress: () {
-                                                                  createPostController.tempSelectedProductCondition.value =
-                                                                      createPostController.createPostSellConditionList[index].name.toString();
-                                                                      createPostController.tempSelectedProductConditionID.value = createPostController.createPostSellConditionList[index].id.toString();
-                                                                  if (createPostController.tempSelectedProductCondition.value == '') {
-                                                                    globalController.isBottomSheetRightButtonActive.value = false;
-                                                                  } else {
-                                                                    globalController.isBottomSheetRightButtonActive.value = true;
-                                                                  }
-                                                                },
-                                                                buttonText: createPostController.createPostSellConditionList[index].name.toString(),
-                                                                buttonTextStyle: regular16TextStyle(cBlackColor),
-                                                                borderColor: createPostController.tempSelectedProductCondition.value ==
-                                                                        createPostController.createPostSellConditionList[index].name.toString()
-                                                                    ? cPrimaryColor
-                                                                    : cLineColor2,
-                                                                buttonColor: createPostController.tempSelectedProductCondition.value ==
-                                                                        createPostController.createPostSellConditionList[index].name.toString()
-                                                                    ? cPrimaryTint3Color
-                                                                    : cWhiteColor,
-                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                              )),
-                                                        );
-                                                      }),
-                                                ],
-                                              )),
+                                              bottomSheetHeight: isDeviceScreenLarge() ? height * 0.5 : height * 0.6,
+                                              content: ProductConditionContent(),
                                               onPressCloseButton: () {
                                                 Get.back();
                                               },
                                               onPressRightButton: () {
                                                 createPostController.selectedProductCondition.value = createPostController.tempSelectedProductCondition.value;
-                                                createPostController.selectedProductConditionID.value = createPostController.tempSelectedProductConditionID.value;
+                                                createPostController.selectedProductConditionID.value =
+                                                    createPostController.tempSelectedProductConditionID.value;
                                                 createPostHelper.checkCanCreatePost();
                                                 Get.back();
                                               },
@@ -429,14 +365,14 @@ class CreatePost extends StatelessWidget {
                                         maxLength: 10,
                                       ),
                                       if (createPostController.isRegularPost.value)
-                                        Padding(
-                                          padding: const EdgeInsets.only(bottom: k8Padding),
-                                          child: Text(
-                                            'The Price now is 40',
-                                            style: regular12TextStyle(cSmallBodyTextColor),
-                                          ),
-                                        ),
-                                      kH4sizedBox,
+                                        // Padding(
+                                        //   padding: const EdgeInsets.only(bottom: k8Padding),
+                                        //   child: Text(
+                                        //     'The Price now is 40',
+                                        //     style: regular12TextStyle(cSmallBodyTextColor),
+                                        //   ),
+                                        // ),
+                                        kH4sizedBox,
                                       CustomModifiedTextField(
                                         controller: createPostController.isRegularPost.value
                                             ? createPostController.biddingDiscountAmountTextEditingController
@@ -465,9 +401,41 @@ class CreatePost extends StatelessWidget {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: k12Padding),
                                           child: TextAndIconRowSellingPost(
-                                            text: ksAvailability.tr,
+                                            text: createPostController.productAvailability.value == ''
+                                                ? ksAvailability.tr
+                                                : createPostController.productAvailability.value,
+                                            textStyle: createPostController.productAvailability.value == ''
+                                                ? regular16TextStyle(cPlaceHolderColor)
+                                                : regular16TextStyle(cBlackColor),
                                             suffixIcon: BipHip.downArrow,
-                                            onPressed: null,
+                                            onPressed: () {
+                                              createPostController.temporaryProductAvailability.value = createPostController.productAvailability.value;
+                                              createPostController.temporaryProductAvailabilityId.value = createPostController.productAvailabilityId.value;
+                                              if (createPostController.temporaryProductAvailability.value == '') {
+                                                globalController.isBottomSheetRightButtonActive.value = false;
+                                              } else {
+                                                globalController.isBottomSheetRightButtonActive.value = true;
+                                              }
+                                              globalController.commonBottomSheet(
+                                                  context: context,
+                                                  bottomSheetHeight: isDeviceScreenLarge() ? height * 0.3 : height * 0.4,
+                                                  content: ProductAvailabilityContent(),
+                                                  onPressCloseButton: () {
+                                                    Get.back();
+                                                  },
+                                                  onPressRightButton: () {
+                                                    createPostController.productAvailability.value = createPostController.temporaryProductAvailability.value;
+                                                    createPostController.productAvailabilityId.value =
+                                                        createPostController.temporaryProductAvailabilityId.value;
+                                                    ll(createPostController.productAvailabilityId.value);
+                                                    createPostHelper.checkCanCreatePost();
+                                                    Get.back();
+                                                  },
+                                                  rightText: ksDone.tr,
+                                                  rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                                  title: ksSelectCondition.tr,
+                                                  isRightButtonShow: true);
+                                            },
                                           ),
                                         ),
                                       CustomModifiedTextField(
@@ -769,11 +737,12 @@ class CreatePost extends StatelessWidget {
 }
 
 class TextAndIconRowSellingPost extends StatelessWidget {
-  const TextAndIconRowSellingPost({super.key, required this.text, this.suffixIcon, this.onPressed, this.prefixIcon, this.width});
+  const TextAndIconRowSellingPost({super.key, required this.text, this.suffixIcon, this.onPressed, this.prefixIcon, this.width, this.textStyle});
   final String text;
   final double? width;
   final IconData? suffixIcon, prefixIcon;
   final VoidCallback? onPressed;
+  final TextStyle? textStyle;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -801,7 +770,7 @@ class TextAndIconRowSellingPost extends StatelessWidget {
               Expanded(
                 child: Text(
                   text,
-                  style: regular16TextStyle(cPlaceHolderColor),
+                  style: textStyle ?? regular16TextStyle(cPlaceHolderColor),
                 ),
               ),
               if (suffixIcon != null)

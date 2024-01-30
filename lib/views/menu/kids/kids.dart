@@ -31,26 +31,31 @@ class KidsPage extends StatelessWidget {
                       Get.back();
                     },
                     action: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: k20Padding),
-                        child: TextButton(
-                          style: kTextButtonStyle,
-                          onPressed: () {
-                            createPostHelper.resetAddKidPage();
-                            Get.toNamed(krAddKid);
-                          },
-                          child: Text(
-                            ksAdd.tr,
-                            style: semiBold16TextStyle(cPrimaryColor),
+                      if (kidsController.kidList.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(right: k20Padding),
+                          child: TextButton(
+                            style: kTextButtonStyle,
+                            onPressed: () {
+                              kidsController.resetKidsData();
+                              Get.toNamed(krAddKidBasicInfo);
+                            },
+                            child: Text(
+                              ksAddKid.tr,
+                              style: semiBold16TextStyle(cPrimaryColor),
+                            ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),
                 body: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    kH8sizedBox,
+                    // const CustomDivider(
+                    //   thickness: 1,
+                    // ),
                     Obx(() => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                           child: kidsController.isKidsListLoading.value

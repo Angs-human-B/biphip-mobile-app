@@ -49,50 +49,80 @@ class UploadImageListPage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Obx(
                 () => Column(
-                  children: [
-                    kH8sizedBox,
-                    for (int i = 0; i < createPostController.allMediaFileList.length; i++)
-                      Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: h16),
-                            child: TextButton(
-                              style: kTextButtonStyle,
-                              onPressed: () {},
-                              child: Container(
-                                color: cWhiteColor,
-                                height: 150,
-                                width: width - 40,
-                                child: Image.file(
-                                  createPostController.allMediaFileList[i].value,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: 5,
-                            right: 5,
-                            child: TextButton(
-                              style: kTextButtonStyle,
-                              onPressed: () {
-                                createPostHelper.removeMedia(i);
-                              },
-                              child: const Icon(
-                                BipHip.circleCrossNew,
-                                color: cWhiteColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                  ],
+                  children: [kH8sizedBox, for (int i = 0; i < createPostController.allMediaFileList.length; i++) SeparateImageView(index: i)],
                 ),
               ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class SeparateImageView extends StatelessWidget {
+  SeparateImageView({super.key, required this.index});
+  final CreatePostController createPostController = Get.find<CreatePostController>();
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: k4Padding),
+              child: TextButton(
+                style: kTextButtonStyle,
+                onPressed: () {},
+                child: Container(
+                  color: cWhiteColor,
+                  height: 150,
+                  width: width - 40,
+                  child: Image.file(
+                    createPostController.allMediaFileList[index].value,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 5,
+              right: 5,
+              child: TextButton(
+                style: kTextButtonStyle,
+                onPressed: () {
+                  CreatePostHelper().removeMedia(index);
+                },
+                child: const Icon(
+                  BipHip.circleCrossNew,
+                  color: cWhiteColor,
+                ),
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: CustomModifiedTextField(
+            //! Create separate text editing controller here
+            controller: TextEditingController(),
+            maxLength: 1000,
+            maxLines: 100,
+            minLines: 1,
+            isFilled: false,
+            fillColor: cWhiteColor,
+            inputAction: TextInputAction.newline,
+            inputType: TextInputType.multiline,
+            hint: ksAddACaption.tr,
+            contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
+            textHintStyle: regular14TextStyle(cPlaceHolderColor),
+            textInputStyle: regular14TextStyle(cBlackColor),
+            onChanged: (v) {},
+          ),
+        ),
+      ],
     );
   }
 }

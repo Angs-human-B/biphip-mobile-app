@@ -7,6 +7,7 @@ class FriendController extends GetxController {
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
+  final Rx<String?> familyRelationStatus = Rx<String?>('');
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
 

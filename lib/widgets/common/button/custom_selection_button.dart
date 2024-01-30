@@ -31,7 +31,7 @@ class CustomSelectionButton extends StatelessWidget {
           decoration:
               BoxDecoration(color: buttonColor ?? cGreyBoxColor, borderRadius: k4CircularBorderRadius, border: Border.all(color: borderColor ?? cWhiteColor)),
           child: Padding(
-            padding: contentPadding ?? const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k12Padding),
+            padding: contentPadding ?? const EdgeInsets.symmetric(horizontal: k12Padding, vertical: k12Padding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,13 +54,13 @@ class CustomSelectionButton extends StatelessWidget {
                     if (text == '')
                       Text(
                         hintText ?? '',
-                        style: regular14TextStyle(cPlaceHolderColor2),
+                        style: regular16TextStyle(cPlaceHolderColor2),
                       ),
                   ],
                 ),
                 Icon(
                   trailingIcon ?? BipHip.downArrow,
-                  color: (text != null) ? cBlackColor : cPlaceHolderColor,
+                  color: (text != '') ? cBlackColor : cPlaceHolderColor2,
                 )
               ],
             ),

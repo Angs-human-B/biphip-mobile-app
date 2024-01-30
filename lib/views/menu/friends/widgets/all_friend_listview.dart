@@ -1,6 +1,8 @@
+import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/shimmers/menu/friends/all_pending_friend_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/family/add_family.dart';
 import 'package:bip_hip/views/menu/friends/widgets/all_friend_action_content.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:flutter/rendering.dart';
@@ -75,6 +77,7 @@ class AllFriendListView extends StatelessWidget {
                                       ),
                                       trailing: CustomIconButton(
                                           onPress: () {
+                                            friendController.familyRelationStatus.value = friendController.friendList[index].familyRelationStatus;
                                             unFocus(context);
                                             friendController.friendActionSelect.value = '';
                                             friendController.allFriendFollowStatus.value = friendController.friendList[index].followStatus!;
@@ -94,6 +97,8 @@ class AllFriendListView extends StatelessWidget {
                                               },
                                               onPressRightButton: () async {
                                                 friendController.userId.value = friendController.friendList[index].id!;
+
+                                                ll(friendController.userId.value);
                                                 Get.back();
                                                 if (friendController.friendActionSelect.value == 'Unfriend') {
                                                   await friendController.unfriendUserRequest();
@@ -104,8 +109,11 @@ class AllFriendListView extends StatelessWidget {
                                                 if (friendController.friendActionSelect.value == 'Follow') {
                                                   await friendController.followUser();
                                                 }
-                                                  if (friendController.friendActionSelect.value == 'Add Family') {
-                                                  Get.toNamed(krAddFamily);
+                                                if (friendController.friendActionSelect.value == 'Add Family') {
+                                                  Get.find<FamilyController>().clearAddFamilyData();
+                                                  Get.find<FamilyController>().isRouteFromAllFriend.value = true;
+                                                  Get.find<FamilyController>().userId.value = friendController.friendList[index].id!;
+                                                  Get.to(() => AddFamily(name: friendController.friendList[index].fullName));
                                                 }
                                                 friendController.friendActionSelect.value = '';
                                               },
