@@ -107,27 +107,29 @@ class StoreEmptyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SvgPicture.asset(
-          emptyViewImage,
-          height: 200,
-        ),
-        kH10sizedBox,
-        Text(
-          emptyText,
-          style: semiBold20TextStyle(cSmallBodyTextColor),
-        ),
-        kH20sizedBox,
-        CustomElevatedButton(
-          buttonWidth: 120,
-          buttonHeight: h44,
-          label: emptyButtonText,
-          onPressed: () {},
-          prefixIcon: BipHip.plus,
-        ),
-      ],
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            emptyViewImage,
+            height: 200,
+          ),
+          kH10sizedBox,
+          Text(
+            emptyText,
+            style: semiBold20TextStyle(cSmallBodyTextColor),
+          ),
+          kH20sizedBox,
+          CustomElevatedButton(
+            buttonWidth: 120,
+            buttonHeight: h44,
+            label: emptyButtonText,
+            onPressed: () {},
+            prefixIcon: BipHip.plus,
+          ),
+        ],
+      ),
     );
   }
 }
