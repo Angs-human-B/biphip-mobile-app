@@ -40,4 +40,13 @@ class StoreController extends GetxController {
       ll('getStoreList error: $e');
     }
   }
+
+  final TextEditingController storeNameController = TextEditingController();
+  final TextEditingController businessTypeTextEditingController = TextEditingController();
+  final RxList<String> businessType = RxList<String>(['Electronics', 'Shop', 'Gadgets', 'Hardware']);
+  final RxBool isBusinessTypeSuffixIconVisible = RxBool(false);
+  void resetStoreData(){
+    storeNameController.clear();
+    businessTypeTextEditingController.clear();
+  }
 }

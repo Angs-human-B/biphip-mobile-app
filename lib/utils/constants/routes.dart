@@ -12,6 +12,7 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/menu/store/add_store_basic_info.dart';
 import 'package:bip_hip/views/menu/store/store.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_basic_info.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_contact_info.dart';
@@ -107,6 +108,7 @@ const String krAddKidUploadImage = '/add-kid-upload-image';
 
 //*Store
 const String krStore = '/store-page';
+const String krAddStoreBasicInfo = '/add-store-basic-info';
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -165,12 +167,11 @@ List<GetPage<dynamic>>? routes = [
   //*Kids
   GetPage(name: krKidsPage, page: () => KidsPage(), transition: Transition.noTransition),
   GetPage(name: krEditKidPage, page: () => EditKidPage(), transition: Transition.noTransition),
-
-  //*Store
-  GetPage(name: krStore, page: () => StorePage(), transition: Transition.noTransition),
-  
   GetPage(name: krAddKidBasicInfo, page: () => AddKidBasicInfo(), transition: Transition.noTransition),
   GetPage(name: krAddKidContactInfo, page: () => AddKidContactInfo(), transition: Transition.noTransition),
   GetPage(name: krAddKidSocialLinks, page: () => AddKidSocialLinks(), transition: Transition.noTransition),
   GetPage(name: krAddKidUploadImage, page: () => AddKidUploadImage(), transition: Transition.noTransition),
+  //*Store
+  GetPage(name: krStore, page: () => StorePage(), transition: Transition.noTransition),
+  GetPage(name: krAddStoreBasicInfo, page: () => AddStoreBasicInfo(), transition: Transition.noTransition),
 ];

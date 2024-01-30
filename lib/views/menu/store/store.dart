@@ -33,7 +33,10 @@ class StorePage extends StatelessWidget {
                         padding: const EdgeInsets.only(right: k20Padding),
                         child: TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () {
+                            storeController.resetStoreData();
+                            Get.toNamed(krAddStoreBasicInfo);
+                          },
                           child: Text(
                             ksAddStore.tr,
                             style: semiBold16TextStyle(cPrimaryColor),

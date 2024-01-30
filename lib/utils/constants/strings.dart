@@ -461,3 +461,5 @@ const String ksUploadProfileAndCoverPhoto = "Upload Profile and cover photo";
 const String ks4of4 = "4 of 4";
 const String ksMaximumPhotoSize = "Maximum photo size is 20MB";
 const String ksComplete = "Complete";
+const String ksStoreName = "Store name";
+const String ks1of5 = "1 of 5";

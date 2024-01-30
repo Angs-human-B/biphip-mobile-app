@@ -67,7 +67,15 @@ class StoreListView extends StatelessWidget {
                   ),
                 ),
               )
-            : StoreEmptyView(emptyViewImage: kiStoreImage, emptyText: ksNoStoreAddedYet.tr, emptyButtonText: ksAddStore.tr));
+            : StoreEmptyView(
+                emptyViewImage: kiStoreImage,
+                emptyText: ksNoStoreAddedYet.tr,
+                emptyButtonText: ksAddStore.tr,
+                onPressed: () {
+                  storeController.resetStoreData();
+                  Get.toNamed(krAddStoreBasicInfo);
+                },
+              ));
   }
 }
 
@@ -100,10 +108,12 @@ class StoreEmptyView extends StatelessWidget {
     required this.emptyViewImage,
     required this.emptyText,
     required this.emptyButtonText,
+    required this.onPressed,
   });
   final String emptyViewImage;
   final String emptyText;
   final String emptyButtonText;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +135,7 @@ class StoreEmptyView extends StatelessWidget {
             buttonWidth: 120,
             buttonHeight: h44,
             label: emptyButtonText,
-            onPressed: () {},
+            onPressed: onPressed,
             prefixIcon: BipHip.plus,
           ),
         ],
