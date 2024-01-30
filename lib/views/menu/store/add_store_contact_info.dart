@@ -44,7 +44,7 @@ class AddStoreContactInfo extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       unFocus(context);
-                      // Get.toNamed(krAddKidSocialLinks);
+                      Get.toNamed(krAddStoreSocialLinks);
                     },
                     child: Text(
                       ksSkip.tr,
@@ -143,7 +143,7 @@ class AddStoreContactInfo extends StatelessWidget {
                   label: ksNext.tr,
                   onPressed: () {
                     unFocus(context);
-                    // Get.toNamed(krAddKidSocialLinks);
+                    Get.toNamed(krAddStoreSocialLinks);
                   },
                   textStyle: semiBold16TextStyle(cWhiteColor),
                 ),

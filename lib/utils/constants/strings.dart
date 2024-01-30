@@ -462,12 +462,14 @@ const String ks4of4 = "4 of 4";
 const String ksMaximumPhotoSize = "Maximum photo size is 20MB";
 const String ksComplete = "Complete";
 const String ksStoreName = "Store name";
-const String ksOtherKnowAboutYourStore = "Let other users know about your business";
+const String ksOtherKnowAboutYourStore = "Let's other users know about your business";
 const String ks1of5 = "1 of 5";
 const String ks2of5 = "2 of 5";
+const String ks3of5 = "3 of 5";
 const String ksStoreEmail = "Store email";
 const String ksStorePhone = "Store phone";
 const String ksStoreAddress = "Store address";
 const String ksStoreBio = "Store bio";
 const String ksStoreInfoVisibleAllUser = "Your contact info will be visible to all users";
+// const String ksStoreInfoVisibleAllUser = "Add social links where the kid has profile";
 

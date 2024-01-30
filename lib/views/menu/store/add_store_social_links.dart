@@ -1,11 +1,11 @@
-import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_basic_info.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 
-class AddKidSocialLinks extends StatelessWidget {
-  AddKidSocialLinks({super.key});
-  final KidsController kidsController = Get.find<KidsController>();
+class AddStoreSocialLinks extends StatelessWidget {
+  AddStoreSocialLinks({super.key});
+  final StoreController storeController = Get.find<StoreController>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +19,7 @@ class AddKidSocialLinks extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: ksAddKid.tr,
+              title: ksAddStore.tr,
               hasBackButton: false,
               leadingWidth: 80,
               leadingWidget: Center(
@@ -43,7 +43,7 @@ class AddKidSocialLinks extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       unFocus(context);
-                      Get.toNamed(krAddKidUploadImage);
+                      // Get.toNamed(krAddKidUploadImage);
                     },
                     child: Text(
                       ksSkip.tr,
@@ -62,9 +62,9 @@ class AddKidSocialLinks extends StatelessWidget {
                 ),
                 KidTopTitleSubtitleAndCircularProgressBar(
                   title: ksSocialLinks.tr,
-                  subTitle: ksAddSocialLinksForKid.tr,
-                  circularCenterText: ks3of4.tr,
-                  percent: 0.75,
+                  subTitle: ksAddStore.tr,
+                  circularCenterText: ks3of5.tr,
+                  percent: 0.6,
                 ),
                 kH16sizedBox,
                 const Padding(
@@ -79,7 +79,7 @@ class AddKidSocialLinks extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomModifiedTextField(
-                        controller: kidsController.kidWebsiteController,
+                        controller: storeController.storeWebsiteController,
                         hint: ksWebsite.tr,
                         onChanged: (text) {},
                         onSubmit: (text) {},
@@ -89,7 +89,7 @@ class AddKidSocialLinks extends StatelessWidget {
                       ),
                       kH8sizedBox,
                       CustomModifiedTextField(
-                        controller: kidsController.kidFacebookController,
+                        controller: storeController.storeFacebookController,
                         hint: ksFacebook.tr,
                         onChanged: (text) {},
                         onSubmit: (text) {},
@@ -99,7 +99,7 @@ class AddKidSocialLinks extends StatelessWidget {
                       ),
                       kH8sizedBox,
                       CustomModifiedTextField(
-                        controller: kidsController.kidInstagramController,
+                        controller: storeController.storeInstagramController,
                         hint: ksInstagram.tr,
                         onChanged: (text) {},
                         onSubmit: (text) {},
@@ -109,11 +109,9 @@ class AddKidSocialLinks extends StatelessWidget {
                       ),
                       kH8sizedBox,
                       CustomModifiedTextField(
-                        controller: kidsController.kidTwitterController,
+                        controller: storeController.storeTwitterController,
                         hint: ksTwitter.tr,
-                        onChanged: (text) {
-                          kidsController.checkNextButtonEnable();
-                        },
+                        onChanged: (text) {},
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.text,
@@ -121,7 +119,7 @@ class AddKidSocialLinks extends StatelessWidget {
                       ),
                       kH8sizedBox,
                       CustomModifiedTextField(
-                        controller: kidsController.kidYoutubeController,
+                        controller: storeController.storeYoutubeController,
                         hint: ksYoutube.tr,
                         onChanged: (text) {},
                         onSubmit: (text) {},
@@ -139,7 +137,7 @@ class AddKidSocialLinks extends StatelessWidget {
                   label: ksNext.tr,
                   onPressed: () {
                     unFocus(context);
-                    Get.toNamed(krAddKidUploadImage);
+                    // Get.toNamed(krAddKidUploadImage);
                   },
                   textStyle: semiBold16TextStyle(cWhiteColor),
                 ),
@@ -150,6 +148,5 @@ class AddKidSocialLinks extends StatelessWidget {
         ),
       ),
     );
-  
   }
 }

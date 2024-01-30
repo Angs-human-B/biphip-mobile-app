@@ -67,5 +67,11 @@ class StoreController extends GetxController {
     storePhoneController.clear();
     storeAddressController.clear();
     storeBioController.clear();
+    storeBioCount.value = 0;
+    storeWebsiteController.clear();
+    storeFacebookController.clear();
+    storeInstagramController.clear();
+    storeTwitterController.clear();
+    storeYoutubeController.clear();
   }
 }
