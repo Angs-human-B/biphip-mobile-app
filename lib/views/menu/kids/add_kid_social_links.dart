@@ -25,6 +25,7 @@ class AddKidSocialLinks extends StatelessWidget {
               leadingWidget: Center(
                 child: InkWell(
                   onTap: () {
+                    unFocus(context);
                     Get.back();
                   },
                   child: Text(
@@ -41,6 +42,7 @@ class AddKidSocialLinks extends StatelessWidget {
                   child: TextButton(
                     style: kTextButtonStyle,
                     onPressed: () {
+                      unFocus(context);
                       Get.toNamed(krAddKidUploadImage);
                     },
                     child: Text(
@@ -136,6 +138,7 @@ class AddKidSocialLinks extends StatelessWidget {
                   buttonHeight: h40,
                   label: ksNext.tr,
                   onPressed: () {
+                    unFocus(context);
                     Get.toNamed(krAddKidUploadImage);
                   },
                   textStyle: semiBold16TextStyle(cWhiteColor),

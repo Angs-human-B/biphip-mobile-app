@@ -26,6 +26,7 @@ class AddKidContactInfo extends StatelessWidget {
               leadingWidget: Center(
                 child: InkWell(
                   onTap: () {
+                    unFocus(context);
                     Get.back();
                   },
                   child: Text(
@@ -42,6 +43,7 @@ class AddKidContactInfo extends StatelessWidget {
                   child: TextButton(
                     style: kTextButtonStyle,
                     onPressed: () {
+                      unFocus(context);
                       Get.toNamed(krAddKidSocialLinks);
                     },
                     child: Text(
@@ -141,6 +143,7 @@ class AddKidContactInfo extends StatelessWidget {
                   buttonHeight: h40,
                   label: ksNext.tr,
                   onPressed: () {
+                    unFocus(context);
                     Get.toNamed(krAddKidSocialLinks);
                   },
                   textStyle: semiBold16TextStyle(cWhiteColor),

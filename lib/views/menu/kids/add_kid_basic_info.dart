@@ -24,6 +24,7 @@ class AddKidBasicInfo extends StatelessWidget {
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
+                unFocus(context);
                 Get.back();
               },
             ),
@@ -116,6 +117,7 @@ class AddKidBasicInfo extends StatelessWidget {
                       label: ksNext.tr,
                       onPressed: kidsController.isNextButtonEnabled.value
                           ? () {
+                            unFocus(context);
                               // kidsController.kidParentEmailController.text = Get.find<ProfileController>().userData.value!.email.toString();
                               // kidsController.kidParentPhoneController.text = Get.find<ProfileController>().userData.value!.phone.toString();
                               Get.toNamed(krAddKidContactInfo);

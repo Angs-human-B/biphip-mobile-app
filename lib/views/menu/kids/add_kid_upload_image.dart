@@ -29,6 +29,7 @@ class AddKidUploadImage extends StatelessWidget {
               leadingWidget: Center(
                 child: InkWell(
                   onTap: () {
+                    unFocus(context);
                     Get.back();
                   },
                   child: Text(
@@ -125,6 +126,7 @@ class AddKidUploadImage extends StatelessWidget {
                   buttonHeight: h40,
                   label: ksComplete.tr,
                   onPressed: () {
+                    unFocus(context);
                     Get.offNamedUntil(krKidsPage, ModalRoute.withName(krMenu));
                   },
                   textStyle: semiBold16TextStyle(cWhiteColor),
