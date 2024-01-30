@@ -54,6 +54,7 @@ class AddKidPage extends StatelessWidget {
                     ],
                   ),
                 ),
+              
                 body: SizedBox(
                   height: height,
                   width: width,
@@ -139,7 +140,9 @@ class AddKidPage extends StatelessWidget {
                                       ),
                                     ],
                                   ));
+                            
                             },
+                            
                             buttonText: ksUploadImage.tr,
                             borderColor: cPrimaryColor,
                             buttonHeight: 32,
@@ -153,6 +156,7 @@ class AddKidPage extends StatelessWidget {
                               ),
                             ),
                           ),
+                     
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

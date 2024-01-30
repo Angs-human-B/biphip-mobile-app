@@ -10,7 +10,10 @@ class CustomAppBar extends StatelessWidget {
     this.iconColor,
     this.titleColor,
     this.appBarColor,
-    this.isCenterTitle, this.systemUiOverlayStyle,
+    this.isCenterTitle,
+    this.systemUiOverlayStyle,
+    this.leadingWidget,
+    this.leadingWidth,
   }) : super(key: key);
 
   final dynamic title;
@@ -21,7 +24,9 @@ class CustomAppBar extends StatelessWidget {
   final Color? iconColor;
   final Color? titleColor;
   final Color? appBarColor;
-  final SystemUiOverlayStyle ? systemUiOverlayStyle;
+  final SystemUiOverlayStyle? systemUiOverlayStyle;
+  final Widget? leadingWidget;
+  final double? leadingWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +36,7 @@ class CustomAppBar extends StatelessWidget {
       automaticallyImplyLeading: false,
       elevation: kCommonElevation,
       backgroundColor: appBarColor ?? cWhiteColor,
-      leadingWidth: kCommonBackSpace,
+      leadingWidth: leadingWidth ?? kCommonBackSpace,
       title: (title is String)
           ? Text(
               title.toString(),
@@ -46,7 +51,7 @@ class CustomAppBar extends StatelessWidget {
                 icon: BipHip.leftArrow,
               ),
             )
-          : null,
+          : leadingWidget,
       actions: action,
     );
   }
