@@ -163,9 +163,18 @@ class KidsController extends GetxController {
     kidNameTextEditingController.clear();
     kidAgeTextEditingController.clear();
     kidSchoolNameTextEditingController.clear();
+    kidParentEmailController.clear();
+    kidParentPhoneController.clear();
+    kidParentAddressController.clear();
+    kidBioController.clear();
+    kidWebsiteController.clear();
+    kidFacebookController.clear();
+    kidInstagramController.clear();
+    kidTwitterController.clear();
+    kidYoutubeController.clear();
+    isNextButtonEnabled.value = false;
     kidNameErrorText.value = null;
     kidAgeErrorText.value = null;
-    isNextButtonEnabled.value = false;
     resetKidProfilePictureData();
     resetKidCoverPhotoData();
   }
