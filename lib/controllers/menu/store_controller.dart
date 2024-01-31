@@ -137,7 +137,7 @@ class StoreController extends GetxController {
   RxDouble progress = 0.0.obs;
 
   void startUpload() {
-    Timer.periodic(const Duration(milliseconds: 2500), (timer) {
+    Timer.periodic(const Duration(milliseconds: 250), (timer) {
       double currentProgress = progress.value + 0.25;
       if (currentProgress > 1) {
         currentProgress = 1;
