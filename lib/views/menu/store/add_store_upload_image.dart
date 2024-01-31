@@ -125,7 +125,7 @@ class AddStoreUploadImage extends StatelessWidget {
                   label: ksComplete.tr,
                   onPressed: () {
                     unFocus(context);
-                    Get.offNamedUntil(krKidsPage, ModalRoute.withName(krMenu));
+                    Get.offNamedUntil(krStore, ModalRoute.withName(krMenu));
                   },
                   textStyle: semiBold16TextStyle(cWhiteColor),
                 ),
