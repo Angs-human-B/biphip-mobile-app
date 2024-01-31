@@ -40,6 +40,7 @@ class CreatePostMediaSection extends StatelessWidget {
                     onPressed: () {
                       createPostHelper.removeMedia(0);
                       createPostHelper.checkCanCreatePost();
+                       createPostController.imageDescriptionTextEditingController[0].clear();
                     },
                     child: const Icon(
                       BipHip.circleCrossNew,
@@ -79,6 +80,7 @@ class CreatePostMediaSection extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () {
                             createPostHelper.removeMedia(1);
+                            createPostController.imageDescriptionTextEditingController[1].clear();
                           },
                           child: const Icon(
                             BipHip.circleCrossNew,
@@ -100,6 +102,9 @@ class CreatePostMediaSection extends StatelessWidget {
                         style: kTextButtonStyle,
                         onPressed: () {
                           if (createPostController.allMediaList.length > 3) {
+                            for (int i = 0; i < createPostController.allMediaList.length; i++) {
+                              createPostController.imageDescriptionTextEditingController.add(TextEditingController());
+                            }
                             Get.toNamed(krUploadedImageListPage);
                           }
                         },
@@ -136,6 +141,9 @@ class CreatePostMediaSection extends StatelessWidget {
                           child: TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
+                              for (int i = 0; i < createPostController.allMediaList.length; i++) {
+                                createPostController.imageDescriptionTextEditingController.add(TextEditingController());
+                              }
                               Get.toNamed(krUploadedImageListPage);
                             },
                             child: Text(

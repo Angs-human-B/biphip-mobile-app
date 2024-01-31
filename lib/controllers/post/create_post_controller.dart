@@ -423,10 +423,15 @@ class CreatePostController extends GetxController {
     isPostButtonActive.value = false;
   }
 
+  List imageDescriptionTextEditingController = [];
+
   Future<void> createPost() async {
     List tags = [];
     for (int i = 0; i < taggedFriends.length; i++) {
       tags.add(taggedFriends[i].id);
+    }
+    for (int i = 0; i < allMediaList.length; i++) {
+      imageDescriptionTextEditingController.add(allMediaList[i]);
     }
     try {
       isCreatePostLoading.value = true;
@@ -436,6 +441,7 @@ class CreatePostController extends GetxController {
         'content': category.value == 'Selling' ? biddingTitleTextEditingController.text.trim() : createPostController.text.trim(),
         'is_public': '1',
         'post_tag_friend_id': tags.join(','),
+        'image_description': imageDescriptionTextEditingController.toString(),
         if (category.value == 'Kids') 'kid_id': kidID.value.toString(),
         if (category.value == 'Selling') 'store_id': '55',
         if (category.value == 'Selling') 'sell_post_type': (isRegularPost.value && !isBiddingPost.value) ? '0' : '1',

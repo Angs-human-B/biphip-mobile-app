@@ -315,6 +315,7 @@ class CreatePostHelper {
     createPostController.tempCreatePostSelectedPrivacyIcon.value = BipHip.friends;
     createPostController.createPostSelectedPrivacyIcon.value = BipHip.friends;
     createPostController.createPostSelectedPrivacy.value = 'Friends';
+    createPostController.imageDescriptionTextEditingController.clear();
     clearCreateSellingPostView();
   }
 

@@ -94,6 +94,7 @@ class SeparateImageView extends StatelessWidget {
                 style: kTextButtonStyle,
                 onPressed: () {
                   CreatePostHelper().removeMedia(index);
+                  createPostController.imageDescriptionTextEditingController[index].clear();
                 },
                 child: const Icon(
                   BipHip.circleCrossNew,
@@ -106,8 +107,7 @@ class SeparateImageView extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
           child: CustomModifiedTextField(
-            //! Create separate text editing controller here
-            controller: TextEditingController(),
+            controller: createPostController.imageDescriptionTextEditingController[index],
             maxLength: 1000,
             maxLines: 100,
             minLines: 1,
