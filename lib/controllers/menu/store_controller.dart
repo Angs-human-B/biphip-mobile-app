@@ -133,6 +133,7 @@ class StoreController extends GetxController {
   void startUpload() {
     Timer.periodic(const Duration(milliseconds: 250), (timer) {
       double currentProgress = progress.value + 0.25;
+      progress.value = currentProgress;
       if (currentProgress > 1) {
         currentProgress = 1;
         progress.value = 1;
