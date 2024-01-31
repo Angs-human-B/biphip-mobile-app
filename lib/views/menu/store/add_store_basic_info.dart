@@ -56,7 +56,9 @@ class AddStoreBasicInfo extends StatelessWidget {
                       CustomModifiedTextField(
                         controller: storeController.storeNameController,
                         hint: ksStoreName.tr,
-                        onChanged: (text) {},
+                        onChanged: (text) {
+                          storeController.checkNextButtonEnable();
+                        },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.text,
@@ -119,6 +121,7 @@ class AddStoreBasicInfo extends StatelessWidget {
                                 storeController.businessTypeTextEditingController.clear();
                               },
                               onChanged: (text) {
+                                storeController.checkNextButtonEnable();
                                 if (storeController.businessTypeTextEditingController.text.trim() != '') {
                                   storeController.isBusinessTypeSuffixIconVisible.value = true;
                                 } else {
@@ -138,16 +141,18 @@ class AddStoreBasicInfo extends StatelessWidget {
                   ),
                 ),
                 kH100sizedBox,
-                CustomElevatedButton(
-                  buttonWidth: width - 40,
-                  buttonHeight: h40,
-                  label: ksNext.tr,
-                  onPressed: () {
-                    unFocus(context);
-                    Get.toNamed(krAddStoreContactInfo);
-                  },
-                  textStyle: semiBold16TextStyle(cWhiteColor),
-                ),
+                Obx(() => CustomElevatedButton(
+                      buttonWidth: width - 40,
+                      buttonHeight: h40,
+                      label: ksNext.tr,
+                      onPressed: storeController.isNextButtonEnable.value
+                          ? () {
+                              unFocus(context);
+                              Get.toNamed(krAddStoreContactInfo);
+                            }
+                          : null,
+                      textStyle: semiBold16TextStyle(cWhiteColor),
+                    )),
                 kH30sizedBox,
               ],
             ),

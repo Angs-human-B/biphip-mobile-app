@@ -50,6 +50,7 @@ class StoreController extends GetxController {
   final TextEditingController businessTypeTextEditingController = TextEditingController();
   final RxList<String> businessType = RxList<String>(['Electronics', 'Shop', 'Gadgets', 'Hardware']);
   final RxBool isBusinessTypeSuffixIconVisible = RxBool(false);
+  final RxBool isNextButtonEnable = RxBool(false);
   //*Store contact info
   final TextEditingController storeEmailController = TextEditingController();
   final TextEditingController storePhoneController = TextEditingController();
@@ -102,6 +103,14 @@ class StoreController extends GetxController {
     storeYoutubeController.clear();
     resetStoreProfilePictureData();
     resetStoreCoverPhotoData();
+  }
+
+  void checkNextButtonEnable() {
+    if (storeNameController.text.toString().trim() != '' && businessTypeTextEditingController.text.toString().trim() != '') {
+      isNextButtonEnable.value = true;
+    } else {
+      isNextButtonEnable.value = false;
+    }
   }
 
   final ImagePicker picker = ImagePicker();
