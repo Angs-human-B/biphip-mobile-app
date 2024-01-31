@@ -430,9 +430,6 @@ class CreatePostController extends GetxController {
     for (int i = 0; i < taggedFriends.length; i++) {
       tags.add(taggedFriends[i].id);
     }
-    for (int i = 0; i < allMediaList.length; i++) {
-      imageDescriptionTextEditingController.add(allMediaList[i]);
-    }
     try {
       isCreatePostLoading.value = true;
       String? token = await spController.getBearerToken();
