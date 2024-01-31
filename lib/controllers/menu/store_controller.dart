@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
+import 'package:image_picker/image_picker.dart';
 
 class StoreController extends GetxController {
   final ApiController apiController = ApiController();
@@ -101,4 +103,39 @@ class StoreController extends GetxController {
     resetStoreProfilePictureData();
     resetStoreCoverPhotoData();
   }
+
+  final ImagePicker picker = ImagePicker();
+  RxList<XFile> selectedImages = RxList<XFile>();
+
+  Future<void> captureImageFromCamera() async {
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    if (image != null) {
+      Get.back();
+      startUpload();
+      selectedImages.add(image);
+    }
+  }
+
+  Future<void> pickImageFromGallery() async {
+    final List<XFile>? images = await picker.pickMultiImage();
+    if (images != null && images.isNotEmpty) {
+      Get.back();
+      startUpload();
+      selectedImages.addAll(images);
+
+    }
+  }
+  RxDouble progress = 0.0.obs;
+
+ void startUpload() {
+    Timer.periodic(const Duration(milliseconds: 250), (timer) {
+      double currentProgress = progress.value + 0.25;
+      if (currentProgress > 1) {
+        currentProgress = 1;
+        timer.cancel();
+      }
+      progress.value = currentProgress;
+    });
+ }
+
 }
