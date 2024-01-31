@@ -110,8 +110,8 @@ class StoreController extends GetxController {
   Future<void> captureImageFromCamera() async {
     final XFile? image = await picker.pickImage(source: ImageSource.camera);
     if (image != null) {
-      Get.back();
       startUpload();
+      Get.back();
       selectedImages.add(image);
     }
   }
@@ -119,23 +119,23 @@ class StoreController extends GetxController {
   Future<void> pickImageFromGallery() async {
     final List<XFile>? images = await picker.pickMultiImage();
     if (images != null && images.isNotEmpty) {
-      Get.back();
       startUpload();
+      Get.back();
       selectedImages.addAll(images);
-
     }
   }
+
   RxDouble progress = 0.0.obs;
 
- void startUpload() {
-    Timer.periodic(const Duration(milliseconds: 250), (timer) {
+  void startUpload() {
+    Timer.periodic(const Duration(milliseconds: 2500), (timer) {
       double currentProgress = progress.value + 0.25;
       if (currentProgress > 1) {
         currentProgress = 1;
+        progress.value = 1;
         timer.cancel();
       }
       progress.value = currentProgress;
     });
- }
-
+  }
 }

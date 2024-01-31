@@ -180,7 +180,7 @@ class AddStoreDocuments extends StatelessWidget {
                                     if (storeController.progress.value > 0 && storeController.progress.value < 1)
                                       LinearProgressIndicator(
                                         value: storeController.progress.value,
-                                        borderRadius: BorderRadius.circular(k8BorderRadius),
+                                        borderRadius: BorderRadius.circular(k16BorderRadius),
                                       ),
                                     Row(
                                       children: [
