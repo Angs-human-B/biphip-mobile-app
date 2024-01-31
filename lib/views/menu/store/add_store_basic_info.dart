@@ -73,6 +73,7 @@ class AddStoreBasicInfo extends StatelessWidget {
                         },
                         onSelected: (option) {
                           storeController.businessTypeTextEditingController.text = option;
+                          storeController.checkNextButtonEnable();
                         },
                         optionsViewBuilder: (context, Function(String) onSelected, options) {
                           return Align(
@@ -94,7 +95,7 @@ class AddStoreBasicInfo extends StatelessWidget {
                                       onPressed: () {
                                         onSelected(option.toString());
                                         storeController.businessTypeTextEditingController.text = option.toString();
-                                        storeController.isBusinessTypeSuffixIconVisible.value = false;
+                                        storeController.isBusinessTypeSuffixIconVisible.value = true;
                                         unfocus(context);
                                       },
                                     );

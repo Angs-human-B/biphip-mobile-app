@@ -101,16 +101,32 @@ class StoreController extends GetxController {
     storeInstagramController.clear();
     storeTwitterController.clear();
     storeYoutubeController.clear();
+    isNextButtonEnable.value = false;
     resetStoreProfilePictureData();
     resetStoreCoverPhotoData();
   }
 
   void checkNextButtonEnable() {
-    if (storeNameController.text.toString().trim() != '' && businessTypeTextEditingController.text.toString().trim() != '') {
+    String businessTypeValue = businessTypeTextEditingController.text.toString().trim();
+    if (storeNameController.text.toString().trim().length >= 3 && businessType.contains(businessTypeValue)) {
       isNextButtonEnable.value = true;
     } else {
       isNextButtonEnable.value = false;
     }
+  }
+
+  RxDouble progress = 0.0.obs;
+
+  void startUpload() {
+    Timer.periodic(const Duration(milliseconds: 250), (timer) {
+      double currentProgress = progress.value + 0.25;
+      if (currentProgress > 1) {
+        currentProgress = 1;
+        progress.value = 1;
+        timer.cancel();
+      }
+      progress.value = currentProgress;
+    });
   }
 
   final ImagePicker picker = ImagePicker();
@@ -132,19 +148,5 @@ class StoreController extends GetxController {
       Get.back();
       selectedImages.addAll(images);
     }
-  }
-
-  RxDouble progress = 0.0.obs;
-
-  void startUpload() {
-    Timer.periodic(const Duration(milliseconds: 250), (timer) {
-      double currentProgress = progress.value + 0.25;
-      if (currentProgress > 1) {
-        currentProgress = 1;
-        progress.value = 1;
-        timer.cancel();
-      }
-      progress.value = currentProgress;
-    });
   }
 }
