@@ -356,7 +356,7 @@ const String ksSuggestionAllCap = "SUGGESTION";
 const String ksAudienceInformation =
     "Your post will appear in feed, on your profile and in search results. Your default audience is set to Public, but you can change the audience of this specific post.";
 const String ksAddBrandInstruction = "Please add your own brand to promote and grow your business.";
-const String ksCustomAddInstruction = "If you don’t have any kid added in system, use ‘Custom Add’ to post directly with kid’s details.";
+const String ksCustomAddInstruction = "If you don't have any kid added in system, use 'Custom Add' to post directly with kid's details.";
 const String ksSellInformation = "You can sell all kind of product here. Including your brand on that will boost your selling.";
 const String ksAddKidInstructions = "To add kid category, you need to follow the further steps.";
 const String ksBiddingPostDescription = "Selecting bidding post will let the user write their preferred bidding price.";
@@ -480,3 +480,7 @@ const String ksBIN = "BIN";
 const String ksLegalPapers = "Legal Papers";
 const String ksLegalPapersLicenseOrImage = "Upload your legal papers License/Image.";
 const String ks5of5 = "5 of 5";
+const String ks = "5 of 5";
+const String ksEmptyStoreErrorText = "Store Name can't be empty";
+const String ksStoreNameLengthErrorText = "Store name must be at least 3 characters long";
+

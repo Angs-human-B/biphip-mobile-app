@@ -51,6 +51,7 @@ class StoreController extends GetxController {
   final RxList<String> businessType = RxList<String>(['Electronics', 'Shop', 'Gadgets', 'Hardware']);
   final RxBool isBusinessTypeSuffixIconVisible = RxBool(false);
   final RxBool isNextButtonEnable = RxBool(false);
+  final Rx<String?> storeNameErrorText = Rx<String?>(null);
   //*Store contact info
   final TextEditingController storeEmailController = TextEditingController();
   final TextEditingController storePhoneController = TextEditingController();
@@ -101,9 +102,21 @@ class StoreController extends GetxController {
     storeInstagramController.clear();
     storeTwitterController.clear();
     storeYoutubeController.clear();
+    storeNameErrorText.value = null;
     isNextButtonEnable.value = false;
     resetStoreProfilePictureData();
     resetStoreCoverPhotoData();
+  }
+
+  void storeNameOnChanged() {
+    checkNextButtonEnable();
+    if (storeNameController.text.toString().trim() == '') {
+      storeNameErrorText.value = ksEmptyStoreErrorText.tr;
+    } else if (storeNameController.text.trim().length < 3) {
+      storeNameErrorText.value = ksStoreNameLengthErrorText.tr;
+    } else {
+      storeNameErrorText.value = null;
+    }
   }
 
   void checkNextButtonEnable() {

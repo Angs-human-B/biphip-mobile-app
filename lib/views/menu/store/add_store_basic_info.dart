@@ -53,17 +53,18 @@ class AddStoreBasicInfo extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomModifiedTextField(
-                        controller: storeController.storeNameController,
-                        hint: ksStoreName.tr,
-                        onChanged: (text) {
-                          storeController.checkNextButtonEnable();
-                        },
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.next,
-                        inputType: TextInputType.text,
-                        maxLength: 50,
-                      ),
+                      Obx(() => CustomModifiedTextField(
+                            controller: storeController.storeNameController,
+                            hint: ksStoreName.tr,
+                            errorText: storeController.storeNameErrorText.value,
+                            onChanged: (text) {
+                              storeController.storeNameOnChanged();
+                            },
+                            onSubmit: (text) {},
+                            inputAction: TextInputAction.next,
+                            inputType: TextInputType.text,
+                            maxLength: 50,
+                          )),
                       kH8sizedBox,
                       RawAutocomplete(
                         textEditingController: storeController.businessTypeTextEditingController,
@@ -120,6 +121,7 @@ class AddStoreBasicInfo extends StatelessWidget {
                               onSuffixPress: () {
                                 storeController.isBusinessTypeSuffixIconVisible.value = false;
                                 storeController.businessTypeTextEditingController.clear();
+                                storeController.checkNextButtonEnable();
                               },
                               onChanged: (text) {
                                 storeController.checkNextButtonEnable();
