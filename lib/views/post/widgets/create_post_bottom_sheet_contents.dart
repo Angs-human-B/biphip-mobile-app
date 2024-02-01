@@ -471,16 +471,18 @@ class BrandBottomSheetContent extends StatelessWidget {
       () => Column(
         children: [
           kH8sizedBox,
-          OutLinedButton(
-            onPress: () {
-              Get.offNamedUntil(krCreatePost, ModalRoute.withName(krHome));
-            },
-            buttonText: ksCreateSellingPost.tr,
-            buttonTextStyle: semiBold16TextStyle(cWhiteColor),
-            borderColor: createPostController.selectedBrandId.value == -1 ? cPrimaryColor : cPlaceHolderColor,
-            buttonColor: cPrimaryColor,
-            borderRadius: BorderRadius.circular(k8BorderRadius),
-          ),
+          Obx(() => OutLinedButton(
+                onPress: createPostController.selectedBrandId.value == -1
+                    ? () {
+                        Get.offNamedUntil(krCreatePost, ModalRoute.withName(krHome));
+                      }
+                    : null,
+                buttonText: ksCreateSellingPost.tr,
+                buttonTextStyle: semiBold16TextStyle(cWhiteColor),
+                borderColor: createPostController.selectedBrandId.value == -1 ? cPrimaryColor : cPlaceHolderColor,
+                buttonColor: createPostController.selectedBrandId.value == -1 ? cPrimaryColor : cPlaceHolderColor2,
+                borderRadius: BorderRadius.circular(k8BorderRadius),
+              )),
           kH8sizedBox,
           Text(
             '*${ksDoesNotRequireAnyStore.tr}',
@@ -507,31 +509,24 @@ class BrandBottomSheetContent extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(k8Padding),
-                    child: createPostController.isBrandAdded.value
-                        ? ClipOval(
-                            child: Container(
-                                width: h24,
-                                height: h24,
-                                decoration: const BoxDecoration(shape: BoxShape.circle),
-                                child: Image.file(createPostController.selectedBrandImageFile.value)))
-                        : Container(
-                            width: h24,
-                            height: h24,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipOval(
-                              child: Image.network(
-                                createPostController.selectedBrandImage.value,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => const Icon(
-                                  BipHip.imageFile,
-                                  size: kIconSize120,
-                                  color: cIconColor,
-                                ),
-                              ),
-                            ),
+                    child: Container(
+                      width: h24,
+                      height: h24,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: ClipOval(
+                        child: Image.network(
+                          createPostController.selectedBrandImage.value,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            BipHip.imageFile,
+                            size: kIconSize120,
+                            color: cIconColor,
                           ),
+                        ),
+                      ),
+                    ),
                   ),
                   Text(
                     createPostController.selectedBrandName.value.toString(),
@@ -546,8 +541,6 @@ class BrandBottomSheetContent extends StatelessWidget {
                       createPostController.brandID.value = -1;
                       createPostController.isBrandAdded.value = false;
                       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                      Get.back();
-                      Get.back();
                     },
                     icon: BipHip.cross,
                     iconColor: cRedColor,

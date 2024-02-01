@@ -49,7 +49,9 @@ class CreatePost extends StatelessWidget {
                             label: ksPost.tr,
                             onPressed: createPostController.isPostButtonActive.value
                                 ? () async {
+                                    unfocus(context);
                                     await createPostController.createPost();
+                                    boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent());
                                   }
                                 : null,
                             buttonWidth: 60,
