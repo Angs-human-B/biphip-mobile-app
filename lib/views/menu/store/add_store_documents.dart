@@ -22,7 +22,7 @@ class AddStoreDocuments extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: ksAddStore.tr,
+              title: ksCreateStore.tr,
               hasBackButton: false,
               leadingWidth: 80,
               leadingWidget: Center(
