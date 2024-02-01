@@ -40,7 +40,7 @@ class CreatePostMediaSection extends StatelessWidget {
                     onPressed: () {
                       createPostHelper.removeMedia(0);
                       createPostHelper.checkCanCreatePost();
-                       createPostController.imageDescriptionTextEditingController[0].clear();
+                      createPostController.imageDescriptionTextEditingController[0].clear();
                     },
                     child: const Icon(
                       BipHip.circleCrossNew,
@@ -61,7 +61,12 @@ class CreatePostMediaSection extends StatelessWidget {
                     children: [
                       TextButton(
                         style: kTextButtonStyle,
-                        onPressed: () {},
+                        onPressed: () {
+                          for (int i = 0; i < createPostController.allMediaList.length; i++) {
+                            createPostController.imageDescriptionTextEditingController.add(TextEditingController());
+                          }
+                          Get.toNamed(krUploadedImageListPage);
+                        },
                         child: Container(
                           color: cWhiteColor,
                           height: 150,
@@ -101,12 +106,10 @@ class CreatePostMediaSection extends StatelessWidget {
                       TextButton(
                         style: kTextButtonStyle,
                         onPressed: () {
-                          if (createPostController.allMediaList.length > 3) {
-                            for (int i = 0; i < createPostController.allMediaList.length; i++) {
-                              createPostController.imageDescriptionTextEditingController.add(TextEditingController());
-                            }
-                            Get.toNamed(krUploadedImageListPage);
+                          for (int i = 0; i < createPostController.allMediaList.length; i++) {
+                            createPostController.imageDescriptionTextEditingController.add(TextEditingController());
                           }
+                          Get.toNamed(krUploadedImageListPage);
                         },
                         child: Container(
                           color: cWhiteColor,
