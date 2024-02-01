@@ -141,6 +141,7 @@ class AddKidUploadImage extends StatelessWidget {
   }
 }
 
+
 class KidProfileAndCoverPhotoUpload extends StatelessWidget {
   const KidProfileAndCoverPhotoUpload({
     super.key,
@@ -196,6 +197,7 @@ class KidProfileAndCoverPhotoUpload extends StatelessWidget {
               ),
             ),
           ),
+       
         if (profileCoverPhoto != null)
           Stack(
             children: [
@@ -295,6 +297,7 @@ class ProfilePictureUploadContent extends StatelessWidget {
     );
   }
 }
+
 
 class KidCoverPhotoUploadContent extends StatelessWidget {
   KidCoverPhotoUploadContent({super.key});
