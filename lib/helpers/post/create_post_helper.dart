@@ -329,6 +329,7 @@ class CreatePostHelper {
     createPostController.biddingMinimumBidTextEditingController.clear();
     createPostController.biddingProductTagTextEditingController.clear();
     createPostController.biddingSKUTextEditingController.clear();
+    createPostController.sellingLocationTextEditingController.clear();
     createPostController.isHideFriendFamilySwitch.value = false;
     createPostController.selectedPlatform.value = '';
     createPostController.selectedAction.value = '';

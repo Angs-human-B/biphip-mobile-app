@@ -47,6 +47,7 @@ class CreatePostController extends GetxController {
   final TextEditingController biddingProductTagTextEditingController = TextEditingController();
   final TextEditingController biddingSKUTextEditingController = TextEditingController();
   final TextEditingController biddingDesiredAmountTextEditingController = TextEditingController();
+  final TextEditingController sellingLocationTextEditingController = TextEditingController();
   final TextEditingController biddingMinimumBidTextEditingController = TextEditingController();
   final RxBool isPublicPost = RxBool(false);
   final RxBool isPrivatePost = RxBool(false);
@@ -58,7 +59,8 @@ class CreatePostController extends GetxController {
   final RxString tempBiddingStartTime = RxString('');
   final RxString biddingEndTime = RxString('');
   final RxString tempBiddingEndTime = RxString('');
-
+ final RxList<String> sellingLocationList = RxList<String>(['Shewrapara','Agargaon', 'Mirpur 12', 'Mirpur 11', 'Motijheel']);
+   final RxBool isSellingLocationSuffixIconVisible = RxBool(false);
   final RxList<String> businessType = RxList<String>(['Electronics', 'Shop', 'Gadgets', 'Hardware']);
   final RxBool isAddBrandSuffixIconVisible = RxBool(false);
   final List audienceTypeList = [
@@ -452,6 +454,7 @@ class CreatePostController extends GetxController {
         if (category.value == 'Selling') 'sell_post_condition_id': selectedProductConditionID.value,
         if (category.value == 'Selling') 'sell_post_availabilty': productAvailabilityId.value,
         if (category.value == 'Selling') 'is_hide_fnf': isHideFriendFamilySwitch.value ? '1' : '0',
+        if (category.value == 'Selling') 'location': sellingLocationTextEditingController.text.toString().trim(),
         if (category.value == 'News') 'title': newsTitleTextEditingController.text.trim(),
         if (category.value == 'News') 'description': newsDescriptionTextEditingController.text.trim()
       };
