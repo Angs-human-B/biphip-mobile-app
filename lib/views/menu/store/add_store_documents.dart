@@ -60,6 +60,7 @@ class AddStoreDocuments extends StatelessWidget {
           body: Obx(
             () => SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const CustomDivider(
                     thickness: 1,
@@ -216,7 +217,32 @@ class AddStoreDocuments extends StatelessWidget {
                         ),
                       ),
                     ),
-                  kH100sizedBox,
+                  kH16sizedBox,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: kHorizontalPadding,
+                    ),
+                    child: Text(
+                      ksQRCode,
+                      style: semiBold16TextStyle(cBlackColor),
+                    ),
+                  ),
+                  kH8sizedBox,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: kHorizontalPadding,
+                    ),
+                    child: CustomModifiedTextField(
+                      controller: storeController.storeQRCodeController,
+                      hint: ksQRCode.tr,
+                      onChanged: (text) {},
+                      onSubmit: (text) {},
+                      inputAction: TextInputAction.done,
+                      inputType: TextInputType.text,
+                      maxLength: 50,
+                    ),
+                  ),
+                  kH60sizedBox,
                   CustomElevatedButton(
                     buttonWidth: width - 40,
                     buttonHeight: h40,

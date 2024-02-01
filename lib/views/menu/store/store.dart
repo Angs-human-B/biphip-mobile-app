@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/menu/store_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/menu/store/store_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/store/widgets/store_listview.dart';
@@ -29,20 +30,21 @@ class StorePage extends StatelessWidget {
                       Get.back();
                     },
                     action: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: k20Padding),
-                        child: TextButton(
-                          style: kTextButtonStyle,
-                          onPressed: () {
-                            storeController.resetStoreData();
-                            Get.toNamed(krAddStoreBasicInfo);
-                          },
-                          child: Text(
-                            ksAddStore.tr,
-                            style: semiBold16TextStyle(cPrimaryColor),
+                      if (Get.find<CreatePostController>().storeList.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(right: k20Padding),
+                          child: TextButton(
+                            style: kTextButtonStyle,
+                            onPressed: () {
+                              storeController.resetStoreData();
+                              Get.toNamed(krAddStoreBasicInfo);
+                            },
+                            child: Text(
+                              ksAddStore.tr,
+                              style: semiBold16TextStyle(cPrimaryColor),
+                            ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),

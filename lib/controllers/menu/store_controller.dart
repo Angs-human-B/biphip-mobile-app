@@ -67,6 +67,7 @@ class StoreController extends GetxController {
   final TextEditingController storeYoutubeController = TextEditingController();
   //*Documents
   final TextEditingController businessIdentificationNumberController = TextEditingController();
+  final TextEditingController storeQRCodeController = TextEditingController();
 
   //*Store Profile and cover photo
   final RxString storeProfileImageLink = RxString('');
