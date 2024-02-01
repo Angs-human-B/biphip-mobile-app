@@ -23,7 +23,7 @@ class StorePage extends StatelessWidget {
                   preferredSize: const Size.fromHeight(kAppBarSize),
                   //* info:: appBar
                   child: CustomAppBar(
-                    title: ksStore.tr,
+                    title: ksStores.tr,
                     hasBackButton: true,
                     isCenterTitle: true,
                     onBack: () {
