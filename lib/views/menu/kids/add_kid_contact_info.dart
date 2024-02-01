@@ -122,13 +122,13 @@ class AddKidContactInfo extends StatelessWidget {
                           inputAction: TextInputAction.newline,
                           inputType: TextInputType.multiline,
                           maxLines: 5,
-                          maxLength: 256,
+                          maxLength: 255,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              '${kidsController.kidBioCount.value}/256',
+                              '${kidsController.kidBioCount.value}/255',
                               style: regular14TextStyle(cIconColor),
                             ),
                           ],
