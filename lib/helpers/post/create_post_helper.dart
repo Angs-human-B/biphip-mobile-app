@@ -215,10 +215,8 @@ class CreatePostHelper {
     }
     //*For Selling type post
     else if (createPostController.category.value == "Selling") {
-      createPostController.sellingPostType.value = '';
-      createPostController.isRegularPost.value = false;
-      createPostController.isBiddingPost.value = false;
-      globalController.isBottomSheetRightButtonActive.value = false;
+      createPostController.temporarySellingPostType.value = createPostController.sellingPostType.value;
+      sellingPostTypeSelect();
       globalController.commonBottomSheet(
         context: context,
         bottomSheetHeight: isDeviceScreenLarge() ? height * .25 : height * 0.35,
@@ -227,14 +225,9 @@ class CreatePostHelper {
           Get.back();
         },
         onPressRightButton: () {
-          createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
-          // createPostController.selectedBrandId.value = -1;
-          checkCanCreatePost();
-          if (createPostController.selectedBrandId.value == -1) {
-            globalController.isBottomSheetRightButtonActive.value = false;
-          } else {
-            globalController.isBottomSheetRightButtonActive.value = true;
-          }
+          createPostController.sellingPostType.value = createPostController.temporarySellingPostType.value;
+          createPostController.selectedBrandName.value = '';
+          createPostController.selectedBrandId.value = -1;
           globalController.commonBottomSheet(
             context: context,
             bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
@@ -243,7 +236,6 @@ class CreatePostHelper {
               Get.back();
             },
             onPressRightButton: () {
-              // boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent()); //* Set it temporary for test case
               for (int i = 0; i < createPostController.storeList.length; i++) {
                 if (createPostController.selectedBrandId.value == createPostController.storeList[i].id) {
                   createPostController.brandID.value = createPostController.storeList[i].id!;
@@ -255,7 +247,7 @@ class CreatePostHelper {
             },
             rightText: ksDone.tr,
             rightTextStyle: medium14TextStyle(cPrimaryColor),
-            title: ksBrands.tr,
+            title: ksStore.tr,
             isRightButtonShow: true,
           );
         },
@@ -337,6 +329,8 @@ class CreatePostHelper {
     createPostController.categoryID.value = -1;
     createPostController.selectedBrandImage.value = '';
     createPostController.selectedBrandName.value = '';
+    createPostController.temporarySellingPostType.value = '';
+    createPostController.sellingPostType.value = '';
   }
 
   //----------------------------
@@ -483,8 +477,8 @@ class CreatePostHelper {
   void regularSellingPostSelect() {
     createPostController.isRegularPost.value = true;
     createPostController.isBiddingPost.value = false;
-    createPostController.tempSellingPostType.value = ksRegularPost.tr;
-    if (createPostController.tempSellingPostType.value == '') {
+    createPostController.temporarySellingPostType.value = ksRegularPost.tr;
+    if (createPostController.temporarySellingPostType.value == '') {
       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
     } else {
       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
@@ -494,8 +488,8 @@ class CreatePostHelper {
   void biddingSellingPostSelect() {
     createPostController.isRegularPost.value = false;
     createPostController.isBiddingPost.value = true;
-    createPostController.tempSellingPostType.value = ksBiddingPost.tr;
-    if (createPostController.tempSellingPostType.value == '') {
+    createPostController.temporarySellingPostType.value = ksBiddingPost.tr;
+    if (createPostController.temporarySellingPostType.value == '') {
       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
     } else {
       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
@@ -503,13 +497,13 @@ class CreatePostHelper {
   }
 
   void sellingPostTypeSelect() {
-    if (createPostController.tempSellingPostType.value == '') {
+    if (createPostController.temporarySellingPostType.value == '') {
       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
       createPostController.isRegularPost.value = false;
       createPostController.isBiddingPost.value = false;
     } else {
       Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-      if (createPostController.tempSellingPostType.value == 'Regular Post') {
+      if (createPostController.temporarySellingPostType.value == 'Regular Post') {
         createPostController.isRegularPost.value = true;
       } else {
         createPostController.isBiddingPost.value = true;

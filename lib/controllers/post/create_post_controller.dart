@@ -59,8 +59,8 @@ class CreatePostController extends GetxController {
   final RxString tempBiddingStartTime = RxString('');
   final RxString biddingEndTime = RxString('');
   final RxString tempBiddingEndTime = RxString('');
- final RxList<String> sellingLocationList = RxList<String>(['Shewrapara','Agargaon', 'Mirpur 12', 'Mirpur 11', 'Motijheel']);
-   final RxBool isSellingLocationSuffixIconVisible = RxBool(false);
+  final RxList<String> sellingLocationList = RxList<String>(['Shewrapara', 'Agargaon', 'Mirpur 12', 'Mirpur 11', 'Motijheel']);
+  final RxBool isSellingLocationSuffixIconVisible = RxBool(false);
   final RxList<String> businessType = RxList<String>(['Electronics', 'Shop', 'Gadgets', 'Hardware']);
   final RxBool isAddBrandSuffixIconVisible = RxBool(false);
   final List audienceTypeList = [
@@ -558,7 +558,7 @@ class CreatePostController extends GetxController {
 
   final RxBool isRegularPost = RxBool(false);
   final RxBool isBiddingPost = RxBool(false);
-  final RxString tempSellingPostType = RxString('');
+  final RxString temporarySellingPostType = RxString('');
   final RxString sellingPostType = RxString('');
   final TextEditingController businessTypeTextEditingController = TextEditingController();
   final List<String> businessTypeLists = ['electronic', 'food', 'clothing'];
