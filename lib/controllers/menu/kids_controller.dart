@@ -147,6 +147,14 @@ class KidsController extends GetxController {
   final Rx<File> kidCoverImageFile = File('').obs;
   final RxBool isKidCoverImageChanged = RxBool(false);
 
+  final List kidRelationList = (['Father', 'Mother', 'Sister', 'Brother']);
+  final RxString selectedKidRelation = RxString('');
+  final RxString tempSelectedKidRelation = RxString('');
+
+  final List kidGenderList = (['Male', 'Female', 'Others']);
+  final RxString selectedKidGender = RxString('');
+  final RxString tempSelectedKidGender = RxString('');
+
   void resetKidProfilePictureData() {
     isKidProfileImageChanged.value = false;
     kidImageLink.value = '';
@@ -175,6 +183,11 @@ class KidsController extends GetxController {
     isNextButtonEnabled.value = false;
     kidNameErrorText.value = null;
     kidAgeErrorText.value = null;
+    tempSelectedKidRelation.value = '';
+    selectedKidRelation.value = '';
+    tempSelectedKidGender.value = '';
+    kidBioCount.value = 0;
+    selectedKidGender.value = '';
     resetKidProfilePictureData();
     resetKidCoverPhotoData();
   }
