@@ -88,26 +88,6 @@ class StoreController extends GetxController {
     storeCoverImageFile.value = File('');
   }
 
-  void resetStoreData() {
-    storeNameController.clear();
-    businessTypeTextEditingController.clear();
-    isBusinessTypeSuffixIconVisible.value = false;
-    storeEmailController.clear();
-    storePhoneController.clear();
-    storeAddressController.clear();
-    storeBioController.clear();
-    storeBioCount.value = 0;
-    storeWebsiteController.clear();
-    storeFacebookController.clear();
-    storeInstagramController.clear();
-    storeTwitterController.clear();
-    storeYoutubeController.clear();
-    storeNameErrorText.value = null;
-    isNextButtonEnable.value = false;
-    resetStoreProfilePictureData();
-    resetStoreCoverPhotoData();
-  }
-
   void storeNameOnChanged() {
     checkNextButtonEnable();
     if (storeNameController.text.toString().trim() == '') {
@@ -162,5 +142,26 @@ class StoreController extends GetxController {
       Get.back();
       selectedImages.addAll(images);
     }
+  }
+
+  void resetStoreData() {
+    storeNameController.clear();
+    businessTypeTextEditingController.clear();
+    isBusinessTypeSuffixIconVisible.value = false;
+    storeEmailController.clear();
+    storePhoneController.clear();
+    storeAddressController.clear();
+    storeBioController.clear();
+    storeBioCount.value = 0;
+    storeWebsiteController.clear();
+    storeFacebookController.clear();
+    storeInstagramController.clear();
+    storeTwitterController.clear();
+    storeYoutubeController.clear();
+    storeNameErrorText.value = null;
+    isNextButtonEnable.value = false;
+    resetStoreProfilePictureData();
+    resetStoreCoverPhotoData();
+    selectedImages.clear();
   }
 }

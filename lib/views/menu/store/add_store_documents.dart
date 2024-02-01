@@ -216,6 +216,7 @@ class AddStoreDocuments extends StatelessWidget {
                         ),
                       ),
                     ),
+                  kH100sizedBox,
                   CustomElevatedButton(
                     buttonWidth: width - 40,
                     buttonHeight: h40,
