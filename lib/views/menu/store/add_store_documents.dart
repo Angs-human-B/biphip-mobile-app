@@ -216,7 +216,6 @@ class AddStoreDocuments extends StatelessWidget {
                         ),
                       ),
                     ),
-                  kH100sizedBox,
                   CustomElevatedButton(
                     buttonWidth: width - 40,
                     buttonHeight: h40,
@@ -227,7 +226,7 @@ class AddStoreDocuments extends StatelessWidget {
                     },
                     textStyle: semiBold16TextStyle(cWhiteColor),
                   ),
-                  kH30sizedBox,
+                  kH20sizedBox,
                 ],
               ),
             ),
