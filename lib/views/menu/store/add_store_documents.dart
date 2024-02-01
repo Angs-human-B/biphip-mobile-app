@@ -140,10 +140,10 @@ class AddStoreDocuments extends StatelessWidget {
                                   kiUploadImage,
                                   height: 40,
                                 ),
-                                kH8sizedBox,
+                                kH4sizedBox,
                                 Text(
-                                  ksUploadImage,
-                                  style: semiBold16TextStyle(cPrimaryColor),
+                                  ksFileSize10MBLimit,
+                                  style: regular14TextStyle(cSmallBodyTextColor),
                                 ),
                               ],
                             ),

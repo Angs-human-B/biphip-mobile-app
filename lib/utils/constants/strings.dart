@@ -461,6 +461,7 @@ const String ksUploadProfileAndCoverPhoto = "Upload Profile and cover photo";
 const String ks4of4 = "4 of 4";
 const String ksMaximumPhotoSize = "Maximum photo size is 20MB";
 const String ksComplete = "Complete";
+//*Add Store
 const String ksStoreName = "Store name";
 const String ksOtherKnowAboutYourStore = "Let's other users know about your business";
 const String ks1of5 = "1 of 5";
@@ -483,4 +484,5 @@ const String ks5of5 = "5 of 5";
 const String ks = "5 of 5";
 const String ksEmptyStoreErrorText = "Store Name can't be empty";
 const String ksStoreNameLengthErrorText = "Store name must be at least 3 characters long";
+const String ksFileSize10MBLimit = "File size limit is 10MB";
 
