@@ -113,7 +113,7 @@ class AddStoreContactInfo extends StatelessWidget {
                       kH8sizedBox,
                       CustomModifiedTextField(
                         controller: storeController.storeBioController,
-                        hint: ksKidBio.tr,
+                        hint: ksStoreBio.tr,
                         onChanged: (text) {
                           storeController.storeBioCount.value = text.length;
                         },
