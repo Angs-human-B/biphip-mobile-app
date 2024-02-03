@@ -249,6 +249,7 @@ class CreatePostController extends GetxController {
     }
   }
 
+  
   //Get Kid List API Implementation
   Rx<KidListModel?> kidListData = Rx<KidListModel?>(null);
   RxList<Kid> kidList = RxList<Kid>([]);
