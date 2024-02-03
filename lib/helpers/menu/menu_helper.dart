@@ -5,6 +5,7 @@ import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
+import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
@@ -56,6 +57,8 @@ class MenuHelper {
         break;
       case 8:
         ll('Shop');
+        Get.toNamed(krStore);
+        await Get.find<StoreController>().getStoreList();
         break;
     }
   }
