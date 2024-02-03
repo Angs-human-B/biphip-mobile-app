@@ -1,11 +1,12 @@
-import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_basic_info.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 
-class AddKidSocialLinks extends StatelessWidget {
-  AddKidSocialLinks({super.key});
-  final KidsController kidsController = Get.find<KidsController>();
+class AddStoreContactInfo extends StatelessWidget {
+  AddStoreContactInfo({super.key});
+  final StoreController storeController = Get.find<StoreController>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,12 +15,13 @@ class AddKidSocialLinks extends StatelessWidget {
         top: false,
         child: Scaffold(
           backgroundColor: cWhiteColor,
+          resizeToAvoidBottomInset: false,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: ksAddKid.tr,
+              title: ksCreateStore.tr,
               hasBackButton: false,
               leadingWidth: 80,
               leadingWidget: Center(
@@ -43,7 +45,7 @@ class AddKidSocialLinks extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       unFocus(context);
-                      Get.toNamed(krAddKidUploadImage);
+                      Get.toNamed(krAddStoreSocialLinks);
                     },
                     child: Text(
                       ksSkip.tr,
@@ -54,102 +56,102 @@ class AddKidSocialLinks extends StatelessWidget {
               ],
             ),
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                const CustomDivider(
+          body: Column(
+            children: [
+              const CustomDivider(
+                thickness: 1,
+              ),
+              KidTopTitleSubtitleAndCircularProgressBar(
+                title: ksContactInfo.tr,
+                subTitle: ksStoreInfoVisibleAllUser.tr,
+                circularCenterText: ks2of5.tr,
+                percent: 0.4,
+              ),
+              kH16sizedBox,
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                child: CustomDivider(
                   thickness: 1,
                 ),
-                KidTopTitleSubtitleAndCircularProgressBar(
-                  title: ksSocialLinks.tr,
-                  subTitle: ksAddSocialLinksForKid.tr,
-                  circularCenterText: ks3of4.tr,
-                  percent: 0.75,
-                ),
-                kH16sizedBox,
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                  child: CustomDivider(
-                    thickness: 1,
-                  ),
-                ),
-                Padding(
+              ),
+              Obx(
+                () => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding).copyWith(top: k16Padding),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomModifiedTextField(
-                        controller: kidsController.kidWebsiteController,
-                        hint: ksWebsite.tr,
+                        controller: storeController.storeEmailController,
+                        hint: ksStoreEmail.tr,
                         onChanged: (text) {},
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.text,
-                        maxLength: 256,
+                        maxLength: 50,
                       ),
                       kH8sizedBox,
                       CustomModifiedTextField(
-                        controller: kidsController.kidFacebookController,
-                        hint: ksFacebook.tr,
+                        controller: storeController.storePhoneController,
+                        hint: ksStorePhone.tr,
+                        onChanged: (text) {},
+                        onSubmit: (text) {},
+                        inputAction: TextInputAction.next,
+                        inputType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        maxLength: 15,
+                      ),
+                      kH8sizedBox,
+                      CustomModifiedTextField(
+                        controller: storeController.storeAddressController,
+                        hint: ksStoreAddress.tr,
                         onChanged: (text) {},
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.text,
-                        maxLength: 256,
+                        maxLength: 50,
                       ),
                       kH8sizedBox,
                       CustomModifiedTextField(
-                        controller: kidsController.kidInstagramController,
-                        hint: ksInstagram.tr,
-                        onChanged: (text) {},
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.next,
-                        inputType: TextInputType.text,
-                        maxLength: 256,
-                      ),
-                      kH8sizedBox,
-                      CustomModifiedTextField(
-                        controller: kidsController.kidTwitterController,
-                        hint: ksTwitter.tr,
+                        controller: storeController.storeBioController,
+                        hint: ksStoreBio.tr,
                         onChanged: (text) {
-                          kidsController.checkNextButtonEnable();
+                          storeController.storeBioCount.value = text.length;
                         },
                         onSubmit: (text) {},
-                        inputAction: TextInputAction.next,
-                        inputType: TextInputType.text,
+                        inputAction: TextInputAction.newline,
+                        inputType: TextInputType.multiline,
+                        maxLines: 5,
                         maxLength: 256,
                       ),
-                      kH8sizedBox,
-                      CustomModifiedTextField(
-                        controller: kidsController.kidYoutubeController,
-                        hint: ksYoutube.tr,
-                        onChanged: (text) {},
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.done,
-                        inputType: TextInputType.text,
-                        maxLength: 256,
-                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            '${storeController.storeBioCount.value}/256',
+                            style: regular14TextStyle(cIconColor),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
-                kH100sizedBox,
-                CustomElevatedButton(
-                  buttonWidth: width - 40,
-                  buttonHeight: h40,
-                  label: ksNext.tr,
-                  onPressed: () {
-                    unFocus(context);
-                    Get.toNamed(krAddKidUploadImage);
-                  },
-                  textStyle: semiBold16TextStyle(cWhiteColor),
-                ),
-                kH30sizedBox,
-              ],
-            ),
+              ),
+              const Spacer(),
+              CustomElevatedButton(
+                buttonWidth: width - 40,
+                buttonHeight: h40,
+                label: ksNext.tr,
+                onPressed: () {
+                  unFocus(context);
+                  Get.toNamed(krAddStoreSocialLinks);
+                },
+                textStyle: semiBold16TextStyle(cWhiteColor),
+              ),
+              kH20sizedBox,
+            ],
           ),
         ),
       ),
     );
-  
   }
 }
