@@ -315,6 +315,10 @@ class CreatePostHelper {
     createPostController.tempCreatePostSelectedPrivacyIcon.value = BipHip.friends;
     createPostController.createPostSelectedPrivacyIcon.value = BipHip.friends;
     createPostController.createPostSelectedPrivacy.value = 'Friends';
+    createPostController.imageDescriptionTextEditingController.clear();
+    createPostController.imageLocationsList.clear();
+    createPostController.imageTimesList.clear();
+    createPostController.imageTagIdList.clear();
     clearCreateSellingPostView();
   }
 
@@ -368,6 +372,15 @@ class CreatePostHelper {
     }
   }
 
+  void configImageDescription() {
+    for (int i = 0; i < createPostController.mediaFileList.length; i++) {
+      createPostController.imageDescriptionTextEditingController.add(TextEditingController());
+      createPostController.imageLocationsList.add("LOC$i");
+      createPostController.imageTimesList.add(DateTime.now().toString());
+      createPostController.imageTagIdList.add('1,58');
+    }
+  }
+
   void getBottomRowOnPressed(index, [context]) async {
     ll(index);
     if (index == 1) {
@@ -376,6 +389,7 @@ class CreatePostHelper {
       if (status) {
         ll("media list length : ${createPostController.mediaLinkList.length}");
         insertMedia(createPostController.mediaLinkList, createPostController.mediaFileList);
+        configImageDescription();
         checkCanCreatePost();
         createPostController.isMediaChanged.value = false;
         createPostController.mediaLinkList.clear();
@@ -386,6 +400,7 @@ class CreatePostHelper {
           createPostController.createPostImageFile, 'camera', false, true);
       if (status) {
         insertMedia([createPostController.createPostImageLink], createPostController.createPostImageFile);
+        configImageDescription();
         checkCanCreatePost();
         createPostController.isCreatePostImageChanged.value = false;
         createPostController.createPostImageLink.value = "";
