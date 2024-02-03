@@ -423,6 +423,11 @@ class CreatePostController extends GetxController {
     isPostButtonActive.value = false;
   }
 
+  List imageDescriptionTextEditingController = [];
+  List imageLocationsList = [];
+  List imageTimesList = [];
+  List imageTagIdList = [];
+
   Future<void> createPost() async {
     List tags = [];
     for (int i = 0; i < taggedFriends.length; i++) {
@@ -436,6 +441,11 @@ class CreatePostController extends GetxController {
         'content': category.value == 'Selling' ? biddingTitleTextEditingController.text.trim() : createPostController.text.trim(),
         'is_public': '1',
         'post_tag_friend_id': tags.join(','),
+        for (int i = 0; i < imageDescriptionTextEditingController.length; i++)
+          'image_description[$i]': imageDescriptionTextEditingController[i].text.toString(),
+        for (int i = 0; i < imageLocationsList.length; i++) 'image_locations[$i]': imageLocationsList[i].toString(),
+        for (int i = 0; i < imageTimesList.length; i++) 'image_times[$i]': imageTimesList[i].toString(),
+        for (int i = 0; i < imageTagIdList.length; i++) 'image_tag_friend_ids[$i]': imageTagIdList[i].toString(),
         if (category.value == 'Kids') 'kid_id': kidID.value.toString(),
         if (category.value == 'Selling') 'store_id': '55',
         if (category.value == 'Selling') 'sell_post_type': (isRegularPost.value && !isBiddingPost.value) ? '0' : '1',
@@ -455,6 +465,7 @@ class CreatePostController extends GetxController {
         if (category.value == 'News') 'title': newsTitleTextEditingController.text.trim(),
         if (category.value == 'News') 'description': newsDescriptionTextEditingController.text.trim()
       };
+      ll(body);
       var response = await apiController.multiMediaUpload(
         url: kuCreatePost,
         body: body,
