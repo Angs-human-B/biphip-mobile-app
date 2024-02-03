@@ -410,6 +410,7 @@ class CreatePostHelper {
         Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
       }
       globalController.commonBottomSheet(
+        isDismissible: false,
         isScrollControlled: true,
         bottomSheetHeight: height * .9,
         context: context,
@@ -726,14 +727,7 @@ class CreatePostHelper {
       context: context,
       isSearchShow: true,
       content: TagPeopleBottomSheetContent(),
-      //! has issue here
-      // onPopOutside: () {
-      //   createPostController.taggedFriends.clear();
-      //   createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
-      //   createPostController.tempTaggedFriends.clear();
-      //   globalController.isBottomSheetRightButtonActive.value = false;
-      //   // Get.back();
-      // },
+      isDismissible: false,
       onPressCloseButton: () {
         createPostController.taggedFriends.clear();
         createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
