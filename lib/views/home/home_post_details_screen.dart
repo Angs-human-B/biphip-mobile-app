@@ -113,7 +113,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
   final CountReactions? reactCount;
   final bool isCommented, isLiked, isSelfPost, isCommentShown, showBottomSection;
   final String? category, title, postText;
-  final List mediaList;
+  final List<ImageElement> mediaList;
   final int postIndex;
 
   @override
@@ -198,7 +198,17 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                               ),
                             ),
                           ),
-                          kH12sizedBox,
+                          if (mediaList[index].description != null)
+                            Padding(
+                              padding: const EdgeInsets.only(left: kHorizontalPadding, top: k8Padding),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(mediaList[index].description.toString()),
+                                ],
+                              ),
+                            ),
+                          if (mediaList[index].description == null) kH12sizedBox,
                           PostBottomSection(
                             postIndex: postIndex,
                             isCommentShown: isCommentShown,
