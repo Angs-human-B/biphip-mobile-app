@@ -95,6 +95,9 @@ class SeparateImageView extends StatelessWidget {
                 onPressed: () {
                   CreatePostHelper().removeMedia(index);
                   createPostController.imageDescriptionTextEditingController[index].clear();
+                  createPostController.imageLocationsList.removeAt(index);
+                  createPostController.imageTimesList.removeAt(index);
+                  createPostController.imageTagIdList.removeAt(index);
                 },
                 child: const Icon(
                   BipHip.circleCrossNew,

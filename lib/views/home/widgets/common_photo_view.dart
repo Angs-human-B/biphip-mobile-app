@@ -90,9 +90,10 @@ class CommonPhotoView extends StatelessWidget {
 }
 
 class GalleryWidget extends StatelessWidget {
-  GalleryWidget({super.key, required this.urlImages, required this.index}) : pageController = PageController(initialPage: index);
+  GalleryWidget({super.key, required this.urlImages, required this.index, this.imageDescriptions}) : pageController = PageController(initialPage: index);
   final List<String> urlImages;
   final int index;
+  final String? imageDescriptions;
   final PageController pageController;
   @override
   Widget build(BuildContext context) {

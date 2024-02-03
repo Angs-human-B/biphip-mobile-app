@@ -20,7 +20,11 @@ class CreatePostMediaSection extends StatelessWidget {
               children: [
                 TextButton(
                   style: kTextButtonStyle,
-                  onPressed: () {},
+                  onPressed: () {
+                    if (createPostController.allMediaList.length > 1) {
+                      Get.toNamed(krUploadedImageListPage);
+                    }
+                  },
                   child: Container(
                     color: cWhiteColor,
                     height: createPostController.allMediaList.length < 2 ? 302 : 150,
@@ -41,6 +45,9 @@ class CreatePostMediaSection extends StatelessWidget {
                       createPostHelper.removeMedia(0);
                       createPostHelper.checkCanCreatePost();
                       createPostController.imageDescriptionTextEditingController[0].clear();
+                      createPostController.imageLocationsList.removeAt(0);
+                      createPostController.imageTimesList.removeAt(0);
+                      createPostController.imageTagIdList.removeAt(0);
                     },
                     child: const Icon(
                       BipHip.circleCrossNew,
@@ -62,9 +69,6 @@ class CreatePostMediaSection extends StatelessWidget {
                       TextButton(
                         style: kTextButtonStyle,
                         onPressed: () {
-                          for (int i = 0; i < createPostController.allMediaList.length; i++) {
-                            createPostController.imageDescriptionTextEditingController.add(TextEditingController());
-                          }
                           Get.toNamed(krUploadedImageListPage);
                         },
                         child: Container(
@@ -86,6 +90,9 @@ class CreatePostMediaSection extends StatelessWidget {
                           onPressed: () {
                             createPostHelper.removeMedia(1);
                             createPostController.imageDescriptionTextEditingController[1].clear();
+                            createPostController.imageLocationsList.removeAt(1);
+                            createPostController.imageTimesList.removeAt(1);
+                            createPostController.imageTagIdList.removeAt(1);
                           },
                           child: const Icon(
                             BipHip.circleCrossNew,
@@ -106,9 +113,6 @@ class CreatePostMediaSection extends StatelessWidget {
                       TextButton(
                         style: kTextButtonStyle,
                         onPressed: () {
-                          for (int i = 0; i < createPostController.allMediaList.length; i++) {
-                            createPostController.imageDescriptionTextEditingController.add(TextEditingController());
-                          }
                           Get.toNamed(krUploadedImageListPage);
                         },
                         child: Container(
@@ -144,9 +148,6 @@ class CreatePostMediaSection extends StatelessWidget {
                           child: TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
-                              for (int i = 0; i < createPostController.allMediaList.length; i++) {
-                                createPostController.imageDescriptionTextEditingController.add(TextEditingController());
-                              }
                               Get.toNamed(krUploadedImageListPage);
                             },
                             child: Text(
