@@ -461,6 +461,12 @@ const String ksUploadProfileAndCoverPhoto = "Upload Profile and cover photo";
 const String ks4of4 = "4 of 4";
 const String ksMaximumPhotoSize = "Maximum photo size is 20MB";
 const String ksComplete = "Complete";
+const String ksCreateSellingPost = "Create a selling post";
+const String ksDoesNotRequireAnyStore = "This post doesn't require any store. You can sell your product easily";
+const String ksIfDontHaveAnyStore = "If you don't have any store, you can";
+const String ksCreateStore = "Create Store";
+const String ksStore = "Store";
+const String ksSelectStore = "Select Store";
 //*Add Store
 const String ksStoreName = "Store name";
 const String ksOtherKnowAboutYourStore = "Let's other users know about your business";
