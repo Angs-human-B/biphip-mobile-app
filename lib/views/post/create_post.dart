@@ -353,6 +353,7 @@ class CreatePost extends StatelessWidget {
                                               isRightButtonShow: true);
                                         },
                                       ),
+                                     
                                       kH12sizedBox,
                                       CustomModifiedTextField(
                                         controller: createPostController.isRegularPost.value

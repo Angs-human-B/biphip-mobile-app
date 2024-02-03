@@ -309,6 +309,10 @@ class CreatePostHelper {
     createPostController.tempCreatePostSelectedPrivacyIcon.value = BipHip.friends;
     createPostController.createPostSelectedPrivacyIcon.value = BipHip.friends;
     createPostController.createPostSelectedPrivacy.value = 'Friends';
+    createPostController.imageDescriptionTextEditingController.clear();
+    createPostController.imageLocationsList.clear();
+    createPostController.imageTimesList.clear();
+    createPostController.imageTagIdList.clear();
     clearCreateSellingPostView();
   }
 
@@ -365,6 +369,15 @@ class CreatePostHelper {
     }
   }
 
+  void configImageDescription() {
+    for (int i = 0; i < createPostController.mediaFileList.length; i++) {
+      createPostController.imageDescriptionTextEditingController.add(TextEditingController());
+      createPostController.imageLocationsList.add("LOC$i");
+      createPostController.imageTimesList.add(DateTime.now().toString());
+      createPostController.imageTagIdList.add('1,58');
+    }
+  }
+
   void getBottomRowOnPressed(index, [context]) async {
     ll(index);
     if (index == 1) {
@@ -373,6 +386,7 @@ class CreatePostHelper {
       if (status) {
         ll("media list length : ${createPostController.mediaLinkList.length}");
         insertMedia(createPostController.mediaLinkList, createPostController.mediaFileList);
+        configImageDescription();
         checkCanCreatePost();
         createPostController.isMediaChanged.value = false;
         createPostController.mediaLinkList.clear();
@@ -383,6 +397,7 @@ class CreatePostHelper {
           createPostController.createPostImageFile, 'camera', false, true);
       if (status) {
         insertMedia([createPostController.createPostImageLink], createPostController.createPostImageFile);
+        configImageDescription();
         checkCanCreatePost();
         createPostController.isCreatePostImageChanged.value = false;
         createPostController.createPostImageLink.value = "";
@@ -407,12 +422,17 @@ class CreatePostHelper {
         Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
       }
       globalController.commonBottomSheet(
+        isDismissible: false,
         isScrollControlled: true,
         bottomSheetHeight: height * .9,
         context: context,
         isSearchShow: true,
         content: TagPeopleBottomSheetContent(),
         onPressCloseButton: () {
+          createPostController.taggedFriends.clear();
+          createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
+          createPostController.tempTaggedFriends.clear();
+          globalController.isBottomSheetRightButtonActive.value = false;
           Get.back();
         },
         onPressRightButton: () {
@@ -702,6 +722,52 @@ class CreatePostHelper {
         ),
       ),
     );
+  }
+
+  //Get tagged friend bottom sheet
+  Future<void> taggedFriendBottomSheet(context) async {
+    Get.find<FriendController>().isFriendListLoading.value = true;
+    createPostController.tempTaggedFriends.addAll(createPostController.taggedFriends);
+    if (createPostController.tempTaggedFriends.isNotEmpty) {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+    } else {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+    }
+    globalController.commonBottomSheet(
+      isScrollControlled: true,
+      bottomSheetHeight: height * .9,
+      context: context,
+      isSearchShow: true,
+      content: TagPeopleBottomSheetContent(),
+      isDismissible: false,
+      onPressCloseButton: () {
+        createPostController.taggedFriends.clear();
+        createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
+        createPostController.tempTaggedFriends.clear();
+        globalController.isBottomSheetRightButtonActive.value = false;
+        Get.back();
+      },
+      onPressRightButton: () {
+        createPostController.taggedFriends.clear();
+        createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
+        createPostController.tempTaggedFriends.clear();
+        globalController.isBottomSheetRightButtonActive.value = false;
+        Get.back();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: medium14TextStyle(cPrimaryColor),
+      title: ksTagPeople.tr,
+      isRightButtonShow: true,
+    );
+    if (Get.find<FriendController>().friendList.isEmpty) {
+      await Get.find<FriendController>().getFriendList();
+      createPostController.tagFriendList.addAll(Get.find<FriendController>().friendList);
+    } else {
+      for (int i = 0; i < createPostController.tempTaggedFriends.length; i++) {
+        createPostController.tagFriendList.remove(createPostController.tempTaggedFriends);
+      }
+      Get.find<FriendController>().isFriendListLoading.value = false;
+    }
   }
 }
 
