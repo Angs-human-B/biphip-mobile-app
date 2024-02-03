@@ -465,7 +465,6 @@ const String ksCreateSellingPost = "Create a selling post";
 const String ksDoesNotRequireAnyStore = "This post doesn't require any store. You can sell your product easily";
 const String ksIfDontHaveAnyStore = "If you don't have any store, you can";
 const String ksCreateStore = "Create Store";
-const String ksStore = "Store";
 const String ksSelectStore = "Select Store";
 //*Add Store
 const String ksStoreName = "Store name";
@@ -491,6 +490,5 @@ const String ks = "5 of 5";
 const String ksEmptyStoreErrorText = "Store Name can't be empty";
 const String ksStoreNameLengthErrorText = "Store name must be at least 3 characters long";
 const String ksFileSize10MBLimit = "File size limit is 10MB";
-const String ksCreateStore = "Create Store";
 const String ksStores = "Stores";
 const String ksQRCode = "QR Code";
