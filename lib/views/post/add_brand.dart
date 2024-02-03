@@ -249,6 +249,7 @@ class AddBrandPage extends StatelessWidget {
                                   );
                                 },
                               ),
+                              
                               Text(
                                 ksAddSocialLinks.tr,
                                 style: medium14TextStyle(cBlackColor),
