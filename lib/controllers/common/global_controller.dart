@@ -141,8 +141,10 @@ class GlobalController extends GetxController {
     bool? isScrollControlled,
     bool? isSearchShow,
     FutureOr<void> Function()? onPopOutside,
+    bool? isDismissible
   }) {
     showModalBottomSheet<void>(
+      isDismissible: isDismissible?? true,
       isScrollControlled: isScrollControlled ?? false,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
