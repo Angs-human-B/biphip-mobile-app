@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
+import 'package:bip_hip/models/post/kid_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class KidsController extends GetxController {
@@ -242,4 +243,50 @@ class KidsController extends GetxController {
       ll('editKid error: $e');
     }
   }
+
+
+  //*Add kid API Implementation
+  Rx<KidModel?> kidData = Rx<KidModel?>(null);
+  // RxList<PostCategory> postCategoryList = RxList<PostCategory>([]);
+  final RxBool isAddKidPageLoading = RxBool(false);
+  Future<void> addKid() async {
+    try {
+      isAddKidPageLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'name': kidNameTextEditingController.text.trim(),
+        'relation_id':'1',
+        'age': kidAgeTextEditingController.text.trim(),
+      };
+      var response = await apiController.mediaUpload(
+        url: kuAddKid,
+        body: body,
+        token: token,
+        key: 'image',
+        value: kidImageFile.value.path,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        kidData.value = KidModel.fromJson(response.data);
+        ll(kidData.value!.name);
+        await Get.find<KidsController>().getKidsList();
+        isAddKidPageLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isAddKidPageLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isAddKidPageLoading.value = false;
+      ll('addKid error: $e');
+    }
+  }
+
+  
 }
