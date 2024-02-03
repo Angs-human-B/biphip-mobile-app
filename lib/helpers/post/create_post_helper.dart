@@ -422,12 +422,17 @@ class CreatePostHelper {
         Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
       }
       globalController.commonBottomSheet(
+        isDismissible: false,
         isScrollControlled: true,
         bottomSheetHeight: height * .9,
         context: context,
         isSearchShow: true,
         content: TagPeopleBottomSheetContent(),
         onPressCloseButton: () {
+          createPostController.taggedFriends.clear();
+          createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
+          createPostController.tempTaggedFriends.clear();
+          globalController.isBottomSheetRightButtonActive.value = false;
           Get.back();
         },
         onPressRightButton: () {
@@ -717,6 +722,52 @@ class CreatePostHelper {
         ),
       ),
     );
+  }
+
+  //Get tagged friend bottom sheet
+  Future<void> taggedFriendBottomSheet(context) async {
+    Get.find<FriendController>().isFriendListLoading.value = true;
+    createPostController.tempTaggedFriends.addAll(createPostController.taggedFriends);
+    if (createPostController.tempTaggedFriends.isNotEmpty) {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+    } else {
+      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+    }
+    globalController.commonBottomSheet(
+      isScrollControlled: true,
+      bottomSheetHeight: height * .9,
+      context: context,
+      isSearchShow: true,
+      content: TagPeopleBottomSheetContent(),
+      isDismissible: false,
+      onPressCloseButton: () {
+        createPostController.taggedFriends.clear();
+        createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
+        createPostController.tempTaggedFriends.clear();
+        globalController.isBottomSheetRightButtonActive.value = false;
+        Get.back();
+      },
+      onPressRightButton: () {
+        createPostController.taggedFriends.clear();
+        createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
+        createPostController.tempTaggedFriends.clear();
+        globalController.isBottomSheetRightButtonActive.value = false;
+        Get.back();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: medium14TextStyle(cPrimaryColor),
+      title: ksTagPeople.tr,
+      isRightButtonShow: true,
+    );
+    if (Get.find<FriendController>().friendList.isEmpty) {
+      await Get.find<FriendController>().getFriendList();
+      createPostController.tagFriendList.addAll(Get.find<FriendController>().friendList);
+    } else {
+      for (int i = 0; i < createPostController.tempTaggedFriends.length; i++) {
+        createPostController.tagFriendList.remove(createPostController.tempTaggedFriends);
+      }
+      Get.find<FriendController>().isFriendListLoading.value = false;
+    }
   }
 }
 
