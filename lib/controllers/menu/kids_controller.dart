@@ -177,7 +177,18 @@ class KidsController extends GetxController {
     kidParentAddressController.clear();
     kidBioController.clear();
     kidParentEmailErrorText.value = null;
-    isContactInfoNextButtonEnabled.value=false;
+    isContactInfoNextButtonEnabled.value = false;
+  }
+
+  void checkContactInfoNextButtonEnabled() {
+    if ((kidParentPhoneController.text.toString().trim() != '' ||
+            kidParentAddressController.text.toString().trim() != '' ||
+            kidBioController.text.toString().trim() != '') &&
+        kidParentEmailErrorText.value == null) {
+      isContactInfoNextButtonEnabled.value = true;
+    } else {
+      isContactInfoNextButtonEnabled.value = false;
+    }
   }
 
   void resetkidSocialLink() {
@@ -197,8 +208,8 @@ class KidsController extends GetxController {
       kidParentEmailErrorText.value = ksInvalidEmailErrorMessage.tr;
     } else {
       kidParentEmailErrorText.value = null;
-      isContactInfoNextButtonEnabled.value=true;
     }
+    checkContactInfoNextButtonEnabled();
   }
 
   void resetKidsData() {

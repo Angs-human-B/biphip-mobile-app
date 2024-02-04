@@ -74,6 +74,7 @@ class AddKidBasicInfo extends StatelessWidget {
                           textStyle: regular16TextStyle(kidsController.selectedKidRelation.value == '' ? cPlaceHolderColor : cBlackColor),
                           suffixIcon: BipHip.downArrow,
                           onPressed: () {
+                            unfocus(context);
                             kidsController.tempSelectedKidRelation.value = kidsController.selectedKidRelation.value;
                             if (kidsController.tempSelectedKidRelation.value == '') {
                               globalController.isBottomSheetRightButtonActive.value = false;
@@ -117,6 +118,7 @@ class AddKidBasicInfo extends StatelessWidget {
                           textStyle: regular16TextStyle(kidsController.selectedKidGender.value == '' ? cPlaceHolderColor : cBlackColor),
                           suffixIcon: BipHip.downArrow,
                           onPressed: () {
+                            unfocus(context);
                             kidsController.tempSelectedKidGender.value = kidsController.selectedKidGender.value;
                             if (kidsController.tempSelectedKidGender.value == '') {
                               globalController.isBottomSheetRightButtonActive.value = false;

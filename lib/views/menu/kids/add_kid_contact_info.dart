@@ -97,7 +97,9 @@ class AddKidContactInfo extends StatelessWidget {
                         CustomModifiedTextField(
                           controller: kidsController.kidParentPhoneController,
                           hint: ksParentPhone.tr,
-                          onChanged: (text) {},
+                          onChanged: (text) {
+                            kidsController.checkContactInfoNextButtonEnabled();
+                          },
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,
                           inputType: TextInputType.number,
@@ -108,7 +110,9 @@ class AddKidContactInfo extends StatelessWidget {
                         CustomModifiedTextField(
                           controller: kidsController.kidParentAddressController,
                           hint: ksParentAddress.tr,
-                          onChanged: (text) {},
+                          onChanged: (text) {
+                            kidsController.checkContactInfoNextButtonEnabled();
+                          },
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,
                           inputType: TextInputType.text,
@@ -120,6 +124,7 @@ class AddKidContactInfo extends StatelessWidget {
                           hint: ksKidBio.tr,
                           onChanged: (text) {
                             kidsController.kidBioCount.value = text.length;
+                            kidsController.checkContactInfoNextButtonEnabled();
                           },
                           onSubmit: (text) {},
                           inputAction: TextInputAction.newline,
