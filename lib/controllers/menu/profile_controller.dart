@@ -79,7 +79,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final TextEditingController emailTextEditingController = TextEditingController();
   final TextEditingController linkTextEditingController = TextEditingController();
   final RxString commonStartDate = RxString('');
+  final RxString temporaryCommonStartDate = RxString('');
   final RxString commonEndDate = RxString('');
+  final RxString temporaryCommonEndDate = RxString('');
   final RxBool isCurrentlyLiveHere = RxBool(false);
   final RxBool isCurrentlyStudyingHere = RxBool(false);
   final RxBool isCurrentlyWorkingHere = RxBool(false);
