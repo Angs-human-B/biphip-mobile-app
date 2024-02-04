@@ -202,9 +202,7 @@ class KidsController extends GetxController {
   final Rx<String?> kidParentEmailErrorText = Rx<String?>(null);
 
   void kidParentEmailValidation() {
-    if (kidParentEmailController.text.toString().trim() == '') {
-      kidParentEmailErrorText.value = ksEmptyEmailErrorMessage.tr;
-    } else if (!kidParentEmailController.text.toString().trim().isValidEmail) {
+    if (kidParentEmailController.text.toString().trim() != '' && !kidParentEmailController.text.toString().trim().isValidEmail) {
       kidParentEmailErrorText.value = ksInvalidEmailErrorMessage.tr;
     } else {
       kidParentEmailErrorText.value = null;
