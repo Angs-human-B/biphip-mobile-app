@@ -286,13 +286,12 @@ class ApiController {
       return null;
     }
   }
+
   Future<dynamic> mediaUploadMultipleKeyAndValue({
     String? token,
     required String url,
-    required dynamic key1,
-    required dynamic value1,
-    required dynamic key2,
-    required dynamic value2,
+    required List<String> keys,
+    required List<dynamic> values,
     Map<String, String>? body,
     int? timer,
   }) async {
@@ -307,8 +306,14 @@ class ApiController {
         },
       );
       // If image is a file on disk, use fromPath instead of fromBytes
-      request.files.add(await http.MultipartFile.fromPath(key1, value1));
-      request.files.add(await http.MultipartFile.fromPath(key2, value2));
+      // for (int i = 0; i < keyValue.length; i++) {
+      //   request.files.add(await http.MultipartFile.fromPath(keyValue[i].entries.fi));
+      // }
+      for(int i=0;i<keys.length;i++){
+        request.files.add(await http.MultipartFile.fromPath(keys[i], values[i]));
+      }
+      // request.files.add(await http.MultipartFile.fromPath(key1, value1));
+      // request.files.add(await http.MultipartFile.fromPath(key2, value2));
       request.fields.addAll(body ?? {});
 
       var response = await request.send();
