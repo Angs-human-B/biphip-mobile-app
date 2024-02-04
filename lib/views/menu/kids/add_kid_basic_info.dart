@@ -32,149 +32,152 @@ class AddKidBasicInfo extends StatelessWidget {
             ),
           ),
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-                const CustomDivider(
-                  thickness: 1,
-                ),
-                KidTopTitleSubtitleAndCircularProgressBar(
-                  title: ksBasicInfo.tr,
-                  subTitle: ksOtherKnowAboutYourKid.tr,
-                  circularCenterText: ks1of4.tr,
-                  percent: 0.25,
-                ),
-                kH16sizedBox,
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                  child: CustomDivider(
+            child: SizedBox(
+              height: height - (kAppBarSize + MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
+              child: Column(
+                children: [
+                  const CustomDivider(
                     thickness: 1,
                   ),
-                ),
-                Obx(
-                  () => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding).copyWith(top: k16Padding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomModifiedTextField(
-                          controller: kidsController.kidNameTextEditingController,
-                          hint: ksWriteKidName.tr,
-                          errorText: kidsController.kidNameErrorText.value,
-                          onChanged: (text) {
-                            kidsController.kidNameOnChanged();
-                          },
-                          onSubmit: (text) {},
-                          inputAction: TextInputAction.next,
-                          inputType: TextInputType.text,
-                          maxLength: 50,
-                        ),
-                        kH8sizedBox,
-                        TextAndIconRowSellingPost(
-                          text: kidsController.selectedKidRelation.value == '' ? ksSelectRelation.tr : kidsController.selectedKidRelation.value,
-                          textStyle: regular16TextStyle(kidsController.selectedKidRelation.value == '' ? cPlaceHolderColor : cBlackColor),
-                          suffixIcon: BipHip.downArrow,
-                          onPressed: () {
-                            unfocus(context);
-                            kidsController.tempSelectedKidRelation.value = kidsController.selectedKidRelation.value;
-                            if (kidsController.tempSelectedKidRelation.value == '') {
-                              globalController.isBottomSheetRightButtonActive.value = false;
-                            } else {
-                              globalController.isBottomSheetRightButtonActive.value = true;
-                            }
-                            globalController.commonBottomSheet(
-                                context: context,
-                                bottomSheetHeight: isDeviceScreenLarge() ? height * 0.5 : height * 0.6,
-                                content: KidRelationContent(),
-                                onPressCloseButton: () {
-                                  Get.back();
-                                },
-                                onPressRightButton: () {
-                                  kidsController.selectedKidRelation.value = kidsController.tempSelectedKidRelation.value;
-                                  Get.back();
-                                },
-                                rightText: ksDone.tr,
-                                rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                title: ksSelectRelation.tr,
-                                isRightButtonShow: true);
-                          },
-                        ),
-                        kH16sizedBox,
-                        CustomModifiedTextField(
-                          controller: kidsController.kidAgeTextEditingController,
-                          hint: ksWriteAge.tr,
-                          errorText: kidsController.kidAgeErrorText.value,
-                          onChanged: (text) {
-                            kidsController.kidAgeOnChanged();
-                          },
-                          onSubmit: (text) {},
-                          inputAction: TextInputAction.done,
-                          inputType: TextInputType.number,
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                          maxLength: 3,
-                        ),
-                        kH8sizedBox,
-                        TextAndIconRowSellingPost(
-                          text: kidsController.selectedKidGender.value == '' ? ksSelectGender.tr : kidsController.selectedKidGender.value,
-                          textStyle: regular16TextStyle(kidsController.selectedKidGender.value == '' ? cPlaceHolderColor : cBlackColor),
-                          suffixIcon: BipHip.downArrow,
-                          onPressed: () {
-                            unfocus(context);
-                            kidsController.tempSelectedKidGender.value = kidsController.selectedKidGender.value;
-                            if (kidsController.tempSelectedKidGender.value == '') {
-                              globalController.isBottomSheetRightButtonActive.value = false;
-                            } else {
-                              globalController.isBottomSheetRightButtonActive.value = true;
-                            }
-                            globalController.commonBottomSheet(
-                                context: context,
-                                bottomSheetHeight: height * 0.4,
-                                content: KidGenderContent(),
-                                onPressCloseButton: () {
-                                  Get.back();
-                                },
-                                onPressRightButton: () {
-                                  kidsController.selectedKidGender.value = kidsController.tempSelectedKidGender.value;
-                                  Get.back();
-                                },
-                                rightText: ksDone.tr,
-                                rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                title: ksSelectGender.tr,
-                                isRightButtonShow: true);
-                          },
-                        ),
-                        kH16sizedBox,
-                        CustomModifiedTextField(
-                          controller: kidsController.kidSchoolNameTextEditingController,
-                          hint: ksWriteSchoolName.tr,
-                          onChanged: (text) {
-                            kidsController.checkNextButtonEnable();
-                          },
-                          onSubmit: (text) {},
-                          inputAction: TextInputAction.done,
-                          inputType: TextInputType.text,
-                          maxLength: 50,
-                        ),
-                      ],
+                  KidTopTitleSubtitleAndCircularProgressBar(
+                    title: ksBasicInfo.tr,
+                    subTitle: ksOtherKnowAboutYourKid.tr,
+                    circularCenterText: ks1of4.tr,
+                    percent: 0.25,
+                  ),
+                  kH16sizedBox,
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                    child: CustomDivider(
+                      thickness: 1,
                     ),
                   ),
-                ),
-                kH100sizedBox,
-                Obx(() => CustomElevatedButton(
-                      buttonWidth: width - 40,
-                      buttonHeight: h40,
-                      label: ksNext.tr,
-                      onPressed: kidsController.isNextButtonEnabled.value
-                          ? () {
-                              unFocus(context);
-                              // kidsController.kidParentEmailController.text = Get.find<ProfileController>().userData.value!.email.toString();
-                              // kidsController.kidParentPhoneController.text = Get.find<ProfileController>().userData.value!.phone.toString();
-                              Get.toNamed(krAddKidContactInfo);
-                            }
-                          : null,
-                      textStyle: semiBold16TextStyle(cWhiteColor),
-                    )),
-                kH30sizedBox,
-              ],
+                  Obx(
+                    () => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding).copyWith(top: k16Padding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomModifiedTextField(
+                            controller: kidsController.kidNameTextEditingController,
+                            hint: ksWriteKidName.tr,
+                            errorText: kidsController.kidNameErrorText.value,
+                            onChanged: (text) {
+                              kidsController.kidNameOnChanged();
+                            },
+                            onSubmit: (text) {},
+                            inputAction: TextInputAction.next,
+                            inputType: TextInputType.text,
+                            maxLength: 50,
+                          ),
+                          kH8sizedBox,
+                          TextAndIconRowSellingPost(
+                            text: kidsController.selectedKidRelation.value == '' ? ksSelectRelation.tr : kidsController.selectedKidRelation.value,
+                            textStyle: regular16TextStyle(kidsController.selectedKidRelation.value == '' ? cPlaceHolderColor : cBlackColor),
+                            suffixIcon: BipHip.downArrow,
+                            onPressed: () {
+                              unfocus(context);
+                              kidsController.tempSelectedKidRelation.value = kidsController.selectedKidRelation.value;
+                              if (kidsController.tempSelectedKidRelation.value == '') {
+                                globalController.isBottomSheetRightButtonActive.value = false;
+                              } else {
+                                globalController.isBottomSheetRightButtonActive.value = true;
+                              }
+                              globalController.commonBottomSheet(
+                                  context: context,
+                                  bottomSheetHeight: isDeviceScreenLarge() ? height * 0.5 : height * 0.6,
+                                  content: KidRelationContent(),
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: () {
+                                    kidsController.selectedKidRelation.value = kidsController.tempSelectedKidRelation.value;
+                                    Get.back();
+                                  },
+                                  rightText: ksDone.tr,
+                                  rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                  title: ksSelectRelation.tr,
+                                  isRightButtonShow: true);
+                            },
+                          ),
+                          kH16sizedBox,
+                          CustomModifiedTextField(
+                            controller: kidsController.kidAgeTextEditingController,
+                            hint: ksWriteAge.tr,
+                            errorText: kidsController.kidAgeErrorText.value,
+                            onChanged: (text) {
+                              kidsController.kidAgeOnChanged();
+                            },
+                            onSubmit: (text) {},
+                            inputAction: TextInputAction.done,
+                            inputType: TextInputType.number,
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            maxLength: 3,
+                          ),
+                          kH8sizedBox,
+                          TextAndIconRowSellingPost(
+                            text: kidsController.selectedKidGender.value == '' ? ksSelectGender.tr : kidsController.selectedKidGender.value,
+                            textStyle: regular16TextStyle(kidsController.selectedKidGender.value == '' ? cPlaceHolderColor : cBlackColor),
+                            suffixIcon: BipHip.downArrow,
+                            onPressed: () {
+                              unfocus(context);
+                              kidsController.tempSelectedKidGender.value = kidsController.selectedKidGender.value;
+                              if (kidsController.tempSelectedKidGender.value == '') {
+                                globalController.isBottomSheetRightButtonActive.value = false;
+                              } else {
+                                globalController.isBottomSheetRightButtonActive.value = true;
+                              }
+                              globalController.commonBottomSheet(
+                                  context: context,
+                                  bottomSheetHeight: height * 0.4,
+                                  content: KidGenderContent(),
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: () {
+                                    kidsController.selectedKidGender.value = kidsController.tempSelectedKidGender.value;
+                                    Get.back();
+                                  },
+                                  rightText: ksDone.tr,
+                                  rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                  title: ksSelectGender.tr,
+                                  isRightButtonShow: true);
+                            },
+                          ),
+                          kH16sizedBox,
+                          CustomModifiedTextField(
+                            controller: kidsController.kidSchoolNameTextEditingController,
+                            hint: ksWriteSchoolName.tr,
+                            onChanged: (text) {
+                              kidsController.checkNextButtonEnable();
+                            },
+                            onSubmit: (text) {},
+                            inputAction: TextInputAction.done,
+                            inputType: TextInputType.text,
+                            maxLength: 50,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  Obx(() => CustomElevatedButton(
+                        buttonWidth: width - 40,
+                        buttonHeight: h40,
+                        label: ksNext.tr,
+                        onPressed: kidsController.isNextButtonEnabled.value
+                            ? () {
+                                unFocus(context);
+                                // kidsController.kidParentEmailController.text = Get.find<ProfileController>().userData.value!.email.toString();
+                                // kidsController.kidParentPhoneController.text = Get.find<ProfileController>().userData.value!.phone.toString();
+                                Get.toNamed(krAddKidContactInfo);
+                              }
+                            : null,
+                        textStyle: semiBold16TextStyle(cWhiteColor),
+                      )),
+                  kH20sizedBox,
+                ],
+              ),
             ),
           ),
         ),
