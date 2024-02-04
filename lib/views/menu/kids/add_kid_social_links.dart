@@ -43,6 +43,7 @@ class AddKidSocialLinks extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       unFocus(context);
+                      kidsController.resetkidSocialLink();
                       Get.toNamed(krAddKidUploadImage);
                     },
                     child: Text(
@@ -55,101 +56,104 @@ class AddKidSocialLinks extends StatelessWidget {
             ),
           ),
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-                const CustomDivider(
-                  thickness: 1,
-                ),
-                KidTopTitleSubtitleAndCircularProgressBar(
-                  title: ksSocialLinks.tr,
-                  subTitle: ksAddSocialLinksForKid.tr,
-                  circularCenterText: ks3of4.tr,
-                  percent: 0.75,
-                ),
-                kH16sizedBox,
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                  child: CustomDivider(
+            child: SizedBox(
+              height: height - (kAppBarSize + MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
+              child: Column(
+                children: [
+                  const CustomDivider(
                     thickness: 1,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding).copyWith(top: k16Padding),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomModifiedTextField(
-                        controller: kidsController.kidWebsiteController,
-                        hint: ksWebsite.tr,
-                        onChanged: (text) {},
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.next,
-                        inputType: TextInputType.text,
-                        maxLength: 256,
-                      ),
-                      kH8sizedBox,
-                      CustomModifiedTextField(
-                        controller: kidsController.kidFacebookController,
-                        hint: ksFacebook.tr,
-                        onChanged: (text) {},
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.next,
-                        inputType: TextInputType.text,
-                        maxLength: 256,
-                      ),
-                      kH8sizedBox,
-                      CustomModifiedTextField(
-                        controller: kidsController.kidInstagramController,
-                        hint: ksInstagram.tr,
-                        onChanged: (text) {},
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.next,
-                        inputType: TextInputType.text,
-                        maxLength: 256,
-                      ),
-                      kH8sizedBox,
-                      CustomModifiedTextField(
-                        controller: kidsController.kidTwitterController,
-                        hint: ksTwitter.tr,
-                        onChanged: (text) {
-                          kidsController.checkNextButtonEnable();
-                        },
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.next,
-                        inputType: TextInputType.text,
-                        maxLength: 256,
-                      ),
-                      kH8sizedBox,
-                      CustomModifiedTextField(
-                        controller: kidsController.kidYoutubeController,
-                        hint: ksYoutube.tr,
-                        onChanged: (text) {},
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.done,
-                        inputType: TextInputType.text,
-                        maxLength: 256,
-                      ),
-                    ],
+                  KidTopTitleSubtitleAndCircularProgressBar(
+                    title: ksSocialLinks.tr,
+                    subTitle: ksAddSocialLinksForKid.tr,
+                    circularCenterText: ks3of4.tr,
+                    percent: 0.75,
                   ),
-                ),
-                kH100sizedBox,
-                CustomElevatedButton(
-                  buttonWidth: width - 40,
-                  buttonHeight: h40,
-                  label: ksNext.tr,
-                  onPressed: () {
-                    unFocus(context);
-                    Get.toNamed(krAddKidUploadImage);
-                  },
-                  textStyle: semiBold16TextStyle(cWhiteColor),
-                ),
-                kH30sizedBox,
-              ],
+                  kH16sizedBox,
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                    child: CustomDivider(
+                      thickness: 1,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding).copyWith(top: k16Padding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomModifiedTextField(
+                          controller: kidsController.kidWebsiteController,
+                          hint: ksWebsite.tr,
+                          onChanged: (text) {},
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.next,
+                          inputType: TextInputType.text,
+                          maxLength: 256,
+                        ),
+                        kH8sizedBox,
+                        CustomModifiedTextField(
+                          controller: kidsController.kidFacebookController,
+                          hint: ksFacebook.tr,
+                          onChanged: (text) {},
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.next,
+                          inputType: TextInputType.text,
+                          maxLength: 256,
+                        ),
+                        kH8sizedBox,
+                        CustomModifiedTextField(
+                          controller: kidsController.kidInstagramController,
+                          hint: ksInstagram.tr,
+                          onChanged: (text) {},
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.next,
+                          inputType: TextInputType.text,
+                          maxLength: 256,
+                        ),
+                        kH8sizedBox,
+                        CustomModifiedTextField(
+                          controller: kidsController.kidTwitterController,
+                          hint: ksTwitter.tr,
+                          onChanged: (text) {
+                            kidsController.checkNextButtonEnable();
+                          },
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.next,
+                          inputType: TextInputType.text,
+                          maxLength: 256,
+                        ),
+                        kH8sizedBox,
+                        CustomModifiedTextField(
+                          controller: kidsController.kidYoutubeController,
+                          hint: ksYoutube.tr,
+                          onChanged: (text) {},
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.done,
+                          inputType: TextInputType.text,
+                          maxLength: 256,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  CustomElevatedButton(
+                    buttonWidth: width - 40,
+                    buttonHeight: h40,
+                    label: ksNext.tr,
+                    onPressed: () {
+                      unFocus(context);
+                      kidsController.kidSocialLink();
+                      Get.toNamed(krAddKidUploadImage);
+                    },
+                    textStyle: semiBold16TextStyle(cWhiteColor),
+                  ),
+                  kH20sizedBox,
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
-  
   }
 }

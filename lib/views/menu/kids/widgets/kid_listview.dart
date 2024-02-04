@@ -70,6 +70,7 @@ class KidsListView extends StatelessWidget {
                             );
                           },
                         ),
+                        kH12sizedBox,
                       ],
                     ),
                   ),
