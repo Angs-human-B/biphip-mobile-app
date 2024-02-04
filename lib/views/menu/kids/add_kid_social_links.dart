@@ -43,6 +43,7 @@ class AddKidSocialLinks extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       unFocus(context);
+                      kidsController.resetkidSocialLink();
                       Get.toNamed(krAddKidUploadImage);
                     },
                     child: Text(
@@ -139,6 +140,7 @@ class AddKidSocialLinks extends StatelessWidget {
                   label: ksNext.tr,
                   onPressed: () {
                     unFocus(context);
+                    kidsController.kidSocialLink();
                     Get.toNamed(krAddKidUploadImage);
                   },
                   textStyle: semiBold16TextStyle(cWhiteColor),
@@ -150,6 +152,5 @@ class AddKidSocialLinks extends StatelessWidget {
         ),
       ),
     );
-  
   }
 }

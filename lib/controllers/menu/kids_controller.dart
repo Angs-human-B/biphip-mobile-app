@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
 import 'package:bip_hip/models/post/kid_model.dart';
@@ -168,27 +169,34 @@ class KidsController extends GetxController {
     kidCoverImageFile.value = File('');
   }
 
-  void resetKidsData() {
-    kidNameTextEditingController.clear();
-    kidAgeTextEditingController.clear();
-    kidSchoolNameTextEditingController.clear();
-    kidParentEmailController.clear();
+  void resetKidContactInfo(){
+      kidParentEmailController.clear();
     kidParentPhoneController.clear();
     kidParentAddressController.clear();
     kidBioController.clear();
-    kidWebsiteController.clear();
+  }
+  void resetkidSocialLink(){
+     kidWebsiteController.clear();
     kidFacebookController.clear();
     kidInstagramController.clear();
     kidTwitterController.clear();
     kidYoutubeController.clear();
+  }
+
+  void resetKidsData() {
+    kidNameTextEditingController.clear();
+    kidAgeTextEditingController.clear();
+    kidSchoolNameTextEditingController.clear();
+    resetKidContactInfo();
+    resetkidSocialLink();
     isNextButtonEnabled.value = false;
     kidNameErrorText.value = null;
     kidAgeErrorText.value = null;
     tempSelectedKidRelation.value = '';
     selectedKidRelation.value = '';
     tempSelectedKidGender.value = '';
-    kidBioCount.value = 0;
     selectedKidGender.value = '';
+    kidBioCount.value = 0;
     resetKidProfilePictureData();
     resetKidCoverPhotoData();
   }
@@ -244,37 +252,45 @@ class KidsController extends GetxController {
     }
   }
 
-
   //*Add kid API Implementation
   Rx<KidModel?> kidData = Rx<KidModel?>(null);
   // RxList<PostCategory> postCategoryList = RxList<PostCategory>([]);
-  final RxBool isAddKidPageLoading = RxBool(false);
+  final RxBool isAddKidLoading = RxBool(false);
   Future<void> addKid() async {
     try {
-      isAddKidPageLoading.value = true;
+      isAddKidLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
-        'name': kidNameTextEditingController.text.trim(),
-        'relation_id':'1',
-        'age': kidAgeTextEditingController.text.trim(),
+        'name': kidNameTextEditingController.text.toString().trim(),
+        'relation_id': '1',
+        'age': kidAgeTextEditingController.text.toString().trim(),
+        'gender': selectedKidGender.value,
+        'school_name': kidSchoolNameTextEditingController.text.toString().trim(),
+        'email': kidParentEmailController.text.toString().trim(),
+        'phone': kidParentPhoneController.text.toString().trim(),
+        'address': kidParentAddressController.text.toString().trim(),
+        'bio': kidBioController.text.toString().trim(),
+        'social_links': json.encode(kidSocialLinkList),
       };
-      var response = await apiController.mediaUpload(
+      final List<String> key = ['profile_picture', 'cover_photo'];
+      final List<dynamic> value = [kidProfileImageFile.value.path, kidCoverImageFile.value.path];
+      var response = await apiController.mediaUploadMultipleKeyAndValue(
         url: kuAddKid,
         body: body,
         token: token,
-        key: 'image',
-        value: kidImageFile.value.path,
+        keys: key,
+        values: value,
       ) as CommonDM;
 
       if (response.success == true) {
         kidData.value = KidModel.fromJson(response.data);
         ll(kidData.value!.name);
-        await Get.find<KidsController>().getKidsList();
-        isAddKidPageLoading.value = false;
-        Get.back();
+        getKidsList();
+        isAddKidLoading.value = false;
+        Get.offNamedUntil(krKidsPage, ModalRoute.withName(krMenu));
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isAddKidPageLoading.value = false;
+        isAddKidLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -283,10 +299,30 @@ class KidsController extends GetxController {
         }
       }
     } catch (e) {
-      isAddKidPageLoading.value = false;
+      isAddKidLoading.value = false;
       ll('addKid error: $e');
     }
   }
 
-  
+  final RxList kidSocialLinkList = RxList([]);
+
+  void kidSocialLink() {
+    kidSocialLinkList.clear();
+    if (kidWebsiteController.text.toString().trim() != '') {
+      kidSocialLinkList.add({'Web': kidWebsiteController.text.toString().trim()});
+    }
+    if (kidFacebookController.text.toString().trim() != '') {
+      kidSocialLinkList.add({'Facebook': kidFacebookController.text.toString().trim()});
+    }
+    if (kidInstagramController.text.toString().trim() != '') {
+      kidSocialLinkList.add({'Instagram': kidInstagramController.text.toString().trim()});
+    }
+    if (kidTwitterController.text.toString().trim() != '') {
+      kidSocialLinkList.add({'Twitter': kidTwitterController.text.toString().trim()});
+    }
+    if (kidYoutubeController.text.toString().trim() != '') {
+      kidSocialLinkList.add({'Youtube': kidYoutubeController.text.toString().trim()});
+    }
+    ll(kidSocialLinkList);
+  }
 }

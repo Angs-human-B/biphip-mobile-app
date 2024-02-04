@@ -44,6 +44,7 @@ class AddKidContactInfo extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       unFocus(context);
+                      kidsController.resetKidContactInfo();
                       Get.toNamed(krAddKidSocialLinks);
                     },
                     child: Text(
