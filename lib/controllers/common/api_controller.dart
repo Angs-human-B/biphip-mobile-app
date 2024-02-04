@@ -286,4 +286,56 @@ class ApiController {
       return null;
     }
   }
+  Future<dynamic> mediaUploadMultipleKeyAndValue({
+    String? token,
+    required String url,
+    required dynamic key1,
+    required dynamic value1,
+    required dynamic key2,
+    required dynamic value2,
+    Map<String, String>? body,
+    int? timer,
+  }) async {
+    final Uri uri = Uri.parse(Environment.apiUrl + url);
+    http.MultipartRequest request = http.MultipartRequest(kPost, uri);
+    String error = ksSomethingWentWrong.tr;
+    try {
+      request.headers.addAll(
+        {
+          'Authorization': 'Bearer $token',
+          'content-Type': 'multipart/form-data',
+        },
+      );
+      // If image is a file on disk, use fromPath instead of fromBytes
+      request.files.add(await http.MultipartFile.fromPath(key1, value1));
+      request.files.add(await http.MultipartFile.fromPath(key2, value2));
+      request.fields.addAll(body ?? {});
+
+      var response = await request.send();
+      ll("response statusCode : ${response.statusCode}");
+      if (response.statusCode == 200) {
+        var res = (await response.stream.transform(utf8.decoder).first);
+        Map<String, dynamic> de = jsonDecode(res);
+        ll(de.toString());
+        CommonDM cm = convertToCommonObject(de);
+        return cm;
+      } else if (response.statusCode == 401 || response.statusCode == 403) {
+        await SpController().onLogout();
+        Get.offAllNamed(krLogin);
+        globalController.showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
+        return null;
+      } else {
+        if (!Get.isSnackbarOpen) {
+          globalController.showSnackBar(title: "${response.statusCode} ${ksError.tr}", message: error, color: cRedColor);
+        }
+        return null;
+      }
+    } catch (e) {
+      log(e.toString());
+      if (!Get.isSnackbarOpen) {
+        globalController.showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+      }
+      return null;
+    }
+  }
 }
