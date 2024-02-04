@@ -169,18 +169,36 @@ class KidsController extends GetxController {
     kidCoverImageFile.value = File('');
   }
 
-  void resetKidContactInfo(){
-      kidParentEmailController.clear();
+  final RxBool isContactInfoNextButtonEnabled = RxBool(false);
+
+  void resetKidContactInfo() {
+    kidParentEmailController.clear();
     kidParentPhoneController.clear();
     kidParentAddressController.clear();
     kidBioController.clear();
+    kidParentEmailErrorText.value = null;
+    isContactInfoNextButtonEnabled.value=false;
   }
-  void resetkidSocialLink(){
-     kidWebsiteController.clear();
+
+  void resetkidSocialLink() {
+    kidWebsiteController.clear();
     kidFacebookController.clear();
     kidInstagramController.clear();
     kidTwitterController.clear();
     kidYoutubeController.clear();
+  }
+
+  final Rx<String?> kidParentEmailErrorText = Rx<String?>(null);
+
+  void kidParentEmailValidation() {
+    if (kidParentEmailController.text.toString().trim() == '') {
+      kidParentEmailErrorText.value = ksEmptyEmailErrorMessage.tr;
+    } else if (!kidParentEmailController.text.toString().trim().isValidEmail) {
+      kidParentEmailErrorText.value = ksInvalidEmailErrorMessage.tr;
+    } else {
+      kidParentEmailErrorText.value = null;
+      isContactInfoNextButtonEnabled.value=true;
+    }
   }
 
   void resetKidsData() {

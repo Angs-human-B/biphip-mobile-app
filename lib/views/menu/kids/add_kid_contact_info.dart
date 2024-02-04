@@ -84,7 +84,10 @@ class AddKidContactInfo extends StatelessWidget {
                         CustomModifiedTextField(
                           controller: kidsController.kidParentEmailController,
                           hint: ksParentEmail.tr,
-                          onChanged: (text) {},
+                          errorText: kidsController.kidParentEmailErrorText.value,
+                          onChanged: (text) {
+                            kidsController.kidParentEmailValidation();
+                          },
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,
                           inputType: TextInputType.text,
@@ -138,16 +141,18 @@ class AddKidContactInfo extends StatelessWidget {
                   ),
                 ),
                 kH100sizedBox,
-                CustomElevatedButton(
-                  buttonWidth: width - 40,
-                  buttonHeight: h40,
-                  label: ksNext.tr,
-                  onPressed: () {
-                    unFocus(context);
-                    Get.toNamed(krAddKidSocialLinks);
-                  },
-                  textStyle: semiBold16TextStyle(cWhiteColor),
-                ),
+                Obx(() => CustomElevatedButton(
+                      buttonWidth: width - 40,
+                      buttonHeight: h40,
+                      label: ksNext.tr,
+                      onPressed: kidsController.isContactInfoNextButtonEnabled.value
+                          ? () {
+                              unFocus(context);
+                              Get.toNamed(krAddKidSocialLinks);
+                            }
+                          : null,
+                      textStyle: semiBold16TextStyle(cWhiteColor),
+                    )),
                 kH30sizedBox,
               ],
             ),
