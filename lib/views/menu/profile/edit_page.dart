@@ -317,7 +317,7 @@ class EditPage extends StatelessWidget {
                     () => CustomElevatedButton(
                         label: ksSave,
                         textStyle: semiBold14TextStyle(cWhiteColor),
-                        buttonHeight: h32,
+                        buttonHeight: h42,
                         buttonWidth: width - 40,
                         onPressed: profileController.enableSaveButton.value
                             ? () {

@@ -903,25 +903,6 @@ class EditProfileHelper {
     }
   }
 
-  // void startDateButtonOnPressed(context) {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     builder: (context) {
-  //       return SizedBox(
-  //         height: height * 0.4,
-  //         child: CupertinoDatePicker(
-  //           initialDateTime: profileController.commonStartDate.value != '' ? DateTime.parse(profileController.commonStartDate.value) : DateTime.now(),
-  //           mode: CupertinoDatePickerMode.date,
-  //           onDateTimeChanged: (value) {
-  //             profileController.commonStartDate.value = DateFormat("yyyy-MM-dd").format(value);
-  //             checkSaveButtonActive();
-  //           },
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
   void startDateButtonOnPressed(context) {
     profileController.temporaryCommonStartDate.value = '';
     if (profileController.commonStartDate.value != '') {
@@ -950,6 +931,7 @@ class EditProfileHelper {
       content: SizedBox(
         height: height * 0.4,
         child: CupertinoDatePicker(
+          maximumDate: DateTime.now().add(const Duration(minutes: 30)),
           initialDateTime:
               profileController.temporaryCommonStartDate.value != '' ? DateTime.parse(profileController.temporaryCommonStartDate.value) : DateTime.now(),
           mode: CupertinoDatePickerMode.date,
@@ -961,26 +943,6 @@ class EditProfileHelper {
       ),
     );
   }
-
-  // void endDateButtonOnPressed(context) {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     builder: (context) {
-  //       return SizedBox(
-  //         height: height * 0.4,
-  //         child: CupertinoDatePicker(
-  //           mode: CupertinoDatePickerMode.date,
-  //           // maximumDate: DateTime.now(),
-  //           initialDateTime: profileController.commonEndDate.value != '' ? DateTime.parse(profileController.commonEndDate.value) : DateTime.now(),
-  //           onDateTimeChanged: (value) {
-  //             profileController.commonEndDate.value = DateFormat("yyyy-MM-dd").format(value);
-  //             checkSaveButtonActive();
-  //           },
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 
   void endDateButtonOnPressed(context) {
     profileController.temporaryCommonEndDate.value = '';
@@ -1006,9 +968,7 @@ class EditProfileHelper {
         height: height * 0.4,
         child: CupertinoDatePicker(
           minimumDate: (profileController.commonStartDate.value != "" ? DateTime.parse(profileController.commonStartDate.value) : null),
-          maximumDate: (profileController.commonStartDate.value != ""
-              ? DateTime.parse(profileController.commonStartDate.value).add(const Duration(days: 30 * 365))
-              : DateTime.now().add(const Duration(days: 30 * 365))),
+          maximumDate: DateTime.now().add(const Duration(minutes: 30)),
           initialDateTime: profileController.commonEndDate.value != ''
               ? (DateTime.parse(profileController.temporaryCommonEndDate.value))
               : (profileController.commonStartDate.value != "" ? DateTime.parse(profileController.commonStartDate.value) : DateTime.now()),
