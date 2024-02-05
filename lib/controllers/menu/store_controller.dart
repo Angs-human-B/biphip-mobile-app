@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -48,16 +49,20 @@ class StoreController extends GetxController {
   //*Store Basic info
   final TextEditingController storeNameController = TextEditingController();
   final TextEditingController businessTypeTextEditingController = TextEditingController();
-  final RxList<String> businessType = RxList<String>(['Electronics', 'Shop', 'Gadgets', 'Hardware']);
+  final List<String> businessType = ['Electronics', 'Shop', 'Gadgets', 'Hardware'];
   final RxBool isBusinessTypeSuffixIconVisible = RxBool(false);
   final RxBool isNextButtonEnable = RxBool(false);
   final Rx<String?> storeNameErrorText = Rx<String?>(null);
+  final RxBool foucsOnBusinessTypeFieldFirstTime = RxBool(true);
+  final Rx<String?> storeBusinessTypeErrorText = Rx<String?>(null);
   //*Store contact info
   final TextEditingController storeEmailController = TextEditingController();
   final TextEditingController storePhoneController = TextEditingController();
   final TextEditingController storeAddressController = TextEditingController();
   final TextEditingController storeBioController = TextEditingController();
   final RxInt storeBioCount = RxInt(0);
+  final Rx<String?> storeEmailErrorText = Rx<String?>(null);
+  final RxBool isStoreContactInfoNextButtonEnabled = RxBool(false);
 
   //*Social Links
   final TextEditingController storeWebsiteController = TextEditingController();
@@ -65,9 +70,11 @@ class StoreController extends GetxController {
   final TextEditingController storeInstagramController = TextEditingController();
   final TextEditingController storeTwitterController = TextEditingController();
   final TextEditingController storeYoutubeController = TextEditingController();
+  final RxBool isStoreSocialLinkNextButtonEnabled = RxBool(false);
   //*Documents
   final TextEditingController businessIdentificationNumberController = TextEditingController();
   final TextEditingController storeQRCodeController = TextEditingController();
+  final RxBool isStoreDocumentNextButtonEnabled = RxBool(false);
 
   //*Store Profile and cover photo
   final RxString storeProfileImageLink = RxString('');
@@ -97,6 +104,15 @@ class StoreController extends GetxController {
       storeNameErrorText.value = ksStoreNameLengthErrorText.tr;
     } else {
       storeNameErrorText.value = null;
+    }
+  }
+
+  void businessTypeErrorText() {
+    String businessTypeValue = businessTypeTextEditingController.text.toString().trim();
+    if (businessType.contains(businessTypeValue)) {
+      storeBusinessTypeErrorText.value = null;
+    } else {
+      storeBusinessTypeErrorText.value = ksSelectBusinessTypeFromSuggestion.tr;
     }
   }
 
@@ -133,6 +149,7 @@ class StoreController extends GetxController {
       startUpload();
       Get.back();
       selectedImages.add(image);
+      checkStoreDocumentsNextButtonEnabled();
     }
   }
 
@@ -142,27 +159,167 @@ class StoreController extends GetxController {
       startUpload();
       Get.back();
       selectedImages.addAll(images);
+      checkStoreDocumentsNextButtonEnabled();
     }
+  }
+
+  void checkContactInfoNextButtonEnabled() {
+    if ((storePhoneController.text.toString().trim() != '' ||
+            storeAddressController.text.toString().trim() != '' ||
+            storeBioController.text.toString().trim() != '' ||
+            storeEmailController.text.toString().trim().isValidEmail) &&
+        storeEmailErrorText.value == null) {
+      isStoreContactInfoNextButtonEnabled.value = true;
+    } else {
+      isStoreContactInfoNextButtonEnabled.value = false;
+    }
+  }
+
+  void checkStoreSocialLinkNextButtonEnabled() {
+    if (storeWebsiteController.text.toString().trim() != '' ||
+        storeFacebookController.text.toString().trim() != '' ||
+        storeInstagramController.text.toString().trim() != '' ||
+        storeTwitterController.text.toString().trim() != '' ||
+        storeYoutubeController.text.toString().trim() != '') {
+      isStoreSocialLinkNextButtonEnabled.value = true;
+    } else {
+      isStoreSocialLinkNextButtonEnabled.value = false;
+    }
+  }
+
+  void checkStoreDocumentsNextButtonEnabled() {
+    if (businessIdentificationNumberController.text.toString().trim() != '' ||
+        storeQRCodeController.text.toString().trim() != '' ||
+        selectedImages.isNotEmpty) {
+      isStoreDocumentNextButtonEnabled.value = true;
+    } else {
+      isStoreDocumentNextButtonEnabled.value = false;
+    }
+  }
+
+  void resetStoreDocuments() {
+    storeQRCodeController.clear();
+    businessIdentificationNumberController.clear();
+    selectedImages.clear();
+    isStoreDocumentNextButtonEnabled.value = false;
+  }
+
+  void storeEmailValidation() {
+    if (storeEmailController.text.toString().trim() != '' && !storeEmailController.text.toString().trim().isValidEmail) {
+      storeEmailErrorText.value = ksInvalidEmailErrorMessage.tr;
+    } else {
+      storeEmailErrorText.value = null;
+    }
+    checkContactInfoNextButtonEnabled();
+  }
+
+  void resetStoreContactInfo() {
+    storeEmailController.clear();
+    storePhoneController.clear();
+    storeAddressController.clear();
+    storeBioController.clear();
+    storeEmailErrorText.value = null;
+    isStoreContactInfoNextButtonEnabled.value = false;
+    storeBioCount.value = 0;
+  }
+
+  void resetStoreSocialLinks() {
+    storeWebsiteController.clear();
+    storeFacebookController.clear();
+    storeInstagramController.clear();
+    storeTwitterController.clear();
+    storeYoutubeController.clear();
+    isStoreSocialLinkNextButtonEnabled.value = false;
   }
 
   void resetStoreData() {
     storeNameController.clear();
     businessTypeTextEditingController.clear();
     isBusinessTypeSuffixIconVisible.value = false;
-    storeEmailController.clear();
-    storePhoneController.clear();
-    storeAddressController.clear();
-    storeBioController.clear();
-    storeBioCount.value = 0;
-    storeWebsiteController.clear();
-    storeFacebookController.clear();
-    storeInstagramController.clear();
-    storeTwitterController.clear();
-    storeYoutubeController.clear();
+    resetStoreContactInfo();
+    resetStoreSocialLinks();
     storeNameErrorText.value = null;
+    storeBusinessTypeErrorText.value = null;
     isNextButtonEnable.value = false;
+    resetStoreDocuments();
     resetStoreProfilePictureData();
     resetStoreCoverPhotoData();
-    selectedImages.clear();
+  }
+
+  //*Add Store API Implementation
+  final RxBool isCreateStoreLoading = RxBool(false);
+  Future<void> createStore() async {
+    try {
+      isCreateStoreLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'name': storeNameController.text.toString().trim(),
+        'business_category': businessTypeTextEditingController.text.toString().trim(),
+        'email': storeEmailController.text.toString().trim(),
+        'phone': storePhoneController.text.toString().trim(),
+        'address': storeAddressController.text.toString().trim(),
+        'bio': storeBioController.text.toString().trim(),
+        'social_links': json.encode(storeSocialLinkList),
+        'bin': storeBioController.text.toString().trim(),
+        'qr_code': storeQRCodeController.text.toString().trim(),
+      };
+      List<String> key = [];
+      List<dynamic> value = [];
+      for (int i = 0; i < selectedImages.length; i++) {
+        key.add('legal_files[$i]');
+        value.add(selectedImages[i].path);
+      }
+      key.add('profile_picture');
+      value.add(storeProfileImageFile.value.path);
+      key.add('cover_photo');
+      value.add(storeCoverImageFile.value.path);
+      var response = await apiController.mediaUploadMultipleKeyAndValue(
+        url: kuAddStore,
+        body: body,
+        token: token,
+        keys: key,
+        values: value,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        getStoreList();
+        isCreateStoreLoading.value = false;
+        Get.offNamedUntil(krStore, ModalRoute.withName(krMenu));
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isCreateStoreLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isCreateStoreLoading.value = false;
+      ll('createStore error: $e');
+    }
+  }
+
+  final RxList storeSocialLinkList = RxList([]);
+
+  void storeSocialLink() {
+    storeSocialLinkList.clear();
+    if (storeWebsiteController.text.toString().trim() != '') {
+      storeSocialLinkList.add({'Web': storeWebsiteController.text.toString().trim()});
+    }
+    if (storeFacebookController.text.toString().trim() != '') {
+      storeSocialLinkList.add({'Facebook': storeFacebookController.text.toString().trim()});
+    }
+    if (storeInstagramController.text.toString().trim() != '') {
+      storeSocialLinkList.add({'Instagram': storeInstagramController.text.toString().trim()});
+    }
+    if (storeTwitterController.text.toString().trim() != '') {
+      storeSocialLinkList.add({'Twitter': storeTwitterController.text.toString().trim()});
+    }
+    if (storeYoutubeController.text.toString().trim() != '') {
+      storeSocialLinkList.add({'Youtube': storeYoutubeController.text.toString().trim()});
+    }
+    ll(storeSocialLinkList);
   }
 }

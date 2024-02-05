@@ -86,9 +86,9 @@ class FamilyHelper {
   void setRelationBottomSheetValue() {
     familyController.temporaryRelation.value = familyController.relation.value;
     if (familyController.temporaryRelation.value == '') {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+      familyController.familyRelationBottomSheetRightButtonState.value = false;
     } else {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+      familyController.familyRelationBottomSheetRightButtonState.value = true;
     }
   }
 

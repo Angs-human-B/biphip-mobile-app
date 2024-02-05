@@ -247,11 +247,12 @@ class CreatePostUpperSection extends StatelessWidget {
                                       // log(createPostController.tempSubCategoryIndex.value.toString());
                                       if (createPostController.tempSubCategory.value == '' &&
                                           Get.find<CreatePostController>().tempSubCategoryIndex.value == -1) {
-                                        Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                        createPostController.subCategoryBottomSheetRightButtonState.value = false;
                                       } else {
-                                        Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                        createPostController.subCategoryBottomSheetRightButtonState.value = true;
                                       }
                                       Get.find<GlobalController>().commonBottomSheet(
+                                        isBottomSheetRightButtonActive: createPostController.subCategoryBottomSheetRightButtonState,
                                         context: context,
                                         content: const SubCategoryContent(),
                                         onPressCloseButton: () {
@@ -326,6 +327,7 @@ class CreatePostUpperSection extends StatelessWidget {
                               createPostController.temporarySellingPostType.value = createPostController.sellingPostType.value;
                               createPostHelper.sellingPostTypeSelect();
                               Get.find<GlobalController>().commonBottomSheet(
+                                isBottomSheetRightButtonActive: createPostController.sellingPostTypeBottomSheetRightButtonState,
                                 context: context,
                                 bottomSheetHeight: isDeviceScreenLarge() ? height * .25 : height * 0.35,
                                 content: SellingCategoryBottomSheetContent(),
@@ -336,9 +338,10 @@ class CreatePostUpperSection extends StatelessWidget {
                                   createPostController.sellingPostType.value = createPostController.temporarySellingPostType.value;
                                   createPostController.selectedBrandName.value = '';
                                   createPostController.selectedBrandId.value = -1;
-                                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                  createPostController.sellingPostTypeBottomSheetRightButtonState.value = false;
                                   createPostHelper.checkCanCreatePost();
                                   Get.find<GlobalController>().commonBottomSheet(
+                                    isBottomSheetRightButtonActive: createPostController.selectStoreBottomSheetRightButtonState,
                                     context: context,
                                     bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
                                     content: BrandBottomSheetContent(),
@@ -409,12 +412,6 @@ class SubCategoryContent extends StatelessWidget {
                           isSelected: (Get.find<CreatePostController>().tempSubCategoryIndex.value == i),
                           onSelected: (value) {
                             CreatePostHelper().onSelectPostSubCategory(i);
-                            // if (Get.find<CreatePostController>().tempSubCategory.value == '' &&
-                            //     Get.find<CreatePostController>().tempSubCategoryIndex.value == -1) {
-                            //   Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                            // } else {
-                            //   Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                            // }
                           },
                         )
                     ],

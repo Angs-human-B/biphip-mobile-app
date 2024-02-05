@@ -79,8 +79,9 @@ class RelationshipStatusListContent extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: k8Padding),
                           child: CustomListTile(
                             title: profileController.relationshipStatusList[index],
-                            borderColor:
-                                profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index] ? cPrimaryColor : cLineColor,
+                            borderColor: profileController.temporaryRelationshipStatus.value == profileController.relationshipStatusList[index]
+                                ? cPrimaryColor
+                                : cLineColor,
                             onPressed: () {
                               editProfileHelper.selectBottomSheetRelationshipContent(index);
                             },
@@ -89,9 +90,9 @@ class RelationshipStatusListContent extends StatelessWidget {
                                 // profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
                                 editProfileHelper.selectBottomSheetRelationshipContent(index);
                               },
-                              isSelected: profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index],
+                              isSelected: profileController.temporaryRelationshipStatus.value == profileController.relationshipStatusList[index],
                             ),
-                            itemColor: profileController.tempRelationshipStatus.value == profileController.relationshipStatusList[index]
+                            itemColor: profileController.temporaryRelationshipStatus.value == profileController.relationshipStatusList[index]
                                 ? cPrimaryTint3Color
                                 : cWhiteColor,
                           ),

@@ -492,4 +492,4 @@ const String ksStoreNameLengthErrorText = "Store name must be at least 3 charact
 const String ksFileSize10MBLimit = "File size limit is 10MB";
 const String ksStores = "Stores";
 const String ksQRCode = "QR Code";
-
+const String ksSelectBusinessTypeFromSuggestion = "Business type must be select from suggestion";
