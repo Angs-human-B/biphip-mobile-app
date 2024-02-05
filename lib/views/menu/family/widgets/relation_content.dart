@@ -15,27 +15,27 @@ class RelationContent extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: k10Padding),
           child: Obx(
             () => CustomListTile(
-              itemColor: familyController.tempRelation.value == familyController.familyRelationList[index].name ? cPrimaryTint3Color : cWhiteColor,
+              itemColor: familyController.temporaryRelation.value == familyController.familyRelationList[index].name ? cPrimaryTint3Color : cWhiteColor,
               onPressed: () {
-                familyController.tempRelation.value = familyController.familyRelationList[index].name;
-                if (familyController.tempRelation.value == '') {
+                familyController.temporaryRelation.value = familyController.familyRelationList[index].name;
+                if (familyController.temporaryRelation.value == '') {
                   Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
                 } else {
                   Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                 }
               },
               title: familyController.familyRelationList[index].name,
-              borderColor: familyController.tempRelation.value == familyController.familyRelationList[index].name ? cPrimaryColor : cLineColor,
+              borderColor: familyController.temporaryRelation.value == familyController.familyRelationList[index].name ? cPrimaryColor : cLineColor,
               trailing: CustomRadioButton(
                 onChanged: () {
-                  familyController.tempRelation.value = familyController.familyRelationList[index].name;
-                  if (familyController.tempRelation.value == '') {
+                  familyController.temporaryRelation.value = familyController.familyRelationList[index].name;
+                  if (familyController.temporaryRelation.value == '') {
                     Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
                   } else {
                     Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
                   }
                 },
-                isSelected: familyController.tempRelation.value == familyController.familyRelationList[index].name,
+                isSelected: familyController.temporaryRelation.value == familyController.familyRelationList[index].name,
               ),
             ),
           ),

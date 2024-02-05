@@ -94,7 +94,7 @@ class AddFamily extends StatelessWidget {
                             textEditingController: globalController.searchController,
                             focusNode: familyController.addFamilyFocusNode,
                             optionsBuilder: (TextEditingValue textEditingValue) async {
-                              return friendController.tempFriendList.where((word) => word.toLowerCase().contains(textEditingValue.text.toLowerCase()));
+                              return friendController.temporaryFriendList.where((word) => word.toLowerCase().contains(textEditingValue.text.toLowerCase()));
                             },
                             onSelected: (option) {
                               globalController.searchController.text = option;

@@ -690,7 +690,7 @@ class FriendController extends GetxController {
   }
 
   //* tempFriendList -> when add family member friend name list needed for suggestion
-  final RxList<String> tempFriendList = RxList<String>([]);
+  final RxList<String> temporaryFriendList = RxList<String>([]);
 
   //*Friend List Api Call for add family suggestion list
   final Rx<CommonFriendModel?> friendListDataForAddFamily = Rx<CommonFriendModel?>(null);
@@ -710,10 +710,10 @@ class FriendController extends GetxController {
         friendListForAddFamily.clear();
         friendListDataForAddFamily.value = CommonFriendModel.fromJson(response.data);
         friendListForAddFamily.addAll(friendListDataForAddFamily.value!.friends!.data);
-        tempFriendList.clear();
+        temporaryFriendList.clear();
         for (int i = 0; i < friendListForAddFamily.length; i++) {
           if (friendListForAddFamily[i].familyRelationStatus == null) {
-            tempFriendList.add(friendListDataForAddFamily.value!.friends!.data[i].fullName!);
+            temporaryFriendList.add(friendListDataForAddFamily.value!.friends!.data[i].fullName!);
           }
         }
         isFriendListForAddFamilyLoading.value = false;

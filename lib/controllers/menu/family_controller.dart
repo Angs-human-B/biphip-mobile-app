@@ -492,14 +492,14 @@ class FamilyController extends GetxController {
   }
 
   final RxString relation = RxString("");
-  final RxString tempRelation = RxString("");
+  final RxString temporaryRelation = RxString("");
   final FocusNode addFamilyFocusNode = FocusNode();
   void clearAddFamilyData() {
     relationStatusId.value = -1;
     userId.value = -1;
     relationId.value = -1;
     relation.value = '';
-    tempRelation.value = '';
+    temporaryRelation.value = '';
   }
 
   Timer? debounce;
