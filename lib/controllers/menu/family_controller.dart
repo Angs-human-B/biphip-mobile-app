@@ -433,15 +433,14 @@ class FamilyController extends GetxController {
       if (response.success == true) {
         if (isRouteFromAllFriend.value) {
           isRouteFromAllFriend.value = false;
-          Get.offNamedUntil(krMenu, (route) => true);
-          Get.toNamed(krFamily);
+          Get.offNamedUntil(krFamily, ModalRoute.withName(krMenu));
           FamilyHelper().pendingFamilyTapableButtOnPressed();
         } else {
           Get.back();
           FamilyHelper().pendingFamilyTapableButtOnPressed();
-          isSendFamilyRequestLoading.value = false;
           globalController.searchController.clear();
         }
+        isSendFamilyRequestLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor);
       } else {
         isSendFamilyRequestLoading.value = false;
