@@ -137,6 +137,7 @@ class AddStoreSocialLinks extends StatelessWidget {
                 label: ksNext.tr,
                 onPressed: () {
                   unFocus(context);
+                  storeController.storeSocialLink();
                   Get.toNamed(krAddStoreDocuments);
                 },
                 textStyle: semiBold16TextStyle(cWhiteColor),
