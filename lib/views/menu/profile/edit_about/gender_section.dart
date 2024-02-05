@@ -74,28 +74,29 @@ class GenderListContent extends StatelessWidget {
                         () => Padding(
                           padding: const EdgeInsets.only(bottom: k8Padding),
                           child: CustomListTile(
-                            borderColor: profileController.tempSelectedGender.value == profileController.genderList[index] ? cPrimaryColor : cLineColor,
+                            borderColor: profileController.temporarySelectedGender.value == profileController.genderList[index] ? cPrimaryColor : cLineColor,
                             title: profileController.genderList[index],
                             onPressed: () {
-                              profileController.tempSelectedGender.value = profileController.genderList[index];
-                              if (profileController.tempSelectedGender.value == '') {
-                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                              profileController.temporarySelectedGender.value = profileController.genderList[index];
+                              if (profileController.temporarySelectedGender.value == '') {
+                                profileController.genderBottomSheetButtonState.value = false;
                               } else {
-                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                profileController.genderBottomSheetButtonState.value = true;
                               }
                             },
                             trailing: CustomRadioButton(
                               onChanged: () {
-                                profileController.tempSelectedGender.value = profileController.genderList[index];
-                                if (profileController.tempSelectedGender.value == '') {
-                                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                profileController.temporarySelectedGender.value = profileController.genderList[index];
+                                if (profileController.temporarySelectedGender.value == '') {
+                                  profileController.genderBottomSheetButtonState.value = false;
                                 } else {
-                                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                  profileController.genderBottomSheetButtonState.value = true;
                                 }
                               },
-                              isSelected: profileController.tempSelectedGender.value == profileController.genderList[index],
+                              isSelected: profileController.temporarySelectedGender.value == profileController.genderList[index],
                             ),
-                            itemColor: profileController.tempSelectedGender.value == profileController.genderList[index] ? cPrimaryTint3Color : cWhiteColor,
+                            itemColor:
+                                profileController.temporarySelectedGender.value == profileController.genderList[index] ? cPrimaryTint3Color : cWhiteColor,
                           ),
                         ),
                       );

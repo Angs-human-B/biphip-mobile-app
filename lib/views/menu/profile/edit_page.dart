@@ -89,7 +89,7 @@ class EditPage extends StatelessWidget {
                           textEditingController: profileController.commonEditTextEditingController,
                           focusNode: commonFocusNode,
                           optionsBuilder: (TextEditingValue textEditingValue) {
-                            return profileController.tempListCommon.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
+                            return profileController.temporaryListCommon.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
                           },
                           onSelected: (option) {
                             profileController.commonEditTextEditingController.text = option;

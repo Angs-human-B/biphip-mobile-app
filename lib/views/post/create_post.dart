@@ -293,11 +293,12 @@ class CreatePost extends StatelessWidget {
                                         onPressed: () {
                                           createPostController.tempSelectedProductCategory.value = createPostController.selectedProductCategory.value;
                                           if (createPostController.tempSelectedProductCategory.value == '') {
-                                            globalController.isBottomSheetRightButtonActive.value = false;
+                                            createPostController.productCategoryBottomSheetRightButton.value = false;
                                           } else {
-                                            globalController.isBottomSheetRightButtonActive.value = true;
+                                            createPostController.productCategoryBottomSheetRightButton.value = true;
                                           }
                                           globalController.commonBottomSheet(
+                                            isBottomSheetRightButtonActive: createPostController.productCategoryBottomSheetRightButton,
                                               context: context,
                                               bottomSheetHeight: height * 0.9,
                                               isScrollControlled: true,
@@ -329,11 +330,12 @@ class CreatePost extends StatelessWidget {
                                         onPressed: () {
                                           createPostController.tempSelectedProductCondition.value = createPostController.selectedProductCondition.value;
                                           if (createPostController.tempSelectedProductCondition.value == '') {
-                                            globalController.isBottomSheetRightButtonActive.value = false;
+                                            createPostController.productConditionBottomSheetRightButtonState.value = false;
                                           } else {
-                                            globalController.isBottomSheetRightButtonActive.value = true;
+                                            createPostController.productConditionBottomSheetRightButtonState.value = true;
                                           }
                                           globalController.commonBottomSheet(
+                                            isBottomSheetRightButtonActive: createPostController.productConditionBottomSheetRightButtonState,
                                               context: context,
                                               bottomSheetHeight: isDeviceScreenLarge() ? height * 0.5 : height * 0.6,
                                               content: ProductConditionContent(),
@@ -416,11 +418,12 @@ class CreatePost extends StatelessWidget {
                                               createPostController.temporaryProductAvailability.value = createPostController.productAvailability.value;
                                               createPostController.temporaryProductAvailabilityId.value = createPostController.productAvailabilityId.value;
                                               if (createPostController.temporaryProductAvailability.value == '') {
-                                                globalController.isBottomSheetRightButtonActive.value = false;
+                                                createPostController.productAvailabilityBottomSheetRightButtonState.value = false;
                                               } else {
-                                                globalController.isBottomSheetRightButtonActive.value = true;
+                                                createPostController.productAvailabilityBottomSheetRightButtonState.value = true;
                                               }
                                               globalController.commonBottomSheet(
+                                                isBottomSheetRightButtonActive: createPostController.productAvailabilityBottomSheetRightButtonState,
                                                   context: context,
                                                   bottomSheetHeight: isDeviceScreenLarge() ? height * 0.3 : height * 0.4,
                                                   content: ProductAvailabilityContent(),
@@ -619,9 +622,9 @@ class CreatePost extends StatelessWidget {
                                           createPostController.tempSelectedPlatform.value = createPostController.selectedPlatform.value;
                                           createPostController.tempSelectedAction.value = createPostController.selectedAction.value;
                                           if (createPostController.tempSelectedPlatform.value == '' || createPostController.tempSelectedAction.value == '') {
-                                            globalController.isBottomSheetRightButtonActive.value = false;
+                                            createPostController.platformBottomSheetRightButtonState.value = false;
                                           } else {
-                                            globalController.isBottomSheetRightButtonActive.value = true;
+                                            createPostController.platformBottomSheetRightButtonState.value = true;
                                           }
                                           if (createPostController.tempSelectedPlatform.value == '') {
                                             for (int i = 0; i < createPostController.platformList.length; i++) {
@@ -643,6 +646,7 @@ class CreatePost extends StatelessWidget {
                                           }
 
                                           globalController.commonBottomSheet(
+                                            isBottomSheetRightButtonActive: createPostController.platformBottomSheetRightButtonState,
                                               context: context,
                                               bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
                                               content: Column(
@@ -657,9 +661,9 @@ class CreatePost extends StatelessWidget {
                                                               createPostController.tempSelectedPlatform.value = createPostController.platformList[i]['name'];
                                                               if (createPostController.tempSelectedPlatform.value == '' ||
                                                                   createPostController.tempSelectedAction.value == '') {
-                                                                globalController.isBottomSheetRightButtonActive.value = false;
+                                                                createPostController.platformBottomSheetRightButtonState.value = false;
                                                               } else {
-                                                                globalController.isBottomSheetRightButtonActive.value = true;
+                                                                createPostController.platformBottomSheetRightButtonState.value = true;
                                                               }
                                                             },
                                                             suffixWidget: Transform.scale(
@@ -671,9 +675,9 @@ class CreatePost extends StatelessWidget {
                                                                       createPostController.platformList[i]['name'];
                                                                   if (createPostController.tempSelectedPlatform.value == '' ||
                                                                       createPostController.tempSelectedAction.value == '') {
-                                                                    globalController.isBottomSheetRightButtonActive.value = false;
+                                                                    createPostController.platformBottomSheetRightButtonState.value = false;
                                                                   } else {
-                                                                    globalController.isBottomSheetRightButtonActive.value = true;
+                                                                    createPostController.platformBottomSheetRightButtonState.value = true;
                                                                   }
                                                                 },
                                                                 isSelected: createPostController.platformStatusList[i],
@@ -710,9 +714,9 @@ class CreatePost extends StatelessWidget {
                                                               createPostController.tempSelectedAction.value = createPostController.actionList[i]['name'];
                                                               if (createPostController.tempSelectedPlatform.value == '' ||
                                                                   createPostController.tempSelectedAction.value == '') {
-                                                                globalController.isBottomSheetRightButtonActive.value = false;
+                                                                createPostController.platformBottomSheetRightButtonState.value = false;
                                                               } else {
-                                                                globalController.isBottomSheetRightButtonActive.value = true;
+                                                                createPostController.platformBottomSheetRightButtonState.value = true;
                                                               }
                                                             },
                                                             suffixWidget: Transform.scale(
@@ -723,9 +727,9 @@ class CreatePost extends StatelessWidget {
                                                                   createPostController.tempSelectedAction.value = createPostController.actionList[i]['name'];
                                                                   if (createPostController.tempSelectedPlatform.value == '' ||
                                                                       createPostController.tempSelectedAction.value == '') {
-                                                                    globalController.isBottomSheetRightButtonActive.value = false;
+                                                                   createPostController.platformBottomSheetRightButtonState.value = false;
                                                                   } else {
-                                                                    globalController.isBottomSheetRightButtonActive.value = true;
+                                                                    createPostController.platformBottomSheetRightButtonState.value = true;
                                                                   }
                                                                 },
                                                                 isSelected: createPostController.actionStatusList[i],

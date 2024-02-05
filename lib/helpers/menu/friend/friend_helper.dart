@@ -139,9 +139,9 @@ class FriendHelper {
       friendController.friendActionSelect.value = friendController.friendFollowActionList[index]['action'];
     }
     if (friendController.friendActionSelect.value == '') {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+      friendController.friendActionBottomSheetRightButtonState.value = false;
     } else {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+      friendController.friendActionBottomSheetRightButtonState.value = true;
     }
   }
 
@@ -165,9 +165,9 @@ class FriendHelper {
       friendController.friendActionSelect.value = friendController.friendFollowActionList[index]['action'];
     }
     if (friendController.friendActionSelect.value == '') {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+      friendController.friendActionBottomSheetRightButtonState.value = false;
     } else {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+      friendController.friendActionBottomSheetRightButtonState.value = true;
     }
   }
 
@@ -179,9 +179,9 @@ class FriendHelper {
       friendController.pendingFriendActionSelect.value = friendController.pendingFollowFriendActionList[index]['action'];
     }
     if (friendController.pendingFriendActionSelect.value == '') {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+      friendController.pendingFriendActionBottomSheetRightButtonState.value = false;
     } else {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+     friendController.pendingFriendActionBottomSheetRightButtonState.value = true;
     }
   }
 
@@ -205,9 +205,9 @@ class FriendHelper {
       friendController.pendingFriendActionSelect.value = friendController.pendingFollowFriendActionList[index]['action'];
     }
     if (friendController.pendingFriendActionSelect.value == '') {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+      friendController.pendingFriendActionBottomSheetRightButtonState.value = false;
     } else {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+      friendController.pendingFriendActionBottomSheetRightButtonState.value = true;
     }
   }
 }
