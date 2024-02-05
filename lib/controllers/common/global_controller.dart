@@ -141,7 +141,6 @@ class GlobalController extends GetxController {
       bool? isScrollControlled,
       isSearchShow,
       RxBool? isBottomSheetRightButtonActive,
-      FutureOr<void> Function()? onPopOutside,
       bool? isDismissible}) {
     showModalBottomSheet<void>(
       isDismissible: isDismissible ?? true,
@@ -231,7 +230,7 @@ class GlobalController extends GetxController {
           ],
         );
       },
-    ).whenComplete(onPopOutside ?? () {});
+    );
   }
 
 
