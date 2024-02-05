@@ -90,36 +90,256 @@ class AddFamily extends StatelessWidget {
                             ),
                           ),
                         if (name == null)
-                          RawAutocomplete(
+                          // RawAutocomplete(
+                          //   textEditingController: globalController.searchController,
+                          //   focusNode: familyController.addFamilyFocusNode,
+                          //   optionsBuilder: (TextEditingValue textEditingValue) async {
+                          //     return friendController.tempFriendList.where((word) => word.toLowerCase().contains(textEditingValue.text.toLowerCase()));
+                          //   },
+                          //   onSelected: (option) {
+                          //     globalController.searchController.text = option;
+                          //   },
+                          //   optionsViewBuilder: (context, Function(String) onSelected, options) {
+                          //     return Align(
+                          //       alignment: Alignment.topLeft,
+                          //       child: SizedBox(
+                          //         width: width - 40,
+                          //         child: Material(
+                          //           elevation: 4,
+                          //           child: ListView.separated(
+                          //             shrinkWrap: true,
+                          //             padding: EdgeInsets.zero,
+                          //             itemBuilder: (context, index) {
+                          //               final option = options.elementAt(index);
+                          //               return CustomListTile(
+                          //                 title: Text(
+                          //                   option.toString(),
+                          //                   style: medium16TextStyle(cBlackColor),
+                          //                 ),
+                          //                 onPressed: () {
+                          //                   unfocus(context);
+                          //                   onSelected(option.toString());
+                          //                   familyHelper.addFamilySetAutoComplete(option: option);
+                          //                 },
+                          //               );
+                          //             },
+                          //             separatorBuilder: (context, index) => Container(
+                          //               height: 1,
+                          //               color: cLineColor,
+                          //             ),
+                          //             itemCount: options.length,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     );
+                          //   },
+                          //   fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                          //     return Obx(() => CustomModifiedTextField(
+                          //           borderRadius: h8,
+                          //           controller: globalController.searchController,
+                          //           focusNode: focusNode,
+                          //           prefixIcon: BipHip.search,
+                          //           suffixIcon: familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                          //           hint: ksSearch.tr,
+                          //           contentPadding: const EdgeInsets.symmetric(
+                          //             vertical: k12Padding,
+                          //           ),
+                          //           textInputStyle: regular16TextStyle(cBlackColor),
+                          //           onSuffixPress: () {
+                          //             familyHelper.familySearchReset();
+                          //           },
+                          //           onSubmit: (v) {
+                          //             unfocus(context);
+                          //             familyController.isFamilySuffixIconVisible.value = false;
+                          //           },
+                          //           onChanged: (v) {
+                          //             familyHelper.addSearchResultToFamilyList();
+                          //           },
+                          //         ));
+                          //   },
+                          // ),
+
+                          // RawAutocomplete<String>(
+                          //   textEditingController: globalController.searchController,
+                          //   focusNode: familyController.addFamilyFocusNode,
+                          //   // optionsBuilder: (TextEditingValue textEditingValue) async {
+                          //   //   // Filter the options based on the current input value
+                          //   //   return friendController.tempFriendList.where((word) => word.toLowerCase().contains(textEditingValue.text.toLowerCase())).toList();
+                          //   // },
+                          //   // optionsBuilder: (TextEditingValue textEditingValue) async {
+                          //   //   // Filter the tempFriendList based on the current input value
+                          //   //   List<String> filteredOptions = [];
+                          //   //   for (int i = 0; i < friendController.tempFriendList.length; i += 2) {
+                          //   //     String name = friendController.tempFriendList[i];
+                          //   //     String imageUrl = friendController.tempFriendList[i + 1];
+                          //   //     if (name.toLowerCase().contains(textEditingValue.text.toLowerCase())) {
+                          //   //       filteredOptions.add(name);
+                          //   //       filteredOptions.add(imageUrl);
+                          //   //     }
+                          //   //   }
+                          //   //   return filteredOptions;
+                          //   // },
+                          //   optionsBuilder: (TextEditingValue textEditingValue) async {
+                          //     // Initialize an empty list to hold the filtered options
+                          //     List<String> filteredOptions = [];
+
+                          //     // Iterate over the tempFriendList in steps of 2 to get pairs
+                          //     for (int i = 0; i < friendController.tempFriendList.length; i += 2) {
+                          //       // Get the name and image URL from the tempFriendList
+                          //       String name = friendController.tempFriendList[i];
+                          //       String imageUrl = friendController.tempFriendList[i + 1];
+
+                          //       // Check if the name contains the current input text
+                          //       if (name.toLowerCase().contains(textEditingValue.text.toLowerCase())) {
+                          //         // Add the name and image URL to the filtered options
+                          //         filteredOptions.add(name);
+                          //         filteredOptions.add(imageUrl);
+                          //       }
+                          //     }
+
+                          //     // Return the filtered options
+                          //     return filteredOptions;
+                          //   },
+
+                          //   onSelected: (option) {
+                          //     globalController.searchController.text = option;
+                          //   },
+                          //   optionsViewBuilder: (context, Function(String) onSelected, options) {
+                          //     // Check if the options list is empty
+                          //     if (options.isEmpty) {
+                          //       // Return an empty container or another placeholder widget
+                          //       return Container();
+                          //     }
+
+                          //     // Create a map to associate each name with its corresponding image URL
+                          //     Map<String, String> nameToImageMap = {};
+                          //     for (int i = 0; i < options.length; i += 2) {
+                          //       // Get the name and image URL from the options list
+                          //       final name = options.elementAt(i).toString();
+                          //       final imageUrl = options.elementAt(i + 1).toString();
+
+                          //       // Add the name and image URL to the map
+                          //       nameToImageMap[name] = imageUrl;
+                          //     }
+
+                          //     return Align(
+                          //       alignment: Alignment.topLeft,
+                          //       child: SizedBox(
+                          //         width: width - 40,
+                          //         child: Material(
+                          //           elevation: 4,
+                          //           child: ListView.separated(
+                          //             shrinkWrap: true,
+                          //             padding: EdgeInsets.zero,
+                          //             itemBuilder: (context, index) {
+                          //               // Get the name and image URL from the map
+                          //               final name = options.elementAt(index * 2).toString();
+                          //               final imageUrl = nameToImageMap[name];
+
+                          //               return ListTile(
+                          //                 leading: CircleAvatar(
+                          //                   backgroundImage: NetworkImage(imageUrl!), // Use AssetImage for local images
+                          //                 ),
+                          //                 title: Text(
+                          //                   name,
+                          //                   style: medium16TextStyle(cBlackColor),
+                          //                 ),
+                          //                 onTap: () {
+                          //                   unfocus(context);
+                          //                   onSelected(name);
+                          //                   familyHelper.addFamilySetAutoComplete(option: name);
+                          //                 },
+                          //               );
+                          //             },
+                          //             separatorBuilder: (context, index) => Container(
+                          //               height: 1,
+                          //               color: cLineColor,
+                          //             ),
+                          //             itemCount: options.length, // Divide by 2 since there are pairs of strings
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     );
+                          //   },
+                          //   fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                          //     return Obx(() => CustomModifiedTextField(
+                          //           borderRadius: h8,
+                          //           controller: globalController.searchController,
+                          //           focusNode: focusNode,
+                          //           prefixIcon: BipHip.search,
+                          //           suffixIcon: familyController.isFamilySuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                          //           hint: ksSearch.tr,
+                          //           contentPadding: const EdgeInsets.symmetric(
+                          //             vertical: k12Padding,
+                          //           ),
+                          //           textInputStyle: regular16TextStyle(cBlackColor),
+                          //           onSuffixPress: () {
+                          //             familyHelper.familySearchReset();
+                          //           },
+                          //           onSubmit: (v) {
+                          //             unfocus(context);
+                          //             familyController.isFamilySuffixIconVisible.value = false;
+                          //           },
+                          //           onChanged: (v) {
+                          //             familyHelper.addSearchResultToFamilyList();
+                          //           },
+                          //         ));
+                          //   },
+                          // ),
+                          RawAutocomplete<String>(
                             textEditingController: globalController.searchController,
                             focusNode: familyController.addFamilyFocusNode,
                             optionsBuilder: (TextEditingValue textEditingValue) async {
-                              return friendController.tempFriendList.where((word) => word.toLowerCase().contains(textEditingValue.text.toLowerCase()));
+                              // Filter the tempFriendList based on the current input value
+                              List<String> filteredOptions = [];
+                              for (int i = 0; i < friendController.tempFriendList.length; i += 2) {
+                                String name = friendController.tempFriendList[i];
+                                if (name.toLowerCase().contains(textEditingValue.text.toLowerCase())) {
+                                  filteredOptions.add(name);
+                                  filteredOptions.add(friendController.tempFriendList[i + 1]); // Add the image URL
+                                }
+                              }
+                              return filteredOptions;
                             },
                             onSelected: (option) {
                               globalController.searchController.text = option;
                             },
                             optionsViewBuilder: (context, Function(String) onSelected, options) {
+                              // Create a map to associate each name with its corresponding image URL
+                              Map<String, String> nameToImageMap = {};
+                              for (int i = 0; i < options.length; i += 2) {
+                                final name = options.elementAt(i).toString();
+                                final imageUrl = options.elementAt(i + 1).toString();
+                                nameToImageMap[name] = imageUrl;
+                              }
+
                               return Align(
                                 alignment: Alignment.topLeft,
                                 child: SizedBox(
-                                  width: width - 40,
+                                  width: MediaQuery.of(context).size.width - 40,
                                   child: Material(
                                     elevation: 4,
                                     child: ListView.separated(
                                       shrinkWrap: true,
                                       padding: EdgeInsets.zero,
                                       itemBuilder: (context, index) {
-                                        final option = options.elementAt(index);
-                                        return CustomListTile(
+                                        // Calculate the actual index in the original list
+                                        int actualIndex = index * 2;
+                                        final name = options.elementAt(actualIndex).toString();
+                                        final imageUrl = nameToImageMap[name];
+
+                                        return ListTile(
+                                          leading: CircleAvatar(
+                                            backgroundImage: NetworkImage(imageUrl!), // Use AssetImage for local images
+                                          ),
                                           title: Text(
-                                            option.toString(),
+                                            name,
                                             style: medium16TextStyle(cBlackColor),
                                           ),
-                                          onPressed: () {
+                                          onTap: () {
                                             unfocus(context);
-                                            onSelected(option.toString());
-                                            familyHelper.addFamilySetAutoComplete(option: option);
+                                            onSelected(name);
+                                            familyHelper.addFamilySetAutoComplete(option: name);
                                           },
                                         );
                                       },
@@ -127,7 +347,7 @@ class AddFamily extends StatelessWidget {
                                         height: 1,
                                         color: cLineColor,
                                       ),
-                                      itemCount: options.length,
+                                      itemCount: options.length ~/ 2, // Divide by 2 since there are pairs of strings
                                     ),
                                   ),
                                 ),
