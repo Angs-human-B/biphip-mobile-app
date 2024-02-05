@@ -45,6 +45,7 @@ class AddStoreContactInfo extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       unFocus(context);
+                      storeController.resetStoreContactInfo();
                       Get.toNamed(krAddStoreSocialLinks);
                     },
                     child: Text(
@@ -83,7 +84,10 @@ class AddStoreContactInfo extends StatelessWidget {
                       CustomModifiedTextField(
                         controller: storeController.storeEmailController,
                         hint: ksStoreEmail.tr,
-                        onChanged: (text) {},
+                        errorText: storeController.storeEmailErrorText.value,
+                        onChanged: (text) {
+                          storeController.storeEmailValidation();
+                        },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.text,
@@ -93,7 +97,9 @@ class AddStoreContactInfo extends StatelessWidget {
                       CustomModifiedTextField(
                         controller: storeController.storePhoneController,
                         hint: ksStorePhone.tr,
-                        onChanged: (text) {},
+                        onChanged: (text) {
+                          storeController.checkContactInfoNextButtonEnabled();
+                        },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.number,
@@ -104,7 +110,9 @@ class AddStoreContactInfo extends StatelessWidget {
                       CustomModifiedTextField(
                         controller: storeController.storeAddressController,
                         hint: ksStoreAddress.tr,
-                        onChanged: (text) {},
+                        onChanged: (text) {
+                          storeController.checkContactInfoNextButtonEnabled();
+                        },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.next,
                         inputType: TextInputType.text,
@@ -116,18 +124,19 @@ class AddStoreContactInfo extends StatelessWidget {
                         hint: ksStoreBio.tr,
                         onChanged: (text) {
                           storeController.storeBioCount.value = text.length;
+                          storeController.checkContactInfoNextButtonEnabled();
                         },
                         onSubmit: (text) {},
                         inputAction: TextInputAction.newline,
                         inputType: TextInputType.multiline,
                         maxLines: 5,
-                        maxLength: 256,
+                        maxLength: 255,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            '${storeController.storeBioCount.value}/256',
+                            '${storeController.storeBioCount.value}/255',
                             style: regular14TextStyle(cIconColor),
                           ),
                         ],
@@ -137,16 +146,18 @@ class AddStoreContactInfo extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              CustomElevatedButton(
-                buttonWidth: width - 40,
-                buttonHeight: h40,
-                label: ksNext.tr,
-                onPressed: () {
-                  unFocus(context);
-                  Get.toNamed(krAddStoreSocialLinks);
-                },
-                textStyle: semiBold16TextStyle(cWhiteColor),
-              ),
+              Obx(() => CustomElevatedButton(
+                    buttonWidth: width - 40,
+                    buttonHeight: h40,
+                    label: ksNext.tr,
+                    onPressed: storeController.isStoreContactInfoNextButtonEnabled.value
+                        ? () {
+                            unFocus(context);
+                            Get.toNamed(krAddStoreSocialLinks);
+                          }
+                        : null,
+                    textStyle: semiBold16TextStyle(cWhiteColor),
+                  )),
               kH20sizedBox,
             ],
           ),

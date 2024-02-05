@@ -59,6 +59,8 @@ class StoreController extends GetxController {
   final TextEditingController storeAddressController = TextEditingController();
   final TextEditingController storeBioController = TextEditingController();
   final RxInt storeBioCount = RxInt(0);
+  final Rx<String?> storeEmailErrorText = Rx<String?>(null);
+  final RxBool isStoreContactInfoNextButtonEnabled = RxBool(false);
 
   //*Social Links
   final TextEditingController storeWebsiteController = TextEditingController();
@@ -146,20 +148,51 @@ class StoreController extends GetxController {
     }
   }
 
-  void resetStoreData() {
-    storeNameController.clear();
-    businessTypeTextEditingController.clear();
-    isBusinessTypeSuffixIconVisible.value = false;
+  void checkContactInfoNextButtonEnabled() {
+    if ((storePhoneController.text.toString().trim() != '' ||
+            storeAddressController.text.toString().trim() != '' ||
+            storeBioController.text.toString().trim() != '' ||
+            storeEmailController.text.toString().trim().isValidEmail) &&
+        storeEmailErrorText.value == null) {
+      isStoreContactInfoNextButtonEnabled.value = true;
+    } else {
+      isStoreContactInfoNextButtonEnabled.value = false;
+    }
+  }
+
+  void storeEmailValidation() {
+    if (storeEmailController.text.toString().trim() != '' && !storeEmailController.text.toString().trim().isValidEmail) {
+      storeEmailErrorText.value = ksInvalidEmailErrorMessage.tr;
+    } else {
+      storeEmailErrorText.value = null;
+    }
+    checkContactInfoNextButtonEnabled();
+  }
+
+  void resetStoreContactInfo() {
     storeEmailController.clear();
     storePhoneController.clear();
     storeAddressController.clear();
     storeBioController.clear();
+    storeEmailErrorText.value = null;
+    isStoreContactInfoNextButtonEnabled.value = false;
     storeBioCount.value = 0;
+  }
+
+  void resetStoreSocialLinks() {
     storeWebsiteController.clear();
     storeFacebookController.clear();
     storeInstagramController.clear();
     storeTwitterController.clear();
     storeYoutubeController.clear();
+  }
+
+  void resetStoreData() {
+    storeNameController.clear();
+    businessTypeTextEditingController.clear();
+    isBusinessTypeSuffixIconVisible.value = false;
+    resetStoreContactInfo();
+    resetStoreSocialLinks();
     storeNameErrorText.value = null;
     isNextButtonEnable.value = false;
     storeQRCodeController.clear();

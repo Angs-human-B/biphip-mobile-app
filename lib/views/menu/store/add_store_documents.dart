@@ -95,9 +95,11 @@ class AddStoreDocuments extends StatelessWidget {
                           onChanged: (text) {},
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,
-                          inputType: TextInputType.number,
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                          maxLength: 15,
+                          inputType: TextInputType.text,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z]")),
+                          ],
+                          maxLength: 20,
                         ),
                         kH8sizedBox,
                         Text(
