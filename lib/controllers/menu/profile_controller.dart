@@ -54,7 +54,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   //-----------------
   TextEditingController commonEditTextEditingController = TextEditingController();
   TextEditingController commonEditSecondaryTextEditingController = TextEditingController();
-  final TextEditingController tempCommonEditSecondaryTextEditingController = TextEditingController();
+  final TextEditingController temporaryCommonEditSecondaryTextEditingController = TextEditingController();
   final RxString commonEditTextfieldHintText = RxString('');
   final RxBool isCommonEditDatePickerShown = RxBool(false);
   final RxBool isCommonEditPrivacyShown = RxBool(false);
@@ -65,6 +65,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxBool isRouteFromAboutInfo = RxBool(false);
   final RxString commonEditCheckBoxText = RxString('');
   final RxString commonEditPageTitle = RxString('');
+  final RxBool editCommonSelectionBottomSheetRightButtonState = RxBool(false);
   final Rx<IconData> commonEditIconData = Rx<IconData>(BipHip.add);
   final RxString functionFlag = RxString('');
   final TextEditingController homeTownTextEditingController = TextEditingController();
@@ -80,8 +81,10 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final TextEditingController linkTextEditingController = TextEditingController();
   final RxString commonStartDate = RxString('');
   final RxString temporaryCommonStartDate = RxString('');
+  final RxBool commonEditStartDateBottomSheetRightButtonState = RxBool(false);
   final RxString commonEndDate = RxString('');
   final RxString temporaryCommonEndDate = RxString('');
+  final RxBool commonEditEndDateBottomSheetRightButtonState = RxBool(false);
   final RxBool isCurrentlyLiveHere = RxBool(false);
   final RxBool isCurrentlyStudyingHere = RxBool(false);
   final RxBool isCurrentlyWorkingHere = RxBool(false);
@@ -100,30 +103,32 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxList linkSourceList = RxList([]);
   final RxString relationshipStatus = RxString('');
   final RxString selectedGender = RxString('');
-  final RxString tempSelectedGender = RxString('');
+  final RxString temporarySelectedGender = RxString('');
   final RxBool isGenderSelected = RxBool(false);
-  final RxString tempRelationshipStatus = RxString('');
+  final RxString temporaryRelationshipStatus = RxString('');
+  final RxBool relationshipBottomSheetRightButtonState = RxBool(false);
   final RxInt schoolID = RxInt(-1);
   final RxInt collegeID = RxInt(-1);
   final RxInt officeID = RxInt(-1);
   final RxInt phoneID = RxInt(-1);
   final RxInt emailID = RxInt(-1);
   final RxString educationBackground = RxString('');
-  final RxString tempEducationBackground = RxString('');
+  final RxString temporaryEducationBackground = RxString('');
   final RxString linkSource = RxString('');
-  final RxString tempLinkSource = RxString('');
+  final RxString temporaryLinkSource = RxString('');
   final RxInt linkID = RxInt(-1);
   final RxInt deleteIndex = RxInt(-1);
   final RxBool viewOptionEnabled = RxBool(false);
   final RxString previewPhoto = RxString('');
   final RxBool isProfilePhoto = RxBool(true);
-  final RxList<String> tempListCommon = RxList<String>([]);
+  final RxList<String> temporaryListCommon = RxList<String>([]);
   final RxBool enableSaveButton = RxBool(false);
-  final RxString tempSchoolStartDate = RxString('');
-  final RxString tempSchoolEndDate = RxString('');
-  final RxString tempWorkplaceStartDate = RxString('');
-  final RxString tempWorkplaceEndDate = RxString('');
+  final RxString temporarySchoolStartDate = RxString('');
+  final RxString temporarySchoolEndDate = RxString('');
+  final RxString temporaryWorkplaceStartDate = RxString('');
+  final RxString temporaryWorkplaceEndDate = RxString('');
   final RxBool isSingleDatePicker = RxBool(false);
+  final RxBool genderBottomSheetButtonState = RxBool(false);
 
   void clearDataList() {
     otherCityList.clear();
@@ -846,7 +851,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
 
       if (response.success == true) {
         linkDataList.add(Link.fromJson(response.data));
-       
+
         isEditProfileLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -1143,7 +1148,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   //* get interest list API
   Rx<InterestListModel?> interestListData = Rx<InterestListModel?>(null);
   RxBool isInterestListLoading = RxBool(false);
-  RxList tempInterestList = RxList([]);
+  RxList temporaryInterestList = RxList([]);
   Future<void> getInterestList() async {
     try {
       isInterestListLoading.value = true;
@@ -1154,13 +1159,13 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         url: kuGetAllInterests,
       ) as CommonDM;
       if (response.success == true) {
-        tempInterestList.clear();
+        temporaryInterestList.clear();
         globalController.interestList.clear();
         interestListData.value = InterestListModel.fromJson(response.data);
-        tempInterestList.addAll(interestListData.value!.interests);
-        for (int i = 0; i < tempInterestList.length; i++) {
-          if (!globalController.interestList.contains(tempInterestList[i])) {
-            globalController.interestList.add(tempInterestList[i]);
+        temporaryInterestList.addAll(interestListData.value!.interests);
+        for (int i = 0; i < temporaryInterestList.length; i++) {
+          if (!globalController.interestList.contains(temporaryInterestList[i])) {
+            globalController.interestList.add(temporaryInterestList[i]);
           }
         }
         isInterestListLoading.value = false;
@@ -1400,7 +1405,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         cityList.clear();
         cityListData.value = CityListModel.fromJson(response.data);
         cityList.addAll(cityListData.value!.cities);
-        tempListCommon.addAll(cityList);
+        temporaryListCommon.addAll(cityList);
         isLinkListLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -1429,7 +1434,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         companyList.clear();
         companyListData.value = CompanyListModel.fromJson(response.data);
         companyList.addAll(companyListData.value!.companies);
-        tempListCommon.addAll(companyList);
+        temporaryListCommon.addAll(companyList);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
@@ -1457,7 +1462,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         schoolList.clear();
         schoolListData.value = SchoolListModel.fromJson(response.data);
         schoolList.addAll(schoolListData.value!.schools);
-        tempListCommon.addAll(schoolList);
+        temporaryListCommon.addAll(schoolList);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {

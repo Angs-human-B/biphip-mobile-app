@@ -82,12 +82,13 @@ class AllFriendListView extends StatelessWidget {
                                             friendController.friendActionSelect.value = '';
                                             friendController.allFriendFollowStatus.value = friendController.friendList[index].followStatus!;
                                             if (friendController.friendActionSelect.value == '') {
-                                              globalController.isBottomSheetRightButtonActive.value = false;
+                                              friendController.friendActionBottomSheetRightButtonState.value = false;
                                             } else {
-                                              globalController.isBottomSheetRightButtonActive.value = true;
+                                              friendController.friendActionBottomSheetRightButtonState.value = true;
                                             }
                                             globalController.commonBottomSheet(
                                               context: context,
+                                              isBottomSheetRightButtonActive: friendController.friendActionBottomSheetRightButtonState,
                                               isScrollControlled: true,
                                               content: AllFriendActionContent(
                                                 friendController: friendController,

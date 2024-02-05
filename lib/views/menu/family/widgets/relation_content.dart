@@ -19,9 +19,9 @@ class RelationContent extends StatelessWidget {
               onPressed: () {
                 familyController.tempRelation.value = familyController.familyRelationList[index].name;
                 if (familyController.tempRelation.value == '') {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                  familyController.familyRelationBottomSheetRightButtonState.value = false;
                 } else {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                 familyController.familyRelationBottomSheetRightButtonState.value= true;
                 }
               },
               title: familyController.familyRelationList[index].name,
@@ -30,9 +30,9 @@ class RelationContent extends StatelessWidget {
                 onChanged: () {
                   familyController.tempRelation.value = familyController.familyRelationList[index].name;
                   if (familyController.tempRelation.value == '') {
-                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                    familyController.familyRelationBottomSheetRightButtonState.value= false;
                   } else {
-                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                    familyController.familyRelationBottomSheetRightButtonState.value= true;
                   }
                 },
                 isSelected: familyController.tempRelation.value == familyController.familyRelationList[index].name,

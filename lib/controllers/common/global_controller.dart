@@ -128,23 +128,23 @@ class GlobalController extends GetxController {
   }
 
   //* info:: common bottom-sheet
-  void commonBottomSheet({
-    required context,
-    required Widget content,
-    required onPressCloseButton,
-    required onPressRightButton,
-    required String rightText,
-    required TextStyle rightTextStyle,
-    required String title,
-    required bool isRightButtonShow,
-    double? bottomSheetHeight,
-    bool? isScrollControlled,
-    bool? isSearchShow,
-    FutureOr<void> Function()? onPopOutside,
-    bool? isDismissible
-  }) {
+  void commonBottomSheet(
+      {required context,
+      required Widget content,
+      required onPressCloseButton,
+      required onPressRightButton,
+      required String rightText,
+      required TextStyle rightTextStyle,
+      required String title,
+      required bool isRightButtonShow,
+      double? bottomSheetHeight,
+      bool? isScrollControlled,
+      isSearchShow,
+      RxBool? isBottomSheetRightButtonActive,
+      FutureOr<void> Function()? onPopOutside,
+      bool? isDismissible}) {
     showModalBottomSheet<void>(
-      isDismissible: isDismissible?? true,
+      isDismissible: isDismissible ?? true,
       isScrollControlled: isScrollControlled ?? false,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
@@ -222,7 +222,7 @@ class GlobalController extends GetxController {
                 top: h20,
                 right: 10,
                 child: Obx(() => CustomTextButton(
-                      onPressed: isBottomSheetRightButtonActive.value ? onPressRightButton : null,
+                      onPressed: isBottomSheetRightButtonActive!.value ? onPressRightButton : null,
                       icon: BipHip.circleCross,
                       text: rightText,
                       textStyle: isBottomSheetRightButtonActive.value ? rightTextStyle : medium14TextStyle(cLineColor2),
@@ -234,7 +234,6 @@ class GlobalController extends GetxController {
     ).whenComplete(onPopOutside ?? () {});
   }
 
-  final RxBool isBottomSheetRightButtonActive = RxBool(true);
 
   //* Image picker
   final ImagePicker _picker = ImagePicker();

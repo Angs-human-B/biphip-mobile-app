@@ -116,6 +116,7 @@ class MenuSectionController extends GetxController {
 
   final TextEditingController firstNameEditingController = TextEditingController();
   final TextEditingController lastNameEditingController = TextEditingController();
+  final RxBool changeNameBottomSheetButtonState = RxBool(false);
   //* name change API Implementation
   RxBool isChangeNameLoading = RxBool(false);
   Future<void> changeName() async {
@@ -173,9 +174,9 @@ class MenuSectionController extends GetxController {
     if (firstNameEditingController.text != Get.find<GlobalController>().userFirstName.value ||
         lastNameEditingController.text != Get.find<GlobalController>().userLastName.value &&
             (firstNameEditingController.text.trim() != '' && lastNameEditingController.text.trim() != '')) {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+      changeNameBottomSheetButtonState.value = true;
     } else {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+      changeNameBottomSheetButtonState.value = false;
     }
   }
 }

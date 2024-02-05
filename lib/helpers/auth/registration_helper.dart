@@ -108,17 +108,18 @@ class RegistrationHelper {
 
   void selectGender(context) async {
     if (authenticationController.gender.value != '') {
-      profileController.tempSelectedGender.value = authenticationController.gender.value;
+      profileController.temporarySelectedGender.value = authenticationController.gender.value;
     } else {
-      profileController.tempSelectedGender.value = '';
+      profileController.temporarySelectedGender.value = '';
     }
-    if (profileController.tempSelectedGender.value == '') {
-      globalController.isBottomSheetRightButtonActive.value = false;
+    if (profileController.temporarySelectedGender.value == '') {
+      profileController.genderBottomSheetButtonState.value = false;
     } else {
-      globalController.isBottomSheetRightButtonActive.value = true;
+      profileController.genderBottomSheetButtonState.value = true;
     }
     profileController.isGenderListLoading.value = true;
     globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: profileController.genderBottomSheetButtonState,
       context: context,
       content: Obx(
         () => profileController.isGenderListLoading.value
@@ -132,8 +133,8 @@ class RegistrationHelper {
       },
       onPressRightButton: () {
         profileController.isGenderListLoading.value = true;
-        if (profileController.tempSelectedGender.value != '') {
-          authenticationController.gender.value = profileController.tempSelectedGender.value;
+        if (profileController.temporarySelectedGender.value != '') {
+          authenticationController.gender.value = profileController.temporarySelectedGender.value;
           profileController.isGenderSelected.value = true;
         }
         Get.back();
