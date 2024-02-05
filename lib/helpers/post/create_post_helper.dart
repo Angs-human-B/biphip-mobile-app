@@ -512,6 +512,7 @@ class CreatePostHelper {
       createPostController.biddingStartDateBottomSheetRightButtonState.value = false;
     }
     globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: createPostController.biddingStartDateBottomSheetRightButtonState,
       context: context,
       onPressCloseButton: () {
         Get.back();
@@ -554,6 +555,7 @@ class CreatePostHelper {
       createPostController.biddingEndDateBottomSheetRightButtonState.value = false;
     }
     globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: createPostController.biddingEndDateBottomSheetRightButtonState,
       context: context,
       onPressCloseButton: () {
         Get.back();
@@ -591,6 +593,7 @@ class CreatePostHelper {
       createPostController.biddingStartTimeBottomSheetRightButtonState.value = false;
     }
     globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: createPostController.biddingStartTimeBottomSheetRightButtonState,
       context: context,
       onPressCloseButton: () {
         Get.back();
@@ -634,6 +637,7 @@ class CreatePostHelper {
       createPostController.biddingEndTimeBottomSheetRightButtonState.value = false;
     }
     globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: createPostController.biddingEndTimeBottomSheetRightButtonState,
       context: context,
       onPressCloseButton: () {
         Get.back();
