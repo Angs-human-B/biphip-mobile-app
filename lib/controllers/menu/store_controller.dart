@@ -49,10 +49,12 @@ class StoreController extends GetxController {
   //*Store Basic info
   final TextEditingController storeNameController = TextEditingController();
   final TextEditingController businessTypeTextEditingController = TextEditingController();
-  final RxList<String> businessType = RxList<String>(['Electronics', 'Shop', 'Gadgets', 'Hardware']);
+  final List<String> businessType = ['Electronics', 'Shop', 'Gadgets', 'Hardware'];
   final RxBool isBusinessTypeSuffixIconVisible = RxBool(false);
   final RxBool isNextButtonEnable = RxBool(false);
   final Rx<String?> storeNameErrorText = Rx<String?>(null);
+  final RxBool foucsOnBusinessTypeFieldFirstTime = RxBool(true);
+  final Rx<String?> storeBusinessTypeErrorText = Rx<String?>(null);
   //*Store contact info
   final TextEditingController storeEmailController = TextEditingController();
   final TextEditingController storePhoneController = TextEditingController();
@@ -102,6 +104,15 @@ class StoreController extends GetxController {
       storeNameErrorText.value = ksStoreNameLengthErrorText.tr;
     } else {
       storeNameErrorText.value = null;
+    }
+  }
+
+  void businessTypeErrorText() {
+    String businessTypeValue = businessTypeTextEditingController.text.toString().trim();
+    if (businessType.contains(businessTypeValue)) {
+      storeBusinessTypeErrorText.value = null;
+    } else {
+      storeBusinessTypeErrorText.value = ksSelectBusinessTypeFromSuggestion.tr;
     }
   }
 
@@ -228,6 +239,7 @@ class StoreController extends GetxController {
     resetStoreContactInfo();
     resetStoreSocialLinks();
     storeNameErrorText.value = null;
+    storeBusinessTypeErrorText.value = null;
     isNextButtonEnable.value = false;
     resetStoreDocuments();
     resetStoreProfilePictureData();

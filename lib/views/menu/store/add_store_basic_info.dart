@@ -31,7 +31,7 @@ class AddStoreBasicInfo extends StatelessWidget {
           ),
           body: SingleChildScrollView(
             child: SizedBox(
-              height: height-(kAppBarSize+MediaQuery.of(context).padding.top+MediaQuery.of(context).padding.bottom),
+              height: height - (kAppBarSize + MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
               child: Column(
                 children: [
                   const CustomDivider(
@@ -68,14 +68,15 @@ class AddStoreBasicInfo extends StatelessWidget {
                               maxLength: 50,
                             )),
                         kH8sizedBox,
-                        RawAutocomplete(
+                        RawAutocomplete<String>(
                           textEditingController: storeController.businessTypeTextEditingController,
                           focusNode: businessTypeFocusNode,
                           optionsBuilder: (TextEditingValue textEditingValue) {
-                            return storeController.businessType.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
+                            return storeController.businessType.where((word) => word.toLowerCase().contains(textEditingValue.text.toLowerCase()));
                           },
                           onSelected: (option) {
                             storeController.businessTypeTextEditingController.text = option;
+                            storeController.businessTypeErrorText();
                             storeController.checkNextButtonEnable();
                           },
                           optionsViewBuilder: (context, Function(String) onSelected, options) {
@@ -119,13 +120,16 @@ class AddStoreBasicInfo extends StatelessWidget {
                                 focusNode: focusNode,
                                 controller: storeController.businessTypeTextEditingController,
                                 hint: ksSelectBusinessType.tr,
+                                errorText: storeController.storeBusinessTypeErrorText.value,
                                 suffixIcon: storeController.isBusinessTypeSuffixIconVisible.value ? BipHip.circleCrossNew : null,
                                 onSuffixPress: () {
                                   storeController.isBusinessTypeSuffixIconVisible.value = false;
                                   storeController.businessTypeTextEditingController.clear();
+                                  storeController.businessTypeErrorText();
                                   storeController.checkNextButtonEnable();
                                 },
                                 onChanged: (text) {
+                                  storeController.businessTypeErrorText();
                                   storeController.checkNextButtonEnable();
                                   if (storeController.businessTypeTextEditingController.text.trim() != '') {
                                     storeController.isBusinessTypeSuffixIconVisible.value = true;
