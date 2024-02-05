@@ -14,7 +14,6 @@ class AddStoreSocialLinks extends StatelessWidget {
         top: false,
         child: Scaffold(
           backgroundColor: cWhiteColor,
-          resizeToAvoidBottomInset: false,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
@@ -44,6 +43,7 @@ class AddStoreSocialLinks extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       unFocus(context);
+                      storeController.resetStoreSocialLinks();
                       Get.toNamed(krAddStoreDocuments);
                     },
                     child: Text(
@@ -55,94 +55,112 @@ class AddStoreSocialLinks extends StatelessWidget {
               ],
             ),
           ),
-          body: Column(
-            children: [
-              const CustomDivider(
-                thickness: 1,
-              ),
-              KidTopTitleSubtitleAndCircularProgressBar(
-                title: ksSocialLinks.tr,
-                subTitle: ksAddSocialLinksForStore.tr,
-                circularCenterText: ks3of5.tr,
-                percent: 0.6,
-              ),
-              kH16sizedBox,
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: CustomDivider(
-                  thickness: 1,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding).copyWith(top: k16Padding),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomModifiedTextField(
-                      controller: storeController.storeWebsiteController,
-                      hint: ksWebsite.tr,
-                      onChanged: (text) {},
-                      onSubmit: (text) {},
-                      inputAction: TextInputAction.next,
-                      inputType: TextInputType.text,
-                      maxLength: 256,
+          body: SingleChildScrollView(
+            child: SizedBox(
+              height: height - (kAppBarSize + MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
+              child: Column(
+                children: [
+                  const CustomDivider(
+                    thickness: 1,
+                  ),
+                  KidTopTitleSubtitleAndCircularProgressBar(
+                    title: ksSocialLinks.tr,
+                    subTitle: ksAddSocialLinksForStore.tr,
+                    circularCenterText: ks3of5.tr,
+                    percent: 0.6,
+                  ),
+                  kH16sizedBox,
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                    child: CustomDivider(
+                      thickness: 1,
                     ),
-                    kH8sizedBox,
-                    CustomModifiedTextField(
-                      controller: storeController.storeFacebookController,
-                      hint: ksFacebook.tr,
-                      onChanged: (text) {},
-                      onSubmit: (text) {},
-                      inputAction: TextInputAction.next,
-                      inputType: TextInputType.text,
-                      maxLength: 256,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding).copyWith(top: k16Padding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomModifiedTextField(
+                          controller: storeController.storeWebsiteController,
+                          hint: ksWebsite.tr,
+                          onChanged: (text) {
+                            storeController.checkStoreSocialLinkNextButtonEnabled();
+                          },
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.next,
+                          inputType: TextInputType.text,
+                          maxLength: 256,
+                        ),
+                        kH8sizedBox,
+                        CustomModifiedTextField(
+                          controller: storeController.storeFacebookController,
+                          hint: ksFacebook.tr,
+                          onChanged: (text) {
+                            storeController.checkStoreSocialLinkNextButtonEnabled();
+                          },
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.next,
+                          inputType: TextInputType.text,
+                          maxLength: 256,
+                        ),
+                        kH8sizedBox,
+                        CustomModifiedTextField(
+                          controller: storeController.storeInstagramController,
+                          hint: ksInstagram.tr,
+                          onChanged: (text) {
+                            storeController.checkStoreSocialLinkNextButtonEnabled();
+                          },
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.next,
+                          inputType: TextInputType.text,
+                          maxLength: 256,
+                        ),
+                        kH8sizedBox,
+                        CustomModifiedTextField(
+                          controller: storeController.storeTwitterController,
+                          hint: ksTwitter.tr,
+                          onChanged: (text) {
+                            storeController.checkStoreSocialLinkNextButtonEnabled();
+                          },
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.next,
+                          inputType: TextInputType.text,
+                          maxLength: 256,
+                        ),
+                        kH8sizedBox,
+                        CustomModifiedTextField(
+                          controller: storeController.storeYoutubeController,
+                          hint: ksYoutube.tr,
+                          onChanged: (text) {
+                            storeController.checkStoreSocialLinkNextButtonEnabled();
+                          },
+                          onSubmit: (text) {},
+                          inputAction: TextInputAction.done,
+                          inputType: TextInputType.text,
+                          maxLength: 256,
+                        ),
+                      ],
                     ),
-                    kH8sizedBox,
-                    CustomModifiedTextField(
-                      controller: storeController.storeInstagramController,
-                      hint: ksInstagram.tr,
-                      onChanged: (text) {},
-                      onSubmit: (text) {},
-                      inputAction: TextInputAction.next,
-                      inputType: TextInputType.text,
-                      maxLength: 256,
-                    ),
-                    kH8sizedBox,
-                    CustomModifiedTextField(
-                      controller: storeController.storeTwitterController,
-                      hint: ksTwitter.tr,
-                      onChanged: (text) {},
-                      onSubmit: (text) {},
-                      inputAction: TextInputAction.next,
-                      inputType: TextInputType.text,
-                      maxLength: 256,
-                    ),
-                    kH8sizedBox,
-                    CustomModifiedTextField(
-                      controller: storeController.storeYoutubeController,
-                      hint: ksYoutube.tr,
-                      onChanged: (text) {},
-                      onSubmit: (text) {},
-                      inputAction: TextInputAction.done,
-                      inputType: TextInputType.text,
-                      maxLength: 256,
-                    ),
-                  ],
-                ),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  Obx(() => CustomElevatedButton(
+                        buttonWidth: width - 40,
+                        buttonHeight: h40,
+                        label: ksNext.tr,
+                        onPressed: storeController.isStoreSocialLinkNextButtonEnabled.value
+                            ? () {
+                                unFocus(context);
+                                storeController.storeSocialLink();
+                                Get.toNamed(krAddStoreDocuments);
+                              }
+                            : null,
+                        textStyle: semiBold16TextStyle(cWhiteColor),
+                      )),
+                  kH20sizedBox,
+                ],
               ),
-              const Spacer(),
-              CustomElevatedButton(
-                buttonWidth: width - 40,
-                buttonHeight: h40,
-                label: ksNext.tr,
-                onPressed: () {
-                  unFocus(context);
-                  Get.toNamed(krAddStoreDocuments);
-                },
-                textStyle: semiBold16TextStyle(cWhiteColor),
-              ),
-              kH20sizedBox,
-            ],
+            ),
           ),
         ),
       ),

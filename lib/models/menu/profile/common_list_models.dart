@@ -190,67 +190,66 @@ class KidListModel {
 //       );
 // }
 
-
 class StoreModel {
-    List<Store> stores;
+  List<Store> stores;
 
-    StoreModel({
-        required this.stores,
-    });
+  StoreModel({
+    required this.stores,
+  });
 
-    factory StoreModel.fromJson(Map<String, dynamic> json) => StoreModel(
+  factory StoreModel.fromJson(Map<String, dynamic> json) => StoreModel(
         stores: List<Store>.from(json["stores"].map((x) => Store.fromJson(x))),
-    );
+      );
 }
 
 class Store {
-    int? id;
-    String? pageType;
-    String? pageId;
-    int? userId;
-    String? name;
-    dynamic bio;
-    dynamic age;
-    List<dynamic> categories;
-    String? image;
-    dynamic cover;
-    dynamic bin;
-    dynamic country;
-    int? rating;
-    List<dynamic> hobbies;
-    List<dynamic> languages;
-    dynamic gender;
-    dynamic privacyLink;
-    String? profilePicture;
-    dynamic coverPhoto;
-    ProPic? proPic;
-    dynamic coverPic;
+  int? id;
+  String? pageType;
+  String? pageId;
+  int? userId;
+  String? name;
+  dynamic bio;
+  dynamic age;
+  List<dynamic> categories;
+  String? image;
+  dynamic cover;
+  dynamic bin;
+  dynamic country;
+  int? rating;
+  List<dynamic> hobbies;
+  List<dynamic> languages;
+  dynamic gender;
+  dynamic privacyLink;
+  String? profilePicture;
+  dynamic coverPhoto;
+  // ProPic? proPic;
+  // dynamic coverPic;
 
-    Store({
-        required this.id,
-        required this.pageType,
-        required this.pageId,
-        required this.userId,
-        required this.name,
-        required this.bio,
-        required this.age,
-        required this.categories,
-        required this.image,
-        required this.cover,
-        required this.bin,
-        required this.country,
-        required this.rating,
-        required this.hobbies,
-        required this.languages,
-        required this.gender,
-        required this.privacyLink,
-        required this.profilePicture,
-        required this.coverPhoto,
-        required this.proPic,
-        required this.coverPic,
-    });
+  Store({
+    required this.id,
+    required this.pageType,
+    required this.pageId,
+    required this.userId,
+    required this.name,
+    required this.bio,
+    required this.age,
+    required this.categories,
+    required this.image,
+    required this.cover,
+    required this.bin,
+    required this.country,
+    required this.rating,
+    required this.hobbies,
+    required this.languages,
+    required this.gender,
+    required this.privacyLink,
+    required this.profilePicture,
+    required this.coverPhoto,
+    // required this.proPic,
+    // required this.coverPic,
+  });
 
-    factory Store.fromJson(Map<String, dynamic> json) => Store(
+  factory Store.fromJson(Map<String, dynamic> json) => Store(
         id: json["id"],
         pageType: json["page_type"],
         pageId: json["page_id"],
@@ -270,65 +269,65 @@ class Store {
         privacyLink: json["privacy_link"],
         profilePicture: json["profile_picture"],
         coverPhoto: json["cover_photo"],
-        proPic: json["pro_pic"] == null?null:ProPic.fromJson(json["pro_pic"]),
-        coverPic: json["cover_pic"],
-    );
+        // proPic: json["pro_pic"] == null?null:ProPic.fromJson(json["pro_pic"]),
+        // coverPic: json["cover_pic"],
+      );
 }
 
 class ProPic {
-    int? id;
-    int? userId;
-    dynamic postId;
-    String? fileType;
-    int? imageAlbumId;
-    dynamic imageType;
-    String? storageType;
-    dynamic mimeType;
-    String? title;
-    String? storagePath;
-    String? path;
-    int? filesize;
-    dynamic description;
-    dynamic imageTakenTime;
-    dynamic imageTakenLocation;
-    int? countView;
-    int? countShare;
-    int? countComment;
-    int? countStar;
-    dynamic countReactions;
-    String? fullPath;
-    List<dynamic> taggedFriends;
-    List<String> reactingPersons;
-    int? totalViewCount;
+  int? id;
+  int? userId;
+  dynamic postId;
+  String? fileType;
+  int? imageAlbumId;
+  dynamic imageType;
+  String? storageType;
+  dynamic mimeType;
+  String? title;
+  String? storagePath;
+  String? path;
+  int? filesize;
+  dynamic description;
+  dynamic imageTakenTime;
+  dynamic imageTakenLocation;
+  int? countView;
+  int? countShare;
+  int? countComment;
+  int? countStar;
+  dynamic countReactions;
+  String? fullPath;
+  List<dynamic> taggedFriends;
+  List<String> reactingPersons;
+  int? totalViewCount;
 
-    ProPic({
-        required this.id,
-        required this.userId,
-        required this.postId,
-        required this.fileType,
-        required this.imageAlbumId,
-        required this.imageType,
-        required this.storageType,
-        required this.mimeType,
-        required this.title,
-        required this.storagePath,
-        required this.path,
-        required this.filesize,
-        required this.description,
-        required this.imageTakenTime,
-        required this.imageTakenLocation,
-        required this.countView,
-        required this.countShare,
-        required this.countComment,
-        required this.countStar,
-        required this.countReactions,
-        required this.fullPath,
-        required this.taggedFriends,
-        required this.reactingPersons,
-        required this.totalViewCount,
-    });
+  ProPic({
+    required this.id,
+    required this.userId,
+    required this.postId,
+    required this.fileType,
+    required this.imageAlbumId,
+    required this.imageType,
+    required this.storageType,
+    required this.mimeType,
+    required this.title,
+    required this.storagePath,
+    required this.path,
+    required this.filesize,
+    required this.description,
+    required this.imageTakenTime,
+    required this.imageTakenLocation,
+    required this.countView,
+    required this.countShare,
+    required this.countComment,
+    required this.countStar,
+    required this.countReactions,
+    required this.fullPath,
+    required this.taggedFriends,
+    required this.reactingPersons,
+    required this.totalViewCount,
+  });
 
-    factory ProPic.fromJson(Map<String, dynamic> json) => ProPic(
+  factory ProPic.fromJson(Map<String, dynamic> json) => ProPic(
         id: json["id"],
         userId: json["user_id"],
         postId: json["post_id"],
@@ -353,5 +352,5 @@ class ProPic {
         taggedFriends: List<dynamic>.from(json["tagged_friends"].map((x) => x)),
         reactingPersons: List<String>.from(json["reacting_persons"].map((x) => x)),
         totalViewCount: json["total_view_count"],
-    );
+      );
 }
