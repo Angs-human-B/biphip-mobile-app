@@ -388,6 +388,7 @@ class AddFamily extends StatelessWidget {
                             familyController.isFamilyRelationListLoading.value = true;
                             Get.find<GlobalController>().commonBottomSheet(
                               context: context,
+                              isBottomSheetRightButtonActive: familyController.familyRelationBottomSheetRightButtonState,
                               isScrollControlled: true,
                               isSearchShow: false,
                               bottomSheetHeight: height * .9,

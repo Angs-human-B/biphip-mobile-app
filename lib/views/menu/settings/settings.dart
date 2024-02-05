@@ -46,10 +46,11 @@ class Settings extends StatelessWidget {
                         onPressed: () {
                           menuController.firstNameEditingController.text = globalController.userFirstName.value ?? '';
                           menuController.lastNameEditingController.text = globalController.userLastName.value ?? '';
-                          globalController.isBottomSheetRightButtonActive.value = false;
+                          menuController.changeNameBottomSheetButtonState.value = false;
                           globalController.commonBottomSheet(
                               context: context,
                               isScrollControlled: true,
+                              isBottomSheetRightButtonActive: menuController.changeNameBottomSheetButtonState,
                               content: ChangeNameBottomSheetContent(
                                 menuController: menuController,
                               ),
@@ -57,7 +58,7 @@ class Settings extends StatelessWidget {
                                 Get.back();
                               },
                               onPressRightButton: () async {
-                                globalController.isBottomSheetRightButtonActive.value = false;
+                                menuController.changeNameBottomSheetButtonState.value = false;
                                 unfocus(context);
                                 Get.back();
                                 await menuController.changeName();

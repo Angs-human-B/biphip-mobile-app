@@ -27,7 +27,7 @@ class EducationBackgroundContent extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: k8Padding),
                       child: Obx(() => CustomListTile(
                             title: profileController.educationBackgroundList[index],
-                            borderColor: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index]
+                            borderColor: profileController.temporaryEducationBackground.value == profileController.educationBackgroundList[index]
                                 ? cPrimaryColor
                                 : cLineColor,
                             onPressed: () {
@@ -35,12 +35,11 @@ class EducationBackgroundContent extends StatelessWidget {
                             },
                             trailing: CustomRadioButton(
                               onChanged: () {
-                                // profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
                                 editProfileHelper.onSelectEducationBottomSheet(index);
                               },
-                              isSelected: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index],
+                              isSelected: profileController.temporaryEducationBackground.value == profileController.educationBackgroundList[index],
                             ),
-                            itemColor: profileController.tempEducationBackground.value == profileController.educationBackgroundList[index]
+                            itemColor: profileController.temporaryEducationBackground.value == profileController.educationBackgroundList[index]
                                 ? cPrimaryTint3Color
                                 : cWhiteColor,
                           )),
@@ -83,7 +82,7 @@ class LinkListContent extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: k8Padding),
                         child: CustomListTile(
                           title: profileController.linkSourceList[index],
-                          borderColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryColor : cLineColor,
+                          borderColor: profileController.temporaryLinkSource.value == profileController.linkSourceList[index] ? cPrimaryColor : cLineColor,
                           onPressed: () {
                             editProfileHelper.onSelectLinkBottomSheet(index);
                           },
@@ -92,9 +91,9 @@ class LinkListContent extends StatelessWidget {
                               // profileController.tempLinkSource.value = profileController.linkSourceList[index];
                               editProfileHelper.onSelectLinkBottomSheet(index);
                             },
-                            isSelected: profileController.tempLinkSource.value == profileController.linkSourceList[index],
+                            isSelected: profileController.temporaryLinkSource.value == profileController.linkSourceList[index],
                           ),
-                          itemColor: profileController.tempLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
+                          itemColor: profileController.temporaryLinkSource.value == profileController.linkSourceList[index] ? cPrimaryTint3Color : cWhiteColor,
                         ),
                       ),
                     );

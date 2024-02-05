@@ -18,6 +18,7 @@ class FamilyController extends GetxController {
   final RxBool familyListScrolled = RxBool(false);
   final RxBool isFamilyListLoading = RxBool(false);
   final RxInt allFamilyCount = RxInt(0);
+  final RxBool familyRelationBottomSheetRightButtonState = RxBool(false);
   Future<void> getFamilyList() async {
     try {
       isFamilyListLoading.value = true;

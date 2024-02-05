@@ -833,6 +833,7 @@ class FriendController extends GetxController {
   //*Pending friend Action
   final RxString pendingFriendActionSelect = RxString('');
   final RxInt pendingFriendFollowStatus = RxInt(-1);
+  final RxBool pendingFriendActionBottomSheetRightButtonState = RxBool(false);
   final RxList pendingFriendActionList = RxList([
     {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
     {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow this user'}
@@ -844,6 +845,7 @@ class FriendController extends GetxController {
   //*All friend Action
   final RxString friendActionSelect = RxString('');
   final RxInt allFriendFollowStatus = RxInt(-1);
+  final RxBool friendActionBottomSheetRightButtonState = RxBool(false);
   final RxList friendActionList = RxList([
     {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
     {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow your friend'},

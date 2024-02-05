@@ -74,12 +74,13 @@ class PendingFriendListView extends StatelessWidget {
                                             friendController.pendingFriendActionSelect.value = '';
                                             friendController.pendingFriendFollowStatus.value = friendController.sendFriendRequestList[index].followStatus!;
                                             if (friendController.pendingFriendActionSelect.value == '') {
-                                              globalController.isBottomSheetRightButtonActive.value = false;
+                                              friendController.pendingFriendActionBottomSheetRightButtonState.value = false;
                                             } else {
-                                              globalController.isBottomSheetRightButtonActive.value = true;
+                                              friendController.pendingFriendActionBottomSheetRightButtonState.value = true;
                                             }
                                             globalController.commonBottomSheet(
                                               context: context,
+                                              isBottomSheetRightButtonActive: friendController.pendingFriendActionBottomSheetRightButtonState,
                                               isScrollControlled: true,
                                               content: PendingFriendActionContent(
                                                 friendController: friendController,

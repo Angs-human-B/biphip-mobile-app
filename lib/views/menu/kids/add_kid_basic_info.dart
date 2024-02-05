@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/post/create_post.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
@@ -79,11 +80,12 @@ class AddKidBasicInfo extends StatelessWidget {
                               unfocus(context);
                               kidsController.tempSelectedKidRelation.value = kidsController.selectedKidRelation.value;
                               if (kidsController.tempSelectedKidRelation.value == '') {
-                                globalController.isBottomSheetRightButtonActive.value = false;
+                                Get.find<CreatePostController>().kidRelationListBottomSheetRightButtonState.value = false;
                               } else {
-                                globalController.isBottomSheetRightButtonActive.value = true;
+                                Get.find<CreatePostController>().kidRelationListBottomSheetRightButtonState.value = true;
                               }
                               globalController.commonBottomSheet(
+                                  isBottomSheetRightButtonActive: Get.find<CreatePostController>().kidRelationListBottomSheetRightButtonState,
                                   context: context,
                                   bottomSheetHeight: isDeviceScreenLarge() ? height * 0.5 : height * 0.6,
                                   content: KidRelationContent(),
@@ -123,11 +125,12 @@ class AddKidBasicInfo extends StatelessWidget {
                               unfocus(context);
                               kidsController.tempSelectedKidGender.value = kidsController.selectedKidGender.value;
                               if (kidsController.tempSelectedKidGender.value == '') {
-                                globalController.isBottomSheetRightButtonActive.value = false;
+                                Get.find<CreatePostController>().kidGenderContentBottomSheetRightButtonState.value = false;
                               } else {
-                                globalController.isBottomSheetRightButtonActive.value = true;
+                                Get.find<CreatePostController>().kidGenderContentBottomSheetRightButtonState.value = true;
                               }
                               globalController.commonBottomSheet(
+                                  isBottomSheetRightButtonActive: Get.find<CreatePostController>().kidGenderContentBottomSheetRightButtonState,
                                   context: context,
                                   bottomSheetHeight: height * 0.4,
                                   content: KidGenderContent(),
@@ -250,9 +253,9 @@ class KidRelationContent extends StatelessWidget {
                       onPress: () {
                         kidsController.tempSelectedKidRelation.value = kidsController.kidRelationList[index].toString();
                         if (kidsController.tempSelectedKidRelation.value == '') {
-                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                          Get.find<CreatePostController>().kidRelationListBottomSheetRightButtonState.value = false;
                         } else {
-                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                          Get.find<CreatePostController>().kidRelationListBottomSheetRightButtonState.value = true;
                         }
                       },
                       buttonText: kidsController.kidRelationList[index].toString(),
@@ -289,9 +292,9 @@ class KidGenderContent extends StatelessWidget {
                       onPress: () {
                         kidsController.tempSelectedKidGender.value = kidsController.kidGenderList[index].toString();
                         if (kidsController.tempSelectedKidGender.value == '') {
-                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                          Get.find<CreatePostController>().kidGenderContentBottomSheetRightButtonState.value = false;
                         } else {
-                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                          Get.find<CreatePostController>().kidGenderContentBottomSheetRightButtonState.value = true;
                         }
                       },
                       buttonText: kidsController.kidGenderList[index].toString(),
