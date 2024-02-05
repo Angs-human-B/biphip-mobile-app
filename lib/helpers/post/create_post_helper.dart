@@ -500,8 +500,20 @@ class CreatePostHelper {
 
   DateTime parseTimeToday(timeStr) {
     DateTime now = DateTime.now();
-    String dateStr = "${now.year}-${now.month}-${now.day}";
-    String fullDateTimeStr = "$dateStr $timeStr";
+    String month = "";
+    String day = "";
+    if (now.day < 10) {
+      day = "0${now.day}";
+    } else {
+      day = "${now.day}";
+    }
+    if (now.month < 10) {
+      month = "0${now.month}";
+    } else {
+      month = "${now.month}";
+    }
+    String dateStr = "${now.year}-$month-$day";
+    String fullDateTimeStr = "$dateStr $timeStr:00";
     ll(fullDateTimeStr);
     return DateTime.parse(fullDateTimeStr);
   }
