@@ -43,96 +43,101 @@ class AddStoreUploadImage extends StatelessWidget {
                     onBack: null,
                   ),
                 ),
-                body: Column(
-                  children: [
-                    const CustomDivider(
-                      thickness: 1,
-                    ),
-                    KidTopTitleSubtitleAndCircularProgressBar(
-                      title: ksUploadImages.tr,
-                      subTitle: ksUploadProfileAndCoverPhoto.tr,
-                      circularCenterText: ks5of5.tr,
-                      percent: 1,
-                    ),
-                    kH16sizedBox,
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                      child: CustomDivider(
-                        thickness: 1,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding).copyWith(top: k16Padding),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Obx(
-                            () => KidProfileAndCoverPhotoUpload(
-                              title: ksProfilePicture,
-                              subTitle: ksMaximumPhotoSize,
-                              profileCoverPhoto: storeController.isStoreProfileImageChanged.value ? storeController.storeProfileImageFile.value : null,
-                              removePictureOnPressed: () {
-                                storeController.resetStoreProfilePictureData();
-                              },
-                              onPressed: () {
-                                unFocus(context);
-                                globalController.commonBottomSheet(
-                                    context: context,
-                                    onPressCloseButton: () {
-                                      Get.back();
-                                    },
-                                    onPressRightButton: () {},
-                                    rightText: '',
-                                    rightTextStyle: regular14TextStyle(cBiddingColor),
-                                    title: ksUploadPhoto.tr,
-                                    isRightButtonShow: false,
-                                    isScrollControlled: false,
-                                    bottomSheetHeight: 180,
-                                    content: StoreProfilePictureUploadContent());
-                              },
-                            ),
+                body: SingleChildScrollView(
+                  child: SizedBox(
+                    height: height - (kAppBarSize + MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
+                    child: Column(
+                      children: [
+                        const CustomDivider(
+                          thickness: 1,
+                        ),
+                        KidTopTitleSubtitleAndCircularProgressBar(
+                          title: ksUploadImages.tr,
+                          subTitle: ksUploadProfileAndCoverPhoto.tr,
+                          circularCenterText: ks5of5.tr,
+                          percent: 1,
+                        ),
+                        kH16sizedBox,
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                          child: CustomDivider(
+                            thickness: 1,
                           ),
-                          kH16sizedBox,
-                          Obx(() => KidProfileAndCoverPhotoUpload(
-                                title: ksCoverPhoto,
-                                subTitle: ksMaximumPhotoSize,
-                                profileCoverPhoto: storeController.isStoreCoverImageChanged.value ? storeController.storeCoverImageFile.value : null,
-                                removePictureOnPressed: () {
-                                  storeController.resetStoreCoverPhotoData();
-                                },
-                                onPressed: () {
-                                  unFocus(context);
-                                  globalController.commonBottomSheet(
-                                      context: context,
-                                      onPressCloseButton: () {
-                                        Get.back();
-                                      },
-                                      onPressRightButton: () {},
-                                      rightText: '',
-                                      rightTextStyle: regular14TextStyle(cBiddingColor),
-                                      title: ksUploadPhoto.tr,
-                                      isRightButtonShow: false,
-                                      isScrollControlled: false,
-                                      bottomSheetHeight: 180,
-                                      content: StoreCoverPhotoUploadContent());
-                                },
-                              )),
-                        ],
-                      ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding).copyWith(top: k16Padding),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Obx(
+                                () => KidProfileAndCoverPhotoUpload(
+                                  title: ksProfilePicture,
+                                  subTitle: ksMaximumPhotoSize,
+                                  profileCoverPhoto: storeController.isStoreProfileImageChanged.value ? storeController.storeProfileImageFile.value : null,
+                                  removePictureOnPressed: () {
+                                    storeController.resetStoreProfilePictureData();
+                                  },
+                                  onPressed: () {
+                                    unFocus(context);
+                                    globalController.commonBottomSheet(
+                                        context: context,
+                                        onPressCloseButton: () {
+                                          Get.back();
+                                        },
+                                        onPressRightButton: () {},
+                                        rightText: '',
+                                        rightTextStyle: regular14TextStyle(cBiddingColor),
+                                        title: ksUploadPhoto.tr,
+                                        isRightButtonShow: false,
+                                        isScrollControlled: false,
+                                        bottomSheetHeight: 180,
+                                        content: StoreProfilePictureUploadContent());
+                                  },
+                                ),
+                              ),
+                              kH16sizedBox,
+                              Obx(() => KidProfileAndCoverPhotoUpload(
+                                    title: ksCoverPhoto,
+                                    subTitle: ksMaximumPhotoSize,
+                                    profileCoverPhoto: storeController.isStoreCoverImageChanged.value ? storeController.storeCoverImageFile.value : null,
+                                    removePictureOnPressed: () {
+                                      storeController.resetStoreCoverPhotoData();
+                                    },
+                                    onPressed: () {
+                                      unFocus(context);
+                                      globalController.commonBottomSheet(
+                                          context: context,
+                                          onPressCloseButton: () {
+                                            Get.back();
+                                          },
+                                          onPressRightButton: () {},
+                                          rightText: '',
+                                          rightTextStyle: regular14TextStyle(cBiddingColor),
+                                          title: ksUploadPhoto.tr,
+                                          isRightButtonShow: false,
+                                          isScrollControlled: false,
+                                          bottomSheetHeight: 180,
+                                          content: StoreCoverPhotoUploadContent());
+                                    },
+                                  )),
+                            ],
+                          ),
+                        ),
+                        const Expanded(child: SizedBox()),
+                        CustomElevatedButton(
+                          buttonWidth: width - 40,
+                          buttonHeight: h40,
+                          label: ksComplete.tr,
+                          onPressed: () {
+                            unFocus(context);
+                            storeController.createStore();
+                          },
+                          textStyle: semiBold16TextStyle(cWhiteColor),
+                        ),
+                        kH20sizedBox,
+                      ],
                     ),
-                    const Spacer(),
-                    CustomElevatedButton(
-                      buttonWidth: width - 40,
-                      buttonHeight: h40,
-                      label: ksComplete.tr,
-                      onPressed: () {
-                        unFocus(context);
-                        storeController.createStore();
-                      },
-                      textStyle: semiBold16TextStyle(cWhiteColor),
-                    ),
-                    kH20sizedBox,
-                  ],
+                  ),
                 ),
               ),
             ),

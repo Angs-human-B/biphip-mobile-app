@@ -46,6 +46,7 @@ class AddStoreDocuments extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       unFocus(context);
+                      storeController.resetStoreDocuments();
                       Get.toNamed(krAddStoreUploadImage);
                     },
                     child: Text(
@@ -92,7 +93,9 @@ class AddStoreDocuments extends StatelessWidget {
                         CustomModifiedTextField(
                           controller: storeController.businessIdentificationNumberController,
                           hint: ksBIN.tr,
-                          onChanged: (text) {},
+                          onChanged: (text) {
+                            storeController.checkStoreDocumentsNextButtonEnabled();
+                          },
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,
                           inputType: TextInputType.text,
@@ -211,6 +214,7 @@ class AddStoreDocuments extends StatelessWidget {
                             trailing: CustomIconButton(
                               onPress: () {
                                 storeController.selectedImages.removeAt(i);
+                                storeController.checkStoreDocumentsNextButtonEnabled();
                               },
                               icon: BipHip.delete,
                               size: kIconSize16,
@@ -237,7 +241,9 @@ class AddStoreDocuments extends StatelessWidget {
                     child: CustomModifiedTextField(
                       controller: storeController.storeQRCodeController,
                       hint: ksQRCode.tr,
-                      onChanged: (text) {},
+                      onChanged: (text) {
+                        storeController.checkStoreDocumentsNextButtonEnabled();
+                      },
                       onSubmit: (text) {},
                       inputAction: TextInputAction.done,
                       inputType: TextInputType.text,
@@ -249,10 +255,12 @@ class AddStoreDocuments extends StatelessWidget {
                     buttonWidth: width - 40,
                     buttonHeight: h40,
                     label: ksNext.tr,
-                    onPressed: () {
-                      unFocus(context);
-                      Get.toNamed(krAddStoreUploadImage);
-                    },
+                    onPressed: storeController.isStoreDocumentNextButtonEnabled.value
+                        ? () {
+                            unFocus(context);
+                            Get.toNamed(krAddStoreUploadImage);
+                          }
+                        : null,
                     textStyle: semiBold16TextStyle(cWhiteColor),
                   ),
                   kH20sizedBox,
@@ -298,7 +306,6 @@ class StoreDocumentsPictureUploadContent extends StatelessWidget {
           suffixIconColor: cIconColor,
           onPressed: () {
             storeController.pickImageFromGallery();
-            storeController.startUpload();
           },
           buttonHeight: h32,
           buttonWidth: width - 40,

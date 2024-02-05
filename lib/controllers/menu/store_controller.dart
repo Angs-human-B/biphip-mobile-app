@@ -68,9 +68,11 @@ class StoreController extends GetxController {
   final TextEditingController storeInstagramController = TextEditingController();
   final TextEditingController storeTwitterController = TextEditingController();
   final TextEditingController storeYoutubeController = TextEditingController();
+  final RxBool isStoreSocialLinkNextButtonEnabled = RxBool(false);
   //*Documents
   final TextEditingController businessIdentificationNumberController = TextEditingController();
   final TextEditingController storeQRCodeController = TextEditingController();
+  final RxBool isStoreDocumentNextButtonEnabled = RxBool(false);
 
   //*Store Profile and cover photo
   final RxString storeProfileImageLink = RxString('');
@@ -136,6 +138,7 @@ class StoreController extends GetxController {
       startUpload();
       Get.back();
       selectedImages.add(image);
+      checkStoreDocumentsNextButtonEnabled();
     }
   }
 
@@ -145,6 +148,7 @@ class StoreController extends GetxController {
       startUpload();
       Get.back();
       selectedImages.addAll(images);
+      checkStoreDocumentsNextButtonEnabled();
     }
   }
 
@@ -158,6 +162,35 @@ class StoreController extends GetxController {
     } else {
       isStoreContactInfoNextButtonEnabled.value = false;
     }
+  }
+
+  void checkStoreSocialLinkNextButtonEnabled() {
+    if (storeWebsiteController.text.toString().trim() != '' ||
+        storeFacebookController.text.toString().trim() != '' ||
+        storeInstagramController.text.toString().trim() != '' ||
+        storeTwitterController.text.toString().trim() != '' ||
+        storeYoutubeController.text.toString().trim() != '') {
+      isStoreSocialLinkNextButtonEnabled.value = true;
+    } else {
+      isStoreSocialLinkNextButtonEnabled.value = false;
+    }
+  }
+
+  void checkStoreDocumentsNextButtonEnabled() {
+    if (businessIdentificationNumberController.text.toString().trim() != '' ||
+        storeQRCodeController.text.toString().trim() != '' ||
+        selectedImages.isNotEmpty) {
+      isStoreDocumentNextButtonEnabled.value = true;
+    } else {
+      isStoreDocumentNextButtonEnabled.value = false;
+    }
+  }
+
+  void resetStoreDocuments() {
+    storeQRCodeController.clear();
+    businessIdentificationNumberController.clear();
+    selectedImages.clear();
+    isStoreDocumentNextButtonEnabled.value = false;
   }
 
   void storeEmailValidation() {
@@ -185,6 +218,7 @@ class StoreController extends GetxController {
     storeInstagramController.clear();
     storeTwitterController.clear();
     storeYoutubeController.clear();
+    isStoreSocialLinkNextButtonEnabled.value = false;
   }
 
   void resetStoreData() {
@@ -195,11 +229,9 @@ class StoreController extends GetxController {
     resetStoreSocialLinks();
     storeNameErrorText.value = null;
     isNextButtonEnable.value = false;
-    storeQRCodeController.clear();
-    businessIdentificationNumberController.clear();
+    resetStoreDocuments();
     resetStoreProfilePictureData();
     resetStoreCoverPhotoData();
-    selectedImages.clear();
   }
 
   //*Add Store API Implementation

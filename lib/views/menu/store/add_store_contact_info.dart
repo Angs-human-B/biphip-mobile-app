@@ -15,7 +15,6 @@ class AddStoreContactInfo extends StatelessWidget {
         top: false,
         child: Scaffold(
           backgroundColor: cWhiteColor,
-          resizeToAvoidBottomInset: false,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
@@ -57,109 +56,114 @@ class AddStoreContactInfo extends StatelessWidget {
               ],
             ),
           ),
-          body: Column(
-            children: [
-              const CustomDivider(
-                thickness: 1,
-              ),
-              KidTopTitleSubtitleAndCircularProgressBar(
-                title: ksContactInfo.tr,
-                subTitle: ksStoreInfoVisibleAllUser.tr,
-                circularCenterText: ks2of5.tr,
-                percent: 0.4,
-              ),
-              kH16sizedBox,
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: CustomDivider(
-                  thickness: 1,
-                ),
-              ),
-              Obx(
-                () => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding).copyWith(top: k16Padding),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomModifiedTextField(
-                        controller: storeController.storeEmailController,
-                        hint: ksStoreEmail.tr,
-                        errorText: storeController.storeEmailErrorText.value,
-                        onChanged: (text) {
-                          storeController.storeEmailValidation();
-                        },
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.next,
-                        inputType: TextInputType.text,
-                        maxLength: 50,
-                      ),
-                      kH8sizedBox,
-                      CustomModifiedTextField(
-                        controller: storeController.storePhoneController,
-                        hint: ksStorePhone.tr,
-                        onChanged: (text) {
-                          storeController.checkContactInfoNextButtonEnabled();
-                        },
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.next,
-                        inputType: TextInputType.number,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                        maxLength: 15,
-                      ),
-                      kH8sizedBox,
-                      CustomModifiedTextField(
-                        controller: storeController.storeAddressController,
-                        hint: ksStoreAddress.tr,
-                        onChanged: (text) {
-                          storeController.checkContactInfoNextButtonEnabled();
-                        },
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.next,
-                        inputType: TextInputType.text,
-                        maxLength: 50,
-                      ),
-                      kH8sizedBox,
-                      CustomModifiedTextField(
-                        controller: storeController.storeBioController,
-                        hint: ksStoreBio.tr,
-                        onChanged: (text) {
-                          storeController.storeBioCount.value = text.length;
-                          storeController.checkContactInfoNextButtonEnabled();
-                        },
-                        onSubmit: (text) {},
-                        inputAction: TextInputAction.newline,
-                        inputType: TextInputType.multiline,
-                        maxLines: 5,
-                        maxLength: 255,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '${storeController.storeBioCount.value}/255',
-                            style: regular14TextStyle(cIconColor),
-                          ),
-                        ],
-                      )
-                    ],
+          body: SingleChildScrollView(
+            child: SizedBox(
+              height: height - (kAppBarSize + MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
+              child: Column(
+                children: [
+                  const CustomDivider(
+                    thickness: 1,
                   ),
-                ),
+                  KidTopTitleSubtitleAndCircularProgressBar(
+                    title: ksContactInfo.tr,
+                    subTitle: ksStoreInfoVisibleAllUser.tr,
+                    circularCenterText: ks2of5.tr,
+                    percent: 0.4,
+                  ),
+                  kH16sizedBox,
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                    child: CustomDivider(
+                      thickness: 1,
+                    ),
+                  ),
+                  Obx(
+                    () => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding).copyWith(top: k16Padding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomModifiedTextField(
+                            controller: storeController.storeEmailController,
+                            hint: ksStoreEmail.tr,
+                            errorText: storeController.storeEmailErrorText.value,
+                            onChanged: (text) {
+                              storeController.storeEmailValidation();
+                            },
+                            onSubmit: (text) {},
+                            inputAction: TextInputAction.next,
+                            inputType: TextInputType.text,
+                            maxLength: 50,
+                          ),
+                          kH8sizedBox,
+                          CustomModifiedTextField(
+                            controller: storeController.storePhoneController,
+                            hint: ksStorePhone.tr,
+                            onChanged: (text) {
+                              storeController.checkContactInfoNextButtonEnabled();
+                            },
+                            onSubmit: (text) {},
+                            inputAction: TextInputAction.next,
+                            inputType: TextInputType.number,
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            maxLength: 15,
+                          ),
+                          kH8sizedBox,
+                          CustomModifiedTextField(
+                            controller: storeController.storeAddressController,
+                            hint: ksStoreAddress.tr,
+                            onChanged: (text) {
+                              storeController.checkContactInfoNextButtonEnabled();
+                            },
+                            onSubmit: (text) {},
+                            inputAction: TextInputAction.next,
+                            inputType: TextInputType.text,
+                            maxLength: 50,
+                          ),
+                          kH8sizedBox,
+                          CustomModifiedTextField(
+                            controller: storeController.storeBioController,
+                            hint: ksStoreBio.tr,
+                            onChanged: (text) {
+                              storeController.storeBioCount.value = text.length;
+                              storeController.checkContactInfoNextButtonEnabled();
+                            },
+                            onSubmit: (text) {},
+                            inputAction: TextInputAction.newline,
+                            inputType: TextInputType.multiline,
+                            maxLines: 5,
+                            maxLength: 255,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                '${storeController.storeBioCount.value}/255',
+                                style: regular14TextStyle(cIconColor),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  Obx(() => CustomElevatedButton(
+                        buttonWidth: width - 40,
+                        buttonHeight: h40,
+                        label: ksNext.tr,
+                        onPressed: storeController.isStoreContactInfoNextButtonEnabled.value
+                            ? () {
+                                unFocus(context);
+                                Get.toNamed(krAddStoreSocialLinks);
+                              }
+                            : null,
+                        textStyle: semiBold16TextStyle(cWhiteColor),
+                      )),
+                  kH20sizedBox,
+                ],
               ),
-              const Spacer(),
-              Obx(() => CustomElevatedButton(
-                    buttonWidth: width - 40,
-                    buttonHeight: h40,
-                    label: ksNext.tr,
-                    onPressed: storeController.isStoreContactInfoNextButtonEnabled.value
-                        ? () {
-                            unFocus(context);
-                            Get.toNamed(krAddStoreSocialLinks);
-                          }
-                        : null,
-                    textStyle: semiBold16TextStyle(cWhiteColor),
-                  )),
-              kH20sizedBox,
-            ],
+            ),
           ),
         ),
       ),
