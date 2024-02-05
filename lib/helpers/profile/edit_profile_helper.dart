@@ -1017,4 +1017,40 @@ class EditProfileHelper {
       profileController.editCommonSelectionBottomSheetRightButtonState.value = true;
     }
   }
+
+  void relationshipDateButtonOnPressed(context) {
+    profileController.temporaryRelationshipDate.value = '';
+    if (profileController.relationshipDate.value != '') {
+      profileController.temporaryRelationshipDate.value = profileController.relationshipDate.value;
+    }
+    profileController.relationshipDateBottomSheetState.value = false;
+    globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: profileController.relationshipDateBottomSheetState,
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        Get.back();
+        profileController.relationshipDate.value = profileController.temporaryRelationshipDate.value;
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksStartDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          maximumDate: DateTime.now().add(const Duration(minutes: 30)),
+          initialDateTime:
+              profileController.temporaryRelationshipDate.value != '' ? DateTime.parse(profileController.temporaryRelationshipDate.value) : DateTime.now(),
+          mode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: (value) {
+            profileController.relationshipDateBottomSheetState.value = true;
+            profileController.temporaryRelationshipDate.value = DateFormat("yyyy-MM-dd").format(value);
+          },
+        ),
+      ),
+    );
+  }
 }

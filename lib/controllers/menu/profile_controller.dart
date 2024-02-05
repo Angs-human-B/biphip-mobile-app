@@ -102,6 +102,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxList educationBackgroundList = RxList(['School', 'College']);
   final RxList linkSourceList = RxList([]);
   final RxString relationshipStatus = RxString('');
+  final RxString relationshipDate = RxString('');
+  final RxString temporaryRelationshipDate = RxString('');
+  final RxBool relationshipDateBottomSheetState = RxBool(false);
   final RxString selectedGender = RxString('');
   final RxString temporarySelectedGender = RxString('');
   final RxBool isGenderSelected = RxBool(false);

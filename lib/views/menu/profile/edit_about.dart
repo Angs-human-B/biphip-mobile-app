@@ -100,7 +100,7 @@ class InfoContainer2 extends StatelessWidget {
       required this.suffixText,
       this.suffixOnPressed,
       this.prefixText,
-      required this.isAddButton,
+       this.isAddButton,
       this.subtitlePrefixText,
       this.subtitleSuffixText,
       this.suffixTextStyle});
@@ -108,7 +108,7 @@ class InfoContainer2 extends StatelessWidget {
   final String? prefixText, subtitlePrefixText, subtitleSuffixText;
   final TextStyle? suffixTextStyle;
   final VoidCallback? suffixOnPressed;
-  final bool isAddButton;
+  final bool? isAddButton;
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +145,8 @@ class InfoContainer2 extends StatelessWidget {
               ],
             ),
           ),
-          isAddButton
+          if(isAddButton !=null)
+          isAddButton!
               ? CustomTextButtonV2(
                   onPressed: suffixOnPressed,
                   text: ksAdd.tr,
