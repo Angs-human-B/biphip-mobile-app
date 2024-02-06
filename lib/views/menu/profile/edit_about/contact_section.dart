@@ -25,7 +25,7 @@ class ContactSection extends StatelessWidget {
             kH12sizedBox,
             Padding(
               padding: const EdgeInsets.only(bottom: k12Padding),
-              child: InfoContainer2(
+              child: InfoContainer(
                 suffixText: ksPhone.tr,
                 isAddButton: true,
                 suffixOnPressed: () {
@@ -37,7 +37,7 @@ class ContactSection extends StatelessWidget {
               if (profileController.contactDataList[i].type == 'phone')
                 Padding(
                   padding: const EdgeInsets.only(bottom: k12Padding),
-                  child: InfoContainer2(
+                  child: InfoContainer(
                     suffixText: '',
                     prefixText: checkNullOrStringNull(profileController.contactDataList[i].value),
                     isAddButton: false,
@@ -48,7 +48,7 @@ class ContactSection extends StatelessWidget {
                 ),
             Padding(
               padding: const EdgeInsets.only(bottom: k12Padding),
-              child: InfoContainer2(
+              child: InfoContainer(
                 suffixText: ksEmail.tr,
                 isAddButton: true,
                 suffixOnPressed: () {
@@ -60,7 +60,7 @@ class ContactSection extends StatelessWidget {
               if (profileController.contactDataList[i].type == 'email')
                 Padding(
                   padding: const EdgeInsets.only(bottom: k12Padding),
-                  child: InfoContainer2(
+                  child: InfoContainer(
                     suffixText: '',
                     prefixText: checkNullOrStringNull(profileController.contactDataList[i].value),
                     isAddButton: false,
