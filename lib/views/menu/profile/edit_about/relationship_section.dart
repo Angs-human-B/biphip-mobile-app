@@ -1,5 +1,7 @@
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/helpers/profile/edit_profile_helper.dart';
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/edit_about.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
@@ -25,15 +27,13 @@ class RelationshipSection extends StatelessWidget {
                 suffixText: ksRelationshipStatus.tr,
                 suffixTextStyle: semiBold18TextStyle(cBlackColor),
                 isAddButton: profileController.userData.value!.relation == null ? true : null,
-                suffixOnPressed: () {
+                suffixOnPressed: () async {
+                  editProfileHelper.resetRelationshipEditPage();
                   Get.toNamed(krEditRelationship);
+                  await Get.find<FriendController>().getFriendList();
+                  profileController.temporaryFriendList.addAll(Get.find<FriendController>().friendList);
                 },
               ),
-              // Text(
-              //   ksRelationshipStatus.tr,
-              //   style: semiBold18TextStyle(cBlackColor),
-              // ),
-              // kH12sizedBox,
               if (profileController.userData.value!.relation != null)
                 Padding(
                   padding: const EdgeInsets.only(top: k12Padding),
@@ -43,28 +43,14 @@ class RelationshipSection extends StatelessWidget {
                         ? profileController.relationshipStatus.value
                         : checkNullOrStringNull(profileController.userData.value!.relation) ?? ksSelectRelationshipStatus,
                     isAddButton: false,
-                    suffixOnPressed: () {},
+                    suffixOnPressed: () async {
+                      editProfileHelper.resetRelationshipEditPage();
+                      editProfileHelper.setEditRelationshipPageValue();
+                      Get.toNamed(krEditRelationship);
+                      await Get.find<FriendController>().getFriendList();
+                      profileController.temporaryFriendList.addAll(Get.find<FriendController>().friendList);
+                    },
                   ),
-                ),
-              // CustomSelectionButton(
-              //   prefixIcon: BipHip.love,
-              //   onPressed: () async {
-              //     editProfileHelper.setRelationshipStatus(context);
-              //   },
-              //   text: profileController.relationshipStatus.value != ''
-              //       ? profileController.relationshipStatus.value
-              //       : checkNullOrStringNull(profileController.userData.value!.relation) ?? ksSelectRelationshipStatus,
-              //   hintText: ksSelectRelationshipStatus.tr,
-              // ),
-              if (profileController.relationshipStatus.value != '' && profileController.showEditRelationshipStatus.value) kH12sizedBox,
-              if (profileController.relationshipStatus.value != '' && profileController.showEditRelationshipStatus.value)
-                CancelSaveButton(
-                  onPressedCancel: () {
-                    editProfileHelper.resetRelationshipStatus();
-                  },
-                  onPressedSave: () {
-                    editProfileHelper.saveRelationshipStatus();
-                  },
                 ),
               kH16sizedBox,
             ],
@@ -133,6 +119,7 @@ class EditRelationshipPage extends StatelessWidget {
   EditRelationshipPage({super.key});
   final ProfileController profileController = Get.find<ProfileController>();
   final EditProfileHelper editProfileHelper = EditProfileHelper();
+  final FocusNode commonFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -156,50 +143,154 @@ class EditRelationshipPage extends StatelessWidget {
             ),
           ),
           body: Obx(
-            () => SizedBox(
-              height: height - kAppBarSize - MediaQuery.of(context).padding.top,
-              width: width,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: Column(
-                  children: [
-                    kH16sizedBox,
-                    CustomSelectionButton(
-                      buttonHeight: h60,
-                      prefixIcon: BipHip.love,
-                      onPressed: () async {
-                        editProfileHelper.setRelationshipStatus(context);
-                      },
-                      text: profileController.relationshipStatus.value != ''
-                          ? profileController.relationshipStatus.value
-                          : checkNullOrStringNull(profileController.userData.value!.relation) ?? ksSelectRelationshipStatus,
-                      hintText: ksSelectRelationshipStatus.tr,
+            () => Stack(
+              children: [
+                SizedBox(
+                  height: height - kAppBarSize - MediaQuery.of(context).padding.top,
+                  width: width,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                    child: Column(
+                      children: [
+                        kH16sizedBox,
+                        CustomSelectionButton(
+                          buttonHeight: h60,
+                          prefixIcon: BipHip.love,
+                          onPressed: () async {
+                            editProfileHelper.setRelationshipStatus(context);
+                          },
+                          text: profileController.relationshipStatus.value != ''
+                              ? profileController.relationshipStatus.value
+                              : checkNullOrStringNull(profileController.userData.value!.relation) ?? ksSelectRelationshipStatus,
+                          hintText: ksSelectRelationshipStatus.tr,
+                        ),
+                        kH16sizedBox,
+                        if (profileController.relationshipStatus.value != 'Single' &&
+                            profileController.relationshipStatus.value != 'Separated' &&
+                            profileController.relationshipStatus.value != '')
+                          RawAutocomplete<FriendFamilyUserData>(
+                            textEditingController: profileController.relationshipPartnerTextEditingController,
+                            focusNode: commonFocusNode,
+                            optionsBuilder: (TextEditingValue textEditingValue) {
+                              if (textEditingValue.text == '') {
+                                return const Iterable<FriendFamilyUserData>.empty();
+                              }
+                              return profileController.temporaryFriendList.where((FriendFamilyUserData option) {
+                                return option.fullName!.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                              });
+                            },
+                            onSelected: (option) {
+                              profileController.relationshipPartnerTextEditingController.text = option.fullName!;
+                              profileController.relationshipPartnerID.value = option.id!;
+                              editProfileHelper.checkCanSaveRelationship();
+                            },
+                            optionsViewBuilder: (context, AutocompleteOnSelected<FriendFamilyUserData> onSelected, Iterable<FriendFamilyUserData> options) {
+                              return Align(
+                                alignment: Alignment.topLeft,
+                                child: SizedBox(
+                                  width: width - 40,
+                                  child: Material(
+                                    elevation: 4,
+                                    child: ListView.separated(
+                                      padding: EdgeInsets.zero,
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        final option = options.elementAt(index);
+                                        return CustomListTile(
+                                          leading: CircleAvatar(
+                                            backgroundImage: NetworkImage(option.profilePicture!),
+                                          ),
+                                          title: Text(
+                                            option.fullName.toString(),
+                                            style: medium16TextStyle(cBlackColor),
+                                          ),
+                                          onPressed: () {
+                                            onSelected(option);
+                                            profileController.relationshipPartnerTextEditingController.text = option.fullName.toString();
+                                            profileController.relationshipPartnerID.value = option.id!;
+                                            editProfileHelper.checkCanSaveRelationship();
+                                            unfocus(context);
+                                          },
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) => Container(
+                                        height: 1,
+                                        color: cLineColor,
+                                      ),
+                                      itemCount: options.length,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                              return Obx(
+                                () => CustomModifiedTextField(
+                                  focusNode: focusNode,
+                                  controller: profileController.relationshipPartnerTextEditingController,
+                                  hint: ksPartner.tr,
+                                  suffixIcon: profileController.showRelationshipPartnerSuffixIcon.value ? BipHip.circleCrossNew : null,
+                                  inputType: TextInputType.text,
+                                  borderRadius: k8BorderRadius,
+                                  onSuffixPress: () {
+                                    profileController.relationshipPartnerTextEditingController.clear();
+                                    profileController.relationshipPartnerID.value = -1;
+                                    editProfileHelper.checkCanSaveRelationship();
+                                    profileController.showRelationshipPartnerSuffixIcon.value = false;
+                                  },
+                                  onSubmit: (value) {
+                                    unFocus(context);
+                                    profileController.showRelationshipPartnerSuffixIcon.value = false;
+                                    editProfileHelper.checkCanSaveRelationship();
+                                  },
+                                  onChanged: (value) {
+                                    if (profileController.relationshipPartnerTextEditingController.text != '') {
+                                      profileController.showRelationshipPartnerSuffixIcon.value = true;
+                                    } else {
+                                      profileController.showRelationshipPartnerSuffixIcon.value = false;
+                                    }
+                                    profileController.relationshipPartnerID.value = -1;
+                                    editProfileHelper.checkCanSaveRelationship();
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        kH16sizedBox,
+                        if (profileController.relationshipStatus.value != 'Single' &&
+                            profileController.relationshipStatus.value != 'Separated' &&
+                            profileController.relationshipStatus.value != '')
+                          CustomSelectionButton(
+                            buttonHeight: h60,
+                            onPressed: () async {
+                              editProfileHelper.relationshipDateButtonOnPressed(context);
+                            },
+                            text: profileController.relationshipDate.value != "" ? profileController.relationshipDate.value : "",
+                            hintText: ksDate.tr,
+                          ),
+                      ],
                     ),
-                    kH16sizedBox,
-                    if (profileController.relationshipStatus.value != 'Single' &&
-                        profileController.relationshipStatus.value != 'Separated' &&
-                        profileController.relationshipStatus.value != '')
-                      CustomSelectionButton(
-                        buttonHeight: h60,
-                        onPressed: () async {},
-                        text: '',
-                        hintText: ksPartner.tr,
-                      ),
-                    kH16sizedBox,
-                    if (profileController.relationshipStatus.value != 'Single' &&
-                        profileController.relationshipStatus.value != 'Separated' &&
-                        profileController.relationshipStatus.value != '')
-                      CustomSelectionButton(
-                        buttonHeight: h60,
-                        onPressed: () async {
-                          editProfileHelper.relationshipDateButtonOnPressed(context);
-                        },
-                        text: profileController.relationshipDate.value != "" ? profileController.relationshipDate.value : "",
-                        hintText: ksDate.tr,
-                      ),
-                  ],
+                  ),
                 ),
-              ),
+                Positioned(
+                  bottom: 20,
+                  left: 20,
+                  child: Obx(
+                    () => CustomElevatedButton(
+                        label: ksSave,
+                        textStyle: semiBold14TextStyle(cWhiteColor),
+                        buttonHeight: h42,
+                        buttonWidth: width - 40,
+                        onPressed: profileController.isRelationshipSaveButtonActive.value
+                            ? () async {
+                                Get.back();
+                                await profileController.storeUserSetting('relationship', profileController.relationshipStatus.value);
+                                editProfileHelper.resetRelationshipEditPage();
+                              }
+                            : null),
+                  ),
+                )
+              ],
             ),
           ),
         ),
