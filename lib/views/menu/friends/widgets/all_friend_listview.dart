@@ -113,7 +113,10 @@ class AllFriendListView extends StatelessWidget {
                                                 Get.find<FamilyController>().clearAddFamilyData();
                                                 Get.find<FamilyController>().isRouteFromAllFriend.value = true;
                                                 Get.find<FamilyController>().userId.value = friendController.friendList[index].id!;
-                                                Get.to(() => AddFamily(name: friendController.friendList[index].fullName));
+                                                Get.to(() => AddFamily(
+                                                      name: friendController.friendList[index].fullName,
+                                                      profilePicture: friendController.friendList[index].profilePicture,
+                                                    ));
                                               }
                                               friendController.friendActionSelect.value = '';
                                             },

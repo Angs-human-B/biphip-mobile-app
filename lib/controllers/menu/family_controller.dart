@@ -505,4 +505,6 @@ class FamilyController extends GetxController {
   Timer? debounce;
   final RxBool isFamilySuffixIconVisible = RxBool(false);
   final RxBool isRouteFromAllFriend = RxBool(false);
+  final RxString selectedAddFamilyFullName= RxString('');
+  final RxString selectedAddFamilyProfilePicture= RxString('');
 }

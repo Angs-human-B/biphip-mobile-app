@@ -26,6 +26,8 @@ class MenuHelper {
       case 1:
         ll('Family');
         Get.find<GlobalController>().resetTapButtonData();
+        Get.find<GlobalController>().searchController.clear();
+        Get.find<FamilyController>().isFamilySuffixIconVisible.value = false;
         Get.toNamed(krFamily);
         await Get.find<FamilyController>().getFamilyList();
         break;
