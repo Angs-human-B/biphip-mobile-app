@@ -28,7 +28,7 @@ class ProfessionSection extends StatelessWidget {
           ),
           if (profileController.userData.value!.profession.isNotEmpty && profileController.showAllEditOption.value) kH12sizedBox,
           if (profileController.userData.value!.profession.isNotEmpty && profileController.showAllEditOption.value)
-            InfoContainer2(
+            InfoContainer(
               suffixText: '',
               prefixText: checkNullOrStringNull(profileController.userData.value!.profession[0]),
               isAddButton: false,

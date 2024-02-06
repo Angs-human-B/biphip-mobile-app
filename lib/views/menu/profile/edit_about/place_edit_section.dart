@@ -25,7 +25,7 @@ class PlaceEditSection extends StatelessWidget {
             ),
             kH12sizedBox,
             if (profileController.hometownData.value == null)
-              InfoContainer2(
+              InfoContainer(
                 suffixText: ksHomeTown.tr,
                 isAddButton: true,
                 suffixOnPressed: () async {
@@ -33,7 +33,7 @@ class PlaceEditSection extends StatelessWidget {
                 },
               ),
             if (profileController.hometownData.value != null)
-              InfoContainer2(
+              InfoContainer(
                 subtitlePrefixText: ksHomeTown.tr,
                 suffixText: checkNullOrStringNull(profileController.hometownData.value?.city),
                 isAddButton: false,
@@ -43,7 +43,7 @@ class PlaceEditSection extends StatelessWidget {
               ),
             kH12sizedBox,
             if (profileController.currentCityData.value == null)
-              InfoContainer2(
+              InfoContainer(
                 suffixText: ksPresentAddress.tr,
                 isAddButton: true,
                 suffixOnPressed: () async {
@@ -51,7 +51,7 @@ class PlaceEditSection extends StatelessWidget {
                 },
               ),
             if (profileController.currentCityData.value != null)
-              InfoContainer2(
+              InfoContainer(
                 subtitlePrefixText: ksCurrentCity.tr,
                 suffixText: checkNullOrStringNull(profileController.currentCityData.value!.city),
                 isAddButton: false,
@@ -61,7 +61,7 @@ class PlaceEditSection extends StatelessWidget {
               ),
             kH12sizedBox,
             if (profileController.currentCityData.value != null && profileController.hometownData.value != null)
-              InfoContainer2(
+              InfoContainer(
                 suffixText: ksPreviousPlacesLived.tr,
                 isAddButton: true,
                 suffixOnPressed: () async {
@@ -73,12 +73,11 @@ class PlaceEditSection extends StatelessWidget {
               if (profileController.otherCityList[i].isCurrent == 0 && profileController.otherCityList[i].isHometown == 0)
                 Padding(
                   padding: const EdgeInsets.only(bottom: k12Padding),
-                  child: InfoContainer2(
+                  child: InfoContainer(
                     suffixText: profileController.otherCityList[i].city!,
                     subtitlePrefixText: profileController.otherCityList[i].moved != null ? ksMovedIn.tr : null,
-                    subtitleSuffixText: profileController.otherCityList[i].moved != null
-                        ? DateFormat("MMMM dd, yyyy").format(profileController.otherCityList[i].moved!)
-                        : null,
+                    subtitleSuffixText:
+                        profileController.otherCityList[i].moved != null ? DateFormat("MMMM dd, yyyy").format(profileController.otherCityList[i].moved!) : null,
                     isAddButton: false,
                     suffixOnPressed: () async {
                       editProfileHelper.editOtherCity(i);
