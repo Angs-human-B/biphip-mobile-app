@@ -20,7 +20,7 @@ class WebsiteSection extends StatelessWidget {
             kH16sizedBox,
             Padding(
               padding: const EdgeInsets.only(bottom: k12Padding),
-              child: InfoContainer2(
+              child: InfoContainer(
                 suffixText: ksWebsiteAndSocialLinks.tr,
                 suffixTextStyle: semiBold18TextStyle(cBlackColor),
                 isAddButton: true,
@@ -33,7 +33,7 @@ class WebsiteSection extends StatelessWidget {
               if (profileController.showAllEditOption.value)
                 Padding(
                   padding: const EdgeInsets.only(bottom: k12Padding),
-                  child: InfoContainer2(
+                  child: InfoContainer(
                     suffixText: '',
                     prefixText: checkNullOrStringNull(profileController.linkDataList[i].link),
                     isAddButton: false,

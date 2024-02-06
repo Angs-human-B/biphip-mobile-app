@@ -23,7 +23,7 @@ class RelationshipSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               kH16sizedBox,
-              InfoContainer2(
+              InfoContainer(
                 suffixText: ksRelationshipStatus.tr,
                 suffixTextStyle: semiBold18TextStyle(cBlackColor),
                 isAddButton: profileController.userData.value!.relation == null ? true : null,
@@ -37,7 +37,7 @@ class RelationshipSection extends StatelessWidget {
               if (profileController.userData.value!.relation != null)
                 Padding(
                   padding: const EdgeInsets.only(top: k12Padding),
-                  child: InfoContainer2(
+                  child: InfoContainer(
                     suffixText: '',
                     prefixText: profileController.relationshipStatus.value != ''
                         ? profileController.relationshipStatus.value

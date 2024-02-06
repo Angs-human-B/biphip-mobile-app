@@ -94,13 +94,13 @@ class EditAboutInfo extends StatelessWidget {
   }
 }
 
-class InfoContainer2 extends StatelessWidget {
-  const InfoContainer2(
+class InfoContainer extends StatelessWidget {
+  const InfoContainer(
       {super.key,
       required this.suffixText,
       this.suffixOnPressed,
       this.prefixText,
-       this.isAddButton,
+      this.isAddButton,
       this.subtitlePrefixText,
       this.subtitleSuffixText,
       this.suffixTextStyle});
@@ -145,26 +145,26 @@ class InfoContainer2 extends StatelessWidget {
               ],
             ),
           ),
-          if(isAddButton !=null)
-          isAddButton!
-              ? CustomTextButtonV2(
-                  onPressed: suffixOnPressed,
-                  text: ksAdd.tr,
-                  textStyle: semiBold16TextStyle(cPrimaryColor),
-                  prefixWidget: Icon(
-                    BipHip.addNew,
-                    color: cPrimaryColor,
-                    size: isDeviceScreenLarge() ? h20 : h16,
+          if (isAddButton != null)
+            isAddButton!
+                ? CustomTextButtonV2(
+                    onPressed: suffixOnPressed,
+                    text: ksAdd.tr,
+                    textStyle: semiBold16TextStyle(cPrimaryColor),
+                    prefixWidget: Icon(
+                      BipHip.addNew,
+                      color: cPrimaryColor,
+                      size: isDeviceScreenLarge() ? h20 : h16,
+                    ),
+                  )
+                : InkWell(
+                    onTap: suffixOnPressed,
+                    child: Icon(
+                      BipHip.edit,
+                      size: screenWiseSize(kIconSize22, 4),
+                      color: cIconColor,
+                    ),
                   ),
-                )
-              : InkWell(
-                  onTap: suffixOnPressed,
-                  child: Icon(
-                    BipHip.edit,
-                    size: screenWiseSize(kIconSize22, 4),
-                    color: cIconColor,
-                  ),
-                ),
         ],
       ),
     );
