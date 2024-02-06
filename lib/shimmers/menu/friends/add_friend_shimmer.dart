@@ -9,15 +9,22 @@ class AddFriendShimmer extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            ListView.builder(
+            ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: 20,
+              separatorBuilder: (context, index) => kH16sizedBox,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: k10Padding),
-                  child: ClipRRect(
+                return Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: cLineColor,
+                    ),
                     borderRadius: BorderRadius.circular(k8BorderRadius),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(k12Padding),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

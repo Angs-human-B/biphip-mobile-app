@@ -50,7 +50,7 @@ class AllFriendListView extends StatelessWidget {
                                 return ClipRRect(
                                   borderRadius: BorderRadius.circular(k8BorderRadius),
                                   child: CustomListTile(
-                                    padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k8Padding).copyWith(right: k0Padding),
+                                    padding: const EdgeInsets.only(left: k8Padding, top: k8Padding,bottom: k8Padding),
                                     borderColor: cLineColor,
                                     leading: Container(
                                       height: h40,
