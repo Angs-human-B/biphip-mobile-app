@@ -147,7 +147,7 @@ class InfoContainer extends StatelessWidget {
           ),
           if (isAddButton != null)
             isAddButton!
-                ? CustomTextButtonV2(
+                ? CustomModifiedTextButton(
                     onPressed: suffixOnPressed,
                     text: ksAdd.tr,
                     textStyle: semiBold16TextStyle(cPrimaryColor),
@@ -222,7 +222,7 @@ class RowTextButton extends StatelessWidget {
           style: textStyle ?? semiBold16TextStyle(cBlackColor),
         ),
         if (showAddButton && suffixWidget == null)
-          CustomTextButtonV2(
+          CustomModifiedTextButton(
             onPressed: onPressedAdd,
             text: buttonText,
             textStyle: semiBold14TextStyle(cPrimaryColor),
