@@ -235,7 +235,6 @@ class EditRelationshipPage extends StatelessWidget {
                                   inputType: TextInputType.text,
                                   borderRadius: k8BorderRadius,
                                   onSuffixPress: () {
-                                    unFocus(context);
                                     profileController.relationshipPartnerTextEditingController.clear();
                                     profileController.relationshipPartnerID.value = -1;
                                     editProfileHelper.checkCanSaveRelationship();
