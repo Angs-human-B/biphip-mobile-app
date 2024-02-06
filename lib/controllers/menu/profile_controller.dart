@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/menu/profile/profile_overview_model.dart';
@@ -102,6 +103,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   final RxList educationBackgroundList = RxList(['School', 'College']);
   final RxList linkSourceList = RxList([]);
   final RxString relationshipStatus = RxString('');
+  final RxString relationshipDate = RxString('');
+  final RxString temporaryRelationshipDate = RxString('');
+  final RxBool relationshipDateBottomSheetState = RxBool(false);
+  final TextEditingController relationshipPartnerTextEditingController = TextEditingController();
+  final RxBool showRelationshipPartnerSuffixIcon = RxBool(false);
+  final RxInt relationshipPartnerID = RxInt(-1);
+  final RxList<FriendFamilyUserData> temporaryFriendList = RxList<FriendFamilyUserData>([]);
+  final RxBool isRelationshipSaveButtonActive = RxBool(false);
   final RxString selectedGender = RxString('');
   final RxString temporarySelectedGender = RxString('');
   final RxBool isGenderSelected = RxBool(false);
@@ -1084,7 +1093,12 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     try {
       isEditProfileLoading.value = true;
       String? token = await spController.getBearerToken();
-      Map<String, dynamic> body = {'key': key.toString(), 'value': value.toString()};
+      Map<String, dynamic> body = {
+        'key': key.toString(),
+        'value': value.toString(),
+        if (key.toString() == "relationship" && relationshipPartnerID.value != -1) 'partner_id': relationshipPartnerID.value.toString(),
+        if (key.toString() == "relationship" && relationshipDate.value != "") 'date_since': relationshipDate.value.toString()
+      };
       var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuSetGeneralSetting,

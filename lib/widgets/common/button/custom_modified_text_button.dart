@@ -1,7 +1,7 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
-class CustomTextButtonV2 extends StatelessWidget {
-  const CustomTextButtonV2({
+class CustomModifiedTextButton extends StatelessWidget {
+  const CustomModifiedTextButton({
     required this.onPressed,
     required this.text,
     required this.textStyle,
