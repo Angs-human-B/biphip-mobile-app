@@ -119,7 +119,7 @@ class EditRelationshipPage extends StatelessWidget {
   EditRelationshipPage({super.key});
   final ProfileController profileController = Get.find<ProfileController>();
   final EditProfileHelper editProfileHelper = EditProfileHelper();
-  final FocusNode commonFocusNode = FocusNode();
+  final FocusNode partnerFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +157,7 @@ class EditRelationshipPage extends StatelessWidget {
                           buttonHeight: h60,
                           prefixIcon: BipHip.love,
                           onPressed: () async {
+                            unFocus(context);
                             editProfileHelper.setRelationshipStatus(context);
                           },
                           text: profileController.relationshipStatus.value != ''
@@ -170,7 +171,7 @@ class EditRelationshipPage extends StatelessWidget {
                             profileController.relationshipStatus.value != '')
                           RawAutocomplete<FriendFamilyUserData>(
                             textEditingController: profileController.relationshipPartnerTextEditingController,
-                            focusNode: commonFocusNode,
+                            focusNode: partnerFocusNode,
                             optionsBuilder: (TextEditingValue textEditingValue) {
                               if (textEditingValue.text == '') {
                                 return const Iterable<FriendFamilyUserData>.empty();
@@ -180,6 +181,7 @@ class EditRelationshipPage extends StatelessWidget {
                               });
                             },
                             onSelected: (option) {
+                              unFocus(context);
                               profileController.relationshipPartnerTextEditingController.text = option.fullName!;
                               profileController.relationshipPartnerID.value = option.id!;
                               editProfileHelper.checkCanSaveRelationship();
@@ -205,11 +207,11 @@ class EditRelationshipPage extends StatelessWidget {
                                             style: medium16TextStyle(cBlackColor),
                                           ),
                                           onPressed: () {
+                                            unFocus(context);
                                             onSelected(option);
                                             profileController.relationshipPartnerTextEditingController.text = option.fullName.toString();
                                             profileController.relationshipPartnerID.value = option.id!;
                                             editProfileHelper.checkCanSaveRelationship();
-                                            unfocus(context);
                                           },
                                         );
                                       },
@@ -233,6 +235,7 @@ class EditRelationshipPage extends StatelessWidget {
                                   inputType: TextInputType.text,
                                   borderRadius: k8BorderRadius,
                                   onSuffixPress: () {
+                                    unFocus(context);
                                     profileController.relationshipPartnerTextEditingController.clear();
                                     profileController.relationshipPartnerID.value = -1;
                                     editProfileHelper.checkCanSaveRelationship();
@@ -263,6 +266,7 @@ class EditRelationshipPage extends StatelessWidget {
                           CustomSelectionButton(
                             buttonHeight: h60,
                             onPressed: () async {
+                              unFocus(context);
                               editProfileHelper.relationshipDateButtonOnPressed(context);
                             },
                             text: profileController.relationshipDate.value != "" ? profileController.relationshipDate.value : "",
@@ -283,6 +287,7 @@ class EditRelationshipPage extends StatelessWidget {
                         buttonWidth: width - 40,
                         onPressed: profileController.isRelationshipSaveButtonActive.value
                             ? () async {
+                                unFocus(context);
                                 Get.back();
                                 await profileController.storeUserSetting('relationship', profileController.relationshipStatus.value);
                                 editProfileHelper.resetRelationshipEditPage();
