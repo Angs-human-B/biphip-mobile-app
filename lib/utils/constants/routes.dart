@@ -13,6 +13,7 @@ import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/relationship_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_basic_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_basic_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_contact_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_documents.dart';
@@ -85,6 +86,7 @@ const String krEditAboutInfo = '/edit-about-info';
 const String krEdit = '/edit';
 const String krEditProfile = '/edit-profile';
 const String krEditRelationship = '/edit-relationship';
+const String krEditBasicInfo = '/edit-basic-info';
 const String krPhotoPreview = '/photo-preview';
 const String krFriends = '/friends';
 const String krAddFriend = '/add-friend';
@@ -158,6 +160,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krAddFriend, page: () => AddFriend(), transition: Transition.noTransition),
   GetPage(name: krViewPhoto, page: () => ViewPhoto(), transition: Transition.noTransition),
   GetPage(name: krEditRelationship, page: () => EditRelationshipPage(), transition: Transition.noTransition),
+  GetPage(name: krEditBasicInfo, page: () => EditBasicInfoPage(), transition: Transition.noTransition),
 
   //* info:: other screens
   GetPage(name: krSplashScreen, page: () => const SplashScreen(), transition: Transition.noTransition),

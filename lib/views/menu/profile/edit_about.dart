@@ -55,11 +55,33 @@ class EditAboutInfo extends StatelessWidget {
                         EducationBackgroundSection(),
                         kH8sizedBox,
                         RelationshipSection(),
+                        kH8sizedBox,
+                        Container(
+                          color: cWhiteColor,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                kH16sizedBox,
+                                InfoContainer(
+                                  suffixText: ksBasicInfo.tr,
+                                  suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                                  isAddButton: true,
+                                  suffixOnPressed: () {
+                                    Get.toNamed(krEditBasicInfo);
+                                  },
+                                ),
+                                kH16sizedBox,
+                              ],
+                            ),
+                          ),
+                        ),
                         if (profileController.showAllEditOption.value) kH8sizedBox,
-                        if (profileController.showAllEditOption.value) GenderSection(),
-                        if (profileController.showAllEditOption.value) kH8sizedBox,
-                        if (profileController.showAllEditOption.value) BirthdaySection(),
-                        if (profileController.showAllEditOption.value) kH8sizedBox,
+                        // if (profileController.showAllEditOption.value) GenderSection(),
+                        // if (profileController.showAllEditOption.value) kH8sizedBox,
+                        // if (profileController.showAllEditOption.value) BirthdaySection(),
+                        // if (profileController.showAllEditOption.value) kH8sizedBox,
                         if (profileController.showAllEditOption.value) ProfessionSection(),
                         if (profileController.showAllEditOption.value) kH8sizedBox,
                         if (profileController.showAllEditOption.value) InterestSection(),
