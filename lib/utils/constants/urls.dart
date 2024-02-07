@@ -85,6 +85,7 @@ const String kuSetCoverPhoto = '/user/store-cover-photo';
 //*Photos & Albums
 const String kuAlbumList = '/mobile/user/get-my-image-albums';
 const String kuImageDetails = '/mobile/user/get-image-details';
+const String kuImageMakeProfilePicture = '/mobile/user/image-make-profile-picture';
 
 //---------------------------------------
 //* Friends and Family

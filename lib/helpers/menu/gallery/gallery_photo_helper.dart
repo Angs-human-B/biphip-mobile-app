@@ -27,51 +27,52 @@ class GalleryPhotoHelper {
     }
   }
 
-    void galleryPhotoActionOnChanged({required int index}) {
+  void galleryPhotoActionOnChanged({required int index}) {
     galleryController.galleryPhotoActionSelect.value = galleryController.galleryPhotoActionList[index]['action'];
     if (galleryController.galleryPhotoActionSelect.value == '') {
       galleryController.galleryPhotoBottomSheetRightButtonState.value = false;
     } else {
-      galleryController.galleryPhotoBottomSheetRightButtonState.value= true;
+      galleryController.galleryPhotoBottomSheetRightButtonState.value = true;
     }
   }
-    void galleryPhotoOnPressed({required int index}) {
-      galleryController.galleryPhotoActionSelect.value = galleryController.galleryPhotoActionList[index]['action'];
+
+  void galleryPhotoOnPressed({required int index}) {
+    galleryController.galleryPhotoActionSelect.value = galleryController.galleryPhotoActionList[index]['action'];
     if (galleryController.galleryPhotoActionSelect.value == '') {
       galleryController.galleryPhotoBottomSheetRightButtonState.value = false;
     } else {
-      galleryController.galleryPhotoBottomSheetRightButtonState.value= true;
+      galleryController.galleryPhotoBottomSheetRightButtonState.value = true;
     }
   }
-  Color galleryPhotoItemColor({required int index}){
-     if (galleryController.galleryPhotoActionSelect.value == galleryController.galleryPhotoActionList[index]['action']) {
-        return cPrimaryTint3Color;
-      }
-      return cWhiteColor;
+
+  Color galleryPhotoItemColor({required int index}) {
+    if (galleryController.galleryPhotoActionSelect.value == galleryController.galleryPhotoActionList[index]['action']) {
+      return cPrimaryTint3Color;
+    }
+    return cWhiteColor;
   }
 
-
- //*Single Photo view bottom sheet 
-    void photoActionOnChanged({required int index}) {
+  //*Single Photo view bottom sheet
+  void photoActionOnChanged({required int index}) {
     galleryController.photoActionSelect.value = galleryController.photoActionList[index]['action'];
-    if (galleryController.photoActionSelect.value == '') {
-      galleryController.photoBottomSheetRightButtonState.value = false;
-    } else {
-      galleryController.photoBottomSheetRightButtonState.value= true;
-    }
   }
-    void photoOnPressed({required int index}) {
-      galleryController.photoActionSelect.value = galleryController.photoActionList[index]['action'];
-    if (galleryController.photoActionSelect.value == '') {
-      galleryController.photoBottomSheetRightButtonState.value = false;
-    } else {
-      galleryController.photoBottomSheetRightButtonState.value= true;
-    }
-  }
-  Color photoItemColor({required int index}){
-     if (galleryController.photoActionSelect.value == galleryController.photoActionList[index]['action']) {
-        return cPrimaryTint3Color;
+
+  void photoOnPressed({required int index}) async {
+    galleryController.photoActionSelect.value = galleryController.photoActionList[index]['action'];
+    Get.back();
+    if (galleryController.photoActionSelect.value == 'Make as profile picture') {
+      if (Get.isSnackbarOpen) {
+        Get.back();
+        ll('Snackbar open');
       }
-      return cWhiteColor;
+      await galleryController.imageMakeProfilePicture();
+    }
+  }
+
+  Color photoItemColor({required int index}) {
+    if (galleryController.photoActionSelect.value == galleryController.photoActionList[index]['action']) {
+      return cPrimaryTint3Color;
+    }
+    return cWhiteColor;
   }
 }

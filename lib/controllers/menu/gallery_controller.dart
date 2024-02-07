@@ -168,12 +168,47 @@ class GalleryController extends GetxController {
     }
   }
 
+  final RxBool isImageMakeProfilePictureLoading = RxBool(false);
+  Future<void> imageMakeProfilePicture() async {
+    try {
+      isImageMakeProfilePictureLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'image_id': imageId.value.toString(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuImageMakeProfilePicture,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        isImageMakeProfilePictureLoading.value = false;
+        if (!Get.isSnackbarOpen) {
+          globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        }
+      } else {
+        isImageMakeProfilePictureLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (!Get.isSnackbarOpen) {
+          if (errorModel.errors.isEmpty) {
+            globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          } else {
+            globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          }
+        }
+      }
+    } catch (e) {
+      isImageMakeProfilePictureLoading.value = false;
+      ll('imageMakeProfilePicture error: $e');
+    }
+  }
+
   final RxBool galleryPhotoBottomSheetRightButtonState = RxBool(false);
-  final RxBool photoBottomSheetRightButtonState = RxBool(false);
+  final RxString galleryPhotoActionSelect = RxString('');
   final RxList galleryPhotoActionList = RxList([
     {'icon': BipHip.imageFile, 'action': 'Download album'}
   ]);
-  final RxString galleryPhotoActionSelect = RxString('');
   final RxString photoActionSelect = RxString('');
   final RxList photoActionList = RxList([
     {'icon': BipHip.deleteNew, 'action': 'Delete photo'},

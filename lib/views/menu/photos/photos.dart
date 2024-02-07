@@ -85,23 +85,11 @@ class Photos extends StatelessWidget {
                                     image: galleryController.imageDetailsData.value!.image!.fullPath.toString(),
                                     onPressed: () {
                                       galleryController.photoActionSelect.value = '';
-                                      galleryController.photoBottomSheetRightButtonState.value = false;
-                                      Get.find<GlobalController>().commonBottomSheet(
+                                      Get.find<GlobalController>().blankBottomSheet(
                                         context: context,
-                                        isBottomSheetRightButtonActive: galleryController.photoBottomSheetRightButtonState,
                                         isScrollControlled: true,
                                         content: PhotoActionContent(),
-                                        onPressCloseButton: () {
-                                          Get.back();
-                                        },
-                                        onPressRightButton: () async {
-                                          Get.back();
-                                        },
-                                        rightText: ksDone.tr,
-                                        rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                        title: ksAction.tr,
-                                        isRightButtonShow: true,
-                                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.5 : height * 0.6,
+                                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.4,
                                       );
                                     },
                                   ));
@@ -170,12 +158,12 @@ class PhotoActionContent extends StatelessWidget {
                   title: galleryController.photoActionList[index]['action'].toString().tr,
                   titleTextStyle: semiBold16TextStyle(cBlackColor),
                   subTitleTextStyle: regular14TextStyle(cBlackColor),
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      GalleryPhotoHelper().photoActionOnChanged(index: index);
-                    },
-                    isSelected: (galleryController.photoActionSelect.value == galleryController.photoActionList[index]['action']),
-                  ),
+                  // trailing: CustomRadioButton(
+                  //   onChanged: () {
+                  //     GalleryPhotoHelper().photoActionOnChanged(index: index);
+                  //   },
+                  //   isSelected: (galleryController.photoActionSelect.value == galleryController.photoActionList[index]['action']),
+                  // ),
                   itemColor: GalleryPhotoHelper().photoItemColor(index: index),
                   onPressed: () {
                     GalleryPhotoHelper().photoOnPressed(index: index);
