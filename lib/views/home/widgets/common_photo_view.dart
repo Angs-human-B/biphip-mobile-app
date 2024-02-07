@@ -82,7 +82,7 @@ class CommonPhotoView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        description??'',
+                        description ?? '',
                         style: semiBold14TextStyle(cWhiteColor),
                       ),
                       kH16sizedBox,

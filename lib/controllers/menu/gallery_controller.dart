@@ -3,7 +3,6 @@ import 'package:bip_hip/models/menu/album/album_list_model.dart';
 import 'package:bip_hip/models/menu/album/image_details_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
-
 class GalleryController extends GetxController {
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
@@ -274,7 +273,7 @@ class GalleryController extends GetxController {
     }
   }
 
- //*Download Photo Api Call
+  //*Download Photo Api Call
   final RxBool isDownloadImageLoading = RxBool(false);
   Future<void> downloadPhoto() async {
     try {
@@ -306,8 +305,9 @@ class GalleryController extends GetxController {
     }
   }
 
-    //*Image description update
-    final TextEditingController imageDescriptionUpdateController = TextEditingController();
+  //*Image description update
+  final TextEditingController imageDescriptionUpdateController = TextEditingController();
+  final RxBool isImageDescriptionSaveButtonEnable = RxBool(false);
   final RxBool isImageDescriptionUpdateLoading = RxBool(false);
   Future<void> imageDescriptionUpdate() async {
     try {
@@ -325,6 +325,7 @@ class GalleryController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         isImageDescriptionUpdateLoading.value = false;
+        Get.back();
         if (!Get.isSnackbarOpen) {
           globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
         }
@@ -345,7 +346,6 @@ class GalleryController extends GetxController {
     }
   }
 
- 
   final RxBool galleryPhotoBottomSheetRightButtonState = RxBool(false);
   final RxString galleryPhotoActionSelect = RxString('');
   final RxList galleryPhotoActionList = RxList([
