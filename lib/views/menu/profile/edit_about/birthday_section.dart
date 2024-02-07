@@ -16,7 +16,6 @@ class BirthdaySection extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          kH16sizedBox,
           Text(
             ksDateOfBirth.tr,
             style: semiBold18TextStyle(cBlackColor),

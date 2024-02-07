@@ -612,7 +612,7 @@ class EditProfileHelper {
 
   void genderBottomSheet(context) {
     globalController.commonBottomSheet(
-      isBottomSheetRightButtonActive: profileController.relationshipBottomSheetRightButtonState,
+      isBottomSheetRightButtonActive: profileController.genderBottomSheetButtonState,
       context: context,
       content: Obx(
         () => profileController.isGenderListLoading.value
@@ -646,6 +646,7 @@ class EditProfileHelper {
   }
 
   void saveGender() async {
+    Get.back();
     await profileController.storeUserSetting('gender', profileController.selectedGender.value);
     profileController.selectedGender.value = '';
     profileController.isGenderSelected.value = false;
@@ -1087,5 +1088,25 @@ class EditProfileHelper {
       profileController.relationshipPartnerTextEditingController.text = profileController.userData.value!.relationWithName!;
       profileController.relationshipPartnerID.value = profileController.userData.value!.relationWithId!;
     }
+  }
+
+  String languageSorting(List languageList) {
+    String result;
+
+    switch (languageList.length) {
+      case 0:
+        result = '';
+        break;
+      case 1:
+        result = languageList[0];
+        break;
+      case 2:
+        result = '${languageList[0]} and ${languageList[1]}';
+        break;
+      default:
+        result = languageList.sublist(0, languageList.length - 1).join(', ') + ' and ' + languageList.last;
+    }
+
+    return result;
   }
 }

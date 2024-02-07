@@ -288,6 +288,7 @@ const String ksAddRelationship = "Add Relationship";
 const String ksEditRelationship = "Edit Relationship";
 const String ksEditBasicInfo = "Edit basic info";
 const String ksLanguage = "Language";
+const String ksLanguages = "Languages";
 const String ksDeleteWorkplace = 'Delete workplace';
 const String ksOfficeName = 'Office name';
 const String ksContactDetails = 'Contact details';
