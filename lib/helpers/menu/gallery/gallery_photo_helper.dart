@@ -53,9 +53,6 @@ class GalleryPhotoHelper {
   }
 
   //*Single Photo view bottom sheet
-  void photoActionOnChanged({required int index}) {
-    galleryController.photoActionSelect.value = galleryController.photoActionList[index]['action'];
-  }
 
   void photoOnPressed({required int index}) async {
     galleryController.photoActionSelect.value = galleryController.photoActionList[index]['action'];
@@ -66,6 +63,13 @@ class GalleryPhotoHelper {
         ll('Snackbar open');
       }
       await galleryController.imageMakeProfilePicture();
+    }
+   else if (galleryController.photoActionSelect.value == 'Make as cover photo') {
+      if (Get.isSnackbarOpen) {
+        Get.back();
+        ll('Snackbar open');
+      }
+      await galleryController.imageMakeCoverPhoto();
     }
   }
 

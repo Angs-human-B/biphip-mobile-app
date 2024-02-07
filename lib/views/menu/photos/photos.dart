@@ -133,14 +133,15 @@ class PhotoActionContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ListView.builder(
+        ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: galleryController.photoActionList.length,
+          separatorBuilder: (context, index) => kH8sizedBox,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
               () => Padding(
-                padding: const EdgeInsets.only(bottom: k8Padding),
+                padding: const EdgeInsets.only(left: kHorizontalPadding),
                 child: CustomListTile(
                   leading: Container(
                     decoration: const BoxDecoration(
@@ -158,12 +159,6 @@ class PhotoActionContent extends StatelessWidget {
                   title: galleryController.photoActionList[index]['action'].toString().tr,
                   titleTextStyle: semiBold16TextStyle(cBlackColor),
                   subTitleTextStyle: regular14TextStyle(cBlackColor),
-                  // trailing: CustomRadioButton(
-                  //   onChanged: () {
-                  //     GalleryPhotoHelper().photoActionOnChanged(index: index);
-                  //   },
-                  //   isSelected: (galleryController.photoActionSelect.value == galleryController.photoActionList[index]['action']),
-                  // ),
                   itemColor: GalleryPhotoHelper().photoItemColor(index: index),
                   onPressed: () {
                     GalleryPhotoHelper().photoOnPressed(index: index);

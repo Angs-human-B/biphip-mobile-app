@@ -168,6 +168,7 @@ class GalleryController extends GetxController {
     }
   }
 
+  //*Image as profile picture
   final RxBool isImageMakeProfilePictureLoading = RxBool(false);
   Future<void> imageMakeProfilePicture() async {
     try {
@@ -201,6 +202,43 @@ class GalleryController extends GetxController {
     } catch (e) {
       isImageMakeProfilePictureLoading.value = false;
       ll('imageMakeProfilePicture error: $e');
+    }
+  }
+
+  //*Image as profile picture
+  final RxBool isImageMakeCoverPhotoLoading = RxBool(false);
+  Future<void> imageMakeCoverPhoto() async {
+    try {
+      isImageMakeCoverPhotoLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'image_id': imageId.value.toString(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuImageMakeCoverPhoto,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        isImageMakeCoverPhotoLoading.value = false;
+        if (!Get.isSnackbarOpen) {
+          globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        }
+      } else {
+        isImageMakeCoverPhotoLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (!Get.isSnackbarOpen) {
+          if (errorModel.errors.isEmpty) {
+            globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          } else {
+            globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          }
+        }
+      }
+    } catch (e) {
+      isImageMakeCoverPhotoLoading.value = false;
+      ll('imageMakeCoverPhoto error: $e');
     }
   }
 
