@@ -168,19 +168,18 @@ class GalleryController extends GetxController {
     }
   }
 
-  //   List<String> getImageUrl() {
-  //   List<String> images = [];
-  //   if (albumData.value!.imageAlbums.path!.isEmpty) {
-  //     return images;
-  //   }
-  //   for (int i = 0; i < albumData.value!.imageAlbums.path!.length; i++) {
-  //     images.add(albumData.value!.imageAlbums.path![i] ?? '');
-  //   }
-  //   return images;
-  // }
   final RxBool galleryPhotoBottomSheetRightButtonState = RxBool(false);
+  final RxBool photoBottomSheetRightButtonState = RxBool(false);
   final RxList galleryPhotoActionList = RxList([
-    {'icon': BipHip.imageFile, 'action': 'Download Album'}
+    {'icon': BipHip.imageFile, 'action': 'Download album'}
   ]);
   final RxString galleryPhotoActionSelect = RxString('');
+  final RxString photoActionSelect = RxString('');
+  final RxList photoActionList = RxList([
+    {'icon': BipHip.deleteNew, 'action': 'Delete photo'},
+    {'icon': BipHip.edit, 'action': 'Edit caption'},
+    {'icon': BipHip.downArrowOutline, 'action': 'Download photo'},
+    {'icon': BipHip.user, 'action': 'Make as profile picture'},
+    {'icon': BipHip.imageFile, 'action': 'Make as cover photo'},
+  ]);
 }

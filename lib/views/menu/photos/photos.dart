@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
+import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
@@ -83,7 +84,25 @@ class Photos extends StatelessWidget {
                               Get.to(() => CommonPhotoView(
                                     image: galleryController.imageDetailsData.value!.image!.fullPath.toString(),
                                     onPressed: () {
-                                      
+                                      galleryController.photoActionSelect.value = '';
+                                      galleryController.photoBottomSheetRightButtonState.value = false;
+                                      Get.find<GlobalController>().commonBottomSheet(
+                                        context: context,
+                                        isBottomSheetRightButtonActive: galleryController.photoBottomSheetRightButtonState,
+                                        isScrollControlled: true,
+                                        content: PhotoActionContent(),
+                                        onPressCloseButton: () {
+                                          Get.back();
+                                        },
+                                        onPressRightButton: () async {
+                                          Get.back();
+                                        },
+                                        rightText: ksDone.tr,
+                                        rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                        title: ksAction.tr,
+                                        isRightButtonShow: true,
+                                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.5 : height * 0.6,
+                                      );
                                     },
                                   ));
                             },
@@ -114,6 +133,59 @@ class Photos extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class PhotoActionContent extends StatelessWidget {
+  PhotoActionContent({super.key});
+  final GalleryController galleryController = Get.find<GalleryController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: galleryController.photoActionList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Obx(
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: k8Padding),
+                child: CustomListTile(
+                  leading: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: cNeutralColor,
+                    ),
+                    height: h28,
+                    width: h28,
+                    child: Icon(
+                      galleryController.photoActionList[index]['icon'],
+                      color: cBlackColor,
+                      size: kIconSize16,
+                    ),
+                  ),
+                  title: galleryController.photoActionList[index]['action'].toString().tr,
+                  titleTextStyle: semiBold16TextStyle(cBlackColor),
+                  subTitleTextStyle: regular14TextStyle(cBlackColor),
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      GalleryPhotoHelper().photoActionOnChanged(index: index);
+                    },
+                    isSelected: (galleryController.photoActionSelect.value == galleryController.photoActionList[index]['action']),
+                  ),
+                  itemColor: GalleryPhotoHelper().photoItemColor(index: index),
+                  onPressed: () {
+                    GalleryPhotoHelper().photoOnPressed(index: index);
+                  },
+                ),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }
