@@ -1127,6 +1127,12 @@ class EditProfileHelper {
 
   Future<void> removeLanguage(index) async {
     profileController.userLanguages.removeAt(index);
+    if (profileController.userLanguages.length == 1) {
+      if (profileController.userLanguages[0] == "") {
+        ll("here");
+        profileController.userLanguages.clear();
+      }
+    }
     await profileController.storeLanguages(profileController.userLanguages);
   }
 }
