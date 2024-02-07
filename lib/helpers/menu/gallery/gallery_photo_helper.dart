@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/photos/single_image_description.dart';
 
 class GalleryPhotoHelper {
   final GalleryController galleryController = Get.find<GalleryController>();
@@ -25,5 +26,61 @@ class GalleryPhotoHelper {
         galleryController.imageDataList.add(album);
       }
     }
+  }
+
+  void galleryPhotoActionOnChanged({required int index}) {
+    galleryController.galleryPhotoActionSelect.value = galleryController.galleryPhotoActionList[index]['action'];
+    if (galleryController.galleryPhotoActionSelect.value == '') {
+      galleryController.galleryPhotoBottomSheetRightButtonState.value = false;
+    } else {
+      galleryController.galleryPhotoBottomSheetRightButtonState.value = true;
+    }
+  }
+
+  void galleryPhotoOnPressed({required int index}) {
+    galleryController.galleryPhotoActionSelect.value = galleryController.galleryPhotoActionList[index]['action'];
+    if (galleryController.galleryPhotoActionSelect.value == '') {
+      galleryController.galleryPhotoBottomSheetRightButtonState.value = false;
+    } else {
+      galleryController.galleryPhotoBottomSheetRightButtonState.value = true;
+    }
+  }
+
+  Color galleryPhotoItemColor({required int index}) {
+    if (galleryController.galleryPhotoActionSelect.value == galleryController.galleryPhotoActionList[index]['action']) {
+      return cPrimaryTint3Color;
+    }
+    return cWhiteColor;
+  }
+
+  //*Single Photo view bottom sheet
+
+  void photoOnPressed({required int index}) async {
+    galleryController.photoActionSelect.value = galleryController.photoActionList[index]['action'];
+    Get.back();
+    if (Get.isSnackbarOpen) {
+      Get.back();
+    }
+    if (galleryController.photoActionSelect.value == 'Make as profile picture') {
+      await galleryController.imageMakeProfilePicture();
+    } else if (galleryController.photoActionSelect.value == 'Make as cover photo') {
+      await galleryController.imageMakeCoverPhoto();
+    } else if (galleryController.photoActionSelect.value == 'Delete photo') {
+      await galleryController.deleteImage();
+    } else if (galleryController.photoActionSelect.value == 'Download photo') {
+      await galleryController.downloadPhoto();
+    } else if (galleryController.photoActionSelect.value == 'Edit caption') {
+      Get.to(() => SingleImageDescription(
+            image: galleryController.imageDetailsData.value!.image!.fullPath.toString(),
+            description: galleryController.imageDetailsData.value!.image!.description,
+          ));
+    }
+  }
+
+  Color photoItemColor({required int index}) {
+    if (galleryController.photoActionSelect.value == galleryController.photoActionList[index]['action']) {
+      return cPrimaryTint3Color;
+    }
+    return cWhiteColor;
   }
 }
