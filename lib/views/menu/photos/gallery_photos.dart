@@ -93,7 +93,6 @@ class GalleryPhotos extends StatelessWidget {
                                               threeDotOnPressed: () {
                                                 Get.find<GlobalController>().commonBottomSheet(
                                                   context: context,
-                                                  // isBottomSheetRightButtonActive: friendController.friendActionBottomSheetRightButtonState,
                                                   isBottomSheetRightButtonActive: galleryController.BottomSheetRightButtonState,
                                                   isScrollControlled: true,
                                                   content: const Column(

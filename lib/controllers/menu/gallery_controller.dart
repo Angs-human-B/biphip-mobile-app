@@ -168,4 +168,8 @@ class GalleryController extends GetxController {
     }
   }
   final RxBool BottomSheetRightButtonState= RxBool(false);
+    final RxList galleryPhotoActionList = RxList([
+    {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
+    {'icon': BipHip.follow, 'action': 'Follow', 'actionSubtitle': 'Follow this user'}
+  ]);
 }
