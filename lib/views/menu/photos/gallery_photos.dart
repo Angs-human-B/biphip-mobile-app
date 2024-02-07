@@ -90,6 +90,28 @@ class GalleryPhotos extends StatelessWidget {
                                               title: galleryController.imageDataList[index].title ?? ksNA.tr,
                                               subTitle: galleryController.imageDataList[index].totalImage.toString(),
                                               image: galleryController.imageDataList[index].preview,
+                                              threeDotOnPressed: () {
+                                                Get.find<GlobalController>().commonBottomSheet(
+                                                  context: context,
+                                                  // isBottomSheetRightButtonActive: friendController.friendActionBottomSheetRightButtonState,
+                                                  isBottomSheetRightButtonActive: galleryController.BottomSheetRightButtonState,
+                                                  isScrollControlled: true,
+                                                  content: const Column(
+                                                    children: [],
+                                                  ),
+                                                  onPressCloseButton: () {
+                                                    Get.back();
+                                                  },
+                                                  onPressRightButton: () async {
+                                                    Get.back();
+                                                  },
+                                                  rightText: ksDone.tr,
+                                                  rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                                  title: ksAction.tr,
+                                                  isRightButtonShow: true,
+                                                  bottomSheetHeight: 250,
+                                                );
+                                              },
                                               onPressed: () {
                                                 galleryController.selectedImageList = galleryController.imageDataList[index].imageList;
                                                 galleryController.selectedTitle.value = galleryController.imageDataList[index].title ?? ksNA;

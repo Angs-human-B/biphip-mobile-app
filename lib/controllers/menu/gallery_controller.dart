@@ -167,4 +167,5 @@ class GalleryController extends GetxController {
       ll('getKidsList error: $e');
     }
   }
+  final RxBool BottomSheetRightButtonState= RxBool(false);
 }
