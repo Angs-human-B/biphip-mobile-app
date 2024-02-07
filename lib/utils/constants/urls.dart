@@ -19,7 +19,8 @@ const String kuGetAllCompanies = '/mobile/get-all-companies'; //DONE
 const String kuGetAllDegrees = '/mobile/get-all-degrees';
 const String kuGetAllPositions = '/mobile/get-all-positions'; //DONE
 const String kuGetAllPostCatagories = '/mobile/get-all-post-categories'; //DONE
-const String kuGetAllKidList = '/mobile/user/get-all-kids';
+const String kuGetAllKidList = '/mobile/user/get-all-kids'; //DONE
+const String kuGetALlLanguageList = '/mobile/get-all-languages'; //DONE
 
 //---------------------------------------
 //* authentication story

@@ -12,9 +12,9 @@ class CustomSelectionButton extends StatelessWidget {
     this.buttonHeight,
     this.contentPadding,
     this.trailingIcon,
-    this.prefixIconSize,
+    this.prefixIconSize, this.onPressSuffixButton,
   });
-  final Function()? onPressed;
+  final Function()? onPressed, onPressSuffixButton;
   final IconData? prefixIcon, trailingIcon;
   final String? text, hintText;
   final Color? buttonColor, borderColor;
@@ -58,9 +58,12 @@ class CustomSelectionButton extends StatelessWidget {
                       ),
                   ],
                 ),
-                Icon(
-                  trailingIcon ?? BipHip.downArrow,
-                  color: (text != '') ? cBlackColor : cPlaceHolderColor2,
+                InkWell(
+                  onTap:onPressSuffixButton ,
+                  child: Icon(
+                    trailingIcon ?? BipHip.downArrow,
+                    color: (text != '') ? cBlackColor : cPlaceHolderColor2,
+                  ),
                 )
               ],
             ),

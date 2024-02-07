@@ -12,6 +12,7 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/add_language.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/relationship_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_basic_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_basic_info.dart';
@@ -98,6 +99,7 @@ const String krViewPhoto = '/view-photo';
 const String krVideos = '/videos';
 const String krVideoDetails = '/video-details';
 const String krSettings = '/settings';
+const String krAddLanguage = '/add-language';
 
 const String krCreatePost = '/create-post';
 const String krSelectCategory = '/create-post/select-category';
@@ -161,6 +163,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krViewPhoto, page: () => ViewPhoto(), transition: Transition.noTransition),
   GetPage(name: krEditRelationship, page: () => EditRelationshipPage(), transition: Transition.noTransition),
   GetPage(name: krEditBasicInfo, page: () => EditBasicInfoPage(), transition: Transition.noTransition),
+  GetPage(name: krAddLanguage, page: () => AddLanguagePage(), transition: Transition.noTransition),
 
   //* info:: other screens
   GetPage(name: krSplashScreen, page: () => const SplashScreen(), transition: Transition.noTransition),

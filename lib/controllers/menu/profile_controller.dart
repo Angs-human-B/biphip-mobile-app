@@ -147,6 +147,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     emailDataList.clear();
     phoneDataList.clear();
     linkDataList.clear();
+    userLanguages.clear();
   }
 
   //* Profile overview API Implementation
@@ -176,6 +177,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         schoolDataList.addAll(profileData.value!.schools);
         collegeDataList.addAll(profileData.value!.colleges);
         contactDataList.addAll(profileData.value!.contacts);
+        userLanguages.addAll(profileData.value!.user!.languages);
         for (int i = 0; i < contactDataList.length; i++) {
           if (contactDataList[i].type == 'email') {
             emailDataList.add(contactDataList[i]);
@@ -1487,6 +1489,75 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       }
     } catch (e) {
       ll('getSchoolList error: $e');
+    }
+  }
+
+  //* Get Language list api implementation
+  Rx<LanguageListModel?> languageListData = Rx<LanguageListModel?>(null);
+  final TextEditingController searchLanguageTextEditingController = TextEditingController();
+  final RxBool isAddLanguageButtonEnabled = RxBool(false);
+  final RxString addedLanguage = RxString("");
+  List<String> allLanguageList = [];
+  RxList<String> userLanguages = RxList<String>([]);
+  RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
+  Future<void> getLanguageList() async {
+    try {
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetALlLanguageList,
+      ) as CommonDM;
+      if (response.success == true) {
+        allLanguageList.clear();
+        languageListData.value = LanguageListModel.fromJson(response.data);
+        allLanguageList.addAll(languageListData.value!.languages);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getLanguageList error: $e');
+    }
+  }
+
+  Future<void> storeLanguages(languages) async {
+    try {
+      isEditProfileLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'languages': languages,
+      };
+      ll(body);
+      var response = await apiController.commonPostDio(
+        url: kuUpdateLanguages,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        userLanguages.clear();
+        commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
+        userData.value = commonUserLayeredData.value!.user;
+        userLanguages.addAll(userData.value!.languages);
+        isEditProfileLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isEditProfileLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isEditProfileLoading.value = false;
+      ll('storeLanguages error: $e');
     }
   }
 }

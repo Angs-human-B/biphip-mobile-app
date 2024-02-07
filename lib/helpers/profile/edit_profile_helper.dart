@@ -1109,4 +1109,24 @@ class EditProfileHelper {
 
     return result;
   }
+
+  void clearAddLanguagePage() {
+    profileController.searchLanguageTextEditingController.clear();
+    profileController.addedLanguage.value = "";
+    profileController.isAddLanguageButtonEnabled.value = false;
+    profileController.isSearchLanguageSuffixIconShowing.value = false;
+  }
+
+  void checkCanAddLanguage() {
+    if (profileController.addedLanguage.value != "" && profileController.searchLanguageTextEditingController.text != "") {
+      profileController.isAddLanguageButtonEnabled.value = true;
+    } else {
+      profileController.isAddLanguageButtonEnabled.value = false;
+    }
+  }
+
+  Future<void> removeLanguage(index) async {
+    profileController.userLanguages.removeAt(index);
+    await profileController.storeLanguages(profileController.userLanguages);
+  }
 }
