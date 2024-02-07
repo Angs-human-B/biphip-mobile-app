@@ -121,6 +121,18 @@ class SchoolListModel {
       );
 }
 
+class LanguageListModel {
+    List<String> languages;
+
+    LanguageListModel({
+        required this.languages,
+    });
+
+    factory LanguageListModel.fromJson(Map<String, dynamic> json) => LanguageListModel(
+        languages: List<String>.from(json["languages"].map((x) => x)),
+    );
+}
+
 class PostCategoryListModel {
   List<PostCategory> postCategories;
 

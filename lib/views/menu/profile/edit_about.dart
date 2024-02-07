@@ -1,9 +1,8 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/profile/edit_about/birthday_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/basic_info_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/contact_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/education_background_section.dart';
-import 'package:bip_hip/views/menu/profile/edit_about/gender_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/interest_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/place_edit_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/profession_section.dart';
@@ -56,9 +55,7 @@ class EditAboutInfo extends StatelessWidget {
                         kH8sizedBox,
                         RelationshipSection(),
                         if (profileController.showAllEditOption.value) kH8sizedBox,
-                        if (profileController.showAllEditOption.value) GenderSection(),
-                        if (profileController.showAllEditOption.value) kH8sizedBox,
-                        if (profileController.showAllEditOption.value) BirthdaySection(),
+                        if (profileController.showAllEditOption.value) EditInfoSection(),
                         if (profileController.showAllEditOption.value) kH8sizedBox,
                         if (profileController.showAllEditOption.value) ProfessionSection(),
                         if (profileController.showAllEditOption.value) kH8sizedBox,
@@ -67,9 +64,9 @@ class EditAboutInfo extends StatelessWidget {
                         WorkplaceSection(),
                         kH8sizedBox,
                         if (profileController.showAllEditOption.value) ContactSection(),
-                        kH8sizedBox,
+                        if (profileController.showAllEditOption.value) kH8sizedBox,
                         if (profileController.showAllEditOption.value) WebsiteSection(),
-                        kH12sizedBox
+                        if (profileController.showAllEditOption.value) kH8sizedBox
                       ],
                     ),
                   ),
@@ -133,14 +130,17 @@ class InfoContainer extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: k4Padding),
                     child: RichText(
-                        overflow: TextOverflow.clip,
-                        text: TextSpan(children: [
+                      overflow: TextOverflow.clip,
+                      text: TextSpan(
+                        children: [
                           TextSpan(text: '$subtitlePrefixText ', style: regular12TextStyle(cSmallBodyTextColor)),
                           TextSpan(
                             text: subtitleSuffixText,
                             style: regular12TextStyle(cSmallBodyTextColor),
                           )
-                        ])),
+                        ],
+                      ),
+                    ),
                   ),
               ],
             ),
