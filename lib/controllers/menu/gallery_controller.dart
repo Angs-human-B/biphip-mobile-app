@@ -3,6 +3,7 @@ import 'package:bip_hip/models/menu/album/album_list_model.dart';
 import 'package:bip_hip/models/menu/album/image_details_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
+
 class GalleryController extends GetxController {
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
@@ -15,7 +16,6 @@ class GalleryController extends GetxController {
     super.onInit();
     if (albumData.value != null) {
       imageDataList.clear();
-
       for (var album in albumData.value!.imageAlbums.data) {
         if (album.title!.toLowerCase() == 'profile picture' || album.title!.toLowerCase() == 'cover photo') {
           imageDataList.add(album);
@@ -204,7 +204,7 @@ class GalleryController extends GetxController {
     }
   }
 
-  //*Image as profile picture
+  //*Image as Cover photo
   final RxBool isImageMakeCoverPhotoLoading = RxBool(false);
   Future<void> imageMakeCoverPhoto() async {
     try {
@@ -270,10 +270,82 @@ class GalleryController extends GetxController {
       }
     } catch (e) {
       isPhotoDeleteLoading.value = false;
-      ll('kidDelete error: $e');
+      ll('deleteImage error: $e');
     }
   }
 
+ //*Download Photo Api Call
+  final RxBool isDownloadImageLoading = RxBool(false);
+  Future<void> downloadPhoto() async {
+    try {
+      isDownloadImageLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        url: '$kuDownloadImage/${imageId.value.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        isDownloadImageLoading.value = false;
+
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isDownloadImageLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDownloadImageLoading.value = false;
+      ll('downloadImage error: $e');
+    }
+  }
+
+    //*Image description update
+    final TextEditingController imageDescriptionUpdateController = TextEditingController();
+  final RxBool isImageDescriptionUpdateLoading = RxBool(false);
+  Future<void> imageDescriptionUpdate() async {
+    try {
+      isImageDescriptionUpdateLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'id': imageId.value.toString(),
+        'description': imageDescriptionUpdateController.text.toString().trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuImageMakeCoverPhoto,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        isImageDescriptionUpdateLoading.value = false;
+        if (!Get.isSnackbarOpen) {
+          globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        }
+      } else {
+        isImageDescriptionUpdateLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (!Get.isSnackbarOpen) {
+          if (errorModel.errors.isEmpty) {
+            globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          } else {
+            globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          }
+        }
+      }
+    } catch (e) {
+      isImageDescriptionUpdateLoading.value = false;
+      ll('imageDescriptionUpdate error: $e');
+    }
+  }
+
+ 
   final RxBool galleryPhotoBottomSheetRightButtonState = RxBool(false);
   final RxString galleryPhotoActionSelect = RxString('');
   final RxList galleryPhotoActionList = RxList([

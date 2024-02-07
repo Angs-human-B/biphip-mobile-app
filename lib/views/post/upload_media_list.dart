@@ -107,6 +107,7 @@ class SeparateImageView extends StatelessWidget {
             ),
           ],
         ),
+       
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
           child: CustomModifiedTextField(

@@ -497,3 +497,4 @@ const String ksStores = "Stores";
 const String ksQRCode = "QR Code";
 const String ksSelectBusinessTypeFromSuggestion = "Business type must be select from suggestion";
 const String ksCreate = "Create";
+const String ksImage = "Image";

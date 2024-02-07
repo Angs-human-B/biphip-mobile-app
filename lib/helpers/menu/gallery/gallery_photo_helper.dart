@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/photos/single_image_description.dart';
 
 class GalleryPhotoHelper {
   final GalleryController galleryController = Get.find<GalleryController>();
@@ -66,6 +67,13 @@ class GalleryPhotoHelper {
       await galleryController.imageMakeCoverPhoto();
     } else if (galleryController.photoActionSelect.value == 'Delete photo') {
       await galleryController.deleteImage();
+    } else if (galleryController.photoActionSelect.value == 'Download photo') {
+      await galleryController.downloadPhoto();
+    } else if (galleryController.photoActionSelect.value == 'Edit caption') {
+      Get.to(() => SingleImageDescription(
+            image: galleryController.imageDetailsData.value!.image!.fullPath.toString(),
+            description: galleryController.imageDetailsData.value!.image!.description,
+          ));
     }
   }
 

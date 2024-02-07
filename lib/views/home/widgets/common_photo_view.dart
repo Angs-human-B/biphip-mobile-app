@@ -5,9 +5,10 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class CommonPhotoView extends StatelessWidget {
-  CommonPhotoView({super.key, required this.image, this.postIndex = 0, this.onPressed});
+  CommonPhotoView({super.key, required this.image, this.postIndex = 0, this.onPressed, this.description});
   final String image;
   final int postIndex;
+  final String? description;
   final VoidCallback? onPressed;
   final HomeController homeController = Get.find<HomeController>();
   @override
@@ -78,7 +79,13 @@ class CommonPhotoView extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        description??'',
+                        style: semiBold14TextStyle(cWhiteColor),
+                      ),
+                      kH16sizedBox,
                       Container(
                         color: cWhiteColor,
                         height: 1,

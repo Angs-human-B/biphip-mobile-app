@@ -83,6 +83,7 @@ class Photos extends StatelessWidget {
                               // Get.toNamed(krPhotoDetails);
                               Get.to(() => CommonPhotoView(
                                     image: galleryController.imageDetailsData.value!.image!.fullPath.toString(),
+                                    description: galleryController.imageDetailsData.value!.image!.description,
                                     onPressed: () {
                                       galleryController.photoActionSelect.value = '';
                                       Get.find<GlobalController>().blankBottomSheet(
