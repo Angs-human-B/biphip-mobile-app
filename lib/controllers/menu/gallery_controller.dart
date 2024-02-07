@@ -139,7 +139,6 @@ class GalleryController extends GetxController {
 
   //*Get Image details Api call
   final Rx<ImageDetailsModel?> imageDetailsData = Rx<ImageDetailsModel?>(null);
-  // final RxList<Image> kidList = RxList<Image>([]);
   final RxBool isImageDetailsLoading = RxBool(false);
   Future<void> getImageDetails() async {
     try {
@@ -164,7 +163,7 @@ class GalleryController extends GetxController {
       }
     } catch (e) {
       isImageDetailsLoading.value = true;
-      ll('getKidsList error: $e');
+      ll('getImageDetails error: $e');
     }
   }
 
@@ -239,6 +238,39 @@ class GalleryController extends GetxController {
     } catch (e) {
       isImageMakeCoverPhotoLoading.value = false;
       ll('imageMakeCoverPhoto error: $e');
+    }
+  }
+
+  //*Delete Photo Api Call
+  final RxBool isPhotoDeleteLoading = RxBool(false);
+  Future<void> deleteImage() async {
+    try {
+      isPhotoDeleteLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteImage/${imageId.value.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        getGalleryAlbumList();
+        isPhotoDeleteLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isPhotoDeleteLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isPhotoDeleteLoading.value = false;
+      ll('kidDelete error: $e');
     }
   }
 

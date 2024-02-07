@@ -57,19 +57,15 @@ class GalleryPhotoHelper {
   void photoOnPressed({required int index}) async {
     galleryController.photoActionSelect.value = galleryController.photoActionList[index]['action'];
     Get.back();
-    if (galleryController.photoActionSelect.value == 'Make as profile picture') {
-      if (Get.isSnackbarOpen) {
-        Get.back();
-        ll('Snackbar open');
-      }
-      await galleryController.imageMakeProfilePicture();
+    if (Get.isSnackbarOpen) {
+      Get.back();
     }
-   else if (galleryController.photoActionSelect.value == 'Make as cover photo') {
-      if (Get.isSnackbarOpen) {
-        Get.back();
-        ll('Snackbar open');
-      }
+    if (galleryController.photoActionSelect.value == 'Make as profile picture') {
+      await galleryController.imageMakeProfilePicture();
+    } else if (galleryController.photoActionSelect.value == 'Make as cover photo') {
       await galleryController.imageMakeCoverPhoto();
+    } else if (galleryController.photoActionSelect.value == 'Delete photo') {
+      await galleryController.deleteImage();
     }
   }
 
