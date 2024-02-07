@@ -35,35 +35,32 @@ class ReceivedFriendListView extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                            child: ListView.builder(
+                            child: ListView.separated(
                               itemCount: friendController.receivedFriendList.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
+                              separatorBuilder: (context, index) => kH16sizedBox,
                               itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: k16Padding),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(k8BorderRadius),
-                                    child: FriendFamilyButtonAction(
-                                      backgroundImage: friendController.receivedFriendList[index].profilePicture.toString(),
-                                      name: friendController.receivedFriendList[index].fullName ?? ksNA.tr,
-                                      firstButtonText: ksConfirm.tr,
-                                      secondButtonText: ksCancel.tr,
-                                      firstButtonOnPressed: () async {
-                                        friendController.userId.value = friendController.receivedFriendList[index].id!;
-                                        await friendController.acceptFriendRequest();
-                                      },
-                                      secondButtonOnPressed: () async {
-                                        friendController.userId.value = friendController.receivedFriendList[index].id!;
-                                        await friendController.rejectFriendRequest();
-                                      },
-                                    ),
-                                  ),
+                                return FriendFamilyButtonAction(
+                                  backgroundImage: friendController.receivedFriendList[index].profilePicture.toString(),
+                                  name: friendController.receivedFriendList[index].fullName ?? ksNA.tr,
+                                  firstButtonText: ksConfirm.tr,
+                                  secondButtonText: ksCancel.tr,
+                                  firstButtonOnPressed: () async {
+                                    friendController.userId.value = friendController.receivedFriendList[index].id!;
+                                    await friendController.acceptFriendRequest();
+                                  },
+                                  secondButtonOnPressed: () async {
+                                    friendController.userId.value = friendController.receivedFriendList[index].id!;
+                                    await friendController.rejectFriendRequest();
+                                  },
                                 );
                               },
                             ),
                           ),
-                          if (friendController.receivedFriendList.isNotEmpty && friendController.receivedFriendListScrolled.value && friendController.receivedFriendListSubLink.value!=null)
+                          if (friendController.receivedFriendList.isNotEmpty &&
+                              friendController.receivedFriendListScrolled.value &&
+                              friendController.receivedFriendListSubLink.value != null)
                             const Center(child: CircularProgressIndicator()),
                         ],
                       ),
