@@ -22,7 +22,7 @@ class BirthdaySection extends StatelessWidget {
             style: semiBold18TextStyle(cBlackColor),
           ),
           kH12sizedBox,
-          InfoContainer2(
+          InfoContainer(
             suffixText: '',
             prefixText: DateFormat("yyyy-MM-dd").format(profileController.userData.value!.dob!),
             isAddButton: false,

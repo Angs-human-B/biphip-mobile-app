@@ -24,7 +24,7 @@ class WorkplaceSection extends StatelessWidget {
           if (profileController.currentWorkplace.value == null)
             Padding(
               padding: const EdgeInsets.only(bottom: k12Padding),
-              child: InfoContainer2(
+              child: InfoContainer(
                 suffixText: ksCurrentWorkplace.tr,
                 isAddButton: true,
                 suffixOnPressed: () async {
@@ -35,7 +35,7 @@ class WorkplaceSection extends StatelessWidget {
           if (profileController.currentWorkplace.value != null)
             Padding(
               padding: const EdgeInsets.only(bottom: k12Padding),
-              child: InfoContainer2(
+              child: InfoContainer(
                 prefixText: profileController.currentWorkplace.value!.position == null ? null : '${profileController.currentWorkplace.value!.position} at',
                 suffixText: checkNullOrStringNull(profileController.currentWorkplace.value!.company),
                 subtitlePrefixText: editProfileHelper.currentWorkSubtitleText(profileController.currentWorkplace.value!.started),
@@ -47,7 +47,7 @@ class WorkplaceSection extends StatelessWidget {
             ),
           Padding(
             padding: const EdgeInsets.only(bottom: k12Padding),
-            child: InfoContainer2(
+            child: InfoContainer(
               suffixText: ksPreviousWorkPlaces.tr,
               isAddButton: true,
               suffixOnPressed: () {
@@ -59,11 +59,11 @@ class WorkplaceSection extends StatelessWidget {
             if (profileController.workplaceDataList[i].isCurrent != 1)
               Padding(
                 padding: const EdgeInsets.only(bottom: k12Padding),
-                child: InfoContainer2(
+                child: InfoContainer(
                   prefixText: profileController.workplaceDataList[i].position == null ? null : 'Former ${profileController.workplaceDataList[i].position} at',
                   suffixText: profileController.workplaceDataList[i].company!,
-                  subtitlePrefixText: editProfileHelper.previousWorkSubtitleText(
-                      profileController.workplaceDataList[i].started, profileController.workplaceDataList[i].ended),
+                  subtitlePrefixText:
+                      editProfileHelper.previousWorkSubtitleText(profileController.workplaceDataList[i].started, profileController.workplaceDataList[i].ended),
                   isAddButton: false,
                   suffixOnPressed: () async {
                     editProfileHelper.editPreviousWorkplace(i);

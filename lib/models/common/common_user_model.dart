@@ -104,9 +104,10 @@ class User {
     dynamic blockTill;
     dynamic otp;
     dynamic refId;
-    dynamic relation;
-    dynamic relationWithName;
-    dynamic relationWithId;
+    String? relation;
+    String? relationWithName;
+    int? relationWithId;
+    DateTime? relationSince;
     String? cover;
     dynamic badge;
     dynamic socialProvider;
@@ -142,6 +143,7 @@ class User {
         required this.relation,
         required this.relationWithName,
         required this.relationWithId,
+        required this.relationSince,
         required this.cover,
         required this.badge,
         required this.socialProvider,
@@ -178,6 +180,7 @@ class User {
         relation: json["relation"],
         relationWithName: json["relation_with_name"],
         relationWithId: json["relation_with_id"],
+        relationSince: json["relation_since"]==null? null:DateTime.parse(json["relation_since"]),
         cover: json["cover"],
         badge: json["badge"],
         socialProvider: json["social_provider"],

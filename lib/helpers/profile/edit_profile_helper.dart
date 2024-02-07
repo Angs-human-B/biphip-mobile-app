@@ -566,8 +566,15 @@ class EditProfileHelper {
       onPressRightButton: () {
         if (profileController.temporaryRelationshipStatus.value != '') {
           profileController.relationshipStatus.value = profileController.temporaryRelationshipStatus.value;
+          ll(profileController.relationshipStatus.value);
+          if (profileController.relationshipStatus.value == "Single" || profileController.relationshipStatus.value == "Separated") {
+            profileController.relationshipPartnerID.value = -1;
+            profileController.relationshipPartnerTextEditingController.clear();
+            profileController.relationshipDate.value = "";
+          }
           profileController.showEditRelationshipStatus.value = true;
         }
+        checkCanSaveRelationship();
         Get.back();
       },
       rightText: ksDone.tr,
@@ -575,11 +582,6 @@ class EditProfileHelper {
       title: ksSelectRelationshipStatus.tr,
       isRightButtonShow: true,
     );
-  }
-
-  void resetRelationshipStatus() {
-    profileController.relationshipStatus.value = '';
-    profileController.showEditRelationshipStatus.value = false;
   }
 
   void saveRelationshipStatus() async {
@@ -1015,6 +1017,75 @@ class EditProfileHelper {
       profileController.editCommonSelectionBottomSheetRightButtonState.value = false;
     } else {
       profileController.editCommonSelectionBottomSheetRightButtonState.value = true;
+    }
+  }
+
+  void relationshipDateButtonOnPressed(context) {
+    profileController.temporaryRelationshipDate.value = '';
+    if (profileController.relationshipDate.value != '') {
+      profileController.temporaryRelationshipDate.value = profileController.relationshipDate.value;
+    }
+    profileController.relationshipDateBottomSheetState.value = false;
+    globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: profileController.relationshipDateBottomSheetState,
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        Get.back();
+        profileController.relationshipDate.value = profileController.temporaryRelationshipDate.value;
+        checkCanSaveRelationship();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksStartDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          maximumDate: DateTime.now().add(const Duration(minutes: 30)),
+          initialDateTime:
+              profileController.temporaryRelationshipDate.value != '' ? DateTime.parse(profileController.temporaryRelationshipDate.value) : DateTime.now(),
+          mode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: (value) {
+            profileController.relationshipDateBottomSheetState.value = true;
+            profileController.temporaryRelationshipDate.value = DateFormat("yyyy-MM-dd").format(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  void resetRelationshipEditPage() {
+    profileController.relationshipStatus.value = "";
+    profileController.relationshipDate.value = "";
+    profileController.temporaryRelationshipDate.value = "";
+    profileController.relationshipPartnerTextEditingController.clear();
+    profileController.showRelationshipPartnerSuffixIcon.value = false;
+    profileController.relationshipPartnerID.value = -1;
+    profileController.isRelationshipSaveButtonActive.value = false;
+    profileController.temporaryFriendList.clear();
+  }
+
+  void checkCanSaveRelationship() {
+    if (profileController.relationshipStatus.value != "") {
+      profileController.isRelationshipSaveButtonActive.value = true;
+    } else {
+      profileController.isRelationshipSaveButtonActive.value = false;
+    }
+  }
+
+  void setEditRelationshipPageValue() {
+    if (profileController.userData.value!.relationSince != null) {
+      profileController.relationshipDate.value = DateFormat("yyyy-MM-dd").format(profileController.userData.value!.relationSince!);
+    }
+    if (profileController.userData.value!.relation != null) {
+      profileController.relationshipStatus.value = profileController.userData.value!.relation!;
+    }
+    if (profileController.userData.value!.relationWithName != null) {
+      profileController.relationshipPartnerTextEditingController.text = profileController.userData.value!.relationWithName!;
+      profileController.relationshipPartnerID.value = profileController.userData.value!.relationWithId!;
     }
   }
 }
