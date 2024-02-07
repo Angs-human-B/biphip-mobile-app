@@ -434,15 +434,14 @@ class FamilyController extends GetxController {
       if (response.success == true) {
         if (isRouteFromAllFriend.value) {
           isRouteFromAllFriend.value = false;
-          Get.offNamedUntil(krMenu, (route) => true);
-          Get.toNamed(krFamily);
+          Get.offNamedUntil(krFamily, ModalRoute.withName(krMenu));
           FamilyHelper().pendingFamilyTapableButtOnPressed();
         } else {
           Get.back();
           FamilyHelper().pendingFamilyTapableButtOnPressed();
-          isSendFamilyRequestLoading.value = false;
           globalController.searchController.clear();
         }
+        isSendFamilyRequestLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor);
       } else {
         isSendFamilyRequestLoading.value = false;
@@ -493,17 +492,19 @@ class FamilyController extends GetxController {
   }
 
   final RxString relation = RxString("");
-  final RxString tempRelation = RxString("");
+  final RxString temporaryRelation = RxString("");
   final FocusNode addFamilyFocusNode = FocusNode();
   void clearAddFamilyData() {
     relationStatusId.value = -1;
     userId.value = -1;
     relationId.value = -1;
     relation.value = '';
-    tempRelation.value = '';
+    temporaryRelation.value = '';
   }
 
   Timer? debounce;
   final RxBool isFamilySuffixIconVisible = RxBool(false);
   final RxBool isRouteFromAllFriend = RxBool(false);
+  final RxString selectedAddFamilyFullName= RxString('');
+  final RxString selectedAddFamilyProfilePicture= RxString('');
 }

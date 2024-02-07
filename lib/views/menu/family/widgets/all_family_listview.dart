@@ -34,30 +34,28 @@ class AllFamilyListView extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                            child: ListView.builder(
+                            child: ListView.separated(
                               itemCount: familyController.familyList.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
+                              separatorBuilder: (context, index) => kH16sizedBox,
                               itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: k16Padding),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(k8BorderRadius),
-                                    child: FriendFamilyButtonAction(
-                                      backgroundImage: familyController.familyList[index].profilePicture.toString(),
-                                      imageSize: h50,
-                                      name: familyController.familyList[index].fullName ?? ksNA.tr,
-                                      icon: BipHip.relation,
-                                      subTitle: familyController.familyList[index].familyRelationStatus ?? ksNA.tr,
-                                      firstButtonText: ksMessage.tr,
-                                      secondButtonText: ksBlock.tr,
-                                      firstButtonOnPressed: () {
-                                        unFocus(context);
-                                      },
-                                      secondButtonOnPressed: () {
-                                        unFocus(context);
-                                      },
-                                    ),
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                                  child: FriendFamilyButtonAction(
+                                    backgroundImage: familyController.familyList[index].profilePicture.toString(),
+                                    imageSize: h50,
+                                    name: familyController.familyList[index].fullName ?? ksNA.tr,
+                                    icon: BipHip.relation,
+                                    subTitle: familyController.familyList[index].familyRelationStatus ?? ksNA.tr,
+                                    firstButtonText: ksMessage.tr,
+                                    secondButtonText: ksBlock.tr,
+                                    firstButtonOnPressed: () {
+                                      unFocus(context);
+                                    },
+                                    secondButtonOnPressed: () {
+                                      unFocus(context);
+                                    },
                                   ),
                                 );
                               },

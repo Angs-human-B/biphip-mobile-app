@@ -41,93 +41,93 @@ class AllFriendListView extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                            child: ListView.builder(
+                            child: ListView.separated(
                               itemCount: friendController.friendList.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
+                              separatorBuilder: (context, index) => kH16sizedBox,
                               itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: k12Padding),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(k8BorderRadius),
-                                    child: CustomListTile(
-                                      padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k8Padding).copyWith(right: k0Padding),
-                                      borderColor: cLineColor,
-                                      leading: Container(
-                                        height: h40,
-                                        width: h40,
-                                        decoration: const BoxDecoration(
-                                          color: cWhiteColor,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: ClipOval(
-                                          child: Image.network(
-                                            friendController.friendList[index].profilePicture.toString(),
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (context, error, stackTrace) {
-                                              return Image.asset(kiProfileDefaultImageUrl);
-                                            },
-                                            loadingBuilder: imageLoadingBuilder,
-                                          ),
-                                        ),
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                                  child: CustomListTile(
+                                    padding: const EdgeInsets.only(left: k8Padding, top: k8Padding,bottom: k8Padding),
+                                    borderColor: cLineColor,
+                                    leading: Container(
+                                      height: h40,
+                                      width: h40,
+                                      decoration: const BoxDecoration(
+                                        color: cWhiteColor,
+                                        shape: BoxShape.circle,
                                       ),
-                                      title: Text(
-                                        friendController.friendList[index].fullName ?? ksNA.tr,
-                                        style: semiBold16TextStyle(cBlackColor),
-                                      ),
-                                      trailing: CustomIconButton(
-                                          onPress: () {
-                                            friendController.familyRelationStatus.value = friendController.friendList[index].familyRelationStatus;
-                                            unFocus(context);
-                                            friendController.friendActionSelect.value = '';
-                                            friendController.allFriendFollowStatus.value = friendController.friendList[index].followStatus!;
-                                            if (friendController.friendActionSelect.value == '') {
-                                              friendController.friendActionBottomSheetRightButtonState.value = false;
-                                            } else {
-                                              friendController.friendActionBottomSheetRightButtonState.value = true;
-                                            }
-                                            globalController.commonBottomSheet(
-                                              context: context,
-                                              isBottomSheetRightButtonActive: friendController.friendActionBottomSheetRightButtonState,
-                                              isScrollControlled: true,
-                                              content: AllFriendActionContent(
-                                                friendController: friendController,
-                                              ),
-                                              onPressCloseButton: () {
-                                                Get.back();
-                                              },
-                                              onPressRightButton: () async {
-                                                friendController.userId.value = friendController.friendList[index].id!;
-
-                                                ll(friendController.userId.value);
-                                                Get.back();
-                                                if (friendController.friendActionSelect.value == 'Unfriend') {
-                                                  await friendController.unfriendUserRequest();
-                                                }
-                                                if (friendController.friendActionSelect.value == 'Unfollow') {
-                                                  await friendController.unfollowUser();
-                                                }
-                                                if (friendController.friendActionSelect.value == 'Follow') {
-                                                  await friendController.followUser();
-                                                }
-                                                if (friendController.friendActionSelect.value == 'Add Family') {
-                                                  Get.find<FamilyController>().clearAddFamilyData();
-                                                  Get.find<FamilyController>().isRouteFromAllFriend.value = true;
-                                                  Get.find<FamilyController>().userId.value = friendController.friendList[index].id!;
-                                                  Get.to(() => AddFamily(name: friendController.friendList[index].fullName));
-                                                }
-                                                friendController.friendActionSelect.value = '';
-                                              },
-                                              rightText: ksDone.tr,
-                                              rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                              title: ksAction.tr,
-                                              isRightButtonShow: true,
-                                              bottomSheetHeight: 250,
-                                            );
-                                          
+                                      child: ClipOval(
+                                        child: Image.network(
+                                          friendController.friendList[index].profilePicture.toString(),
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stackTrace) {
+                                            return Image.asset(kiProfileDefaultImageUrl);
                                           },
-                                          icon: BipHip.system),
+                                          loadingBuilder: imageLoadingBuilder,
+                                        ),
+                                      ),
                                     ),
+                                    title: Text(
+                                      friendController.friendList[index].fullName ?? ksNA.tr,
+                                      style: semiBold16TextStyle(cBlackColor),
+                                    ),
+                                    trailing: CustomIconButton(
+                                        onPress: () {
+                                          friendController.familyRelationStatus.value = friendController.friendList[index].familyRelationStatus;
+                                          unFocus(context);
+                                          friendController.friendActionSelect.value = '';
+                                          friendController.allFriendFollowStatus.value = friendController.friendList[index].followStatus!;
+                                          if (friendController.friendActionSelect.value == '') {
+                                            friendController.friendActionBottomSheetRightButtonState.value = false;
+                                          } else {
+                                            friendController.friendActionBottomSheetRightButtonState.value = true;
+                                          }
+                                          globalController.commonBottomSheet(
+                                            context: context,
+                                            isBottomSheetRightButtonActive: friendController.friendActionBottomSheetRightButtonState,
+                                            isScrollControlled: true,
+                                            content: AllFriendActionContent(
+                                              friendController: friendController,
+                                            ),
+                                            onPressCloseButton: () {
+                                              Get.back();
+                                            },
+                                            onPressRightButton: () async {
+                                              friendController.userId.value = friendController.friendList[index].id!;
+
+                                              ll(friendController.userId.value);
+                                              Get.back();
+                                              if (friendController.friendActionSelect.value == 'Unfriend') {
+                                                await friendController.unfriendUserRequest();
+                                              }
+                                              if (friendController.friendActionSelect.value == 'Unfollow') {
+                                                await friendController.unfollowUser();
+                                              }
+                                              if (friendController.friendActionSelect.value == 'Follow') {
+                                                await friendController.followUser();
+                                              }
+                                              if (friendController.friendActionSelect.value == 'Add Family') {
+                                                Get.find<FamilyController>().clearAddFamilyData();
+                                                Get.find<FamilyController>().isRouteFromAllFriend.value = true;
+                                                Get.find<FamilyController>().userId.value = friendController.friendList[index].id!;
+                                                Get.to(() => AddFamily(
+                                                      name: friendController.friendList[index].fullName,
+                                                      profilePicture: friendController.friendList[index].profilePicture,
+                                                    ));
+                                              }
+                                              friendController.friendActionSelect.value = '';
+                                            },
+                                            rightText: ksDone.tr,
+                                            rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                            title: ksAction.tr,
+                                            isRightButtonShow: true,
+                                            bottomSheetHeight: 250,
+                                          );
+                                        },
+                                        icon: BipHip.system),
                                   ),
                                 );
                               },
