@@ -34,10 +34,11 @@ class ReceivedFamilyListView extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                            child: ListView.builder(
+                            child: ListView.separated(
                               itemCount: familyController.receivedFamilyList.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
+                              separatorBuilder: (context, index) => kH16sizedBox,
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.only(bottom: k16Padding),

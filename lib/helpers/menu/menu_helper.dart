@@ -6,6 +6,7 @@ import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/controllers/menu/store_controller.dart';
+import 'package:bip_hip/helpers/menu/friend/friend_helper.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
@@ -18,15 +19,15 @@ class MenuHelper {
       case 0:
         ll('Friend');
         Get.find<GlobalController>().resetTapButtonData();
-        Get.find<GlobalController>().searchController.clear();
-        Get.find<FriendController>().isFriendSearched.value = false;
-        Get.find<FriendController>().isRouteFromBottomNavBar.value = false;
+        FriendHelper().friendSearchFieldReset();
         Get.toNamed(krFriends);
         await Get.find<FriendController>().getFriendList();
         break;
       case 1:
         ll('Family');
         Get.find<GlobalController>().resetTapButtonData();
+        Get.find<GlobalController>().searchController.clear();
+        Get.find<FamilyController>().isFamilySuffixIconVisible.value = false;
         Get.toNamed(krFamily);
         await Get.find<FamilyController>().getFamilyList();
         break;

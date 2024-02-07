@@ -37,6 +37,9 @@ class Family extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () {
                             unfocus(context);
+                            familyController.isRouteFromAllFriend.value = false;
+                            familyController.selectedAddFamilyFullName.value = '';
+                            familyController.selectedAddFamilyProfilePicture.value = '';
                             familyHelper.routeToAddFamilyPage();
                           },
                           child: Text(
