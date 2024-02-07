@@ -26,4 +26,27 @@ class GalleryPhotoHelper {
       }
     }
   }
+
+    void galleryPhotoActionOnChanged({required int index}) {
+   
+    if (galleryController.galleryPhotoActionSelect.value == '') {
+      galleryController.galleryPhotoBottomSheetRightButtonState.value = false;
+    } else {
+      galleryController.galleryPhotoBottomSheetRightButtonState.value= true;
+    }
+  }
+    void galleryPhotoOnPressed({required int index}) {
+      galleryController.galleryPhotoActionSelect.value = galleryController.galleryPhotoActionList[index]['action'];
+    if (galleryController.galleryPhotoActionSelect.value == '') {
+      galleryController.galleryPhotoBottomSheetRightButtonState.value = false;
+    } else {
+      galleryController.galleryPhotoBottomSheetRightButtonState.value= true;
+    }
+  }
+  Color galleryPhotoItemColor({required int index}){
+     if (galleryController.galleryPhotoActionSelect.value == galleryController.galleryPhotoActionList[index]['action']) {
+        return cPrimaryTint3Color;
+      }
+      return cWhiteColor;
+  }
 }

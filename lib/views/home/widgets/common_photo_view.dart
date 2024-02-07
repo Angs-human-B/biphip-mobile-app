@@ -5,9 +5,10 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class CommonPhotoView extends StatelessWidget {
-  CommonPhotoView({super.key, required this.image, this.postIndex = 0});
+  CommonPhotoView({super.key, required this.image, this.postIndex = 0, this.onPressed});
   final String image;
   final int postIndex;
+  final VoidCallback? onPressed;
   final HomeController homeController = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,17 @@ class CommonPhotoView extends StatelessWidget {
               onBack: () {
                 Get.back();
               },
+              action: [
+                Padding(
+                  padding: const EdgeInsets.only(right: k8Padding),
+                  child: CustomIconButton(
+                    onPress: onPressed,
+                    icon: BipHip.system,
+                    iconColor: cWhiteColor,
+                    size: kIconSize20,
+                  ),
+                ),
+              ],
             ),
           ),
           body: Stack(

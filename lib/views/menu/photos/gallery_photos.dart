@@ -29,6 +29,21 @@ class GalleryPhotos extends StatelessWidget {
               onBack: () {
                 Get.back();
               },
+              action: [
+                Padding(
+                  padding: const EdgeInsets.only(right: k20Padding),
+                  child: TextButton(
+                    style: kTextButtonStyle,
+                    onPressed: () {
+                      // Get.toNamed(krAddKidBasicInfo);
+                    },
+                    child: Text(
+                      ksCreate.tr,
+                      style: semiBold16TextStyle(cPrimaryColor),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           body: Obx(
@@ -70,7 +85,7 @@ class GalleryPhotos extends StatelessWidget {
                           )
                         : Expanded(
                             child: SingleChildScrollView(
-                              physics: const NeverScrollableScrollPhysics(),
+                              // physics: const NeverScrollableScrollPhysics(),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k12Padding),
                                 child: GridView.builder(
@@ -91,13 +106,13 @@ class GalleryPhotos extends StatelessWidget {
                                               subTitle: galleryController.imageDataList[index].totalImage.toString(),
                                               image: galleryController.imageDataList[index].preview,
                                               threeDotOnPressed: () {
+                                                galleryController.galleryPhotoActionSelect.value = '';
+                                                galleryController.galleryPhotoBottomSheetRightButtonState.value = false;
                                                 Get.find<GlobalController>().commonBottomSheet(
                                                   context: context,
-                                                  isBottomSheetRightButtonActive: galleryController.BottomSheetRightButtonState,
+                                                  isBottomSheetRightButtonActive: galleryController.galleryPhotoBottomSheetRightButtonState,
                                                   isScrollControlled: true,
-                                                  content: const Column(
-                                                    children: [],
-                                                  ),
+                                                  content: GalleryPhotoActionContent(),
                                                   onPressCloseButton: () {
                                                     Get.back();
                                                   },
@@ -108,7 +123,7 @@ class GalleryPhotos extends StatelessWidget {
                                                   rightTextStyle: semiBold16TextStyle(cPrimaryColor),
                                                   title: ksAction.tr,
                                                   isRightButtonShow: true,
-                                                  bottomSheetHeight: 250,
+                                                  bottomSheetHeight: 140,
                                                 );
                                               },
                                               onPressed: () {
@@ -131,6 +146,59 @@ class GalleryPhotos extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class GalleryPhotoActionContent extends StatelessWidget {
+  GalleryPhotoActionContent({super.key});
+  final GalleryController galleryController = Get.find<GalleryController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: galleryController.galleryPhotoActionList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Obx(
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: k8Padding),
+                child: CustomListTile(
+                  leading: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: cNeutralColor,
+                    ),
+                    height: h28,
+                    width: h28,
+                    child: Icon(
+                      galleryController.galleryPhotoActionList[index]['icon'],
+                      color: cBlackColor,
+                      size: isDeviceScreenLarge() ? h18 : h14,
+                    ),
+                  ),
+                  title: galleryController.galleryPhotoActionList[index]['action'].toString().tr,
+                  titleTextStyle: semiBold16TextStyle(cBlackColor),
+                  subTitleTextStyle: regular14TextStyle(cBlackColor),
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      GalleryPhotoHelper().galleryPhotoActionOnChanged(index: index);
+                    },
+                    isSelected: (galleryController.galleryPhotoActionSelect.value == galleryController.galleryPhotoActionList[index]['action']),
+                  ),
+                  itemColor: GalleryPhotoHelper().galleryPhotoItemColor(index: index),
+                  onPressed: () {
+                    GalleryPhotoHelper().galleryPhotoOnPressed(index: index);
+                  },
+                ),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

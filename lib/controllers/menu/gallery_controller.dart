@@ -167,9 +167,20 @@ class GalleryController extends GetxController {
       ll('getKidsList error: $e');
     }
   }
-  final RxBool BottomSheetRightButtonState= RxBool(false);
-    final RxList galleryPhotoActionList = RxList([
-    {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
-    {'icon': BipHip.follow, 'action': 'Follow', 'actionSubtitle': 'Follow this user'}
+
+  //   List<String> getImageUrl() {
+  //   List<String> images = [];
+  //   if (albumData.value!.imageAlbums.path!.isEmpty) {
+  //     return images;
+  //   }
+  //   for (int i = 0; i < albumData.value!.imageAlbums.path!.length; i++) {
+  //     images.add(albumData.value!.imageAlbums.path![i] ?? '');
+  //   }
+  //   return images;
+  // }
+  final RxBool galleryPhotoBottomSheetRightButtonState = RxBool(false);
+  final RxList galleryPhotoActionList = RxList([
+    {'icon': BipHip.imageFile, 'action': 'Download Album'}
   ]);
+  final RxString galleryPhotoActionSelect = RxString('');
 }

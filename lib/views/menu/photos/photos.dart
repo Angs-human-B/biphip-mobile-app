@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -78,8 +79,13 @@ class Photos extends StatelessWidget {
                               galleryController.imageId.value = galleryController.selectedImageList[index].id!;
                               ll(galleryController.imageId.value.toString());
                               await galleryController.getImageDetails();
-                              Get.toNamed(krPhotoDetails);
-                              // ll(galleryController.selectedImageList.length);
+                              // Get.toNamed(krPhotoDetails);
+                              Get.to(() => CommonPhotoView(
+                                    image: galleryController.imageDetailsData.value!.image!.fullPath.toString(),
+                                    onPressed: () {
+                                      
+                                    },
+                                  ));
                             },
                             child: Container(
                               decoration: BoxDecoration(
