@@ -359,4 +359,6 @@ class GalleryController extends GetxController {
     {'icon': BipHip.user, 'action': 'Make as profile picture'},
     {'icon': BipHip.imageFile, 'action': 'Make as cover photo'},
   ]);
+  //*Create Album
+  final TextEditingController createAlbumNameController = TextEditingController();
 }
