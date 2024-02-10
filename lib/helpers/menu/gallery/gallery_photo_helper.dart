@@ -112,8 +112,8 @@ class GalleryPhotoHelper {
   }
 
   void insertMedia(mediaLink, mediaFile) {
-    galleryController.createAlbumAllMediaLinkList.addAll(mediaFile);
-    galleryController.createAlbumAllMediaFileList.addAll(mediaFile);
+    galleryController.allMediaList.addAll(mediaFile);
+    galleryController.allMediaFileList.addAll(mediaFile);
   }
 
   void getBottomRowOnPressed(index, [context]) async {
@@ -137,7 +137,6 @@ class GalleryPhotoHelper {
       }
       Get.toNamed(krCreateAlbumLocation);
     } else if (index == 3) {
-      
     } else {
       // createPostController.tagFriendList.clear();
       // createPostController.tempTaggedFriends.clear();
@@ -185,6 +184,11 @@ class GalleryPhotoHelper {
         Get.find<FriendController>().isFriendListLoading.value = false;
       }
     }
+  }
+
+  void removeMedia(index) {
+    galleryController.allMediaList.removeAt(index);
+    galleryController.allMediaFileList.removeAt(index);
   }
 
   // //Get tagged friend bottom sheet

@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/shimmers/post/create_post_shimmers.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/photos/create_album_media_section.dart';
 
 class CreateAlbum extends StatelessWidget {
   CreateAlbum({super.key});
@@ -46,7 +47,6 @@ class CreateAlbum extends StatelessWidget {
               ],
             ),
           ),
-          
           body: Obx(() => Stack(
                 children: [
                   Padding(
@@ -89,89 +89,44 @@ class CreateAlbum extends StatelessWidget {
                           ],
                         ),
                         kH16sizedBox,
-                        galleryController.createAlbumAllMediaFileList.isEmpty
-                            ? InkWell(
-                                onTap: () async {},
-                                child: Container(
-                                  width: width,
-                                  height: isDeviceScreenLarge() ? 148 : 124,
-                                  decoration: BoxDecoration(
-                                    color: cPrimaryTint4Color,
-                                    borderRadius: BorderRadius.circular(k8BorderRadius),
-                                    border: Border.all(color: cPrimaryColor, width: 1),
+                        if (galleryController.allMediaFileList.isEmpty)
+                          InkWell(
+                            onTap: () async {},
+                            child: Container(
+                              width: width,
+                              height: isDeviceScreenLarge() ? 148 : 124,
+                              decoration: BoxDecoration(
+                                color: cPrimaryTint4Color,
+                                borderRadius: BorderRadius.circular(k8BorderRadius),
+                                border: Border.all(color: cPrimaryColor, width: 1),
+                              ),
+                              child: Column(
+                                children: [
+                                  kH16sizedBox,
+                                  Container(
+                                    width: 52,
+                                    height: 52,
+                                    decoration: const BoxDecoration(color: cPrimaryTint2Color, shape: BoxShape.circle),
+                                    child: const Icon(
+                                      BipHip.imageFile,
+                                      size: kIconSize28,
+                                      color: cPrimaryColor,
+                                    ),
                                   ),
-                                  child: Column(
-                                    children: [
-                                      kH16sizedBox,
-                                      Container(
-                                        width: 52,
-                                        height: 52,
-                                        decoration: const BoxDecoration(color: cPrimaryTint2Color, shape: BoxShape.circle),
-                                        child: const Icon(
-                                          BipHip.imageFile,
-                                          size: kIconSize28,
-                                          color: cPrimaryColor,
-                                        ),
-                                      ),
-                                      Text(
-                                        ksAddPhotoAndVideo,
-                                        style: semiBold16TextStyle(cBlackColor),
-                                      ),
-                                      kH4sizedBox,
-                                      Text(
-                                        ksTapToUpload.tr,
-                                        style: regular12TextStyle(cPlaceHolderColor),
-                                      ),
-                                    ],
+                                  Text(
+                                    ksAddPhotoAndVideo,
+                                    style: semiBold16TextStyle(cBlackColor),
                                   ),
-                                ),
-                              )
-                            : GridView.builder(
-                                shrinkWrap: true,
-                                padding: EdgeInsets.zero,
-                                physics: const NeverScrollableScrollPhysics(),
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  mainAxisSpacing: h12,
-                                  crossAxisSpacing: h12,
-                                  childAspectRatio: 0.83,
-                                ),
-                                itemCount: galleryController.createAlbumAllMediaFileList.length,
-                                itemBuilder: (context, index) {
-                                  return Stack(
-                                    children: [
-                                      if (galleryController.createAlbumAllMediaFileList.length != index)
-                                        ClipRRect(
-                                            borderRadius: const BorderRadius.all(Radius.circular(k8BorderRadius)),
-                                            child: Image.file(
-                                              galleryController.createAlbumAllMediaFileList[index].value,
-                                              width: (width - 40) / 3,
-                                              fit: BoxFit.cover,
-                                            )),
-                                      if (galleryController.createAlbumAllMediaFileList.length != index)
-                                        Positioned(
-                                            top: 8,
-                                            right: 8,
-                                            child: Container(
-                                              width: h20,
-                                              height: h20,
-                                              decoration: const BoxDecoration(
-                                                color: cRedColor,
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: Center(
-                                                  child: CustomIconButton(
-                                                onPress: () {
-                                                  // createPostHelper.removeSellingMedia(index);
-                                                },
-                                                icon: BipHip.cross,
-                                                iconColor: cWhiteColor,
-                                                size: kIconSize14,
-                                              )),
-                                            )),
-                                    ],
-                                  );
-                                }),
+                                  kH4sizedBox,
+                                  Text(
+                                    ksTapToUpload.tr,
+                                    style: regular12TextStyle(cPlaceHolderColor),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        if (galleryController.allMediaFileList.isNotEmpty) CreateAlbumtMediaSection(),
                       ],
                     ),
                   ),
@@ -283,9 +238,7 @@ class CreateAlbumBottomSection extends StatelessWidget {
       ),
     );
   }
-  
 }
-
 
 class CreateAlbumTagPeopleBottomSheetContent extends StatelessWidget {
   CreateAlbumTagPeopleBottomSheetContent({super.key});
@@ -435,4 +388,3 @@ class CreateAlbumTagPeopleBottomSheetContent extends StatelessWidget {
     );
   }
 }
-

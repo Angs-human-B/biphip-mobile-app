@@ -14,6 +14,7 @@ import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/menu/photos/create_album.dart';
 import 'package:bip_hip/views/menu/photos/create_album_location.dart';
+import 'package:bip_hip/views/menu/photos/create_album_upload_image_list.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/add_language.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/relationship_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_basic_info.dart';
@@ -112,6 +113,7 @@ const String krGalleryPhotos = '/gallery-photos';
 const String krGalleryVideos = '/gallery-videos';
 const String krCreateAlbum = '/create-album';
 const String krCreateAlbumLocation = '/create-album-add-location';
+const String krCreateAlbumUploadImageList = '/create-album-upload-image-list';
 //*Kids
 const String krKidsPage = '/kids-page';
 const String krEditKidPage = '/edit-kids-page';
@@ -187,6 +189,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krGalleryVideos, page: () => GalleryVideos(), transition: Transition.noTransition),
   GetPage(name: krCreateAlbum, page: () => CreateAlbum(), transition: Transition.noTransition),
   GetPage(name: krCreateAlbumLocation, page: () => CreateAlbumLocation(), transition: Transition.noTransition),
+  GetPage(name: krCreateAlbumUploadImageList, page: () => CreateAlbumUploadImageList(), transition: Transition.noTransition),
   //*Kids
   GetPage(name: krKidsPage, page: () => KidsPage(), transition: Transition.noTransition),
   GetPage(name: krEditKidPage, page: () => EditKidPage(), transition: Transition.noTransition),

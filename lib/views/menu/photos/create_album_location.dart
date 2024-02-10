@@ -10,6 +10,8 @@ class CreateAlbumLocation extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async {
         galleryController.locationTextEditingController.clear();
+        galleryController.isAddLocationSuffixIconVisible.value = false;
+        galleryController.isLocationSaveEnable.value = false;
         Get.back();
         return true;
       },
@@ -29,6 +31,8 @@ class CreateAlbumLocation extends StatelessWidget {
                 onBack: () {
                   galleryController.locationTextEditingController.clear();
                   Get.back();
+                  galleryController.isAddLocationSuffixIconVisible.value = false;
+                  galleryController.isLocationSaveEnable.value = false;
                 },
               ),
             ),

@@ -410,8 +410,6 @@ class GalleryController extends GetxController {
     {'id': 4, 'name': 'Friend & Family', "icon": BipHip.friends},
   ];
 
-  final RxList<RxString> createAlbumAllMediaLinkList = RxList<RxString>([]);
-  final RxList<Rx<File>> createAlbumAllMediaFileList = RxList<Rx<File>>([]);
   final RxBool isCreateAlbumMediaChanged = RxBool(false);
   final RxList<FriendFamilyUserData> tagFriendList = RxList<FriendFamilyUserData>([]);
   final RxList<FriendFamilyUserData> temporaryTaggedFriends = RxList<FriendFamilyUserData>([]);
@@ -431,4 +429,15 @@ class GalleryController extends GetxController {
       isLocationSaveEnable.value = false;
     }
   }
+
+  final RxList allMediaList = RxList([]);
+  final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
+  final RxList<RxString> createAlbumAllMediaLinkList = RxList<RxString>([]);
+  final RxList<Rx<File>> createAlbumAllMediaFileList = RxList<Rx<File>>([]);
+  // final RxList<RxString> mediaLinkList = RxList<RxString>([]);
+  // final RxList<Rx<File>> mediaFileList = RxList<Rx<File>>([]);
+  List imageDescriptionTextEditingController = [];
+  List imageLocationsList = [];
+  List imageTimesList = [];
+  List imageTagIdList = [];
 }
