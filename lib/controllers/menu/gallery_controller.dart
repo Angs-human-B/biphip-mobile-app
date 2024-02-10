@@ -382,7 +382,7 @@ class GalleryController extends GetxController {
     createAlbumSelectedPrivacyIcon.value = BipHip.friends;
     temoparyprivacyId.value = 2;
     privacyId.value = 2;
-        Get.find<FriendController>().friendList.clear();
+    Get.find<FriendController>().friendList.clear();
   }
 
   void albumNameOnChange() {
@@ -409,13 +409,26 @@ class GalleryController extends GetxController {
     {'id': 3, 'name': 'Families', "icon": BipHip.addFamily},
     {'id': 4, 'name': 'Friend & Family', "icon": BipHip.friends},
   ];
-      
-   final RxList createAlbumAllMediaLinkList = RxList([]);
+
+  final RxList<RxString> createAlbumAllMediaLinkList = RxList<RxString>([]);
   final RxList<Rx<File>> createAlbumAllMediaFileList = RxList<Rx<File>>([]);
   final RxBool isCreateAlbumMediaChanged = RxBool(false);
-   final RxList<FriendFamilyUserData> tagFriendList = RxList<FriendFamilyUserData>([]);
+  final RxList<FriendFamilyUserData> tagFriendList = RxList<FriendFamilyUserData>([]);
   final RxList<FriendFamilyUserData> temporaryTaggedFriends = RxList<FriendFamilyUserData>([]);
   final RxList<FriendFamilyUserData> taggedFriends = RxList<FriendFamilyUserData>([]);
-    final RxList temporaryTagIndex = RxList([]);
-  final RxBool tagFriendButtonSheetRightButtonState= RxBool(false);
+  final RxList temporaryTagIndex = RxList([]);
+  final RxBool tagFriendButtonSheetRightButtonState = RxBool(false);
+  //*Add location
+  final TextEditingController locationTextEditingController = TextEditingController();
+  final List<String> locationList = ['Agargaon', 'Shewrapara', 'Kazipara', 'Mirpur10', 'Mirpur11', 'Pallabi', 'Mirpur12'];
+  final RxBool isLocationSaveEnable = RxBool(false);
+  final RxBool isAddLocationSuffixIconVisible = RxBool(false);
+  final RxString addLocationValue = RxString('');
+  void checkCanSaveLocation() {
+    if (locationTextEditingController.text.toString().trim() != '') {
+      isLocationSaveEnable.value = true;
+    } else {
+      isLocationSaveEnable.value = false;
+    }
+  }
 }

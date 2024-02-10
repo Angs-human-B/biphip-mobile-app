@@ -111,28 +111,33 @@ class GalleryPhotoHelper {
     );
   }
 
+  void insertMedia(mediaLink, mediaFile) {
+    galleryController.createAlbumAllMediaLinkList.addAll(mediaFile);
+    galleryController.createAlbumAllMediaFileList.addAll(mediaFile);
+  }
+
   void getBottomRowOnPressed(index, [context]) async {
     ll(index);
     if (index == 1) {
-      // var status = await globalController.selectMultiMediaSource(
-      //     galleryController.isCreateAlbumMediaChanged,galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
-      // if (status) {
-      //   insertMedia(galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
-      // configImageDescription();
-      // checkCanCreatePost();
-      // createPostController.isMediaChanged.value = false;
-      // createPostController.mediaLinkList.clear();
-      // createPostController.mediaFileList.clear();
-      // }
+      var status = await globalController.selectMultiMediaSource(
+          galleryController.isCreateAlbumMediaChanged, galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
+      if (status) {
+        insertMedia(galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
+        // configImageDescription();
+        // checkCanCreatePost();
+        galleryController.isCreateAlbumMediaChanged.value = false;
+        galleryController.createAlbumAllMediaLinkList.clear();
+        galleryController.createAlbumAllMediaFileList.clear();
+      }
     } else if (index == 2) {
+      if (galleryController.locationTextEditingController.text.toString().trim() != '') {
+        galleryController.addLocationValue.value = galleryController.locationTextEditingController.text.toString().trim();
+      } else {
+        galleryController.locationTextEditingController.clear();
+      }
+      Get.toNamed(krCreateAlbumLocation);
     } else if (index == 3) {
-      // var status = await _globalController.selectVideoSource(isCreatePostVideoChanged, createPostVideoLink, createPostVideoFile, 'camera', true);
-      // if (status) {
-      //   insertMedia([createPostVideoLink], createPostVideoFile);
-      //   isCreatePostVideoChanged.value = false;
-      //   createPostVideoLink.value = "";
-      //   createPostVideoFile.clear();
-      // }
+      
     } else {
       // createPostController.tagFriendList.clear();
       // createPostController.tempTaggedFriends.clear();

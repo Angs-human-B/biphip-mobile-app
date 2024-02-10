@@ -46,6 +46,7 @@ class CreateAlbum extends StatelessWidget {
               ],
             ),
           ),
+          
           body: Obx(() => Stack(
                 children: [
                   Padding(
