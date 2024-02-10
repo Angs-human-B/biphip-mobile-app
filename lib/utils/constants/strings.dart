@@ -505,3 +505,4 @@ const String ksCreate = "Create";
 const String ksImage = "Image";
 const String ksCreateAlbum = "Create Album";
 const String ksAlbumNamw = "Album Name";
+const String ksEmptyAlbumNameErrorText = "Album name can't be empty";

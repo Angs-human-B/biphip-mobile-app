@@ -1,8 +1,11 @@
+import 'dart:io';
+
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/album/album_list_model.dart';
 import 'package:bip_hip/models/menu/album/image_details_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-
 
 class GalleryController extends GetxController {
   final ApiController apiController = ApiController();
@@ -274,7 +277,7 @@ class GalleryController extends GetxController {
     }
   }
 
- //*Download Photo Api Call
+  //*Download Photo Api Call
   final RxBool isDownloadImageLoading = RxBool(false);
   Future<void> downloadPhoto() async {
     try {
@@ -306,8 +309,8 @@ class GalleryController extends GetxController {
     }
   }
 
-    //*Image description update
-    final TextEditingController imageDescriptionUpdateController = TextEditingController();
+  //*Image description update
+  final TextEditingController imageDescriptionUpdateController = TextEditingController();
   final RxBool isImageDescriptionUpdateLoading = RxBool(false);
   Future<void> imageDescriptionUpdate() async {
     try {
@@ -345,7 +348,6 @@ class GalleryController extends GetxController {
     }
   }
 
- 
   final RxBool galleryPhotoBottomSheetRightButtonState = RxBool(false);
   final RxString galleryPhotoActionSelect = RxString('');
   final RxList galleryPhotoActionList = RxList([
@@ -361,4 +363,59 @@ class GalleryController extends GetxController {
   ]);
   //*Create Album
   final TextEditingController createAlbumNameController = TextEditingController();
+  final Rx<String?> albumNameErrorText = Rx<String?>(null);
+  final RxBool isCreateAlbumPostButtonEnable = RxBool(false);
+  //*for privacy
+  final RxString temporaryCreateAlbumSelectedPrivacy = RxString('Friends');
+  final RxString createAlbumSelectedPrivacy = RxString('Friends');
+  final Rx<IconData> temporaryCreateAlbumSelectedPrivacyIcon = Rx<IconData>(BipHip.friends);
+  final Rx<IconData> createAlbumSelectedPrivacyIcon = Rx<IconData>(BipHip.friends);
+  final RxInt privacyId = RxInt(2);
+  final RxInt temoparyprivacyId = RxInt(2);
+  void resetCreateAlbum() {
+    createAlbumNameController.clear();
+    albumNameErrorText.value = null;
+    isCreateAlbumPostButtonEnable.value = false;
+    temporaryCreateAlbumSelectedPrivacy.value = 'Friends';
+    createAlbumSelectedPrivacy.value = 'Friends';
+    temporaryCreateAlbumSelectedPrivacyIcon.value = BipHip.friends;
+    createAlbumSelectedPrivacyIcon.value = BipHip.friends;
+    temoparyprivacyId.value = 2;
+    privacyId.value = 2;
+        Get.find<FriendController>().friendList.clear();
+  }
+
+  void albumNameOnChange() {
+    if (createAlbumNameController.text.toString().trim() == '') {
+      albumNameErrorText.value = ksEmptyAlbumNameErrorText.tr;
+    } else {
+      albumNameErrorText.value = null;
+    }
+    checkCreateAlbum();
+  }
+
+  void checkCreateAlbum() {
+    if (createAlbumNameController.text.toString().trim() != '') {
+      isCreateAlbumPostButtonEnable.value = true;
+    } else {
+      isCreateAlbumPostButtonEnable.value = false;
+    }
+  }
+
+  final List<Map<String, dynamic>> privacyList = [
+    {'id': 0, 'name': 'Private', 'icon': BipHip.lock},
+    {'id': 1, 'name': 'Public', "icon": BipHip.world},
+    {'id': 2, 'name': 'Friends', "icon": BipHip.friends},
+    {'id': 3, 'name': 'Families', "icon": BipHip.addFamily},
+    {'id': 4, 'name': 'Friend & Family', "icon": BipHip.friends},
+  ];
+      
+   final RxList createAlbumAllMediaLinkList = RxList([]);
+  final RxList<Rx<File>> createAlbumAllMediaFileList = RxList<Rx<File>>([]);
+  final RxBool isCreateAlbumMediaChanged = RxBool(false);
+   final RxList<FriendFamilyUserData> tagFriendList = RxList<FriendFamilyUserData>([]);
+  final RxList<FriendFamilyUserData> temporaryTaggedFriends = RxList<FriendFamilyUserData>([]);
+  final RxList<FriendFamilyUserData> taggedFriends = RxList<FriendFamilyUserData>([]);
+    final RxList temporaryTagIndex = RxList([]);
+  final RxBool tagFriendButtonSheetRightButtonState= RxBool(false);
 }

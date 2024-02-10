@@ -211,7 +211,9 @@ class CreatePostUpperSection extends StatelessWidget {
                             suffixIconColor: cBlackColor,
                             textStyle: regular12TextStyle(cBlackColor),
                           ),
+                       
                         // kW8sizedBox,
+                       
                         CustomElevatedButton(
                           label: createPostController.category.value == "" ? "Category" : createPostController.category.value,
                           prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,

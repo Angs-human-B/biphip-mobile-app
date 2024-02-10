@@ -771,6 +771,7 @@ class CreatePost extends StatelessWidget {
                                       ),
                                     ],
                                   ),
+                                
                                 if (createPostController.allMediaList.isNotEmpty) CreatePostMediaSection(),
                                 if (createPostController.category.value == "News") SellingNewsTextfield(),
                                 kH50sizedBox,

@@ -108,6 +108,7 @@ class CreatePostHelper {
     );
   }
 
+  
   void selectPlatformStatusChange(index) {
     for (int i = 0; i < createPostController.platformStatusList.length; i++) {
       if (index == i) {
