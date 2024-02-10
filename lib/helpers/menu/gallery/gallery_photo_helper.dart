@@ -69,14 +69,15 @@ class GalleryPhotoHelper {
       await galleryController.deleteImage();
     }
     //  else if (galleryController.photoActionSelect.value == 'Download photo') {
-    //   // await galleryController.downloadPhoto();
+      // await galleryController.downloadPhoto();
     // }
     else if (galleryController.photoActionSelect.value == 'Edit caption') {
-      galleryController.isImageDescriptionSaveButtonEnable.value = false;
       if (galleryController.imageDetailsData.value!.image!.description == null || galleryController.imageDetailsData.value!.image!.description == '') {
         galleryController.imageDescriptionUpdateController.text = '';
+        galleryController.previousImageDescription.value = '';
       } else {
         galleryController.imageDescriptionUpdateController.text = galleryController.imageDetailsData.value!.image!.description;
+        galleryController.previousImageDescription.value = galleryController.imageDetailsData.value?.image?.description;
       }
       Get.to(() => SingleImageDescription(
             image: galleryController.imageDetailsData.value!.image!.fullPath.toString(),

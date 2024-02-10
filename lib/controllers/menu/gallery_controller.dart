@@ -132,8 +132,6 @@ class GalleryController extends GetxController {
     }
   }
 
-  List selectedImageList = [];
-  final RxString selectedTitle = RxString('');
   final RxInt imageId = RxInt(-1);
 
   //*Get Image details Api call
@@ -254,8 +252,8 @@ class GalleryController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        getGalleryAlbumList();
         isPhotoDeleteLoading.value = false;
+        getGalleryAlbumList();
         Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -307,6 +305,7 @@ class GalleryController extends GetxController {
 
   //*Image description update
   final TextEditingController imageDescriptionUpdateController = TextEditingController();
+  final RxString previousImageDescription = RxString('');
   final RxBool isImageDescriptionSaveButtonEnable = RxBool(false);
   final RxBool isImageDescriptionUpdateLoading = RxBool(false);
   Future<void> imageDescriptionUpdate() async {

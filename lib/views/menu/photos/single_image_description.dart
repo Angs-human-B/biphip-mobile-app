@@ -92,7 +92,7 @@ class SingleImageDescription extends StatelessWidget {
                     textHintStyle: regular14TextStyle(cPlaceHolderColor),
                     textInputStyle: regular14TextStyle(cBlackColor),
                     onChanged: (v) {
-                      if (galleryController.imageDescriptionUpdateController.text.toString().trim() == '') {
+                      if (galleryController.imageDescriptionUpdateController.text.toString().trim() == ''|| galleryController.imageDescriptionUpdateController.text.toString().trim()==galleryController.previousImageDescription.value) {
                         galleryController.isImageDescriptionSaveButtonEnable.value = false;
                       } else {
                         galleryController.isImageDescriptionSaveButtonEnable.value = true;

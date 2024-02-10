@@ -19,6 +19,7 @@ class CommonPhotoView extends StatelessWidget {
         top: false,
         child: Scaffold(
           backgroundColor: Colors.black,
+          resizeToAvoidBottomInset: false,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
