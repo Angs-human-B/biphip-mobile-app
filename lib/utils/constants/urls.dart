@@ -90,6 +90,7 @@ const String kuImageMakeProfilePicture = '/mobile/user/image-make-profile-pictur
 const String kuImageMakeCoverPhoto = '/mobile/user/image-make-cover-photo';
 const String kuDeleteImage = '/mobile/user/delete-image';
 const String kuDownloadImage = '/mobile/user/download-image';
+const String kuCreateAlbum = '/mobile/user/store-image-album';
 
 //---------------------------------------
 //* Friends and Family

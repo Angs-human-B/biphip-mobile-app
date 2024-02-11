@@ -375,5 +375,9 @@ class GalleryPhotoHelper {
     galleryController.addLocationValue.value = '';
     galleryController.isAddLocationSuffixIconVisible.value = false;
     galleryController.isLocationSaveEnable.value = false;
+    galleryController.imageDescriptionTextEditingController.clear();
+    galleryController.imageLocationsList = [];
+    galleryController.imageTimesList = [];
+    galleryController.imageTagIdList = [];
   }
 }

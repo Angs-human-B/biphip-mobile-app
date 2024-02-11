@@ -13,153 +13,170 @@ class CreateAlbum extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: cWhiteColor,
-      child: SafeArea(
-        top: false,
-        child: Scaffold(
-          backgroundColor: cWhiteColor,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(kAppBarSize),
-            //* info:: appBar
-            child: CustomAppBar(
-              appBarColor: cWhiteColor,
-              title: ksCreateAlbum.tr,
-              hasBackButton: true,
-              isCenterTitle: true,
-              onBack: () {
-                Get.back();
-              },
-              action: [
-                Padding(
-                  padding: const EdgeInsets.only(right: k20Padding),
-                  child: Obx(() => TextButton(
-                        style: kTextButtonStyle,
-                        onPressed: galleryController.isCreateAlbumPostButtonEnable.value
-                            ? () {
-                                Get.back();
-                              }
-                            : null,
-                        child: Text(
-                          ksPost.tr,
-                          style: semiBold16TextStyle(galleryController.isCreateAlbumPostButtonEnable.value ? cPrimaryColor : cPlaceHolderColor),
-                        ),
-                      )),
-                ),
-              ],
-            ),
-          ),
-          body: Obx(() => Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        kH16sizedBox,
-                        CreateAlbumUpperSection(),
-                        kH16sizedBox,
-                        CustomModifiedTextField(
-                          controller: galleryController.createAlbumNameController,
-                          hint: ksAlbumNamw.tr,
-                          errorText: galleryController.albumNameErrorText.value,
-                          onChanged: (text) {
-                            galleryController.albumNameOnChange();
-                          },
-                          onSubmit: (text) {},
-                          inputAction: TextInputAction.done,
-                          inputType: TextInputType.text,
-                          maxLength: 50,
-                        ),
-                        kH8sizedBox,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CustomElevatedButton(
-                              isCustomButton: true,
-                              label: galleryController.createAlbumSelectedPrivacy.value,
-                              prefixIcon: galleryController.createAlbumSelectedPrivacyIcon.value,
-                              onPressed: () {
-                                unFocus(context);
-                                GalleryPhotoHelper().showAudienceSheet(context);
-                              },
-                              buttonHeight: 22,
-                              suffixIcon: BipHip.downArrow,
-                              buttonColor: cGreyBoxColor,
-                              prefixIconColor: cBlackColor,
-                              suffixIconColor: cBlackColor,
-                              textStyle: regular12TextStyle(cBlackColor),
-                            ),
-                          ],
-                        ),
-                        kH16sizedBox,
-                        if (galleryController.allMediaFileList.isEmpty)
-                          InkWell(
-                            onTap: () async {
-                              var status = await Get.find<GlobalController>().selectMultiMediaSource(galleryController.isCreateAlbumMediaChanged,
-                                  galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
-                              if (status) {
-                                GalleryPhotoHelper().insertMedia(galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
-                                GalleryPhotoHelper().configImageDescription();
-                                galleryController.checkCreateAlbum();
-                                galleryController.isCreateAlbumMediaChanged.value = false;
-                                galleryController.createAlbumAllMediaLinkList.clear();
-                                galleryController.createAlbumAllMediaFileList.clear();
-                              }
-                            },
-                            child: Container(
-                              width: width,
-                              height: isDeviceScreenLarge() ? 148 : 124,
-                              decoration: BoxDecoration(
-                                color: cPrimaryTint4Color,
-                                borderRadius: BorderRadius.circular(k8BorderRadius),
-                                border: Border.all(color: cPrimaryColor, width: 1),
-                              ),
-                              child: Column(
-                                children: [
-                                  kH16sizedBox,
-                                  Container(
-                                    width: 52,
-                                    height: 52,
-                                    decoration: const BoxDecoration(color: cPrimaryTint2Color, shape: BoxShape.circle),
-                                    child: const Icon(
-                                      BipHip.imageFile,
-                                      size: kIconSize28,
-                                      color: cPrimaryColor,
-                                    ),
-                                  ),
-                                  Text(
-                                    ksAddPhotoAndVideo,
-                                    style: semiBold16TextStyle(cBlackColor),
-                                  ),
-                                  kH4sizedBox,
-                                  Text(
-                                    ksTapToUpload.tr,
-                                    style: regular12TextStyle(cPlaceHolderColor),
-                                  ),
-                                ],
-                              ),
+    return Obx(
+      () => Stack(
+        children: [
+          Container(
+            color: cWhiteColor,
+            child: SafeArea(
+              top: false,
+              child: Scaffold(
+                  backgroundColor: cWhiteColor,
+                  appBar: PreferredSize(
+                    preferredSize: const Size.fromHeight(kAppBarSize),
+                    //* info:: appBar
+                    child: CustomAppBar(
+                      appBarColor: cWhiteColor,
+                      title: ksCreateAlbum.tr,
+                      hasBackButton: true,
+                      isCenterTitle: true,
+                      onBack: () {
+                        Get.back();
+                      },
+                      action: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: k20Padding),
+                          child: TextButton(
+                            style: kTextButtonStyle,
+                            onPressed: galleryController.isCreateAlbumPostButtonEnable.value
+                                ? () async{
+                                 await galleryController.createAlbum();
+                                  }
+                                : null,
+                            child: Text(
+                              ksPost.tr,
+                              style: semiBold16TextStyle(galleryController.isCreateAlbumPostButtonEnable.value ? cPrimaryColor : cPlaceHolderColor),
                             ),
                           ),
-                        if (galleryController.allMediaFileList.isNotEmpty) CreateAlbumtMediaSection(),
+                        ),
                       ],
                     ),
                   ),
-                  kH16sizedBox,
-                  Positioned(
-                    bottom: 44,
-                    child: SizedBox(
-                      width: width,
-                      child: const CustomDivider(),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    child: CreateAlbumBottomSection(),
-                  )
-                ],
-              )),
-        ),
+                  body: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            kH16sizedBox,
+                            CreateAlbumUpperSection(),
+                            kH16sizedBox,
+                            CustomModifiedTextField(
+                              controller: galleryController.createAlbumNameController,
+                              hint: ksAlbumNamw.tr,
+                              errorText: galleryController.albumNameErrorText.value,
+                              onChanged: (text) {
+                                galleryController.albumNameOnChange();
+                              },
+                              onSubmit: (text) {},
+                              inputAction: TextInputAction.done,
+                              inputType: TextInputType.text,
+                              maxLength: 50,
+                            ),
+                            kH8sizedBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CustomElevatedButton(
+                                  isCustomButton: true,
+                                  label: galleryController.createAlbumSelectedPrivacy.value,
+                                  prefixIcon: galleryController.createAlbumSelectedPrivacyIcon.value,
+                                  onPressed: () {
+                                    unFocus(context);
+                                    GalleryPhotoHelper().showAudienceSheet(context);
+                                  },
+                                  buttonHeight: 22,
+                                  suffixIcon: BipHip.downArrow,
+                                  buttonColor: cGreyBoxColor,
+                                  prefixIconColor: cBlackColor,
+                                  suffixIconColor: cBlackColor,
+                                  textStyle: regular12TextStyle(cBlackColor),
+                                ),
+                              ],
+                            ),
+                            kH16sizedBox,
+                            if (galleryController.allMediaFileList.isEmpty)
+                              InkWell(
+                                onTap: () async {
+                                  var status = await Get.find<GlobalController>().selectMultiMediaSource(galleryController.isCreateAlbumMediaChanged,
+                                      galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
+                                  if (status) {
+                                    GalleryPhotoHelper()
+                                        .insertMedia(galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
+                                    GalleryPhotoHelper().configImageDescription();
+                                    galleryController.checkCreateAlbum();
+                                    galleryController.isCreateAlbumMediaChanged.value = false;
+                                    galleryController.createAlbumAllMediaLinkList.clear();
+                                    galleryController.createAlbumAllMediaFileList.clear();
+                                  }
+                                },
+                                child: Container(
+                                  width: width,
+                                  height: isDeviceScreenLarge() ? 148 : 124,
+                                  decoration: BoxDecoration(
+                                    color: cPrimaryTint4Color,
+                                    borderRadius: BorderRadius.circular(k8BorderRadius),
+                                    border: Border.all(color: cPrimaryColor, width: 1),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      kH16sizedBox,
+                                      Container(
+                                        width: 52,
+                                        height: 52,
+                                        decoration: const BoxDecoration(color: cPrimaryTint2Color, shape: BoxShape.circle),
+                                        child: const Icon(
+                                          BipHip.imageFile,
+                                          size: kIconSize28,
+                                          color: cPrimaryColor,
+                                        ),
+                                      ),
+                                      Text(
+                                        ksAddPhotoAndVideo,
+                                        style: semiBold16TextStyle(cBlackColor),
+                                      ),
+                                      kH4sizedBox,
+                                      Text(
+                                        ksTapToUpload.tr,
+                                        style: regular12TextStyle(cPlaceHolderColor),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            if (galleryController.allMediaFileList.isNotEmpty) CreateAlbumtMediaSection(),
+                          ],
+                        ),
+                      ),
+                      kH16sizedBox,
+                      Positioned(
+                        bottom: 44,
+                        child: SizedBox(
+                          width: width,
+                          child: const CustomDivider(),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        child: CreateAlbumBottomSection(),
+                      )
+                    ],
+                  )),
+            ),
+          ),
+          if (galleryController.isCreateAlbumLoading.value)
+            Positioned(
+              child: CommonLoadingAnimation(
+                onWillPop: () async {
+                  if (galleryController.isCreateAlbumLoading.value) {
+                    return false;
+                  }
+                  return true;
+                },
+              ),
+            ),
+        ],
       ),
     );
   }
