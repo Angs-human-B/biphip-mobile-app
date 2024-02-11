@@ -200,3 +200,4 @@ const String kiWarningInfo = 'assets/svg/warning_info.svg';
 const String kiStoreImage = 'assets/svg/store_image.svg';
 const String kikidImage = 'assets/svg/kid_image.svg';
 const String kiUploadImage = 'assets/svg/upload_image.svg';
+const String kiPayment = 'assets/svg/payment.svg';

@@ -69,7 +69,9 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       }
     }
   }
-
+  //*Star
+  final TextEditingController starAmountTextEditingController = TextEditingController();
+  final RxBool isStarAmountConfirmButtonEnabled = RxBool(false);
   final TextEditingController cardNumberController = TextEditingController();
   final TextEditingController mmyyStarController = TextEditingController();
   final TextEditingController cvvController = TextEditingController();
@@ -156,5 +158,12 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         width: 20,
       );
     }
+  }
+
+  void resetGiftData() {
+    selectedBidIndex.value = -1;
+    selectedGiftIndex.value = -1;
+    balance.value = 200;
+    isPackageSelected.value = false;
   }
 }

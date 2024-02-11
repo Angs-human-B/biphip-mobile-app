@@ -25,8 +25,7 @@ class PostBottomSection extends StatelessWidget {
                 // reactCount: 440,
                 reactionOnPressed: () {
                   postReactionController.giftFilter(0);
-                  globalController.blankBottomSheet(
-                      context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                  globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
                 giftCount: 50,
                 commentCount: 200,
@@ -34,8 +33,7 @@ class PostBottomSection extends StatelessWidget {
                 isGiftShown: true,
                 giftOnPressed: () {
                   postReactionController.giftFilter(0);
-                  globalController.blankBottomSheet(
-                      context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                  globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
               ),
             ),
@@ -46,6 +44,7 @@ class PostBottomSection extends StatelessWidget {
               child: LikeSectionWidget(
                 isGiftShown: true,
                 giftOnPressed: () {
+                  postReactionController.resetGiftData();
                   globalController.blankBottomSheet(context: context, content: GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
                 commentOnPressed: () {
@@ -402,6 +401,17 @@ class PurchaseStarContent extends StatelessWidget {
             ),
           ),
           kH16sizedBox,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CustomIconButton(onPress: () {}, icon: BipHip.addNew),
+              Text(
+                ksPurchaseCustomStar.tr,
+                style: semiBold14TextStyle(cPrimaryColor),
+              )
+            ],
+          ),
+          kH16sizedBox,
           SizedBox(
             height: 230,
             child: ListView.builder(
@@ -480,4 +490,3 @@ class PurchaseStarContent extends StatelessWidget {
     );
   }
 }
-

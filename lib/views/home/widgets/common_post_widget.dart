@@ -59,7 +59,7 @@ class CommonPostWidget extends StatelessWidget {
     required this.userImage,
     required this.taggedFriends,
     this.reactCount,
-    this.postIndex=0,
+    this.postIndex = 0,
   });
   final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -635,7 +635,7 @@ class PostBottomSection extends StatelessWidget {
       this.actionName,
       this.actionOnPressed,
       this.reactCount,
-      this.postIndex=0});
+      this.postIndex = 0});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
@@ -788,6 +788,7 @@ class PostBottomSection extends StatelessWidget {
                 isGiftShown: true,
                 likeOnTap: () {},
                 giftOnPressed: () {
+                  postReactionController.resetGiftData();
                   globalController.blankBottomSheet(context: context, content: GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
                 commentOnPressed: () {
@@ -1340,7 +1341,6 @@ class GiftContent extends StatelessWidget {
             ),
             kH16sizedBox,
             SizedBox(
-              // height: 380,
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -1587,6 +1587,37 @@ class PurchaseStarContent extends StatelessWidget {
             ),
           ),
           kH16sizedBox,
+          InkWell(
+            onTap: () {
+              Get.find<GlobalController>().commonBottomSheet(
+                  context: context,
+                  bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
+                  content: PurchaseCustomStarContent(),
+                  onPressCloseButton: () {
+                    Get.back();
+                  },
+                  onPressRightButton: null,
+                  rightText: '',
+                  rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                  title: ksBuyCustomStar.tr,
+                  isRightButtonShow: false);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const Icon(
+                  BipHip.plus,
+                  color: cPrimaryColor,
+                ),
+                kW4sizedBox,
+                Text(
+                  ksPurchaseCustomStar.tr,
+                  style: semiBold14TextStyle(cPrimaryColor),
+                )
+              ],
+            ),
+          ),
+          kH16sizedBox,
           SizedBox(
             // height: 230,
             child: ListView.builder(
@@ -1663,104 +1694,7 @@ class PurchaseStarContent extends StatelessWidget {
                 Get.find<GlobalController>().commonBottomSheet(
                     context: context,
                     bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
-                    content: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 56,
-                              height: 56,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(k4BorderRadius),
-                                border: Border.all(color: cLineColor, width: 1),
-                              ),
-                              child: const Icon(
-                                BipHip.giftNew,
-                                color: cSecondaryColor,
-                                size: kIconSize24,
-                              ),
-                            ),
-                            kW12sizedBox,
-                            kH8sizedBox,
-                            Column(
-                              children: [
-                                Text(
-                                  '\$105.00',
-                                  style: semiBold18TextStyle(cBlackColor),
-                                ),
-                                kH4sizedBox,
-                                Text(
-                                  '1000 stars',
-                                  style: semiBold14TextStyle(cPlaceHolderColor),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        kH20sizedBox,
-                        const CustomDivider(),
-                        kH20sizedBox,
-                        CustomModifiedTextField(
-                          controller: postReactionController.cardNumberController,
-                          hint: ksCardNumber.tr,
-                          textHintStyle: regular14TextStyle(cPlaceHolderColor),
-                          prefixIcon: Icons.card_giftcard, //!Icon must be change
-                        ),
-                        kH20sizedBox,
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CustomModifiedTextField(
-                                controller: postReactionController.mmyyStarController,
-                                hint: 'MM/YY',
-                                textHintStyle: regular14TextStyle(cPlaceHolderColor),
-                              ),
-                            ),
-                            kW20sizedBox,
-                            Expanded(
-                              child: CustomModifiedTextField(
-                                controller: postReactionController.cvvController,
-                                hint: ksCVV.tr,
-                                textHintStyle: regular14TextStyle(cPlaceHolderColor),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Obx(() => Checkbox(
-                                  value: postReactionController.giftAgreeCheckBox.value,
-                                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  onChanged: (v) {
-                                    postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
-                                  },
-                                )),
-                            kW8sizedBox,
-                            RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(text: '${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)),
-                                  TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        kH24sizedBox,
-                        Obx(() => CustomElevatedButton(
-                            label: ksPayNow.tr,
-                            buttonHeight: 42,
-                            buttonWidth: width - 40,
-                            onPressed: postReactionController.giftAgreeCheckBox.value
-                                ? () {
-                                    Get.back();
-                                  }
-                                : null)),
-                      ],
-                    ),
+                    content: GiftPurchasePaymentContent(),
                     onPressCloseButton: () {
                       Get.back();
                     },
@@ -1772,6 +1706,220 @@ class PurchaseStarContent extends StatelessWidget {
               })
         ],
       ),
+    );
+  }
+}
+
+class PurchaseCustomStarContent extends StatelessWidget {
+  PurchaseCustomStarContent({super.key});
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Icon(
+              BipHip.giftNew,
+              color: cSecondaryColor,
+              size: kIconSize50,
+            ),
+            kW12sizedBox,
+            kH8sizedBox,
+            Column(
+              children: [
+                Text(
+                  '\$105.00',
+                  style: semiBold18TextStyle(cBlackColor),
+                ),
+                kH4sizedBox,
+                Text(
+                  '1000 stars',
+                  style: semiBold14TextStyle(cPlaceHolderColor),
+                ),
+              ],
+            ),
+          ],
+        ),
+        kH16sizedBox,
+        const CustomDivider(),
+        kH16sizedBox,
+        CustomModifiedTextField(
+          controller: postReactionController.starAmountTextEditingController,
+          hint: ksAmountOfStar.tr,
+          onChanged: (text) {
+            if (postReactionController.starAmountTextEditingController.text.toString().trim() != '') {
+              postReactionController.isStarAmountConfirmButtonEnabled.value = true;
+            } else {
+              postReactionController.isStarAmountConfirmButtonEnabled.value = false;
+            }
+          },
+          onSubmit: (text) {},
+          inputAction: TextInputAction.done,
+          inputType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          maxLength: 10,
+        ),
+        RichText(
+          textAlign: TextAlign.left,
+          overflow: TextOverflow.clip,
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: ksYouWillPay.tr,
+                style: regular10TextStyle(cIconColor),
+              ),
+              TextSpan(
+                text: ' 0.09\$ ',
+                style: regular10TextStyle(cGreenColor),
+              ),
+              TextSpan(
+                text: ksForEveryStar.tr,
+                style: regular10TextStyle(cIconColor),
+              ),
+            ],
+          ),
+        ),
+        kH16sizedBox,
+        Obx(() => CustomElevatedButton(
+              buttonWidth: width - 40,
+              label: ksConfirm.tr,
+              onPressed: postReactionController.isStarAmountConfirmButtonEnabled.value
+                  ? () {
+                      Get.back();
+                      Get.find<GlobalController>().commonBottomSheet(
+                        context: context,
+                        content: GiftPurchasePaymentContent(),
+                        onPressCloseButton: () {
+                          Get.back();
+                        },
+                        onPressRightButton: null,
+                        rightText: '',
+                        rightTextStyle: semiBold12TextStyle(cPrimaryColor),
+                        title: ksPurchaseStar.tr,
+                        isRightButtonShow: false,
+                        isScrollControlled: true,
+                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
+                      );
+                    }
+                  : null,
+              textStyle: semiBold14TextStyle(cWhiteColor),
+            )),
+      ],
+    );
+  }
+}
+
+class GiftPurchasePaymentContent extends StatelessWidget {
+  GiftPurchasePaymentContent({super.key});
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(k4BorderRadius),
+                border: Border.all(color: cLineColor, width: 1),
+              ),
+              // child: const Icon(
+              //   BipHip.giftNew,
+              //   color: cSecondaryColor,
+              //   size: kIconSize24,
+              // ),
+              child: SvgPicture.asset(
+                kiPayment,
+                width: h40,
+                height: h40,
+              ),
+            ),
+            kW12sizedBox,
+            kH8sizedBox,
+            Column(
+              children: [
+                Text(
+                  '\$105.00',
+                  style: semiBold18TextStyle(cBlackColor),
+                ),
+                kH4sizedBox,
+                Text(
+                  '1000 stars',
+                  style: semiBold14TextStyle(cPlaceHolderColor),
+                ),
+              ],
+            ),
+          ],
+        ),
+        kH20sizedBox,
+        const CustomDivider(),
+        kH20sizedBox,
+        CustomModifiedTextField(
+          controller: postReactionController.cardNumberController,
+          hint: ksCardNumber.tr,
+          textHintStyle: regular14TextStyle(cPlaceHolderColor),
+          prefixIcon: Icons.card_giftcard, //!Icon must be change
+        ),
+        kH20sizedBox,
+        Row(
+          children: [
+            Expanded(
+              child: CustomModifiedTextField(
+                controller: postReactionController.mmyyStarController,
+                hint: 'MM/YY',
+                textHintStyle: regular14TextStyle(cPlaceHolderColor),
+              ),
+            ),
+            kW20sizedBox,
+            Expanded(
+              child: CustomModifiedTextField(
+                controller: postReactionController.cvvController,
+                hint: ksCVV.tr,
+                textHintStyle: regular14TextStyle(cPlaceHolderColor),
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Obx(() => Checkbox(
+                  value: postReactionController.giftAgreeCheckBox.value,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  onChanged: (v) {
+                    postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
+                  },
+                )),
+            kW8sizedBox,
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(text: '${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)),
+                  TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
+                ],
+              ),
+            ),
+          ],
+        ),
+        kH24sizedBox,
+        Obx(() => CustomElevatedButton(
+            label: ksPayNow.tr,
+            buttonHeight: 42,
+            buttonWidth: width - 40,
+            onPressed: postReactionController.giftAgreeCheckBox.value
+                ? () {
+                    Get.back();
+                  }
+                : null)),
+      ],
     );
   }
 }
