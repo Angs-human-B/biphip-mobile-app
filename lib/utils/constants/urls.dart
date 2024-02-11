@@ -201,3 +201,7 @@ const String kiWarningInfo = 'assets/svg/warning_info.svg';
 const String kiStoreImage = 'assets/svg/store_image.svg';
 const String kikidImage = 'assets/svg/kid_image.svg';
 const String kiUploadImage = 'assets/svg/upload_image.svg';
+const String kiGallery = 'assets/svg/gallery.svg';
+const String kiLocation = 'assets/svg/location.svg';
+const String kiTime = 'assets/svg/time.svg';
+const String kiTagFriend = 'assets/svg/tag_friend.svg';
