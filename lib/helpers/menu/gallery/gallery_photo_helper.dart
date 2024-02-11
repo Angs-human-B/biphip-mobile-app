@@ -5,7 +5,6 @@ import 'package:bip_hip/views/menu/photos/create_album.dart';
 import 'package:bip_hip/views/menu/photos/create_album_date_time.dart';
 import 'package:bip_hip/views/menu/photos/single_image_description.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class GalleryPhotoHelper {
