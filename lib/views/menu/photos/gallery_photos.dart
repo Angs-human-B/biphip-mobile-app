@@ -35,7 +35,7 @@ class GalleryPhotos extends StatelessWidget {
                   child: TextButton(
                     style: kTextButtonStyle,
                     onPressed: () {
-                      galleryController.resetCreateAlbum();
+                      galleryPhotoHelper.resetCreateAlbumData();
                       Get.toNamed(krCreateAlbum);
                     },
                     child: Text(

@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/album/album_list_model.dart';
@@ -372,18 +370,6 @@ class GalleryController extends GetxController {
   final Rx<IconData> createAlbumSelectedPrivacyIcon = Rx<IconData>(BipHip.friends);
   final RxInt privacyId = RxInt(2);
   final RxInt temoparyprivacyId = RxInt(2);
-  void resetCreateAlbum() {
-    createAlbumNameController.clear();
-    albumNameErrorText.value = null;
-    isCreateAlbumPostButtonEnable.value = false;
-    temporaryCreateAlbumSelectedPrivacy.value = 'Friends';
-    createAlbumSelectedPrivacy.value = 'Friends';
-    temporaryCreateAlbumSelectedPrivacyIcon.value = BipHip.friends;
-    createAlbumSelectedPrivacyIcon.value = BipHip.friends;
-    temoparyprivacyId.value = 2;
-    privacyId.value = 2;
-    Get.find<FriendController>().friendList.clear();
-  }
 
   void albumNameOnChange() {
     if (createAlbumNameController.text.toString().trim() == '') {
@@ -395,7 +381,7 @@ class GalleryController extends GetxController {
   }
 
   void checkCreateAlbum() {
-    if (createAlbumNameController.text.toString().trim() != '') {
+    if (createAlbumNameController.text.toString().trim() != '' && allMediaList.isNotEmpty) {
       isCreateAlbumPostButtonEnable.value = true;
     } else {
       isCreateAlbumPostButtonEnable.value = false;
@@ -434,8 +420,6 @@ class GalleryController extends GetxController {
   final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
   final RxList<RxString> createAlbumAllMediaLinkList = RxList<RxString>([]);
   final RxList<Rx<File>> createAlbumAllMediaFileList = RxList<Rx<File>>([]);
-  // final RxList<RxString> mediaLinkList = RxList<RxString>([]);
-  // final RxList<Rx<File>> mediaFileList = RxList<Rx<File>>([]);
   List imageDescriptionTextEditingController = [];
   List imageLocationsList = [];
   List imageTimesList = [];

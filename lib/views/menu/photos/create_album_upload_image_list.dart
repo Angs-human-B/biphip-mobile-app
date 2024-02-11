@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
-import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class CreateAlbumUploadImageList extends StatelessWidget {
@@ -50,7 +49,7 @@ class CreateAlbumUploadImageList extends StatelessWidget {
             child: SingleChildScrollView(
               child: Obx(
                 () => Column(
-                  children: [kH8sizedBox, for (int i = 0; i < galleryController.createAlbumAllMediaFileList.length; i++) SeparateImageView(index: i)],
+                  children: [kH8sizedBox, for (int i = 0; i < galleryController.allMediaFileList.length; i++) SeparateImageView(index: i)],
                 ),
               ),
             ),
@@ -82,7 +81,7 @@ class SeparateImageView extends StatelessWidget {
                   height: 150,
                   width: width - 40,
                   child: Image.file(
-                    galleryController.createAlbumAllMediaFileList[index].value,
+                    galleryController.allMediaFileList[index].value,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -94,7 +93,7 @@ class SeparateImageView extends StatelessWidget {
               child: TextButton(
                 style: kTextButtonStyle,
                 onPressed: () {
-                  CreatePostHelper().removeMedia(index);
+                  GalleryPhotoHelper().removeMedia(index);
                   galleryController.imageDescriptionTextEditingController[index].clear();
                   galleryController.imageLocationsList.removeAt(index);
                   galleryController.imageTimesList.removeAt(index);

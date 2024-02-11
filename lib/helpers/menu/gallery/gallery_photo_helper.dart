@@ -116,6 +116,15 @@ class GalleryPhotoHelper {
     galleryController.allMediaFileList.addAll(mediaFile);
   }
 
+  void configImageDescription() {
+    for (int i = 0; i < galleryController.createAlbumAllMediaFileList.length; i++) {
+      galleryController.imageDescriptionTextEditingController.add(TextEditingController());
+      galleryController.imageLocationsList.add("LOC$i");
+      galleryController.imageTimesList.add(DateTime.now().toString());
+      galleryController.imageTagIdList.add('1,58');
+    }
+  }
+
   void getBottomRowOnPressed(index, [context]) async {
     ll(index);
     if (index == 1) {
@@ -123,8 +132,8 @@ class GalleryPhotoHelper {
           galleryController.isCreateAlbumMediaChanged, galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
       if (status) {
         insertMedia(galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
-        // configImageDescription();
-        // checkCanCreatePost();
+        configImageDescription();
+        galleryController.checkCreateAlbum();
         galleryController.isCreateAlbumMediaChanged.value = false;
         galleryController.createAlbumAllMediaLinkList.clear();
         galleryController.createAlbumAllMediaFileList.clear();
@@ -262,5 +271,28 @@ class GalleryPhotoHelper {
       default:
         return cSecondaryColor;
     }
+  }
+    //* Reset create album all data
+    void resetCreateAlbumData() {
+    galleryController.createAlbumNameController.clear();
+   galleryController.albumNameErrorText.value = null;
+    galleryController.isCreateAlbumPostButtonEnable.value = false;
+    galleryController.temporaryCreateAlbumSelectedPrivacy.value = 'Friends';
+    galleryController.createAlbumSelectedPrivacy.value = 'Friends';
+    galleryController.temporaryCreateAlbumSelectedPrivacyIcon.value = BipHip.friends;
+    galleryController.createAlbumSelectedPrivacyIcon.value = BipHip.friends;
+    galleryController.temoparyprivacyId.value = 2;
+    galleryController.privacyId.value = 2;
+    galleryController.taggedFriends.clear();
+    galleryController.temporaryTaggedFriends.clear();
+    galleryController.temporaryTagIndex.clear();
+    galleryController.tagFriendList.clear();
+    Get.find<FriendController>().friendList.clear();
+    galleryController.isCreateAlbumMediaChanged.value = false;
+    galleryController.createAlbumAllMediaLinkList.clear();
+    galleryController.createAlbumAllMediaFileList.clear();
+    galleryController.allMediaList.clear();
+    galleryController.allMediaFileList.clear();
+
   }
 }

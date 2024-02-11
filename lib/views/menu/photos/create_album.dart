@@ -91,7 +91,18 @@ class CreateAlbum extends StatelessWidget {
                         kH16sizedBox,
                         if (galleryController.allMediaFileList.isEmpty)
                           InkWell(
-                            onTap: () async {},
+                            onTap: () async {
+                              var status = await Get.find<GlobalController>().selectMultiMediaSource(galleryController.isCreateAlbumMediaChanged,
+                                  galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
+                              if (status) {
+                                GalleryPhotoHelper().insertMedia(galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
+                                GalleryPhotoHelper().configImageDescription();
+                                galleryController.checkCreateAlbum();
+                                galleryController.isCreateAlbumMediaChanged.value = false;
+                                galleryController.createAlbumAllMediaLinkList.clear();
+                                galleryController.createAlbumAllMediaFileList.clear();
+                              }
+                            },
                             child: Container(
                               width: width,
                               height: isDeviceScreenLarge() ? 148 : 124,
