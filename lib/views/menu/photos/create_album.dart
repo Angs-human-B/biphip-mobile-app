@@ -4,6 +4,8 @@ import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/shimmers/post/create_post_shimmers.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/photos/create_album_media_section.dart';
+import 'package:bip_hip/views/menu/photos/create_album_upper_section.dart';
+import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 
 class CreateAlbum extends StatelessWidget {
   CreateAlbum({super.key});
@@ -54,6 +56,8 @@ class CreateAlbum extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        kH16sizedBox,
+                        CreateAlbumUpperSection(),
                         kH16sizedBox,
                         CustomModifiedTextField(
                           controller: galleryController.createAlbumNameController,
@@ -142,6 +146,13 @@ class CreateAlbum extends StatelessWidget {
                     ),
                   ),
                   kH16sizedBox,
+                  Positioned(
+                    bottom: 44,
+                    child: SizedBox(
+                      width: width,
+                      child: const CustomDivider(),
+                    ),
+                  ),
                   Positioned(
                     bottom: 0,
                     child: CreateAlbumBottomSection(),

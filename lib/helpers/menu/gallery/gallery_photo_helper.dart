@@ -2,7 +2,10 @@ import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/photos/create_album.dart';
+import 'package:bip_hip/views/menu/photos/create_album_date_time.dart';
 import 'package:bip_hip/views/menu/photos/single_image_description.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 class GalleryPhotoHelper {
   final GalleryController galleryController = Get.find<GalleryController>();
@@ -146,6 +149,7 @@ class GalleryPhotoHelper {
       }
       Get.toNamed(krCreateAlbumLocation);
     } else if (index == 3) {
+      Get.to(() => CreateAlbumDateTime());
     } else {
       // createPostController.tagFriendList.clear();
       // createPostController.tempTaggedFriends.clear();
@@ -201,51 +205,51 @@ class GalleryPhotoHelper {
   }
 
   // //Get tagged friend bottom sheet
-  // Future<void> createAlbumTaggedFriendBottomSheet(context) async {
-  //   Get.find<FriendController>().isFriendListLoading.value = true;
-  //   createPostController.tempTaggedFriends.addAll(createPostController.taggedFriends);
-  //   if (createPostController.tempTaggedFriends.isNotEmpty) {
-  //     createPostController.tagFriendButtonSheetRightButtonState.value = true;
-  //   } else {
-  //     createPostController.tagFriendButtonSheetRightButtonState.value = false;
-  //   }
-  //   globalController.commonBottomSheet(
-  //     isBottomSheetRightButtonActive: createPostController.tagFriendButtonSheetRightButtonState,
-  //     isScrollControlled: true,
-  //     bottomSheetHeight: height * .9,
-  //     context: context,
-  //     isSearchShow: true,
-  //     content: TagPeopleBottomSheetContent(),
-  //     isDismissible: false,
-  //     onPressCloseButton: () {
-  //       createPostController.taggedFriends.clear();
-  //       createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
-  //       createPostController.tempTaggedFriends.clear();
-  //       createPostController.tagFriendButtonSheetRightButtonState.value = false;
-  //       Get.back();
-  //     },
-  //     onPressRightButton: () {
-  //       createPostController.taggedFriends.clear();
-  //       createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
-  //       createPostController.tempTaggedFriends.clear();
-  //       createPostController.tagFriendButtonSheetRightButtonState.value = false;
-  //       Get.back();
-  //     },
-  //     rightText: ksDone.tr,
-  //     rightTextStyle: medium14TextStyle(cPrimaryColor),
-  //     title: ksTagPeople.tr,
-  //     isRightButtonShow: true,
-  //   );
-  //   if (Get.find<FriendController>().friendList.isEmpty) {
-  //     await Get.find<FriendController>().getFriendList();
-  //     createPostController.tagFriendList.addAll(Get.find<FriendController>().friendList);
-  //   } else {
-  //     for (int i = 0; i < createPostController.tempTaggedFriends.length; i++) {
-  //       createPostController.tagFriendList.remove(createPostController.tempTaggedFriends);
-  //     }
-  //     Get.find<FriendController>().isFriendListLoading.value = false;
-  //   }
-  // }
+  Future<void> taggedFriendBottomSheet(context) async {
+    Get.find<FriendController>().isFriendListLoading.value = true;
+    galleryController.temporaryTaggedFriends.addAll(galleryController.taggedFriends);
+    if (galleryController.temporaryTaggedFriends.isNotEmpty) {
+      galleryController.tagFriendButtonSheetRightButtonState.value = true;
+    } else {
+      galleryController.tagFriendButtonSheetRightButtonState.value = false;
+    }
+    globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: galleryController.tagFriendButtonSheetRightButtonState,
+      isScrollControlled: true,
+      bottomSheetHeight: height * .9,
+      context: context,
+      isSearchShow: true,
+      content: CreateAlbumTagPeopleBottomSheetContent(),
+      isDismissible: false,
+      onPressCloseButton: () {
+        galleryController.taggedFriends.clear();
+        galleryController.taggedFriends.addAll(galleryController.temporaryTaggedFriends);
+        galleryController.temporaryTaggedFriends.clear();
+        galleryController.tagFriendButtonSheetRightButtonState.value = false;
+        Get.back();
+      },
+      onPressRightButton: () {
+        galleryController.taggedFriends.clear();
+        galleryController.taggedFriends.addAll(galleryController.temporaryTaggedFriends);
+        galleryController.temporaryTaggedFriends.clear();
+        galleryController.tagFriendButtonSheetRightButtonState.value = false;
+        Get.back();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: medium14TextStyle(cPrimaryColor),
+      title: ksTagPeople.tr,
+      isRightButtonShow: true,
+    );
+    if (Get.find<FriendController>().friendList.isEmpty) {
+      await Get.find<FriendController>().getFriendList();
+      galleryController.tagFriendList.addAll(Get.find<FriendController>().friendList);
+    } else {
+      for (int i = 0; i < galleryController.temporaryTaggedFriends.length; i++) {
+        galleryController.tagFriendList.remove(galleryController.temporaryTaggedFriends);
+      }
+      Get.find<FriendController>().isFriendListLoading.value = false;
+    }
+  }
 
   IconData getBottomRowIcon(index) {
     switch (index) {
@@ -272,10 +276,84 @@ class GalleryPhotoHelper {
         return cSecondaryColor;
     }
   }
-    //* Reset create album all data
-    void resetCreateAlbumData() {
+
+  void createAlbumDateButtonOnPressed(context) {
+    galleryController.temporaryCreateAlbumDate.value = '';
+    if (galleryController.createAlbumDate.value != '') {
+      galleryController.temporaryCreateAlbumDate.value = galleryController.createAlbumDate.value;
+    }
+    galleryController.createAlbumDateBottomSheetState.value = false;
+    globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: galleryController.createAlbumDateBottomSheetState,
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        Get.back();
+        galleryController.isDateTimeSaveButtonEnable.value = true;
+        galleryController.createAlbumDate.value = galleryController.temporaryCreateAlbumDate.value;
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          maximumDate: DateTime.now().add(const Duration(minutes: 30)),
+          initialDateTime:
+              galleryController.temporaryCreateAlbumDate.value != '' ? DateTime.parse(galleryController.temporaryCreateAlbumDate.value) : DateTime.now(),
+          mode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: (value) {
+            galleryController.createAlbumDateBottomSheetState.value = true;
+            galleryController.temporaryCreateAlbumDate.value = DateFormat('yyyy-MM-dd').format(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  void createAlbumTimeButtonOnPressed(context) {
+    galleryController.temporaryCreateAlbumTime.value = '';
+    if (galleryController.createAlbumTime.value != '') {
+      galleryController.temporaryCreateAlbumTime.value = galleryController.createAlbumTime.value;
+    }
+    galleryController.createAlbumTimeBottomSheetState.value = false;
+    globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: galleryController.createAlbumTimeBottomSheetState,
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        Get.back();
+        galleryController.createAlbumTime.value = galleryController.temporaryCreateAlbumTime.value;
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksTime.tr,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          initialDateTime: galleryController.createAlbumTime.value != ''
+              ? DateTime.parse("${galleryController.createAlbumDate} ${galleryController.createAlbumTime.value}")
+              : DateTime.now(),
+          mode: CupertinoDatePickerMode.time,
+          onDateTimeChanged: (value) {
+            galleryController.createAlbumTimeBottomSheetState.value = true;
+            galleryController.temporaryCreateAlbumTime.value = DateFormat("HH:mm").format(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  //* Reset create album all data
+  void resetCreateAlbumData() {
     galleryController.createAlbumNameController.clear();
-   galleryController.albumNameErrorText.value = null;
+    galleryController.albumNameErrorText.value = null;
     galleryController.isCreateAlbumPostButtonEnable.value = false;
     galleryController.temporaryCreateAlbumSelectedPrivacy.value = 'Friends';
     galleryController.createAlbumSelectedPrivacy.value = 'Friends';
@@ -293,6 +371,9 @@ class GalleryPhotoHelper {
     galleryController.createAlbumAllMediaFileList.clear();
     galleryController.allMediaList.clear();
     galleryController.allMediaFileList.clear();
-
+    galleryController.locationTextEditingController.clear();
+    galleryController.addLocationValue.value = '';
+    galleryController.isAddLocationSuffixIconVisible.value = false;
+    galleryController.isLocationSaveEnable.value = false;
   }
 }

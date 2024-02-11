@@ -47,6 +47,7 @@ class GalleryPhotos extends StatelessWidget {
               ],
             ),
           ),
+         
           body: Obx(
             () => Column(
               children: [

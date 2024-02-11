@@ -9,9 +9,13 @@ class CreateAlbumLocation extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        galleryController.locationTextEditingController.clear();
-        galleryController.isAddLocationSuffixIconVisible.value = false;
-        galleryController.isLocationSaveEnable.value = false;
+        if (galleryController.addLocationValue.value == '' || galleryController.locationTextEditingController.text.toString().trim() == '') {
+          galleryController.locationTextEditingController.clear();
+          galleryController.isAddLocationSuffixIconVisible.value = false;
+          galleryController.isLocationSaveEnable.value = false;
+          galleryController.addLocationValue.value = '';
+        }
+
         Get.back();
         return true;
       },
@@ -29,10 +33,13 @@ class CreateAlbumLocation extends StatelessWidget {
                 hasBackButton: true,
                 isCenterTitle: true,
                 onBack: () {
-                  galleryController.locationTextEditingController.clear();
+                  if (galleryController.addLocationValue.value == '' || galleryController.locationTextEditingController.text.toString().trim() == '') {
+                    galleryController.locationTextEditingController.clear();
+                    galleryController.isAddLocationSuffixIconVisible.value = false;
+                    galleryController.isLocationSaveEnable.value = false;
+                    galleryController.addLocationValue.value = '';
+                  }
                   Get.back();
-                  galleryController.isAddLocationSuffixIconVisible.value = false;
-                  galleryController.isLocationSaveEnable.value = false;
                 },
               ),
             ),
@@ -122,6 +129,7 @@ class CreateAlbumLocation extends StatelessWidget {
                       label: ksSave.tr,
                       onPressed: galleryController.isLocationSaveEnable.value
                           ? () {
+                              galleryController.addLocationValue.value = galleryController.locationTextEditingController.text.toString().trim();
                               Get.back();
                             }
                           : null)),

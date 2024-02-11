@@ -424,4 +424,12 @@ class GalleryController extends GetxController {
   List imageLocationsList = [];
   List imageTimesList = [];
   List imageTagIdList = [];
+  //*Date and time
+  final RxString createAlbumDate = RxString('');
+  final RxString temporaryCreateAlbumDate = RxString('');
+  final RxBool createAlbumDateBottomSheetState = RxBool(false);
+  final RxString createAlbumTime = RxString('');
+  final RxString temporaryCreateAlbumTime = RxString('');
+  final RxBool createAlbumTimeBottomSheetState = RxBool(false);
+  final RxBool isDateTimeSaveButtonEnable = RxBool(false);
 }
