@@ -6,6 +6,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/photos/create_album_media_section.dart';
 import 'package:bip_hip/views/menu/photos/create_album_upper_section.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CreateAlbum extends StatelessWidget {
   CreateAlbum({super.key});
@@ -247,13 +248,9 @@ class CreateAlbumBottomSection extends StatelessWidget {
                 galleryPhotoHelper.getBottomRowOnPressed(i + 1, context);
               },
               style: kTextButtonStyle,
-              child: SizedBox(
-                width: width * .25,
-                height: 40,
-                child: Icon(
-                  galleryPhotoHelper.getBottomRowIcon(i + 1),
-                  color: galleryPhotoHelper.getBottomIconColor(i + 1),
-                ),
+              child: SvgPicture.asset(
+                galleryPhotoHelper.getBottomRowPicture(i + 1),
+                height: h20,
               ),
             ),
         ],

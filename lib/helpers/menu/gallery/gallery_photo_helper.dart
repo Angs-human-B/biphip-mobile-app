@@ -5,6 +5,7 @@ import 'package:bip_hip/views/menu/photos/create_album.dart';
 import 'package:bip_hip/views/menu/photos/create_album_date_time.dart';
 import 'package:bip_hip/views/menu/photos/single_image_description.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class GalleryPhotoHelper {
@@ -251,16 +252,16 @@ class GalleryPhotoHelper {
     }
   }
 
-  IconData getBottomRowIcon(index) {
+  getBottomRowPicture(index) {
     switch (index) {
       case 1:
-        return BipHip.photo;
+        return kiGallery;
       case 2:
-        return BipHip.location;
+        return kiLocation;
       case 3:
-        return BipHip.twitchFill;
+        return kiTime;
       default:
-        return BipHip.tagFriends;
+        return kiTagFriend;
     }
   }
 
