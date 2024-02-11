@@ -503,3 +503,4 @@ const String ksQRCode = "QR Code";
 const String ksSelectBusinessTypeFromSuggestion = "Business type must be select from suggestion";
 const String ksCreate = "Create";
 const String ksImage = "Image";
+const String ksPlayNow = "Play Now";

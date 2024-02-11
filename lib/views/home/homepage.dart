@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/shimmers/home/home_page_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/quiz/quiz_top_widget.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
@@ -157,8 +158,12 @@ class HomePage extends StatelessWidget {
                                         tabs: [
                                           Padding(
                                             padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                            child: Text(
-                                              ksSelfie.tr,
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  ksSelfie.tr,
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           Padding(
@@ -183,6 +188,29 @@ class HomePage extends StatelessWidget {
                                 color: cWhiteColor,
                                 width: width,
                                 child: const StoriesWidget(),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Get.find<GlobalController>().commonBottomSheet(
+                                      context: context,
+                                      bottomSheetHeight: height * 0.75,
+                                      content: const QuizFirstBottomSheetContent(),
+                                      onPressCloseButton: () {
+                                        Get.back();
+                                      },
+                                      onPressRightButton: () {
+                                        Get.back();
+                                      },
+                                      rightText: '',
+                                      rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                      title: 'Golf Quizz',
+                                      isRightButtonShow: false);
+                                },
+                                child: Container(
+                                  color: cWhiteColor,
+                                  width: width,
+                                  child: const QuizTopWidget(),
+                                ),
                               ),
                               kH8sizedBox,
                               if (homeController.allPostList.isEmpty)

@@ -153,6 +153,7 @@ class StoryCard extends StatelessWidget {
                     ))
             ],
           ),
+       
         ),
       ),
     );
