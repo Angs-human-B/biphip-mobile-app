@@ -193,13 +193,15 @@ class HomePage extends StatelessWidget {
                                 onTap: () {
                                   Get.find<GlobalController>().commonBottomSheet(
                                       context: context,
-                                      bottomSheetHeight: height * 0.75,
+                                      bottomSheetHeight: height * 0.7,
+                                      isScrollControlled: false,
                                       content: const QuizFirstBottomSheetContent(),
                                       onPressCloseButton: () {
                                         Get.back();
                                       },
                                       onPressRightButton: () {
                                         Get.back();
+                                        Get.toNamed(krQuizPage);
                                       },
                                       rightText: '',
                                       rightTextStyle: semiBold16TextStyle(cPrimaryColor),

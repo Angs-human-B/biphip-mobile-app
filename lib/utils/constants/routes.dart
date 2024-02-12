@@ -12,6 +12,7 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/home/quiz/quiz_page.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/add_language.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/relationship_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_basic_info.dart';
@@ -116,6 +117,10 @@ const String krAddKidContactInfo = '/add-kid-contact-info';
 const String krAddKidSocialLinks = '/add-kid-social-links';
 const String krAddKidUploadImage = '/add-kid-upload-image';
 
+//*Quiz
+const String krQuizPage = '/quiz-page';
+
+
 //*Store
 const String krStore = '/store-page';
 const String krAddStoreBasicInfo = '/add-store-basic-info';
@@ -195,4 +200,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krAddStoreSocialLinks, page: () => AddStoreSocialLinks(), transition: Transition.noTransition),
   GetPage(name: krAddStoreDocuments, page: () => AddStoreDocuments(), transition: Transition.noTransition),
   GetPage(name: krAddStoreUploadImage, page: () => AddStoreUploadImage(), transition: Transition.noTransition),
+  GetPage(name: krQuizPage, page: () => QuizPage(), transition: Transition.noTransition),
 ];

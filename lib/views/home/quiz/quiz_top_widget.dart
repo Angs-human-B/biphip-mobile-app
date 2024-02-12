@@ -77,6 +77,7 @@ class QuizFirstBottomSheetContent extends StatelessWidget {
             label: ksPlayNow.tr,
             onPressed: () {
               Get.back();
+              Get.toNamed(krQuizPage);
             }),
       ],
     );
