@@ -90,6 +90,7 @@ const String kuImageMakeProfilePicture = '/mobile/user/image-make-profile-pictur
 const String kuImageMakeCoverPhoto = '/mobile/user/image-make-cover-photo';
 const String kuDeleteImage = '/mobile/user/delete-image';
 const String kuDownloadImage = '/mobile/user/download-image';
+const String kuCreateAlbum = '/mobile/user/store-image-album';
 
 //---------------------------------------
 //* Friends and Family
@@ -200,3 +201,7 @@ const String kiWarningInfo = 'assets/svg/warning_info.svg';
 const String kiStoreImage = 'assets/svg/store_image.svg';
 const String kikidImage = 'assets/svg/kid_image.svg';
 const String kiUploadImage = 'assets/svg/upload_image.svg';
+const String kiGallery = 'assets/svg/gallery.svg';
+const String kiLocation = 'assets/svg/location.svg';
+const String kiTime = 'assets/svg/time.svg';
+const String kiTagFriend = 'assets/svg/tag_friend.svg';

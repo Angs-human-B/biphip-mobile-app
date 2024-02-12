@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/album/album_list_model.dart';
 import 'package:bip_hip/models/menu/album/image_details_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -13,6 +15,7 @@ class GalleryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    ll('Gallery APi Call test');
     if (albumData.value != null) {
       imageDataList.clear();
       for (var album in albumData.value!.imageAlbums.data) {
@@ -253,8 +256,8 @@ class GalleryController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         isPhotoDeleteLoading.value = false;
-        getGalleryAlbumList();
         Get.back();
+        getGalleryAlbumList();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isPhotoDeleteLoading.value = false;
@@ -358,4 +361,126 @@ class GalleryController extends GetxController {
     {'icon': BipHip.user, 'action': 'Make as profile picture'},
     {'icon': BipHip.imageFile, 'action': 'Make as cover photo'},
   ]);
+  //*Create Album
+  final TextEditingController createAlbumNameController = TextEditingController();
+  final Rx<String?> albumNameErrorText = Rx<String?>(null);
+  final RxBool isCreateAlbumPostButtonEnable = RxBool(false);
+  //*for privacy
+  final RxString temporaryCreateAlbumSelectedPrivacy = RxString('Friends');
+  final RxString createAlbumSelectedPrivacy = RxString('Friends');
+  final Rx<IconData> temporaryCreateAlbumSelectedPrivacyIcon = Rx<IconData>(BipHip.friends);
+  final Rx<IconData> createAlbumSelectedPrivacyIcon = Rx<IconData>(BipHip.friends);
+  final RxInt privacyId = RxInt(2);
+  final RxInt temoparyprivacyId = RxInt(2);
+
+  void albumNameOnChange() {
+    if (createAlbumNameController.text.toString().trim() == '') {
+      albumNameErrorText.value = ksEmptyAlbumNameErrorText.tr;
+    } else {
+      albumNameErrorText.value = null;
+    }
+    checkCreateAlbum();
+  }
+
+  void checkCreateAlbum() {
+    if (createAlbumNameController.text.toString().trim() != '' && allMediaList.isNotEmpty) {
+      isCreateAlbumPostButtonEnable.value = true;
+    } else {
+      isCreateAlbumPostButtonEnable.value = false;
+    }
+  }
+
+  final List<Map<String, dynamic>> privacyList = [
+    {'id': 0, 'name': 'Private', 'icon': BipHip.lock},
+    {'id': 1, 'name': 'Public', "icon": BipHip.world},
+    {'id': 2, 'name': 'Friends', "icon": BipHip.friends},
+    {'id': 3, 'name': 'Families', "icon": BipHip.addFamily},
+    {'id': 4, 'name': 'Friend & Family', "icon": BipHip.friends},
+  ];
+
+  final RxBool isCreateAlbumMediaChanged = RxBool(false);
+  final RxList<FriendFamilyUserData> tagFriendList = RxList<FriendFamilyUserData>([]);
+  final RxList<FriendFamilyUserData> temporaryTaggedFriends = RxList<FriendFamilyUserData>([]);
+  final RxList<FriendFamilyUserData> taggedFriends = RxList<FriendFamilyUserData>([]);
+  final RxList temporaryTagIndex = RxList([]);
+  final RxBool tagFriendButtonSheetRightButtonState = RxBool(false);
+  //*Add location
+  final TextEditingController locationTextEditingController = TextEditingController();
+  final List<String> locationList = ['Agargaon', 'Shewrapara', 'Kazipara', 'Mirpur10', 'Mirpur11', 'Pallabi', 'Mirpur12'];
+  final RxBool isLocationSaveEnable = RxBool(false);
+  final RxBool isAddLocationSuffixIconVisible = RxBool(false);
+  final RxString addLocationValue = RxString('');
+  void checkCanSaveLocation() {
+    if (locationTextEditingController.text.toString().trim() != '') {
+      isLocationSaveEnable.value = true;
+    } else {
+      isLocationSaveEnable.value = false;
+    }
+  }
+
+  final RxList allMediaList = RxList([]);
+  final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
+  final RxList<RxString> createAlbumAllMediaLinkList = RxList<RxString>([]);
+  final RxList<Rx<File>> createAlbumAllMediaFileList = RxList<Rx<File>>([]);
+  List imageDescriptionTextEditingController = [];
+  List imageLocationsList = [];
+  List imageTimesList = [];
+  List imageTagIdList = [];
+  //*Date and time
+  final RxString createAlbumDate = RxString('');
+  final RxString temporaryCreateAlbumDate = RxString('');
+  final RxBool createAlbumDateBottomSheetState = RxBool(false);
+  final RxString createAlbumTime = RxString('');
+  final RxString temporaryCreateAlbumTime = RxString('');
+  final RxBool createAlbumTimeBottomSheetState = RxBool(false);
+  final RxBool isDateTimeSaveButtonEnable = RxBool(false);
+
+//*Create album Api call
+  final RxBool isCreateAlbumLoading = RxBool(false);
+  Future<void> createAlbum() async {
+    List tags = [];
+    for (int i = 0; i < taggedFriends.length; i++) {
+      tags.add(taggedFriends[i].id);
+    }
+    try {
+      isCreateAlbumLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'title': createAlbumNameController.text.toString().trim(),
+        'privacy': privacyId.value.toString(),
+        // 'post_tag_friend_id': tags.join(','),
+        for (int i = 0; i < imageDescriptionTextEditingController.length; i++) 'description[$i]': imageDescriptionTextEditingController[i].text.toString(),
+        for (int i = 0; i < imageLocationsList.length; i++) 'location[$i]': imageLocationsList[i].toString(),
+        for (int i = 0; i < imageTimesList.length; i++) 'time[$i]': imageTimesList[i].toString(),
+        for (int i = 0; i < imageTagIdList.length; i++) 'tag_friend_ids[$i]': imageTagIdList[i].toString(),
+      };
+      ll(body);
+      var response = await apiController.multiMediaUpload(
+        url: kuCreateAlbum,
+        body: body,
+        token: token,
+        key: 'images[]',
+        values: allMediaList,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        isCreateAlbumLoading.value = false;
+        Get.offNamedUntil(krGalleryPhotos, ModalRoute.withName(krMenu));
+        getGalleryAlbumList();
+        GalleryPhotoHelper().resetCreateAlbumData();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isCreateAlbumLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isCreateAlbumLoading.value = false;
+      ll('createAlbum error: $e');
+    }
+  }
 }
