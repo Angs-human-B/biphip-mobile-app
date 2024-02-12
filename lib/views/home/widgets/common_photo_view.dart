@@ -1,16 +1,14 @@
-import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class CommonPhotoView extends StatelessWidget {
-  CommonPhotoView({super.key, required this.image, this.postIndex = 0, this.onPressed, this.description});
+  const CommonPhotoView({super.key, required this.image, this.postIndex = 0, this.onPressed, this.description});
   final String image;
   final int postIndex;
   final String? description;
   final VoidCallback? onPressed;
-  final HomeController homeController = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +17,6 @@ class CommonPhotoView extends StatelessWidget {
         top: false,
         child: Scaffold(
           backgroundColor: Colors.black,
-          resizeToAvoidBottomInset: false,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
@@ -45,63 +42,64 @@ class CommonPhotoView extends StatelessWidget {
               ],
             ),
           ),
-          body: Stack(
-            children: [
-              SizedBox(
-                height: height - kAppBarSize,
-                width: width,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: SizedBox(
-                        width: width,
-                        height: height * 0.7,
-                        child: Image.network(
-                          image,
-                          // fit: BoxFit.contain,
-                          fit: BoxFit.contain,
-                          filterQuality: FilterQuality.high,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            BipHip.imageFile,
-                            size: kIconSize100,
-                            color: cIconColor,
-                          ),
-                          loadingBuilder: imageLoadingBuilder,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                bottom: 5,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          body: SingleChildScrollView(
+            child: Stack(
+              children: [
+                SizedBox(
+                  height: height - kAppBarSize - MediaQuery.of(context).padding.top,
+                  width: width,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        description ?? '',
-                        style: semiBold14TextStyle(cWhiteColor),
-                      ),
-                      kH16sizedBox,
-                      Container(
-                        color: cWhiteColor,
-                        height: 1,
-                        width: width - 40,
-                      ),
-                      LikeSectionWidget(
-                        postIndex: postIndex,
-                        sectionColor: cWhiteColor,
-                        isGiftShown: false,
+                      InkWell(
+                        onTap: () {},
+                        child: SizedBox(
+                          width: width,
+                          height: height * 0.6,
+                          child: Image.network(
+                            image,
+                            fit: BoxFit.contain,
+                            filterQuality: FilterQuality.high,
+                            errorBuilder: (context, error, stackTrace) => const Icon(
+                              BipHip.imageFile,
+                              size: kIconSize100,
+                              color: cIconColor,
+                            ),
+                            loadingBuilder: imageLoadingBuilder,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-              )
-            ],
+                Positioned(
+                  bottom: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          description ?? '',
+                          style: semiBold14TextStyle(cWhiteColor),
+                        ),
+                        kH16sizedBox,
+                        Container(
+                          color: cWhiteColor,
+                          height: 1,
+                          width: width - 40,
+                        ),
+                        LikeSectionWidget(
+                          postIndex: postIndex,
+                          sectionColor: cWhiteColor,
+                          isGiftShown: false,
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

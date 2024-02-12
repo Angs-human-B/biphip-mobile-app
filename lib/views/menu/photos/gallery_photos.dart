@@ -128,9 +128,6 @@ class GalleryPhotos extends StatelessWidget {
                                                 );
                                               },
                                               onPressed: () {
-                                                // galleryController.selectedImageList = galleryController.imageDataList[index].imageList;
-                                                // galleryController.selectedTitle.value = galleryController.imageDataList[index].title ?? ksNA;
-                                                // Get.toNamed(krPhotos);
                                                 Get.to(()=> Photos(imageList: galleryController.imageDataList[index].imageList,imageListTitle: galleryController.imageDataList[index].title ?? ksNA,));
                                               },
                                             ),
