@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/shimmers/menu/gallery/gallery_photo_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/photos/photos.dart';
 import 'package:bip_hip/views/menu/photos/widgets/gallery_photo_container.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
@@ -129,9 +130,7 @@ class GalleryPhotos extends StatelessWidget {
                                                 );
                                               },
                                               onPressed: () {
-                                                galleryController.selectedImageList = galleryController.imageDataList[index].imageList;
-                                                galleryController.selectedTitle.value = galleryController.imageDataList[index].title ?? ksNA;
-                                                Get.toNamed(krPhotos);
+                                                Get.to(()=> Photos(imageList: galleryController.imageDataList[index].imageList,imageListTitle: galleryController.imageDataList[index].title ?? ksNA,));
                                               },
                                             ),
                                           ],
