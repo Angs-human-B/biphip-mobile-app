@@ -15,6 +15,7 @@ class GalleryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    ll('Gallery APi Call test');
     if (albumData.value != null) {
       imageDataList.clear();
       for (var album in albumData.value!.imageAlbums.data) {
@@ -134,8 +135,6 @@ class GalleryController extends GetxController {
     }
   }
 
-  List selectedImageList = [];
-  final RxString selectedTitle = RxString('');
   final RxInt imageId = RxInt(-1);
 
   //*Get Image details Api call
@@ -256,9 +255,9 @@ class GalleryController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        getGalleryAlbumList();
         isPhotoDeleteLoading.value = false;
         Get.back();
+        getGalleryAlbumList();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isPhotoDeleteLoading.value = false;
@@ -309,6 +308,8 @@ class GalleryController extends GetxController {
 
   //*Image description update
   final TextEditingController imageDescriptionUpdateController = TextEditingController();
+  final RxString previousImageDescription = RxString('');
+  final RxBool isImageDescriptionSaveButtonEnable = RxBool(false);
   final RxBool isImageDescriptionUpdateLoading = RxBool(false);
   Future<void> imageDescriptionUpdate() async {
     try {
@@ -326,6 +327,7 @@ class GalleryController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         isImageDescriptionUpdateLoading.value = false;
+        Get.back();
         if (!Get.isSnackbarOpen) {
           globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
         }
@@ -432,4 +434,53 @@ class GalleryController extends GetxController {
   final RxString temporaryCreateAlbumTime = RxString('');
   final RxBool createAlbumTimeBottomSheetState = RxBool(false);
   final RxBool isDateTimeSaveButtonEnable = RxBool(false);
+
+//*Create album Api call
+  final RxBool isCreateAlbumLoading = RxBool(false);
+  Future<void> createAlbum() async {
+    List tags = [];
+    for (int i = 0; i < taggedFriends.length; i++) {
+      tags.add(taggedFriends[i].id);
+    }
+    try {
+      isCreateAlbumLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'title': createAlbumNameController.text.toString().trim(),
+        'privacy': privacyId.value.toString(),
+        // 'post_tag_friend_id': tags.join(','),
+        for (int i = 0; i < imageDescriptionTextEditingController.length; i++) 'description[$i]': imageDescriptionTextEditingController[i].text.toString(),
+        for (int i = 0; i < imageLocationsList.length; i++) 'location[$i]': imageLocationsList[i].toString(),
+        for (int i = 0; i < imageTimesList.length; i++) 'time[$i]': imageTimesList[i].toString(),
+        for (int i = 0; i < imageTagIdList.length; i++) 'tag_friend_ids[$i]': imageTagIdList[i].toString(),
+      };
+      ll(body);
+      var response = await apiController.multiMediaUpload(
+        url: kuCreateAlbum,
+        body: body,
+        token: token,
+        key: 'images[]',
+        values: allMediaList,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        isCreateAlbumLoading.value = false;
+        Get.offNamedUntil(krGalleryPhotos, ModalRoute.withName(krMenu));
+        getGalleryAlbumList();
+        GalleryPhotoHelper().resetCreateAlbumData();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isCreateAlbumLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isCreateAlbumLoading.value = false;
+      ll('createAlbum error: $e');
+    }
+  }
 }

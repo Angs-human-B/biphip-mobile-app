@@ -5,7 +5,6 @@ import 'package:bip_hip/views/menu/photos/create_album.dart';
 import 'package:bip_hip/views/menu/photos/create_album_date_time.dart';
 import 'package:bip_hip/views/menu/photos/single_image_description.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class GalleryPhotoHelper {
@@ -74,12 +73,20 @@ class GalleryPhotoHelper {
       await galleryController.imageMakeCoverPhoto();
     } else if (galleryController.photoActionSelect.value == 'Delete photo') {
       await galleryController.deleteImage();
-    } else if (galleryController.photoActionSelect.value == 'Download photo') {
-      await galleryController.downloadPhoto();
-    } else if (galleryController.photoActionSelect.value == 'Edit caption') {
+    }
+    //  else if (galleryController.photoActionSelect.value == 'Download photo') {
+      // await galleryController.downloadPhoto();
+    // }
+    else if (galleryController.photoActionSelect.value == 'Edit caption') {
+      if (galleryController.imageDetailsData.value!.image!.description == null || galleryController.imageDetailsData.value!.image!.description == '') {
+        galleryController.imageDescriptionUpdateController.text = '';
+        galleryController.previousImageDescription.value = '';
+      } else {
+        galleryController.imageDescriptionUpdateController.text = galleryController.imageDetailsData.value!.image!.description;
+        galleryController.previousImageDescription.value = galleryController.imageDetailsData.value?.image?.description;
+      }
       Get.to(() => SingleImageDescription(
             image: galleryController.imageDetailsData.value!.image!.fullPath.toString(),
-            description: galleryController.imageDetailsData.value!.image!.description,
           ));
     }
   }
@@ -376,5 +383,9 @@ class GalleryPhotoHelper {
     galleryController.addLocationValue.value = '';
     galleryController.isAddLocationSuffixIconVisible.value = false;
     galleryController.isLocationSaveEnable.value = false;
+    galleryController.imageDescriptionTextEditingController.clear();
+    galleryController.imageLocationsList = [];
+    galleryController.imageTimesList = [];
+    galleryController.imageTagIdList = [];
   }
 }

@@ -108,27 +108,30 @@ class GalleryPhotoContainer extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        kH8sizedBox,
-                        Padding(
-                          padding: const EdgeInsets.only(left: k4Padding + k2Padding),
-                          child: Text(
-                            title!,
-                            style: semiBold14TextStyle(cBlackColor),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          kH8sizedBox,
+                          Padding(
+                            padding: const EdgeInsets.only(left: k4Padding + k2Padding),
+                            child: Text(
+                              title!,
+                              overflow: TextOverflow.ellipsis,
+                              style: semiBold14TextStyle(cBlackColor),
+                            ),
                           ),
-                        ),
-                        kH4sizedBox,
-                        Padding(
-                          padding: const EdgeInsets.only(left: k4Padding + k2Padding),
-                          child: Text(
-                            subTitle,
-                            style: regular12TextStyle(cSmallBodyTextColor),
+                          kH4sizedBox,
+                          Padding(
+                            padding: const EdgeInsets.only(left: k4Padding + k2Padding),
+                            child: Text(
+                              subTitle,
+                              style: regular12TextStyle(cSmallBodyTextColor),
+                            ),
                           ),
-                        ),
-                        kH4sizedBox,
-                      ],
+                          kH4sizedBox,
+                        ],
+                      ),
                     ),
                     CustomIconButton(
                       onPress: threeDotOnPressed,
