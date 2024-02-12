@@ -516,3 +516,4 @@ const String ksWhenTakenImage = "When was this photo taken?";
 const String ksIn = "in";
 const String ksTime = "Time";
 const String ksPickDateFirst = 'Pick date first';
+const String ksSendGift = 'Send Gift';
