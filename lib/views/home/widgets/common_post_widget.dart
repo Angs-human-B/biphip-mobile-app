@@ -1712,6 +1712,7 @@ class PurchaseStarContent extends StatelessWidget {
                       Get.find<GlobalController>().commonBottomSheet(
                           context: context,
                           bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
+                          isScrollControlled: true,
                           content: GiftPurchasePaymentContent(),
                           onPressCloseButton: () {
                             Get.back();
