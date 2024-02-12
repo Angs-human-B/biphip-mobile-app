@@ -183,7 +183,8 @@ class KidsController extends GetxController {
   void checkContactInfoNextButtonEnabled() {
     if ((kidParentPhoneController.text.toString().trim() != '' ||
             kidParentAddressController.text.toString().trim() != '' ||
-            kidBioController.text.toString().trim() != '') &&
+            kidBioController.text.toString().trim() != '' ||
+            kidParentEmailController.text.toString().trim().isValidEmail) &&
         kidParentEmailErrorText.value == null) {
       isContactInfoNextButtonEnabled.value = true;
     } else {

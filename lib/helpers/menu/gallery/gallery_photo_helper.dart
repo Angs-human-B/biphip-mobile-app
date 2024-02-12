@@ -67,12 +67,20 @@ class GalleryPhotoHelper {
       await galleryController.imageMakeCoverPhoto();
     } else if (galleryController.photoActionSelect.value == 'Delete photo') {
       await galleryController.deleteImage();
-    } else if (galleryController.photoActionSelect.value == 'Download photo') {
-      await galleryController.downloadPhoto();
-    } else if (galleryController.photoActionSelect.value == 'Edit caption') {
+    }
+    //  else if (galleryController.photoActionSelect.value == 'Download photo') {
+      // await galleryController.downloadPhoto();
+    // }
+    else if (galleryController.photoActionSelect.value == 'Edit caption') {
+      if (galleryController.imageDetailsData.value!.image!.description == null || galleryController.imageDetailsData.value!.image!.description == '') {
+        galleryController.imageDescriptionUpdateController.text = '';
+        galleryController.previousImageDescription.value = '';
+      } else {
+        galleryController.imageDescriptionUpdateController.text = galleryController.imageDetailsData.value!.image!.description;
+        galleryController.previousImageDescription.value = galleryController.imageDetailsData.value?.image?.description;
+      }
       Get.to(() => SingleImageDescription(
             image: galleryController.imageDetailsData.value!.image!.fullPath.toString(),
-            description: galleryController.imageDetailsData.value!.image!.description,
           ));
     }
   }

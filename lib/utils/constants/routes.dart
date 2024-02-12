@@ -47,7 +47,6 @@ import 'package:bip_hip/views/menu/settings/settings.dart';
 import 'package:bip_hip/views/menu/photos/photo_details.dart';
 import 'package:bip_hip/views/menu/photos/photo_preview.dart';
 import 'package:bip_hip/views/menu/profile/photo_view.dart';
-import 'package:bip_hip/views/menu/photos/photos.dart';
 import 'package:bip_hip/views/menu/profile/profile.dart';
 import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
 import 'package:bip_hip/views/menu/videos/gallery_videos.dart';
@@ -150,7 +149,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krFamily, page: () => Family(), transition: Transition.noTransition),
   GetPage(name: krEditProfile, page: () => EditProfile(), transition: Transition.noTransition),
   GetPage(name: krEditBio, page: () => EditBio(), transition: Transition.noTransition),
-  GetPage(name: krPhotos, page: () => Photos(), transition: Transition.noTransition),
+  // GetPage(name: krPhotos, page: () => Photos(), transition: Transition.noTransition),
   GetPage(name: krPhotoDetails, page: () => PhotoDetails(), transition: Transition.noTransition),
   GetPage(name: krVideos, page: () => Videos(), transition: Transition.noTransition),
   GetPage(name: krVideoDetails, page: () => VideoDetails(), transition: Transition.noTransition),
