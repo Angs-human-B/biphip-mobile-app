@@ -20,6 +20,8 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   late TabController tabController;
   final Rx<int?> yourBid = Rx<int?>(null);
   final RxBool showMoreBiddingInsights = RxBool(true);
+  final RxDouble perStarAmount = RxDouble(0.09);
+  final RxDouble totalStarBuyAmount = RxDouble(0);
 
   @override
   void onInit() {
@@ -69,6 +71,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       }
     }
   }
+
   //*Star
   final TextEditingController starAmountTextEditingController = TextEditingController();
   final RxBool isStarAmountConfirmButtonEnabled = RxBool(false);
@@ -165,5 +168,9 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     selectedGiftIndex.value = -1;
     balance.value = 200;
     isPackageSelected.value = false;
+    giftCheckBox.value = false;
+    starAmountTextEditingController.clear();
+    perStarAmount.value = 0.09;
+    totalStarBuyAmount.value = 0;
   }
 }
