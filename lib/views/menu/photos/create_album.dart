@@ -261,9 +261,11 @@ class CreateAlbumBottomSection extends StatelessWidget {
         children: [
           for (int i = 0; i < 4; i++)
             TextButton(
-              onPressed: () async {
-                galleryPhotoHelper.getBottomRowOnPressed(i + 1, context);
-              },
+              onPressed: i == 2
+                  ? null
+                  : () async {
+                      galleryPhotoHelper.getBottomRowOnPressed(i + 1, context);
+                    },
               style: kTextButtonStyle,
               child: SizedBox(
                 width: width * 0.25,
@@ -272,6 +274,7 @@ class CreateAlbumBottomSection extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: SvgPicture.asset(
                     galleryPhotoHelper.getBottomRowPicture(i + 1),
+                    color: i == 2 ? cIconColor : null,
                     height: h20,
                   ),
                 ),
