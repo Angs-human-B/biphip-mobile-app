@@ -38,7 +38,7 @@ class CreateAlbumUpperSection extends StatelessWidget {
             ],
           ),
           kW8sizedBox,
-          Flexible(
+          Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,11 +48,12 @@ class CreateAlbumUpperSection extends StatelessWidget {
                     Expanded(
                       child: Obx(
                         () => Padding(
-                          padding: const EdgeInsets.only(top: 2.0),
+                          padding: EdgeInsets.only(
+                              top: (galleryController.taggedFriends.isEmpty || galleryController.addLocationValue.value == '') ? k12Padding : 2.0),
                           child: RichText(
                             textAlign: TextAlign.left,
                             overflow: TextOverflow.clip,
-                            maxLines: 2,
+                            maxLines: 3,
                             text: TextSpan(
                               children: [
                                 TextSpan(
@@ -75,10 +76,6 @@ class CreateAlbumUpperSection extends StatelessWidget {
                                       style: semiBold16TextStyle(cBlackColor),
                                     ),
                                   )),
-                                // TextSpan(
-                                //   text: '${createPostController.taggedFriends[0].fullName} ',
-                                //   style: semiBold16TextStyle(cBlackColor),
-                                // ),
                                 if (galleryController.taggedFriends.isNotEmpty && galleryController.taggedFriends.length == 2)
                                   WidgetSpan(
                                     child: InkWell(
@@ -91,10 +88,6 @@ class CreateAlbumUpperSection extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                // TextSpan(
-                                //   text: '& ${createPostController.taggedFriends[1].fullName}',
-                                //   style: semiBold16TextStyle(cBlackColor),
-                                // ),
                                 if (galleryController.taggedFriends.isNotEmpty && galleryController.taggedFriends.length > 2)
                                   WidgetSpan(
                                     child: InkWell(
@@ -107,13 +100,9 @@ class CreateAlbumUpperSection extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                // TextSpan(
-                                //   text: '& ${createPostController.taggedFriends.length - 1} others',
-                                //   style: semiBold16TextStyle(cBlackColor),
-                                // ),
                                 if (galleryController.addLocationValue.value != '')
                                   TextSpan(
-                                    text: ' ${ksIn.tr} ',
+                                    text: ' ${ksAt.tr} ',
                                     style: regular16TextStyle(cBlackColor),
                                   ),
                                 if (galleryController.addLocationValue.value != '')

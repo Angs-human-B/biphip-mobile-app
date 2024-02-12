@@ -40,8 +40,8 @@ class CreateAlbum extends StatelessWidget {
                           child: TextButton(
                             style: kTextButtonStyle,
                             onPressed: galleryController.isCreateAlbumPostButtonEnable.value
-                                ? () async{
-                                 await galleryController.createAlbum();
+                                ? () async {
+                                    await galleryController.createAlbum();
                                   }
                                 : null,
                             child: Text(
@@ -265,9 +265,16 @@ class CreateAlbumBottomSection extends StatelessWidget {
                 galleryPhotoHelper.getBottomRowOnPressed(i + 1, context);
               },
               style: kTextButtonStyle,
-              child: SvgPicture.asset(
-                galleryPhotoHelper.getBottomRowPicture(i + 1),
-                height: h20,
+              child: SizedBox(
+                width: width * 0.25,
+                height: 44,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: SvgPicture.asset(
+                    galleryPhotoHelper.getBottomRowPicture(i + 1),
+                    height: h20,
+                  ),
+                ),
               ),
             ),
         ],

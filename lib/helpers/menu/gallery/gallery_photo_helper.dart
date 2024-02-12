@@ -75,7 +75,7 @@ class GalleryPhotoHelper {
       await galleryController.deleteImage();
     }
     //  else if (galleryController.photoActionSelect.value == 'Download photo') {
-      // await galleryController.downloadPhoto();
+    // await galleryController.downloadPhoto();
     // }
     else if (galleryController.photoActionSelect.value == 'Edit caption') {
       if (galleryController.imageDetailsData.value!.image!.description == null || galleryController.imageDetailsData.value!.image!.description == '') {
@@ -112,7 +112,6 @@ class GalleryPhotoHelper {
         galleryController.createAlbumSelectedPrivacy.value = galleryController.temporaryCreateAlbumSelectedPrivacy.value;
         galleryController.createAlbumSelectedPrivacyIcon.value = galleryController.temporaryCreateAlbumSelectedPrivacyIcon.value;
         galleryController.privacyId.value = galleryController.temoparyprivacyId.value;
-        // selectAudienceTextChange();
         Get.back();
       },
       rightText: ksDone.tr,
@@ -159,8 +158,6 @@ class GalleryPhotoHelper {
     } else if (index == 3) {
       Get.to(() => CreateAlbumDateTime());
     } else {
-      // createPostController.tagFriendList.clear();
-      // createPostController.tempTaggedFriends.clear();
       Get.find<FriendController>().isFriendListLoading.value = true;
       galleryController.temporaryTaggedFriends.addAll(galleryController.taggedFriends);
       if (galleryController.temporaryTaggedFriends.isNotEmpty) {
@@ -212,7 +209,7 @@ class GalleryPhotoHelper {
     galleryController.allMediaFileList.removeAt(index);
   }
 
-  // //Get tagged friend bottom sheet
+  //* Get tagged friend bottom sheet
   Future<void> taggedFriendBottomSheet(context) async {
     Get.find<FriendController>().isFriendListLoading.value = true;
     galleryController.temporaryTaggedFriends.addAll(galleryController.taggedFriends);
@@ -259,7 +256,7 @@ class GalleryPhotoHelper {
     }
   }
 
-  getBottomRowPicture(index) {
+  String getBottomRowPicture(index) {
     switch (index) {
       case 1:
         return kiGallery;
@@ -269,19 +266,6 @@ class GalleryPhotoHelper {
         return kiTime;
       default:
         return kiTagFriend;
-    }
-  }
-
-  Color getBottomIconColor(index) {
-    switch (index) {
-      case 1:
-        return cGreenColor;
-      case 2:
-        return cPrimaryColor;
-      case 3:
-        return cRedColor;
-      default:
-        return cSecondaryColor;
     }
   }
 
@@ -387,5 +371,12 @@ class GalleryPhotoHelper {
     galleryController.imageLocationsList = [];
     galleryController.imageTimesList = [];
     galleryController.imageTagIdList = [];
+    galleryController.isDateTimeSaveButtonEnable.value = false;
+    galleryController.createAlbumDateBottomSheetState.value = false;
+    galleryController.temporaryCreateAlbumDate.value = '';
+    galleryController.createAlbumDate.value = '';
+    galleryController.createAlbumTimeBottomSheetState.value = false;
+    galleryController.temporaryCreateAlbumTime.value = '';
+    galleryController.createAlbumTime.value = '';
   }
 }
