@@ -1413,7 +1413,8 @@ class GiftContent extends StatelessWidget {
                             isScrollControlled: true,
                             bottomSheetHeight: height * .9);
                       }
-                    : null)
+                    : null),
+            kH20sizedBox,
           ],
         ),
       ),
@@ -1543,20 +1544,24 @@ class PurchaseStarContent extends StatelessWidget {
             style: regular12TextStyle(cIconColor),
           ),
           kH8sizedBox,
-          CustomListTile(
-            title: '${postReactionController.selectedPackage.value!['amount']} stars',
-            borderColor: cPrimaryColor,
-            itemColor: cPrimaryTint2Color,
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  '\$${postReactionController.selectedPackage.value!['cost']}',
-                  style: semiBold16TextStyle(cBlackColor),
+          Obx(() => CustomListTile(
+                title: (postReactionController.totalStars.value != '' && postReactionController.totalStars.value != '0')
+                    ? '${postReactionController.totalStars.value} stars'
+                    : '${postReactionController.selectedPackage.value!['amount']} stars',
+                borderColor: cPrimaryColor,
+                itemColor: cPrimaryTint2Color,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      postReactionController.totalStarBuyAmount.value != 0
+                          ? '${postReactionController.totalStarBuyAmount.value.toStringAsFixed(2)} \$'
+                          : '\$${postReactionController.selectedPackage.value!['cost']}',
+                      style: semiBold16TextStyle(cBlackColor),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              )),
           kH16sizedBox,
           const CustomDivider(),
           kH16sizedBox,
@@ -1582,8 +1587,15 @@ class PurchaseStarContent extends StatelessWidget {
           kH16sizedBox,
           InkWell(
             onTap: () {
+              postReactionController.temporarytotalStarBuyAmount.value = postReactionController.totalStarBuyAmount.value;
+              postReactionController.temporaryTotalStars.value = postReactionController.totalStars.value;
+              postReactionController.starAmountTextEditingController.text = postReactionController.totalStars.value;
+              if (postReactionController.starAmountTextEditingController.text.toString().trim() == '') {
+                postReactionController.isStarAmountConfirmButtonEnabled.value = false;
+              }
               Get.find<GlobalController>().commonBottomSheet(
                   context: context,
+                  isScrollControlled: true,
                   bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
                   content: PurchaseCustomStarContent(),
                   onPressCloseButton: () {
@@ -1623,6 +1635,7 @@ class PurchaseStarContent extends StatelessWidget {
                     child: CustomListTile(
                       onPressed: () {
                         postReactionController.selectedPackage.value = packages[index];
+                        postReactionController.resetPurchaseCustomStar();
                       },
                       title: '${packages[index]['amount']} stars',
                       borderColor: postReactionController.selectedPackage.value == packages[index] ? cPrimaryColor : cLineColor,
@@ -1725,9 +1738,10 @@ class PurchaseCustomStarContent extends StatelessWidget {
                 kW12sizedBox,
                 kH8sizedBox,
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${postReactionController.totalStarBuyAmount.value}\$',
+                      '${postReactionController.temporarytotalStarBuyAmount.value.toStringAsFixed(2)} \$',
                       style: semiBold18TextStyle(cBlackColor),
                     ),
                     kH4sizedBox,
@@ -1748,13 +1762,15 @@ class PurchaseCustomStarContent extends StatelessWidget {
               controller: postReactionController.starAmountTextEditingController,
               hint: ksAmountOfStar.tr,
               onChanged: (text) {
-                if (postReactionController.starAmountTextEditingController.text.toString().trim() != '') {
+                if (postReactionController.starAmountTextEditingController.text.toString().trim() != '' &&
+                    postReactionController.starAmountTextEditingController.text.toString().trim() != '0') {
                   postReactionController.isStarAmountConfirmButtonEnabled.value = true;
-                  postReactionController.totalStarBuyAmount.value =
+                  postReactionController.temporarytotalStarBuyAmount.value =
                       (double.parse(postReactionController.starAmountTextEditingController.text.toString()) * postReactionController.perStarAmount.value);
+                  postReactionController.temporaryTotalStars.value = postReactionController.starAmountTextEditingController.text.toString().trim();
                 } else {
                   postReactionController.isStarAmountConfirmButtonEnabled.value = false;
-                  postReactionController.totalStarBuyAmount.value = 0;
+                  postReactionController.temporarytotalStarBuyAmount.value = 0;
                 }
               },
               onSubmit: (text) {},
@@ -1789,21 +1805,9 @@ class PurchaseCustomStarContent extends StatelessWidget {
                   label: ksConfirm.tr,
                   onPressed: postReactionController.isStarAmountConfirmButtonEnabled.value
                       ? () {
+                          postReactionController.totalStarBuyAmount.value = postReactionController.temporarytotalStarBuyAmount.value;
+                          postReactionController.totalStars.value = postReactionController.temporaryTotalStars.value;
                           Get.back();
-                          Get.find<GlobalController>().commonBottomSheet(
-                            context: context,
-                            content: GiftPurchasePaymentContent(),
-                            onPressCloseButton: () {
-                              Get.back();
-                            },
-                            onPressRightButton: null,
-                            rightText: '',
-                            rightTextStyle: semiBold12TextStyle(cPrimaryColor),
-                            title: ksPurchaseStar.tr,
-                            isRightButtonShow: false,
-                            isScrollControlled: true,
-                            bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
-                          );
                         }
                       : null,
                   textStyle: semiBold14TextStyle(cWhiteColor),
