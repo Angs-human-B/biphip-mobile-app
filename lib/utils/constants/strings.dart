@@ -506,4 +506,5 @@ const String ksImage = "Image";
 const String ksPlayNow = "Play Now";
 const String ksLeave = "Leave";
 const String ksLeaveQuizConfirmation = "Are you sure you want to leave this Quiz?";
+const String ksFinish = "Finish";
 

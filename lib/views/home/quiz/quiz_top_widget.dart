@@ -78,6 +78,7 @@ class QuizFirstBottomSheetContent extends StatelessWidget {
             label: ksPlayNow.tr,
             onPressed: () {
               Get.back();
+              Get.find<PostReactionController>().resetQuizData();
               Get.find<PostReactionController>().totalTimeCalculation();
               Get.find<PostReactionController>().timerStartFunction();
               Get.toNamed(krQuizPage);

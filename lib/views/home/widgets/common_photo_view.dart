@@ -70,6 +70,7 @@ class CommonPhotoView extends StatelessWidget {
                           loadingBuilder: imageLoadingBuilder,
                         ),
                       ),
+                   
                     ),
                   ],
                 ),

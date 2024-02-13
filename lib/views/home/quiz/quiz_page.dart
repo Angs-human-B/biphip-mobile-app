@@ -62,7 +62,7 @@ class QuizPage extends StatelessWidget {
                                 }
                               : null,
                           child: Text(
-                            postReactionController.currentIndex.value < postReactionController.quizQuestions.length - 1 ? ksNext.tr : 'Finish',
+                            postReactionController.currentIndex.value < postReactionController.quizQuestions.length - 1 ? ksNext.tr : ksFinish.tr,
                             style: semiBold16TextStyle(cPrimaryColor),
                           ),
                         )),
@@ -96,7 +96,7 @@ class QuizPage extends StatelessWidget {
                                 // percent: 0.2,
                                 percent: postReactionController.calculatePercentage() / 100,
                                 barRadius: const Radius.circular(k8BorderRadius),
-                                lineHeight: 10,
+                                lineHeight: 6,
                                 width: width - 150,
                                 backgroundColor: cNeutralColor,
                               ),
@@ -123,7 +123,7 @@ class QuizPage extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              postReactionController.quizQuestions[postReactionController.currentIndex.value],
+                              postReactionController.quizQuestions[postReactionController.currentIndex.value]['question'],
                               overflow: TextOverflow.clip,
                               style: semiBold14TextStyle(cBlackColor),
                             ),
@@ -140,24 +140,40 @@ class QuizPage extends StatelessWidget {
                         ],
                       ),
                       kH24sizedBox,
+                      if (postReactionController.quizQuestions[postReactionController.currentIndex.value]['image'] != null)
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                          child: SizedBox(
+                            width: width,
+                            height: 140,
+                            child: Image.network(
+                              postReactionController.quizQuestions[postReactionController.currentIndex.value]['image'],
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => const Icon(
+                                BipHip.imageFile,
+                                size: kIconSize100,
+                                color: cIconColor,
+                              ),
+                              loadingBuilder: imageLoadingBuilder,
+                            ),
+                          ),
+                        ),
+                      kH24sizedBox,
                       for (int i = 0; i < postReactionController.optionsList.length; i++)
                         Padding(
                           padding: const EdgeInsets.only(bottom: k8Padding),
                           child: CustomListTile(
-                            itemColor: postReactionController.temporarySelectedAnswer.value == postReactionController.optionsList[i]
-                                ? cPrimaryTint3Color
-                                : cWhiteColor,
+                            itemColor: postReactionController.selectedAnswer.value == postReactionController.optionsList[i] ? cPrimaryTint3Color : cWhiteColor,
                             onPressed: () {
-                              postReactionController.temporarySelectedAnswer.value = postReactionController.optionsList[i];
+                              postReactionController.selectedAnswer.value = postReactionController.optionsList[i];
                             },
                             title: postReactionController.optionsList[i],
-                            borderColor:
-                                postReactionController.temporarySelectedAnswer.value == postReactionController.optionsList[i] ? cPrimaryColor : cLineColor,
+                            borderColor: postReactionController.selectedAnswer.value == postReactionController.optionsList[i] ? cPrimaryColor : cLineColor,
                             trailing: CustomRadioButton(
                               onChanged: () {
-                                postReactionController.temporarySelectedAnswer.value = postReactionController.optionsList[i];
+                                postReactionController.selectedAnswer.value = postReactionController.optionsList[i];
                               },
-                              isSelected: postReactionController.temporarySelectedAnswer.value == postReactionController.optionsList[i],
+                              isSelected: postReactionController.selectedAnswer.value == postReactionController.optionsList[i],
                             ),
                           ),
                         ),

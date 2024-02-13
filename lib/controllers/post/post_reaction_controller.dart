@@ -161,23 +161,42 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   }
 
   //* Quiz
-  final RxList quizQuestions = RxList([
-    "Question1:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?",
-    "Question2:What is the term for the ",
-    "Question3:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?",
-    "Question4:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?",
-    "Question5:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?",
+  final RxList<Map<String, dynamic>> quizQuestions = RxList([
+    {
+      "image":
+          'https://images.unsplash.com/photo-1500076656116-558758c991c1?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'question':
+          "Question1:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?"
+    },
+    {
+      "image": null,
+      'question':
+          "Question1:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?"
+    },
+    {
+      "image": null,
+      'question':
+          "Question1:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?"
+    },
+    {
+      "image":
+          'https://images.unsplash.com/photo-1500076656116-558758c991c1?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'question':
+          "Question1:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?"
+    },
   ]);
   final RxInt currentIndex = RxInt(0);
 
   void nextQuestion() {
     if (currentIndex.value < quizQuestions.length - 1) {
       currentIndex.value++;
-    } else {}
+    } else {
+      
+    }
   }
 
-  final RxList temporarySelectedAnswerList = RxList([]);
-  final RxString temporarySelectedAnswer = RxString('');
+  final RxList selectedAnswerList = RxList([]);
+  final RxString selectedAnswer = RxString('');
   final List optionsList = ['A) Pakistan', 'B) Palestine', 'C) Algeria', 'D) Afganistan'];
 //* Quiz Timer All function
   Timer? timer;
@@ -224,5 +243,13 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         remainingSeconds.value--;
       }
     });
+  }
+
+  void resetQuizData() {
+    timer?.cancel();
+    currentIndex.value = 0;
+    selectedAnswerList.clear();
+    selectedAnswer.value = '';
+    remainingSeconds.value = 1;
   }
 }
