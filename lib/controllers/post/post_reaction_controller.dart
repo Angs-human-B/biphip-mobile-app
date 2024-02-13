@@ -157,4 +157,28 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       );
     }
   }
+
+  final RxList quizQuestions = RxList([
+    "Question1:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?",
+    "Question2:What is the term for the ",
+    "Question3:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?",
+    "Question4:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?",
+    "Question5:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?",
+  ]);
+  final RxInt currentIndex = RxInt(0);
+
+  void nextQuestion() {
+    if (currentIndex.value < quizQuestions.length - 1) {
+      currentIndex.value++;
+    } else {
+      // Handle reaching the end of the quiz, e.g., show results or finish message
+    }
+  }
+
+
+
+
+  final RxList temporarySelectedAnswerList = RxList([]);
+  final RxString temporarySelectedAnswer = RxString('');
+  final List OptionsList = ['A) Pakistan', 'B) Palestine', 'C) Algeria', 'D) Afganistan'];
 }

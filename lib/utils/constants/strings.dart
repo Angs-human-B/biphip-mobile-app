@@ -504,3 +504,6 @@ const String ksSelectBusinessTypeFromSuggestion = "Business type must be select 
 const String ksCreate = "Create";
 const String ksImage = "Image";
 const String ksPlayNow = "Play Now";
+const String ksLeave = "Leave";
+const String ksLeaveQuizConfirmation = "Are you sure you want to leave this Quiz?";
+
