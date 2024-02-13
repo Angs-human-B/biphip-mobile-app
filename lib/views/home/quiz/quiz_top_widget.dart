@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class QuizTopWidget extends StatelessWidget {
@@ -77,6 +78,8 @@ class QuizFirstBottomSheetContent extends StatelessWidget {
             label: ksPlayNow.tr,
             onPressed: () {
               Get.back();
+              Get.find<PostReactionController>().totalTimeCalculation();
+              Get.find<PostReactionController>().timerStartFunction();
               Get.toNamed(krQuizPage);
             }),
       ],

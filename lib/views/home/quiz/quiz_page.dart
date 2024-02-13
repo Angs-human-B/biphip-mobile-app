@@ -86,20 +86,15 @@ class QuizPage extends StatelessWidget {
                           padding: const EdgeInsets.all(k8Padding),
                           child: Row(
                             children: [
-                              const Icon(
+                              Icon(
                                 BipHip.twitchFill,
-                                color: cPrimaryColor,
+                                color: (postReactionController.calculatePercentage() / 100) >= 0.8 ? cRedColor : cPrimaryColor,
                                 size: kIconSize20,
                               ),
-                              // LinearProgressIndicator(
-                              //   color: cPaintingColor,
-                              // ),
                               LinearPercentIndicator(
-                                progressColor: cPrimaryColor,
-                                // percent: postReactionController,
-                                // percent: (postReactionController.minuteValue.value * 60 + postReactionController.secondValue.value) /
-                                //     postReactionController.totalTimeInSeconds,
-                                percent: 0.2,
+                                progressColor: (postReactionController.calculatePercentage() / 100) >= 0.8 ? cRedColor : cPrimaryColor,
+                                // percent: 0.2,
+                                percent: postReactionController.calculatePercentage() / 100,
                                 barRadius: const Radius.circular(k8BorderRadius),
                                 lineHeight: 10,
                                 width: width - 150,
@@ -109,23 +104,13 @@ class QuizPage extends StatelessWidget {
                                   text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: '00:10',
-                                    style: semiBold12TextStyle(cPrimaryColor),
+                                    text: postReactionController.time.value,
+                                    style: semiBold12TextStyle((postReactionController.calculatePercentage() / 100) >= 0.8 ? cRedColor : cPrimaryColor),
                                   ),
-                                  // TextSpan(
-                                  //   text:
-                                  //       '${postReactionController.minuteValue.value.toStringAsFixed(0)}:${postReactionController.secondValue.value.toString().padLeft(2, '0')}',
-                                  //   style: semiBold12TextStyle(cPrimaryColor),
-                                  // ),
                                   TextSpan(
-                                    text: '/00:30',
+                                    text: '/${postReactionController.totalTimes.value}',
                                     style: semiBold12TextStyle(cPlaceHolderColor),
                                   ),
-                                  // TextSpan(
-                                  //   text:
-                                  //       '/${((postReactionController.totalTimeInSeconds - (postReactionController.minuteValue.value * 60 + postReactionController.secondValue.value)) ~/ 60).toString().padLeft(2, '0')}:${((postReactionController.totalTimeInSeconds - (postReactionController.minuteValue.value * 60 + postReactionController.secondValue.value)).remainder(60)).toString().padLeft(2, '0')}',
-                                  //   style: semiBold12TextStyle(cPlaceHolderColor),
-                                  // ),
                                 ],
                               )),
                             ],
@@ -155,24 +140,24 @@ class QuizPage extends StatelessWidget {
                         ],
                       ),
                       kH24sizedBox,
-                      for (int i = 0; i < postReactionController.OptionsList.length; i++)
+                      for (int i = 0; i < postReactionController.optionsList.length; i++)
                         Padding(
                           padding: const EdgeInsets.only(bottom: k8Padding),
                           child: CustomListTile(
-                            itemColor: postReactionController.temporarySelectedAnswer.value == postReactionController.OptionsList[i]
+                            itemColor: postReactionController.temporarySelectedAnswer.value == postReactionController.optionsList[i]
                                 ? cPrimaryTint3Color
                                 : cWhiteColor,
                             onPressed: () {
-                              postReactionController.temporarySelectedAnswer.value = postReactionController.OptionsList[i];
+                              postReactionController.temporarySelectedAnswer.value = postReactionController.optionsList[i];
                             },
-                            title: postReactionController.OptionsList[i],
+                            title: postReactionController.optionsList[i],
                             borderColor:
-                                postReactionController.temporarySelectedAnswer.value == postReactionController.OptionsList[i] ? cPrimaryColor : cLineColor,
+                                postReactionController.temporarySelectedAnswer.value == postReactionController.optionsList[i] ? cPrimaryColor : cLineColor,
                             trailing: CustomRadioButton(
                               onChanged: () {
-                                postReactionController.temporarySelectedAnswer.value = postReactionController.OptionsList[i];
+                                postReactionController.temporarySelectedAnswer.value = postReactionController.optionsList[i];
                               },
-                              isSelected: postReactionController.temporarySelectedAnswer.value == postReactionController.OptionsList[i],
+                              isSelected: postReactionController.temporarySelectedAnswer.value == postReactionController.optionsList[i],
                             ),
                           ),
                         ),

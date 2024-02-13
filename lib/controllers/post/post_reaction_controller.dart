@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -158,6 +160,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
+  //* Quiz
   final RxList quizQuestions = RxList([
     "Question1:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?",
     "Question2:What is the term for the ",
@@ -170,15 +173,56 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   void nextQuestion() {
     if (currentIndex.value < quizQuestions.length - 1) {
       currentIndex.value++;
-    } else {
-      // Handle reaching the end of the quiz, e.g., show results or finish message
-    }
+    } else {}
   }
-
-
-
 
   final RxList temporarySelectedAnswerList = RxList([]);
   final RxString temporarySelectedAnswer = RxString('');
-  final List OptionsList = ['A) Pakistan', 'B) Palestine', 'C) Algeria', 'D) Afganistan'];
+  final List optionsList = ['A) Pakistan', 'B) Palestine', 'C) Algeria', 'D) Afganistan'];
+//* Quiz Timer All function
+  Timer? timer;
+  final RxInt remainingSeconds = RxInt(1);
+  final time = "00.00".obs;
+  final totalTimes = "00.00".obs;
+  final RxInt totalTime = RxInt(50);
+
+  void timerStartFunction() {
+    startTimer(totalTime.value);
+  }
+
+  totalTimeCalculation() {
+    int totalTimeMinute = totalTime.value ~/ 60;
+    int remainingSeconds = totalTime.value % 60;
+    totalTimes.value = "${totalTimeMinute.toString().padLeft(2, "0")}:${remainingSeconds.toString().padLeft(2, "0")}";
+  }
+
+  double calculatePercentage() {
+    return ((totalTime.value - remainingSeconds.value) / totalTime.value) * 100;
+  }
+
+  @override
+  void onClose() {
+    if (timer != null) {
+      timer!.cancel();
+    }
+    super.onClose();
+  }
+
+  startTimer(int seconds) {
+    const duration = Duration(seconds: 1);
+    remainingSeconds.value = seconds;
+    timer = Timer.periodic(duration, (timer) {
+      if (remainingSeconds.value == 0) {
+        int minutes = remainingSeconds.value ~/ 60;
+        int seconds = (remainingSeconds.value % 60);
+        time.value = "${minutes.toString().padLeft(2, "0")}:${seconds.toString().padLeft(2, "0")}";
+        timer.cancel();
+      } else {
+        int minutes = remainingSeconds.value ~/ 60;
+        int seconds = (remainingSeconds.value % 60);
+        time.value = "${minutes.toString().padLeft(2, "0")}:${seconds.toString().padLeft(2, "0")}";
+        remainingSeconds.value--;
+      }
+    });
+  }
 }
