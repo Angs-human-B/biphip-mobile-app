@@ -515,3 +515,6 @@ const String ksTime = "Time";
 const String ksWrongAnswer = "Wrong Answer";
 const String ksPlayMore = "Play More";
 const String ksBackToHome = "Back to Home";
+const String ksTimeOut = "Time Out";
+const String ksOpps = "Opps";
+const String ksYourScore = "Your Score";

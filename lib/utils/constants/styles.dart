@@ -49,6 +49,10 @@ TextStyle regular8TextStyle(Color color) {
   return TextStyle(fontWeight: FontWeight.w400, fontSize: screenWiseSize(h8, 0), color: color);
 }
 
+TextStyle semiBold24TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w600, fontSize: screenWiseSize(h24, 2), color: color);
+}
+
 TextStyle semiBold20TextStyle(Color color) {
   return TextStyle(fontWeight: FontWeight.w600, fontSize: screenWiseSize(h20, 2), color: color);
 }

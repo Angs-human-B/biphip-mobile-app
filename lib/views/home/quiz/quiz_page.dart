@@ -61,12 +61,19 @@ class QuizPage extends StatelessWidget {
                           onPressed: () {
                             if (postReactionController.currentIndex.value < postReactionController.quizQuestions.length - 1) {
                               postReactionController.nextQuestion();
+                              if (Get.find<PostReactionController>().time.value == "00:00") {
+                                quizTimeOutAlertDialog(context: context, content: const QuizTimeOutContent());
+                              }
                             } else {
                               ll(postReactionController.isLastQuestion.value);
-                              quizCongratulationsAlertDialog(
-                                context: context,
-                                content: const QuizCongratulationContent(),
-                              );
+                              if (postReactionController.correctAnswer.value == 0) {
+                                quizZeroScoreAlertDialog(context: context, content: const QuizZeroScoreContent());
+                              } else {
+                                quizCongratulationsAlertDialog(
+                                  context: context,
+                                  content: const QuizCongratulationContent(),
+                                );
+                              }
                             }
                           },
                           child: Text(
@@ -314,7 +321,7 @@ class QuizCongratulationContent extends StatelessWidget {
                     ),
                     center: Text(
                       '${Get.find<PostReactionController>().correctAnswer.value}/${Get.find<PostReactionController>().currentIndex.value + 1}',
-                      style: semiBold20TextStyle(cWhiteColor).copyWith(fontSize: screenWiseSize(h24, 2)),
+                      style: semiBold24TextStyle(cWhiteColor),
                     ),
                   ),
                 ),
@@ -338,6 +345,93 @@ class QuizCongratulationContent extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+void quizTimeOutAlertDialog({required BuildContext context, required Widget content}) {
+  showAlertDialog(
+    context: context,
+    child: CommonAlertDialog(
+      hasCloseBtn: false,
+      addContent: content,
+    ),
+  );
+}
+
+class QuizTimeOutContent extends StatelessWidget {
+  const QuizTimeOutContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        kH40sizedBox,
+        const Icon(
+          BipHip.twitchFill,
+          color: cRedColor,
+          size: kIconSize40,
+        ),
+        kH12sizedBox,
+        Text(
+          ksTimeOut,
+          style: semiBold24TextStyle(cRedColor),
+        ),
+        kH12sizedBox,
+        PopupQuizCommonElement(
+          subTitleText: ksLetWhoWillWinThisQuiz.tr,
+          playMoreOnPresse: () {
+            Get.offAllNamed(krHome);
+          },
+          backHomeOnPressed: () {
+            Get.offAllNamed(krHome);
+          },
+        ),
+      ],
+    );
+  }
+}
+
+void quizZeroScoreAlertDialog({required BuildContext context, required Widget content}) {
+  showAlertDialog(
+    context: context,
+    child: CommonAlertDialog(
+      hasCloseBtn: false,
+      addContent: content,
+    ),
+  );
+}
+
+class QuizZeroScoreContent extends StatelessWidget {
+  const QuizZeroScoreContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        kH40sizedBox,
+        Text(
+          '${ksOpps.tr}!!!',
+          style: regular14TextStyle(cRedColor),
+        ),
+        kH12sizedBox,
+        Text(
+          '${ksYourScore.tr}: ${Get.find<PostReactionController>().correctAnswer.value}',
+          style: semiBold24TextStyle(cRedColor),
+        ),
+        kH12sizedBox,
+        PopupQuizCommonElement(
+          subTitleText: ksLetWhoWillWinThisQuiz.tr,
+          playMoreOnPresse: () {
+            Get.offAllNamed(krHome);
+          },
+          backHomeOnPressed: () {
+            Get.offAllNamed(krHome);
+          },
+        ),
+      ],
     );
   }
 }

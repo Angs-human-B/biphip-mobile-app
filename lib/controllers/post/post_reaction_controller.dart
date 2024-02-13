@@ -189,8 +189,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   void nextQuestion() {
     if (currentIndex.value < quizQuestions.length - 1) {
       currentIndex.value++;
-    } else {
-    }
+    } else {}
   }
 
   final RxList selectedAnswerList = RxList([]);
@@ -201,9 +200,9 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxInt remainingSeconds = RxInt(1);
   final time = "00.00".obs;
   final totalTimes = "00.00".obs;
-  final RxInt totalTime = RxInt(50);
+  final RxInt totalTime = RxInt(30);
   final RxBool isLastQuestion = RxBool(false);
-  final RxInt correctAnswer = RxInt(1);
+  final RxInt correctAnswer = RxInt(0);
   void timerStartFunction() {
     startTimer(totalTime.value);
   }
