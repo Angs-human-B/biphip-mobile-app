@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -191,7 +190,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     if (currentIndex.value < quizQuestions.length - 1) {
       currentIndex.value++;
     } else {
-      
     }
   }
 
@@ -204,7 +202,8 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final time = "00.00".obs;
   final totalTimes = "00.00".obs;
   final RxInt totalTime = RxInt(50);
-
+  final RxBool isLastQuestion = RxBool(false);
+  final RxInt correctAnswer = RxInt(1);
   void timerStartFunction() {
     startTimer(totalTime.value);
   }

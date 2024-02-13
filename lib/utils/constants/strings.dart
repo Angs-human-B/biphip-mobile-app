@@ -507,4 +507,11 @@ const String ksPlayNow = "Play Now";
 const String ksLeave = "Leave";
 const String ksLeaveQuizConfirmation = "Are you sure you want to leave this Quiz?";
 const String ksFinish = "Finish";
-
+const String ksCongratulations = "Congratulations";
+const String ksLetWhoWillWinThisQuiz = "We will let you know who will be the winner of this quiz by end of today";
+const String ksCorrectAnswer = "Correct Answers";
+const String ksScore = "Score";
+const String ksTime = "Time";
+const String ksWrongAnswer = "Wrong Answer";
+const String ksPlayMore = "Play More";
+const String ksBackToHome = "Back to Home";

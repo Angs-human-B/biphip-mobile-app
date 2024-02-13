@@ -2,6 +2,8 @@ import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/auth/onboarding/picture_upload_screen.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class QuizPage extends StatelessWidget {
@@ -56,11 +58,17 @@ class QuizPage extends StatelessWidget {
                     padding: const EdgeInsets.only(right: k20Padding),
                     child: Obx(() => TextButton(
                           style: kTextButtonStyle,
-                          onPressed: postReactionController.currentIndex.value < postReactionController.quizQuestions.length - 1
-                              ? () {
-                                  postReactionController.nextQuestion();
-                                }
-                              : null,
+                          onPressed: () {
+                            if (postReactionController.currentIndex.value < postReactionController.quizQuestions.length - 1) {
+                              postReactionController.nextQuestion();
+                            } else {
+                              ll(postReactionController.isLastQuestion.value);
+                              quizCongratulationsAlertDialog(
+                                context: context,
+                                content: const QuizCongratulationContent(),
+                              );
+                            }
+                          },
                           child: Text(
                             postReactionController.currentIndex.value < postReactionController.quizQuestions.length - 1 ? ksNext.tr : ksFinish.tr,
                             style: semiBold16TextStyle(cPrimaryColor),
@@ -245,6 +253,179 @@ class LeaveQuizPopupContent extends StatelessWidget {
           ),
           kH20sizedBox,
         ],
+      ),
+    );
+  }
+}
+
+void quizCongratulationsAlertDialog({required BuildContext context, required Widget content}) {
+  showAlertDialog(
+    context: context,
+    child: CommonAlertDialog(
+      hasCloseBtn: false,
+      addContent: content,
+    ),
+  );
+}
+
+class QuizCongratulationContent extends StatelessWidget {
+  const QuizCongratulationContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: k20Padding),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Stack(
+            children: [
+              Container(
+                width: width - 40,
+                height: 120,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                  gradient: const LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: <Color>[cBlueLinearColor1, cBlueLinearColor2]),
+                ),
+              ),
+              Positioned(
+                left: h12,
+                bottom: h12,
+                child: SvgPicture.asset(kiCongratulation1),
+              ),
+              Positioned(
+                right: h12,
+                bottom: h12,
+                child: SvgPicture.asset(kiCongratulation2),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: k16Padding),
+                child: Center(
+                  child: CircularPercentIndicator(
+                    percent: Get.find<PostReactionController>().correctAnswer.value / (Get.find<PostReactionController>().currentIndex.value + 1),
+                    radius: h44,
+                    backgroundColor: cGreyBoxColor,
+                    lineWidth: 6,
+                    circularStrokeCap: CircularStrokeCap.round,
+                    linearGradient: const LinearGradient(
+                      colors: [cYellowLinearColor1, cYellowLinearColor2],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    center: Text(
+                      '${Get.find<PostReactionController>().correctAnswer.value}/${Get.find<PostReactionController>().currentIndex.value + 1}',
+                      style: semiBold20TextStyle(cWhiteColor).copyWith(fontSize: screenWiseSize(h24, 2)),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          kH20sizedBox,
+          Text(
+            "${ksCongratulations.tr}!",
+            style: semiBold18TextStyle(cPrimaryColor),
+          ),
+          kH8sizedBox,
+          PopupQuizCommonElement(
+            subTitleText: ksLetWhoWillWinThisQuiz.tr,
+            playMoreOnPresse: () {
+              Get.offAllNamed(krHome);
+            },
+            backHomeOnPressed: () {
+              Get.offAllNamed(krHome);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PopupQuizCommonElement extends StatelessWidget {
+  const PopupQuizCommonElement({super.key, required this.subTitleText, this.playMoreOnPresse, this.backHomeOnPressed});
+  final String subTitleText;
+  final VoidCallback? playMoreOnPresse;
+  final VoidCallback? backHomeOnPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          subTitleText,
+          style: regular14TextStyle(cSmallBodyTextColor),
+          textAlign: TextAlign.center,
+        ),
+        kH20sizedBox,
+        Row(
+          children: [
+            QuizResultCommonContainer(title: ksCorrectAnswer.tr, subTitle: '5 answers'),
+            const SizedBox(
+              width: 5,
+            ),
+            QuizResultCommonContainer(title: ksScore.tr, subTitle: '5'),
+          ],
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        Row(
+          children: [
+            QuizResultCommonContainer(title: ksTime.tr, subTitle: '20 sec'),
+            const SizedBox(
+              width: 5,
+            ),
+            QuizResultCommonContainer(title: ksWrongAnswer.tr, subTitle: '7 answers'),
+          ],
+        ),
+        kH24sizedBox,
+        CustomElevatedButton(buttonWidth: width - 80, label: ksPlayMore.tr, onPressed: playMoreOnPresse),
+        kH20sizedBox,
+        InkWell(
+          onTap: backHomeOnPressed,
+          child: Text(
+            ksBackToHome.tr,
+            style: regular12TextStyle(cSmallBodyTextColor),
+          ),
+        ),
+        kH20sizedBox,
+      ],
+    );
+  }
+}
+
+class QuizResultCommonContainer extends StatelessWidget {
+  const QuizResultCommonContainer({super.key, required this.title, required this.subTitle});
+  final String title;
+  final String subTitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: (width - 80) / 2,
+      height: 70,
+      decoration: BoxDecoration(
+        color: cGreyBoxColor,
+        borderRadius: BorderRadius.circular(k8BorderRadius),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: k12Padding),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: regular14TextStyle(cSmallBodyTextColor),
+            ),
+            kH4sizedBox,
+            Text(
+              subTitle,
+              style: semiBold16TextStyle(cBlackColor),
+            ),
+          ],
+        ),
       ),
     );
   }
