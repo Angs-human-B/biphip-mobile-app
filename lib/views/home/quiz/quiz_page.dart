@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/auth/onboarding/picture_upload_screen.dart';
+import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:bip_hip/widgets/common/utils/custom_circular_progress_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -11,7 +12,7 @@ class QuizPage extends StatelessWidget {
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   @override
   Widget build(BuildContext context) {
-    postReactionController.contextValue= context;
+    postReactionController.contextValue = context;
     return WillPopScope(
       onWillPop: () async {
         leaveQuizAlertDialog(
@@ -59,33 +60,31 @@ class QuizPage extends StatelessWidget {
                     padding: const EdgeInsets.only(right: k20Padding),
                     child: Obx(() => TextButton(
                           style: kTextButtonStyle,
-                          onPressed: postReactionController.selectedAnswer.value!='' ? () async {
-                            if (postReactionController.currentIndex.value < postReactionController.quizQuestions.length - 1) {
-                              postReactionController.nextQuestion();
-                              postReactionController.selectedAnswerList.add(postReactionController.selectedAnswer.value);
-                              postReactionController.selectedAnswer.value = '';
-                              // if (Get.find<PostReactionController>().time.value == "00:00") {
-                              //   quizTimeOutAlertDialog(context: context, content: const QuizTimeOutContent());
-                              // }
-                            } else {
-                              await postReactionController.submitQuiz();
-                              postReactionController.isLastQuestion.value=true;
-                              postReactionController.selectedAnswerList.add(postReactionController.selectedAnswer.value);
-                              ll(postReactionController.selectedAnswerList);
-                              postReactionController.selectedAnswer.value = '';
-                              if (int.parse(postReactionController.rightAnswer.value) == 0) {
-                                quizZeroScoreAlertDialog(context: context, content:  QuizZeroScoreContent());
-                              } else {
-                                quizCongratulationsAlertDialog(
-                                  context: context,
-                                  content:  QuizCongratulationContent(),
-                                );
-                              }
-                            }
-                          }:null,
+                          onPressed: postReactionController.selectedAnswer.value != ''
+                              ? () async {
+                                  if (postReactionController.currentIndex.value < postReactionController.questionList.length - 1) {
+                                    postReactionController.nextQuestion();
+                                    postReactionController.selectedAnswerList.add(postReactionController.selectedAnswer.value);
+                                    postReactionController.selectedAnswer.value = '';
+                                  } else {
+                                    await postReactionController.submitQuiz();
+                                    postReactionController.isLastQuestion.value = true;
+                                    postReactionController.selectedAnswerList.add(postReactionController.selectedAnswer.value);
+                                    postReactionController.selectedAnswer.value = '';
+                                    if (int.parse(postReactionController.rightAnswer.value) == 0) {
+                                      quizZeroScoreAlertDialog(context: context, content: QuizZeroScoreContent());
+                                    } else {
+                                      quizCongratulationsAlertDialog(
+                                        context: context,
+                                        content: QuizCongratulationContent(),
+                                      );
+                                    }
+                                  }
+                                }
+                              : null,
                           child: Text(
-                            postReactionController.currentIndex.value < postReactionController.quizQuestions.length - 1 ? ksNext.tr : ksFinish.tr,
-                            style: semiBold16TextStyle(postReactionController.selectedAnswer.value!=''? cPrimaryColor:cPlaceHolderColor),
+                            postReactionController.currentIndex.value < postReactionController.questionList.length - 1 ? ksNext.tr : ksFinish.tr,
+                            style: semiBold16TextStyle(postReactionController.selectedAnswer.value != '' ? cPrimaryColor : cPlaceHolderColor),
                           ),
                         )),
                   ),
@@ -94,113 +93,176 @@ class QuizPage extends StatelessWidget {
             ),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: Obx(() => Column(
-                    children: [
-                      kH24sizedBox,
-                      Container(
-                        width: width - 40,
-                        height: h40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          border: Border.all(color: cLineColor),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(k8Padding),
-                          child: Row(
-                            children: [
-                              Icon(
-                                BipHip.twitchFill,
-                                color: (postReactionController.calculatePercentage() / 100) > 0.8 ? cRedColor : cPrimaryColor,
-                                size: kIconSize20,
-                              ),
-                              LinearPercentIndicator(
-                                progressColor: (postReactionController.calculatePercentage() / 100) > 0.8 ? cRedColor : cPrimaryColor,
-                                // percent: 0.2,
-                                percent: postReactionController.calculatePercentage() / 100,
-                                barRadius: const Radius.circular(k8BorderRadius),
-                                lineHeight: 6,
-                                width: width - 150,
-                                backgroundColor: cNeutralColor,
-                              ),
-                              RichText(
-                                  text: TextSpan(
+              child: Obx(() => postReactionController.questionList.isNotEmpty
+                  ? SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          kH24sizedBox,
+                          Container(
+                            width: width - 40,
+                            height: h40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(color: cLineColor),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(k8Padding),
+                              child: Row(
                                 children: [
-                                  TextSpan(
-                                    text: postReactionController.time.value,
-                                    style: semiBold12TextStyle((postReactionController.calculatePercentage() / 100) > 0.8 ? cRedColor : cPrimaryColor),
+                                  Icon(
+                                    BipHip.twitchFill,
+                                    color: (postReactionController.calculatePercentage() / 100) > 0.8 ? cRedColor : cPrimaryColor,
+                                    size: kIconSize20,
                                   ),
-                                  TextSpan(
-                                    text: '/${postReactionController.totalTimes.value}',
-                                    style: semiBold12TextStyle(cPlaceHolderColor),
+                                  LinearPercentIndicator(
+                                    progressColor: (postReactionController.calculatePercentage() / 100) > 0.8 ? cRedColor : cPrimaryColor,
+                                    percent: postReactionController.calculatePercentage() / 100,
+                                    barRadius: const Radius.circular(k8BorderRadius),
+                                    lineHeight: 6,
+                                    width: width - 150,
+                                    backgroundColor: cNeutralColor,
                                   ),
+                                  RichText(
+                                      text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: postReactionController.time.value,
+                                        style: semiBold12TextStyle((postReactionController.calculatePercentage() / 100) > 0.8 ? cRedColor : cPrimaryColor),
+                                      ),
+                                      TextSpan(
+                                        text: postReactionController.questionList.isNotEmpty
+                                            ? "/00${postReactionController.questionListData.value?.quiz?.playingDuration.toString()}"
+                                            : "/00${postReactionController.questionListData.value?.result?.quiz?.playingDuration.toString()}",
+                                        style: semiBold12TextStyle(cPlaceHolderColor),
+                                      ),
+                                    ],
+                                  )),
                                 ],
-                              )),
+                              ),
+                            ),
+                          ),
+                          kH16sizedBox,
+                          Row(
+                            mainAxisAlignment: postReactionController.questionList[postReactionController.currentIndex.value].content != null
+                                ? MainAxisAlignment.start
+                                : MainAxisAlignment.end,
+                            children: [
+                              if (postReactionController.questionList[postReactionController.currentIndex.value].content != null)
+                                Expanded(
+                                  child: Text(
+                                    postReactionController.questionList[postReactionController.currentIndex.value].content.toString(),
+                                    overflow: TextOverflow.clip,
+                                    style: semiBold14TextStyle(cBlackColor),
+                                  ),
+                                ),
+                              CustomCircularProgressBar(
+                                percent: (postReactionController.currentIndex.value + 1) / (postReactionController.questionList.length),
+                                radius: h32,
+                                lineWidth: 5,
+                                centerWidget: Text(
+                                  '${postReactionController.currentIndex.value + 1}/${postReactionController.questionList.length}',
+                                  style: regular16TextStyle(cBlackColor),
+                                ),
+                              ),
                             ],
                           ),
-                        ),
-                      ),
-                      kH16sizedBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              postReactionController.quizQuestions[postReactionController.currentIndex.value]['question'],
-                              overflow: TextOverflow.clip,
-                              style: semiBold14TextStyle(cBlackColor),
+                          kH24sizedBox,
+                          if (postReactionController.questionList[postReactionController.currentIndex.value].mediaUrl != null)
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(k8BorderRadius),
+                              child: SizedBox(
+                                width: width,
+                                height: 140,
+                                child: Image.network(
+                                  postReactionController.questionList[postReactionController.currentIndex.value].mediaUrl.toString(),
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => const Icon(
+                                    BipHip.imageFile,
+                                    size: kIconSize100,
+                                    color: cIconColor,
+                                  ),
+                                  loadingBuilder: imageLoadingBuilder,
+                                ),
+                              ),
                             ),
-                          ),
-                          CustomCircularProgressBar(
-                            percent: (postReactionController.currentIndex.value + 1) / (postReactionController.quizQuestions.length),
-                            radius: h32,
-                            lineWidth: 5,
-                            centerWidget: Text(
-                              '${postReactionController.currentIndex.value + 1}/${postReactionController.quizQuestions.length}',
-                              style: regular16TextStyle(cBlackColor),
+                          kH24sizedBox,
+                          for (int i = 0; i < postReactionController.questionList[postReactionController.currentIndex.value].options.length; i++)
+                            // for (int j = 0; j < postReactionController.questionList[i].options.length; j++)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: k8Padding),
+                              child: CustomListTile(
+                                itemColor: postReactionController.selectedAnswer.value ==
+                                        postReactionController.questionList[postReactionController.currentIndex.value].options[i]
+                                    ? cPrimaryTint3Color
+                                    : cWhiteColor,
+                                onPressed: () {
+                                  postReactionController.selectedAnswer.value =
+                                      postReactionController.questionList[postReactionController.currentIndex.value].options[i];
+                                },
+                                title: postReactionController.questionList[postReactionController.currentIndex.value].options[i],
+                                borderColor: postReactionController.selectedAnswer.value ==
+                                        postReactionController.questionList[postReactionController.currentIndex.value].options[i]
+                                    ? cPrimaryColor
+                                    : cLineColor,
+                                trailing: CustomRadioButton(
+                                  onChanged: () {
+                                    postReactionController.selectedAnswer.value =
+                                        postReactionController.questionList[postReactionController.currentIndex.value].options[i];
+                                  },
+                                  isSelected: postReactionController.selectedAnswer.value ==
+                                      postReactionController.questionList[postReactionController.currentIndex.value].options[i],
+                                ),
+                              ),
                             ),
-                          ),
+
+                          // SizedBox(
+                          //   height: 500,
+                          //   child: ListView.builder(
+                          //     itemCount: postReactionController.questionList.length,
+                          //     itemBuilder: (context, i) {
+                          //       final currentQuestion = postReactionController.questionList[i];
+
+                          //       return Column(
+                          //         crossAxisAlignment: CrossAxisAlignment.start,
+                          //         children: [
+                          //           Text(
+                          //             currentQuestion.content.toString(),
+                          //             style: TextStyle(fontWeight: FontWeight.bold),
+                          //           ),
+                          //           SizedBox(height: 8),
+                          //           Column(
+                          //             children: currentQuestion.options.map((option) {
+                          //               return Padding(
+                          //                 padding: const EdgeInsets.only(bottom: k8Padding),
+                          //                 child: CustomListTile(
+                          //                   itemColor: postReactionController.selectedAnswer.value == option ? cPrimaryTint3Color : cWhiteColor,
+                          //                   onPressed: () {
+                          //                     postReactionController.selectedAnswer.value = option;
+                          //                   },
+                          //                   title: option,
+                          //                   borderColor: postReactionController.selectedAnswer.value == option ? cPrimaryColor : cLineColor,
+                          //                   trailing: CustomRadioButton(
+                          //                     onChanged: () {
+                          //                       postReactionController.selectedAnswer.value = option;
+                          //                     },
+                          //                     isSelected: postReactionController.selectedAnswer.value == option,
+                          //                   ),
+                          //                 ),
+                          //               );
+                          //             }).toList(),
+                          //           ),
+                          //         ],
+                          //       );
+                          //     },
+                          //   ),
+                          // ),
                         ],
                       ),
-                      kH24sizedBox,
-                      if (postReactionController.quizQuestions[postReactionController.currentIndex.value]['image'] != null)
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(k8BorderRadius),
-                          child: SizedBox(
-                            width: width,
-                            height: 140,
-                            child: Image.network(
-                              postReactionController.quizQuestions[postReactionController.currentIndex.value]['image'],
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => const Icon(
-                                BipHip.imageFile,
-                                size: kIconSize100,
-                                color: cIconColor,
-                              ),
-                              loadingBuilder: imageLoadingBuilder,
-                            ),
-                          ),
-                        ),
-                      kH24sizedBox,
-                      for (int i = 0; i < postReactionController.optionsList.length; i++)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: k8Padding),
-                          child: CustomListTile(
-                            itemColor: postReactionController.selectedAnswer.value == postReactionController.optionsList[i] ? cPrimaryTint3Color : cWhiteColor,
-                            onPressed: () {
-                              postReactionController.selectedAnswer.value = postReactionController.optionsList[i];
-                            },
-                            title: postReactionController.optionsList[i],
-                            borderColor: postReactionController.selectedAnswer.value == postReactionController.optionsList[i] ? cPrimaryColor : cLineColor,
-                            trailing: CustomRadioButton(
-                              onChanged: () {
-                                postReactionController.selectedAnswer.value = postReactionController.optionsList[i];
-                              },
-                              isSelected: postReactionController.selectedAnswer.value == postReactionController.optionsList[i],
-                            ),
-                          ),
-                        ),
-                    ],
-                  )),
+                    )
+                  : SizedBox(
+                      width: width - 40,
+                      height: height - (kAppBarSize + MediaQuery.of(context).padding.top),
+                      child: EmptyView(title: ksNoQuizAvailableForToday.tr))),
             ),
           ),
         ),
@@ -283,7 +345,7 @@ void quizCongratulationsAlertDialog({required BuildContext context, required Wid
 }
 
 class QuizCongratulationContent extends StatelessWidget {
-   QuizCongratulationContent({super.key});
+  QuizCongratulationContent({super.key});
   final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
@@ -412,8 +474,8 @@ void quizZeroScoreAlertDialog({required BuildContext context, required Widget co
 }
 
 class QuizZeroScoreContent extends StatelessWidget {
- QuizZeroScoreContent({super.key});
- final PostReactionController postReactionController = Get.find<PostReactionController>();
+  QuizZeroScoreContent({super.key});
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -427,7 +489,9 @@ class QuizZeroScoreContent extends StatelessWidget {
         ),
         kH12sizedBox,
         Text(
-          '${ksYourScore.tr}: ${postReactionController.rightAnswer.value}',
+          postReactionController.questionList.isNotEmpty
+              ? "${ksYourScore.tr}: ${postReactionController.rightAnswer.value}"
+              : "${ksYourScore.tr}: ${postReactionController.questionListData.value!.result!.countRightAnswer.toString()}",
           style: semiBold24TextStyle(cRedColor),
         ),
         kH12sizedBox,
@@ -464,11 +528,19 @@ class PopupQuizCommonElement extends StatelessWidget {
         kH20sizedBox,
         Row(
           children: [
-            QuizResultCommonContainer(title: ksCorrectAnswer.tr, subTitle: postReactionController.rightAnswer.value),
+            QuizResultCommonContainer(
+                title: ksCorrectAnswer.tr,
+                subTitle: postReactionController.questionList.isNotEmpty
+                    ? postReactionController.rightAnswer.value
+                    : postReactionController.questionListData.value!.result!.countRightAnswer.toString()),
             const SizedBox(
               width: 5,
             ),
-            QuizResultCommonContainer(title: ksScore.tr, subTitle: postReactionController.totalMarks.value),
+            QuizResultCommonContainer(
+                title: ksScore.tr,
+                subTitle: postReactionController.questionList.isNotEmpty
+                    ? postReactionController.totalMarks.value
+                    : postReactionController.questionListData.value!.result!.totalMarks.toString()),
           ],
         ),
         const SizedBox(
@@ -476,11 +548,19 @@ class PopupQuizCommonElement extends StatelessWidget {
         ),
         Row(
           children: [
-            QuizResultCommonContainer(title: ksTime.tr, subTitle: postReactionController.totalElapsedTime.value),
+            QuizResultCommonContainer(
+                title: ksTime.tr,
+                subTitle: postReactionController.questionList.isNotEmpty
+                    ? postReactionController.totalElapsedTime.value
+                    : postReactionController.questionListData.value!.result!.elapsedTime.toString()),
             const SizedBox(
               width: 5,
             ),
-            QuizResultCommonContainer(title: ksWrongAnswer.tr, subTitle: postReactionController.wrongAnswer.value),
+            QuizResultCommonContainer(
+                title: ksWrongAnswer.tr,
+                subTitle: postReactionController.questionList.isNotEmpty
+                    ? postReactionController.wrongAnswer.value
+                    : postReactionController.questionListData.value!.result!.countWrongAnswer.toString()),
           ],
         ),
         kH24sizedBox,

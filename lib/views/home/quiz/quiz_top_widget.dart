@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/quiz/quiz_page.dart';
 
 class QuizTopWidget extends StatelessWidget {
   QuizTopWidget({super.key});
@@ -71,13 +72,13 @@ class QuizFirstBottomSheetContent extends StatelessWidget {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (postReactionController.questionListData.value?.quiz?.media != null)
+              if (postReactionController.questionListData.value?.quiz?.mediaUrl != null)
                 ClipRRect(
                   borderRadius: BorderRadius.circular(k8BorderRadius),
                   child: Image.network(
                     postReactionController.questionList.isNotEmpty
-                        ? postReactionController.questionListData.value?.quiz?.media
-                        : postReactionController.questionListData.value!.result?.quiz!.media,
+                        ? postReactionController.questionListData.value?.quiz?.mediaUrl
+                        : postReactionController.questionListData.value!.result?.quiz!.mediaUrl,
                     width: width - 40,
                     height: 150,
                     fit: BoxFit.cover,
@@ -106,24 +107,39 @@ class QuizFirstBottomSheetContent extends StatelessWidget {
               kH16sizedBox,
               IconAndTextRow(
                 icon: BipHip.twitchFill,
-                title:  postReactionController.questionList.isNotEmpty
-                    ? "${postReactionController.questionListData.value?.quiz?.playingDuration}":"${postReactionController.questionListData.value!.result!.quiz?.playingDuration.toString()}",
+                title: postReactionController.questionList.isNotEmpty
+                    ? "${postReactionController.questionListData.value?.quiz?.playingDuration}"
+                    : "${postReactionController.questionListData.value!.result!.quiz?.playingDuration.toString()}",
               ),
               kH16sizedBox,
               IconAndTextRow(
                 icon: BipHip.termsCondition,
                 title: postReactionController.questionList.isNotEmpty
-                    ? "${postReactionController.questionListData.value?.quiz?.noOfQuestions}":"${postReactionController.questionListData.value!.result!.quiz?.noOfQuestions.toString()}",
+                    ? "${postReactionController.questionListData.value?.quiz?.noOfQuestions}"
+                    : "${postReactionController.questionListData.value!.result!.quiz?.noOfQuestions.toString()}",
               ),
               kH30sizedBox,
               CustomElevatedButton(
                   label: ksPlayNow.tr,
                   onPressed: () async {
                     Get.back();
-                    Get.find<PostReactionController>().resetQuizData();
-                    Get.find<PostReactionController>().totalTimeCalculation();
-                    Get.find<PostReactionController>().timerStartFunction();
-                    Get.toNamed(krQuizPage);
+                    postReactionController.resetQuizData();
+                    if (postReactionController.questionList.isNotEmpty) {
+                      postReactionController.totalTimeCalculation();
+                      postReactionController.timerStartFunction();
+                      Get.toNamed(krQuizPage);
+                    } else {
+                      postReactionController.timer?.cancel();
+                      Get.toNamed(krQuizPage);
+                      if (postReactionController.questionListData.value!.result!.countRightAnswer == 0) {
+                        quizZeroScoreAlertDialog(context: context, content: QuizZeroScoreContent());
+                      } else {
+                        quizCongratulationsAlertDialog(
+                          context: context,
+                          content: QuizCongratulationContent(),
+                        );
+                      }
+                    }
                   }),
             ],
           ));

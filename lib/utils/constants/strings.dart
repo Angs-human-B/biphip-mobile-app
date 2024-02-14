@@ -519,3 +519,4 @@ const String ksTimeOut = "Time Out";
 const String ksOpps = "Opps";
 const String ksYourScore = "Your Score";
 const String ksQuiz = "Quiz";
+const String ksNoQuizAvailableForToday = "No quiz available for today";
