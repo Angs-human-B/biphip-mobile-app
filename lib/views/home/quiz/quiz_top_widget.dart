@@ -127,10 +127,10 @@ class QuizFirstBottomSheetContent extends StatelessWidget {
                     if (postReactionController.questionList.isNotEmpty) {
                       postReactionController.totalTimeCalculation();
                       postReactionController.timerStartFunction();
-                      Get.toNamed(krQuizPage);
+                      Get.toNamed(krMyQuiz);
                     } else {
                       postReactionController.timer?.cancel();
-                      Get.toNamed(krQuizPage);
+                      Get.toNamed(krMyQuiz);
                       if (postReactionController.questionListData.value!.result!.countRightAnswer == 0) {
                         quizZeroScoreAlertDialog(context: context, content: QuizZeroScoreContent());
                       } else {

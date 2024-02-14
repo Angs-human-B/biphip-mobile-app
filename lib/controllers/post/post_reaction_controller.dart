@@ -354,4 +354,38 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       ll('acceptFamilyRequest error: $e');
     }
   }
+    final RxList quizTapButtonState = RxList([true, false, false]);
+  final RxList quizTapButtonText = RxList(["Daily Quiz", "Played", "Winner"]);
+    void dailyQuizTapableButtonOnPressed() async {
+    quizToggleType(0);
+  }
+
+  void playedQuizTapableButtonOnPressed() async {
+    quizToggleType(1);
+  }
+
+  void winnerQuizTapableButtonOnPressed() async {
+    quizToggleType(2);
+  }
+   void quizToggleType(int index) {
+    switch (index) {
+      case 0:
+        quizTapButtonState[0] = true;
+        quizTapButtonState[1] = false;
+        quizTapButtonState[2] = false;
+        break;
+      case 1:
+        quizTapButtonState[0] = false;
+        quizTapButtonState[1] = true;
+        quizTapButtonState[2] = false;
+        break;
+      case 2:
+        quizTapButtonState[0] = false;
+        quizTapButtonState[1] = false;
+        quizTapButtonState[2] = true;
+        break;
+    }
+  }
+
+
 }
