@@ -1,8 +1,14 @@
 import 'dart:async';
+import 'package:bip_hip/models/home/quiz/all_quiz_model.dart';
+import 'package:bip_hip/models/home/quiz/submit_quiz_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/quiz/quiz_page.dart';
 import 'package:flutter_svg/svg.dart';
 
 class PostReactionController extends GetxController with GetSingleTickerProviderStateMixin {
+  final ApiController apiController = ApiController();
+  final SpController spController = SpController();
+  final GlobalController globalController = Get.find<GlobalController>();
   final RxInt selectedBidIndex = RxInt(-1);
   final RxInt selectedGiftIndex = RxInt(-1);
   final RxInt balance = RxInt(200);
@@ -202,7 +208,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final totalTimes = "00.00".obs;
   final RxInt totalTime = RxInt(30);
   final RxBool isLastQuestion = RxBool(false);
-  final RxInt correctAnswer = RxInt(0);
   void timerStartFunction() {
     startTimer(totalTime.value);
   }
@@ -234,6 +239,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         int seconds = (remainingSeconds.value % 60);
         time.value = "${minutes.toString().padLeft(2, "0")}:${seconds.toString().padLeft(2, "0")}";
         timer.cancel();
+        if (isLastQuestion.value == false) {
+          submitQuiz();
+          quizTimeOutAlertDialog(context: contextValue, content: QuizTimeOutContent());
+        }
       } else {
         int minutes = remainingSeconds.value ~/ 60;
         int seconds = (remainingSeconds.value % 60);
@@ -249,5 +258,93 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     selectedAnswerList.clear();
     selectedAnswer.value = '';
     remainingSeconds.value = 1;
+    isLastQuestion.value = false;
+  }
+
+  late BuildContext contextValue;
+  final RxInt quizId = RxInt(-1);
+  // final RxString playingDuration = RxString('');
+  // final RxString noOfQuestions = RxString('');
+  // final RxString startDate = RxString('');
+  // final RxString endDate = RxString('');
+  //* All quiz data
+  final Rx<AllQuizModel?> questionListData = Rx<AllQuizModel?>(null);
+  final RxList<Question> questionList = RxList<Question>([]);
+  final RxBool isQuestionLoading = RxBool(false);
+  Future<void> getQuestionList() async {
+    try {
+      isQuestionLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllQuiz,
+      ) as CommonDM;
+      if (response.success == true) {
+        questionList.clear();
+        questionListData.value = AllQuizModel.fromJson(response.data);
+        questionList.addAll(questionListData.value!.questions);
+        ll(questionList);
+        isQuestionLoading.value = false;
+      } else {
+        isQuestionLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isQuestionLoading.value = true;
+      ll('getQuestionList error: $e');
+    }
+  }
+
+  //*Submit quiz
+  // final RxInt userId = RxInt(-1);
+  final RxString rightAnswer = RxString('');
+  final RxString wrongAnswer = RxString('');
+  final RxString totalMarks = RxString('');
+  final RxString totalElapsedTime = RxString('');
+  final Rx<SubmitQuizModel?> submitQuizData = Rx<SubmitQuizModel?>(null);
+  final List questionAnswerIndex = [];
+  final RxBool isSubmitQuizLoading = RxBool(false);
+  Future<void> submitQuiz() async {
+    try {
+      isSubmitQuizLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'quiz_id': '8',
+        for (int i = 0; i < selectedAnswerList.length; i++) 'question_answer_index[$i]': selectedAnswerList[i],
+        'elapsed_time': totalTime.value.toString(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuSubmitAnswer,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        submitQuizData.value = SubmitQuizModel.fromJson(response.data);
+        rightAnswer.value = (submitQuizData.value?.result!.countRightAnswer).toString();
+        wrongAnswer.value = (submitQuizData.value?.result!.countWrongAnswer).toString();
+        totalMarks.value = (submitQuizData.value?.result!.totalMarks).toString();
+        totalElapsedTime.value = (submitQuizData.value?.result!.elapsedTime).toString();
+        isSubmitQuizLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isSubmitQuizLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isSubmitQuizLoading.value = false;
+      ll('acceptFamilyRequest error: $e');
+    }
   }
 }

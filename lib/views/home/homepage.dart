@@ -189,30 +189,10 @@ class HomePage extends StatelessWidget {
                                 width: width,
                                 child: const StoriesWidget(),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  Get.find<GlobalController>().commonBottomSheet(
-                                      context: context,
-                                      bottomSheetHeight: height * 0.7,
-                                      isScrollControlled: false,
-                                      content: const QuizFirstBottomSheetContent(),
-                                      onPressCloseButton: () {
-                                        Get.back();
-                                      },
-                                      onPressRightButton: () {
-                                        Get.back();
-                                        Get.toNamed(krQuizPage);
-                                      },
-                                      rightText: '',
-                                      rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                      title: 'Golf Quizz',
-                                      isRightButtonShow: false);
-                                },
-                                child: Container(
-                                  color: cWhiteColor,
-                                  width: width,
-                                  child: const QuizTopWidget(),
-                                ),
+                              Container(
+                                color: cWhiteColor,
+                                width: width,
+                                child:  QuizTopWidget(),
                               ),
                               kH8sizedBox,
                               if (homeController.allPostList.isEmpty)

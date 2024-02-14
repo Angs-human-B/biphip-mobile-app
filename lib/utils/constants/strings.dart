@@ -518,3 +518,4 @@ const String ksBackToHome = "Back to Home";
 const String ksTimeOut = "Time Out";
 const String ksOpps = "Opps";
 const String ksYourScore = "Your Score";
+const String ksQuiz = "Quiz";

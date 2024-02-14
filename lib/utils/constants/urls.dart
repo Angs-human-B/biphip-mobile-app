@@ -146,6 +146,10 @@ const String kuGetTimelinePostData = '/mobile/user/get-my-timeline-posts';
 const String kuDeleteKids = '/mobile/user/delete-kid';
 const String kuUpdateKid = '/mobile/user/update-kid';
 
+//*Quiz
+const String kuGetAllQuiz = '/mobile/user/get-quiz-for-today';
+const String kuSubmitAnswer = '/mobile/user/submit-quiz';
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls

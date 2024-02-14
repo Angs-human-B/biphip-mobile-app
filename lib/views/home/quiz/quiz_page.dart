@@ -11,6 +11,7 @@ class QuizPage extends StatelessWidget {
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   @override
   Widget build(BuildContext context) {
+    postReactionController.contextValue= context;
     return WillPopScope(
       onWillPop: () async {
         leaveQuizAlertDialog(
@@ -21,7 +22,7 @@ class QuizPage extends StatelessWidget {
                   Get.offAllNamed(krHome);
                 }),
             title: ksConfirmation.tr);
-        return false;
+        return true;
       },
       child: Container(
         color: cWhiteColor,
@@ -58,27 +59,33 @@ class QuizPage extends StatelessWidget {
                     padding: const EdgeInsets.only(right: k20Padding),
                     child: Obx(() => TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {
+                          onPressed: postReactionController.selectedAnswer.value!='' ? () async {
                             if (postReactionController.currentIndex.value < postReactionController.quizQuestions.length - 1) {
                               postReactionController.nextQuestion();
-                              if (Get.find<PostReactionController>().time.value == "00:00") {
-                                quizTimeOutAlertDialog(context: context, content: const QuizTimeOutContent());
-                              }
+                              postReactionController.selectedAnswerList.add(postReactionController.selectedAnswer.value);
+                              postReactionController.selectedAnswer.value = '';
+                              // if (Get.find<PostReactionController>().time.value == "00:00") {
+                              //   quizTimeOutAlertDialog(context: context, content: const QuizTimeOutContent());
+                              // }
                             } else {
-                              ll(postReactionController.isLastQuestion.value);
-                              if (postReactionController.correctAnswer.value == 0) {
-                                quizZeroScoreAlertDialog(context: context, content: const QuizZeroScoreContent());
+                              await postReactionController.submitQuiz();
+                              postReactionController.isLastQuestion.value=true;
+                              postReactionController.selectedAnswerList.add(postReactionController.selectedAnswer.value);
+                              ll(postReactionController.selectedAnswerList);
+                              postReactionController.selectedAnswer.value = '';
+                              if (int.parse(postReactionController.rightAnswer.value) == 0) {
+                                quizZeroScoreAlertDialog(context: context, content:  QuizZeroScoreContent());
                               } else {
                                 quizCongratulationsAlertDialog(
                                   context: context,
-                                  content: const QuizCongratulationContent(),
+                                  content:  QuizCongratulationContent(),
                                 );
                               }
                             }
-                          },
+                          }:null,
                           child: Text(
                             postReactionController.currentIndex.value < postReactionController.quizQuestions.length - 1 ? ksNext.tr : ksFinish.tr,
-                            style: semiBold16TextStyle(cPrimaryColor),
+                            style: semiBold16TextStyle(postReactionController.selectedAnswer.value!=''? cPrimaryColor:cPlaceHolderColor),
                           ),
                         )),
                   ),
@@ -103,11 +110,11 @@ class QuizPage extends StatelessWidget {
                             children: [
                               Icon(
                                 BipHip.twitchFill,
-                                color: (postReactionController.calculatePercentage() / 100) >= 0.8 ? cRedColor : cPrimaryColor,
+                                color: (postReactionController.calculatePercentage() / 100) > 0.8 ? cRedColor : cPrimaryColor,
                                 size: kIconSize20,
                               ),
                               LinearPercentIndicator(
-                                progressColor: (postReactionController.calculatePercentage() / 100) >= 0.8 ? cRedColor : cPrimaryColor,
+                                progressColor: (postReactionController.calculatePercentage() / 100) > 0.8 ? cRedColor : cPrimaryColor,
                                 // percent: 0.2,
                                 percent: postReactionController.calculatePercentage() / 100,
                                 barRadius: const Radius.circular(k8BorderRadius),
@@ -120,7 +127,7 @@ class QuizPage extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                     text: postReactionController.time.value,
-                                    style: semiBold12TextStyle((postReactionController.calculatePercentage() / 100) >= 0.8 ? cRedColor : cPrimaryColor),
+                                    style: semiBold12TextStyle((postReactionController.calculatePercentage() / 100) > 0.8 ? cRedColor : cPrimaryColor),
                                   ),
                                   TextSpan(
                                     text: '/${postReactionController.totalTimes.value}',
@@ -276,7 +283,8 @@ void quizCongratulationsAlertDialog({required BuildContext context, required Wid
 }
 
 class QuizCongratulationContent extends StatelessWidget {
-  const QuizCongratulationContent({super.key});
+   QuizCongratulationContent({super.key});
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -309,7 +317,7 @@ class QuizCongratulationContent extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: k16Padding),
                 child: Center(
                   child: CircularPercentIndicator(
-                    percent: Get.find<PostReactionController>().correctAnswer.value / (Get.find<PostReactionController>().currentIndex.value + 1),
+                    percent: int.parse(postReactionController.rightAnswer.value) / (postReactionController.currentIndex.value + 1),
                     radius: h44,
                     backgroundColor: cGreyBoxColor,
                     lineWidth: 6,
@@ -320,7 +328,7 @@ class QuizCongratulationContent extends StatelessWidget {
                       end: Alignment.bottomCenter,
                     ),
                     center: Text(
-                      '${Get.find<PostReactionController>().correctAnswer.value}/${Get.find<PostReactionController>().currentIndex.value + 1}',
+                      '${postReactionController.rightAnswer.value}/${postReactionController.currentIndex.value + 1}',
                       style: semiBold24TextStyle(cWhiteColor),
                     ),
                   ),
@@ -404,7 +412,8 @@ void quizZeroScoreAlertDialog({required BuildContext context, required Widget co
 }
 
 class QuizZeroScoreContent extends StatelessWidget {
-  const QuizZeroScoreContent({super.key});
+ QuizZeroScoreContent({super.key});
+ final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -418,7 +427,7 @@ class QuizZeroScoreContent extends StatelessWidget {
         ),
         kH12sizedBox,
         Text(
-          '${ksYourScore.tr}: ${Get.find<PostReactionController>().correctAnswer.value}',
+          '${ksYourScore.tr}: ${postReactionController.rightAnswer.value}',
           style: semiBold24TextStyle(cRedColor),
         ),
         kH12sizedBox,
@@ -437,10 +446,11 @@ class QuizZeroScoreContent extends StatelessWidget {
 }
 
 class PopupQuizCommonElement extends StatelessWidget {
-  const PopupQuizCommonElement({super.key, required this.subTitleText, this.playMoreOnPresse, this.backHomeOnPressed});
+  PopupQuizCommonElement({super.key, required this.subTitleText, this.playMoreOnPresse, this.backHomeOnPressed});
   final String subTitleText;
   final VoidCallback? playMoreOnPresse;
   final VoidCallback? backHomeOnPressed;
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -454,11 +464,11 @@ class PopupQuizCommonElement extends StatelessWidget {
         kH20sizedBox,
         Row(
           children: [
-            QuizResultCommonContainer(title: ksCorrectAnswer.tr, subTitle: '5 answers'),
+            QuizResultCommonContainer(title: ksCorrectAnswer.tr, subTitle: postReactionController.rightAnswer.value),
             const SizedBox(
               width: 5,
             ),
-            QuizResultCommonContainer(title: ksScore.tr, subTitle: '5'),
+            QuizResultCommonContainer(title: ksScore.tr, subTitle: postReactionController.totalMarks.value),
           ],
         ),
         const SizedBox(
@@ -466,11 +476,11 @@ class PopupQuizCommonElement extends StatelessWidget {
         ),
         Row(
           children: [
-            QuizResultCommonContainer(title: ksTime.tr, subTitle: '20 sec'),
+            QuizResultCommonContainer(title: ksTime.tr, subTitle: postReactionController.totalElapsedTime.value),
             const SizedBox(
               width: 5,
             ),
-            QuizResultCommonContainer(title: ksWrongAnswer.tr, subTitle: '7 answers'),
+            QuizResultCommonContainer(title: ksWrongAnswer.tr, subTitle: postReactionController.wrongAnswer.value),
           ],
         ),
         kH24sizedBox,
