@@ -112,7 +112,7 @@ class MyPlayedQuiz extends StatelessWidget {
             child: ListView.separated(
               shrinkWrap: true,
               // itemCount: postReactionController.myAllQuizesList.length,
-              itemCount: 8,
+              itemCount: 3,
               separatorBuilder: (context, index) => kH16sizedBox,
               itemBuilder: (BuildContext context, int index) {
                 // return CommonDailyAndPlayedQuiz(
@@ -322,87 +322,87 @@ class CommonDailyAndPlayedQuiz extends StatelessWidget {
   }
 }
 
-class PlayedQuizShimmer extends StatelessWidget {
-  const PlayedQuizShimmer({super.key});
+// class PlayedQuizShimmer extends StatelessWidget {
+//   const PlayedQuizShimmer({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width - 40,
-      height: 108,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(k8BorderRadius),
-        border: Border.all(width: 1, color: cLineColor),
-      ),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(k8Padding),
-            child: ShimmerCommon(
-              widget: Container(
-                  height: 90,
-                  width: 940,
-                  decoration: const BoxDecoration(
-                    color: cWhiteColor,
-                    shape: BoxShape.circle,
-                  )),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              kH12sizedBox,
-              ShimmerCommon(
-                widget: Container(
-                    height: h14,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      color: cWhiteColor,
-                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                    )),
-              ),
-              kH4sizedBox,
-              ShimmerCommon(
-                widget: Container(
-                    height: h14,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      color: cWhiteColor,
-                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                    )),
-              ),
-              kH4sizedBox,
-              ShimmerCommon(
-                widget: Container(
-                    height: h14,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      color: cWhiteColor,
-                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                    )),
-              ),
-              kH8sizedBox,
-              SizedBox(
-                width: width - (40 + 120),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ShimmerCommon(
-                      widget: Container(
-                          height: h14,
-                          width: 200,
-                          decoration: BoxDecoration(
-                            color: cWhiteColor,
-                            borderRadius: BorderRadius.circular(k8BorderRadius),
-                          )),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: width - 40,
+//       height: 108,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(k8BorderRadius),
+//         border: Border.all(width: 1, color: cLineColor),
+//       ),
+//       child: Row(
+//         children: [
+//           Padding(
+//             padding: const EdgeInsets.all(k8Padding),
+//             child: ShimmerCommon(
+//               widget: Container(
+//                   height: 90,
+//                   width: 940,
+//                   decoration: const BoxDecoration(
+//                     color: cWhiteColor,
+//                     shape: BoxShape.circle,
+//                   )),
+//             ),
+//           ),
+//           Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               kH12sizedBox,
+//               ShimmerCommon(
+//                 widget: Container(
+//                     height: h14,
+//                     width: 200,
+//                     decoration: BoxDecoration(
+//                       color: cWhiteColor,
+//                       borderRadius: BorderRadius.circular(k8BorderRadius),
+//                     )),
+//               ),
+//               kH4sizedBox,
+//               ShimmerCommon(
+//                 widget: Container(
+//                     height: h14,
+//                     width: 200,
+//                     decoration: BoxDecoration(
+//                       color: cWhiteColor,
+//                       borderRadius: BorderRadius.circular(k8BorderRadius),
+//                     )),
+//               ),
+//               kH4sizedBox,
+//               ShimmerCommon(
+//                 widget: Container(
+//                     height: h14,
+//                     width: 200,
+//                     decoration: BoxDecoration(
+//                       color: cWhiteColor,
+//                       borderRadius: BorderRadius.circular(k8BorderRadius),
+//                     )),
+//               ),
+//               kH8sizedBox,
+//               SizedBox(
+//                 width: width - (40 + 120),
+//                 child: Row(
+//                   mainAxisAlignment: MainAxisAlignment.start,
+//                   children: [
+//                     ShimmerCommon(
+//                       widget: Container(
+//                           height: h14,
+//                           width: 200,
+//                           decoration: BoxDecoration(
+//                             color: cWhiteColor,
+//                             borderRadius: BorderRadius.circular(k8BorderRadius),
+//                           )),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

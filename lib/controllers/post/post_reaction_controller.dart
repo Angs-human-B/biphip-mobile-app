@@ -270,6 +270,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     selectedAnswer.value = '';
     remainingSeconds.value = 1;
     isLastQuestion.value = false;
+    isQuizTimedOut.value=false;
   }
 
   late BuildContext contextValue;
