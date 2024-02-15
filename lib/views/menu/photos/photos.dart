@@ -7,8 +7,9 @@ import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class Photos extends StatelessWidget {
-  Photos({super.key});
-
+  Photos({super.key, required this.imageList, this.imageListTitle});
+  final List imageList;
+  final String? imageListTitle;
   final GalleryController galleryController = Get.find<GalleryController>();
 
   @override
@@ -24,7 +25,7 @@ class Photos extends StatelessWidget {
             //* info:: appBar
             child: CustomAppBar(
               appBarColor: cWhiteColor,
-              title: galleryController.selectedTitle.value,
+              title: imageListTitle,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -37,7 +38,7 @@ class Photos extends StatelessWidget {
             width: width,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k8Padding),
-              child: galleryController.selectedImageList.isEmpty
+              child: imageList.isEmpty
                   ? Expanded(
                       child: Center(
                         child: Container(
@@ -72,15 +73,14 @@ class Photos extends StatelessWidget {
                         ],
                       ),
                       childrenDelegate: SliverChildBuilderDelegate(
-                        childCount: galleryController.selectedImageList.length,
+                        childCount: imageList.length,
                         (context, index) {
-                          String imageUrl = galleryController.selectedImageList[index].fullPath.toString();
+                          String imageUrl = imageList[index].fullPath.toString();
                           return InkWell(
                             onTap: () async {
-                              galleryController.imageId.value = galleryController.selectedImageList[index].id!;
+                              galleryController.imageId.value = imageList[index].id!;
                               ll(galleryController.imageId.value.toString());
                               await galleryController.getImageDetails();
-                              // Get.toNamed(krPhotoDetails);
                               Get.to(() => CommonPhotoView(
                                     image: galleryController.imageDetailsData.value!.image!.fullPath.toString(),
                                     description: galleryController.imageDetailsData.value!.image!.description,
