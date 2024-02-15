@@ -248,6 +248,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         time.value = "${minutes.toString().padLeft(2, "0")}:${seconds.toString().padLeft(2, "0")}";
         timer.cancel();
         if (isLastQuestion.value == false) {
+          isQuizTimedOut.value=true;
           submitQuiz();
           quizTimeOutAlertDialog(context: contextValue, content: QuizTimeOutContent());
         }
@@ -275,6 +276,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   // final RxString noOfQuestions = RxString('');
   // final RxString startDate = RxString('');
   // final RxString endDate = RxString('');
+  final RxBool isQuizTimedOut = RxBool(false);
   //* All quiz data
   final Rx<AllQuizModel?> questionListData = Rx<AllQuizModel?>(null);
   final RxList<Question> questionList = RxList<Question>([]);

@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/shimmers/home/home_page_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -151,8 +152,11 @@ class HomePage extends StatelessWidget {
                                       child: TabBar(
                                         indicatorColor: cPrimaryColor,
                                         indicatorWeight: 1,
-                                        onTap: (value) {
+                                        onTap: (value) async {
                                           homeController.homeTabIndex.value = value;
+                                          if (homeController.homeTabIndex.value == 1) {
+                                            await Get.find<PostReactionController>().getQuestionList();
+                                          }
                                         },
                                         unselectedLabelColor: cSmallBodyTextColor,
                                         unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
@@ -197,9 +201,9 @@ class HomePage extends StatelessWidget {
                                 Container(
                                   color: cWhiteColor,
                                   width: width,
-                                  child: QuizTopWidget(),
+                                  child: Get.find<PostReactionController>().isQuestionLoading.value ? const HomePageTopTapableQuizShimmer() : QuizTopWidget(),
                                 ),
-                                  if (homeController.homeTabIndex.value == 2)
+                              if (homeController.homeTabIndex.value == 2)
                                 Container(
                                   color: cWhiteColor,
                                   width: width,

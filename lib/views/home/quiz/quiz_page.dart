@@ -21,7 +21,7 @@ class QuizPage extends StatelessWidget {
             content: LeaveQuizPopupContent(
                 text: ksLeaveQuizConfirmation.tr,
                 leaveOnPressed: () {
-                  Get.find<HomeController>().homeTabIndex.value=0;
+                  Get.find<HomeController>().homeTabIndex.value = 0;
                   Get.offAllNamed(krHome);
                 }),
             title: ksConfirmation.tr);
@@ -53,7 +53,7 @@ class QuizPage extends StatelessWidget {
                       content: LeaveQuizPopupContent(
                           text: ksLeaveQuizConfirmation.tr,
                           leaveOnPressed: () {
-                            Get.find<HomeController>().homeTabIndex.value=0;
+                            Get.find<HomeController>().homeTabIndex.value = 0;
                             Get.offAllNamed(krHome);
                           }),
                       title: ksConfirmation.tr);
@@ -63,7 +63,7 @@ class QuizPage extends StatelessWidget {
                     padding: const EdgeInsets.only(right: k20Padding),
                     child: Obx(() => TextButton(
                           style: kTextButtonStyle,
-                          onPressed: postReactionController.selectedAnswer.value != ''
+                          onPressed: postReactionController.selectedAnswer.value != '' && postReactionController.isQuizTimedOut.value == false
                               ? () async {
                                   if (postReactionController.currentIndex.value < postReactionController.questionList.length - 1) {
                                     postReactionController.nextQuestion();
@@ -134,8 +134,8 @@ class QuizPage extends StatelessWidget {
                                       ),
                                       TextSpan(
                                         text: postReactionController.questionList.isNotEmpty
-                                            ? "/00${postReactionController.questionListData.value?.quiz?.playingDuration.toString()}"
-                                            : "/00${postReactionController.questionListData.value?.result?.quiz?.playingDuration.toString()}",
+                                            ? "/00:${postReactionController.questionListData.value?.quiz?.playingDuration.toString()}"
+                                            : "/00:${postReactionController.questionListData.value?.result?.quiz?.playingDuration.toString()}",
                                         style: semiBold12TextStyle(cPlaceHolderColor),
                                       ),
                                     ],
@@ -410,11 +410,11 @@ class QuizCongratulationContent extends StatelessWidget {
           PopupQuizCommonElement(
             subTitleText: ksLetWhoWillWinThisQuiz.tr,
             playMoreOnPresse: () {
-              Get.find<HomeController>().homeTabIndex.value=0;
+              Get.find<HomeController>().homeTabIndex.value = 0;
               Get.offAllNamed(krHome);
             },
             backHomeOnPressed: () {
-              Get.find<HomeController>().homeTabIndex.value=0;
+              Get.find<HomeController>().homeTabIndex.value = 0;
               Get.offAllNamed(krHome);
             },
           ),
@@ -457,11 +457,11 @@ class QuizTimeOutContent extends StatelessWidget {
         PopupQuizCommonElement(
           subTitleText: ksLetWhoWillWinThisQuiz.tr,
           playMoreOnPresse: () {
-            Get.find<HomeController>().homeTabIndex.value=0;
+            Get.find<HomeController>().homeTabIndex.value = 0;
             Get.offAllNamed(krHome);
           },
           backHomeOnPressed: () {
-            Get.find<HomeController>().homeTabIndex.value=0;
+            Get.find<HomeController>().homeTabIndex.value = 0;
             Get.offAllNamed(krHome);
           },
         ),
@@ -505,11 +505,11 @@ class QuizZeroScoreContent extends StatelessWidget {
         PopupQuizCommonElement(
           subTitleText: ksLetWhoWillWinThisQuiz.tr,
           playMoreOnPresse: () {
-            Get.find<HomeController>().homeTabIndex.value=0;
+            Get.find<HomeController>().homeTabIndex.value = 0;
             Get.offAllNamed(krHome);
           },
           backHomeOnPressed: () {
-            Get.find<HomeController>().homeTabIndex.value=0;
+            Get.find<HomeController>().homeTabIndex.value = 0;
             Get.offAllNamed(krHome);
           },
         ),

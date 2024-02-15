@@ -79,7 +79,7 @@ class MyPlayedQuiz extends StatelessWidget {
         kH16sizedBox,
         SingleChildScrollView(
           child: SizedBox(
-            height: height - (kAppBarSize + 30 + 100 + MediaQuery.of(context).padding.top),
+            height: height - (kAppBarSize + 30 + MediaQuery.of(context).padding.top),
             child: Expanded(
               child: ListView.separated(
                 shrinkWrap: true,

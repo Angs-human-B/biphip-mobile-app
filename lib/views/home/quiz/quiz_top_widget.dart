@@ -28,7 +28,7 @@ class QuizTopWidget extends StatelessWidget {
               rightTextStyle: semiBold16TextStyle(cPrimaryColor),
               title: ksQuiz.tr,
               isRightButtonShow: false);
-          await postReactionController.getQuestionList();
+          // await postReactionController.getQuestionList();
         },
         child: SizedBox(
           width: width,
@@ -37,22 +37,72 @@ class QuizTopWidget extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(k8BorderRadius),
-                child: Image.asset(
-                  kiDummyImage1ImageUrl,
+                child: Image.network(
+                  '',//!replace here media data
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      kiDummyImage1ImageUrl,
+                      width: width - 40,
+                      fit: BoxFit.cover,
+                    );
+                  },
+                  loadingBuilder: imageLoadingBuilder,
                   width: width - 40,
                   fit: BoxFit.cover,
                 ),
               ),
               Positioned(
                 bottom: h8,
-                left: (width - 40) / 2.5,
+                left: h8,
                 child: Text(
-                  "Golf Quiz",
+                  postReactionController.questionList.isNotEmpty
+                      ? "${postReactionController.questionListData.value?.quiz?.title}"
+                      : "${postReactionController.questionListData.value!.result!.quiz?.title.toString()}",
                   style: semiBold12TextStyle(cWhiteColor),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class HomePageTopTapableQuizShimmer extends StatelessWidget {
+  const HomePageTopTapableQuizShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
+      child: SizedBox(
+        width: width,
+        height: 130,
+        child: Stack(
+          children: [
+            ShimmerCommon(
+                widget: Container(
+                    height: 130,
+                    width: width - 40,
+                    decoration: BoxDecoration(
+                      color: cWhiteColor,
+                      borderRadius: BorderRadius.circular(k8BorderRadius),
+                    ))),
+            // Positioned(
+            //   bottom: h8,
+            //   left: h8,
+            //   child: ShimmerCommon(
+            //       widget: Container(
+            //           height: h16,
+            //           width: width - 40,
+            //           decoration: BoxDecoration(
+            //             color: cWhiteColor,
+            //             borderRadius: BorderRadius.circular(k8BorderRadius),
+            //           ))),
+            // ),
+          ],
         ),
       ),
     );
@@ -69,7 +119,8 @@ class QuizFirstBottomSheetContent extends StatelessWidget {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (postReactionController.questionListData.value?.quiz?.mediaUrl != null)
+              if (postReactionController.questionListData.value?.quiz?.mediaUrl != null ||
+                  postReactionController.questionListData.value!.result?.quiz?.mediaUrl != null)
                 ClipRRect(
                   borderRadius: BorderRadius.circular(k8BorderRadius),
                   child: Image.network(
