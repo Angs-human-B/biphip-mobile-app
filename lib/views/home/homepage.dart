@@ -151,6 +151,9 @@ class HomePage extends StatelessWidget {
                                       child: TabBar(
                                         indicatorColor: cPrimaryColor,
                                         indicatorWeight: 1,
+                                        onTap: (value) {
+                                          homeController.homeTabIndex.value = value;
+                                        },
                                         unselectedLabelColor: cSmallBodyTextColor,
                                         unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
                                         labelStyle: medium14TextStyle(cPrimaryColor),
@@ -184,16 +187,24 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Container(
-                                color: cWhiteColor,
-                                width: width,
-                                child: const StoriesWidget(),
-                              ),
-                              Container(
-                                color: cWhiteColor,
-                                width: width,
-                                child:  QuizTopWidget(),
-                              ),
+                              if (homeController.homeTabIndex.value == 0)
+                                Container(
+                                  color: cWhiteColor,
+                                  width: width,
+                                  child: const StoriesWidget(),
+                                ),
+                              if (homeController.homeTabIndex.value == 1)
+                                Container(
+                                  color: cWhiteColor,
+                                  width: width,
+                                  child: QuizTopWidget(),
+                                ),
+                                  if (homeController.homeTabIndex.value == 2)
+                                Container(
+                                  color: cWhiteColor,
+                                  width: width,
+                                  child: const StoriesWidget(),
+                                ),
                               kH8sizedBox,
                               if (homeController.allPostList.isEmpty)
                                 SizedBox(

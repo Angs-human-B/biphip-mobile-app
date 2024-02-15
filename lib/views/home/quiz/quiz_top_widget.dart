@@ -9,7 +9,7 @@ class QuizTopWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
       child: InkWell(
         onTap: () async {
           Get.find<GlobalController>().commonBottomSheet(
@@ -29,9 +29,6 @@ class QuizTopWidget extends StatelessWidget {
               title: ksQuiz.tr,
               isRightButtonShow: false);
           await postReactionController.getQuestionList();
-          // ll(postReactionController.questionListData.value?.quiz?.playingDuration.toString());
-          // ll(postReactionController.questionListData.value?.quiz?.title.toString());
-          // ll(postReactionController.questionListData.value?.quiz?.noOfQuestions.toString());
         },
         child: SizedBox(
           width: width,
