@@ -262,7 +262,7 @@ class GiftContent extends StatelessWidget {
                       inputAction: TextInputAction.done,
                       contentPadding: const EdgeInsets.symmetric(vertical: k10Padding, horizontal: k8Padding),
                       borderRadius: 8,
-                      controller: postReactionController.giftTextEditingController),
+                      controller: postReactionController.giftAddCommentTextEditingController),
                 ),
               ],
             ),
@@ -411,6 +411,8 @@ class PurchaseStarContent extends StatelessWidget {
               )
             ],
           ),
+          kH16sizedBox,
+          const CustomDivider(),
           kH16sizedBox,
           SizedBox(
             height: 230,

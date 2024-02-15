@@ -517,3 +517,4 @@ const String ksIn = "in";
 const String ksTime = "Time";
 const String ksPickDateFirst = 'Pick date first';
 const String ksSendGift = 'Send Gift';
+const String ksPopularPackage = 'Popular Package';

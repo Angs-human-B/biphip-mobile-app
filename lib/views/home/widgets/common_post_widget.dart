@@ -1377,35 +1377,8 @@ class GiftContent extends StatelessWidget {
               },
             ),
           ),
-          kH24sizedBox,
-          const CustomDivider(),
-          kH16sizedBox,
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Container(
-                  height: 32,
-                  width: 32,
-                  decoration: const BoxDecoration(shape: BoxShape.circle),
-                  child: Image.asset(kiProfilePicImageUrl),
-                ),
-              ),
-              kW12sizedBox,
-              Expanded(
-                child: CustomModifiedTextField(
-                    hint: '${ksAddAComment.tr}...',
-                    inputAction: TextInputAction.done,
-                    contentPadding: const EdgeInsets.symmetric(vertical: k10Padding, horizontal: k8Padding),
-                    borderRadius: 8,
-                    controller: postReactionController.giftTextEditingController),
-              ),
-            ],
-          ),
-          kH16sizedBox,
+
+          kH20sizedBox,
           CustomElevatedButton(
               label: ksGetStars.tr,
               buttonWidth: width - 40,
@@ -1426,7 +1399,6 @@ class GiftContent extends StatelessWidget {
                           bottomSheetHeight: height * .9);
                     }
                   : null),
-          kH20sizedBox,
         ],
       ),
     );
@@ -1509,7 +1481,7 @@ class PurchaseStarContent extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${ksYourCurrentBalance.tr} (${postReactionController.balance} of 200)',
+                ksYourCurrentBalance.tr,
                 style: regular12TextStyle(cIconColor),
               ),
               IconButton(
@@ -1551,7 +1523,7 @@ class PurchaseStarContent extends StatelessWidget {
           const CustomDivider(),
           kH16sizedBox,
           Text(
-            '${ksYourCurrentBalance.tr} (${postReactionController.balance} of 200)',
+            ksYourCurrentBalance.tr,
             style: regular12TextStyle(cIconColor),
           ),
           kH8sizedBox,
@@ -1634,6 +1606,13 @@ class PurchaseStarContent extends StatelessWidget {
             ),
           ),
           kH16sizedBox,
+          const CustomDivider(),
+          kH16sizedBox,
+          Text(
+            ksPopularPackage.tr,
+            style: regular10TextStyle(cIconColor),
+          ),
+          kH16sizedBox,
           SizedBox(
             // height: 230,
             child: ListView.builder(
@@ -1676,9 +1655,7 @@ class PurchaseStarContent extends StatelessWidget {
                   );
                 }),
           ),
-          kH20sizedBox,
-          const CustomDivider(),
-          kH8sizedBox,
+          // kH16sizedBox,
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -1700,7 +1677,33 @@ class PurchaseStarContent extends StatelessWidget {
               ),
             ],
           ),
-          kH10sizedBox,
+          kH8sizedBox,
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Container(
+                  height: 32,
+                  width: 32,
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: Image.asset(kiProfilePicImageUrl),
+                ),
+              ),
+              kW12sizedBox,
+              Expanded(
+                child: CustomModifiedTextField(
+                    hint: '${ksAddAComment.tr}...',
+                    inputAction: TextInputAction.done,
+                    contentPadding: const EdgeInsets.symmetric(vertical: k10Padding, horizontal: k8Padding),
+                    borderRadius: 8,
+                    controller: postReactionController.giftAddCommentTextEditingController),
+              ),
+            ],
+          ),
+          kH12sizedBox,
           CustomElevatedButton(
               label: postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount'])
                   ? '${ksBuy.tr} ${postReactionController.selectedPackage.value!['amount']} stars'
@@ -1935,7 +1938,7 @@ class GiftPurchasePaymentContent extends StatelessWidget {
             buttonWidth: width - 40,
             onPressed: postReactionController.giftAgreeCheckBox.value
                 ? () {
-                    Get.back();
+                    Get.offAllNamed(krHome);
                   }
                 : null)),
       ],

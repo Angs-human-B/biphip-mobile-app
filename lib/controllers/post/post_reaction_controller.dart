@@ -6,7 +6,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxInt selectedGiftIndex = RxInt(-1);
   final RxInt balance = RxInt(200);
   final TextEditingController bidingTextEditingController = TextEditingController();
-  final TextEditingController giftTextEditingController = TextEditingController();
+  final TextEditingController giftAddCommentTextEditingController = TextEditingController();
   final TextEditingController commentTextEditingController = TextEditingController();
   final RxBool isPackageSelected = RxBool(false);
   final Rx<Map?> selectedPackage = Rx<Map?>(null);
@@ -181,6 +181,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     balance.value = 200;
     isPackageSelected.value = false;
     giftCheckBox.value = false;
+    cardNumberController.clear();
+    mmyyStarController.clear();
+    cvvController.clear();
+    giftAddCommentTextEditingController.clear();
     resetPurchaseCustomStar();
   }
 }
