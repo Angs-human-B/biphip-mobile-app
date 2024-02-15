@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bip_hip/models/home/quiz/all_quiz_model.dart';
+import 'package:bip_hip/models/home/quiz/my_all_quizes_model.dart';
 import 'package:bip_hip/models/home/quiz/submit_quiz_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/quiz/quiz_page.dart';
@@ -190,7 +191,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   //         "Question1:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?"
   //   },
   // ]);
-  
+
   final RxInt currentIndex = RxInt(0);
 
   void nextQuestion() {
@@ -212,14 +213,15 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     // startTimer(int.parse(questionListData.value?.result!.elapsedTime.toString()));
     startTimer(getTotalTime());
   }
-   int getTotalTime(){
-    if(questionList.isNotEmpty){
+
+  int getTotalTime() {
+    if (questionList.isNotEmpty) {
       return totalTime.value = int.parse(questionListData.value!.quiz!.playingDuration.toString());
-    }
-    else{
-       return totalTime.value = int.parse(questionListData.value!.result!.elapsedTime.toString());
+    } else {
+      return totalTime.value = int.parse(questionListData.value!.result!.elapsedTime.toString());
     }
   }
+
   totalTimeCalculation() {
     int totalTimeMinute = totalTime.value ~/ 60;
     int remainingSeconds = totalTime.value % 60;
@@ -248,7 +250,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         time.value = "${minutes.toString().padLeft(2, "0")}:${seconds.toString().padLeft(2, "0")}";
         timer.cancel();
         if (isLastQuestion.value == false) {
-          isQuizTimedOut.value=true;
+          isQuizTimedOut.value = true;
           submitQuiz();
           quizTimeOutAlertDialog(context: contextValue, content: QuizTimeOutContent());
         }
@@ -271,13 +273,13 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   }
 
   late BuildContext contextValue;
-  final RxInt quizId = RxInt(-1);
   // final RxString playingDuration = RxString('');
   // final RxString noOfQuestions = RxString('');
   // final RxString startDate = RxString('');
   // final RxString endDate = RxString('');
   final RxBool isQuizTimedOut = RxBool(false);
   //* All quiz data
+  final RxInt quizId = RxInt(-1);
   final Rx<AllQuizModel?> questionListData = Rx<AllQuizModel?>(null);
   final RxList<Question> questionList = RxList<Question>([]);
   final RxBool isQuestionLoading = RxBool(false);
@@ -294,6 +296,11 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         questionList.clear();
         questionListData.value = AllQuizModel.fromJson(response.data);
         questionList.addAll(questionListData.value!.questions);
+        if (questionList.isNotEmpty) {
+          quizId.value = questionListData.value!.quiz!.id!;
+        } else {
+          quizId.value = questionListData.value!.result!.quiz!.id!;
+        }
         isQuestionLoading.value = false;
       } else {
         isQuestionLoading.value = true;
@@ -310,8 +317,40 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
+  //* All quiz data
+  final Rx<MyAllQuizesModel?> myAllQuizesListData = Rx<MyAllQuizesModel?>(null);
+  final RxList<QuizData> myAllQuizesList = RxList<QuizData>([]);
+  final RxBool isMyQuizesLoading = RxBool(false);
+  Future<void> geQuizesList() async {
+    try {
+      isMyQuizesLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuMyAllQuizes,
+      ) as CommonDM;
+      if (response.success == true) {
+        myAllQuizesList.clear();
+        myAllQuizesListData.value = MyAllQuizesModel.fromJson(response.data);
+        myAllQuizesList.addAll(myAllQuizesListData.value!.myQuizzes!.data);
+        isQuestionLoading.value = false;
+      } else {
+        isQuestionLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isQuestionLoading.value = true;
+      ll('geQuizesList error: $e');
+    }
+  }
+
   //*Submit quiz
-  // final RxInt userId = RxInt(-1);
   final RxString rightAnswer = RxString('');
   final RxString wrongAnswer = RxString('');
   final RxString totalMarks = RxString('');
@@ -324,7 +363,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       isSubmitQuizLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
-        'quiz_id': '8',
+        'quiz_id': quizId.value.toString(),
         for (int i = 0; i < selectedAnswerList.length; i++) 'question_answer_index[$i]': selectedAnswerList[i],
         'elapsed_time': totalTime.value.toString(),
       };
@@ -353,12 +392,13 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       }
     } catch (e) {
       isSubmitQuizLoading.value = false;
-      ll('acceptFamilyRequest error: $e');
+      ll('submitQuiz error: $e');
     }
   }
-    final RxList quizTapButtonState = RxList([true, false, false]);
+
+  final RxList quizTapButtonState = RxList([true, false, false]);
   final RxList quizTapButtonText = RxList(["Daily Quiz", "Played", "Winner"]);
-    void dailyQuizTapableButtonOnPressed() async {
+  void dailyQuizTapableButtonOnPressed() async {
     quizToggleType(0);
   }
 
@@ -369,7 +409,8 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   void winnerQuizTapableButtonOnPressed() async {
     quizToggleType(2);
   }
-   void quizToggleType(int index) {
+
+  void quizToggleType(int index) {
     switch (index) {
       case 0:
         quizTapButtonState[0] = true;
@@ -389,5 +430,18 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
-
+  final TextEditingController quizWinnerTextEditingController = TextEditingController();
+  final RxBool isWinnerSuffixVisible = RxBool(false);
+  final List quizParticipentList = [
+    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+  ];
 }
