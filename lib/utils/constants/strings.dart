@@ -520,3 +520,5 @@ const String ksOpps = "Opps";
 const String ksYourScore = "Your Score";
 const String ksQuiz = "Quiz";
 const String ksNoQuizAvailableForToday = "No quiz available for today";
+const String ksTodaysQuiz = "Today's Quiz ";
+const String ksAlreadyPlayed = "Already played";
