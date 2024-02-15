@@ -28,30 +28,34 @@ class MyQuiz extends StatelessWidget {
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: Column(
-              children: [
-                TapAbleButtonContainer(
-                  buttonText: postReactionController.quizTapButtonText,
-                  buttonState: postReactionController.quizTapButtonState,
-                  buttonPress: RxList([
-                    () {
-                      unFocus(context);
-                      postReactionController.dailyQuizTapableButtonOnPressed();
-                    },
-                    () {
-                      unFocus(context);
-                      postReactionController.playedQuizTapableButtonOnPressed();
-                    },
-                    () {
-                      unFocus(context);
-                      postReactionController.winnerQuizTapableButtonOnPressed();
-                    },
-                  ]),
-                ),
-                if (postReactionController.quizTapButtonState[0]) MyDailyQuiz(),
-                if (postReactionController.quizTapButtonState[1]) MyPlayedQuiz(),
-              ],
-            ),
+            child: Obx(() => SizedBox(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        TapAbleButtonContainer(
+                          buttonText: postReactionController.quizTapButtonText,
+                          buttonState: postReactionController.quizTapButtonState,
+                          buttonPress: RxList([
+                            () {
+                              unFocus(context);
+                              postReactionController.dailyQuizTapableButtonOnPressed();
+                            },
+                            () {
+                              unFocus(context);
+                              postReactionController.playedQuizTapableButtonOnPressed();
+                            },
+                            () {
+                              unFocus(context);
+                              postReactionController.winnerQuizTapableButtonOnPressed();
+                            },
+                          ]),
+                        ),
+                        if (postReactionController.quizTapButtonState[0]) MyDailyQuiz(),
+                        if (postReactionController.quizTapButtonState[1]) MyPlayedQuiz(),
+                      ],
+                    ),
+                  ),
+                )),
           ),
         ),
       ),
@@ -73,15 +77,28 @@ class MyPlayedQuiz extends StatelessWidget {
           style: semiBold18TextStyle(cBlackColor),
         ),
         kH16sizedBox,
-        CommonDailyAndPlayedQuiz(
-          image:
-              'https://images.unsplash.com/photo-1500076656116-558758c991c1?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-          title: 'How to play golf like pros',
-          noOfQuestions: 'Correct Answer: 5/12',
-          totalTime: 'Taken Time: 20 Sec',
-          actionText: 'Score: 10',
-          icon: BipHip.rightArrow,
-          actionTextStyle: semiBold14TextStyle(cPrimaryColor),
+        SingleChildScrollView(
+          child: SizedBox(
+            height: height - (kAppBarSize + 30 + 100 + MediaQuery.of(context).padding.top),
+            child: Expanded(
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: 7,
+                separatorBuilder: (context, index) => kH16sizedBox,
+                itemBuilder: (BuildContext context, int index) {
+                  return CommonDailyAndPlayedQuiz(
+                    image:
+                        'https://images.unsplash.com/photo-1500076656116-558758c991c1?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                    title: 'How to play golf like pros',
+                    noOfQuestions: 'Correct Answer: 5/12',
+                    totalTime: 'Taken Time: 20 Sec',
+                    actionText: 'Score: 10',
+                    actionTextStyle: semiBold14TextStyle(cPrimaryColor),
+                  );
+                },
+              ),
+            ),
+          ),
         ),
       ],
     );
