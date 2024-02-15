@@ -32,7 +32,7 @@ class QuizTopWidget extends StatelessWidget {
         },
         child: SizedBox(
           width: width,
-          height: 150,
+          height: 130,
           child: Stack(
             children: [
               ClipRRect(
@@ -124,10 +124,10 @@ class QuizFirstBottomSheetContent extends StatelessWidget {
                     if (postReactionController.questionList.isNotEmpty) {
                       postReactionController.totalTimeCalculation();
                       postReactionController.timerStartFunction();
-                      Get.toNamed(krMyQuiz);
+                      Get.toNamed(krQuizPage);
                     } else {
                       postReactionController.timer?.cancel();
-                      Get.toNamed(krMyQuiz);
+                      Get.toNamed(krQuizPage);
                       if (postReactionController.questionListData.value!.result!.countRightAnswer == 0) {
                         quizZeroScoreAlertDialog(context: context, content: QuizZeroScoreContent());
                       } else {

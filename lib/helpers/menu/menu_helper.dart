@@ -57,9 +57,13 @@ class MenuHelper {
         ll('Kids');
         break;
       case 8:
-        ll('Shop');
+        ll('Store');
         Get.toNamed(krStore);
         await Get.find<StoreController>().getStoreList();
+        break;
+      case 9:
+        ll('Quiz');
+        Get.toNamed(krMyQuiz);
         break;
     }
   }

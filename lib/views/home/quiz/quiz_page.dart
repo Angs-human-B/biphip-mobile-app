@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/auth/onboarding/picture_upload_screen.dart';
@@ -20,6 +21,7 @@ class QuizPage extends StatelessWidget {
             content: LeaveQuizPopupContent(
                 text: ksLeaveQuizConfirmation.tr,
                 leaveOnPressed: () {
+                  Get.find<HomeController>().homeTabIndex.value=0;
                   Get.offAllNamed(krHome);
                 }),
             title: ksConfirmation.tr);
@@ -51,6 +53,7 @@ class QuizPage extends StatelessWidget {
                       content: LeaveQuizPopupContent(
                           text: ksLeaveQuizConfirmation.tr,
                           leaveOnPressed: () {
+                            Get.find<HomeController>().homeTabIndex.value=0;
                             Get.offAllNamed(krHome);
                           }),
                       title: ksConfirmation.tr);
@@ -407,9 +410,11 @@ class QuizCongratulationContent extends StatelessWidget {
           PopupQuizCommonElement(
             subTitleText: ksLetWhoWillWinThisQuiz.tr,
             playMoreOnPresse: () {
+              Get.find<HomeController>().homeTabIndex.value=0;
               Get.offAllNamed(krHome);
             },
             backHomeOnPressed: () {
+              Get.find<HomeController>().homeTabIndex.value=0;
               Get.offAllNamed(krHome);
             },
           ),
@@ -452,9 +457,11 @@ class QuizTimeOutContent extends StatelessWidget {
         PopupQuizCommonElement(
           subTitleText: ksLetWhoWillWinThisQuiz.tr,
           playMoreOnPresse: () {
+            Get.find<HomeController>().homeTabIndex.value=0;
             Get.offAllNamed(krHome);
           },
           backHomeOnPressed: () {
+            Get.find<HomeController>().homeTabIndex.value=0;
             Get.offAllNamed(krHome);
           },
         ),
@@ -498,9 +505,11 @@ class QuizZeroScoreContent extends StatelessWidget {
         PopupQuizCommonElement(
           subTitleText: ksLetWhoWillWinThisQuiz.tr,
           playMoreOnPresse: () {
+            Get.find<HomeController>().homeTabIndex.value=0;
             Get.offAllNamed(krHome);
           },
           backHomeOnPressed: () {
+            Get.find<HomeController>().homeTabIndex.value=0;
             Get.offAllNamed(krHome);
           },
         ),
