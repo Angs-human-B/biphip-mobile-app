@@ -518,3 +518,7 @@ const String ksTime = "Time";
 const String ksPickDateFirst = 'Pick date first';
 const String ksSendGift = 'Send Gift';
 const String ksPopularPackage = 'Popular Package';
+const String ksStars = 'Stars';
+const String ksStarNew = 'Star';
+const String ksAddAommentWithYourGift = 'Add a comment with your gift';
+const String ksGiveStar = 'Give Star';

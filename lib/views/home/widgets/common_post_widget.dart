@@ -1357,8 +1357,8 @@ class GiftContent extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: giftPackages.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: .8,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
                 crossAxisCount: 3,
                 crossAxisSpacing: k16Padding,
                 mainAxisSpacing: k16Padding,
@@ -1393,7 +1393,11 @@ class GiftContent extends StatelessWidget {
                           onPressRightButton: null,
                           rightText: '',
                           rightTextStyle: semiBold12TextStyle(cPrimaryColor),
-                          title: ksPurchaseStar.tr,
+                          title: postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount']) ||
+                                  (postReactionController.totalStars.value != '' &&
+                                      postReactionController.balance < int.parse(postReactionController.totalStars.value))
+                              ? ksGiveStar.tr
+                              : ksPurchaseStar.tr,
                           isRightButtonShow: false,
                           isScrollControlled: true,
                           bottomSheetHeight: height * .9);
@@ -1484,15 +1488,10 @@ class PurchaseStarContent extends StatelessWidget {
                 ksYourCurrentBalance.tr,
                 style: regular12TextStyle(cIconColor),
               ),
-              IconButton(
-                  constraints: const BoxConstraints(),
-                  padding: EdgeInsets.zero,
-                  onPressed: () {},
-                  icon: const Icon(
-                    BipHip.info,
-                    size: kIconSize14,
-                    color: cIconColor,
-                  ))
+              Text(
+                " (${postReactionController.balance} of 200)",
+                style: regular12TextStyle(cIconColor),
+              )
             ],
           ),
           kH4sizedBox,
@@ -1508,13 +1507,29 @@ class PurchaseStarContent extends StatelessWidget {
                   color: cSecondaryColor,
                   size: kIconSize16,
                 ),
-                Text(
-                  '${postReactionController.balance}',
-                  style: semiBold20TextStyle(cBlackColor).copyWith(foreground: Paint()..shader = linearGradient),
+                kW4sizedBox,
+                ShaderMask(
+                  shaderCallback: (Rect bounds) {
+                    return const LinearGradient(
+                      colors: [Color(0xFF59FCCB), Color(0xFF158BF9)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ).createShader(bounds);
+                  },
+                  child: Text(
+                    '${postReactionController.balance}',
+                    style: semiBold20TextStyle(cWhiteColor),
+                  ),
                 ),
-                Text(
-                  ' Stars',
-                  style: regular12TextStyle(cSmallBodyTextColor),
+                Padding(
+                  padding: const EdgeInsets.only(top: k8Padding, left: 1),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      ksStars,
+                      style: regular12TextStyle(cSmallBodyTextColor),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -1528,7 +1543,12 @@ class PurchaseStarContent extends StatelessWidget {
           ),
           kH8sizedBox,
           Obx(() => CustomListTile(
-                title: (postReactionController.totalStars.value != '' && postReactionController.totalStars.value != '0')
+                leading: SvgPicture.asset(
+                  kiBadgeSvgImageUrl,
+                  width: 20,
+                  height: 20,
+                ),
+                title: postReactionController.totalStars.value != ''
                     ? '${postReactionController.totalStars.value} stars'
                     : '${postReactionController.selectedPackage.value!['amount']} stars',
                 borderColor: cPrimaryColor,
@@ -1536,12 +1556,14 @@ class PurchaseStarContent extends StatelessWidget {
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      postReactionController.totalStarBuyAmount.value != 0
-                          ? '${postReactionController.totalStarBuyAmount.value.toStringAsFixed(2)} \$'
-                          : '\$${postReactionController.selectedPackage.value!['cost']}',
-                      style: semiBold16TextStyle(cBlackColor),
-                    ),
+                    if (postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount']) ||
+                        (postReactionController.totalStars.value != '' && postReactionController.balance < int.parse(postReactionController.totalStars.value)))
+                      Text(
+                        postReactionController.totalStars.value != ''
+                            ? "\$${postReactionController.totalStarBuyAmount.value.toStringAsFixed(2)}"
+                            : "\$${postReactionController.selectedPackage.value!['cost']}",
+                        style: semiBold16TextStyle(cBlackColor),
+                      ),
                   ],
                 ),
               )),
@@ -1567,44 +1589,48 @@ class PurchaseStarContent extends StatelessWidget {
               ],
             ),
           ),
-          kH16sizedBox,
-          InkWell(
-            onTap: () {
-              postReactionController.temporarytotalStarBuyAmount.value = postReactionController.totalStarBuyAmount.value;
-              postReactionController.temporaryTotalStars.value = postReactionController.totalStars.value;
-              postReactionController.starAmountTextEditingController.text = postReactionController.totalStars.value;
-              if (postReactionController.starAmountTextEditingController.text.toString().trim() == '') {
-                postReactionController.isStarAmountConfirmButtonEnabled.value = false;
-              }
-              Get.find<GlobalController>().commonBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
-                  content: PurchaseCustomStarContent(),
-                  onPressCloseButton: () {
-                    Get.back();
-                  },
-                  onPressRightButton: null,
-                  rightText: '',
-                  rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                  title: ksBuyCustomStar.tr,
-                  isRightButtonShow: false);
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Icon(
-                  BipHip.plus,
-                  color: cPrimaryColor,
+          if (postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount']) ||
+              (postReactionController.totalStars.value != '' && postReactionController.balance < int.parse(postReactionController.totalStars.value)))
+            InkWell(
+              onTap: () {
+                postReactionController.temporarytotalStarBuyAmount.value = postReactionController.totalStarBuyAmount.value;
+                postReactionController.temporaryTotalStars.value = postReactionController.totalStars.value;
+                postReactionController.starAmountTextEditingController.text = postReactionController.totalStars.value;
+                if (postReactionController.starAmountTextEditingController.text.toString().trim() == '') {
+                  postReactionController.isStarAmountConfirmButtonEnabled.value = false;
+                }
+                Get.find<GlobalController>().commonBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
+                    content: PurchaseCustomStarContent(),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: null,
+                    rightText: '',
+                    rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                    title: ksBuyCustomStar.tr,
+                    isRightButtonShow: false);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(top: k16Padding),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      BipHip.plus,
+                      color: cPrimaryColor,
+                    ),
+                    kW4sizedBox,
+                    Text(
+                      ksPurchaseCustomStar.tr,
+                      style: semiBold14TextStyle(cPrimaryColor),
+                    )
+                  ],
                 ),
-                kW4sizedBox,
-                Text(
-                  ksPurchaseCustomStar.tr,
-                  style: semiBold14TextStyle(cPrimaryColor),
-                )
-              ],
+              ),
             ),
-          ),
           kH16sizedBox,
           const CustomDivider(),
           kH16sizedBox,
@@ -1627,6 +1653,7 @@ class PurchaseStarContent extends StatelessWidget {
                         postReactionController.selectedPackage.value = packages[index];
                         postReactionController.resetPurchaseCustomStar();
                       },
+                      leading: SvgPicture.asset(kiBadgeSvgImageUrl, width: 20, height: 20),
                       title: '${packages[index]['amount']} stars',
                       borderColor: postReactionController.selectedPackage.value == packages[index] ? cPrimaryColor : cLineColor,
                       itemColor: postReactionController.selectedPackage.value == packages[index] ? cPrimaryTint3Color : cWhiteColor,
@@ -1637,6 +1664,7 @@ class PurchaseStarContent extends StatelessWidget {
                             '\$${packages[index]['cost']}',
                             style: semiBold16TextStyle(cBlackColor),
                           ),
+                          kW8sizedBox,
                           Radio(
                             value: packages[index],
                             groupValue: postReactionController.selectedPackage.value,
@@ -1656,23 +1684,57 @@ class PurchaseStarContent extends StatelessWidget {
                 }),
           ),
           // kH16sizedBox,
+          // Row(
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: [
+          //     Checkbox(
+          //       value: postReactionController.giftCheckBox.value,
+          //       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          //       onChanged: (v) {
+          //         postReactionController.giftCheckBox.value = !postReactionController.giftCheckBox.value;
+          //       },
+          //     ),
+          //     kW8sizedBox,
+          //     RichText(
+          //       text: TextSpan(
+          //         children: [
+          //           TextSpan(text: '${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)),
+          //           TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
+
           Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Checkbox(
-                value: postReactionController.giftCheckBox.value,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                onChanged: (v) {
-                  postReactionController.giftCheckBox.value = !postReactionController.giftCheckBox.value;
-                },
-              ),
-              kW8sizedBox,
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(text: '${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)),
-                    TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
-                  ],
+              Obx(() => Transform.translate(
+                    offset: const Offset(-10.0, 0.0),
+                    child: Checkbox(
+                      value: postReactionController.giftCheckBox.value,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      onChanged: (v) {
+                        postReactionController.giftCheckBox.value = !postReactionController.giftCheckBox.value;
+                      },
+                    ),
+                  )),
+              kW12sizedBox,
+              Transform.translate(
+                offset: const Offset(-20, 0.0),
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      WidgetSpan(
+                          child: InkWell(
+                              onTap: () {
+                                postReactionController.giftCheckBox.value = !postReactionController.giftCheckBox.value;
+                              },
+                              child: Text('${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)))),
+                      TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -1686,16 +1748,17 @@ class PurchaseStarContent extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Container(
-                  height: 32,
-                  width: 32,
+                  height: 40,
+                  width: 40,
                   decoration: const BoxDecoration(shape: BoxShape.circle),
                   child: Image.asset(kiProfilePicImageUrl),
                 ),
               ),
-              kW12sizedBox,
+              kW8sizedBox,
               Expanded(
                 child: CustomModifiedTextField(
-                    hint: '${ksAddAComment.tr}...',
+                    hint: ksAddAommentWithYourGift.tr,
+                    textHintStyle: regular12TextStyle(cSmallBodyTextColor),
                     inputAction: TextInputAction.done,
                     contentPadding: const EdgeInsets.symmetric(vertical: k10Padding, horizontal: k8Padding),
                     borderRadius: 8,
@@ -1706,8 +1769,12 @@ class PurchaseStarContent extends StatelessWidget {
           kH12sizedBox,
           CustomElevatedButton(
               label: postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount'])
-                  ? '${ksBuy.tr} ${postReactionController.selectedPackage.value!['amount']} stars'
-                  : '${ksGive.tr} ${postReactionController.selectedPackage.value!['amount']} stars',
+                  ? ksNext.tr
+                  : postReactionController.totalStars.value != ''
+                      ? (postReactionController.balance < int.parse(postReactionController.totalStars.value))
+                          ? ksNext.tr
+                          : "${ksSend.tr} ${postReactionController.totalStars.value} ${ksStars.tr}"
+                      : "${ksSend.tr} ${postReactionController.selectedPackage.value!['amount']} ${ksStars.tr}",
               buttonHeight: 42,
               buttonWidth: width - 40,
               onPressed: postReactionController.giftCheckBox.value
@@ -1723,7 +1790,7 @@ class PurchaseStarContent extends StatelessWidget {
                           onPressRightButton: () {},
                           rightText: '',
                           rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                          title: ksPurchaseStar.tr,
+                          title: ksPayNow.tr,
                           isRightButtonShow: false);
                     }
                   : null),
@@ -1756,14 +1823,14 @@ class PurchaseCustomStarContent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${postReactionController.temporarytotalStarBuyAmount.value.toStringAsFixed(2)} \$',
+                      '\$${postReactionController.temporarytotalStarBuyAmount.value.toStringAsFixed(2)}',
                       style: semiBold18TextStyle(cBlackColor),
                     ),
                     kH4sizedBox,
                     Text(
                       postReactionController.starAmountTextEditingController.text.toString().trim() == ''
-                          ? '0 star'
-                          : '${postReactionController.starAmountTextEditingController.text} stars',
+                          ? '0 ${ksStarNew.tr}'
+                          : '${postReactionController.starAmountTextEditingController.text} ${ksStars.tr}',
                       style: semiBold14TextStyle(cPlaceHolderColor),
                     ),
                   ],
@@ -1804,7 +1871,7 @@ class PurchaseCustomStarContent extends StatelessWidget {
                     style: regular10TextStyle(cIconColor),
                   ),
                   TextSpan(
-                    text: ' ${postReactionController.perStarAmount.value}\$',
+                    text: ' ${postReactionController.perStarAmount.value}\$ ',
                     style: regular10TextStyle(cGreenColor),
                   ),
                   TextSpan(
@@ -1814,6 +1881,8 @@ class PurchaseCustomStarContent extends StatelessWidget {
                 ],
               ),
             ),
+            kH16sizedBox,
+            const CustomDivider(),
             kH16sizedBox,
             Obx(() => CustomElevatedButton(
                   buttonWidth: width - 40,
@@ -1853,11 +1922,6 @@ class GiftPurchasePaymentContent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(k4BorderRadius),
                 border: Border.all(color: cLineColor, width: 1),
               ),
-              // child: const Icon(
-              //   BipHip.giftNew,
-              //   color: cSecondaryColor,
-              //   size: kIconSize24,
-              // ),
               child: SvgPicture.asset(
                 kiPayment,
                 width: h40,
@@ -1887,8 +1951,19 @@ class GiftPurchasePaymentContent extends StatelessWidget {
         CustomModifiedTextField(
           controller: postReactionController.cardNumberController,
           hint: ksCardNumber.tr,
+          inputType: TextInputType.number,
+          inputAction: TextInputAction.next,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          maxLength: 16,
           textHintStyle: regular14TextStyle(cPlaceHolderColor),
-          prefixIcon: Icons.card_giftcard, //!Icon must be change
+          prefixIcon: BipHip.calendarFill,
+          fillColor: cWhiteColor,
+          border: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color: cLineColor2,
+              width: 1.0,
+            ),
+          ),
         ),
         kH20sizedBox,
         Row(
@@ -1898,6 +1973,18 @@ class GiftPurchasePaymentContent extends StatelessWidget {
                 controller: postReactionController.mmyyStarController,
                 hint: 'MM/YY',
                 textHintStyle: regular14TextStyle(cPlaceHolderColor),
+                inputType: TextInputType.number,
+                inputAction: TextInputAction.next,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                onChanged: (String value) {},
+                maxLength: 6,
+                fillColor: cWhiteColor,
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: cLineColor2,
+                    width: 1.0,
+                  ),
+                ),
               ),
             ),
             kW20sizedBox,
@@ -1905,28 +1992,51 @@ class GiftPurchasePaymentContent extends StatelessWidget {
               child: CustomModifiedTextField(
                 controller: postReactionController.cvvController,
                 hint: ksCVV.tr,
+                inputType: TextInputType.number,
+                inputAction: TextInputAction.done,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                maxLength: 3,
                 textHintStyle: regular14TextStyle(cPlaceHolderColor),
+                fillColor: cWhiteColor,
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: cLineColor2,
+                    width: 1.0,
+                  ),
+                ),
               ),
             ),
           ],
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Obx(() => Checkbox(
-                  value: postReactionController.giftAgreeCheckBox.value,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  onChanged: (v) {
-                    postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
-                  },
+            Obx(() => Transform.translate(
+                  offset: const Offset(-10.0, 0.0),
+                  child: Checkbox(
+                    value: postReactionController.giftAgreeCheckBox.value,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    onChanged: (v) {
+                      postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
+                    },
+                  ),
                 )),
-            kW8sizedBox,
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(text: '${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)),
-                  TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
-                ],
+            kW12sizedBox,
+            Transform.translate(
+              offset: const Offset(-20, 0.0),
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    WidgetSpan(
+                        child: InkWell(
+                            onTap: () {
+                              postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
+                            },
+                            child: Text('${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)))),
+                    TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
+                  ],
+                ),
               ),
             ),
           ],

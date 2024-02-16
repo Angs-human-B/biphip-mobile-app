@@ -22,7 +22,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxBool showMoreBiddingInsights = RxBool(true);
   final RxDouble perStarAmount = RxDouble(0.09);
   final RxDouble temporarytotalStarBuyAmount = RxDouble(0);
-  final RxDouble totalStarBuyAmount = RxDouble(0);
+  final RxDouble totalStarBuyAmount = RxDouble(-1);
   final RxString temporaryTotalStars = RxString('');
   final RxString totalStars = RxString('');
 
@@ -186,5 +186,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     cvvController.clear();
     giftAddCommentTextEditingController.clear();
     resetPurchaseCustomStar();
+    giftAgreeCheckBox.value = false;
   }
 }
