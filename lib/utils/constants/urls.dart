@@ -208,6 +208,7 @@ const String kikidImage = 'assets/svg/kid_image.svg';
 const String kiUploadImage = 'assets/svg/upload_image.svg';
 const String kiCongratulation1 = 'assets/svg/congratulation1.svg';
 const String kiCongratulation2 = 'assets/svg/congratulation2.svg';
+const String kiPayment = 'assets/svg/payment.svg';
 const String kiGallery = 'assets/svg/gallery.svg';
 const String kiLocation = 'assets/svg/location.svg';
 const String kiTime = 'assets/svg/time.svg';
