@@ -6,6 +6,7 @@ import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/controllers/menu/store_controller.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/helpers/menu/friend/friend_helper.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -63,6 +64,7 @@ class MenuHelper {
         break;
       case 9:
         ll('Quiz');
+        Get.find<PostReactionController>().quizTapButtonState[0];
         Get.toNamed(krMyQuiz);
         break;
     }

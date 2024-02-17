@@ -152,36 +152,34 @@ class MyPlayedQuiz extends StatelessWidget {
         kH16sizedBox,
         SizedBox(
           height: height - (kAppBarSize + 30 + MediaQuery.of(context).padding.top),
-          child: Expanded(
-            child: ListView.separated(
-              shrinkWrap: true,
-              // itemCount: postReactionController.myAllQuizesList.length,
-              itemCount: 3,
-              separatorBuilder: (context, index) => kH16sizedBox,
-              itemBuilder: (BuildContext context, int index) {
-                // return CommonDailyAndPlayedQuiz(
-                //   image: postReactionController.myAllQuizesList[index].quiz!.mediaUrl,
-                //   title: postReactionController.myAllQuizesList[index].quiz!.title == null
-                //       ? ksNA
-                //       : (postReactionController.myAllQuizesList[index].quiz!.title).toString(),
-                //   noOfQuestions:
-                //       "Correct Answer: ${postReactionController.myAllQuizesList[index].countRightAnswer}/${postReactionController.myAllQuizesList[index].totalMarks}",
-                //   totalTime: "Taken Time: ${postReactionController.myAllQuizesList[index].elapsedTime}",
-                //   actionText: "Score: ${postReactionController.myAllQuizesList[index].obtainedMarks}",
-                //   actionTextStyle: semiBold14TextStyle(cPrimaryColor),
-                // );
-                return CommonDailyAndPlayedQuiz(
-                  image:
-                      'https://images.unsplash.com/photo-1500076656116-558758c991c1?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                  title: 'How to play golf',
-                  correctAnswer: '5',
-                  totalQuestions: '12',
-                  totalTime: 'Duration: 30 Sec',
-                  actionText: 'Score: 10',
-                  actionTextStyle: semiBold14TextStyle(cPrimaryColor),
-                );
-              },
-            ),
+          child: ListView.separated(
+            shrinkWrap: true,
+            // itemCount: postReactionController.myAllQuizesList.length,
+            itemCount: 3,
+            separatorBuilder: (context, index) => kH16sizedBox,
+            itemBuilder: (BuildContext context, int index) {
+              // return CommonDailyAndPlayedQuiz(
+              //   image: postReactionController.myAllQuizesList[index].quiz!.mediaUrl,
+              //   title: postReactionController.myAllQuizesList[index].quiz!.title == null
+              //       ? ksNA
+              //       : (postReactionController.myAllQuizesList[index].quiz!.title).toString(),
+              //   noOfQuestions:
+              //       "Correct Answer: ${postReactionController.myAllQuizesList[index].countRightAnswer}/${postReactionController.myAllQuizesList[index].totalMarks}",
+              //   totalTime: "Taken Time: ${postReactionController.myAllQuizesList[index].elapsedTime}",
+              //   actionText: "Score: ${postReactionController.myAllQuizesList[index].obtainedMarks}",
+              //   actionTextStyle: semiBold14TextStyle(cPrimaryColor),
+              // );
+              return CommonDailyAndPlayedQuiz(
+                image:
+                    'https://images.unsplash.com/photo-1500076656116-558758c991c1?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                title: 'How to play golf',
+                correctAnswer: '5',
+                totalQuestions: '12',
+                totalTime: 'Duration: 30 Sec',
+                actionText: 'Score: 10',
+                actionTextStyle: semiBold14TextStyle(cPrimaryColor),
+              );
+            },
           ),
         ),
       ],
