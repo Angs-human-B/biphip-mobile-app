@@ -355,14 +355,16 @@ class CreateAlbumTagPeopleBottomSheetContent extends StatelessWidget {
                                     }
                                   },
                                   child: Container(
+                                    height: h16,
+                                    width: h16,
                                     decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: cWhiteColor,
+                                      color: cRedColor,
                                     ),
                                     child: const Icon(
-                                      BipHip.circleCrossNew,
+                                      BipHip.cross,
                                       size: 12,
-                                      color: cRedColor,
+                                      color: cWhiteColor,
                                     ),
                                   ),
                                 ),
