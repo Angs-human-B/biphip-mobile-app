@@ -6,7 +6,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxInt selectedGiftIndex = RxInt(-1);
   final RxInt balance = RxInt(200);
   final TextEditingController bidingTextEditingController = TextEditingController();
-  final TextEditingController giftTextEditingController = TextEditingController();
+  final TextEditingController giftAddCommentTextEditingController = TextEditingController();
   final TextEditingController commentTextEditingController = TextEditingController();
   final RxBool isPackageSelected = RxBool(false);
   final Rx<Map?> selectedPackage = Rx<Map?>(null);
@@ -20,6 +20,11 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   late TabController tabController;
   final Rx<int?> yourBid = Rx<int?>(null);
   final RxBool showMoreBiddingInsights = RxBool(true);
+  final RxDouble perStarAmount = RxDouble(0.09);
+  final RxDouble temporarytotalStarBuyAmount = RxDouble(0);
+  final RxDouble totalStarBuyAmount = RxDouble(-1);
+  final RxString temporaryTotalStars = RxString('');
+  final RxString totalStars = RxString('');
 
   @override
   void onInit() {
@@ -70,6 +75,9 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
+  //*Star
+  final TextEditingController starAmountTextEditingController = TextEditingController();
+  final RxBool isStarAmountConfirmButtonEnabled = RxBool(false);
   final TextEditingController cardNumberController = TextEditingController();
   final TextEditingController mmyyStarController = TextEditingController();
   final TextEditingController cvvController = TextEditingController();
@@ -156,5 +164,28 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         width: 20,
       );
     }
+  }
+
+  void resetPurchaseCustomStar() {
+    isStarAmountConfirmButtonEnabled.value = false;
+    starAmountTextEditingController.clear();
+    temporarytotalStarBuyAmount.value = 0;
+    totalStarBuyAmount.value = 0;
+    temporaryTotalStars.value = '';
+    totalStars.value = '';
+  }
+
+  void resetGiftData() {
+    selectedBidIndex.value = -1;
+    selectedGiftIndex.value = -1;
+    balance.value = 200;
+    isPackageSelected.value = false;
+    giftCheckBox.value = false;
+    cardNumberController.clear();
+    mmyyStarController.clear();
+    cvvController.clear();
+    giftAddCommentTextEditingController.clear();
+    resetPurchaseCustomStar();
+    giftAgreeCheckBox.value = false;
   }
 }

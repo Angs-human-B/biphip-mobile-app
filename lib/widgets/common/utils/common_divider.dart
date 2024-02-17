@@ -8,7 +8,7 @@ class CustomDivider extends StatelessWidget {
     return SizedBox(
       width: width,
       child: Divider(
-        thickness: thickness ?? 2,
+        thickness: thickness ?? 1,
         height: 1,
         color: cLineColor,
       ),
