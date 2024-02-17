@@ -542,3 +542,5 @@ const String ksAddAommentWithYourGift = 'Add a comment with your gift';
 const String ksGiveStars = 'Give Stars';
 const String ksYourSelectedPackage = 'Your selected packages';
 const String ksYourCurrentStar = 'Your current star';
+const String ksPlayingDuration = 'Playing duration';
+const String ksQuestions = 'Questions';

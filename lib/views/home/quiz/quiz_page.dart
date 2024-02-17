@@ -69,6 +69,9 @@ class QuizPage extends StatelessWidget {
                                     postReactionController.nextQuestion();
                                     postReactionController.selectedAnswerList.add(postReactionController.selectedAnswer.value);
                                     postReactionController.selectedAnswer.value = '';
+                                    if (postReactionController.isQuizTimedOut.value) {
+                                      quizTimeOutAlertDialog(context: context, content: const QuizTimeOutContent());
+                                    }
                                   } else {
                                     await postReactionController.submitQuiz();
                                     postReactionController.isLastQuestion.value = true;
@@ -87,7 +90,9 @@ class QuizPage extends StatelessWidget {
                               : null,
                           child: Text(
                             postReactionController.currentIndex.value < postReactionController.questionList.length - 1 ? ksNext.tr : ksFinish.tr,
-                            style: semiBold16TextStyle(postReactionController.selectedAnswer.value != '' ? cPrimaryColor : cPlaceHolderColor),
+                            style: semiBold16TextStyle(postReactionController.selectedAnswer.value != '' && postReactionController.isQuizTimedOut.value == false
+                                ? cPrimaryColor
+                                : cPlaceHolderColor),
                           ),
                         )),
                   ),
@@ -444,7 +449,7 @@ class QuizTimeOutContent extends StatelessWidget {
       children: [
         kH40sizedBox,
         const Icon(
-          BipHip.twitchFill,
+          BipHip.twitchFill, //!Icon Must be changed
           color: cRedColor,
           size: kIconSize40,
         ),
@@ -560,8 +565,8 @@ class PopupQuizCommonElement extends StatelessWidget {
             QuizResultCommonContainer(
                 title: ksTime.tr,
                 subTitle: postReactionController.questionList.isNotEmpty
-                    ? postReactionController.totalElapsedTime.value
-                    : postReactionController.questionListData.value!.result!.elapsedTime.toString()),
+                    ? postReactionController.totalElapsedTime.value.toString()
+                    : double.parse(postReactionController.questionListData.value!.result!.elapsedTime.toString()).toStringAsFixed(0)),
             const SizedBox(
               width: 5,
             ),

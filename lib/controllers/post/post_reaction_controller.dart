@@ -251,7 +251,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   startTimer(int seconds) {
     const duration = Duration(seconds: 1);
     remainingSeconds.value = seconds;
-    timer = Timer.periodic(duration, (timer) {
+    timer = Timer.periodic(duration, (timer) async {
       if (remainingSeconds.value == 0) {
         int minutes = remainingSeconds.value ~/ 60;
         int seconds = (remainingSeconds.value % 60);
@@ -259,7 +259,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         timer.cancel();
         if (isLastQuestion.value == false) {
           isQuizTimedOut.value = true;
-          submitQuiz();
+          await submitQuiz();
           quizTimeOutAlertDialog(context: contextValue, content: QuizTimeOutContent());
         }
       } else {
@@ -278,7 +278,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     selectedAnswer.value = '';
     remainingSeconds.value = 1;
     isLastQuestion.value = false;
-    isQuizTimedOut.value=false;
+    isQuizTimedOut.value = false;
   }
 
   late BuildContext contextValue;

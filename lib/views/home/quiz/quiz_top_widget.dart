@@ -38,7 +38,7 @@ class QuizTopWidget extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(k8BorderRadius),
                 child: Image.network(
-                  '',//!replace here media data
+                  '', //!replace here media data
                   errorBuilder: (context, error, stackTrace) {
                     return Image.asset(
                       kiDummyImage1ImageUrl,
@@ -147,24 +147,24 @@ class QuizFirstBottomSheetContent extends StatelessWidget {
               ),
               kH16sizedBox,
               IconAndTextRow(
-                icon: BipHip.activity,
+                icon: BipHip.activity, //!Icon must change
                 title: postReactionController.questionList.isNotEmpty
-                    ? "${postReactionController.questionListData.value?.quiz?.startDate}-${postReactionController.questionListData.value?.quiz?.endDate}"
-                    : "${postReactionController.questionListData.value!.result!.quiz?.startDate.toString()}-${postReactionController.questionListData.value!.result!.quiz?.startDate.toString()}",
+                    ? "${ksDuration.tr}: ${postReactionController.questionListData.value?.quiz?.startDate}-${postReactionController.questionListData.value?.quiz?.endDate}"
+                    : "${ksDuration.tr}: ${postReactionController.questionListData.value!.result!.quiz?.startDate.toString()}-${postReactionController.questionListData.value!.result!.quiz?.startDate.toString()}",
               ),
               kH16sizedBox,
               IconAndTextRow(
-                icon: BipHip.twitchFill,
+                icon: BipHip.twitchFill, //!Icon must change
                 title: postReactionController.questionList.isNotEmpty
-                    ? "${postReactionController.questionListData.value?.quiz?.playingDuration}"
-                    : "${postReactionController.questionListData.value!.result!.quiz?.playingDuration.toString()}",
+                    ? "${ksPlayingDuration.tr}: ${postReactionController.questionListData.value?.quiz?.playingDuration}"
+                    : "${ksPlayingDuration.tr}: ${postReactionController.questionListData.value!.result!.quiz?.playingDuration.toString()}",
               ),
               kH16sizedBox,
               IconAndTextRow(
-                icon: BipHip.termsCondition,
+                icon: BipHip.termsCondition, //!Icon must change
                 title: postReactionController.questionList.isNotEmpty
-                    ? "${postReactionController.questionListData.value?.quiz?.noOfQuestions}"
-                    : "${postReactionController.questionListData.value!.result!.quiz?.noOfQuestions.toString()}",
+                    ? "${ksQuestions.tr}: ${postReactionController.questionListData.value?.quiz?.noOfQuestions}"
+                    : "${ksQuestions.tr}: ${postReactionController.questionListData.value!.result!.quiz?.noOfQuestions.toString()}",
               ),
               kH30sizedBox,
               CustomElevatedButton(
