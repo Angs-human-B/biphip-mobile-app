@@ -1303,49 +1303,6 @@ class GiftContent extends StatelessWidget {
       () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.start,
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-          //     Container(
-          //       height: h40,
-          //       width: h40,
-          //       decoration: const BoxDecoration(shape: BoxShape.circle),
-          //       child: Image.asset(kiProfileDefaultImageUrl),
-          //     ),
-          //     kW12sizedBox,
-          //     SizedBox(
-          //       height: 40,
-          //       child: Center(
-          //         child: RichText(
-          //           textAlign: TextAlign.left,
-          //           overflow: TextOverflow.clip,
-          //           text: TextSpan(
-          //             children: [
-          //               TextSpan(text: '${ksSupport.tr} ', style: regular12TextStyle(cBlackColor)),
-          //               TextSpan(
-          //                 text: 'Monjurul Sharker Omi',
-          //                 style: semiBold12TextStyle(cBlackColor),
-          //               ),
-          //               TextSpan(
-          //                 text: '\nby sending stars',
-          //                 style: regular12TextStyle(cBlackColor),
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //       ),
-          //     )
-          //   ],
-          // ),
-
-          // kH8sizedBox,
-          // Text(
-          //   ksStarsLetThis.tr,
-          //   style: regular10TextStyle(cSmallBodyTextColor),
-          // ),
-          // kH16sizedBox,
-          // const CustomDivider(),
           kH16sizedBox,
           Text(
             ksAllStars.tr,
@@ -1377,7 +1334,6 @@ class GiftContent extends StatelessWidget {
               },
             ),
           ),
-
           kH20sizedBox,
           CustomElevatedButton(
               label: ksGetStars.tr,
@@ -1390,14 +1346,10 @@ class GiftContent extends StatelessWidget {
                           onPressCloseButton: () {
                             Get.back();
                           },
-                          onPressRightButton: null,
+                          onPressRightButton: () {},
                           rightText: '',
                           rightTextStyle: semiBold12TextStyle(cPrimaryColor),
-                          title: postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount']) ||
-                                  (postReactionController.totalStars.value != '' &&
-                                      postReactionController.balance < int.parse(postReactionController.totalStars.value))
-                              ? ksGiveStar.tr
-                              : ksPurchaseStar.tr,
+                          title: ksGiveStars.tr,
                           isRightButtonShow: false,
                           isScrollControlled: true,
                           bottomSheetHeight: height * .9);
@@ -1460,7 +1412,8 @@ class PackageGridViewContainer extends StatelessWidget {
                   Text(
                     giftPackages[index]['amount'],
                     style: regular10TextStyle(cBlackColor),
-                  )
+                  ),
+                  kH12sizedBox,
                 ],
               ),
             ],
@@ -1485,7 +1438,7 @@ class PurchaseStarContent extends StatelessWidget {
           Row(
             children: [
               Text(
-                ksYourCurrentBalance.tr,
+                ksYourCurrentStar.tr,
                 style: regular12TextStyle(cIconColor),
               ),
               Text(
@@ -1511,7 +1464,7 @@ class PurchaseStarContent extends StatelessWidget {
                 ShaderMask(
                   shaderCallback: (Rect bounds) {
                     return const LinearGradient(
-                      colors: [Color(0xFF59FCCB), Color(0xFF158BF9)],
+                      colors: [cBlueLinearColor1, cBlueLinearColor2],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ).createShader(bounds);
@@ -1538,7 +1491,7 @@ class PurchaseStarContent extends StatelessWidget {
           const CustomDivider(),
           kH16sizedBox,
           Text(
-            ksYourCurrentBalance.tr,
+            ksYourSelectedPackage.tr,
             style: regular12TextStyle(cIconColor),
           ),
           kH8sizedBox,
@@ -1640,7 +1593,6 @@ class PurchaseStarContent extends StatelessWidget {
           ),
           kH16sizedBox,
           SizedBox(
-            // height: 230,
             child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -1660,10 +1612,11 @@ class PurchaseStarContent extends StatelessWidget {
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            '\$${packages[index]['cost']}',
-                            style: semiBold16TextStyle(cBlackColor),
-                          ),
+                          if (postReactionController.balance < int.parse(packages[index]['amount']))
+                            Text(
+                              '\$${packages[index]['cost']}',
+                              style: semiBold16TextStyle(cBlackColor),
+                            ),
                           kW8sizedBox,
                           Radio(
                             value: packages[index],
@@ -1683,29 +1636,6 @@ class PurchaseStarContent extends StatelessWidget {
                   );
                 }),
           ),
-          // kH16sizedBox,
-          // Row(
-          //   mainAxisSize: MainAxisSize.min,
-          //   children: [
-          //     Checkbox(
-          //       value: postReactionController.giftCheckBox.value,
-          //       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          //       onChanged: (v) {
-          //         postReactionController.giftCheckBox.value = !postReactionController.giftCheckBox.value;
-          //       },
-          //     ),
-          //     kW8sizedBox,
-          //     RichText(
-          //       text: TextSpan(
-          //         children: [
-          //           TextSpan(text: '${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)),
-          //           TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -1860,6 +1790,13 @@ class PurchaseCustomStarContent extends StatelessWidget {
               inputType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               maxLength: 10,
+              fillColor: cWhiteColor,
+              border: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: cLineColor2,
+                  width: 1.0,
+                ),
+              ),
             ),
             RichText(
               textAlign: TextAlign.left,
@@ -1915,13 +1852,9 @@ class GiftPurchasePaymentContent extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(k4BorderRadius),
-                border: Border.all(color: cLineColor, width: 1),
-              ),
+            SizedBox(
+              width: 50,
+              height: 50,
               child: SvgPicture.asset(
                 kiPayment,
                 width: h40,
@@ -2041,7 +1974,9 @@ class GiftPurchasePaymentContent extends StatelessWidget {
             ),
           ],
         ),
-        kH24sizedBox,
+        kH16sizedBox,
+        const CustomDivider(),
+        kH16sizedBox,
         Obx(() => CustomElevatedButton(
             label: ksPayNow.tr,
             buttonHeight: 42,
