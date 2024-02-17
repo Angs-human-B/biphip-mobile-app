@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MyQuiz extends StatelessWidget {
   MyQuiz({super.key});
@@ -79,7 +80,50 @@ class MyQuiz extends StatelessWidget {
                                     postReactionController.isWinnerSuffixVisible.value = false;
                                   }
                                 }),
-                          )
+                          ),
+                        if (postReactionController.quizTapButtonState[2])
+                          Padding(
+                            padding: const EdgeInsets.only(top: k8Padding),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      ksYouWon.tr,
+                                      style: semiBold18TextStyle(cBlackColor),
+                                    ),
+                                    CustomElevatedButton(
+                                      buttonWidth: 96,
+                                      buttonHeight: 28,
+                                      label: ksSelectDate.tr,
+                                      textStyle: regular14TextStyle(cSmallBodyTextColor),
+                                      onPressed: () {},
+                                      buttonColor: cWhiteColor,
+                                      borderColor: cLineColor,
+                                    ),
+                                  ],
+                                ),
+                                kH16sizedBox,
+                                QuizWinner(),
+                                kH16sizedBox,
+                                QuizWinner(),
+                                kH24sizedBox,
+                                Text(
+                                  ksOthersWinner.tr,
+                                  style: semiBold18TextStyle(cBlackColor),
+                                ),
+                                kH16sizedBox,
+                                QuizWinner(),
+                                kH16sizedBox,
+                                QuizWinner(),
+                                kH16sizedBox,
+                                QuizWinner(),
+                                kH16sizedBox,
+                              ],
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -130,7 +174,8 @@ class MyPlayedQuiz extends StatelessWidget {
                   image:
                       'https://images.unsplash.com/photo-1500076656116-558758c991c1?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                   title: 'How to play golf',
-                  noOfQuestions: '12 questions',
+                  correctAnswer: '5',
+                  totalQuestions: '12',
                   totalTime: 'Duration: 30 Sec',
                   actionText: 'Score: 10',
                   actionTextStyle: semiBold14TextStyle(cPrimaryColor),
@@ -179,16 +224,20 @@ class CommonDailyAndPlayedQuiz extends StatelessWidget {
     super.key,
     this.image,
     required this.title,
-    required this.noOfQuestions,
+    this.noOfQuestions,
     required this.totalTime,
     required this.actionText,
     required this.actionTextStyle,
     this.icon,
     this.imageList = const [],
+    this.correctAnswer,
+    this.totalQuestions,
   });
   final String? image;
   final String title;
-  final String noOfQuestions;
+  final String? noOfQuestions;
+  final String? correctAnswer;
+  final String? totalQuestions;
   final String totalTime;
   final String actionText;
   final TextStyle actionTextStyle;
@@ -235,12 +284,25 @@ class CommonDailyAndPlayedQuiz extends StatelessWidget {
                 style: semiBold16TextStyle(cBlackColor),
                 textAlign: TextAlign.left,
               ),
-              kH4sizedBox,
-              Text(
-                noOfQuestions,
-                style: regular12TextStyle(csmallBodyTextColor2),
-                textAlign: TextAlign.left,
-              ),
+              if (noOfQuestions != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: k4Padding),
+                  child: Text(
+                    noOfQuestions!,
+                    style: regular12TextStyle(csmallBodyTextColor2),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+              if (correctAnswer != null && totalQuestions != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: k4Padding),
+                  child: RichText(
+                      textAlign: TextAlign.left,
+                      text: TextSpan(children: [
+                        TextSpan(text: "${ksCorrectAnswer.tr}: ${correctAnswer}/", style: regular12TextStyle(cBlackColor)),
+                        TextSpan(text: "${totalQuestions}", style: regular12TextStyle(cSmallBodyTextColor)),
+                      ])),
+                ),
               kH4sizedBox,
               Text(
                 totalTime,
@@ -406,3 +468,151 @@ class CommonDailyAndPlayedQuiz extends StatelessWidget {
 //     );
 //   }
 // }
+
+class QuizWinner extends StatelessWidget {
+  const QuizWinner({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width - 40,
+      height: 130,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(k8BorderRadius),
+        border: Border.all(width: 1, color: cLineColor2),
+      ),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(k12Padding),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      height: 72,
+                      width: 56,
+                    ),
+                    Positioned(
+                      top: h16,
+                      child: Container(
+                        width: 56,
+                        height: 56,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            colors: [
+                              cYellowLinearColor1,
+                              cYellowLinearColor2,
+                            ],
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(k4Padding),
+                          child: ClipOval(
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: cWhiteColor,
+                              ),
+                              child: Image.network(
+                                'https://plus.unsplash.com/premium_photo-1670884441012-c5cf195c062a?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  BipHip.imageFile,
+                                  size: kIconSize40,
+                                  color: cIconColor,
+                                ),
+                                loadingBuilder: imageLoadingBuilder,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 2,
+                      right: h16,
+                      child: SvgPicture.asset(
+                        kiWinner,
+                        width: h24,
+                        height: h24,
+                      ),
+                    ),
+                  ],
+                ),
+                kH4sizedBox,
+                Stack(
+                  children: [
+                    Container(),
+                    SvgPicture.asset(
+                      kiPositionBadge,
+                      width: h24,
+                      height: h24,
+                    ),
+                    Positioned(
+                        top: 6,
+                        left: 6,
+                        child: Text(
+                          '10',
+                          style: semiBold10TextStyle(cWhiteColor),
+                        )),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: k24Padding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    // Text(
+                    //   "Aminul Islam Rana",
+                    //   style: semiBold14TextStyle(cBlackColor),
+                    // ),
+                    RichText(
+                        textAlign: TextAlign.left,
+                        text: TextSpan(children: [
+                          TextSpan(text: "Aminul Islam Rana", style: semiBold14TextStyle(cBlackColor)),
+                          TextSpan(text: ' won on', style: regular12TextStyle(cSmallBodyTextColor)),
+                        ])),
+                    kW4sizedBox,
+                    SvgPicture.asset(
+                      kiQuizWinner,
+                      height: h16,
+                      width: h16,
+                      color: cPrimaryColor,
+                    ),
+                    kW4sizedBox,
+                    Text(
+                      ksQuiz,
+                      style: semiBold12TextStyle(cPrimaryColor),
+                    ),
+                  ],
+                ),
+                kH12sizedBox,
+                Text("Mountain view gold quiz", style: semiBold14TextStyle(cBlackColor)),
+                kH4sizedBox,
+                RichText(
+                    textAlign: TextAlign.left,
+                    text: TextSpan(children: [
+                      TextSpan(text: "${ksCorrectAnswer.tr}: 7/", style: regular12TextStyle(cBlackColor)),
+                      TextSpan(text: '12', style: regular12TextStyle(cSmallBodyTextColor)),
+                    ])),
+                kH4sizedBox,
+                Text(
+                  "Completion Time: 05 mins 2 sec.",
+                  style: semiBold14TextStyle(cPrimaryColor),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

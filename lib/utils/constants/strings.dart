@@ -544,3 +544,6 @@ const String ksYourSelectedPackage = 'Your selected packages';
 const String ksYourCurrentStar = 'Your current star';
 const String ksPlayingDuration = 'Playing duration';
 const String ksQuestions = 'Questions';
+const String ksYouWon = 'You won';
+const String ksSelectDate = 'Select date';
+const String ksOthersWinner = 'Others winner';

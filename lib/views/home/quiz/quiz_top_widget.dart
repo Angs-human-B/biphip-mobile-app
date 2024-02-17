@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/quiz/quiz_page.dart';
+import 'package:intl/intl.dart';
 
 class QuizTopWidget extends StatelessWidget {
   QuizTopWidget({super.key});
@@ -149,8 +150,8 @@ class QuizFirstBottomSheetContent extends StatelessWidget {
               IconAndTextRow(
                 icon: BipHip.activity, //!Icon must change
                 title: postReactionController.questionList.isNotEmpty
-                    ? "${ksDuration.tr}: ${postReactionController.questionListData.value?.quiz?.startDate}-${postReactionController.questionListData.value?.quiz?.endDate}"
-                    : "${ksDuration.tr}: ${postReactionController.questionListData.value!.result!.quiz?.startDate.toString()}-${postReactionController.questionListData.value!.result!.quiz?.startDate.toString()}",
+                    ? "${ksDuration.tr}:  ${DateFormat('dd MMM, yyyy').format(postReactionController.questionListData.value?.quiz!.startDate ?? DateTime.now())} - ${DateFormat('dd MMM, yyyy').format(postReactionController.questionListData.value?.quiz!.endDate ?? DateTime.now())}"
+                    : "${ksDuration.tr}: ${DateFormat('dd MMM, yyyy').format(postReactionController.questionListData.value!.result!.quiz?.startDate ?? DateTime.now())} - ${DateFormat('dd MMM, yyyy').format(postReactionController.questionListData.value!.result!.quiz?.endDate ?? DateTime.now())}",
               ),
               kH16sizedBox,
               IconAndTextRow(

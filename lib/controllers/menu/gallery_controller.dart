@@ -114,6 +114,7 @@ class GalleryController extends GetxController {
         for (var album in albumData.value!.imageAlbums.data) {
           if (album.title!.toLowerCase() == 'profile picture' || album.title!.toLowerCase() == 'cover photo') {
             imageDataList.add(album);
+            ll(imageDataList.length);
           }
         }
 
