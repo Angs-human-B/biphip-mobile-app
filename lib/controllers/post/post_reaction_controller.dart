@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bip_hip/models/home/quiz/all_quiz_model.dart';
 import 'package:bip_hip/models/home/quiz/my_all_quizes_model.dart';
+import 'package:bip_hip/models/home/quiz/my_quiz_winner_model.dart';
 import 'package:bip_hip/models/home/quiz/submit_quiz_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/quiz/quiz_page.dart';
@@ -418,6 +419,98 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
+  //*Scroll controller for pagination
+  final ScrollController myQuizWinnerScrollController = ScrollController();
+  //* My All quizes Api call
+  final Rx<MyQuizWinnerModel?> myQuizWinnerListData = Rx<MyQuizWinnerModel?>(null);
+  final RxList<QuizWinnerData> myQuizWinnerList = RxList<QuizWinnerData>([]);
+  final RxBool myQuizWinnerLoading = RxBool(false);
+  final Rx<String?> myQuizWinnertListSubLink = Rx<String?>(null);
+  final RxBool myQuizWinnerListScrolled = RxBool(false);
+  Future<void> getmyQuizWinnerList() async {
+    try {
+      myQuizWinnerLoading.value = true;
+      String suffixUrl = '?take=5';
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuMyQuizWinner + suffixUrl,
+      ) as CommonDM;
+      if (response.success == true) {
+        myQuizWinnerList.clear();
+        myQuizWinnerListScrolled.value = false;
+        myQuizWinnerListData.value = MyQuizWinnerModel.fromJson(response.data);
+        myQuizWinnerList.addAll(myQuizWinnerListData.value!.myWinningQuizzes!.data);
+        myQuizWinnertListSubLink.value = myQuizWinnerListData.value!.myWinningQuizzes!.nextPageUrl;
+        if (myQuizWinnertListSubLink.value != null) {
+          myQuizWinnerListScrolled.value = false;
+        } else {
+          myQuizWinnerListScrolled.value = true;
+        }
+        myQuizWinnerLoading.value = false;
+      } else {
+        myQuizWinnerLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      myQuizWinnerLoading.value = true;
+      ll('getmyQuizWinnerList error: $e');
+    }
+  }
+
+  //*Get More Friend List for pagination
+  Future<void> getMoreMyQuizWinnerList(take) async {
+    try {
+      String? token = await spController.getBearerToken();
+      dynamic myQuizWinnerSub;
+
+      if (myQuizWinnertListSubLink.value == null) {
+        return;
+      } else {
+        myQuizWinnerSub = myQuizWinnertListSubLink.value!.split('?');
+      }
+
+      String myQuizWinnerListSuffixUrl = '';
+
+      myQuizWinnerListSuffixUrl = '?${myQuizWinnerSub[1]}&take=5';
+
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuMyQuizWinner + myQuizWinnerListSuffixUrl,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        myQuizWinnerListData.value = MyQuizWinnerModel.fromJson(response.data);
+        myQuizWinnerList.addAll(myQuizWinnerListData.value!.myWinningQuizzes!.data);
+        myQuizWinnertListSubLink.value = myQuizWinnerListData.value!.myWinningQuizzes!.nextPageUrl;
+        if (myQuizWinnertListSubLink.value != null) {
+          myQuizWinnerListScrolled.value = false;
+        } else {
+          myQuizWinnerListScrolled.value = true;
+        }
+        myQuizWinnerLoading.value = false;
+      } else {
+        myQuizWinnerLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      myQuizWinnerLoading.value = true;
+      ll('getMoreMyQuizWinnerList error: $e');
+    }
+  }
+
   //*Submit quiz
   final RxString rightAnswer = RxString('');
   final RxString wrongAnswer = RxString('');
@@ -472,11 +565,12 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   void playedQuizTapableButtonOnPressed() async {
     quizToggleType(1);
-    getPlayedQuizesList();
+    await getPlayedQuizesList();
   }
 
   void winnerQuizTapableButtonOnPressed() async {
     quizToggleType(2);
+    await getmyQuizWinnerList();
   }
 
   void quizToggleType(int index) {

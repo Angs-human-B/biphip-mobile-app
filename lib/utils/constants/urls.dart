@@ -151,6 +151,7 @@ const String kuUpdateKid = '/mobile/user/update-kid';
 const String kuGetAllQuiz = '/mobile/user/get-quiz-for-today';
 const String kuSubmitAnswer = '/mobile/user/submit-quiz';
 const String kuMyAllQuizes = '/mobile/user/get-my-quiz-all';
+const String kuMyQuizWinner = '/mobile/user/get-my-quiz-winning';
 
 /*
 |--------------------------------------------------------------------------

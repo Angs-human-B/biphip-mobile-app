@@ -115,49 +115,82 @@ class MyQuiz extends StatelessWidget {
                         ),
                       if (postReactionController.quizTapButtonState[2]) kH16sizedBox,
                       if (postReactionController.quizTapButtonState[2])
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  separatorBuilder: (context, index) => kH16sizedBox,
-                                  itemCount: 2,
-                                  itemBuilder: (context, index) {
-                                    return QuizWinner();
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      if (postReactionController.quizTapButtonState[2])
-                        Padding(
-                          padding: const EdgeInsets.only(top: k20Padding, bottom: k16Padding),
-                          child: Text(
-                            ksOthersWinner.tr,
-                            style: semiBold18TextStyle(cBlackColor),
-                          ),
-                        ),
-                      if (postReactionController.quizTapButtonState[2])
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  separatorBuilder: (context, index) => kH16sizedBox,
-                                  itemCount: 5,
-                                  itemBuilder: (context, index) {
-                                    return QuizWinner();
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        postReactionController.myQuizWinnerLoading.value
+                            ? const QuizWinnerShimmer()
+                            : postReactionController.myQuizWinnerList.isNotEmpty
+                                ? NotificationListener<ScrollNotification>(
+                                    onNotification: (scrollNotification) {
+                                      if (postReactionController.myQuizWinnerScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                                          scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
+                                          !postReactionController.myQuizWinnerListScrolled.value) {
+                                        postReactionController.myQuizWinnerListScrolled.value = true;
+                                        if (postReactionController.myQuizWinnerList.isNotEmpty) {
+                                          postReactionController.getMoreMyQuizWinnerList(null);
+                                        }
+                                        return true;
+                                      }
+                                      return false;
+                                    },
+                                    child: Expanded(
+                                      child: SingleChildScrollView(
+                                        controller: postReactionController.myQuizWinnerScrollController,
+                                        child: Column(
+                                          children: [
+                                            ListView.separated(
+                                              shrinkWrap: true,
+                                              physics: const NeverScrollableScrollPhysics(),
+                                              separatorBuilder: (context, index) => kH16sizedBox,
+                                              itemCount: postReactionController.myQuizWinnerList.length,
+                                              itemBuilder: (context, index) {
+                                                return QuizWinner(
+                                                  image: postReactionController.myQuizWinnerList[index].user?.profilePicture,
+                                                  name: postReactionController.myQuizWinnerList[index].user?.fullName,
+                                                  quizTitle: postReactionController.myQuizWinnerList[index].quiz?.title,
+                                                  ranking: postReactionController.myQuizWinnerList[index].obtainedMarks.toString(),
+                                                  correctAnswer: postReactionController.myQuizWinnerList[index].countRightAnswer.toString(),
+                                                  totalQuestions: postReactionController.myQuizWinnerList[index].totalMarks.toString(),
+                                                  totalTime:
+                                                      double.parse(postReactionController.myQuizWinnerList[index].elapsedTime.toString()).toStringAsFixed(0),
+                                                );
+                                              },
+                                            ),
+                                            if (postReactionController.myQuizWinnerList.isNotEmpty)
+                                              if (postReactionController.myQuizWinnerList.isNotEmpty &&
+                                                  postReactionController.myQuizWinnerListScrolled.value &&
+                                                  postReactionController.myQuizWinnertListSubLink.value != null)
+                                                const Center(child: CircularProgressIndicator()),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Expanded(child: EmptyView(title: ksYouHaveNotWonAnyQuiz.tr)),
+                      // if (postReactionController.quizTapButtonState[2])
+                      //   Padding(
+                      //     padding: const EdgeInsets.only(top: k20Padding, bottom: k16Padding),
+                      //     child: Text(
+                      //       ksOthersWinner.tr,
+                      //       style: semiBold18TextStyle(cBlackColor),
+                      //     ),
+                      //   ),
+                      // if (postReactionController.quizTapButtonState[2])
+                      //   Expanded(
+                      //     child: SingleChildScrollView(
+                      //       child: Column(
+                      //         children: [
+                      //           ListView.separated(
+                      //             shrinkWrap: true,
+                      //             physics: const NeverScrollableScrollPhysics(),
+                      //             separatorBuilder: (context, index) => kH16sizedBox,
+                      //             itemCount: 5,
+                      //             itemBuilder: (context, index) {
+                      //               return QuizWinner();
+                      //             },
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
                     ],
                   ),
                 )),
@@ -199,7 +232,7 @@ class MyPlayedQuiz extends StatelessWidget {
                         children: [
                           ListView.separated(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: postReactionController.myAllPlayedQuizList.length,
                             separatorBuilder: (context, index) => kH16sizedBox,
                             itemBuilder: (BuildContext context, int index) {
@@ -210,7 +243,8 @@ class MyPlayedQuiz extends StatelessWidget {
                                     : (postReactionController.myAllPlayedQuizList[index].quiz!.title).toString(),
                                 correctAnswer: "${postReactionController.myAllPlayedQuizList[index].countRightAnswer}/",
                                 totalQuestions: "${postReactionController.myAllPlayedQuizList[index].totalMarks}",
-                                totalTime: "Taken Time: ${postReactionController.myAllPlayedQuizList[index].elapsedTime}",
+                                totalTime:
+                                    "Taken Time: ${double.parse(postReactionController.myAllPlayedQuizList[index].elapsedTime.toString()).toStringAsFixed(0)}",
                                 actionText: "Score: ${postReactionController.myAllPlayedQuizList[index].obtainedMarks}",
                                 actionTextStyle:
                                     semiBold14TextStyle(postReactionController.myAllPlayedQuizList[index].obtainedMarks == 0 ? cRedColor : cPrimaryColor),
@@ -532,7 +566,14 @@ class PlayedQuizShimmer extends StatelessWidget {
 }
 
 class QuizWinner extends StatelessWidget {
-  const QuizWinner({super.key});
+  const QuizWinner({super.key, this.image, this.ranking, this.name, this.quizTitle, this.correctAnswer, this.totalQuestions, this.totalTime});
+  final String? image;
+  final String? ranking;
+  final String? name;
+  final String? quizTitle;
+  final String? correctAnswer;
+  final String? totalQuestions;
+  final String? totalTime;
 
   @override
   Widget build(BuildContext context) {
@@ -556,43 +597,44 @@ class QuizWinner extends StatelessWidget {
                       height: 72,
                       width: 56,
                     ),
-                    Positioned(
-                      top: h16,
-                      child: Container(
-                        width: 56,
-                        height: 56,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                            colors: [
-                              cYellowLinearColor1,
-                              cYellowLinearColor2,
-                            ],
+                    if (image != null)
+                      Positioned(
+                        top: h16,
+                        child: Container(
+                          width: 56,
+                          height: 56,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: LinearGradient(
+                              colors: [
+                                cYellowLinearColor1,
+                                cYellowLinearColor2,
+                              ],
+                            ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(k4Padding),
-                          child: ClipOval(
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: cWhiteColor,
-                              ),
-                              child: Image.network(
-                                'https://plus.unsplash.com/premium_photo-1670884441012-c5cf195c062a?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => const Icon(
-                                  BipHip.imageFile,
-                                  size: kIconSize40,
-                                  color: cIconColor,
+                          child: Padding(
+                            padding: const EdgeInsets.all(k4Padding),
+                            child: ClipOval(
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: cWhiteColor,
                                 ),
-                                loadingBuilder: imageLoadingBuilder,
+                                child: Image.network(
+                                  image!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => const Icon(
+                                    BipHip.imageFile,
+                                    size: kIconSize40,
+                                    color: cIconColor,
+                                  ),
+                                  loadingBuilder: imageLoadingBuilder,
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
                     Positioned(
                       top: 2,
                       right: h16,
@@ -615,9 +657,9 @@ class QuizWinner extends StatelessWidget {
                     ),
                     Positioned(
                         top: 6,
-                        left: 6,
+                        left: h8,
                         child: Text(
-                          '10',
+                          ranking ?? '0',
                           style: semiBold10TextStyle(cWhiteColor),
                         )),
                   ],
@@ -625,55 +667,217 @@ class QuizWinner extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: k24Padding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    // Text(
-                    //   "Aminul Islam Rana",
-                    //   style: semiBold14TextStyle(cBlackColor),
-                    // ),
-                    RichText(
-                        textAlign: TextAlign.left,
-                        text: TextSpan(children: [
-                          TextSpan(text: "Aminul Islam Rana", style: semiBold14TextStyle(cBlackColor)),
-                          TextSpan(text: ' won on', style: regular12TextStyle(cSmallBodyTextColor)),
-                        ])),
-                    kW4sizedBox,
-                    SvgPicture.asset(
-                      kiQuizWinner,
-                      height: h16,
-                      width: h16,
-                      color: cPrimaryColor,
-                    ),
-                    kW4sizedBox,
-                    Text(
-                      ksQuiz,
-                      style: semiBold12TextStyle(cPrimaryColor),
-                    ),
-                  ],
-                ),
-                kH12sizedBox,
-                Text("Mountain view gold quiz", style: semiBold14TextStyle(cBlackColor)),
-                kH4sizedBox,
-                RichText(
-                    textAlign: TextAlign.left,
-                    text: TextSpan(children: [
-                      TextSpan(text: "${ksCorrectAnswer.tr}: 7/", style: regular12TextStyle(cBlackColor)),
-                      TextSpan(text: '12', style: regular12TextStyle(cSmallBodyTextColor)),
-                    ])),
-                kH4sizedBox,
-                Text(
-                  "Completion Time: 05 mins 2 sec.",
-                  style: semiBold14TextStyle(cPrimaryColor),
-                ),
-              ],
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: k24Padding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      RichText(
+                          textAlign: TextAlign.left,
+                          text: TextSpan(children: [
+                            TextSpan(text: name ?? ksNA, style: semiBold14TextStyle(cBlackColor)),
+                            TextSpan(text: " ${ksWonOn.tr}", style: regular12TextStyle(cSmallBodyTextColor)),
+                          ])),
+                      kW4sizedBox,
+                      SvgPicture.asset(
+                        kiQuizWinner,
+                        height: h16,
+                        width: h16,
+                        color: cPrimaryColor,
+                      ),
+                      kW4sizedBox,
+                      Text(
+                        ksQuiz,
+                        style: semiBold12TextStyle(cPrimaryColor),
+                      ),
+                    ],
+                  ),
+                  kH12sizedBox,
+                  // fit: FlexFit.loose,
+                  Text(
+                    quizTitle!,
+                    style: semiBold14TextStyle(cBlackColor),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  kH4sizedBox,
+                  RichText(
+                      textAlign: TextAlign.left,
+                      text: TextSpan(children: [
+                        TextSpan(text: "${ksCorrectAnswer.tr}: $correctAnswer!/", style: regular12TextStyle(cBlackColor)),
+                        TextSpan(text: totalQuestions!, style: regular12TextStyle(cSmallBodyTextColor)),
+                      ])),
+                  kH4sizedBox,
+                  Text(
+                    "Completion Time: $totalTime",
+                    style: semiBold14TextStyle(cPrimaryColor),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class QuizWinnerShimmer extends StatelessWidget {
+  const QuizWinnerShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 10,
+              separatorBuilder: (context, index) => kH16sizedBox,
+              itemBuilder: (context, index) {
+                return Container(
+                  width: width - 40,
+                  height: 130,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(k8BorderRadius),
+                    border: Border.all(width: 1, color: cLineColor),
+                  ),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(k12Padding),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Stack(
+                              children: [
+                                const SizedBox(
+                                  height: 72,
+                                  width: 56,
+                                ),
+                                Positioned(
+                                  top: h16,
+                                  child: Container(
+                                    width: 56,
+                                    height: 56,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(k4Padding),
+                                      child: ClipOval(
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: cWhiteColor,
+                                          ),
+                                          child: ShimmerCommon(
+                                            widget: Container(
+                                                height: 56,
+                                                width: 56,
+                                                decoration: BoxDecoration(
+                                                  color: cWhiteColor,
+                                                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                                                )),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 2,
+                                  right: h16,
+                                  child: ShimmerCommon(
+                                    widget: Container(
+                                        height: h24,
+                                        width: h24,
+                                        decoration: BoxDecoration(
+                                          color: cWhiteColor,
+                                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                                        )),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            kH4sizedBox,
+                            ShimmerCommon(
+                              widget: Container(
+                                  height: h24,
+                                  width: h24,
+                                  decoration: const BoxDecoration(
+                                    color: cWhiteColor,
+                                    shape: BoxShape.circle,
+                                  )),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          kH12sizedBox,
+                          ShimmerCommon(
+                            widget: Container(
+                                height: h14,
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  color: cWhiteColor,
+                                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                                )),
+                          ),
+                          kH4sizedBox,
+                          ShimmerCommon(
+                            widget: Container(
+                                height: h14,
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  color: cWhiteColor,
+                                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                                )),
+                          ),
+                          kH4sizedBox,
+                          ShimmerCommon(
+                            widget: Container(
+                                height: h14,
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  color: cWhiteColor,
+                                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                                )),
+                          ),
+                          kH8sizedBox,
+                          SizedBox(
+                            width: width - (40 + 120),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                ShimmerCommon(
+                                  widget: Container(
+                                      height: h14,
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                        color: cWhiteColor,
+                                        borderRadius: BorderRadius.circular(k8BorderRadius),
+                                      )),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
