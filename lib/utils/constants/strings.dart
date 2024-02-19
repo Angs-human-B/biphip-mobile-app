@@ -547,3 +547,4 @@ const String ksQuestions = 'Questions';
 const String ksYouWon = 'You won';
 const String ksSelectDate = 'Select date';
 const String ksOthersWinner = 'Others winner';
+const String ksNoPlayedQuizYet = 'No played quiz yet';

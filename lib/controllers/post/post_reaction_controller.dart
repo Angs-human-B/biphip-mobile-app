@@ -326,26 +326,38 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
-  //* All quiz data
-  final Rx<MyAllQuizesModel?> myAllQuizesListData = Rx<MyAllQuizesModel?>(null);
-  final RxList<QuizData> myAllQuizesList = RxList<QuizData>([]);
-  final RxBool isMyQuizesLoading = RxBool(false);
-  Future<void> geQuizesList() async {
+  //*Scroll controller for pagination
+  final ScrollController myAllPlayedQuizScrollController = ScrollController();
+  //* My All quizes Api call
+  final Rx<MyAllQuizesModel?> myAllPlayedQuizListData = Rx<MyAllQuizesModel?>(null);
+  final RxList<QuizData> myAllPlayedQuizList = RxList<QuizData>([]);
+  final RxBool isMyAllPlayedQuizLoading = RxBool(false);
+  final Rx<String?> myAllPlayedQuizListSubLink = Rx<String?>(null);
+  final RxBool myAllPlayedQuizListScrolled = RxBool(false);
+  Future<void> getPlayedQuizesList() async {
     try {
-      isMyQuizesLoading.value = true;
+      isMyAllPlayedQuizLoading.value = true;
+      String suffixUrl = '?take=15';
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: kuMyAllQuizes,
+        url: kuMyAllQuizes + suffixUrl,
       ) as CommonDM;
       if (response.success == true) {
-        myAllQuizesList.clear();
-        myAllQuizesListData.value = MyAllQuizesModel.fromJson(response.data);
-        myAllQuizesList.addAll(myAllQuizesListData.value!.myQuizzes!.data);
-        isQuestionLoading.value = false;
+        myAllPlayedQuizList.clear();
+        myAllPlayedQuizListScrolled.value = false;
+        myAllPlayedQuizListData.value = MyAllQuizesModel.fromJson(response.data);
+        myAllPlayedQuizList.addAll(myAllPlayedQuizListData.value!.myQuizzes!.data);
+        myAllPlayedQuizListSubLink.value = myAllPlayedQuizListData.value!.myQuizzes!.nextPageUrl;
+        if (myAllPlayedQuizListSubLink.value != null) {
+          myAllPlayedQuizListScrolled.value = false;
+        } else {
+          myAllPlayedQuizListScrolled.value = true;
+        }
+        isMyAllPlayedQuizLoading.value = false;
       } else {
-        isQuestionLoading.value = true;
+        isMyAllPlayedQuizLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -354,8 +366,55 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         }
       }
     } catch (e) {
-      isQuestionLoading.value = true;
+      isMyAllPlayedQuizLoading.value = true;
       ll('geQuizesList error: $e');
+    }
+  }
+
+  //*Get More Friend List for pagination
+  Future<void> getMorePlayedQuizList(take) async {
+    try {
+      String? token = await spController.getBearerToken();
+      dynamic playedQuizSub;
+
+      if (myAllPlayedQuizListSubLink.value == null) {
+        return;
+      } else {
+        playedQuizSub = myAllPlayedQuizListSubLink.value!.split('?');
+      }
+
+      String playedQuizListSuffixUrl = '';
+
+      playedQuizListSuffixUrl = '?${playedQuizSub[1]}&take=15';
+
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuMyAllQuizes + playedQuizListSuffixUrl,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        myAllPlayedQuizListData.value = MyAllQuizesModel.fromJson(response.data);
+        myAllPlayedQuizList.addAll(myAllPlayedQuizListData.value!.myQuizzes!.data);
+        myAllPlayedQuizListSubLink.value = myAllPlayedQuizListData.value!.myQuizzes!.nextPageUrl;
+        if (myAllPlayedQuizListSubLink.value != null) {
+          myAllPlayedQuizListScrolled.value = false;
+        } else {
+          myAllPlayedQuizListScrolled.value = true;
+        }
+        isMyAllPlayedQuizLoading.value = false;
+      } else {
+        isMyAllPlayedQuizLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isMyAllPlayedQuizLoading.value = true;
+      ll('getMorePlayedQuizList error: $e');
     }
   }
 
@@ -413,6 +472,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   void playedQuizTapableButtonOnPressed() async {
     quizToggleType(1);
+    getPlayedQuizesList();
   }
 
   void winnerQuizTapableButtonOnPressed() async {
@@ -437,6 +497,11 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         quizTapButtonState[2] = true;
         break;
     }
+  }
+
+  void resetQuizTapButtonData() {
+    quizTapButtonState.clear();
+    quizTapButtonState.addAll([true, false, false]);
   }
 
   final TextEditingController quizWinnerTextEditingController = TextEditingController();
