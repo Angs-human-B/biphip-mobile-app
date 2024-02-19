@@ -206,3 +206,4 @@ const String kiGallery = 'assets/svg/gallery.svg';
 const String kiLocation = 'assets/svg/location.svg';
 const String kiTime = 'assets/svg/time.svg';
 const String kiTagFriend = 'assets/svg/tag_friend.svg';
+const String kiPendentSvgImageUrl = 'assets/svg/pendent.svg';

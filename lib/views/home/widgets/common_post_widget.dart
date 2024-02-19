@@ -1334,6 +1334,7 @@ class GiftContent extends StatelessWidget {
               },
             ),
           ),
+         
           kH20sizedBox,
           CustomElevatedButton(
               label: ksGetStars.tr,
