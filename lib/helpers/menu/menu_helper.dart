@@ -43,7 +43,7 @@ class MenuHelper {
         break;
       case 4:
         ll('Stars');
-        // Get.to(() => PlatformAndAction());
+        Get.toNamed(krPendentPage);
         break;
       case 5:
         ll('Badges');

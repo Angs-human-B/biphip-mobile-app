@@ -12,6 +12,7 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/menu/pendent/pendent_page.dart';
 import 'package:bip_hip/views/menu/photos/create_album.dart';
 import 'package:bip_hip/views/menu/photos/create_album_location.dart';
 import 'package:bip_hip/views/menu/photos/create_album_upload_image_list.dart';
@@ -128,6 +129,8 @@ const String krAddStoreContactInfo = '/add-store-contact-info';
 const String krAddStoreSocialLinks = '/add-store-social-links';
 const String krAddStoreDocuments = '/add-store-documents';
 const String krAddStoreUploadImage = '/add-store-upload-image';
+//*Pendent
+const String krPendentPage = '/pendent-page';
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -203,4 +206,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krAddStoreSocialLinks, page: () => AddStoreSocialLinks(), transition: Transition.noTransition),
   GetPage(name: krAddStoreDocuments, page: () => AddStoreDocuments(), transition: Transition.noTransition),
   GetPage(name: krAddStoreUploadImage, page: () => AddStoreUploadImage(), transition: Transition.noTransition),
+  //*Pendent
+  GetPage(name: krPendentPage, page: () => PendentPage(), transition: Transition.noTransition),
 ];
