@@ -5,7 +5,7 @@ class PendentBadgesController extends GetxController {
   final RxString currentPendentCost = RxString("10");
   final RxInt selectedPendentIndex = RxInt(-1);
   final RxInt selectedBadgeIndex = RxInt(-1);
-
+  final RxInt currentStar = RxInt(71);
   List recommendedpendentPackages = [
     {'pendent': kiPendentSvgImageUrl, 'packageName': 'CROWN', 'cost': '100'},
     {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCE', 'cost': '50'},
@@ -48,17 +48,145 @@ class PendentBadgesController extends GetxController {
     {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROSE', 'cost': '10'},
   ];
 
-// List giftPackages = [
-//    {'badge': kiBadgeSvgImageUrl, 'packageName': 'GOLD', 'amount': '200', 'cost': '10.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'PLATINUM', 'amount': '250', 'cost': '12.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'DIAMOND', 'amount': '300', 'cost': '15.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'EMERALD', 'amount': '350', 'cost': '18.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'RUBY', 'amount': '400', 'cost': '20.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'RADIANT', 'amount': '450', 'cost': '22.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'ACE', 'amount': '500', 'cost': '25.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'CROWN', 'amount': '550', 'cost': '28.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'CELESTIAL', 'amount': '600', 'cost': '30.00'},
-// ];
+  List recommendedGiftPackages = [
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'CROWN',
+      'amount': '200',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'PLATINUM',
+      'amount': '250',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'CROWN',
+      'amount': '300',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'EMERALD',
+      'amount': '350',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'RUBY',
+      'amount': '400',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'RADIANT',
+      'amount': '450',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'ACE',
+      'amount': '500',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'CROWN',
+      'amount': '550',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'CELESTIAL',
+      'amount': '600',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'CROWN',
+      'amount': '550',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'CELESTIAL',
+      'amount': '600',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'CROWN',
+      'amount': '550',
+    },
+  ];
+  List allGiftPackages = [
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'GOLD',
+      'amount': '200',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'PLATINUM',
+      'amount': '250',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'DIAMOND',
+      'amount': '300',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'EMERALD',
+      'amount': '350',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'RUBY',
+      'amount': '400',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'RADIANT',
+      'amount': '450',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'ACE',
+      'amount': '500',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'CROWN',
+      'amount': '550',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'CELESTIAL',
+      'amount': '600',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'EMERALD',
+      'amount': '350',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'RUBY',
+      'amount': '400',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'RADIANT',
+      'amount': '450',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'ACE',
+      'amount': '500',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'CROWN',
+      'amount': '550',
+    },
+    {
+      'badge': kiBadgeSvgImageUrl,
+      'packageName': 'CELESTIAL',
+      'amount': '600',
+    },
+  ];
 
   final RxBool pendentCheckBox = RxBool(false);
   final RxBool paymentCheckBox = RxBool(false);
@@ -76,7 +204,7 @@ class PendentBadgesController extends GetxController {
     selectedPendentIndex.value = -1;
     pendentCheckBox.value = false;
     paymentCheckBox.value = false;
-    currentPendent.value='Crown';
-    currentPendentCost.value='10';
+    currentPendent.value = 'Crown';
+    currentPendentCost.value = '10';
   }
 }

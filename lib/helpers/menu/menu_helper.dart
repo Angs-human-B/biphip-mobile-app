@@ -43,12 +43,13 @@ class MenuHelper {
         Get.toNamed(krGalleryVideos); //*new changes for gallery Videos
         break;
       case 4:
-        ll('Stars');
-        Get.find<PendentBadgesController>().resetPendentData();
-        Get.toNamed(krPendentPage);
+        ll('Badges');
+        Get.toNamed(krBadgesStarPage);
         break;
       case 5:
-        ll('Badges');
+        ll('Pendent');
+         Get.find<PendentBadgesController>().resetPendentData();
+         Get.toNamed(krPendentPage);
         break;
       case 6:
         ll('Earnings');

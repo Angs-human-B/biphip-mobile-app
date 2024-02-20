@@ -535,3 +535,7 @@ const String ksYouCanSendStarsFromYourBalanceAtAnyTime = "You can send stars fro
 const String ksIAgreeWithThe = "I agree with the";
 const String ksBuyPendent = "Buy pendent";
 const String ksAllPendent = "All pendent";
+const String ksBadges = "Badges";
+const String ksCustomStars = "Custom stars";
+const String ksNoActiveStar = "No active star";
+const String ksSeeAllBadges = "See all badges";
