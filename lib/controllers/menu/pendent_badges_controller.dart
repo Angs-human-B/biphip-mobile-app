@@ -78,5 +78,8 @@ class PendentBadgesController extends GetxController {
     paymentCheckBox.value = false;
     currentPendent.value='Crown';
     currentPendentCost.value='10';
+    cardNumberTextEditingController.clear();
+    mmYYTextEditingController.clear();
+    cvvTextEditingController.clear();
   }
 }
