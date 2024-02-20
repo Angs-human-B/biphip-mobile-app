@@ -534,3 +534,4 @@ const String ksBenifits = "Benifits";
 const String ksYouCanSendStarsFromYourBalanceAtAnyTime = "You can send stars from your balance at any time.";
 const String ksIAgreeWithThe = "I agree with the";
 const String ksBuyPendent = "Buy pendent";
+const String ksAllPendent = "All pendent";

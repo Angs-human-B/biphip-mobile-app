@@ -2,23 +2,51 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class PendentBadgesController extends GetxController {
   final RxString currentPendent = RxString("Crown");
-    final RxInt selectedPendentIndex = RxInt(-1);
-    final RxInt selectedBadgeIndex = RxInt(-1);
+  final RxString currentPendentCost = RxString("10");
+  final RxInt selectedPendentIndex = RxInt(-1);
+  final RxInt selectedBadgeIndex = RxInt(-1);
 
-  List pendentPackages = [
-  {'pendent': kiPendentSvgImageUrl, 'packageName': 'CROWN', 'cost': '100'},
-  {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCE', 'cost': '50'},
-  {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCSS', 'cost': '50'},
-  {'pendent': kiPendentSvgImageUrl, 'packageName': 'DAME', 'cost': '25'},
-  {'pendent': kiPendentSvgImageUrl, 'packageName': 'HERO', 'cost': '25'},
-  {'pendent': kiPendentSvgImageUrl, 'packageName': 'NOVEL', 'cost': '20'},
-  {'pendent': kiPendentSvgImageUrl, 'packageName': 'DIAMOND', 'cost': '15'},
-  {'pendent': kiPendentSvgImageUrl, 'packageName': 'GOLD', 'cost': '10'},
-  {'pendent': kiPendentSvgImageUrl, 'packageName': 'LUCKY', 'cost': '10'},
-  {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROCK', 'cost': '10'},
-  {'pendent': kiPendentSvgImageUrl, 'packageName': 'LOVE', 'cost': '10'},
-  {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROSE', 'cost': '10'},
-];
+  List recommendedpendentPackages = [
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'CROWN', 'cost': '100'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCE', 'cost': '50'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCSS', 'cost': '50'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'DAME', 'cost': '25'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'HERO', 'cost': '25'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'NOVEL', 'cost': '20'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'DIAMOND', 'cost': '15'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'GOLD', 'cost': '10'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'LUCKY', 'cost': '10'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROCK', 'cost': '10'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'LOVE', 'cost': '10'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROSE', 'cost': '10'},
+  ];
+
+  List allPendentPackages = [
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'CROWN', 'cost': '100'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCE', 'cost': '50'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCSS', 'cost': '50'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'DAME', 'cost': '25'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'HERO', 'cost': '25'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'NOVEL', 'cost': '20'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'DIAMOND', 'cost': '15'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'GOLD', 'cost': '10'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'LUCKY', 'cost': '10'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROCK', 'cost': '10'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'LOVE', 'cost': '10'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROSE', 'cost': '10'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'CROWN', 'cost': '100'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCE', 'cost': '50'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCSS', 'cost': '50'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'DAME', 'cost': '25'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'HERO', 'cost': '25'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'NOVEL', 'cost': '20'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'DIAMOND', 'cost': '15'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'GOLD', 'cost': '10'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'LUCKY', 'cost': '10'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROCK', 'cost': '10'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'LOVE', 'cost': '10'},
+    {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROSE', 'cost': '10'},
+  ];
 
 // List giftPackages = [
 //    {'badge': kiBadgeSvgImageUrl, 'packageName': 'GOLD', 'amount': '200', 'cost': '10.00'},
@@ -32,15 +60,23 @@ class PendentBadgesController extends GetxController {
 //   {'badge': kiBadgeSvgImageUrl, 'packageName': 'CELESTIAL', 'amount': '600', 'cost': '30.00'},
 // ];
 
+  final RxBool pendentCheckBox = RxBool(false);
+  final RxBool paymentCheckBox = RxBool(false);
+  final TextEditingController cardNumberTextEditingController = TextEditingController();
+  final TextEditingController mmYYTextEditingController = TextEditingController();
+  final TextEditingController cvvTextEditingController = TextEditingController();
 
- final RxBool pendentCheckBox = RxBool(false);
- final RxBool paymentCheckBox = RxBool(false);
- final TextEditingController cardNumberTextEditingController = TextEditingController();
- final TextEditingController mmYYTextEditingController = TextEditingController();
- final TextEditingController cvvTextEditingController = TextEditingController();
+  final benefitsList = [
+    "Pendent that you purchase here are kept in your balance",
+    "You can send stars from your balance at any time",
+    "Pendent that you purchase here are kept in your balance"
+  ];
 
-void resetPendentData(){
-  selectedPendentIndex.value=-1;
-  pendentCheckBox.value = false;
-}
+  void resetPendentData() {
+    selectedPendentIndex.value = -1;
+    pendentCheckBox.value = false;
+    paymentCheckBox.value = false;
+    currentPendent.value='Crown';
+    currentPendentCost.value='10';
+  }
 }
