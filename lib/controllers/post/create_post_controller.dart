@@ -493,6 +493,7 @@ class CreatePostController extends GetxController {
           await Get.find<HomeController>().getPostList();
         }
         isCreatePostLoading.value = false;
+        Get.find<HomeController>().homeTabIndex.value=0;
         Get.offAllNamed(krHome);
         resetCreatePost();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);

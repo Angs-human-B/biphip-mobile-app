@@ -31,6 +31,7 @@ class SplashScreenController extends GetxController {
       () async {
         if (rememberStatus) {
           await Get.find<GlobalController>().getUserInfo();
+          Get.find<HomeController>().homeTabIndex.value=0;
           Get.offAllNamed(krHome);
           await Get.find<HomeController>().getPostList();
         } else {

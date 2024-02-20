@@ -1067,6 +1067,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           Get.back();
           isImageUploadPageLoading.value = false;
         } else {
+          Get.find<HomeController>().homeTabIndex.value=0;
           Get.offAllNamed(krHome);
           await Get.find<HomeController>().getPostList();
         }
