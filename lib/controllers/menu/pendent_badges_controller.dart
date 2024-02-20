@@ -48,7 +48,7 @@ class PendentBadgesController extends GetxController {
     {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROSE', 'cost': '10'},
   ];
 
-  List recommendedGiftPackages = [
+  List recommendedBadgesPackages = [
     {
       'badge': kiBadgeSvgImageUrl,
       'packageName': 'CROWN',
@@ -110,7 +110,7 @@ class PendentBadgesController extends GetxController {
       'amount': '550',
     },
   ];
-  List allGiftPackages = [
+  List allBadgesPackages = [
     {
       'badge': kiBadgeSvgImageUrl,
       'packageName': 'GOLD',
@@ -199,6 +199,30 @@ class PendentBadgesController extends GetxController {
     "You can send stars from your balance at any time",
     "Pendent that you purchase here are kept in your balance"
   ];
+
+  final RxBool badgesCheckBox = RxBool(false);
+  final RxBool badgesPaymentCheckBox = RxBool(false);
+   final RxDouble perStarAmount = RxDouble(0.09);
+  final RxDouble temporarytotalStarBuyAmount = RxDouble(0);
+  final RxDouble totalStarBuyAmount = RxDouble(-1);
+  final RxString temporaryTotalStars = RxString('');
+  final RxString totalStars = RxString('');
+  final RxBool isStarAmountConfirmButtonEnabled =RxBool(false);
+  final TextEditingController starAmountTextEditingController = TextEditingController();
+    final Rx<Map?> selectedPackage = Rx<Map?>(null);
+    final RxString selectedPackageStarAmount = RxString('');
+    final RxString selectedPackageStarCost = RxString('');
+    // final RxString selectedPackageStarAmount = RxString('');
+  final RxBool isPackageSelected =RxBool(false);
+
+    void resetPurchaseCustomStar() {
+    isStarAmountConfirmButtonEnabled.value = false;
+    starAmountTextEditingController.clear();
+    temporarytotalStarBuyAmount.value = 0;
+    totalStarBuyAmount.value = 0;
+    temporaryTotalStars.value = '';
+    totalStars.value = '';
+  }
 
   void resetPendentData() {
     selectedPendentIndex.value = -1;

@@ -12,6 +12,7 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/menu/badges/all_badges.dart';
 import 'package:bip_hip/views/menu/badges/badges_star_page.dart';
 import 'package:bip_hip/views/menu/pendent/all_pendent.dart';
 import 'package:bip_hip/views/menu/pendent/pendent_page.dart';
@@ -136,6 +137,7 @@ const String krPendentPage = '/pendent-page';
 const String krAllPendent = '/all-pendent';
 //*Badges
 const String krBadgesStarPage = '/badges-star-page';
+const String krAllBadges = '/all-badges';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -217,4 +219,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krAllPendent, page: () => AllPendent(), transition: Transition.noTransition),
   //*Badges
   GetPage(name: krBadgesStarPage, page: () => BadgesStarPage(), transition: Transition.noTransition),
+  GetPage(name: krAllBadges, page: () => AllBadges(), transition: Transition.noTransition),
 ];

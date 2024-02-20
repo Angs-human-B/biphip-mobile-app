@@ -1585,6 +1585,7 @@ class PurchaseStarContent extends StatelessWidget {
                 ),
               ),
             ),
+        
           kH16sizedBox,
           const CustomDivider(),
           kH16sizedBox,
