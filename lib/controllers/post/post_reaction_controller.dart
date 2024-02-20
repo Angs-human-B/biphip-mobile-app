@@ -34,6 +34,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxDouble totalStarBuyAmount = RxDouble(-1);
   final RxString temporaryTotalStars = RxString('');
   final RxString totalStars = RxString('');
+  final String perPageTake = "take=15";
 
   @override
   void onInit() {
@@ -338,7 +339,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   Future<void> getPlayedQuizesList() async {
     try {
       isMyAllPlayedQuizLoading.value = true;
-      String suffixUrl = '?take=15';
+      String suffixUrl = '?$perPageTake';
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -372,7 +373,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
-  //*Get More Friend List for pagination
+  //*Get More Played Quiz for pagination
   Future<void> getMorePlayedQuizList(take) async {
     try {
       String? token = await spController.getBearerToken();
@@ -386,7 +387,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
       String playedQuizListSuffixUrl = '';
 
-      playedQuizListSuffixUrl = '?${playedQuizSub[1]}&take=15';
+      playedQuizListSuffixUrl = '?${playedQuizSub[1]}&$perPageTake';
 
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -421,7 +422,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   //*Scroll controller for pagination
   final ScrollController myQuizWinnerScrollController = ScrollController();
-  //* My All quizes Api call
+  //* My All winner quizes Api call
   final Rx<MyQuizWinnerModel?> myQuizWinnerListData = Rx<MyQuizWinnerModel?>(null);
   final RxList<QuizWinnerData> myQuizWinnerList = RxList<QuizWinnerData>([]);
   final RxBool myQuizWinnerLoading = RxBool(false);
@@ -430,7 +431,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   Future<void> getmyQuizWinnerList() async {
     try {
       myQuizWinnerLoading.value = true;
-      String suffixUrl = '?take=5';
+      String suffixUrl = '?$perPageTake';
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -464,7 +465,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
-  //*Get More Friend List for pagination
+  //*Get More Quiz Winner List for pagination
   Future<void> getMoreMyQuizWinnerList(take) async {
     try {
       String? token = await spController.getBearerToken();
@@ -478,7 +479,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
       String myQuizWinnerListSuffixUrl = '';
 
-      myQuizWinnerListSuffixUrl = '?${myQuizWinnerSub[1]}&take=5';
+      myQuizWinnerListSuffixUrl = '?${myQuizWinnerSub[1]}&$perPageTake';
 
       var response = await apiController.commonApiCall(
         requestMethod: kGet,

@@ -35,6 +35,7 @@ class MyQuiz extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      kH16sizedBox,
                       TapAbleButtonContainer(
                         buttonText: postReactionController.quizTapButtonText,
                         buttonState: postReactionController.quizTapButtonState,
@@ -102,8 +103,10 @@ class MyQuiz extends StatelessWidget {
                                 style: semiBold18TextStyle(cBlackColor),
                               ),
                               CustomElevatedButton(
-                                buttonWidth: 96,
-                                buttonHeight: 28,
+                                prefixIcon: BipHip.calendarFill,
+                                prefixIconColor: cIconColor,
+                                buttonWidth: 100,
+                                buttonHeight: h28,
                                 label: ksSelectDate.tr,
                                 textStyle: regular14TextStyle(cSmallBodyTextColor),
                                 onPressed: () {},
@@ -135,6 +138,7 @@ class MyQuiz extends StatelessWidget {
                                       child: SingleChildScrollView(
                                         controller: postReactionController.myQuizWinnerScrollController,
                                         child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             ListView.separated(
                                               shrinkWrap: true,
@@ -159,38 +163,37 @@ class MyQuiz extends StatelessWidget {
                                                   postReactionController.myQuizWinnerListScrolled.value &&
                                                   postReactionController.myQuizWinnertListSubLink.value != null)
                                                 const Center(child: CircularProgressIndicator()),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: k24Padding, bottom: k20Padding),
+                                              child: Text(
+                                                ksOthersWinner.tr,
+                                                style: semiBold18TextStyle(cBlackColor),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
                                     ),
                                   )
-                                : Expanded(child: EmptyView(title: ksYouHaveNotWonAnyQuiz.tr)),
-                      // if (postReactionController.quizTapButtonState[2])
-                      //   Padding(
-                      //     padding: const EdgeInsets.only(top: k20Padding, bottom: k16Padding),
-                      //     child: Text(
-                      //       ksOthersWinner.tr,
-                      //       style: semiBold18TextStyle(cBlackColor),
-                      //     ),
-                      //   ),
-                      // if (postReactionController.quizTapButtonState[2])
-                      //   Expanded(
-                      //     child: SingleChildScrollView(
-                      //       child: Column(
-                      //         children: [
-                      //           ListView.separated(
-                      //             shrinkWrap: true,
-                      //             physics: const NeverScrollableScrollPhysics(),
-                      //             separatorBuilder: (context, index) => kH16sizedBox,
-                      //             itemCount: 5,
-                      //             itemBuilder: (context, index) {
-                      //               return QuizWinner();
-                      //             },
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ),
+                                : Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: cLineColor, width: 1),
+                                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                                        ),
+                                        child: EmptyView(height: 130, title: ksYouHaveNotWonAnyQuiz.tr),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: k24Padding, bottom: k20Padding),
+                                        child: Text(
+                                          ksOthersWinner.tr,
+                                          style: semiBold18TextStyle(cBlackColor),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                     ],
                   ),
                 )),
@@ -706,7 +709,7 @@ class QuizWinner extends StatelessWidget {
                   RichText(
                       textAlign: TextAlign.left,
                       text: TextSpan(children: [
-                        TextSpan(text: "${ksCorrectAnswer.tr}: $correctAnswer!/", style: regular12TextStyle(cBlackColor)),
+                        TextSpan(text: "${ksCorrectAnswer.tr}: $correctAnswer/", style: regular12TextStyle(cBlackColor)),
                         TextSpan(text: totalQuestions!, style: regular12TextStyle(cSmallBodyTextColor)),
                       ])),
                   kH4sizedBox,
@@ -778,12 +781,13 @@ class QuizWinnerShimmer extends StatelessWidget {
                                           ),
                                           child: ShimmerCommon(
                                             widget: Container(
-                                                height: 56,
-                                                width: 56,
-                                                decoration: BoxDecoration(
-                                                  color: cWhiteColor,
-                                                  borderRadius: BorderRadius.circular(k8BorderRadius),
-                                                )),
+                                              height: 56,
+                                              width: 56,
+                                              decoration: BoxDecoration(
+                                                color: cWhiteColor,
+                                                borderRadius: BorderRadius.circular(k8BorderRadius),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -794,13 +798,12 @@ class QuizWinnerShimmer extends StatelessWidget {
                                   top: 2,
                                   right: h16,
                                   child: ShimmerCommon(
-                                    widget: Container(
-                                        height: h24,
-                                        width: h24,
-                                        decoration: BoxDecoration(
-                                          color: cWhiteColor,
-                                          borderRadius: BorderRadius.circular(k8BorderRadius),
-                                        )),
+                                    widget: SvgPicture.asset(
+                                      kiWinner,
+                                      width: h24,
+                                      height: h24,
+                                      color: cWhiteColor,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -821,7 +824,7 @@ class QuizWinnerShimmer extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          kH12sizedBox,
+                          kH20sizedBox,
                           ShimmerCommon(
                             widget: Container(
                                 height: h14,
