@@ -46,6 +46,7 @@ const Color cYellowLinearColor1 = Color(0xFFFDB805);
 const Color cYellowLinearColor2 = Color(0xFFFD5E05);
 const Color cBlueLinearColor1 = Color(0XFF59FCCB);
 const Color cBlueLinearColor2 = Color(0XFF158BF9);
+const Color csmallBodyTextColor2 = Color(0XFF6A6868);
 
 final Shader linearGradient = const LinearGradient(
   colors: <Color>[Color(0xff59d3fc), Color(0xff554dde)],

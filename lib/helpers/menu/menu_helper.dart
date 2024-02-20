@@ -7,6 +7,7 @@ import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/controllers/menu/store_controller.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/helpers/menu/friend/friend_helper.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -59,9 +60,14 @@ class MenuHelper {
         ll('Kids');
         break;
       case 8:
-        ll('Shop');
+        ll('Store');
         Get.toNamed(krStore);
         await Get.find<StoreController>().getStoreList();
+        break;
+      case 9:
+        ll('Quiz');
+        Get.find<PostReactionController>().resetQuizTapButtonData();
+        Get.toNamed(krMyQuiz);
         break;
     }
   }

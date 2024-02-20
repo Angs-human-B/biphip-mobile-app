@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
@@ -237,6 +238,7 @@ class CreatePostHelper {
                 }
               }
               createPostController.postSecondaryCircleAvatar.value = createPostController.selectedBrandImage.value;
+              Get.find<HomeController>().homeTabIndex.value=0;
               Get.offNamedUntil(krCreatePost, ModalRoute.withName(krHome));
             },
             rightText: ksDone.tr,
