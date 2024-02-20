@@ -44,6 +44,7 @@ class MenuHelper {
         break;
       case 4:
         ll('Badges');
+        Get.find<PendentBadgesController>().resetBadgesData();
         Get.toNamed(krBadgesStarPage);
         break;
       case 5:

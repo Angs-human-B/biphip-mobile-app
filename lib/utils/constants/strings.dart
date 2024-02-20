@@ -540,3 +540,4 @@ const String ksCustomStars = "Custom stars";
 const String ksNoActiveStar = "No active star";
 const String ksSeeAllBadges = "See all badges";
 const String ksAllBadges = "All badges";
+const String ksYouCanSendStars = "You can send stars from your balance at any time";

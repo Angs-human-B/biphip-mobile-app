@@ -14,6 +14,7 @@ import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/menu/badges/all_badges.dart';
 import 'package:bip_hip/views/menu/badges/badges_star_page.dart';
+import 'package:bip_hip/views/menu/badges/purchase_star.dart';
 import 'package:bip_hip/views/menu/pendent/all_pendent.dart';
 import 'package:bip_hip/views/menu/pendent/pendent_page.dart';
 import 'package:bip_hip/views/menu/photos/create_album.dart';
@@ -138,6 +139,7 @@ const String krAllPendent = '/all-pendent';
 //*Badges
 const String krBadgesStarPage = '/badges-star-page';
 const String krAllBadges = '/all-badges';
+const String krPurchaseStar = '/purchase-star';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -220,4 +222,5 @@ List<GetPage<dynamic>>? routes = [
   //*Badges
   GetPage(name: krBadgesStarPage, page: () => BadgesStarPage(), transition: Transition.noTransition),
   GetPage(name: krAllBadges, page: () => AllBadges(), transition: Transition.noTransition),
+  GetPage(name: krPurchaseStar, page: () => PurchaseStar(), transition: Transition.noTransition),
 ];

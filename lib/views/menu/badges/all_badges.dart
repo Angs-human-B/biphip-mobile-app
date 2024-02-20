@@ -73,7 +73,7 @@ class AllBadges extends StatelessWidget {
                         GridView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: pendentBadgesController.allBadgesPackages.length,
+                          itemCount: giftPackages.length,
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             childAspectRatio: isDeviceScreenLarge() ? 0.95 : 1,
                             crossAxisCount: 3,
@@ -83,13 +83,17 @@ class AllBadges extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
                               onTap: () {
+                                pendentBadgesController.selectedPackage.value = giftPackages[index];
+                                pendentBadgesController.isPackageSelected.value = true;
+                                pendentBadgesController.selectedBadgeIndex.value = index;
+                                pendentBadgesController.selectedBadgeIndex.value = -1;
                                 pendentBadgesController.badgesCheckBox.value = false;
                                 pendentBadgesController.badgesPaymentCheckBox.value = false;
-                                pendentBadgesController.selectedBadgeIndex.value = index;
+                                Get.toNamed(krPurchaseStar);
                               },
                               child: BadgesGridViewContainer(
                                 index: index,
-                                recommendedOrAllBadgesList: pendentBadgesController.allBadgesPackages,
+                                recommendedOrAllBadgesList: giftPackages,
                               ),
                             );
                           },
@@ -205,8 +209,8 @@ class PurchaseCustomStarContent extends StatelessWidget {
                       ? () {
                           pendentBadgesController.totalStarBuyAmount.value = pendentBadgesController.temporarytotalStarBuyAmount.value;
                           pendentBadgesController.totalStars.value = pendentBadgesController.temporaryTotalStars.value;
-                          // pendentBadgesController.selectedPackage.value = pendentBadgesController.allPendentPackages[0];
                           pendentBadgesController.selectedBadgeIndex.value = -1;
+                          pendentBadgesController.selectedPackage.value = null;
                           pendentBadgesController.isPackageSelected.value = false;
                           Get.back();
                         }
