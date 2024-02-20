@@ -5,6 +5,7 @@ import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
+import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/helpers/menu/friend/friend_helper.dart';
@@ -44,7 +45,8 @@ class MenuHelper {
         break;
       case 4:
         ll('Stars');
-        // Get.to(() => PlatformAndAction());
+        Get.find<PendentBadgesController>().resetPendentData();
+        Get.toNamed(krPendentPage);
         break;
       case 5:
         ll('Badges');
