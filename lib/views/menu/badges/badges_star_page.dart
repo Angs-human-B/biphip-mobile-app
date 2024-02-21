@@ -62,6 +62,11 @@ class BadgesStarPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   kH16sizedBox,
+                  Text(
+                    ksCurrentStar.tr,
+                    style: semiBold16TextStyle(cBlackColor),
+                  ),
+                  kH16sizedBox,
                   Container(
                     width: width - 40,
                     height: 64,
@@ -138,6 +143,12 @@ class BadgesStarPage extends StatelessWidget {
                             pendentBadgesController.selectedBadgeIndex.value = -1;
                             pendentBadgesController.badgesCheckBox.value = false;
                             pendentBadgesController.badgesPaymentCheckBox.value = false;
+                            pendentBadgesController.temporarytotalStarBuyAmount.value = 0;
+                            pendentBadgesController.totalStarBuyAmount.value = 0;
+                            pendentBadgesController.temporaryTotalStars.value = '';
+                            pendentBadgesController.totalStars.value = '';
+                            pendentBadgesController.isStarAmountConfirmButtonEnabled.value = false;
+                            pendentBadgesController.starAmountTextEditingController.clear();
                             Get.toNamed(krPurchaseStar);
                           },
                           child: BadgesGridViewContainer(

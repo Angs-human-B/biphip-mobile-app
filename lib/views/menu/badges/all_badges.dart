@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/badges/badges_star_page.dart';
+import 'package:bip_hip/views/menu/badges/purchase_star.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 
 class AllBadges extends StatelessWidget {
@@ -89,6 +90,12 @@ class AllBadges extends StatelessWidget {
                                 pendentBadgesController.selectedBadgeIndex.value = -1;
                                 pendentBadgesController.badgesCheckBox.value = false;
                                 pendentBadgesController.badgesPaymentCheckBox.value = false;
+                                pendentBadgesController.temporarytotalStarBuyAmount.value = 0;
+                                pendentBadgesController.totalStarBuyAmount.value = 0;
+                                pendentBadgesController.temporaryTotalStars.value = '';
+                                pendentBadgesController.totalStars.value = '';
+                                pendentBadgesController.isStarAmountConfirmButtonEnabled.value = false;
+                                pendentBadgesController.starAmountTextEditingController.clear();
                                 Get.toNamed(krPurchaseStar);
                               },
                               child: BadgesGridViewContainer(
@@ -213,6 +220,19 @@ class PurchaseCustomStarContent extends StatelessWidget {
                           pendentBadgesController.selectedPackage.value = null;
                           pendentBadgesController.isPackageSelected.value = false;
                           Get.back();
+                           Get.find<GlobalController>().commonBottomSheet(
+                                    context: context,
+                                    bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
+                                    isScrollControlled: true,
+                                    content: GiftPurchasePaymentContent(),
+                                    onPressCloseButton: () {
+                                      Get.back();
+                                    },
+                                    onPressRightButton: () {},
+                                    rightText: '',
+                                    rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                    title: ksPayNow.tr,
+                                    isRightButtonShow: false);
                         }
                       : null,
                   textStyle: semiBold14TextStyle(cWhiteColor),
