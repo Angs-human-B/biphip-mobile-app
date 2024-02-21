@@ -147,6 +147,12 @@ const String kuGetTimelinePostData = '/mobile/user/get-my-timeline-posts';
 const String kuDeleteKids = '/mobile/user/delete-kid';
 const String kuUpdateKid = '/mobile/user/update-kid';
 
+//*Quiz
+const String kuGetAllQuiz = '/mobile/user/get-quiz-for-today';
+const String kuSubmitAnswer = '/mobile/user/submit-quiz';
+const String kuMyAllQuizes = '/mobile/user/get-my-quiz-all';
+const String kuMyQuizWinner = '/mobile/user/get-my-quiz-winning';
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls
@@ -201,6 +207,8 @@ const String kiWarningInfo = 'assets/svg/warning_info.svg';
 const String kiStoreImage = 'assets/svg/store_image.svg';
 const String kikidImage = 'assets/svg/kid_image.svg';
 const String kiUploadImage = 'assets/svg/upload_image.svg';
+const String kiCongratulation1 = 'assets/svg/congratulation1.svg';
+const String kiCongratulation2 = 'assets/svg/congratulation2.svg';
 const String kiPayment = 'assets/svg/payment.svg';
 const String kiGallery = 'assets/svg/gallery.svg';
 const String kiLocation = 'assets/svg/location.svg';
@@ -208,3 +216,6 @@ const String kiTime = 'assets/svg/time.svg';
 const String kiTagFriend = 'assets/svg/tag_friend.svg';
 const String kiPendentSvgImageUrl = 'assets/svg/pendent.svg';
 const String kiDollarSvgImageUrl = 'assets/svg/dollar.svg';
+const String kiWinner = 'assets/svg/winner.svg';
+const String kiPositionBadge = 'assets/svg/position_badge.svg';
+const String kiQuizWinner = 'assets/svg/quiz_winner.svg';

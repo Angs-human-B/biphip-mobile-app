@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
@@ -469,6 +470,7 @@ class BrandBottomSheetContent extends StatelessWidget {
           Obx(() => OutLinedButton(
                 onPress: createPostController.selectedBrandId.value == -1
                     ? () {
+                      Get.find<HomeController>().homeTabIndex.value=0;
                         Get.offNamedUntil(krCreatePost, ModalRoute.withName(krHome));
                       }
                     : null,

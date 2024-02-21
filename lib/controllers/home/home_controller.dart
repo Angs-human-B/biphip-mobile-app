@@ -358,4 +358,5 @@ class HomeController extends GetxController {
     }
     return images;
   }
+  final RxInt homeTabIndex=RxInt(0);
 }

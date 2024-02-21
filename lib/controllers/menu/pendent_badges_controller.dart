@@ -108,5 +108,6 @@ class PendentBadgesController extends GetxController {
     totalStars.value = '';
     isStarAmountConfirmButtonEnabled.value = false;
     starAmountTextEditingController.clear();
+
   }
 }
