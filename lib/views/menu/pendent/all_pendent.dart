@@ -54,9 +54,6 @@ class AllPendent extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
                               onTap: () {
-                                // postReactionController.selectedPackage.value = giftPackages[index];
-                                // postReactionController.selectedGiftIndex.value = index;
-                                // postReactionController.isPackageSelected.value = true;
                                 pendentBadgesController.pendentCheckBox.value = false;
                                 pendentBadgesController.paymentCheckBox.value = false;
                                 pendentBadgesController.selectedPendentIndex.value = index;
@@ -94,6 +91,7 @@ class AllPendent extends StatelessWidget {
               ],
             ),
           ),
+       
         ),
       ),
     );
