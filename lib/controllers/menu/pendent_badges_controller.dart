@@ -5,7 +5,7 @@ class PendentBadgesController extends GetxController {
   final RxString currentPendentCost = RxString("10");
   final RxInt selectedPendentIndex = RxInt(-1);
   final RxInt selectedBadgeIndex = RxInt(-1);
-
+  final RxInt currentStar = RxInt(71);
   List recommendedpendentPackages = [
     {'pendent': kiPendentSvgImageUrl, 'packageName': 'CROWN', 'cost': '100'},
     {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCE', 'cost': '50'},
@@ -47,24 +47,14 @@ class PendentBadgesController extends GetxController {
     {'pendent': kiPendentSvgImageUrl, 'packageName': 'LOVE', 'cost': '10'},
     {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROSE', 'cost': '10'},
   ];
-
-// List giftPackages = [
-//    {'badge': kiBadgeSvgImageUrl, 'packageName': 'GOLD', 'amount': '200', 'cost': '10.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'PLATINUM', 'amount': '250', 'cost': '12.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'DIAMOND', 'amount': '300', 'cost': '15.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'EMERALD', 'amount': '350', 'cost': '18.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'RUBY', 'amount': '400', 'cost': '20.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'RADIANT', 'amount': '450', 'cost': '22.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'ACE', 'amount': '500', 'cost': '25.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'CROWN', 'amount': '550', 'cost': '28.00'},
-//   {'badge': kiBadgeSvgImageUrl, 'packageName': 'CELESTIAL', 'amount': '600', 'cost': '30.00'},
-// ];
-
   final RxBool pendentCheckBox = RxBool(false);
   final RxBool paymentCheckBox = RxBool(false);
   final TextEditingController cardNumberTextEditingController = TextEditingController();
   final TextEditingController mmYYTextEditingController = TextEditingController();
   final TextEditingController cvvTextEditingController = TextEditingController();
+  final TextEditingController badgesCardNumberTextEditingController = TextEditingController();
+  final TextEditingController badgesMMYYTextEditingController = TextEditingController();
+  final TextEditingController badgesCvvTextEditingController = TextEditingController();
 
   final benefitsList = [
     "Pendent that you purchase here are kept in your balance",
@@ -72,14 +62,52 @@ class PendentBadgesController extends GetxController {
     "Pendent that you purchase here are kept in your balance"
   ];
 
+  final RxBool badgesCheckBox = RxBool(false);
+  final RxBool badgesPaymentCheckBox = RxBool(false);
+  final RxDouble perStarAmount = RxDouble(0.09);
+  final RxDouble temporarytotalStarBuyAmount = RxDouble(0);
+  final RxDouble totalStarBuyAmount = RxDouble(0);
+  final RxString temporaryTotalStars = RxString('');
+  final RxString totalStars = RxString('');
+  final RxBool isStarAmountConfirmButtonEnabled = RxBool(false);
+  final TextEditingController starAmountTextEditingController = TextEditingController();
+  final Rx<Map?> selectedPackage = Rx<Map?>(null);
+  // final RxString selectedPackageStarAmount = RxString('');
+  // final RxString selectedPackageStarCost = RxString('');
+  // final RxString selectedPackageStarAmount = RxString('');
+  final RxBool isPackageSelected = RxBool(false);
+
+  void resetPurchaseCustomStar() {
+    isStarAmountConfirmButtonEnabled.value = false;
+    starAmountTextEditingController.clear();
+    temporarytotalStarBuyAmount.value = 0;
+    totalStarBuyAmount.value = 0;
+    temporaryTotalStars.value = '';
+    totalStars.value = '';
+  }
+
   void resetPendentData() {
     selectedPendentIndex.value = -1;
     pendentCheckBox.value = false;
     paymentCheckBox.value = false;
-    currentPendent.value='Crown';
-    currentPendentCost.value='10';
-    cardNumberTextEditingController.clear();
-    mmYYTextEditingController.clear();
-    cvvTextEditingController.clear();
+    currentPendent.value = 'Crown';
+    currentPendentCost.value = '10';
+  }
+
+  void resetBadgesData() {
+    selectedBadgeIndex.value = -1;
+    badgesCheckBox.value = false;
+    badgesPaymentCheckBox.value = false;
+    selectedPackage.value = null;
+    badgesCardNumberTextEditingController.clear();
+    badgesMMYYTextEditingController.clear();
+    badgesCvvTextEditingController.clear();
+    temporarytotalStarBuyAmount.value = 0;
+    totalStarBuyAmount.value = 0;
+    temporaryTotalStars.value = '';
+    totalStars.value = '';
+    isStarAmountConfirmButtonEnabled.value = false;
+    starAmountTextEditingController.clear();
+
   }
 }

@@ -187,6 +187,7 @@ class PendentPage extends StatelessWidget {
                       },
                     ),
                   ),
+               
                   kH20sizedBox,
                   CustomElevatedButton(
                       buttonHeight: h32,
