@@ -73,7 +73,7 @@ class CustomElevatedButton extends StatelessWidget {
                   Text(label.toString(), textAlign: TextAlign.center, style: textStyle),
                   if (suffixIcon != null)
                     Padding(
-                      padding: const EdgeInsets.only(left: k4Padding),
+                      padding: const EdgeInsets.only(left: k8Padding),
                       child: Icon(
                         suffixIcon!,
                         color: suffixIconColor ?? cWhiteColor,

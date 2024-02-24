@@ -61,12 +61,14 @@ class BirthdayPage extends StatelessWidget {
                             separatorBuilder: (context, index) => kH16sizedBox,
                             itemBuilder: (context, index) {
                               return BirthdayCommonView(
-                                userImage: upcomingBirthdays[index]['image'],
-                                name: upcomingBirthdays[index]['name'],
-                                birthday: upcomingBirthdays[index]['birthday'],
-                                birthDate: upcomingBirthdays[index]['birthDate'],
-                                age: upcomingBirthdays[index]['age'],
+                                userImage: todayBirthdays[index]['image'],
+                                name: todayBirthdays[index]['name'],
+                                birthday: todayBirthdays[index]['birthday'],
+                                birthDate: todayBirthdays[index]['birthDate'],
+                                age: todayBirthdays[index]['age'],
                                 birthdayTextEditingControllerValue: pendentBadgesController.todayBirthdayTimelineTextEditingController[index],
+                                isAlreadyWished: todayBirthdays[index]['isTimelinePostEnable'],
+                                isTimelinePostEnabled: todayBirthdays[index]['isAlreadyWished'],
                               );
                             },
                           ),
@@ -83,12 +85,14 @@ class BirthdayPage extends StatelessWidget {
                           separatorBuilder: (context, index) => kH16sizedBox,
                           itemBuilder: (context, index) {
                             return BirthdayCommonView(
-                              userImage: upcomingBirthdays[index]['image'],
-                              name: upcomingBirthdays[index]['name'],
-                              birthday: upcomingBirthdays[index]['birthday'],
-                              birthDate: upcomingBirthdays[index]['birthDate'],
-                              age: upcomingBirthdays[index]['age'],
+                              userImage: inTwoDaysBirthdays[index]['image'],
+                              name: inTwoDaysBirthdays[index]['name'],
+                              birthday: inTwoDaysBirthdays[index]['birthday'],
+                              birthDate: inTwoDaysBirthdays[index]['birthDate'],
+                              age: inTwoDaysBirthdays[index]['age'],
                               birthdayTextEditingControllerValue: pendentBadgesController.in2DaysBirthdayTimelineTextEditingController[index],
+                              isAlreadyWished: inTwoDaysBirthdays[index]['isTimelinePostEnable'],
+                              isTimelinePostEnabled: inTwoDaysBirthdays[index]['isAlreadyWished'],
                             );
                           },
                         ),
@@ -112,6 +116,8 @@ class BirthdayPage extends StatelessWidget {
                               age: upcomingBirthdays[index]['age'],
                               isTodayOrIn2DaysBirthday: false,
                               birthdayTextEditingControllerValue: pendentBadgesController.upcomingBirthdayTimelineTextEditingController[index],
+                              isAlreadyWished: upcomingBirthdays[index]['isTimelinePostEnable'],
+                              isTimelinePostEnabled: upcomingBirthdays[index]['isAlreadyWished'],
                             );
                           },
                         ),
@@ -137,7 +143,9 @@ class BirthdayCommonView extends StatelessWidget {
       this.birthDate,
       this.age,
       this.isTodayOrIn2DaysBirthday = true,
-      required this.birthdayTextEditingControllerValue});
+      required this.birthdayTextEditingControllerValue,
+      this.isTimelinePostEnabled,
+      this.isAlreadyWished});
   final String? userImage;
   final String? name;
   final String? birthday;
@@ -145,6 +153,8 @@ class BirthdayCommonView extends StatelessWidget {
   final String? age;
   final bool? isTodayOrIn2DaysBirthday;
   final TextEditingController birthdayTextEditingControllerValue;
+  final bool? isTimelinePostEnabled;
+  final bool? isAlreadyWished;
 
   @override
   Widget build(BuildContext context) {
@@ -233,7 +243,7 @@ class BirthdayCommonView extends StatelessWidget {
             ),
           ),
           kH20sizedBox,
-          if (isTodayOrIn2DaysBirthday == true)
+          if (isTodayOrIn2DaysBirthday == true && isTimelinePostEnabled == false && isAlreadyWished == true)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
               child: Row(
@@ -242,10 +252,11 @@ class BirthdayCommonView extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: 220,
+                    height: h40,
                     child: CustomModifiedTextField(
                       controller: birthdayTextEditingControllerValue,
-                      maxLength: 200,
-                      maxLines: 2,
+                      maxLength: 255,
+                      maxLines: 1,
                       minLines: 1,
                       isFilled: false,
                       fillColor: cWhiteColor,
@@ -284,6 +295,31 @@ class BirthdayCommonView extends StatelessWidget {
                       )),
                 ],
               ),
+            ),
+          if (isTodayOrIn2DaysBirthday == true && isAlreadyWished == false)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              child: CustomElevatedButton(
+                  buttonWidth: width - 82,
+                  buttonHeight: h32,
+                  buttonColor: cPrimaryColor,
+                  textStyle: regular12TextStyle(cWhiteColor),
+                  label: ksViewPost.tr,
+                  onPressed: () {}),
+            ),
+          if (isTodayOrIn2DaysBirthday == true && isTimelinePostEnabled == true)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              child: CustomElevatedButton(
+                  buttonWidth: width - 82,
+                  buttonHeight: h32,
+                  buttonColor: cPrimaryTint2Color,
+                  borderColor: cPrimaryColor,
+                  textStyle: regular12TextStyle(cBlackColor),
+                  label: ksWishInChat.tr,
+                  suffixIcon: BipHip.chatFill,
+                  suffixIconColor: cPrimaryColor,
+                  onPressed: () {}),
             ),
         ],
       ),
