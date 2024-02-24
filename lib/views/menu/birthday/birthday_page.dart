@@ -220,7 +220,7 @@ class BirthdayCommonView extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                if (isTodayOrIn2DaysBirthday == true)
+                if (isTodayOrIn2DaysBirthday == true && isTimelinePostEnabled == false)
                   Padding(
                     padding: const EdgeInsets.only(right: k16Padding),
                     child: Container(
