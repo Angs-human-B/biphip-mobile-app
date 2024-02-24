@@ -50,8 +50,8 @@ class MenuHelper {
         break;
       case 5:
         ll('Pendent');
-         Get.find<PendentBadgesController>().resetPendentData();
-         Get.toNamed(krPendentPage);
+        Get.find<PendentBadgesController>().resetPendentData();
+        Get.toNamed(krPendentPage);
         break;
       case 6:
         ll('Earnings');
@@ -70,6 +70,12 @@ class MenuHelper {
         ll('Quiz');
         Get.find<PostReactionController>().resetQuizTapButtonData();
         Get.toNamed(krMyQuiz);
+        break;
+      case 10:
+        ll('Birthday');
+        Get.find<PendentBadgesController>().todayBirthdayTimelineTextEditingController.clear();
+        Get.find<PendentBadgesController>().in2DaysBirthdayTimelineTextEditingController.clear();
+        Get.toNamed(krBirthdayPage);
         break;
     }
   }
