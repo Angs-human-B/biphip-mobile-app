@@ -358,5 +358,11 @@ class HomeController extends GetxController {
     }
     return images;
   }
-  final RxInt homeTabIndex=RxInt(0);
+
+  final RxInt homeTabIndex = RxInt(0);
+  final RxList birthdayActionList = RxList([
+    {'icon': BipHip.deleteNew, 'action': 'Delete Post'},
+    {'icon': BipHip.edit, 'action': 'Edit Post'},
+  ]);
+  final RxString birthdaySelectedAction = RxString("");
 }
