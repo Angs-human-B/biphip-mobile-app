@@ -322,7 +322,7 @@ class GalleryController extends GetxController {
       };
       var response = await apiController.commonApiCall(
         requestMethod: kPost,
-        url: kuImageMakeCoverPhoto,
+        url: kuUpdateImageDescription,
         body: body,
         token: token,
       ) as CommonDM;
