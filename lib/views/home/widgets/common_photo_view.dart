@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:photo_view/photo_view.dart';
@@ -79,10 +80,10 @@ class CommonPhotoView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          description ?? '',
-                          style: semiBold14TextStyle(cWhiteColor),
-                        ),
+                        Obx(() => Text(
+                              Get.find<GalleryController>().imageData.value?.description ?? description,
+                              style: semiBold14TextStyle(cWhiteColor),
+                            )),
                         kH16sizedBox,
                         Container(
                           color: cWhiteColor,
