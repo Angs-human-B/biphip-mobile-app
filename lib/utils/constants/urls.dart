@@ -155,6 +155,7 @@ const String kuMyQuizWinner = '/mobile/user/get-my-quiz-winning';
 
 //* Pendent
 const String kuUserPendent = '/mobile/user/get-user-pendents';
+const String kuSetUserPendent = '/mobile/user/set-user-pendent';
 
 
 /*

@@ -110,4 +110,38 @@ class PendentBadgesController extends GetxController {
       ll('getUserPendent error: $e');
     }
   }
+
+  final RxInt pendentId = RxInt(-1);
+  final RxBool isBuyPendentLoading = RxBool(false);
+  Future<void> buyPendent() async {
+    try {
+      isBuyPendentLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'pendent_id': pendentId.value.toString(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuSetUserPendent,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        await getUserPendent();
+        isBuyPendentLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isBuyPendentLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isBuyPendentLoading.value = false;
+      ll('buyPendent error: $e');
+    }
+  }
 }
