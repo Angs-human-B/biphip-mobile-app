@@ -50,8 +50,9 @@ class MenuHelper {
         break;
       case 5:
         ll('Pendent');
-         Get.find<PendentBadgesController>().resetPendentData();
-         Get.toNamed(krPendentPage);
+        Get.find<PendentBadgesController>().resetPendentData();
+        await Get.find<PendentBadgesController>().getUserPendent();
+        Get.toNamed(krPendentPage);
         break;
       case 6:
         ll('Earnings');

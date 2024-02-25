@@ -30,176 +30,181 @@ class PendentPage extends StatelessWidget {
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  kH16sizedBox,
-                  Text(
-                    ksCurrentPendent.tr,
-                    style: semiBold16TextStyle(cBlackColor),
-                  ),
-                  kH8sizedBox,
-                  if (pendentBadgesController.currentPendent.value == "")
-                    Container(
-                      width: width - 40,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(k8BorderRadius),
-                        border: Border.all(
-                          color: cLineColor,
-                          width: 1,
+              child: Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    kH16sizedBox,
+                    Text(
+                      ksCurrentPendent.tr,
+                      style: semiBold16TextStyle(cBlackColor),
+                    ),
+                    kH8sizedBox,
+                    if (pendentBadgesController.userPendentList.isEmpty)
+                      Container(
+                        width: width - 40,
+                        height: 64,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                          border: Border.all(
+                            color: cLineColor,
+                            width: 1,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            ksNoActivePendent.tr,
+                            style: semiBold14TextStyle(cSmallBodyTextColor),
+                          ),
                         ),
                       ),
-                      child: Center(
-                        child: Text(
-                          ksNoActivePendent.tr,
-                          style: semiBold14TextStyle(cSmallBodyTextColor),
+                    if (pendentBadgesController.userPendentList.isNotEmpty)
+                      Container(
+                        width: width - 40,
+                        height: 108,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                          border: Border.all(
+                            color: cLineColor,
+                            width: 1,
+                          ),
                         ),
-                      ),
-                    ),
-                  Container(
-                    width: width - 40,
-                    height: 108,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                      border: Border.all(
-                        color: cLineColor,
-                        width: 1,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: k16Padding, top: k16Padding),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: k16Padding, top: k16Padding),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                "Your current pendent is Crown",
-                                style: regular14TextStyle(cBlackColor),
-                              ),
-                              kH4sizedBox,
-                              Text(
-                                "Purchased on: 14 Sep 2023",
-                                style: regular12TextStyle(cSmallBodyTextColor),
-                              ),
-                              kH12sizedBox,
-                              Row(
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CustomElevatedButton(
-                                      buttonWidth: 70,
-                                      buttonHeight: h24,
-                                      buttonColor: cPrimaryColor,
-                                      label: ksUpdate.tr,
-                                      textStyle: semiBold12TextStyle(cWhiteColor),
-                                      onPressed: () {}),
-                                  kW12sizedBox,
-                                  CustomElevatedButton(
-                                      buttonWidth: 70,
-                                      buttonHeight: h24,
-                                      borderColor: cPrimaryColor,
-                                      buttonColor: cWhiteColor,
-                                      label: ksHistory.tr,
-                                      textStyle: semiBold12TextStyle(cPrimaryColor),
-                                      onPressed: () {}),
+                                  Text(
+                                    "Your current pendent is Crown",
+                                    style: regular14TextStyle(cBlackColor),
+                                  ),
+                                  kH4sizedBox,
+                                  Text(
+                                    "Purchased on: 14 Sep 2023",
+                                    style: regular12TextStyle(cSmallBodyTextColor),
+                                  ),
+                                  kH12sizedBox,
+                                  Row(
+                                    children: [
+                                      CustomElevatedButton(
+                                          buttonWidth: 70,
+                                          buttonHeight: h24,
+                                          buttonColor: cPrimaryColor,
+                                          label: ksUpdate.tr,
+                                          textStyle: semiBold12TextStyle(cWhiteColor),
+                                          onPressed: () {}),
+                                      kW12sizedBox,
+                                      CustomElevatedButton(
+                                          buttonWidth: 70,
+                                          buttonHeight: h24,
+                                          borderColor: cPrimaryColor,
+                                          buttonColor: cWhiteColor,
+                                          label: ksHistory.tr,
+                                          textStyle: semiBold12TextStyle(cPrimaryColor),
+                                          onPressed: () {}),
+                                    ],
+                                  ),
                                 ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: k16Padding),
+                                child: Column(
+                                  children: [
+                                    SvgPicture.asset(
+                                      kiPendentSvgImageUrl,
+                                      width: h44,
+                                      height: h44,
+                                    ),
+                                    kH8sizedBox,
+                                    Text(
+                                      "CROWN",
+                                      style: semiBold14TextStyle(cBlackColor),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: k16Padding),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  kiPendentSvgImageUrl,
-                                  width: h44,
-                                  height: h44,
+                        ),
+                      ),
+                    kH16sizedBox,
+                    Text(
+                      ksRecommended,
+                      style: semiBold18TextStyle(cBlackColor),
+                    ),
+                    kH16sizedBox,
+                    SizedBox(
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: pendentBadgesController.recommendedPendentList.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: isDeviceScreenLarge() ? 0.95 : 1,
+                          crossAxisCount: 3,
+                          crossAxisSpacing: k16Padding,
+                          mainAxisSpacing: k16Padding,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return InkWell(
+                            onTap: () {
+                              // postReactionController.selectedPackage.value = giftPackages[index];
+                              // postReactionController.selectedGiftIndex.value = index;
+                              // postReactionController.isPackageSelected.value = true;
+                              if (pendentBadgesController.selectedPendentIndex.value == index) {
+                                pendentBadgesController.pendentCheckBox.value = true;
+                                pendentBadgesController.paymentCheckBox.value = true;
+                              } else {
+                                pendentBadgesController.pendentCheckBox.value = false;
+                                pendentBadgesController.paymentCheckBox.value = false;
+                              }
+                              pendentBadgesController.selectedPendentIndex.value = index;
+                              Get.find<GlobalController>().commonBottomSheet(
+                                context: context,
+                                bottomSheetHeight: height * 0.6,
+                                content: PurchasePendentBottomSheetContent(
+                                  index: index,
+                                  recommendedOrAllPendentList: pendentBadgesController.recommendedPendentList,
                                 ),
-                                kH8sizedBox,
-                                Text(
-                                  "CROWN",
-                                  style: semiBold14TextStyle(cBlackColor),
-                                ),
-                              ],
+                                onPressCloseButton: () {
+                                  Get.back();
+                                },
+                                onPressRightButton: () {
+                                  Get.back();
+                                },
+                                rightText: "",
+                                rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                title: ksPurchasePendent.tr,
+                                isRightButtonShow: false,
+                                isScrollControlled: true,
+                              );
+                            },
+                            child: PendentGridViewContainer(
+                              index: index,
+                              recommendedOrAllPendentList: pendentBadgesController.recommendedPendentList,
+                              pendentIcon: pendentBadgesController.recommendedPendentList[index].icon,
+                              pendentName: pendentBadgesController.recommendedPendentList[index].name,
+                              pendentPrice: pendentBadgesController.recommendedPendentList[index].price.toString(),
                             ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
                     ),
-                  ),
-                  kH16sizedBox,
-                  Text(
-                    ksRecommended,
-                    style: semiBold18TextStyle(cBlackColor),
-                  ),
-                  kH16sizedBox,
-                  SizedBox(
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: pendentBadgesController.recommendedpendentPackages.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: isDeviceScreenLarge() ? 0.95 : 1,
-                        crossAxisCount: 3,
-                        crossAxisSpacing: k16Padding,
-                        mainAxisSpacing: k16Padding,
-                      ),
-                      itemBuilder: (BuildContext context, int index) {
-                        return InkWell(
-                          onTap: () {
-                            // postReactionController.selectedPackage.value = giftPackages[index];
-                            // postReactionController.selectedGiftIndex.value = index;
-                            // postReactionController.isPackageSelected.value = true;
-                            if (pendentBadgesController.selectedPendentIndex.value == index) {
-                              pendentBadgesController.pendentCheckBox.value = true;
-                              pendentBadgesController.paymentCheckBox.value = true;
-                            } else {
-                              pendentBadgesController.pendentCheckBox.value = false;
-                              pendentBadgesController.paymentCheckBox.value = false;
-                            }
-                            pendentBadgesController.selectedPendentIndex.value = index;
-                            Get.find<GlobalController>().commonBottomSheet(
-                              context: context,
-                              bottomSheetHeight: height * 0.6,
-                              content: PurchasePendentBottomSheetContent(
-                                index: index,
-                                recommendedOrAllPendentList: pendentBadgesController.recommendedpendentPackages,
-                              ),
-                              onPressCloseButton: () {
-                                Get.back();
-                              },
-                              onPressRightButton: () {
-                                Get.back();
-                              },
-                              rightText: "",
-                              rightTextStyle: medium14TextStyle(cPrimaryColor),
-                              title: ksPurchasePendent.tr,
-                              isRightButtonShow: false,
-                              isScrollControlled: true,
-                            );
-                          },
-                          child: PendentGridViewContainer(
-                            index: index,
-                            recommendedOrAllPendentList: pendentBadgesController.recommendedpendentPackages,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-               
-                  kH20sizedBox,
-                  CustomElevatedButton(
-                      buttonHeight: h32,
-                      label: ksSeeAllPendent.tr,
-                      onPressed: () {
-                        pendentBadgesController.selectedPendentIndex.value = -1;
-                        pendentBadgesController.pendentCheckBox.value = false;
-                        pendentBadgesController.paymentCheckBox.value = false;
-                        Get.toNamed(krAllPendent);
-                      }),
-                  kH20sizedBox,
-                ],
+                    kH20sizedBox,
+                    CustomElevatedButton(
+                        buttonHeight: h32,
+                        label: ksSeeAllPendent.tr,
+                        onPressed: () {
+                          pendentBadgesController.selectedPendentIndex.value = -1;
+                          pendentBadgesController.pendentCheckBox.value = false;
+                          pendentBadgesController.paymentCheckBox.value = false;
+                          Get.toNamed(krAllPendent);
+                        }),
+                    kH20sizedBox,
+                  ],
+                ),
               ),
             ),
           ),
@@ -349,8 +354,8 @@ class PurchasePendentBottomSheetContent extends StatelessWidget {
             label: ksBuyPendent.tr,
             onPressed: Get.find<PendentBadgesController>().pendentCheckBox.value
                 ? () {
-                    Get.find<PendentBadgesController>().currentPendent.value = recommendedOrAllPendentList[index]['packageName'];
-                    Get.find<PendentBadgesController>().currentPendentCost.value = recommendedOrAllPendentList[index]['cost'];
+                    // Get.find<PendentBadgesController>().currentPendent.value = recommendedOrAllPendentList[index]['packageName'];
+                    // Get.find<PendentBadgesController>().currentPendentCost.value = recommendedOrAllPendentList[index]['cost'];
                     Get.find<GlobalController>().commonBottomSheet(
                         context: context,
                         bottomSheetHeight: isDeviceScreenLarge() ? height * 0.55 : height * 0.65,
@@ -376,11 +381,17 @@ class PendentGridViewContainer extends StatelessWidget {
     super.key,
     required this.index,
     required this.recommendedOrAllPendentList,
+    this.pendentIcon,
+    this.pendentName,
+    this.pendentPrice,
   });
 
   final int index;
   final List recommendedOrAllPendentList;
   final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
+  final String? pendentIcon;
+  final String? pendentName;
+  final String? pendentPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -398,15 +409,25 @@ class PendentGridViewContainer extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: k8CircularBorderRadius,
-                child: SvgPicture.asset(
-                  recommendedOrAllPendentList[index]['pendent'],
+                child: Image.network(
+                  pendentIcon!,
                   fit: BoxFit.fill,
+                  height: 48,
+                  width: 48,
+                  loadingBuilder: imageLoadingBuilder,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      kiProfileDefaultImageUrl,
+                      height: h40,
+                      width: h40,
+                    );
+                  },
                 ),
               ),
               kH4sizedBox,
               Expanded(
                 child: Text(
-                  recommendedOrAllPendentList[index]['packageName'],
+                  pendentName ?? ksNA,
                   style: semiBold14TextStyle(cBlackColor),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -422,7 +443,7 @@ class PendentGridViewContainer extends StatelessWidget {
                   ),
                   kW4sizedBox,
                   Text(
-                    recommendedOrAllPendentList[index]['cost'],
+                    pendentPrice ?? ksNA,
                     style: regular10TextStyle(cBlackColor),
                   ),
                   kH12sizedBox,
@@ -448,8 +469,8 @@ class PendentPurchasePaymentContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: 50,
-              height: 50,
+              width: 48,
+              height: 48,
               child: SvgPicture.asset(
                 kiPayment,
                 width: h40,
@@ -462,12 +483,14 @@ class PendentPurchasePaymentContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '\$${Get.find<PendentBadgesController>().currentPendentCost.value}',
+                  // '\$${Get.find<PendentBadgesController>().currentPendentCost.value}',
+                  '', //!Must change when api call
                   style: semiBold18TextStyle(cBlackColor),
                 ),
                 kH8sizedBox,
                 Text(
-                  "${Get.find<PendentBadgesController>().currentPendent.value} pendent",
+                  // "${Get.find<PendentBadgesController>().currentPendent.value} pendent",
+                  '', //!Must change
                   style: regular14TextStyle(cPlaceHolderColor),
                 ),
               ],

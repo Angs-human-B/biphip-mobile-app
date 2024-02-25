@@ -44,9 +44,9 @@ class AllPendent extends StatelessWidget {
                         GridView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: pendentBadgesController.allPendentPackages.length,
+                          itemCount: pendentBadgesController.allPendentList.length,
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: isDeviceScreenLarge() ? 0.95 : 1,
+                            childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
                             crossAxisCount: 3,
                             crossAxisSpacing: k16Padding,
                             mainAxisSpacing: k16Padding,
@@ -62,7 +62,7 @@ class AllPendent extends StatelessWidget {
                                   bottomSheetHeight: height * 0.6,
                                   content: PurchasePendentBottomSheetContent(
                                     index: index,
-                                    recommendedOrAllPendentList: pendentBadgesController.allPendentPackages,
+                                    recommendedOrAllPendentList: pendentBadgesController.allPendentList,
                                   ),
                                   onPressCloseButton: () {
                                     Get.back();
@@ -79,7 +79,10 @@ class AllPendent extends StatelessWidget {
                               },
                               child: PendentGridViewContainer(
                                 index: index,
-                                recommendedOrAllPendentList: pendentBadgesController.allPendentPackages,
+                                recommendedOrAllPendentList: pendentBadgesController.allPendentList,
+                                pendentIcon: pendentBadgesController.allPendentList[index].icon,
+                                pendentName: pendentBadgesController.allPendentList[index].name,
+                                pendentPrice: pendentBadgesController.allPendentList[index].price.toString(),
                               ),
                             );
                           },
@@ -91,7 +94,6 @@ class AllPendent extends StatelessWidget {
               ],
             ),
           ),
-       
         ),
       ),
     );
