@@ -176,12 +176,13 @@ class PendentPage extends StatelessWidget {
                                     pendentBadgesController.selectedPendentIndex.value = index;
                                     Get.find<GlobalController>().commonBottomSheet(
                                       context: context,
-                                      bottomSheetHeight: height * 0.6,
                                       content: PurchasePendentBottomSheetContent(
                                         index: index,
                                         recommendedOrAllPendentList: pendentBadgesController.recommendedPendentList,
+                                        pendentIcon: pendentBadgesController.recommendedPendentList[index].icon,
                                         pendentName: pendentBadgesController.recommendedPendentList[index].name,
                                         pendentPrice: pendentBadgesController.recommendedPendentList[index].price.toString(),
+                                        pendentDescription: pendentBadgesController.recommendedPendentList[index].description,
                                       ),
                                       onPressCloseButton: () {
                                         Get.back();
@@ -212,9 +213,7 @@ class PendentPage extends StatelessWidget {
                               buttonHeight: h32,
                               label: ksSeeAllPendent.tr,
                               onPressed: () {
-                                pendentBadgesController.selectedPendentIndex.value = -1;
-                                pendentBadgesController.pendentCheckBox.value = false;
-                                pendentBadgesController.paymentCheckBox.value = false;
+                                pendentBadgesController.resetPendentData();
                                 Get.toNamed(krAllPendent);
                               }),
                           kH20sizedBox,
@@ -230,11 +229,20 @@ class PendentPage extends StatelessWidget {
 }
 
 class PurchasePendentBottomSheetContent extends StatelessWidget {
-  PurchasePendentBottomSheetContent({super.key, required this.index, required this.recommendedOrAllPendentList, this.pendentName, this.pendentPrice});
+  PurchasePendentBottomSheetContent(
+      {super.key,
+      required this.index,
+      required this.recommendedOrAllPendentList,
+      this.pendentName,
+      this.pendentPrice,
+      this.pendentIcon,
+      this.pendentDescription});
   final int index;
   final List recommendedOrAllPendentList;
   final String? pendentName;
   final String? pendentPrice;
+  final String? pendentIcon;
+  final String? pendentDescription;
   final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
 
   @override
@@ -248,10 +256,22 @@ class PurchasePendentBottomSheetContent extends StatelessWidget {
         ),
         kH8sizedBox,
         CustomListTile(
-          leading: SvgPicture.asset(
-            kiPendentSvgImageUrl,
-            width: 20,
-            height: 20,
+          leading: ClipRRect(
+            borderRadius: k8CircularBorderRadius,
+            child: Image.network(
+              pendentIcon!,
+              fit: BoxFit.fill,
+              height: h20,
+              width: h20,
+              loadingBuilder: imageLoadingBuilder,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  kiProfileDefaultImageUrl,
+                  height: h40,
+                  width: h40,
+                );
+              },
+            ),
           ),
           title: pendentName ?? ksNA,
           titleTextStyle: semiBold14TextStyle(cBlackColor),
@@ -260,8 +280,6 @@ class PurchasePendentBottomSheetContent extends StatelessWidget {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // if (postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount']) ||
-              //     (postReactionController.totalStars.value != '' && postReactionController.balance < int.parse(postReactionController.totalStars.value)))
               Text(
                 "\$$pendentPrice",
                 style: semiBold14TextStyle(cBlackColor),
@@ -276,32 +294,32 @@ class PurchasePendentBottomSheetContent extends StatelessWidget {
         ),
         kH8sizedBox,
         Text(
-          "Pendent that you purchase here are kept in your balance. You can send stars from your balance at any time. Pendent that you purchase here are kept in your balance. You can send stars from your balance at any time.",
+          pendentDescription ?? ksNA,
           style: regular12TextStyle(cBlackColor),
         ),
-        kH20sizedBox,
-        for (int i = 0; i < pendentBadgesController.benefitsList.length; i++)
-          Padding(
-            padding: const EdgeInsets.only(top: k4Padding),
-            child: Row(
-              children: [
-                Container(
-                  width: 4,
-                  height: 4,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: cBlackColor,
-                  ),
-                ),
-                kW8sizedBox,
-                Text(
-                  pendentBadgesController.benefitsList[i],
-                  style: regular12TextStyle(cBlackColor),
-                  overflow: TextOverflow.clip,
-                ),
-              ],
-            ),
-          ),
+        // kH20sizedBox,
+        // for (int i = 0; i < pendentBadgesController.benefitsList.length; i++)
+        //   Padding(
+        //     padding: const EdgeInsets.only(top: k4Padding),
+        //     child: Row(
+        //       children: [
+        //         Container(
+        //           width: 4,
+        //           height: 4,
+        //           decoration: const BoxDecoration(
+        //             shape: BoxShape.circle,
+        //             color: cBlackColor,
+        //           ),
+        //         ),
+        //         kW8sizedBox,
+        //         Text(
+        //           pendentBadgesController.benefitsList[i],
+        //           style: regular12TextStyle(cBlackColor),
+        //           overflow: TextOverflow.clip,
+        //         ),
+        //       ],
+        //     ),
+        //   ),
         kH16sizedBox,
         RichText(
           text: TextSpan(

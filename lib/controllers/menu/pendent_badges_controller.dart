@@ -5,53 +5,9 @@ class PendentBadgesController extends GetxController {
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
-  // final RxString currentPendent = RxString("Crown");
-  // final RxString currentPendentCost = RxString("10");
   final RxInt selectedPendentIndex = RxInt(-1);
   final RxInt selectedBadgeIndex = RxInt(-1);
   final RxInt currentStar = RxInt(71);
-  // List recommendedpendentPackages = [
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'CROWN', 'cost': '100'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCE', 'cost': '50'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCSS', 'cost': '50'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'DAME', 'cost': '25'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'HERO', 'cost': '25'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'NOVEL', 'cost': '20'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'DIAMOND', 'cost': '15'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'GOLD', 'cost': '10'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'LUCKY', 'cost': '10'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROCK', 'cost': '10'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'LOVE', 'cost': '10'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROSE', 'cost': '10'},
-  // ];
-
-  // List allPendentPackages = [
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'CROWN', 'cost': '100'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCE', 'cost': '50'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCSS', 'cost': '50'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'DAME', 'cost': '25'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'HERO', 'cost': '25'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'NOVEL', 'cost': '20'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'DIAMOND', 'cost': '15'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'GOLD', 'cost': '10'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'LUCKY', 'cost': '10'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROCK', 'cost': '10'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'LOVE', 'cost': '10'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROSE', 'cost': '10'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'CROWN', 'cost': '100'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCE', 'cost': '50'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'PRINCSS', 'cost': '50'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'DAME', 'cost': '25'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'HERO', 'cost': '25'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'NOVEL', 'cost': '20'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'DIAMOND', 'cost': '15'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'GOLD', 'cost': '10'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'LUCKY', 'cost': '10'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROCK', 'cost': '10'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'LOVE', 'cost': '10'},
-  //   {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROSE', 'cost': '10'},
-  // ];
-  
   final RxBool pendentCheckBox = RxBool(false);
   final RxBool paymentCheckBox = RxBool(false);
   final TextEditingController cardNumberTextEditingController = TextEditingController();
@@ -95,6 +51,9 @@ class PendentBadgesController extends GetxController {
     selectedPendentIndex.value = -1;
     pendentCheckBox.value = false;
     paymentCheckBox.value = false;
+    cardNumberTextEditingController.clear();
+    mmYYTextEditingController.clear();
+    cvvTextEditingController.clear();
   }
 
   void resetBadgesData() {
