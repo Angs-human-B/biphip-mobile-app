@@ -47,6 +47,7 @@ class PendentBadgesController extends GetxController {
     {'pendent': kiPendentSvgImageUrl, 'packageName': 'LOVE', 'cost': '10'},
     {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROSE', 'cost': '10'},
   ];
+  
   final RxBool pendentCheckBox = RxBool(false);
   final RxBool paymentCheckBox = RxBool(false);
   final TextEditingController cardNumberTextEditingController = TextEditingController();
@@ -109,5 +110,6 @@ class PendentBadgesController extends GetxController {
     isStarAmountConfirmButtonEnabled.value = false;
     starAmountTextEditingController.clear();
 
+    
   }
 }
