@@ -18,19 +18,19 @@ class EducationBackgroundSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             kH16sizedBox,
-            InfoContainer2(
+            InfoContainer(
               suffixText: ksEducationalBackground.tr,
               suffixTextStyle: semiBold18TextStyle(cBlackColor),
               isAddButton: true,
               suffixOnPressed: () {
-               editProfileHelper.addEducationBackground();
+                editProfileHelper.addEducationBackground();
               },
             ),
             kH12sizedBox,
             for (int i = 0; i < profileController.schoolDataList.length; i++)
               Padding(
                 padding: const EdgeInsets.only(bottom: k12Padding),
-                child: InfoContainer2(
+                child: InfoContainer(
                   suffixText: checkNullOrStringNull(profileController.schoolDataList[i].school),
                   prefixText: profileController.schoolDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
                   subtitlePrefixText:
@@ -44,7 +44,7 @@ class EducationBackgroundSection extends StatelessWidget {
             for (int i = 0; i < profileController.collegeDataList.length; i++)
               Padding(
                 padding: const EdgeInsets.only(bottom: k12Padding),
-                child: InfoContainer2(
+                child: InfoContainer(
                   suffixText: checkNullOrStringNull(profileController.collegeDataList[i].school),
                   prefixText: profileController.collegeDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
                   subtitlePrefixText:

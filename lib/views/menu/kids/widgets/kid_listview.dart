@@ -10,7 +10,7 @@ class KidsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => kidsController.isKidsListLoading.value
-        ? const KidsShimmer()
+        ? const StoreKidsShimmer()
         : kidsController.kidList.isNotEmpty
             ? Expanded(
                 child: SingleChildScrollView(
@@ -70,6 +70,7 @@ class KidsListView extends StatelessWidget {
                             );
                           },
                         ),
+                        kH12sizedBox,
                       ],
                     ),
                   ),

@@ -108,6 +108,7 @@ class PictureUploadScreen extends StatelessWidget {
                                 buttonWidth: width - 40,
                                 buttonColor: cTransparentColor,
                                 onPressed: () async {
+                                  Get.find<HomeController>().homeTabIndex.value = 0;
                                   Get.offAllNamed(krHome);
                                   registrationHelper.showConfettiWithCongratulationPopUp(context);
                                   await Get.find<HomeController>().getPostList();

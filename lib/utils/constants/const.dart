@@ -117,6 +117,7 @@ const double h50 = 50.0;
 const double h45 = 45.0;
 const double h44 = 44.0;
 const double h40 = 40.0;
+const double h42 = 42.0;
 const double h36 = 36.0;
 const double h32 = 32.0;
 const double h28 = 28.0;

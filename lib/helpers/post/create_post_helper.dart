@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
@@ -74,20 +75,20 @@ class CreatePostHelper {
     if (createPostController.tempSubCategoryIndex.value == index) {
       createPostController.tempSubCategoryIndex.value = -1;
       createPostController.subCategoryIndex.value = -1;
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+      createPostController.subCategoryBottomSheetRightButtonState.value = false;
       createPostController.tempSubCategory.value = '';
       createPostController.subCategory.value = '';
     } else {
       createPostController.tempSubCategoryIndex.value = index;
       Get.find<CreatePostController>().tempSubCategory.value = Get.find<CreatePostController>().createPostSubCategoryList[index].name.toString();
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+      createPostController.subCategoryBottomSheetRightButtonState.value = true;
     }
   }
 
   void showAudienceSheet(context) {
-    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
     createPostController.tempCreatePostSelectedPrivacy.value = createPostController.createPostSelectedPrivacy.value;
     Get.find<GlobalController>().commonBottomSheet(
+      isBottomSheetRightButtonActive: true.obs,
       bottomSheetHeight: height * .6,
       context: context,
       content: AudienceContent(),
@@ -108,6 +109,7 @@ class CreatePostHelper {
     );
   }
 
+  
   void selectPlatformStatusChange(index) {
     for (int i = 0; i < createPostController.platformStatusList.length; i++) {
       if (index == i) {
@@ -137,15 +139,6 @@ class CreatePostHelper {
       }
     }
   }
-
-  // void selectProductConditionTextChange() {
-  //   for (int i = 0; i < createPostController.productConditionList.length; i++) {
-  //     if (createPostController.productConditionState[i]) {
-  //       createPostController.selectedProductCondition.value = createPostController.productConditionList[i];
-  //       break;
-  //     }
-  //   }
-  // }
 
   void resetAddBrandPage() {
     createPostController.brandImageLink.value = '';
@@ -183,11 +176,12 @@ class CreatePostHelper {
       createPostController.selectedKid.value = null;
       resetAddKidPage();
       if (createPostController.selectedKid.value == null || createPostController.isKidAdded.value) {
-        globalController.isBottomSheetRightButtonActive.value = false;
+        createPostController.kidCategoryBottomSheetRightButtonState.value = false;
       } else {
-        globalController.isBottomSheetRightButtonActive.value = true;
+        createPostController.kidCategoryBottomSheetRightButtonState.value = true;
       }
       globalController.commonBottomSheet(
+        isBottomSheetRightButtonActive: createPostController.kidCategoryBottomSheetRightButtonState,
         context: context,
         content: KidCategoryContent(),
         onPressCloseButton: () {
@@ -198,11 +192,9 @@ class CreatePostHelper {
           if (createPostController.selectedKid.value != null) {
             createPostController.postSecondaryCircleAvatar.value = createPostController.selectedKid.value!.profilePicture.toString();
             createPostController.kidID.value = createPostController.selectedKid.value!.id!;
-            ll(createPostController.kidID.value);
           } else if (createPostController.isKidAdded.value) {
             createPostController.postSecondaryLocalCirclerAvatar.value = createPostController.kidImageFile.value;
             createPostController.kidID.value = Get.find<KidsController>().kidList.last.id!;
-            ll(createPostController.kidID.value);
           }
           Get.back();
           Get.back();
@@ -215,11 +207,10 @@ class CreatePostHelper {
     }
     //*For Selling type post
     else if (createPostController.category.value == "Selling") {
-      createPostController.sellingPostType.value = '';
-      createPostController.isRegularPost.value = false;
-      createPostController.isBiddingPost.value = false;
-      globalController.isBottomSheetRightButtonActive.value = false;
+      createPostController.temporarySellingPostType.value = createPostController.sellingPostType.value;
+      sellingPostTypeSelect();
       globalController.commonBottomSheet(
+        isBottomSheetRightButtonActive: createPostController.sellingPostTypeBottomSheetRightButtonState,
         context: context,
         bottomSheetHeight: isDeviceScreenLarge() ? height * .25 : height * 0.35,
         content: SellingCategoryBottomSheetContent(),
@@ -227,15 +218,12 @@ class CreatePostHelper {
           Get.back();
         },
         onPressRightButton: () {
-          createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
-          // createPostController.selectedBrandId.value = -1;
-          checkCanCreatePost();
-          if (createPostController.selectedBrandId.value == -1) {
-            globalController.isBottomSheetRightButtonActive.value = false;
-          } else {
-            globalController.isBottomSheetRightButtonActive.value = true;
-          }
+          createPostController.sellingPostType.value = createPostController.temporarySellingPostType.value;
+          createPostController.selectedBrandName.value = '';
+          createPostController.selectedBrandId.value = -1;
+          createPostController.selectStoreBottomSheetRightButtonState.value = false;
           globalController.commonBottomSheet(
+            isBottomSheetRightButtonActive: createPostController.selectStoreBottomSheetRightButtonState,
             context: context,
             bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
             content: BrandBottomSheetContent(),
@@ -243,7 +231,6 @@ class CreatePostHelper {
               Get.back();
             },
             onPressRightButton: () {
-              // boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent()); //* Set it temporary for test case
               for (int i = 0; i < createPostController.storeList.length; i++) {
                 if (createPostController.selectedBrandId.value == createPostController.storeList[i].id) {
                   createPostController.brandID.value = createPostController.storeList[i].id!;
@@ -251,11 +238,12 @@ class CreatePostHelper {
                 }
               }
               createPostController.postSecondaryCircleAvatar.value = createPostController.selectedBrandImage.value;
+              Get.find<HomeController>().homeTabIndex.value=0;
               Get.offNamedUntil(krCreatePost, ModalRoute.withName(krHome));
             },
             rightText: ksDone.tr,
             rightTextStyle: medium14TextStyle(cPrimaryColor),
-            title: ksBrands.tr,
+            title: ksStore.tr,
             isRightButtonShow: true,
           );
         },
@@ -315,6 +303,10 @@ class CreatePostHelper {
     createPostController.tempCreatePostSelectedPrivacyIcon.value = BipHip.friends;
     createPostController.createPostSelectedPrivacyIcon.value = BipHip.friends;
     createPostController.createPostSelectedPrivacy.value = 'Friends';
+    createPostController.imageDescriptionTextEditingController.clear();
+    createPostController.imageLocationsList.clear();
+    createPostController.imageTimesList.clear();
+    createPostController.imageTagIdList.clear();
     clearCreateSellingPostView();
   }
 
@@ -329,6 +321,7 @@ class CreatePostHelper {
     createPostController.biddingMinimumBidTextEditingController.clear();
     createPostController.biddingProductTagTextEditingController.clear();
     createPostController.biddingSKUTextEditingController.clear();
+    createPostController.sellingLocationTextEditingController.clear();
     createPostController.isHideFriendFamilySwitch.value = false;
     createPostController.selectedPlatform.value = '';
     createPostController.selectedAction.value = '';
@@ -336,6 +329,8 @@ class CreatePostHelper {
     createPostController.categoryID.value = -1;
     createPostController.selectedBrandImage.value = '';
     createPostController.selectedBrandName.value = '';
+    createPostController.temporarySellingPostType.value = '';
+    createPostController.sellingPostType.value = '';
   }
 
   //----------------------------
@@ -368,6 +363,15 @@ class CreatePostHelper {
     }
   }
 
+  void configImageDescription() {
+    for (int i = 0; i < createPostController.mediaFileList.length; i++) {
+      createPostController.imageDescriptionTextEditingController.add(TextEditingController());
+      createPostController.imageLocationsList.add("LOC$i");
+      createPostController.imageTimesList.add(DateTime.now().toString());
+      createPostController.imageTagIdList.add('1,58');
+    }
+  }
+
   void getBottomRowOnPressed(index, [context]) async {
     ll(index);
     if (index == 1) {
@@ -376,6 +380,7 @@ class CreatePostHelper {
       if (status) {
         ll("media list length : ${createPostController.mediaLinkList.length}");
         insertMedia(createPostController.mediaLinkList, createPostController.mediaFileList);
+        configImageDescription();
         checkCanCreatePost();
         createPostController.isMediaChanged.value = false;
         createPostController.mediaLinkList.clear();
@@ -386,6 +391,7 @@ class CreatePostHelper {
           createPostController.createPostImageFile, 'camera', false, true);
       if (status) {
         insertMedia([createPostController.createPostImageLink], createPostController.createPostImageFile);
+        configImageDescription();
         checkCanCreatePost();
         createPostController.isCreatePostImageChanged.value = false;
         createPostController.createPostImageLink.value = "";
@@ -405,24 +411,30 @@ class CreatePostHelper {
       Get.find<FriendController>().isFriendListLoading.value = true;
       createPostController.tempTaggedFriends.addAll(createPostController.taggedFriends);
       if (createPostController.tempTaggedFriends.isNotEmpty) {
-        Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+        createPostController.tagFriendButtonSheetRightButtonState.value = true;
       } else {
-        Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+        createPostController.tagFriendButtonSheetRightButtonState.value = false;
       }
       globalController.commonBottomSheet(
+        isBottomSheetRightButtonActive: createPostController.tagFriendButtonSheetRightButtonState,
+        isDismissible: false,
         isScrollControlled: true,
         bottomSheetHeight: height * .9,
         context: context,
         isSearchShow: true,
         content: TagPeopleBottomSheetContent(),
         onPressCloseButton: () {
+          createPostController.taggedFriends.clear();
+          createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
+          createPostController.tempTaggedFriends.clear();
+          createPostController.tagFriendButtonSheetRightButtonState.value = false;
           Get.back();
         },
         onPressRightButton: () {
           createPostController.taggedFriends.clear();
           createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
           createPostController.tempTaggedFriends.clear();
-          globalController.isBottomSheetRightButtonActive.value = false;
+          createPostController.tagFriendButtonSheetRightButtonState.value = false;
           Get.back();
         },
         rightText: ksDone.tr,
@@ -463,52 +475,14 @@ class CreatePostHelper {
   //! important:: create post bottom option functions end
   //------------------------------
 
-  void addKid() async {
-    ll(createPostController.saveKidInfo.value);
-    if (createPostController.saveKidInfo.value) {
-      await createPostController.addKid();
-    } else {
-      Get.back();
-    }
-    createPostController.isKidAdded.value = true;
-    if (!createPostController.isKidAdded.value) {
-      globalController.isBottomSheetRightButtonActive.value = false;
-    } else {
-      createPostController.postSecondaryLocalCirclerAvatar.value = createPostController.kidImageFile.value;
-      globalController.isBottomSheetRightButtonActive.value = true;
-    }
-  }
-
-  void regularSellingPostSelect() {
-    createPostController.isRegularPost.value = true;
-    createPostController.isBiddingPost.value = false;
-    createPostController.tempSellingPostType.value = ksRegularPost.tr;
-    if (createPostController.tempSellingPostType.value == '') {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-    } else {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-    }
-  }
-
-  void biddingSellingPostSelect() {
-    createPostController.isRegularPost.value = false;
-    createPostController.isBiddingPost.value = true;
-    createPostController.tempSellingPostType.value = ksBiddingPost.tr;
-    if (createPostController.tempSellingPostType.value == '') {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-    } else {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-    }
-  }
-
   void sellingPostTypeSelect() {
-    if (createPostController.tempSellingPostType.value == '') {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+    if (createPostController.temporarySellingPostType.value == '') {
+      createPostController.sellingPostTypeBottomSheetRightButtonState.value = false;
       createPostController.isRegularPost.value = false;
       createPostController.isBiddingPost.value = false;
     } else {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-      if (createPostController.tempSellingPostType.value == 'Regular Post') {
+      createPostController.sellingPostTypeBottomSheetRightButtonState.value = true;
+      if (createPostController.temporarySellingPostType.value == 'Regular Post') {
         createPostController.isRegularPost.value = true;
       } else {
         createPostController.isBiddingPost.value = true;
@@ -529,8 +503,20 @@ class CreatePostHelper {
 
   DateTime parseTimeToday(timeStr) {
     DateTime now = DateTime.now();
-    String dateStr = "${now.year}-${now.month}-${now.day}";
-    String fullDateTimeStr = "$dateStr $timeStr";
+    String month = "";
+    String day = "";
+    if (now.day < 10) {
+      day = "0${now.day}";
+    } else {
+      day = "${now.day}";
+    }
+    if (now.month < 10) {
+      month = "0${now.month}";
+    } else {
+      month = "${now.month}";
+    }
+    String dateStr = "${now.year}-$month-$day";
+    String fullDateTimeStr = "$dateStr $timeStr:00";
     ll(fullDateTimeStr);
     return DateTime.parse(fullDateTimeStr);
   }
@@ -538,9 +524,10 @@ class CreatePostHelper {
   void selectStartDate(context) {
     createPostController.tempBiddingStartDate.value = '';
     if (createPostController.tempBiddingStartDate.value == '') {
-      globalController.isBottomSheetRightButtonActive.value = false;
+      createPostController.biddingStartDateBottomSheetRightButtonState.value = false;
     }
     globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: createPostController.biddingStartDateBottomSheetRightButtonState,
       context: context,
       onPressCloseButton: () {
         Get.back();
@@ -569,7 +556,7 @@ class CreatePostHelper {
               : DateTime.now(),
           mode: CupertinoDatePickerMode.date,
           onDateTimeChanged: (value) {
-            globalController.isBottomSheetRightButtonActive.value = true;
+            createPostController.biddingStartDateBottomSheetRightButtonState.value = true;
             createPostController.tempBiddingStartDate.value = DateFormat("yyyy-MM-dd").format(value);
           },
         ),
@@ -580,9 +567,10 @@ class CreatePostHelper {
   void selectEndDate(context) {
     createPostController.tempBiddingEndDate.value = '';
     if (createPostController.tempBiddingEndDate.value == '') {
-      globalController.isBottomSheetRightButtonActive.value = false;
+      createPostController.biddingEndDateBottomSheetRightButtonState.value = false;
     }
     globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: createPostController.biddingEndDateBottomSheetRightButtonState,
       context: context,
       onPressCloseButton: () {
         Get.back();
@@ -606,7 +594,7 @@ class CreatePostHelper {
               : DateTime.parse(createPostController.biddingStartDate.value),
           mode: CupertinoDatePickerMode.date,
           onDateTimeChanged: (value) {
-            globalController.isBottomSheetRightButtonActive.value = true;
+            createPostController.biddingEndDateBottomSheetRightButtonState.value = true;
             createPostController.tempBiddingEndDate.value = DateFormat("yyyy-MM-dd").format(value);
           },
         ),
@@ -617,9 +605,10 @@ class CreatePostHelper {
   void selectStartTime(context) {
     createPostController.tempBiddingStartTime.value = '';
     if (createPostController.tempBiddingStartTime.value == '') {
-      globalController.isBottomSheetRightButtonActive.value = false;
+      createPostController.biddingStartTimeBottomSheetRightButtonState.value = false;
     }
     globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: createPostController.biddingStartTimeBottomSheetRightButtonState,
       context: context,
       onPressCloseButton: () {
         Get.back();
@@ -649,7 +638,7 @@ class CreatePostHelper {
               : DateTime.now(),
           mode: CupertinoDatePickerMode.time,
           onDateTimeChanged: (value) {
-            globalController.isBottomSheetRightButtonActive.value = true;
+            createPostController.biddingStartTimeBottomSheetRightButtonState.value = true;
             createPostController.tempBiddingStartTime.value = DateFormat("HH:mm").format(value);
           },
         ),
@@ -660,9 +649,10 @@ class CreatePostHelper {
   void selectEndTime(context) {
     createPostController.tempBiddingEndTime.value = '';
     if (createPostController.tempBiddingStartTime.value == '') {
-      globalController.isBottomSheetRightButtonActive.value = false;
+      createPostController.biddingEndTimeBottomSheetRightButtonState.value = false;
     }
     globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: createPostController.biddingEndTimeBottomSheetRightButtonState,
       context: context,
       onPressCloseButton: () {
         Get.back();
@@ -699,12 +689,59 @@ class CreatePostHelper {
               : DateTime.now(),
           mode: CupertinoDatePickerMode.time,
           onDateTimeChanged: (value) {
-            globalController.isBottomSheetRightButtonActive.value = true;
+            createPostController.biddingEndTimeBottomSheetRightButtonState.value = true;
             createPostController.tempBiddingEndTime.value = DateFormat("HH:mm").format(value);
           },
         ),
       ),
     );
+  }
+
+  //Get tagged friend bottom sheet
+  Future<void> taggedFriendBottomSheet(context) async {
+    Get.find<FriendController>().isFriendListLoading.value = true;
+    createPostController.tempTaggedFriends.addAll(createPostController.taggedFriends);
+    if (createPostController.tempTaggedFriends.isNotEmpty) {
+      createPostController.tagFriendButtonSheetRightButtonState.value = true;
+    } else {
+      createPostController.tagFriendButtonSheetRightButtonState.value = false;
+    }
+    globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: createPostController.tagFriendButtonSheetRightButtonState,
+      isScrollControlled: true,
+      bottomSheetHeight: height * .9,
+      context: context,
+      isSearchShow: true,
+      content: TagPeopleBottomSheetContent(),
+      isDismissible: false,
+      onPressCloseButton: () {
+        createPostController.taggedFriends.clear();
+        createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
+        createPostController.tempTaggedFriends.clear();
+        createPostController.tagFriendButtonSheetRightButtonState.value = false;
+        Get.back();
+      },
+      onPressRightButton: () {
+        createPostController.taggedFriends.clear();
+        createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
+        createPostController.tempTaggedFriends.clear();
+        createPostController.tagFriendButtonSheetRightButtonState.value = false;
+        Get.back();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: medium14TextStyle(cPrimaryColor),
+      title: ksTagPeople.tr,
+      isRightButtonShow: true,
+    );
+    if (Get.find<FriendController>().friendList.isEmpty) {
+      await Get.find<FriendController>().getFriendList();
+      createPostController.tagFriendList.addAll(Get.find<FriendController>().friendList);
+    } else {
+      for (int i = 0; i < createPostController.tempTaggedFriends.length; i++) {
+        createPostController.tagFriendList.remove(createPostController.tempTaggedFriends);
+      }
+      Get.find<FriendController>().isFriendListLoading.value = false;
+    }
   }
 }
 

@@ -47,6 +47,7 @@ class CreatePostController extends GetxController {
   final TextEditingController biddingProductTagTextEditingController = TextEditingController();
   final TextEditingController biddingSKUTextEditingController = TextEditingController();
   final TextEditingController biddingDesiredAmountTextEditingController = TextEditingController();
+  final TextEditingController sellingLocationTextEditingController = TextEditingController();
   final TextEditingController biddingMinimumBidTextEditingController = TextEditingController();
   final RxBool isPublicPost = RxBool(false);
   final RxBool isPrivatePost = RxBool(false);
@@ -58,7 +59,12 @@ class CreatePostController extends GetxController {
   final RxString tempBiddingStartTime = RxString('');
   final RxString biddingEndTime = RxString('');
   final RxString tempBiddingEndTime = RxString('');
-
+  final RxBool biddingStartDateBottomSheetRightButtonState = RxBool(false);
+  final RxBool biddingStartTimeBottomSheetRightButtonState = RxBool(false);
+  final RxBool biddingEndDateBottomSheetRightButtonState = RxBool(false);
+  final RxBool biddingEndTimeBottomSheetRightButtonState = RxBool(false);
+  final RxList<String> sellingLocationList = RxList<String>(['Shewrapara', 'Agargaon', 'Mirpur 12', 'Mirpur 11', 'Motijheel']);
+  final RxBool isSellingLocationSuffixIconVisible = RxBool(false);
   final RxList<String> businessType = RxList<String>(['Electronics', 'Shop', 'Gadgets', 'Hardware']);
   final RxBool isAddBrandSuffixIconVisible = RxBool(false);
   final List audienceTypeList = [
@@ -84,6 +90,7 @@ class CreatePostController extends GetxController {
   final RxList<FriendFamilyUserData> tagFriendList = RxList<FriendFamilyUserData>([]);
   final RxList<FriendFamilyUserData> tempTaggedFriends = RxList<FriendFamilyUserData>([]);
   final RxList<FriendFamilyUserData> taggedFriends = RxList<FriendFamilyUserData>([]);
+  final RxBool tagFriendButtonSheetRightButtonState = RxBool(false);
   final RxList tempTagIndex = RxList([]);
 
   // final List tagFiendList = [
@@ -190,9 +197,9 @@ class CreatePostController extends GetxController {
   void checkCanAddKidInfo() {
     if (kidNameTextEditingController.text.trim().length >= 3 && kidAgeTextEditingController.text.trim() != '' && isKidImageChanged.value) {
       isSaveKidButtonEnabled.value = true;
-      globalController.isBottomSheetRightButtonActive.value = true;
+      kidCategoryBottomSheetRightButtonState.value = true;
     } else {
-      globalController.isBottomSheetRightButtonActive.value = false;
+      kidCategoryBottomSheetRightButtonState.value = false;
       isSaveKidButtonEnabled.value = false;
     }
   }
@@ -258,6 +265,10 @@ class CreatePostController extends GetxController {
   RxInt kidID = RxInt(-1);
   RxInt brandID = RxInt(-1);
   RxBool isKidListLoading = RxBool(false);
+  final RxBool kidCategoryBottomSheetRightButtonState = RxBool(false);
+  final RxBool kidListBottomSheetRightButtonState = RxBool(false);
+  final RxBool kidRelationListBottomSheetRightButtonState = RxBool(false);
+  final RxBool kidGenderContentBottomSheetRightButtonState = RxBool(false);
   Future<void> getKidList() async {
     try {
       isKidListLoading.value = true;
@@ -423,6 +434,11 @@ class CreatePostController extends GetxController {
     isPostButtonActive.value = false;
   }
 
+  List imageDescriptionTextEditingController = [];
+  List imageLocationsList = [];
+  List imageTimesList = [];
+  List imageTagIdList = [];
+
   Future<void> createPost() async {
     List tags = [];
     for (int i = 0; i < taggedFriends.length; i++) {
@@ -436,6 +452,11 @@ class CreatePostController extends GetxController {
         'content': category.value == 'Selling' ? biddingTitleTextEditingController.text.trim() : createPostController.text.trim(),
         'is_public': '1',
         'post_tag_friend_id': tags.join(','),
+        for (int i = 0; i < imageDescriptionTextEditingController.length; i++)
+          'image_description[$i]': imageDescriptionTextEditingController[i].text.toString(),
+        for (int i = 0; i < imageLocationsList.length; i++) 'image_locations[$i]': imageLocationsList[i].toString(),
+        for (int i = 0; i < imageTimesList.length; i++) 'image_times[$i]': imageTimesList[i].toString(),
+        for (int i = 0; i < imageTagIdList.length; i++) 'image_tag_friend_ids[$i]': imageTagIdList[i].toString(),
         if (category.value == 'Kids') 'kid_id': kidID.value.toString(),
         if (category.value == 'Selling') 'store_id': '55',
         if (category.value == 'Selling') 'sell_post_type': (isRegularPost.value && !isBiddingPost.value) ? '0' : '1',
@@ -452,9 +473,11 @@ class CreatePostController extends GetxController {
         if (category.value == 'Selling') 'sell_post_condition_id': selectedProductConditionID.value,
         if (category.value == 'Selling') 'sell_post_availabilty': productAvailabilityId.value,
         if (category.value == 'Selling') 'is_hide_fnf': isHideFriendFamilySwitch.value ? '1' : '0',
+        if (category.value == 'Selling') 'location': sellingLocationTextEditingController.text.toString().trim(),
         if (category.value == 'News') 'title': newsTitleTextEditingController.text.trim(),
         if (category.value == 'News') 'description': newsDescriptionTextEditingController.text.trim()
       };
+      ll(body);
       var response = await apiController.multiMediaUpload(
         url: kuCreatePost,
         body: body,
@@ -470,6 +493,7 @@ class CreatePostController extends GetxController {
           await Get.find<HomeController>().getPostList();
         }
         isCreatePostLoading.value = false;
+        Get.find<HomeController>().homeTabIndex.value=0;
         Get.offAllNamed(krHome);
         resetCreatePost();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -495,6 +519,7 @@ class CreatePostController extends GetxController {
   final RxInt tempSubCategoryIndex = RxInt(-1);
   final RxInt subCategoryIndex = RxInt(-1);
   final RxBool isSubCategorySelected = RxBool(false);
+  final RxBool subCategoryBottomSheetRightButtonState = RxBool(false);
   double subCategoryCustomBottomSheetHeight() {
     if (subCategoryList.isEmpty) {
       return height * 0.4;
@@ -555,8 +580,9 @@ class CreatePostController extends GetxController {
 
   final RxBool isRegularPost = RxBool(false);
   final RxBool isBiddingPost = RxBool(false);
-  final RxString tempSellingPostType = RxString('');
+  final RxString temporarySellingPostType = RxString('');
   final RxString sellingPostType = RxString('');
+  final RxBool sellingPostTypeBottomSheetRightButtonState = RxBool(false);
   final TextEditingController businessTypeTextEditingController = TextEditingController();
   final List<String> businessTypeLists = ['electronic', 'food', 'clothing'];
   // final RxList businessTypeList = RxList([]);
@@ -575,8 +601,10 @@ class CreatePostController extends GetxController {
   final RxString tempSelectedProductConditionID = RxString('');
   final RxString selectedProductCondition = RxString('');
   final RxString selectedProductConditionID = RxString('');
+  final RxBool productConditionBottomSheetRightButtonState = RxBool(false);
   final RxString tempSelectedPlatform = RxString('');
   final RxString selectedPlatform = RxString('');
+  final RxBool platformBottomSheetRightButtonState = RxBool(false);
   final RxString tempSelectedAction = RxString('');
   final RxString selectedAction = RxString('');
   final RxString tempCategory = RxString('');
@@ -585,6 +613,8 @@ class CreatePostController extends GetxController {
   final RxInt sellingAllMediaListLength = RxInt(-1);
   final RxInt storeListLength = RxInt(-1);
   final RxInt selectedBrandId = RxInt(-1);
+  final RxBool storeListBottomSheetRightButtonState = RxBool(false);
+  final RxBool selectStoreBottomSheetRightButtonState = RxBool(false);
   final TextEditingController newsTitleTextEditingController = TextEditingController();
   final TextEditingController newsDescriptionTextEditingController = TextEditingController();
   final RxString tempCreatePostSelectedPrivacy = RxString('Friends');
@@ -595,6 +625,7 @@ class CreatePostController extends GetxController {
   final RxString tempSelectedProductCategoryID = RxString('');
   final RxString selectedProductCategory = RxString('');
   final RxString selectedProductCategoryID = RxString('');
+  final RxBool productCategoryBottomSheetRightButton = RxBool(false);
 
   //   //*Get Create Post List Api Call
   final Rx<GetCreatePostModel?> createPostAllData = Rx<GetCreatePostModel?>(null);
@@ -657,4 +688,5 @@ class CreatePostController extends GetxController {
   final RxString temporaryProductAvailabilityId = RxString('');
   final RxString temporaryProductAvailability = RxString('');
   final RxString productAvailability = RxString('');
+  final RxBool productAvailabilityBottomSheetRightButtonState = RxBool(false);
 }

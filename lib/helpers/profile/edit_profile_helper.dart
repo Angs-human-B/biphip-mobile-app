@@ -16,7 +16,7 @@ class EditProfileHelper {
   final GlobalController globalController = Get.find<GlobalController>();
 
   void resetTextEditor() {
-    profileController.tempListCommon.clear();
+    profileController.temporaryListCommon.clear();
     profileController.homeTownTextEditingController.clear();
     profileController.presentAddressTextEditingController.clear();
     profileController.educationInstituteTextEditingController.clear();
@@ -31,10 +31,10 @@ class EditProfileHelper {
     profileController.isCurrentlyStudyingHere.value = false;
     profileController.isCurrentlyWorkingHere.value = false;
     profileController.enableSaveButton.value = false;
-    profileController.tempSchoolEndDate.value = '';
-    profileController.tempSchoolStartDate.value = '';
-    profileController.tempWorkplaceEndDate.value = '';
-    profileController.tempWorkplaceStartDate.value = '';
+    profileController.temporarySchoolEndDate.value = '';
+    profileController.temporarySchoolStartDate.value = '';
+    profileController.temporaryWorkplaceEndDate.value = '';
+    profileController.temporaryWorkplaceStartDate.value = '';
     profileController.isSingleDatePicker.value = false;
   }
 
@@ -258,8 +258,8 @@ class EditProfileHelper {
           profileController.isCurrentlyStudyingHere.value,
           ksCurrentlyStudyingHere.tr,
           'EDIT SCHOOL',
-          profileController.tempSchoolStartDate.value,
-          profileController.tempSchoolEndDate.value);
+          profileController.temporarySchoolStartDate.value,
+          profileController.temporarySchoolEndDate.value);
     } else if (methodID == 7) {
       setEditPageValue(
           ksEditCollege.tr,
@@ -275,8 +275,8 @@ class EditProfileHelper {
           profileController.isCurrentlyStudyingHere.value,
           ksCurrentlyStudyingHere.tr,
           'EDIT COLLEGE',
-          profileController.tempSchoolStartDate.value,
-          profileController.tempSchoolEndDate.value);
+          profileController.temporarySchoolStartDate.value,
+          profileController.temporarySchoolEndDate.value);
     } else if (methodID == 8) {
       setEditPageValue(ksAddWorkplace.tr, false, BipHip.officeFill, profileController.companyNameTextEditingController, true,
           profileController.designationTextEditingController, ksOfficeName.tr, true, true, false, true, ksCurrentlyWorkingHere.tr, 'ADD WORKPLACE', '', '');
@@ -298,8 +298,8 @@ class EditProfileHelper {
           profileController.isCurrentlyWorkingHere.value,
           ksCurrentlyWorkingHere.tr,
           'EDIT WORKPLACE',
-          profileController.tempWorkplaceStartDate.value,
-          profileController.tempWorkplaceEndDate.value);
+          profileController.temporaryWorkplaceStartDate.value,
+          profileController.temporaryWorkplaceEndDate.value);
       // Get.back();
     } else if (methodID == 11) {
       setEditPageValue(ksAddPhoneNumber.tr, false, BipHip.phoneFill, profileController.phoneTextEditingController, false,
@@ -369,7 +369,7 @@ class EditProfileHelper {
     profileController.isGenderSelected.value = false;
     profileController.showEditRelationshipStatus.value = false;
     profileController.relationshipStatus.value = '';
-    profileController.tempSelectedGender.value = '';
+    profileController.temporarySelectedGender.value = '';
     profileController.selectedGender.value = '';
   }
 
@@ -493,10 +493,10 @@ class EditProfileHelper {
     resetTextEditor();
     profileController.enableSaveButton.value = true;
     if (profileController.schoolDataList[index].started != null) {
-      profileController.tempSchoolStartDate.value = DateFormat("yyyy-MM-dd").format(profileController.schoolDataList[index].started!);
+      profileController.temporarySchoolStartDate.value = DateFormat("yyyy-MM-dd").format(profileController.schoolDataList[index].started!);
     }
     if (profileController.schoolDataList[index].ended != null) {
-      profileController.tempSchoolEndDate.value = DateFormat("yyyy-MM-dd").format(profileController.schoolDataList[index].ended!);
+      profileController.temporarySchoolEndDate.value = DateFormat("yyyy-MM-dd").format(profileController.schoolDataList[index].ended!);
     }
     profileController.schoolID.value = profileController.schoolDataList[index].id!;
     profileController.educationInstituteTextEditingController.text = profileController.schoolDataList[index].school!;
@@ -513,10 +513,10 @@ class EditProfileHelper {
     resetTextEditor();
     profileController.enableSaveButton.value = true;
     if (profileController.collegeDataList[index].started != null) {
-      profileController.tempSchoolStartDate.value = DateFormat("yyyy-MM-dd").format(profileController.collegeDataList[index].started!);
+      profileController.temporarySchoolStartDate.value = DateFormat("yyyy-MM-dd").format(profileController.collegeDataList[index].started!);
     }
     if (profileController.collegeDataList[index].ended != null) {
-      profileController.tempSchoolEndDate.value = DateFormat("yyyy-MM-dd").format(profileController.collegeDataList[index].ended!);
+      profileController.temporarySchoolEndDate.value = DateFormat("yyyy-MM-dd").format(profileController.collegeDataList[index].ended!);
     }
     profileController.collegeID.value = profileController.collegeDataList[index].id!;
     profileController.educationInstituteTextEditingController.text = profileController.collegeDataList[index].school!;
@@ -532,16 +532,16 @@ class EditProfileHelper {
   //* Relationship Section
   void setRelationshipStatus(context) async {
     profileController.isRelationListLoading.value = true;
-    profileController.tempRelationshipStatus.value = '';
+    profileController.temporaryRelationshipStatus.value = '';
     if (profileController.relationshipStatus.value != '') {
-      profileController.tempRelationshipStatus.value = profileController.relationshipStatus.value;
+      profileController.temporaryRelationshipStatus.value = profileController.relationshipStatus.value;
     } else if (profileController.userData.value!.relation != null) {
-      profileController.tempRelationshipStatus.value = checkNullOrStringNull(profileController.userData.value!.relation);
+      profileController.temporaryRelationshipStatus.value = checkNullOrStringNull(profileController.userData.value!.relation);
     }
-    if (profileController.tempRelationshipStatus.value == '') {
-      globalController.isBottomSheetRightButtonActive.value = false;
+    if (profileController.temporaryRelationshipStatus.value == '') {
+      profileController.relationshipBottomSheetRightButtonState.value = false;
     } else {
-      globalController.isBottomSheetRightButtonActive.value = true;
+      profileController.relationshipBottomSheetRightButtonState.value = true;
     }
     relationshipBottomSheet(context);
     await profileController.getRelationshipList();
@@ -549,6 +549,7 @@ class EditProfileHelper {
 
   void relationshipBottomSheet(context) {
     globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: profileController.relationshipBottomSheetRightButtonState,
       context: context,
       content: Obx(
         () => profileController.isRelationListLoading.value
@@ -563,10 +564,17 @@ class EditProfileHelper {
         Get.back();
       },
       onPressRightButton: () {
-        if (profileController.tempRelationshipStatus.value != '') {
-          profileController.relationshipStatus.value = profileController.tempRelationshipStatus.value;
+        if (profileController.temporaryRelationshipStatus.value != '') {
+          profileController.relationshipStatus.value = profileController.temporaryRelationshipStatus.value;
+          ll(profileController.relationshipStatus.value);
+          if (profileController.relationshipStatus.value == "Single" || profileController.relationshipStatus.value == "Separated") {
+            profileController.relationshipPartnerID.value = -1;
+            profileController.relationshipPartnerTextEditingController.clear();
+            profileController.relationshipDate.value = "";
+          }
           profileController.showEditRelationshipStatus.value = true;
         }
+        checkCanSaveRelationship();
         Get.back();
       },
       rightText: ksDone.tr,
@@ -576,11 +584,6 @@ class EditProfileHelper {
     );
   }
 
-  void resetRelationshipStatus() {
-    profileController.relationshipStatus.value = '';
-    profileController.showEditRelationshipStatus.value = false;
-  }
-
   void saveRelationshipStatus() async {
     await profileController.storeUserSetting('relationship', profileController.relationshipStatus.value);
     profileController.showEditRelationshipStatus.value = false;
@@ -588,20 +591,20 @@ class EditProfileHelper {
   }
 
   void selectBottomSheetRelationshipContent(index) {
-    profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
-    if (profileController.tempRelationshipStatus.value == '') {
-      globalController.isBottomSheetRightButtonActive.value = false;
+    profileController.temporaryRelationshipStatus.value = profileController.relationshipStatusList[index];
+    if (profileController.temporaryRelationshipStatus.value == '') {
+      profileController.relationshipBottomSheetRightButtonState.value = false;
     } else {
-      globalController.isBottomSheetRightButtonActive.value = true;
+      profileController.relationshipBottomSheetRightButtonState.value = true;
     }
   }
 
   //* Gender Section
   void selectGender(context) async {
     profileController.isGenderListLoading.value = true;
-    profileController.tempSelectedGender.value = checkNullOrStringNull(profileController.userData.value!.gender);
+    profileController.temporarySelectedGender.value = checkNullOrStringNull(profileController.userData.value!.gender);
     if (profileController.selectedGender.value != '') {
-      profileController.tempSelectedGender.value = profileController.selectedGender.value;
+      profileController.temporarySelectedGender.value = profileController.selectedGender.value;
     }
     genderBottomSheet(context);
     await profileController.getGenderList();
@@ -609,6 +612,7 @@ class EditProfileHelper {
 
   void genderBottomSheet(context) {
     globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: profileController.genderBottomSheetButtonState,
       context: context,
       content: Obx(
         () => profileController.isGenderListLoading.value
@@ -623,8 +627,8 @@ class EditProfileHelper {
         Get.back();
       },
       onPressRightButton: () {
-        if (profileController.tempSelectedGender.value != '') {
-          profileController.selectedGender.value = profileController.tempSelectedGender.value;
+        if (profileController.temporarySelectedGender.value != '') {
+          profileController.selectedGender.value = profileController.temporarySelectedGender.value;
           profileController.isGenderSelected.value = true;
         }
         Get.back();
@@ -642,6 +646,7 @@ class EditProfileHelper {
   }
 
   void saveGender() async {
+    Get.back();
     await profileController.storeUserSetting('gender', profileController.selectedGender.value);
     profileController.selectedGender.value = '';
     profileController.isGenderSelected.value = false;
@@ -719,10 +724,10 @@ class EditProfileHelper {
     profileController.isSingleDatePicker.value = true;
     profileController.enableSaveButton.value = true;
     if (profileController.currentWorkplace.value!.started != null) {
-      profileController.tempWorkplaceStartDate.value = DateFormat("yyyy-MM-dd").format(profileController.currentWorkplace.value!.started!);
+      profileController.temporaryWorkplaceStartDate.value = DateFormat("yyyy-MM-dd").format(profileController.currentWorkplace.value!.started!);
     }
     if (profileController.currentWorkplace.value!.ended != null) {
-      profileController.tempWorkplaceEndDate.value = DateFormat("yyyy-MM-dd").format(profileController.currentWorkplace.value!.ended!);
+      profileController.temporaryWorkplaceEndDate.value = DateFormat("yyyy-MM-dd").format(profileController.currentWorkplace.value!.ended!);
     }
     profileController.officeID.value = profileController.currentWorkplace.value!.id!;
     profileController.companyNameTextEditingController.text = profileController.currentWorkplace.value!.company!;
@@ -750,10 +755,10 @@ class EditProfileHelper {
     profileController.getCompanyList();
     profileController.getPositionList();
     if (profileController.workplaceDataList[index].started != null) {
-      profileController.tempWorkplaceStartDate.value = DateFormat("yyyy-MM-dd").format(profileController.workplaceDataList[index].started!);
+      profileController.temporaryWorkplaceStartDate.value = DateFormat("yyyy-MM-dd").format(profileController.workplaceDataList[index].started!);
     }
     if (profileController.workplaceDataList[index].ended != null) {
-      profileController.tempWorkplaceEndDate.value = DateFormat("yyyy-MM-dd").format(profileController.workplaceDataList[index].ended!);
+      profileController.temporaryWorkplaceEndDate.value = DateFormat("yyyy-MM-dd").format(profileController.workplaceDataList[index].ended!);
     }
     profileController.officeID.value = profileController.workplaceDataList[index].id!;
     profileController.companyNameTextEditingController.text = profileController.workplaceDataList[index].company!;
@@ -814,18 +819,18 @@ class EditProfileHelper {
   //* Common Edit page
   void commonSelectionButtonOnPressed(context) {
     profileController.isLinkListLoading.value = true;
-    profileController.tempLinkSource.value = profileController.linkSource.value;
-    profileController.tempEducationBackground.value = profileController.educationBackground.value;
-    if (profileController.tempLinkSource.value == '' &&
+    profileController.temporaryLinkSource.value = profileController.linkSource.value;
+    profileController.temporaryEducationBackground.value = profileController.educationBackground.value;
+    if (profileController.temporaryLinkSource.value == '' &&
         (profileController.commonEditPageTitle.value == ksAddLink || profileController.commonEditPageTitle.value == ksEditLink)) {
-      globalController.isBottomSheetRightButtonActive.value = false;
-    } else if (profileController.tempEducationBackground.value == '' &&
+      profileController.editCommonSelectionBottomSheetRightButtonState.value = false;
+    } else if (profileController.temporaryEducationBackground.value == '' &&
         (profileController.commonEditPageTitle.value == ksAddEducationalEvent ||
             profileController.commonEditPageTitle.value == ksEditSchool ||
             profileController.commonEditPageTitle.value == ksEditCollege)) {
-      globalController.isBottomSheetRightButtonActive.value = false;
+      profileController.editCommonSelectionBottomSheetRightButtonState.value = false;
     } else {
-      globalController.isBottomSheetRightButtonActive.value = true;
+      profileController.editCommonSelectionBottomSheetRightButtonState.value = true;
     }
     commonSelectionBottomSheet(context);
     profileController.getLinkList();
@@ -833,6 +838,7 @@ class EditProfileHelper {
 
   void commonSelectionBottomSheet(context) {
     globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: profileController.editCommonSelectionBottomSheetRightButtonState,
       context: context,
       content: Obx(
         () => (profileController.commonEditPageTitle.value == ksAddLink || profileController.commonEditPageTitle.value == ksEditLink)
@@ -849,10 +855,10 @@ class EditProfileHelper {
       },
       onPressRightButton: () {
         if (profileController.commonEditPageTitle.value == ksAddLink || profileController.commonEditPageTitle.value == ksEditLink) {
-          profileController.linkSource.value = profileController.tempLinkSource.value;
+          profileController.linkSource.value = profileController.temporaryLinkSource.value;
           profileController.commonEditPageIcon.value = getLinkIcon(profileController.linkSource.value);
         } else {
-          profileController.educationBackground.value = profileController.tempEducationBackground.value;
+          profileController.educationBackground.value = profileController.temporaryEducationBackground.value;
         }
         checkSaveButtonActive();
         Get.back();
@@ -904,41 +910,83 @@ class EditProfileHelper {
   }
 
   void startDateButtonOnPressed(context) {
-    showModalBottomSheet(
+    profileController.temporaryCommonStartDate.value = '';
+    if (profileController.commonStartDate.value != '') {
+      profileController.temporaryCommonStartDate.value = profileController.commonStartDate.value;
+    }
+    profileController.commonEditStartDateBottomSheetRightButtonState.value = false;
+    globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: profileController.commonEditStartDateBottomSheetRightButtonState,
       context: context,
-      builder: (context) {
-        return SizedBox(
-          height: height * 0.4,
-          child: CupertinoDatePicker(
-            initialDateTime: profileController.commonStartDate.value != '' ? DateTime.parse(profileController.commonStartDate.value) : DateTime.now(),
-            mode: CupertinoDatePickerMode.date,
-            onDateTimeChanged: (value) {
-              profileController.commonStartDate.value = DateFormat("yyyy-MM-dd").format(value);
-              checkSaveButtonActive();
-            },
-          ),
-        );
+      onPressCloseButton: () {
+        Get.back();
       },
+      onPressRightButton: () {
+        Get.back();
+        profileController.commonStartDate.value = profileController.temporaryCommonStartDate.value;
+        if (profileController.commonEndDate.value != '') {
+          if (DateTime.parse(profileController.commonStartDate.value).isAfter(DateTime.parse(profileController.commonEndDate.value))) {
+            profileController.commonEndDate.value = '';
+          }
+        }
+        checkSaveButtonActive();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksStartDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          maximumDate: DateTime.now().add(const Duration(minutes: 30)),
+          initialDateTime:
+              profileController.temporaryCommonStartDate.value != '' ? DateTime.parse(profileController.temporaryCommonStartDate.value) : DateTime.now(),
+          mode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: (value) {
+            profileController.commonEditStartDateBottomSheetRightButtonState.value = true;
+            profileController.temporaryCommonStartDate.value = DateFormat("yyyy-MM-dd").format(value);
+          },
+        ),
+      ),
     );
   }
 
   void endDateButtonOnPressed(context) {
-    showModalBottomSheet(
+    profileController.temporaryCommonEndDate.value = '';
+    if (profileController.commonEndDate.value != "") {
+      profileController.temporaryCommonEndDate.value = profileController.commonEndDate.value;
+    }
+    profileController.commonEditEndDateBottomSheetRightButtonState.value = false;
+    globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: profileController.commonEditEndDateBottomSheetRightButtonState,
       context: context,
-      builder: (context) {
-        return SizedBox(
-          height: height * 0.4,
-          child: CupertinoDatePicker(
-            mode: CupertinoDatePickerMode.date,
-            // maximumDate: DateTime.now(),
-            initialDateTime: profileController.commonEndDate.value != '' ? DateTime.parse(profileController.commonEndDate.value) : DateTime.now(),
-            onDateTimeChanged: (value) {
-              profileController.commonEndDate.value = DateFormat("yyyy-MM-dd").format(value);
-              checkSaveButtonActive();
-            },
-          ),
-        );
+      onPressCloseButton: () {
+        Get.back();
       },
+      onPressRightButton: () {
+        Get.back();
+        profileController.commonEndDate.value = profileController.temporaryCommonEndDate.value;
+        checkSaveButtonActive();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksEndDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          minimumDate: (profileController.commonStartDate.value != "" ? DateTime.parse(profileController.commonStartDate.value) : null),
+          maximumDate: DateTime.now().add(const Duration(minutes: 30)),
+          initialDateTime: profileController.commonEndDate.value != ''
+              ? (DateTime.parse(profileController.temporaryCommonEndDate.value))
+              : (profileController.commonStartDate.value != "" ? DateTime.parse(profileController.commonStartDate.value) : DateTime.now()),
+          mode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: (value) {
+            profileController.commonEditEndDateBottomSheetRightButtonState.value = true;
+            profileController.temporaryCommonEndDate.value = DateFormat("yyyy-MM-dd").format(value);
+          },
+        ),
+      ),
     );
   }
 
@@ -956,20 +1004,135 @@ class EditProfileHelper {
   }
 
   void onSelectEducationBottomSheet(index) {
-    profileController.tempEducationBackground.value = profileController.educationBackgroundList[index];
-    if (profileController.tempEducationBackground.value == '') {
-      globalController.isBottomSheetRightButtonActive.value = false;
+    profileController.temporaryEducationBackground.value = profileController.educationBackgroundList[index];
+    if (profileController.temporaryEducationBackground.value == '') {
+      profileController.editCommonSelectionBottomSheetRightButtonState.value = false;
     } else {
-      globalController.isBottomSheetRightButtonActive.value = true;
+      profileController.editCommonSelectionBottomSheetRightButtonState.value = true;
     }
   }
 
   void onSelectLinkBottomSheet(index) {
-    profileController.tempLinkSource.value = profileController.linkSourceList[index];
-    if (profileController.tempLinkSource.value == '') {
-      globalController.isBottomSheetRightButtonActive.value = false;
+    profileController.temporaryLinkSource.value = profileController.linkSourceList[index];
+    if (profileController.temporaryLinkSource.value == '') {
+      profileController.editCommonSelectionBottomSheetRightButtonState.value = false;
     } else {
-      globalController.isBottomSheetRightButtonActive.value = true;
+      profileController.editCommonSelectionBottomSheetRightButtonState.value = true;
     }
+  }
+
+  void relationshipDateButtonOnPressed(context) {
+    profileController.temporaryRelationshipDate.value = '';
+    if (profileController.relationshipDate.value != '') {
+      profileController.temporaryRelationshipDate.value = profileController.relationshipDate.value;
+    }
+    profileController.relationshipDateBottomSheetState.value = false;
+    globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: profileController.relationshipDateBottomSheetState,
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        Get.back();
+        profileController.relationshipDate.value = profileController.temporaryRelationshipDate.value;
+        checkCanSaveRelationship();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksStartDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          maximumDate: DateTime.now().add(const Duration(minutes: 30)),
+          initialDateTime:
+              profileController.temporaryRelationshipDate.value != '' ? DateTime.parse(profileController.temporaryRelationshipDate.value) : DateTime.now(),
+          mode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: (value) {
+            profileController.relationshipDateBottomSheetState.value = true;
+            profileController.temporaryRelationshipDate.value = DateFormat("yyyy-MM-dd").format(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  void resetRelationshipEditPage() {
+    profileController.relationshipStatus.value = "";
+    profileController.relationshipDate.value = "";
+    profileController.temporaryRelationshipDate.value = "";
+    profileController.relationshipPartnerTextEditingController.clear();
+    profileController.showRelationshipPartnerSuffixIcon.value = false;
+    profileController.relationshipPartnerID.value = -1;
+    profileController.isRelationshipSaveButtonActive.value = false;
+    profileController.temporaryFriendList.clear();
+  }
+
+  void checkCanSaveRelationship() {
+    if (profileController.relationshipStatus.value != "") {
+      profileController.isRelationshipSaveButtonActive.value = true;
+    } else {
+      profileController.isRelationshipSaveButtonActive.value = false;
+    }
+  }
+
+  void setEditRelationshipPageValue() {
+    if (profileController.userData.value!.relationSince != null) {
+      profileController.relationshipDate.value = DateFormat("yyyy-MM-dd").format(profileController.userData.value!.relationSince!);
+    }
+    if (profileController.userData.value!.relation != null) {
+      profileController.relationshipStatus.value = profileController.userData.value!.relation!;
+    }
+    if (profileController.userData.value!.relationWithName != null) {
+      profileController.relationshipPartnerTextEditingController.text = profileController.userData.value!.relationWithName!;
+      profileController.relationshipPartnerID.value = profileController.userData.value!.relationWithId!;
+    }
+  }
+
+  String languageSorting(List languageList) {
+    String result;
+
+    switch (languageList.length) {
+      case 0:
+        result = '';
+        break;
+      case 1:
+        result = languageList[0];
+        break;
+      case 2:
+        result = '${languageList[0]} and ${languageList[1]}';
+        break;
+      default:
+        result = languageList.sublist(0, languageList.length - 1).join(', ') + ' and ' + languageList.last;
+    }
+
+    return result;
+  }
+
+  void clearAddLanguagePage() {
+    profileController.searchLanguageTextEditingController.clear();
+    profileController.addedLanguage.value = "";
+    profileController.isAddLanguageButtonEnabled.value = false;
+    profileController.isSearchLanguageSuffixIconShowing.value = false;
+  }
+
+  void checkCanAddLanguage() {
+    if (profileController.addedLanguage.value != "" && profileController.searchLanguageTextEditingController.text != "") {
+      profileController.isAddLanguageButtonEnabled.value = true;
+    } else {
+      profileController.isAddLanguageButtonEnabled.value = false;
+    }
+  }
+
+  Future<void> removeLanguage(index) async {
+    profileController.userLanguages.removeAt(index);
+    if (profileController.userLanguages.length == 1) {
+      if (profileController.userLanguages[0] == "") {
+        ll("here");
+        profileController.userLanguages.clear();
+      }
+    }
+    await profileController.storeLanguages(profileController.userLanguages);
   }
 }

@@ -102,6 +102,7 @@ class SocialLogInController extends GetxController {
         });
         await globalController.getUserInfo();
         Get.find<AuthenticationController>().isLoginLoading.value = false;
+        Get.find<HomeController>().homeTabIndex.value=0;
         Get.offAllNamed(krHome);
         await Get.find<HomeController>().getPostList();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);

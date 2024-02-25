@@ -1,9 +1,9 @@
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/shimmers/post/create_post_shimmers.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/post/add_brand.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/select_category.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
@@ -36,7 +36,6 @@ class AudienceContent extends StatelessWidget {
             child: Obx(
               () => CustomListTile(
                 onPressed: () {
-                  // CreatePostHelper().selectAudienceStatusChange(i - 1);
                   createPostController.tempCreatePostSelectedPrivacy.value = createPostController.createPostPrivacyList[i].name.toString();
                   createPostController.tempCreatePostSelectedPrivacyIcon.value = createPostController.audienceTypeList[i]['icon'];
                 },
@@ -93,28 +92,22 @@ class KidCategoryContent extends StatelessWidget {
                       createPostController.tempSelectedKid.value = null;
                       createPostController.tempKidID.value = -1;
                       if (createPostController.tempSelectedKid.value == null) {
-                        globalController.isBottomSheetRightButtonActive.value = false;
+                        createPostController.kidListBottomSheetRightButtonState.value = false;
                       } else {
-                        globalController.isBottomSheetRightButtonActive.value = true;
+                        createPostController.kidListBottomSheetRightButtonState.value = true;
                       }
                       globalController.commonBottomSheet(
+                        isBottomSheetRightButtonActive: createPostController.kidListBottomSheetRightButtonState,
                         isScrollControlled: true,
                         bottomSheetHeight: height * .7,
                         context: context,
                         content: KidListBottomSheetContent(),
-                        onPopOutside: () {
-                          if (createPostController.selectedKid.value != null) {
-                            globalController.isBottomSheetRightButtonActive.value = true;
-                          } else {
-                            globalController.isBottomSheetRightButtonActive.value = false;
-                          }
-                        },
                         onPressCloseButton: () {
                           Get.back();
                           if (createPostController.selectedKid.value != null) {
-                            globalController.isBottomSheetRightButtonActive.value = true;
+                            createPostController.kidCategoryBottomSheetRightButtonState.value = true;
                           } else {
-                            globalController.isBottomSheetRightButtonActive.value = false;
+                            createPostController.kidCategoryBottomSheetRightButtonState.value = false;
                           }
                         },
                         onPressRightButton: () {
@@ -122,9 +115,9 @@ class KidCategoryContent extends StatelessWidget {
                           Get.back();
                           createPostController.tempSelectedKid.value = null;
                           if (createPostController.selectedKid.value == null || createPostController.isKidAdded.value) {
-                            globalController.isBottomSheetRightButtonActive.value = false;
+                            createPostController.kidCategoryBottomSheetRightButtonState.value = false;
                           } else {
-                            globalController.isBottomSheetRightButtonActive.value = true;
+                            createPostController.kidCategoryBottomSheetRightButtonState.value = true;
                           }
                         },
                         rightText: ksDone.tr,
@@ -176,9 +169,9 @@ class KidCategoryContent extends StatelessWidget {
                 onTap: () {
                   createPostController.selectedKid.value = null;
                   if (createPostController.selectedKid.value == null || createPostController.isKidAdded.value) {
-                    globalController.isBottomSheetRightButtonActive.value = false;
+                    createPostController.kidCategoryBottomSheetRightButtonState.value = false;
                   } else {
-                    globalController.isBottomSheetRightButtonActive.value = true;
+                    createPostController.kidCategoryBottomSheetRightButtonState.value = true;
                   }
                 },
                 child: const Icon(
@@ -213,9 +206,9 @@ class KidCategoryContent extends StatelessWidget {
                 onTap: () {
                   CreatePostHelper().resetAddKidPage();
                   if (createPostController.selectedKid.value == null || createPostController.isKidAdded.value) {
-                    globalController.isBottomSheetRightButtonActive.value = false;
+                    createPostController.kidCategoryBottomSheetRightButtonState.value = false;
                   } else {
-                    globalController.isBottomSheetRightButtonActive.value = true;
+                    createPostController.kidCategoryBottomSheetRightButtonState.value = true;
                   }
                 },
                 child: const Icon(
@@ -289,9 +282,9 @@ class KidListBottomSheetContent extends StatelessWidget {
                               createPostController.tempKidID.value = createPostController.kidList[i].id!;
                               createPostController.tempSelectedKid.value = createPostController.kidList[i];
                               if (createPostController.tempSelectedKid.value == null) {
-                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                createPostController.kidListBottomSheetRightButtonState.value = false;
                               } else {
-                                Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                createPostController.kidListBottomSheetRightButtonState.value = true;
                               }
                             },
                             itemColor: createPostController.tempKidID.value == createPostController.kidList[i].id! ? cPrimaryTint3Color : cWhiteColor,
@@ -323,9 +316,9 @@ class KidListBottomSheetContent extends StatelessWidget {
                                 createPostController.tempKidID.value = createPostController.kidList[i].id!;
                                 createPostController.tempSelectedKid.value = createPostController.kidList[i];
                                 if (createPostController.tempSelectedKid.value == null) {
-                                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                  createPostController.kidListBottomSheetRightButtonState.value = false;
                                 } else {
-                                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                  createPostController.kidListBottomSheetRightButtonState.value = true;
                                 }
                               },
                               isSelected: createPostController.tempKidID.value == createPostController.kidList[i].id!,
@@ -349,111 +342,115 @@ class SellingCategoryBottomSheetContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Obx(() => OutLinedButton(
-              onPress: () {
-                createPostController.isRegularPost.value = true;
-                createPostController.isBiddingPost.value = false;
-                createPostController.tempSellingPostType.value = ksRegularPost.tr;
-                if (createPostController.tempSellingPostType.value == '') {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                } else {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                }
-              },
-              suffixWidget: Padding(
-                padding: const EdgeInsets.only(right: k8Padding),
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: k100CircularBorderRadius,
-                        gradient: const LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.topLeft,
-                          colors: [
-                            cBlueLinearColor1,
-                            cBlueLinearColor2,
-                          ],
-                        ),
+        Obx(
+          () => OutLinedButton(
+            onPress: () {
+              createPostController.isRegularPost.value = true;
+              createPostController.isBiddingPost.value = false;
+              createPostController.temporarySellingPostType.value = ksRegularPost.tr;
+              if (createPostController.temporarySellingPostType.value == '') {
+                createPostController.sellingPostTypeBottomSheetRightButtonState.value = false;
+              } else {
+                createPostController.sellingPostTypeBottomSheetRightButtonState.value = true;
+              }
+            },
+            suffixWidget: Padding(
+              padding: const EdgeInsets.only(right: k8Padding),
+              child: Stack(
+                children: [
+                  Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: k100CircularBorderRadius,
+                      gradient: const LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.topLeft,
+                        colors: [
+                          cBlueLinearColor1,
+                          cBlueLinearColor2,
+                        ],
                       ),
                     ),
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      top: 7,
-                      bottom: 7,
-                      child: SvgPicture.asset(
-                        kiRegularPostSvgUrl,
-                        width: 16,
-                        height: 16,
-                      ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: 7,
+                    bottom: 7,
+                    child: SvgPicture.asset(
+                      kiRegularPostSvgUrl,
+                      width: 16,
+                      height: 16,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              buttonText: ksRegularPost.tr,
-              buttonTextStyle: medium16TextStyle(cBlackColor),
-              borderColor:
-                  createPostController.tempSellingPostType.value == 'Regular Post' && createPostController.isRegularPost.value ? cPrimaryColor : cLineColor,
-              buttonColor: createPostController.tempSellingPostType.value == 'Regular Post' && createPostController.isRegularPost.value
-                  ? cPrimaryTint2Color
-                  : cWhiteColor,
-            )),
+            ),
+            buttonText: ksRegularPost.tr,
+            buttonTextStyle: medium16TextStyle(cBlackColor),
+            borderColor:
+                createPostController.temporarySellingPostType.value == 'Regular Post' && createPostController.isRegularPost.value ? cPrimaryColor : cLineColor,
+            buttonColor: createPostController.temporarySellingPostType.value == 'Regular Post' && createPostController.isRegularPost.value
+                ? cPrimaryTint2Color
+                : cWhiteColor,
+          ),
+        ),
         kH16sizedBox,
-        Obx(() => OutLinedButton(
-              onPress: () {
-                createPostController.isRegularPost.value = false;
-                createPostController.isBiddingPost.value = true;
-                createPostController.tempSellingPostType.value = ksBiddingPost.tr;
-                if (createPostController.tempSellingPostType.value == '') {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                } else {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                }
-              },
-              suffixWidget: Padding(
-                padding: const EdgeInsets.only(right: k8Padding),
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: k100CircularBorderRadius,
-                        gradient: const LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.topLeft,
-                          colors: [
-                            cYellowLinearColor1,
-                            cYellowLinearColor2,
-                          ],
-                        ),
+        Obx(
+          () => OutLinedButton(
+            onPress: () {
+              createPostController.isRegularPost.value = false;
+              createPostController.isBiddingPost.value = true;
+              createPostController.temporarySellingPostType.value = ksBiddingPost.tr;
+              if (createPostController.temporarySellingPostType.value == '') {
+                createPostController.sellingPostTypeBottomSheetRightButtonState.value = false;
+              } else {
+                createPostController.sellingPostTypeBottomSheetRightButtonState.value = true;
+              }
+            },
+            suffixWidget: Padding(
+              padding: const EdgeInsets.only(right: k8Padding),
+              child: Stack(
+                children: [
+                  Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: k100CircularBorderRadius,
+                      gradient: const LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.topLeft,
+                        colors: [
+                          cYellowLinearColor1,
+                          cYellowLinearColor2,
+                        ],
                       ),
                     ),
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      top: 7,
-                      bottom: 7,
-                      child: SvgPicture.asset(
-                        kiBiddingPostSvgUrl,
-                        width: 16,
-                        height: 16,
-                      ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: 7,
+                    bottom: 7,
+                    child: SvgPicture.asset(
+                      kiBiddingPostSvgUrl,
+                      width: 16,
+                      height: 16,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              buttonText: ksBiddingPost.tr,
-              buttonTextStyle: medium16TextStyle(cBlackColor),
-              borderColor:
-                  createPostController.tempSellingPostType.value == 'Bidding Post' && createPostController.isBiddingPost.value ? cPrimaryColor : cLineColor,
-              buttonColor: createPostController.tempSellingPostType.value == 'Bidding Post' && createPostController.isBiddingPost.value
-                  ? cPrimaryTint2Color
-                  : cWhiteColor,
-            )),
+            ),
+            buttonText: ksBiddingPost.tr,
+            buttonTextStyle: medium16TextStyle(cBlackColor),
+            borderColor:
+                createPostController.temporarySellingPostType.value == 'Bidding Post' && createPostController.isBiddingPost.value ? cPrimaryColor : cLineColor,
+            buttonColor: createPostController.temporarySellingPostType.value == 'Bidding Post' && createPostController.isBiddingPost.value
+                ? cPrimaryTint2Color
+                : cWhiteColor,
+          ),
+        ),
       ],
     );
   }
@@ -470,6 +467,30 @@ class BrandBottomSheetContent extends StatelessWidget {
       () => Column(
         children: [
           kH8sizedBox,
+          Obx(() => OutLinedButton(
+                onPress: createPostController.selectedBrandId.value == -1
+                    ? () {
+                      Get.find<HomeController>().homeTabIndex.value=0;
+                        Get.offNamedUntil(krCreatePost, ModalRoute.withName(krHome));
+                      }
+                    : null,
+                buttonText: ksCreateSellingPost.tr,
+                buttonTextStyle: semiBold16TextStyle(cWhiteColor),
+                borderColor: createPostController.selectedBrandId.value == -1 ? cPrimaryColor : cPlaceHolderColor,
+                buttonColor: createPostController.selectedBrandId.value == -1 ? cPrimaryColor : cPlaceHolderColor2,
+                borderRadius: BorderRadius.circular(k8BorderRadius),
+              )),
+          kH8sizedBox,
+          Text(
+            '*${ksDoesNotRequireAnyStore.tr}',
+            style: regular12TextStyle(cSmallBodyTextColor),
+          ),
+          kH16sizedBox,
+          Text(
+            ksOr.tr,
+            style: regular16TextStyle(cPlaceHolderColor),
+          ),
+          kH16sizedBox,
           if (createPostController.selectedBrandId.value != -1)
             Container(
               width: width - 40,
@@ -485,31 +506,24 @@ class BrandBottomSheetContent extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(k8Padding),
-                    child: createPostController.isBrandAdded.value
-                        ? ClipOval(
-                            child: Container(
-                                width: h24,
-                                height: h24,
-                                decoration: const BoxDecoration(shape: BoxShape.circle),
-                                child: Image.file(createPostController.selectedBrandImageFile.value)))
-                        : Container(
-                            width: h24,
-                            height: h24,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: ClipOval(
-                              child: Image.network(
-                                createPostController.selectedBrandImage.value,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => const Icon(
-                                  BipHip.imageFile,
-                                  size: kIconSize120,
-                                  color: cIconColor,
-                                ),
-                              ),
-                            ),
+                    child: Container(
+                      width: h24,
+                      height: h24,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: ClipOval(
+                        child: Image.network(
+                          createPostController.selectedBrandImage.value,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            BipHip.imageFile,
+                            size: kIconSize120,
+                            color: cIconColor,
                           ),
+                        ),
+                      ),
+                    ),
                   ),
                   Text(
                     createPostController.selectedBrandName.value.toString(),
@@ -523,9 +537,7 @@ class BrandBottomSheetContent extends StatelessWidget {
                       createPostController.selectedBrandId.value = -1;
                       createPostController.brandID.value = -1;
                       createPostController.isBrandAdded.value = false;
-                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                      Get.back();
-                      Get.back();
+                      createPostController.selectStoreBottomSheetRightButtonState.value = false;
                     },
                     icon: BipHip.cross,
                     iconColor: cRedColor,
@@ -539,28 +551,23 @@ class BrandBottomSheetContent extends StatelessWidget {
               onPress: () async {
                 createPostController.tempSelectedBrandId.value = createPostController.selectedBrandId.value;
                 if (createPostController.tempSelectedBrandId.value == -1) {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                  createPostController.storeListBottomSheetRightButtonState.value = false;
                 } else {
-                  Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                  createPostController.storeListBottomSheetRightButtonState.value = true;
                 }
                 Get.find<GlobalController>().commonBottomSheet(
+                  isBottomSheetRightButtonActive: createPostController.storeListBottomSheetRightButtonState,
                   isScrollControlled: true,
                   bottomSheetHeight: createPostController.savedBrandCustomBottomSheetHeight(),
                   context: context,
                   content: SelectBrandBottomSheetContent(),
-                  onPopOutside: () {
-                    if (createPostController.selectedBrandId.value == -1) {
-                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                    } else {
-                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                    }
-                  },
                   onPressCloseButton: () {
                     Get.back();
                   },
                   onPressRightButton: () {
                     createPostHelper.selectBrandTextChange();
                     createPostController.selectedBrandId.value = createPostController.tempSelectedBrandId.value;
+                    createPostController.selectStoreBottomSheetRightButtonState.value = true;
                     Get.back();
                   },
                   rightText: ksDone.tr,
@@ -570,7 +577,7 @@ class BrandBottomSheetContent extends StatelessWidget {
                 );
                 await createPostController.getStoreList();
               },
-              buttonText: ksSelectSavedBrands.tr,
+              buttonText: ksSelectStore.tr,
               buttonTextStyle: medium16TextStyle(cBlackColor),
               borderColor: cLineColor,
               widget: Icon(
@@ -579,58 +586,24 @@ class BrandBottomSheetContent extends StatelessWidget {
                 size: isDeviceScreenLarge() ? h20 : h16,
               ),
             ),
-          kH12sizedBox,
-          Text(
-            ksOr.tr,
-            style: regular16TextStyle(cPlaceHolderColor),
-          ),
-          kH12sizedBox,
-          Obx(() => OutLinedButton(
-                onPress: createPostController.selectedBrandId.value == -1
-                    ? () {
-                        // Get.to(() => AddBrandPage());
-                        createPostHelper.resetAddBrandPage();
-                        createPostController.isBrandAdded.value = false;
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (context, animation1, animation2) => AddBrandPage(),
-                            transitionDuration: Duration.zero,
-                            reverseTransitionDuration: Duration.zero,
-                          ),
-                        );
-                      }
-                    : null,
-                buttonText: ksAddBrand.tr,
-                buttonTextStyle: createPostController.selectedBrandId.value == -1 ? medium16TextStyle(cPrimaryColor) : medium16TextStyle(cPlaceHolderColor),
-                borderColor: createPostController.selectedBrandId.value == -1 ? cPrimaryColor : cPlaceHolderColor,
-                widget: Icon(
-                  BipHip.plus,
-                  color: createPostController.selectedBrandId.value == -1 ? cPrimaryColor : cPlaceHolderColor,
-                  size: isDeviceScreenLarge() ? h20 : h16,
-                ),
-              )),
           kH8sizedBox,
-          Text(
-            "*${ksAddBrandInstruction.tr}",
-            style: regular14TextStyle(cSmallBodyTextColor),
-          ),
-          kH16sizedBox,
-          Align(
-            alignment: Alignment.topLeft,
-            child: InkWell(
-              onTap: createPostController.selectedBrandId.value == -1
-                  ? () {
-                      Get.offNamedUntil(krCreatePost, ModalRoute.withName(krHome));
-                      
-                    }
-                  : null,
-              child: Text(
-                ksSkip.tr,
-                style: createPostController.selectedBrandId.value == -1 ? semiBold16TextStyle(cPrimaryColor) : semiBold16TextStyle(cPlaceHolderColor),
-              ),
-            ),
-          ),
+          RichText(
+              textAlign: TextAlign.left,
+              text: TextSpan(children: [
+                TextSpan(text: '*$ksIfDontHaveAnyStore '.tr, style: regular12TextStyle(cSmallBodyTextColor)),
+                WidgetSpan(
+                  child: InkWell(
+                    onTap: () {
+                      ll('Route here to add store basic info page');
+                    },
+                    child: Text(
+                      ksCreateStore.tr,
+                      style: semiBold14TextStyle(cPrimaryColor),
+                    ),
+                  ),
+                ),
+                TextSpan(text: ' from here.', style: regular12TextStyle(cSmallBodyTextColor)),
+              ]))
         ],
       ),
     );
@@ -659,9 +632,9 @@ class SelectBrandBottomSheetContent extends StatelessWidget {
                                 onPressed: () {
                                   createPostController.tempSelectedBrandId.value = createPostController.storeList[i].id!;
                                   if (createPostController.tempSelectedBrandId.value == -1) {
-                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                    createPostController.storeListBottomSheetRightButtonState.value = false;
                                   } else {
-                                    Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                    createPostController.storeListBottomSheetRightButtonState.value = true;
                                   }
                                 },
                                 itemColor:
@@ -693,9 +666,9 @@ class SelectBrandBottomSheetContent extends StatelessWidget {
                                   onChanged: () {
                                     createPostController.tempSelectedBrandId.value = createPostController.storeList[i].id!;
                                     if (createPostController.tempSelectedBrandId.value == -1) {
-                                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                      createPostController.storeListBottomSheetRightButtonState.value = false;
                                     } else {
-                                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                      createPostController.storeListBottomSheetRightButtonState.value = true;
                                     }
                                   },
                                   isSelected: createPostController.tempSelectedBrandId.value == createPostController.storeList[i].id,
@@ -773,9 +746,9 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                                     createPostController.tempTagIndex.removeAt(index);
                                     createPostController.tempTaggedFriends.removeAt(index);
                                     if (createPostController.tempTaggedFriends.isNotEmpty) {
-                                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                      createPostController.tagFriendButtonSheetRightButtonState.value = true;
                                     } else {
-                                      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                      createPostController.tagFriendButtonSheetRightButtonState.value = false;
                                     }
                                   },
                                   child: Container(
@@ -821,9 +794,9 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                             createPostController.tempTagIndex.add(index);
                             createPostController.tagFriendList.removeAt(index);
                             if (createPostController.tempTaggedFriends.isNotEmpty) {
-                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                              createPostController.tagFriendButtonSheetRightButtonState.value = true;
                             } else {
-                              Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                              createPostController.tagFriendButtonSheetRightButtonState.value = false;
                             }
                           },
                           child: CustomListTile(
@@ -915,9 +888,9 @@ class ProductConditionContent extends StatelessWidget {
                         createPostController.tempSelectedProductCondition.value = createPostController.createPostSellConditionList[index].name.toString();
                         createPostController.tempSelectedProductConditionID.value = createPostController.createPostSellConditionList[index].id.toString();
                         if (createPostController.tempSelectedProductCondition.value == '') {
-                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                          createPostController.productConditionBottomSheetRightButtonState.value = false;
                         } else {
-                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                          createPostController.productConditionBottomSheetRightButtonState.value = true;
                         }
                       },
                       buttonText: createPostController.createPostSellConditionList[index].name.toString(),
@@ -959,9 +932,9 @@ class ProductCategoryContent extends StatelessWidget {
                         createPostController.tempSelectedProductCategory.value = createPostController.createPostSellCategoryList[index].name.toString();
                         createPostController.tempSelectedProductCategoryID.value = createPostController.createPostSellCategoryList[index].id.toString();
                         if (createPostController.tempSelectedProductCategory.value == '') {
-                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                          createPostController.productCategoryBottomSheetRightButton.value = false;
                         } else {
-                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                          createPostController.productCategoryBottomSheetRightButton.value = true;
                         }
                       },
                       buttonText: createPostController.createPostSellCategoryList[index].name.toString(),
@@ -1003,9 +976,9 @@ class ProductAvailabilityContent extends StatelessWidget {
                         createPostController.temporaryProductAvailability.value = createPostController.productAvailabilityList[index]['name'].toString();
                         createPostController.temporaryProductAvailabilityId.value = createPostController.productAvailabilityList[index]['id'];
                         if (createPostController.temporaryProductAvailability.value == '') {
-                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                          createPostController.productAvailabilityBottomSheetRightButtonState.value = false;
                         } else {
-                          Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                          createPostController.productAvailabilityBottomSheetRightButtonState.value = true;
                         }
                       },
                       buttonText: createPostController.productAvailabilityList[index]['name'].toString(),

@@ -1,9 +1,8 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/profile/edit_about/birthday_section.dart';
+import 'package:bip_hip/views/menu/profile/edit_about/basic_info_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/contact_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/education_background_section.dart';
-import 'package:bip_hip/views/menu/profile/edit_about/gender_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/interest_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/place_edit_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/profession_section.dart';
@@ -56,9 +55,7 @@ class EditAboutInfo extends StatelessWidget {
                         kH8sizedBox,
                         RelationshipSection(),
                         if (profileController.showAllEditOption.value) kH8sizedBox,
-                        if (profileController.showAllEditOption.value) GenderSection(),
-                        if (profileController.showAllEditOption.value) kH8sizedBox,
-                        if (profileController.showAllEditOption.value) BirthdaySection(),
+                        if (profileController.showAllEditOption.value) EditInfoSection(),
                         if (profileController.showAllEditOption.value) kH8sizedBox,
                         if (profileController.showAllEditOption.value) ProfessionSection(),
                         if (profileController.showAllEditOption.value) kH8sizedBox,
@@ -67,9 +64,9 @@ class EditAboutInfo extends StatelessWidget {
                         WorkplaceSection(),
                         kH8sizedBox,
                         if (profileController.showAllEditOption.value) ContactSection(),
-                        kH8sizedBox,
+                        if (profileController.showAllEditOption.value) kH8sizedBox,
                         if (profileController.showAllEditOption.value) WebsiteSection(),
-                        kH12sizedBox
+                        if (profileController.showAllEditOption.value) kH8sizedBox
                       ],
                     ),
                   ),
@@ -94,13 +91,13 @@ class EditAboutInfo extends StatelessWidget {
   }
 }
 
-class InfoContainer2 extends StatelessWidget {
-  const InfoContainer2(
+class InfoContainer extends StatelessWidget {
+  const InfoContainer(
       {super.key,
       required this.suffixText,
       this.suffixOnPressed,
       this.prefixText,
-      required this.isAddButton,
+      this.isAddButton,
       this.subtitlePrefixText,
       this.subtitleSuffixText,
       this.suffixTextStyle});
@@ -108,7 +105,7 @@ class InfoContainer2 extends StatelessWidget {
   final String? prefixText, subtitlePrefixText, subtitleSuffixText;
   final TextStyle? suffixTextStyle;
   final VoidCallback? suffixOnPressed;
-  final bool isAddButton;
+  final bool? isAddButton;
 
   @override
   Widget build(BuildContext context) {
@@ -133,37 +130,41 @@ class InfoContainer2 extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: k4Padding),
                     child: RichText(
-                        overflow: TextOverflow.clip,
-                        text: TextSpan(children: [
+                      overflow: TextOverflow.clip,
+                      text: TextSpan(
+                        children: [
                           TextSpan(text: '$subtitlePrefixText ', style: regular12TextStyle(cSmallBodyTextColor)),
                           TextSpan(
                             text: subtitleSuffixText,
                             style: regular12TextStyle(cSmallBodyTextColor),
                           )
-                        ])),
+                        ],
+                      ),
+                    ),
                   ),
               ],
             ),
           ),
-          isAddButton
-              ? CustomTextButtonV2(
-                  onPressed: suffixOnPressed,
-                  text: ksAdd.tr,
-                  textStyle: semiBold16TextStyle(cPrimaryColor),
-                  prefixWidget: Icon(
-                    BipHip.addNew,
-                    color: cPrimaryColor,
-                    size: isDeviceScreenLarge() ? h20 : h16,
+          if (isAddButton != null)
+            isAddButton!
+                ? CustomModifiedTextButton(
+                    onPressed: suffixOnPressed,
+                    text: ksAdd.tr,
+                    textStyle: semiBold16TextStyle(cPrimaryColor),
+                    prefixWidget: Icon(
+                      BipHip.addNew,
+                      color: cPrimaryColor,
+                      size: isDeviceScreenLarge() ? h20 : h16,
+                    ),
+                  )
+                : InkWell(
+                    onTap: suffixOnPressed,
+                    child: Icon(
+                      BipHip.edit,
+                      size: screenWiseSize(kIconSize22, 4),
+                      color: cIconColor,
+                    ),
                   ),
-                )
-              : InkWell(
-                  onTap: suffixOnPressed,
-                  child: Icon(
-                    BipHip.edit,
-                    size: screenWiseSize(kIconSize22, 4),
-                    color: cIconColor,
-                  ),
-                ),
         ],
       ),
     );
@@ -221,7 +222,7 @@ class RowTextButton extends StatelessWidget {
           style: textStyle ?? semiBold16TextStyle(cBlackColor),
         ),
         if (showAddButton && suffixWidget == null)
-          CustomTextButtonV2(
+          CustomModifiedTextButton(
             onPressed: onPressedAdd,
             text: buttonText,
             textStyle: semiBold14TextStyle(cPrimaryColor),

@@ -1,7 +1,7 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
-class KidsShimmer extends StatelessWidget {
-  const KidsShimmer({super.key});
+class StoreKidsShimmer extends StatelessWidget {
+  const StoreKidsShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

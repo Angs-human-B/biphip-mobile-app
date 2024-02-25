@@ -37,6 +37,7 @@ class FamilyHelper {
     familySearchFieldReset();
     familyController.clearAddFamilyData();
     Get.toNamed(krAddFamily);
+    // Get.find<FriendController>().getFriendList();
     Get.find<FriendController>().getFriendListForAddFamily();
   }
 
@@ -74,9 +75,9 @@ class FamilyHelper {
   //*Add family page
   void selectRelation() {
     familyController.isFamilyRelationListLoading.value = true;
-    familyController.relation.value = familyController.tempRelation.value;
+    familyController.relation.value = familyController.temporaryRelation.value;
     for (int index = 0; index < familyController.familyRelationList.length; index++) {
-      if (familyController.tempRelation.value == familyController.familyRelationList[index].name) {
+      if (familyController.temporaryRelation.value == familyController.familyRelationList[index].name) {
         familyController.relationId.value = familyController.familyRelationList[index].id;
       }
     }
@@ -84,11 +85,11 @@ class FamilyHelper {
   }
 
   void setRelationBottomSheetValue() {
-    familyController.tempRelation.value = familyController.relation.value;
-    if (familyController.tempRelation.value == '') {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+    familyController.temporaryRelation.value = familyController.relation.value;
+    if (familyController.temporaryRelation.value == '') {
+      familyController.familyRelationBottomSheetRightButtonState.value = false;
     } else {
-      Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+      familyController.familyRelationBottomSheetRightButtonState.value = true;
     }
   }
 
@@ -113,8 +114,8 @@ class FamilyHelper {
     } else {
       familyController.isFamilySuffixIconVisible.value = false;
     }
-    for (int i = 0; i < Get.find<FriendController>().tempFriendList.length; i++) {
-      if (Get.find<FriendController>().tempFriendList[i] == globalController.searchController.text.trim()) {
+    for (int i = 0; i < Get.find<FriendController>().temporaryFriendList.length; i++) {
+      if (Get.find<FriendController>().temporaryFriendList[i] == globalController.searchController.text.trim()) {
         familyController.userId.value = Get.find<FriendController>().friendList[i].id!;
       } else {
         familyController.userId.value = -1;

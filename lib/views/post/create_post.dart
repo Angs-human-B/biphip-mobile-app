@@ -16,6 +16,7 @@ class CreatePost extends StatelessWidget {
   final CreatePostController createPostController = Get.find<CreatePostController>();
   final CreatePostHelper createPostHelper = CreatePostHelper();
   final GlobalController globalController = Get.find<GlobalController>();
+  final FocusNode sellingLocationFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,9 @@ class CreatePost extends StatelessWidget {
                             label: ksPost.tr,
                             onPressed: createPostController.isPostButtonActive.value
                                 ? () async {
+                                    unfocus(context);
                                     await createPostController.createPost();
+                                    boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent());
                                   }
                                 : null,
                             buttonWidth: 60,
@@ -290,11 +293,12 @@ class CreatePost extends StatelessWidget {
                                         onPressed: () {
                                           createPostController.tempSelectedProductCategory.value = createPostController.selectedProductCategory.value;
                                           if (createPostController.tempSelectedProductCategory.value == '') {
-                                            globalController.isBottomSheetRightButtonActive.value = false;
+                                            createPostController.productCategoryBottomSheetRightButton.value = false;
                                           } else {
-                                            globalController.isBottomSheetRightButtonActive.value = true;
+                                            createPostController.productCategoryBottomSheetRightButton.value = true;
                                           }
                                           globalController.commonBottomSheet(
+                                            isBottomSheetRightButtonActive: createPostController.productCategoryBottomSheetRightButton,
                                               context: context,
                                               bottomSheetHeight: height * 0.9,
                                               isScrollControlled: true,
@@ -326,11 +330,12 @@ class CreatePost extends StatelessWidget {
                                         onPressed: () {
                                           createPostController.tempSelectedProductCondition.value = createPostController.selectedProductCondition.value;
                                           if (createPostController.tempSelectedProductCondition.value == '') {
-                                            globalController.isBottomSheetRightButtonActive.value = false;
+                                            createPostController.productConditionBottomSheetRightButtonState.value = false;
                                           } else {
-                                            globalController.isBottomSheetRightButtonActive.value = true;
+                                            createPostController.productConditionBottomSheetRightButtonState.value = true;
                                           }
                                           globalController.commonBottomSheet(
+                                            isBottomSheetRightButtonActive: createPostController.productConditionBottomSheetRightButtonState,
                                               context: context,
                                               bottomSheetHeight: isDeviceScreenLarge() ? height * 0.5 : height * 0.6,
                                               content: ProductConditionContent(),
@@ -350,6 +355,7 @@ class CreatePost extends StatelessWidget {
                                               isRightButtonShow: true);
                                         },
                                       ),
+                                     
                                       kH12sizedBox,
                                       CustomModifiedTextField(
                                         controller: createPostController.isRegularPost.value
@@ -412,11 +418,12 @@ class CreatePost extends StatelessWidget {
                                               createPostController.temporaryProductAvailability.value = createPostController.productAvailability.value;
                                               createPostController.temporaryProductAvailabilityId.value = createPostController.productAvailabilityId.value;
                                               if (createPostController.temporaryProductAvailability.value == '') {
-                                                globalController.isBottomSheetRightButtonActive.value = false;
+                                                createPostController.productAvailabilityBottomSheetRightButtonState.value = false;
                                               } else {
-                                                globalController.isBottomSheetRightButtonActive.value = true;
+                                                createPostController.productAvailabilityBottomSheetRightButtonState.value = true;
                                               }
                                               globalController.commonBottomSheet(
+                                                isBottomSheetRightButtonActive: createPostController.productAvailabilityBottomSheetRightButtonState,
                                                   context: context,
                                                   bottomSheetHeight: isDeviceScreenLarge() ? height * 0.3 : height * 0.4,
                                                   content: ProductAvailabilityContent(),
@@ -460,11 +467,89 @@ class CreatePost extends StatelessWidget {
                                         maxLength: 10,
                                       ),
                                       kH4sizedBox,
-                                      TextAndIconRowSellingPost(
-                                        text: ksLocation.tr,
-                                        suffixIcon: BipHip.downArrow,
-                                        onPressed: null,
+                                      // CustomModifiedTextField(
+                                      //   controller: createPostController.sellingLocationTextEditingController,
+                                      //   hint: ksLocation.tr,
+                                      //   onChanged: (text) {},
+                                      //   onSubmit: (text) {},
+                                      //   inputAction: TextInputAction.next,
+                                      //   maxLength: 10,
+                                      // ),
+
+                                      RawAutocomplete(
+                                        textEditingController: createPostController.sellingLocationTextEditingController,
+                                        focusNode: sellingLocationFocusNode,
+                                        optionsBuilder: (TextEditingValue textEditingValue) {
+                                          return createPostController.sellingLocationList
+                                              .where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
+                                        },
+                                        onSelected: (option) {
+                                          createPostController.sellingLocationTextEditingController.text = option;
+                                        },
+                                        optionsViewBuilder: (context, Function(String) onSelected, options) {
+                                          return Align(
+                                            alignment: Alignment.topLeft,
+                                            child: SizedBox(
+                                              width: width - 40,
+                                              child: Material(
+                                                elevation: 4,
+                                                child: ListView.separated(
+                                                  padding: EdgeInsets.zero,
+                                                  shrinkWrap: true,
+                                                  itemBuilder: (context, index) {
+                                                    final option = options.elementAt(index);
+                                                    return CustomListTile(
+                                                      title: Text(
+                                                        option.toString(),
+                                                        style: medium16TextStyle(cBlackColor),
+                                                      ),
+                                                      onPressed: () {
+                                                        onSelected(option.toString());
+                                                        createPostController.sellingLocationTextEditingController.text = option.toString();
+                                                        createPostController.isSellingLocationSuffixIconVisible.value = true;
+                                                        unfocus(context);
+                                                      },
+                                                    );
+                                                  },
+                                                  separatorBuilder: (context, index) => Container(
+                                                    height: 1,
+                                                    color: cLineColor,
+                                                  ),
+                                                  itemCount: options.length,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                                          return Obx(
+                                            () => CustomModifiedTextField(
+                                              focusNode: focusNode,
+                                              controller: createPostController.sellingLocationTextEditingController,
+                                              hint: ksLocation.tr,
+                                              suffixIcon: createPostController.isSellingLocationSuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                                              onSuffixPress: () {
+                                                createPostController.isSellingLocationSuffixIconVisible.value = false;
+                                                createPostController.sellingLocationTextEditingController.clear();
+                                              },
+                                              onChanged: (text) {
+                                                if (createPostController.sellingLocationTextEditingController.text.trim() != '') {
+                                                  createPostController.isSellingLocationSuffixIconVisible.value = true;
+                                                } else {
+                                                  createPostController.isSellingLocationSuffixIconVisible.value = false;
+                                                }
+                                                createPostController.checkCanSaveBrand();
+                                              },
+                                              onSubmit: (text) {
+                                                createPostController.isSellingLocationSuffixIconVisible.value = false;
+                                              },
+                                              inputAction: TextInputAction.next,
+                                              inputType: TextInputType.text,
+                                            ),
+                                          );
+                                        },
                                       ),
+
                                       kH16sizedBox,
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -537,9 +622,9 @@ class CreatePost extends StatelessWidget {
                                           createPostController.tempSelectedPlatform.value = createPostController.selectedPlatform.value;
                                           createPostController.tempSelectedAction.value = createPostController.selectedAction.value;
                                           if (createPostController.tempSelectedPlatform.value == '' || createPostController.tempSelectedAction.value == '') {
-                                            globalController.isBottomSheetRightButtonActive.value = false;
+                                            createPostController.platformBottomSheetRightButtonState.value = false;
                                           } else {
-                                            globalController.isBottomSheetRightButtonActive.value = true;
+                                            createPostController.platformBottomSheetRightButtonState.value = true;
                                           }
                                           if (createPostController.tempSelectedPlatform.value == '') {
                                             for (int i = 0; i < createPostController.platformList.length; i++) {
@@ -561,6 +646,7 @@ class CreatePost extends StatelessWidget {
                                           }
 
                                           globalController.commonBottomSheet(
+                                            isBottomSheetRightButtonActive: createPostController.platformBottomSheetRightButtonState,
                                               context: context,
                                               bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
                                               content: Column(
@@ -575,9 +661,9 @@ class CreatePost extends StatelessWidget {
                                                               createPostController.tempSelectedPlatform.value = createPostController.platformList[i]['name'];
                                                               if (createPostController.tempSelectedPlatform.value == '' ||
                                                                   createPostController.tempSelectedAction.value == '') {
-                                                                globalController.isBottomSheetRightButtonActive.value = false;
+                                                                createPostController.platformBottomSheetRightButtonState.value = false;
                                                               } else {
-                                                                globalController.isBottomSheetRightButtonActive.value = true;
+                                                                createPostController.platformBottomSheetRightButtonState.value = true;
                                                               }
                                                             },
                                                             suffixWidget: Transform.scale(
@@ -589,9 +675,9 @@ class CreatePost extends StatelessWidget {
                                                                       createPostController.platformList[i]['name'];
                                                                   if (createPostController.tempSelectedPlatform.value == '' ||
                                                                       createPostController.tempSelectedAction.value == '') {
-                                                                    globalController.isBottomSheetRightButtonActive.value = false;
+                                                                    createPostController.platformBottomSheetRightButtonState.value = false;
                                                                   } else {
-                                                                    globalController.isBottomSheetRightButtonActive.value = true;
+                                                                    createPostController.platformBottomSheetRightButtonState.value = true;
                                                                   }
                                                                 },
                                                                 isSelected: createPostController.platformStatusList[i],
@@ -628,9 +714,9 @@ class CreatePost extends StatelessWidget {
                                                               createPostController.tempSelectedAction.value = createPostController.actionList[i]['name'];
                                                               if (createPostController.tempSelectedPlatform.value == '' ||
                                                                   createPostController.tempSelectedAction.value == '') {
-                                                                globalController.isBottomSheetRightButtonActive.value = false;
+                                                                createPostController.platformBottomSheetRightButtonState.value = false;
                                                               } else {
-                                                                globalController.isBottomSheetRightButtonActive.value = true;
+                                                                createPostController.platformBottomSheetRightButtonState.value = true;
                                                               }
                                                             },
                                                             suffixWidget: Transform.scale(
@@ -641,9 +727,9 @@ class CreatePost extends StatelessWidget {
                                                                   createPostController.tempSelectedAction.value = createPostController.actionList[i]['name'];
                                                                   if (createPostController.tempSelectedPlatform.value == '' ||
                                                                       createPostController.tempSelectedAction.value == '') {
-                                                                    globalController.isBottomSheetRightButtonActive.value = false;
+                                                                   createPostController.platformBottomSheetRightButtonState.value = false;
                                                                   } else {
-                                                                    globalController.isBottomSheetRightButtonActive.value = true;
+                                                                    createPostController.platformBottomSheetRightButtonState.value = true;
                                                                   }
                                                                 },
                                                                 isSelected: createPostController.actionStatusList[i],
@@ -685,6 +771,7 @@ class CreatePost extends StatelessWidget {
                                       ),
                                     ],
                                   ),
+                                
                                 if (createPostController.allMediaList.isNotEmpty) CreatePostMediaSection(),
                                 if (createPostController.category.value == "News") SellingNewsTextfield(),
                                 kH50sizedBox,

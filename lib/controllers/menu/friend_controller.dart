@@ -690,7 +690,7 @@ class FriendController extends GetxController {
   }
 
   //* tempFriendList -> when add family member friend name list needed for suggestion
-  final RxList<String> tempFriendList = RxList<String>([]);
+  final RxList<FriendFamilyUserData> temporaryFriendList = RxList<FriendFamilyUserData>([]);
 
   //*Friend List Api Call for add family suggestion list
   final Rx<CommonFriendModel?> friendListDataForAddFamily = Rx<CommonFriendModel?>(null);
@@ -710,10 +710,10 @@ class FriendController extends GetxController {
         friendListForAddFamily.clear();
         friendListDataForAddFamily.value = CommonFriendModel.fromJson(response.data);
         friendListForAddFamily.addAll(friendListDataForAddFamily.value!.friends!.data);
-        tempFriendList.clear();
+        temporaryFriendList.clear();
         for (int i = 0; i < friendListForAddFamily.length; i++) {
           if (friendListForAddFamily[i].familyRelationStatus == null) {
-            tempFriendList.add(friendListDataForAddFamily.value!.friends!.data[i].fullName!);
+            temporaryFriendList.add(friendListForAddFamily[i]);
           }
         }
         isFriendListForAddFamilyLoading.value = false;
@@ -831,6 +831,7 @@ class FriendController extends GetxController {
   //*Pending friend Action
   final RxString pendingFriendActionSelect = RxString('');
   final RxInt pendingFriendFollowStatus = RxInt(-1);
+  final RxBool pendingFriendActionBottomSheetRightButtonState = RxBool(false);
   final RxList pendingFriendActionList = RxList([
     {'icon': BipHip.cancelRequest, 'action': 'Cancel Request', 'actionSubtitle': 'The request will be cancelled'},
     {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow this user'}
@@ -842,6 +843,7 @@ class FriendController extends GetxController {
   //*All friend Action
   final RxString friendActionSelect = RxString('');
   final RxInt allFriendFollowStatus = RxInt(-1);
+  final RxBool friendActionBottomSheetRightButtonState = RxBool(false);
   final RxList friendActionList = RxList([
     {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
     {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow your friend'},

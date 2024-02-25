@@ -19,7 +19,8 @@ const String kuGetAllCompanies = '/mobile/get-all-companies'; //DONE
 const String kuGetAllDegrees = '/mobile/get-all-degrees';
 const String kuGetAllPositions = '/mobile/get-all-positions'; //DONE
 const String kuGetAllPostCatagories = '/mobile/get-all-post-categories'; //DONE
-const String kuGetAllKidList = '/mobile/user/get-all-kids';
+const String kuGetAllKidList = '/mobile/user/get-all-kids'; //DONE
+const String kuGetALlLanguageList = '/mobile/get-all-languages'; //DONE
 
 //---------------------------------------
 //* authentication story
@@ -85,6 +86,11 @@ const String kuSetCoverPhoto = '/user/store-cover-photo';
 //*Photos & Albums
 const String kuAlbumList = '/mobile/user/get-my-image-albums';
 const String kuImageDetails = '/mobile/user/get-image-details';
+const String kuImageMakeProfilePicture = '/mobile/user/image-make-profile-picture';
+const String kuImageMakeCoverPhoto = '/mobile/user/image-make-cover-photo';
+const String kuDeleteImage = '/mobile/user/delete-image';
+const String kuDownloadImage = '/mobile/user/download-image';
+const String kuCreateAlbum = '/mobile/user/store-image-album';
 
 //---------------------------------------
 //* Friends and Family
@@ -141,6 +147,12 @@ const String kuGetTimelinePostData = '/mobile/user/get-my-timeline-posts';
 const String kuDeleteKids = '/mobile/user/delete-kid';
 const String kuUpdateKid = '/mobile/user/update-kid';
 
+//*Quiz
+const String kuGetAllQuiz = '/mobile/user/get-quiz-for-today';
+const String kuSubmitAnswer = '/mobile/user/submit-quiz';
+const String kuMyAllQuizes = '/mobile/user/get-my-quiz-all';
+const String kuMyQuizWinner = '/mobile/user/get-my-quiz-winning';
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls
@@ -192,5 +204,18 @@ const String kiBoostPostSvgUrl = 'assets/svg/boost_post_banner.svg';
 const String kiInstagramSvgUrl = 'assets/svg/instagram.svg';
 const String kiTwitterX2SvgUrl = 'assets/svg/twitter_x.svg';
 const String kiWarningInfo = 'assets/svg/warning_info.svg';
+const String kiStoreImage = 'assets/svg/store_image.svg';
 const String kikidImage = 'assets/svg/kid_image.svg';
 const String kiUploadImage = 'assets/svg/upload_image.svg';
+const String kiCongratulation1 = 'assets/svg/congratulation1.svg';
+const String kiCongratulation2 = 'assets/svg/congratulation2.svg';
+const String kiPayment = 'assets/svg/payment.svg';
+const String kiGallery = 'assets/svg/gallery.svg';
+const String kiLocation = 'assets/svg/location.svg';
+const String kiTime = 'assets/svg/time.svg';
+const String kiTagFriend = 'assets/svg/tag_friend.svg';
+const String kiPendentSvgImageUrl = 'assets/svg/pendent.svg';
+const String kiDollarSvgImageUrl = 'assets/svg/dollar.svg';
+const String kiWinner = 'assets/svg/winner.svg';
+const String kiPositionBadge = 'assets/svg/position_badge.svg';
+const String kiQuizWinner = 'assets/svg/quiz_winner.svg';

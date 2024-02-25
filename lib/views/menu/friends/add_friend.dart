@@ -16,6 +16,7 @@ class AddFriend extends StatelessWidget {
       onWillPop: () async {
         unFocus(context);
         Get.back();
+        friendHelper.friendSearchFieldReset();
         await friendController.getSendFriendRequestList();
         return true;
       },
@@ -88,31 +89,28 @@ class AddFriend extends StatelessWidget {
                                       controller: friendController.addFriendListScrollController,
                                       child: Column(
                                         children: [
-                                          ListView.builder(
+                                          ListView.separated(
                                             shrinkWrap: true,
                                             physics: const NeverScrollableScrollPhysics(),
                                             itemCount: friendController.addFriendList.length,
+                                            separatorBuilder: (context, index) => kH16sizedBox,
                                             itemBuilder: (context, index) {
-                                              return Padding(
-                                                padding: const EdgeInsets.only(bottom: k10Padding),
-                                                child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(k8BorderRadius),
-                                                  child: Obx(
-                                                    () => FriendFamilySingleButtonAction(
-                                                      backgroundImage: friendController.addFriendList[index].profilePicture.toString(),
-                                                      name: friendController.addFriendList[index].fullName ?? ksNA.tr,
-                                                      buttonText:
-                                                          friendController.addFriendList[index].friendStatus == 0 ? ksSendRequest.tr : ksCancelRequest.tr,
-                                                      buttonColor: friendController.addFriendList[index].friendStatus == 0 ? cPrimaryColor : cWhiteColor,
-                                                      borderColor: friendController.addFriendList[index].friendStatus == 0 ? null : cRedColor,
-                                                      textStyle: friendController.addFriendList[index].friendStatus == 0
-                                                          ? semiBold14TextStyle(cWhiteColor)
-                                                          : semiBold14TextStyle(cRedColor),
-                                                      buttonOnPressed: () {
-                                                        unFocus(context);
-                                                        friendHelper.addCancelFriendRequest(index: index);
-                                                      },
-                                                    ),
+                                              return ClipRRect(
+                                                borderRadius: BorderRadius.circular(k8BorderRadius),
+                                                child: Obx(
+                                                  () => FriendFamilySingleButtonAction(
+                                                    backgroundImage: friendController.addFriendList[index].profilePicture.toString(),
+                                                    name: friendController.addFriendList[index].fullName ?? ksNA.tr,
+                                                    buttonText: friendController.addFriendList[index].friendStatus == 0 ? ksSendRequest.tr : ksCancelRequest.tr,
+                                                    buttonColor: friendController.addFriendList[index].friendStatus == 0 ? cPrimaryColor : cWhiteColor,
+                                                    borderColor: friendController.addFriendList[index].friendStatus == 0 ? null : cRedColor,
+                                                    textStyle: friendController.addFriendList[index].friendStatus == 0
+                                                        ? semiBold14TextStyle(cWhiteColor)
+                                                        : semiBold14TextStyle(cRedColor),
+                                                    buttonOnPressed: () {
+                                                      unFocus(context);
+                                                      friendHelper.addCancelFriendRequest(index: index);
+                                                    },
                                                   ),
                                                 ),
                                               );

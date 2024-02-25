@@ -5,6 +5,10 @@ import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
+import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
+import 'package:bip_hip/controllers/menu/store_controller.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
+import 'package:bip_hip/helpers/menu/friend/friend_helper.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
@@ -17,15 +21,15 @@ class MenuHelper {
       case 0:
         ll('Friend');
         Get.find<GlobalController>().resetTapButtonData();
-        Get.find<GlobalController>().searchController.clear();
-        Get.find<FriendController>().isFriendSearched.value = false;
-        Get.find<FriendController>().isRouteFromBottomNavBar.value = false;
+        FriendHelper().friendSearchFieldReset();
         Get.toNamed(krFriends);
         await Get.find<FriendController>().getFriendList();
         break;
       case 1:
         ll('Family');
         Get.find<GlobalController>().resetTapButtonData();
+        Get.find<GlobalController>().searchController.clear();
+        Get.find<FamilyController>().isFamilySuffixIconVisible.value = false;
         Get.toNamed(krFamily);
         await Get.find<FamilyController>().getFamilyList();
         break;
@@ -40,11 +44,14 @@ class MenuHelper {
         Get.toNamed(krGalleryVideos); //*new changes for gallery Videos
         break;
       case 4:
-        ll('Stars');
-        // Get.to(() => PlatformAndAction());
+        ll('Badges');
+        Get.find<PendentBadgesController>().resetBadgesData();
+        Get.toNamed(krBadgesStarPage);
         break;
       case 5:
-        ll('Badges');
+        ll('Pendent');
+         Get.find<PendentBadgesController>().resetPendentData();
+         Get.toNamed(krPendentPage);
         break;
       case 6:
         ll('Earnings');
@@ -55,7 +62,14 @@ class MenuHelper {
         ll('Kids');
         break;
       case 8:
-        ll('Shop');
+        ll('Store');
+        Get.toNamed(krStore);
+        await Get.find<StoreController>().getStoreList();
+        break;
+      case 9:
+        ll('Quiz');
+        Get.find<PostReactionController>().resetQuizTapButtonData();
+        Get.toNamed(krMyQuiz);
         break;
     }
   }

@@ -16,7 +16,7 @@ class InterestSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           kH16sizedBox,
-          InfoContainer2(
+          InfoContainer(
             suffixText: ksInterest.tr,
             suffixTextStyle: semiBold18TextStyle(cBlackColor),
             isAddButton: profileController.userData.value!.interest.isEmpty ? true : false,

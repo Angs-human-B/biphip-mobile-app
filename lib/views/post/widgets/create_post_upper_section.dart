@@ -131,20 +131,52 @@ class CreatePostUpperSection extends StatelessWidget {
                                     style: regular16TextStyle(cBlackColor),
                                   ),
                                 if (createPostController.taggedFriends.isNotEmpty)
-                                  TextSpan(
-                                    text: '${createPostController.taggedFriends[0].fullName} ',
-                                    style: semiBold16TextStyle(cBlackColor),
-                                  ),
+                                  WidgetSpan(
+                                      child: InkWell(
+                                    onTap: () {
+                                      createPostHelper.taggedFriendBottomSheet(context);
+                                    },
+                                    child: Text(
+                                      '${createPostController.taggedFriends[0].fullName} ',
+                                      style: semiBold16TextStyle(cBlackColor),
+                                    ),
+                                  )),
+                                // TextSpan(
+                                //   text: '${createPostController.taggedFriends[0].fullName} ',
+                                //   style: semiBold16TextStyle(cBlackColor),
+                                // ),
                                 if (createPostController.taggedFriends.isNotEmpty && createPostController.taggedFriends.length == 2)
-                                  TextSpan(
-                                    text: '& ${createPostController.taggedFriends[1].fullName}',
-                                    style: semiBold16TextStyle(cBlackColor),
+                                  WidgetSpan(
+                                    child: InkWell(
+                                      onTap: () {
+                                        createPostHelper.taggedFriendBottomSheet(context);
+                                      },
+                                      child: Text(
+                                        '& ${createPostController.taggedFriends[1].fullName}',
+                                        style: semiBold16TextStyle(cBlackColor),
+                                      ),
+                                    ),
                                   ),
+                                // TextSpan(
+                                //   text: '& ${createPostController.taggedFriends[1].fullName}',
+                                //   style: semiBold16TextStyle(cBlackColor),
+                                // ),
                                 if (createPostController.taggedFriends.isNotEmpty && createPostController.taggedFriends.length > 2)
-                                  TextSpan(
-                                    text: '& ${createPostController.taggedFriends.length - 1} others',
-                                    style: semiBold16TextStyle(cBlackColor),
+                                  WidgetSpan(
+                                    child: InkWell(
+                                      onTap: () {
+                                        createPostHelper.taggedFriendBottomSheet(context);
+                                      },
+                                      child: Text(
+                                        '& ${createPostController.taggedFriends.length - 1} others',
+                                        style: semiBold16TextStyle(cBlackColor),
+                                      ),
+                                    ),
                                   ),
+                                // TextSpan(
+                                //   text: '& ${createPostController.taggedFriends.length - 1} others',
+                                //   style: semiBold16TextStyle(cBlackColor),
+                                // ),
                               ],
                             ),
                           ),
@@ -179,7 +211,9 @@ class CreatePostUpperSection extends StatelessWidget {
                             suffixIconColor: cBlackColor,
                             textStyle: regular12TextStyle(cBlackColor),
                           ),
+                       
                         // kW8sizedBox,
+                       
                         CustomElevatedButton(
                           label: createPostController.category.value == "" ? "Category" : createPostController.category.value,
                           prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
@@ -215,11 +249,12 @@ class CreatePostUpperSection extends StatelessWidget {
                                       // log(createPostController.tempSubCategoryIndex.value.toString());
                                       if (createPostController.tempSubCategory.value == '' &&
                                           Get.find<CreatePostController>().tempSubCategoryIndex.value == -1) {
-                                        Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
+                                        createPostController.subCategoryBottomSheetRightButtonState.value = false;
                                       } else {
-                                        Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
+                                        createPostController.subCategoryBottomSheetRightButtonState.value = true;
                                       }
                                       Get.find<GlobalController>().commonBottomSheet(
+                                        isBottomSheetRightButtonActive: createPostController.subCategoryBottomSheetRightButtonState,
                                         context: context,
                                         content: const SubCategoryContent(),
                                         onPressCloseButton: () {
@@ -291,9 +326,10 @@ class CreatePostUpperSection extends StatelessWidget {
                           CustomElevatedButton(
                             label: createPostController.sellingPostType.value == '' ? ksPostType.tr : createPostController.sellingPostType.value,
                             onPressed: () {
-                              createPostController.tempSellingPostType.value = createPostController.sellingPostType.value;
+                              createPostController.temporarySellingPostType.value = createPostController.sellingPostType.value;
                               createPostHelper.sellingPostTypeSelect();
                               Get.find<GlobalController>().commonBottomSheet(
+                                isBottomSheetRightButtonActive: createPostController.sellingPostTypeBottomSheetRightButtonState,
                                 context: context,
                                 bottomSheetHeight: isDeviceScreenLarge() ? height * .25 : height * 0.35,
                                 content: SellingCategoryBottomSheetContent(),
@@ -301,12 +337,13 @@ class CreatePostUpperSection extends StatelessWidget {
                                   Get.back();
                                 },
                                 onPressRightButton: () {
-                                  createPostController.sellingPostType.value = createPostController.tempSellingPostType.value;
+                                  createPostController.sellingPostType.value = createPostController.temporarySellingPostType.value;
                                   createPostController.selectedBrandName.value = '';
                                   createPostController.selectedBrandId.value = -1;
-                                  createPostHelper.checkCanCreatePost();
+                                  createPostController.sellingPostTypeBottomSheetRightButtonState.value = false;
                                   createPostHelper.checkCanCreatePost();
                                   Get.find<GlobalController>().commonBottomSheet(
+                                    isBottomSheetRightButtonActive: createPostController.selectStoreBottomSheetRightButtonState,
                                     context: context,
                                     bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
                                     content: BrandBottomSheetContent(),
@@ -377,12 +414,6 @@ class SubCategoryContent extends StatelessWidget {
                           isSelected: (Get.find<CreatePostController>().tempSubCategoryIndex.value == i),
                           onSelected: (value) {
                             CreatePostHelper().onSelectPostSubCategory(i);
-                            // if (Get.find<CreatePostController>().tempSubCategory.value == '' &&
-                            //     Get.find<CreatePostController>().tempSubCategoryIndex.value == -1) {
-                            //   Get.find<GlobalController>().isBottomSheetRightButtonActive.value = false;
-                            // } else {
-                            //   Get.find<GlobalController>().isBottomSheetRightButtonActive.value = true;
-                            // }
                           },
                         )
                     ],

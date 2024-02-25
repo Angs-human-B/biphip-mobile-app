@@ -34,29 +34,27 @@ class PendingFamilyListView extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                            child: ListView.builder(
+                            child: ListView.separated(
                               itemCount: familyController.sendFamilyRequestList.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
+                              separatorBuilder: (context, index) => kH16sizedBox,
                               itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: k10Padding),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(k8BorderRadius),
-                                    child: FriendFamilySingleButtonAction(
-                                      backgroundImage: familyController.sendFamilyRequestList[index].profilePicture.toString(),
-                                      imageSize: h45,
-                                      name: familyController.sendFamilyRequestList[index].fullName ?? ksNA.tr,
-                                      subTitle: familyController.sendFamilyRequestList[index].familyRelationStatus ?? ksNA.tr,
-                                      buttonText: ksCancelRequest.tr,
-                                      buttonOnPressed: () async {
-                                        familyController.userId.value = familyController.sendFamilyRequestList[index].id!;
-                                        await familyController.cancelFamilyRequest();
-                                      },
-                                      buttonColor: cWhiteColor,
-                                      borderColor: cRedColor,
-                                      textStyle: semiBold14TextStyle(cRedColor),
-                                    ),
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                                  child: FriendFamilySingleButtonAction(
+                                    backgroundImage: familyController.sendFamilyRequestList[index].profilePicture.toString(),
+                                    imageSize: h45,
+                                    name: familyController.sendFamilyRequestList[index].fullName ?? ksNA.tr,
+                                    subTitle: familyController.sendFamilyRequestList[index].familyRelationStatus ?? ksNA.tr,
+                                    buttonText: ksCancelRequest.tr,
+                                    buttonOnPressed: () async {
+                                      familyController.userId.value = familyController.sendFamilyRequestList[index].id!;
+                                      await familyController.cancelFamilyRequest();
+                                    },
+                                    buttonColor: cWhiteColor,
+                                    borderColor: cRedColor,
+                                    textStyle: semiBold14TextStyle(cRedColor),
                                   ),
                                 );
                               },

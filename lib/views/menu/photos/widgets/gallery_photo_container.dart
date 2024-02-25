@@ -1,11 +1,12 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class GalleryPhotoContainer extends StatelessWidget {
-  const GalleryPhotoContainer({super.key, this.title, required this.subTitle, this.onPressed, required this.image});
+  const GalleryPhotoContainer({super.key, this.title, required this.subTitle, this.onPressed, required this.image, this.threeDotOnPressed});
   final String? title;
   final String subTitle;
   final List image;
   final VoidCallback? onPressed;
+  final VoidCallback? threeDotOnPressed;
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -104,26 +105,39 @@ class GalleryPhotoContainer extends StatelessWidget {
                     ]),
               SizedBox(
                 width: (width - 50) / 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    kH8sizedBox,
-                    Padding(
-                      padding: const EdgeInsets.only(left: k4Padding + k2Padding),
-                      child: Text(
-                        title!,
-                        style: semiBold14TextStyle(cBlackColor),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          kH8sizedBox,
+                          Padding(
+                            padding: const EdgeInsets.only(left: k4Padding + k2Padding),
+                            child: Text(
+                              title!,
+                              overflow: TextOverflow.ellipsis,
+                              style: semiBold14TextStyle(cBlackColor),
+                            ),
+                          ),
+                          kH4sizedBox,
+                          Padding(
+                            padding: const EdgeInsets.only(left: k4Padding + k2Padding),
+                            child: Text(
+                              subTitle,
+                              style: regular12TextStyle(cSmallBodyTextColor),
+                            ),
+                          ),
+                          kH4sizedBox,
+                        ],
                       ),
                     ),
-                    kH4sizedBox,
-                    Padding(
-                      padding: const EdgeInsets.only(left: k4Padding + k2Padding),
-                      child: Text(
-                        subTitle,
-                        style: regular12TextStyle(cSmallBodyTextColor),
-                      ),
-                    ),
-                    kH4sizedBox,
+                    CustomIconButton(
+                      onPress: threeDotOnPressed,
+                      icon: BipHip.system,
+                      size: kIconSize20,
+                    )
                   ],
                 ),
               ),

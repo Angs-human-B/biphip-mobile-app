@@ -35,81 +35,80 @@ class PendingFriendListView extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: k20Padding, vertical: k4Padding).copyWith(bottom: k0Padding),
-                            child: ListView.builder(
+                            child: ListView.separated(
                               itemCount: friendController.sendFriendRequestList.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
+                              separatorBuilder: (context, index) => kH16sizedBox,
                               itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: k12Padding),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(k8BorderRadius),
-                                    child: CustomListTile(
-                                      padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k8Padding).copyWith(right: k0Padding),
-                                      borderColor: cLineColor,
-                                      leading: Container(
-                                        height: h40,
-                                        width: h40,
-                                        decoration: const BoxDecoration(
-                                          color: cWhiteColor,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: ClipOval(
-                                          child: Image.network(
-                                            friendController.sendFriendRequestList[index].profilePicture.toString(),
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (context, error, stackTrace) {
-                                              return Image.asset(kiProfileDefaultImageUrl);
-                                            },
-                                            loadingBuilder: imageLoadingBuilder,
-                                          ),
-                                        ),
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                                  child: CustomListTile(
+                                    padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k8Padding).copyWith(right: k0Padding),
+                                    borderColor: cLineColor,
+                                    leading: Container(
+                                      height: h40,
+                                      width: h40,
+                                      decoration: const BoxDecoration(
+                                        color: cWhiteColor,
+                                        shape: BoxShape.circle,
                                       ),
-                                      title: Text(
-                                        friendController.sendFriendRequestList[index].fullName ?? ksNA.tr,
-                                        style: semiBold16TextStyle(cBlackColor),
-                                      ),
-                                      trailing: CustomIconButton(
-                                          onPress: () {
-                                            friendController.pendingFriendActionSelect.value = '';
-                                            friendController.pendingFriendFollowStatus.value = friendController.sendFriendRequestList[index].followStatus!;
-                                            if (friendController.pendingFriendActionSelect.value == '') {
-                                              globalController.isBottomSheetRightButtonActive.value = false;
-                                            } else {
-                                              globalController.isBottomSheetRightButtonActive.value = true;
-                                            }
-                                            globalController.commonBottomSheet(
-                                              context: context,
-                                              isScrollControlled: true,
-                                              content: PendingFriendActionContent(
-                                                friendController: friendController,
-                                              ),
-                                              onPressCloseButton: () {
-                                                Get.back();
-                                              },
-                                              onPressRightButton: () async {
-                                                friendController.userId.value = friendController.sendFriendRequestList[index].id!;
-                                                Get.back();
-                                                if (friendController.pendingFriendActionSelect.value == 'Cancel Request') {
-                                                  await friendController.cancelFriendRequest();
-                                                }
-                                                if (friendController.pendingFriendActionSelect.value == 'Unfollow') {
-                                                  await friendController.unfollowUser();
-                                                }
-                                                if (friendController.pendingFriendActionSelect.value == 'Follow') {
-                                                  await friendController.followUser();
-                                                }
-                                                friendController.pendingFriendActionSelect.value = '';
-                                              },
-                                              rightText: ksDone.tr,
-                                              rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                              title: ksAction.tr,
-                                              isRightButtonShow: true,
-                                              bottomSheetHeight: 200,
-                                            );
+                                      child: ClipOval(
+                                        child: Image.network(
+                                          friendController.sendFriendRequestList[index].profilePicture.toString(),
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stackTrace) {
+                                            return Image.asset(kiProfileDefaultImageUrl);
                                           },
-                                          icon: BipHip.system),
+                                          loadingBuilder: imageLoadingBuilder,
+                                        ),
+                                      ),
                                     ),
+                                    title: Text(
+                                      friendController.sendFriendRequestList[index].fullName ?? ksNA.tr,
+                                      style: semiBold16TextStyle(cBlackColor),
+                                    ),
+                                    trailing: CustomIconButton(
+                                        onPress: () {
+                                          friendController.pendingFriendActionSelect.value = '';
+                                          friendController.pendingFriendFollowStatus.value = friendController.sendFriendRequestList[index].followStatus!;
+                                          if (friendController.pendingFriendActionSelect.value == '') {
+                                            friendController.pendingFriendActionBottomSheetRightButtonState.value = false;
+                                          } else {
+                                            friendController.pendingFriendActionBottomSheetRightButtonState.value = true;
+                                          }
+                                          globalController.commonBottomSheet(
+                                            context: context,
+                                            isBottomSheetRightButtonActive: friendController.pendingFriendActionBottomSheetRightButtonState,
+                                            isScrollControlled: true,
+                                            content: PendingFriendActionContent(
+                                              friendController: friendController,
+                                            ),
+                                            onPressCloseButton: () {
+                                              Get.back();
+                                            },
+                                            onPressRightButton: () async {
+                                              friendController.userId.value = friendController.sendFriendRequestList[index].id!;
+                                              Get.back();
+                                              if (friendController.pendingFriendActionSelect.value == 'Cancel Request') {
+                                                await friendController.cancelFriendRequest();
+                                              }
+                                              if (friendController.pendingFriendActionSelect.value == 'Unfollow') {
+                                                await friendController.unfollowUser();
+                                              }
+                                              if (friendController.pendingFriendActionSelect.value == 'Follow') {
+                                                await friendController.followUser();
+                                              }
+                                              friendController.pendingFriendActionSelect.value = '';
+                                            },
+                                            rightText: ksDone.tr,
+                                            rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                            title: ksAction.tr,
+                                            isRightButtonShow: true,
+                                            bottomSheetHeight: 200,
+                                          );
+                                        },
+                                        icon: BipHip.system),
                                   ),
                                 );
                               },

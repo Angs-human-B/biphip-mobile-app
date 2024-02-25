@@ -111,6 +111,7 @@ class AuthenticationController extends GetxController {
         // await setDeviceID(loginData.user.id);
         isLoginLoading.value = false;
         Get.offAllNamed(krHome);
+        Get.find<HomeController>().homeTabIndex.value=0;
         await Get.find<HomeController>().getPostList();
         // final HomeController homeController = Get.find<HomeController>();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -393,6 +394,7 @@ class AuthenticationController extends GetxController {
         // await homeController.getUserHome();
         if (parentRoute.value == "login") {
           isOTPLoading.value = false;
+          Get.find<HomeController>().homeTabIndex.value=0;
           Get.offAllNamed(krHome);
           await Get.find<HomeController>().getPostList();
         } else if (parentRoute.value == "register") {

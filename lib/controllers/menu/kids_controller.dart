@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
+import 'package:bip_hip/models/post/kid_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class KidsController extends GetxController {
@@ -147,6 +149,14 @@ class KidsController extends GetxController {
   final Rx<File> kidCoverImageFile = File('').obs;
   final RxBool isKidCoverImageChanged = RxBool(false);
 
+  final List kidRelationList = (['Father', 'Mother', 'Sister', 'Brother']);
+  final RxString selectedKidRelation = RxString('');
+  final RxString tempSelectedKidRelation = RxString('');
+
+  final List kidGenderList = (['Male', 'Female', 'Others']);
+  final RxString selectedKidGender = RxString('');
+  final RxString tempSelectedKidGender = RxString('');
+
   void resetKidProfilePictureData() {
     isKidProfileImageChanged.value = false;
     kidImageLink.value = '';
@@ -159,13 +169,62 @@ class KidsController extends GetxController {
     kidCoverImageFile.value = File('');
   }
 
+  final RxBool isContactInfoNextButtonEnabled = RxBool(false);
+
+  void resetKidContactInfo() {
+    kidParentEmailController.clear();
+    kidParentPhoneController.clear();
+    kidParentAddressController.clear();
+    kidBioController.clear();
+    kidParentEmailErrorText.value = null;
+    isContactInfoNextButtonEnabled.value = false;
+  }
+
+  void checkContactInfoNextButtonEnabled() {
+    if ((kidParentPhoneController.text.toString().trim() != '' ||
+            kidParentAddressController.text.toString().trim() != '' ||
+            kidBioController.text.toString().trim() != '' ||
+            kidParentEmailController.text.toString().trim().isValidEmail) &&
+        kidParentEmailErrorText.value == null) {
+      isContactInfoNextButtonEnabled.value = true;
+    } else {
+      isContactInfoNextButtonEnabled.value = false;
+    }
+  }
+
+  void resetkidSocialLink() {
+    kidWebsiteController.clear();
+    kidFacebookController.clear();
+    kidInstagramController.clear();
+    kidTwitterController.clear();
+    kidYoutubeController.clear();
+  }
+
+  final Rx<String?> kidParentEmailErrorText = Rx<String?>(null);
+
+  void kidParentEmailValidation() {
+    if (kidParentEmailController.text.toString().trim() != '' && !kidParentEmailController.text.toString().trim().isValidEmail) {
+      kidParentEmailErrorText.value = ksInvalidEmailErrorMessage.tr;
+    } else {
+      kidParentEmailErrorText.value = null;
+    }
+    checkContactInfoNextButtonEnabled();
+  }
+
   void resetKidsData() {
     kidNameTextEditingController.clear();
     kidAgeTextEditingController.clear();
     kidSchoolNameTextEditingController.clear();
+    resetKidContactInfo();
+    resetkidSocialLink();
+    isNextButtonEnabled.value = false;
     kidNameErrorText.value = null;
     kidAgeErrorText.value = null;
-    isNextButtonEnabled.value = false;
+    tempSelectedKidRelation.value = '';
+    selectedKidRelation.value = '';
+    tempSelectedKidGender.value = '';
+    selectedKidGender.value = '';
+    kidBioCount.value = 0;
     resetKidProfilePictureData();
     resetKidCoverPhotoData();
   }
@@ -219,5 +278,79 @@ class KidsController extends GetxController {
       isEditKidLoading.value = false;
       ll('editKid error: $e');
     }
+  }
+
+  //*Add kid API Implementation
+  Rx<KidModel?> kidData = Rx<KidModel?>(null);
+  // RxList<PostCategory> postCategoryList = RxList<PostCategory>([]);
+  final RxBool isAddKidLoading = RxBool(false);
+  Future<void> addKid() async {
+    try {
+      isAddKidLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'name': kidNameTextEditingController.text.toString().trim(),
+        'relation_id': '1',
+        'age': kidAgeTextEditingController.text.toString().trim(),
+        'gender': selectedKidGender.value,
+        'school_name': kidSchoolNameTextEditingController.text.toString().trim(),
+        'email': kidParentEmailController.text.toString().trim(),
+        'phone': kidParentPhoneController.text.toString().trim(),
+        'address': kidParentAddressController.text.toString().trim(),
+        'bio': kidBioController.text.toString().trim(),
+        'social_links': json.encode(kidSocialLinkList),
+      };
+      final List<String> key = ['profile_picture', 'cover_photo'];
+      final List<dynamic> value = [kidProfileImageFile.value.path, kidCoverImageFile.value.path];
+      var response = await apiController.mediaUploadMultipleKeyAndValue(
+        url: kuAddKid,
+        body: body,
+        token: token,
+        keys: key,
+        values: value,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        kidData.value = KidModel.fromJson(response.data);
+        ll(kidData.value!.name);
+        getKidsList();
+        isAddKidLoading.value = false;
+        Get.offNamedUntil(krKidsPage, ModalRoute.withName(krMenu));
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isAddKidLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isAddKidLoading.value = false;
+      ll('addKid error: $e');
+    }
+  }
+
+  final RxList kidSocialLinkList = RxList([]);
+
+  void kidSocialLink() {
+    kidSocialLinkList.clear();
+    if (kidWebsiteController.text.toString().trim() != '') {
+      kidSocialLinkList.add({'Web': kidWebsiteController.text.toString().trim()});
+    }
+    if (kidFacebookController.text.toString().trim() != '') {
+      kidSocialLinkList.add({'Facebook': kidFacebookController.text.toString().trim()});
+    }
+    if (kidInstagramController.text.toString().trim() != '') {
+      kidSocialLinkList.add({'Instagram': kidInstagramController.text.toString().trim()});
+    }
+    if (kidTwitterController.text.toString().trim() != '') {
+      kidSocialLinkList.add({'Twitter': kidTwitterController.text.toString().trim()});
+    }
+    if (kidYoutubeController.text.toString().trim() != '') {
+      kidSocialLinkList.add({'Youtube': kidYoutubeController.text.toString().trim()});
+    }
+    ll(kidSocialLinkList);
   }
 }
