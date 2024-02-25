@@ -12,12 +12,15 @@ class BirthdayPage extends StatelessWidget {
     final upcomingBirthdays = pendentBadgesController.birthdayList.where((item) => item['birthday'] == 'Upcoming').toList();
     for (int i = 0; i < todayBirthdays.length; i++) {
       pendentBadgesController.todayBirthdayTimelineTextEditingController.add(TextEditingController());
+      pendentBadgesController.todayBirthdaySendButtonEnabled.add(false.obs);
     }
     for (int i = 0; i < inTwoDaysBirthdays.length; i++) {
       pendentBadgesController.in2DaysBirthdayTimelineTextEditingController.add(TextEditingController());
+      pendentBadgesController.in2DaysBirthdaySendButtonEnabled.add(false.obs);
     }
     for (int i = 0; i < upcomingBirthdays.length; i++) {
       pendentBadgesController.upcomingBirthdayTimelineTextEditingController.add(TextEditingController());
+      // pendentBadgesController.upcomingBirthdaySendButtonEnabled.add(false);
     }
     return Container(
       color: cWhiteColor,
@@ -67,6 +70,7 @@ class BirthdayPage extends StatelessWidget {
                                 birthDate: todayBirthdays[index]['birthDate'],
                                 age: todayBirthdays[index]['age'],
                                 birthdayTextEditingControllerValue: pendentBadgesController.todayBirthdayTimelineTextEditingController[index],
+                                isBirthdaySendButtonEnabled: pendentBadgesController.todayBirthdaySendButtonEnabled[index],
                                 isAlreadyWished: todayBirthdays[index]['isTimelinePostEnable'],
                                 isTimelinePostEnabled: todayBirthdays[index]['isAlreadyWished'],
                               );
@@ -91,6 +95,7 @@ class BirthdayPage extends StatelessWidget {
                               birthDate: inTwoDaysBirthdays[index]['birthDate'],
                               age: inTwoDaysBirthdays[index]['age'],
                               birthdayTextEditingControllerValue: pendentBadgesController.in2DaysBirthdayTimelineTextEditingController[index],
+                              isBirthdaySendButtonEnabled: pendentBadgesController.in2DaysBirthdaySendButtonEnabled[index],
                               isAlreadyWished: inTwoDaysBirthdays[index]['isTimelinePostEnable'],
                               isTimelinePostEnabled: inTwoDaysBirthdays[index]['isAlreadyWished'],
                             );
@@ -135,7 +140,7 @@ class BirthdayPage extends StatelessWidget {
 }
 
 class BirthdayCommonView extends StatelessWidget {
-  const BirthdayCommonView(
+  BirthdayCommonView(
       {super.key,
       this.userImage,
       this.name,
@@ -145,7 +150,8 @@ class BirthdayCommonView extends StatelessWidget {
       this.isTodayOrIn2DaysBirthday = true,
       required this.birthdayTextEditingControllerValue,
       this.isTimelinePostEnabled,
-      this.isAlreadyWished});
+      this.isAlreadyWished,
+      this.isBirthdaySendButtonEnabled});
   final String? userImage;
   final String? name;
   final String? birthday;
@@ -153,8 +159,10 @@ class BirthdayCommonView extends StatelessWidget {
   final String? age;
   final bool? isTodayOrIn2DaysBirthday;
   final TextEditingController birthdayTextEditingControllerValue;
+  final RxBool? isBirthdaySendButtonEnabled;
   final bool? isTimelinePostEnabled;
   final bool? isAlreadyWished;
+  final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
 
   @override
   Widget build(BuildContext context) {
@@ -276,10 +284,10 @@ class BirthdayCommonView extends StatelessWidget {
                         ),
                       ),
                       onChanged: (v) {
-                        if (birthdayTextEditingControllerValue.text.toString() != '') {
-                          Get.find<PendentBadgesController>().isBirthdaySendButtonEnable.value = true;
+                        if (birthdayTextEditingControllerValue.text.toString().trim() != '') {
+                          isBirthdaySendButtonEnabled!.value = true;
                         } else {
-                          Get.find<PendentBadgesController>().isBirthdaySendButtonEnable.value = false;
+                          isBirthdaySendButtonEnabled!.value = false;
                         }
                       },
                     ),
@@ -287,7 +295,7 @@ class BirthdayCommonView extends StatelessWidget {
                   kW12sizedBox,
                   Obx(() => CustomElevatedButton(
                         label: ksSend.tr,
-                        onPressed: Get.find<PendentBadgesController>().isBirthdaySendButtonEnable.value ? () {} : null,
+                        onPressed: isBirthdaySendButtonEnabled!.value ? () {} : null,
                         buttonWidth: 64,
                         buttonHeight: h32,
                         buttonColor: cPrimaryColor,

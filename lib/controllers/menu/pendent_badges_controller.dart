@@ -116,8 +116,8 @@ class PendentBadgesController extends GetxController {
   List todayBirthdayTimelineTextEditingController = [];
   List in2DaysBirthdayTimelineTextEditingController = [];
   List upcomingBirthdayTimelineTextEditingController = [];
-  final RxBool isBirthdaySendButtonEnable = RxBool(false);
-  //  List<bool> isBirthdaySendButtonEnable = List.generate(birthdayList.length, (index) => false).obs;
+  final RxList todayBirthdaySendButtonEnabled = RxList([]);
+  final RxList in2DaysBirthdaySendButtonEnabled = RxList([]);
   List birthdayList = [
     {
       "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
@@ -161,7 +161,7 @@ class PendentBadgesController extends GetxController {
       "birthday": "2 days",
       "birthDate": "25 september",
       "age": "15 years old",
-        "isTimelinePostEnable": true,
+      "isTimelinePostEnable": true,
       "isAlreadyWished": false,
     },
     {
@@ -170,7 +170,7 @@ class PendentBadgesController extends GetxController {
       "birthday": "Upcoming",
       "birthDate": "25 september",
       "age": "15 years old",
-        "isTimelinePostEnable": true,
+      "isTimelinePostEnable": true,
       "isAlreadyWished": false,
     },
     {
@@ -179,7 +179,7 @@ class PendentBadgesController extends GetxController {
       "birthday": "Upcoming",
       "birthDate": "25 september",
       "age": "15 years old",
-        "isTimelinePostEnable": true,
+      "isTimelinePostEnable": true,
       "isAlreadyWished": false,
     },
     {
@@ -188,7 +188,7 @@ class PendentBadgesController extends GetxController {
       "birthday": "Upcoming",
       "birthDate": "25 september",
       "age": "15 years old",
-        "isTimelinePostEnable": true,
+      "isTimelinePostEnable": true,
       "isAlreadyWished": false,
     },
     {
@@ -197,7 +197,7 @@ class PendentBadgesController extends GetxController {
       "birthday": "Upcoming",
       "birthDate": "25 september",
       "age": "15 years old",
-        "isTimelinePostEnable": true,
+      "isTimelinePostEnable": true,
       "isAlreadyWished": false,
     },
     {
@@ -206,7 +206,7 @@ class PendentBadgesController extends GetxController {
       "birthday": "Upcoming",
       "birthDate": "25 september",
       "age": "15 years old",
-        "isTimelinePostEnable": true,
+      "isTimelinePostEnable": true,
       "isAlreadyWished": false,
     },
   ];

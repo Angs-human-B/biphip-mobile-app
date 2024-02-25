@@ -75,6 +75,10 @@ class MenuHelper {
         ll('Birthday');
         Get.find<PendentBadgesController>().todayBirthdayTimelineTextEditingController.clear();
         Get.find<PendentBadgesController>().in2DaysBirthdayTimelineTextEditingController.clear();
+        Get.find<PendentBadgesController>().upcomingBirthdayTimelineTextEditingController.clear();
+        Get.find<PendentBadgesController>().todayBirthdaySendButtonEnabled.clear();
+        Get.find<PendentBadgesController>().in2DaysBirthdaySendButtonEnabled.clear();
+
         Get.toNamed(krBirthdayPage);
         break;
     }
