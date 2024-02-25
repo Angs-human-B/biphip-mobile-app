@@ -1,7 +1,9 @@
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
+import 'package:bip_hip/shimmers/menu/pendent/pendent_page_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 class PendentPage extends StatelessWidget {
   PendentPage({super.key});
@@ -31,180 +33,193 @@ class PendentPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
             child: SingleChildScrollView(
               child: Obx(
-                () => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    kH16sizedBox,
-                    Text(
-                      ksCurrentPendent.tr,
-                      style: semiBold16TextStyle(cBlackColor),
-                    ),
-                    kH8sizedBox,
-                    if (pendentBadgesController.userPendentList.isEmpty)
-                      Container(
-                        width: width - 40,
-                        height: 64,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(k8BorderRadius),
-                          border: Border.all(
-                            color: cLineColor,
-                            width: 1,
+                () => pendentBadgesController.isUserPendentLoading.value
+                    ? const PendentPageShimmer()
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          kH16sizedBox,
+                          Text(
+                            ksCurrentPendent.tr,
+                            style: semiBold16TextStyle(cBlackColor),
                           ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            ksNoActivePendent.tr,
-                            style: semiBold14TextStyle(cSmallBodyTextColor),
-                          ),
-                        ),
-                      ),
-                    if (pendentBadgesController.userPendentList.isNotEmpty)
-                      Container(
-                        width: width - 40,
-                        height: 108,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(k8BorderRadius),
-                          border: Border.all(
-                            color: cLineColor,
-                            width: 1,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: k16Padding, top: k16Padding),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Your current pendent is Crown",
-                                    style: regular14TextStyle(cBlackColor),
-                                  ),
-                                  kH4sizedBox,
-                                  Text(
-                                    "Purchased on: 14 Sep 2023",
-                                    style: regular12TextStyle(cSmallBodyTextColor),
-                                  ),
-                                  kH12sizedBox,
-                                  Row(
-                                    children: [
-                                      CustomElevatedButton(
-                                          buttonWidth: 70,
-                                          buttonHeight: h24,
-                                          buttonColor: cPrimaryColor,
-                                          label: ksUpdate.tr,
-                                          textStyle: semiBold12TextStyle(cWhiteColor),
-                                          onPressed: () {}),
-                                      kW12sizedBox,
-                                      CustomElevatedButton(
-                                          buttonWidth: 70,
-                                          buttonHeight: h24,
-                                          borderColor: cPrimaryColor,
-                                          buttonColor: cWhiteColor,
-                                          label: ksHistory.tr,
-                                          textStyle: semiBold12TextStyle(cPrimaryColor),
-                                          onPressed: () {}),
-                                    ],
-                                  ),
-                                ],
+                          kH8sizedBox,
+                          if (pendentBadgesController.userPendentList.isEmpty)
+                            Container(
+                              width: width - 40,
+                              height: 64,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(k8BorderRadius),
+                                border: Border.all(
+                                  color: cLineColor,
+                                  width: 1,
+                                ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: k16Padding),
-                                child: Column(
+                              child: Center(
+                                child: Text(
+                                  ksNoActivePendent.tr,
+                                  style: semiBold14TextStyle(cSmallBodyTextColor),
+                                ),
+                              ),
+                            ),
+                          if (pendentBadgesController.userPendentList.isNotEmpty)
+                            Container(
+                              width: width - 40,
+                              height: 108,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(k8BorderRadius),
+                                border: Border.all(
+                                  color: cLineColor,
+                                  width: 1,
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: k16Padding, top: k16Padding),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    SvgPicture.asset(
-                                      kiPendentSvgImageUrl,
-                                      width: h44,
-                                      height: h44,
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Your current pendent is ${pendentBadgesController.userPendentList[0].pendent!.name}",
+                                          style: regular14TextStyle(cBlackColor),
+                                        ),
+                                        kH4sizedBox,
+                                        Text(
+                                          "Purchased on: ${DateFormat('dd MMM, yyyy').format(pendentBadgesController.userPendentList[0].startDate ?? DateTime.now())}",
+                                          style: regular12TextStyle(cSmallBodyTextColor),
+                                        ),
+                                        kH12sizedBox,
+                                        Row(
+                                          children: [
+                                            CustomElevatedButton(
+                                                buttonWidth: 70,
+                                                buttonHeight: h24,
+                                                buttonColor: cPrimaryColor,
+                                                label: ksUpdate.tr,
+                                                textStyle: semiBold12TextStyle(cWhiteColor),
+                                                onPressed: () {}),
+                                            kW12sizedBox,
+                                            CustomElevatedButton(
+                                                buttonWidth: 70,
+                                                buttonHeight: h24,
+                                                borderColor: cPrimaryColor,
+                                                buttonColor: cWhiteColor,
+                                                label: ksHistory.tr,
+                                                textStyle: semiBold12TextStyle(cPrimaryColor),
+                                                onPressed: () {}),
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                    kH8sizedBox,
-                                    Text(
-                                      "CROWN",
-                                      style: semiBold14TextStyle(cBlackColor),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: k16Padding),
+                                      child: Column(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: k8CircularBorderRadius,
+                                            child: Image.network(
+                                              "${pendentBadgesController.userPendentList[0].pendent?.icon}",
+                                              fit: BoxFit.fill,
+                                              height: 48,
+                                              width: 48,
+                                              loadingBuilder: imageLoadingBuilder,
+                                              errorBuilder: (context, error, stackTrace) {
+                                                return Image.asset(
+                                                  kiProfileDefaultImageUrl,
+                                                  height: h40,
+                                                  width: h40,
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                          kH8sizedBox,
+                                          Text(
+                                            "${pendentBadgesController.userPendentList[0].pendent!.name}",
+                                            style: semiBold14TextStyle(cBlackColor),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ],
+                            ),
+                          kH16sizedBox,
+                          Text(
+                            ksRecommended,
+                            style: semiBold18TextStyle(cBlackColor),
                           ),
-                        ),
-                      ),
-                    kH16sizedBox,
-                    Text(
-                      ksRecommended,
-                      style: semiBold18TextStyle(cBlackColor),
-                    ),
-                    kH16sizedBox,
-                    SizedBox(
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: pendentBadgesController.recommendedPendentList.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: isDeviceScreenLarge() ? 0.95 : 1,
-                          crossAxisCount: 3,
-                          crossAxisSpacing: k16Padding,
-                          mainAxisSpacing: k16Padding,
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            onTap: () {
-                              // postReactionController.selectedPackage.value = giftPackages[index];
-                              // postReactionController.selectedGiftIndex.value = index;
-                              // postReactionController.isPackageSelected.value = true;
-                              if (pendentBadgesController.selectedPendentIndex.value == index) {
-                                pendentBadgesController.pendentCheckBox.value = true;
-                                pendentBadgesController.paymentCheckBox.value = true;
-                              } else {
+                          kH16sizedBox,
+                          SizedBox(
+                            child: GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: pendentBadgesController.recommendedPendentList.length,
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                childAspectRatio: isDeviceScreenLarge() ? 0.95 : 1,
+                                crossAxisCount: 3,
+                                crossAxisSpacing: k16Padding,
+                                mainAxisSpacing: k16Padding,
+                              ),
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                  onTap: () {
+                                    if (pendentBadgesController.selectedPendentIndex.value == index) {
+                                      pendentBadgesController.pendentCheckBox.value = true;
+                                      pendentBadgesController.paymentCheckBox.value = true;
+                                    } else {
+                                      pendentBadgesController.pendentCheckBox.value = false;
+                                      pendentBadgesController.paymentCheckBox.value = false;
+                                    }
+                                    pendentBadgesController.selectedPendentIndex.value = index;
+                                    Get.find<GlobalController>().commonBottomSheet(
+                                      context: context,
+                                      bottomSheetHeight: height * 0.6,
+                                      content: PurchasePendentBottomSheetContent(
+                                        index: index,
+                                        recommendedOrAllPendentList: pendentBadgesController.recommendedPendentList,
+                                        pendentName: pendentBadgesController.recommendedPendentList[index].name,
+                                        pendentPrice: pendentBadgesController.recommendedPendentList[index].price.toString(),
+                                      ),
+                                      onPressCloseButton: () {
+                                        Get.back();
+                                      },
+                                      onPressRightButton: () {
+                                        Get.back();
+                                      },
+                                      rightText: "",
+                                      rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                      title: ksPurchasePendent.tr,
+                                      isRightButtonShow: false,
+                                      isScrollControlled: true,
+                                    );
+                                  },
+                                  child: PendentGridViewContainer(
+                                    index: index,
+                                    recommendedOrAllPendentList: pendentBadgesController.recommendedPendentList,
+                                    pendentIcon: pendentBadgesController.recommendedPendentList[index].icon,
+                                    pendentName: pendentBadgesController.recommendedPendentList[index].name,
+                                    pendentPrice: pendentBadgesController.recommendedPendentList[index].price.toString(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          kH20sizedBox,
+                          CustomElevatedButton(
+                              buttonHeight: h32,
+                              label: ksSeeAllPendent.tr,
+                              onPressed: () {
+                                pendentBadgesController.selectedPendentIndex.value = -1;
                                 pendentBadgesController.pendentCheckBox.value = false;
                                 pendentBadgesController.paymentCheckBox.value = false;
-                              }
-                              pendentBadgesController.selectedPendentIndex.value = index;
-                              Get.find<GlobalController>().commonBottomSheet(
-                                context: context,
-                                bottomSheetHeight: height * 0.6,
-                                content: PurchasePendentBottomSheetContent(
-                                  index: index,
-                                  recommendedOrAllPendentList: pendentBadgesController.recommendedPendentList,
-                                ),
-                                onPressCloseButton: () {
-                                  Get.back();
-                                },
-                                onPressRightButton: () {
-                                  Get.back();
-                                },
-                                rightText: "",
-                                rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                title: ksPurchasePendent.tr,
-                                isRightButtonShow: false,
-                                isScrollControlled: true,
-                              );
-                            },
-                            child: PendentGridViewContainer(
-                              index: index,
-                              recommendedOrAllPendentList: pendentBadgesController.recommendedPendentList,
-                              pendentIcon: pendentBadgesController.recommendedPendentList[index].icon,
-                              pendentName: pendentBadgesController.recommendedPendentList[index].name,
-                              pendentPrice: pendentBadgesController.recommendedPendentList[index].price.toString(),
-                            ),
-                          );
-                        },
+                                Get.toNamed(krAllPendent);
+                              }),
+                          kH20sizedBox,
+                        ],
                       ),
-                    ),
-                    kH20sizedBox,
-                    CustomElevatedButton(
-                        buttonHeight: h32,
-                        label: ksSeeAllPendent.tr,
-                        onPressed: () {
-                          pendentBadgesController.selectedPendentIndex.value = -1;
-                          pendentBadgesController.pendentCheckBox.value = false;
-                          pendentBadgesController.paymentCheckBox.value = false;
-                          Get.toNamed(krAllPendent);
-                        }),
-                    kH20sizedBox,
-                  ],
-                ),
               ),
             ),
           ),
@@ -215,9 +230,11 @@ class PendentPage extends StatelessWidget {
 }
 
 class PurchasePendentBottomSheetContent extends StatelessWidget {
-  PurchasePendentBottomSheetContent({super.key, required this.index, required this.recommendedOrAllPendentList});
+  PurchasePendentBottomSheetContent({super.key, required this.index, required this.recommendedOrAllPendentList, this.pendentName, this.pendentPrice});
   final int index;
   final List recommendedOrAllPendentList;
+  final String? pendentName;
+  final String? pendentPrice;
   final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
 
   @override
@@ -236,7 +253,7 @@ class PurchasePendentBottomSheetContent extends StatelessWidget {
             width: 20,
             height: 20,
           ),
-          title: recommendedOrAllPendentList[index]['packageName'],
+          title: pendentName ?? ksNA,
           titleTextStyle: semiBold14TextStyle(cBlackColor),
           borderColor: cPrimaryColor,
           itemColor: cPrimaryTint2Color,
@@ -246,7 +263,7 @@ class PurchasePendentBottomSheetContent extends StatelessWidget {
               // if (postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount']) ||
               //     (postReactionController.totalStars.value != '' && postReactionController.balance < int.parse(postReactionController.totalStars.value)))
               Text(
-                "\$${recommendedOrAllPendentList[index]['cost']}",
+                "\$$pendentPrice",
                 style: semiBold14TextStyle(cBlackColor),
               ),
             ],

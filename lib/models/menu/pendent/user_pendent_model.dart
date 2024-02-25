@@ -17,12 +17,12 @@ class UserPendentModel {
 }
 
 class Pendent {
-    int id;
-    String name;
-    String description;
-    int price;
-    int star;
-    String icon;
+    int ? id;
+    String? name;
+    String ?description;
+    int ?price;
+    int ?star;
+    String ?icon;
 
     Pendent({
         required this.id,
@@ -44,14 +44,14 @@ class Pendent {
 }
 
 class UserPendent {
-    int id;
-    int pendentId;
-    int userId;
-    DateTime startDate;
-    DateTime endDate;
-    int isActive;
-    String pendentPurchaseHistory;
-    PendentClass pendent;
+    int ?id;
+    int ?pendentId;
+    int ?userId;
+    DateTime ?startDate;
+    DateTime ?endDate;
+    int ?isActive;
+    String ?pendentPurchaseHistory;
+    PendentClass ? pendent;
 
     UserPendent({
         required this.id,
@@ -77,21 +77,19 @@ class UserPendent {
 }
 
 class PendentClass {
-    int id;
-    String name;
-    String description;
-    String icon;
-    int price;
-    int star;
-    int validityDays;
-    int monthlyRoi;
-    double dailyRoi;
-    int affilate;
-    int giftSendBenefits;
-    int giftReceiveBenefits;
-    int isActive;
-    dynamic createdAt;
-    dynamic updatedAt;
+    int ?id;
+    String ?name;
+    String ?description;
+    String ?icon;
+    int ?price;
+    int ?star;
+    int ?validityDays;
+    int ?monthlyRoi;
+    double ?dailyRoi;
+    int ?affilate;
+    int ?giftSendBenefits;
+    int ?giftReceiveBenefits;
+    int ?isActive;
 
     PendentClass({
         required this.id,
@@ -107,8 +105,6 @@ class PendentClass {
         required this.giftSendBenefits,
         required this.giftReceiveBenefits,
         required this.isActive,
-        required this.createdAt,
-        required this.updatedAt,
     });
 
     factory PendentClass.fromJson(Map<String, dynamic> json) => PendentClass(
@@ -125,7 +121,5 @@ class PendentClass {
         giftSendBenefits: json["gift_send_benefits"],
         giftReceiveBenefits: json["gift_receive_benefits"],
         isActive: json["is_active"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
     );
 }
