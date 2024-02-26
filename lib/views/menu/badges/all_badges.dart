@@ -74,7 +74,7 @@ class AllBadges extends StatelessWidget {
                         GridView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: giftPackages.length,
+                          itemCount: pendentBadgesController.allBadgesList.length,
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             childAspectRatio: isDeviceScreenLarge() ? 0.95 : 1,
                             crossAxisCount: 3,
@@ -84,7 +84,7 @@ class AllBadges extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
                               onTap: () {
-                                pendentBadgesController.selectedPackage.value = giftPackages[index];
+                                // pendentBadgesController.selectedPackage.value = pendentBadgesController.allBadgesList[index];
                                 pendentBadgesController.isPackageSelected.value = true;
                                 pendentBadgesController.selectedBadgeIndex.value = index;
                                 pendentBadgesController.selectedBadgeIndex.value = -1;
@@ -100,7 +100,10 @@ class AllBadges extends StatelessWidget {
                               },
                               child: BadgesGridViewContainer(
                                 index: index,
-                                recommendedOrAllBadgesList: giftPackages,
+                                recommendedOrAllBadgesList: pendentBadgesController.allBadgesList,
+                                badgeIcon: pendentBadgesController.allBadgesList[index].icon,
+                                badgeName: pendentBadgesController.allBadgesList[index].name,
+                                badgeStar: pendentBadgesController.allBadgesList[index].star.toString(),
                               ),
                             );
                           },
@@ -217,22 +220,21 @@ class PurchaseCustomStarContent extends StatelessWidget {
                           pendentBadgesController.totalStarBuyAmount.value = pendentBadgesController.temporarytotalStarBuyAmount.value;
                           pendentBadgesController.totalStars.value = pendentBadgesController.temporaryTotalStars.value;
                           pendentBadgesController.selectedBadgeIndex.value = -1;
-                          pendentBadgesController.selectedPackage.value = null;
                           pendentBadgesController.isPackageSelected.value = false;
                           Get.back();
-                           Get.find<GlobalController>().commonBottomSheet(
-                                    context: context,
-                                    bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
-                                    isScrollControlled: true,
-                                    content: GiftPurchasePaymentContent(),
-                                    onPressCloseButton: () {
-                                      Get.back();
-                                    },
-                                    onPressRightButton: () {},
-                                    rightText: '',
-                                    rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                    title: ksPayNow.tr,
-                                    isRightButtonShow: false);
+                          Get.find<GlobalController>().commonBottomSheet(
+                              context: context,
+                              bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
+                              isScrollControlled: true,
+                              content: GiftPurchasePaymentContent(),
+                              onPressCloseButton: () {
+                                Get.back();
+                              },
+                              onPressRightButton: () {},
+                              rightText: '',
+                              rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                              title: ksPayNow.tr,
+                              isRightButtonShow: false);
                         }
                       : null,
                   textStyle: semiBold14TextStyle(cWhiteColor),

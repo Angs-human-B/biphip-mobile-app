@@ -1,7 +1,6 @@
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/badges/all_badges.dart';
-import 'package:flutter_svg/svg.dart';
 
 class BadgesStarPage extends StatelessWidget {
   BadgesStarPage({super.key});
@@ -76,7 +75,7 @@ class BadgesStarPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(k8BorderRadius),
                     ),
                     child: Center(
-                      child: pendentBadgesController.currentStar.value == 0
+                      child: pendentBadgesController.userBadgesData.value?.starBalance == 0
                           ? Text(
                               ksNoActiveStar.tr,
                               style: semiBold14TextStyle(cSmallBodyTextColor),
@@ -99,7 +98,7 @@ class BadgesStarPage extends StatelessWidget {
                                     ).createShader(bounds);
                                   },
                                   child: Text(
-                                    '${pendentBadgesController.currentStar.value}',
+                                    '${pendentBadgesController.userBadgesData.value?.starBalance}',
                                     style: semiBold20TextStyle(cWhiteColor),
                                   ),
                                 ),
@@ -127,9 +126,9 @@ class BadgesStarPage extends StatelessWidget {
                     child: GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: giftPackages.length,
+                      itemCount: pendentBadgesController.recommendedBadgesList.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: isDeviceScreenLarge() ? 0.95 : 1,
+                        childAspectRatio: isDeviceScreenLarge() ? 0.85 : 1,
                         crossAxisCount: 3,
                         crossAxisSpacing: k16Padding,
                         mainAxisSpacing: k16Padding,
@@ -137,7 +136,7 @@ class BadgesStarPage extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
                           onTap: () {
-                            pendentBadgesController.selectedPackage.value = giftPackages[index];
+                            // pendentBadgesController.selectedPackage.value = pendentBadgesController.recommendedBadgesList[index];//!Change it
                             pendentBadgesController.isPackageSelected.value = true;
                             pendentBadgesController.selectedBadgeIndex.value = index;
                             pendentBadgesController.selectedBadgeIndex.value = -1;
@@ -149,11 +148,18 @@ class BadgesStarPage extends StatelessWidget {
                             pendentBadgesController.totalStars.value = '';
                             pendentBadgesController.isStarAmountConfirmButtonEnabled.value = false;
                             pendentBadgesController.starAmountTextEditingController.clear();
+                            pendentBadgesController.selectedBadgeIcon.value = pendentBadgesController.recommendedBadgesList[index].icon!;
+                            pendentBadgesController.selectedBadgeStar.value = pendentBadgesController.recommendedBadgesList[index].star.toString();
+                            pendentBadgesController.selectedBadgePrice.value = pendentBadgesController.recommendedBadgesList[index].price.toString();
+                            pendentBadgesController.selectedBadgeDescription.value = pendentBadgesController.recommendedBadgesList[index].description!;
                             Get.toNamed(krPurchaseStar);
                           },
                           child: BadgesGridViewContainer(
                             index: index,
-                            recommendedOrAllBadgesList: giftPackages,
+                            recommendedOrAllBadgesList: pendentBadgesController.recommendedBadgesList,
+                            badgeIcon: pendentBadgesController.recommendedBadgesList[index].icon,
+                            badgeName: pendentBadgesController.recommendedBadgesList[index].name,
+                            badgeStar: pendentBadgesController.recommendedBadgesList[index].star.toString(),
                           ),
                         );
                       },
@@ -185,10 +191,16 @@ class BadgesGridViewContainer extends StatelessWidget {
     super.key,
     required this.index,
     required this.recommendedOrAllBadgesList,
+    this.badgeIcon,
+    this.badgeName,
+    this.badgeStar,
   });
 
   final int index;
   final List recommendedOrAllBadgesList;
+  final String? badgeIcon;
+  final String? badgeName;
+  final String? badgeStar;
   final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
 
   @override
@@ -205,17 +217,24 @@ class BadgesGridViewContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              ClipRRect(
-                borderRadius: k8CircularBorderRadius,
-                child: SvgPicture.asset(
-                  recommendedOrAllBadgesList[index]['badge'],
-                  fit: BoxFit.fill,
-                ),
+              Image.network(
+                badgeIcon!,
+                width: 48,
+                height: 48,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                    kiProfileDefaultImageUrl,
+                    height: h40,
+                    width: h40,
+                  );
+                },
+                loadingBuilder: imageLoadingBuilder,
               ),
               kH4sizedBox,
               Expanded(
                 child: Text(
-                  recommendedOrAllBadgesList[index]['packageName'],
+                  badgeName ?? ksNA,
                   style: semiBold14TextStyle(cBlackColor),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -231,7 +250,7 @@ class BadgesGridViewContainer extends StatelessWidget {
                   ),
                   kW4sizedBox,
                   Text(
-                    recommendedOrAllBadgesList[index]['amount'],
+                    badgeStar ?? ksNA,
                     style: regular10TextStyle(cBlackColor),
                   ),
                   kH12sizedBox,

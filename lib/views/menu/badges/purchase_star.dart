@@ -5,8 +5,9 @@ import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter_svg/svg.dart';
 
 class PurchaseStar extends StatelessWidget {
-  PurchaseStar({super.key});
-
+  PurchaseStar({
+    super.key,
+  });
   final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
 
   @override
@@ -43,7 +44,7 @@ class PurchaseStar extends StatelessWidget {
                           style: regular12TextStyle(cIconColor),
                         ),
                         Text(
-                          " (${pendentBadgesController.currentStar.value} of 200)",
+                          " (${pendentBadgesController.userBadgesData.value?.starBalance} of 200)",
                           style: regular12TextStyle(cIconColor),
                         )
                       ],
@@ -71,7 +72,7 @@ class PurchaseStar extends StatelessWidget {
                               ).createShader(bounds);
                             },
                             child: Text(
-                              '${pendentBadgesController.currentStar.value}',
+                              '${pendentBadgesController.userBadgesData.value?.starBalance}',
                               style: semiBold20TextStyle(cWhiteColor),
                             ),
                           ),
@@ -98,16 +99,23 @@ class PurchaseStar extends StatelessWidget {
                     ),
                     kH8sizedBox,
                     Obx(() => CustomListTile(
-                          leading: SvgPicture.asset(
-                            kiBadgeSvgImageUrl,
-                            width: 20,
-                            height: 20,
+                          leading: Image.network(
+                            pendentBadgesController.selectedBadgeIcon.value,
+                            width: h20,
+                            height: h20,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                kiProfileDefaultImageUrl,
+                                height: h40,
+                                width: h40,
+                              );
+                            },
+                            loadingBuilder: imageLoadingBuilder,
                           ),
                           title: pendentBadgesController.totalStars.value != ''
                               ? '${pendentBadgesController.totalStars.value} stars'
-                              : pendentBadgesController.selectedPackage.value == null
-                                  ? "0"
-                                  : '${pendentBadgesController.selectedPackage.value?['amount']} stars',
+                              : '${pendentBadgesController.selectedBadgeStar.value} stars',
                           borderColor: cPrimaryColor,
                           itemColor: cPrimaryTint2Color,
                           trailing: Row(
@@ -115,10 +123,8 @@ class PurchaseStar extends StatelessWidget {
                             children: [
                               Text(
                                 pendentBadgesController.totalStars.value != ''
-                                    ? "\$${pendentBadgesController.totalStarBuyAmount.value.toStringAsFixed(2)}"
-                                    : pendentBadgesController.selectedPackage.value == null
-                                        ? "0"
-                                        : "\$${pendentBadgesController.selectedPackage.value?['cost']}",
+                                    ? '\$${pendentBadgesController.totalStarBuyAmount.value.toStringAsFixed(2)}'
+                                    : '\$${pendentBadgesController.selectedBadgePrice.value}',
                                 style: semiBold16TextStyle(cBlackColor),
                               ),
                             ],
@@ -133,32 +139,34 @@ class PurchaseStar extends StatelessWidget {
                     ),
                     kH8sizedBox,
                     Text(
-                      "Pendent that you purchase here are kept in your balance. You can send stars from your balance at any time. Pendent that you purchase here are kept in your balance. You can send stars from your balance at any time.",
+                      pendentBadgesController.selectedBadgeDescription.value,
                       style: regular14TextStyle(cBlackColor),
                     ),
-                    kH16sizedBox,
-                    for (int i = 0; i < pendentBadgesController.benefitsList.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.only(top: k4Padding),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 4,
-                              height: 4,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: cBlackColor,
-                              ),
-                            ),
-                            kW8sizedBox,
-                            Text(
-                              pendentBadgesController.benefitsList[i],
-                              style: regular12TextStyle(cBlackColor),
-                              overflow: TextOverflow.clip,
-                            ),
-                          ],
-                        ),
-                      ),
+                    //*Not need now.
+                    // kH16sizedBox,
+                    // for (int i = 0; i < pendentBadgesController.benefitsList.length; i++)
+                    //   Padding(
+                    //     padding: const EdgeInsets.only(top: k4Padding),
+                    //     child: Row(
+                    //       children: [
+                    //         Container(
+                    //           width: 4,
+                    //           height: 4,
+                    //           decoration: const BoxDecoration(
+                    //             shape: BoxShape.circle,
+                    //             color: cBlackColor,
+                    //           ),
+                    //         ),
+                    //         kW8sizedBox,
+                    //         Text(
+                    //           pendentBadgesController.benefitsList[i],
+                    //           style: regular12TextStyle(cBlackColor),
+                    //           overflow: TextOverflow.clip,
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+
                     kH16sizedBox,
                     RichText(
                       text: TextSpan(
@@ -228,33 +236,55 @@ class PurchaseStar extends StatelessWidget {
                       child: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: packages.length,
+                          itemCount: pendentBadgesController.popularBadgesList.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: k8Padding),
                               child: Obx(() => CustomListTile(
                                     onPressed: () {
-                                      pendentBadgesController.selectedPackage.value = packages[index];
+                                      // pendentBadgesController.selectedPackage.value = packages[index];
+                                      pendentBadgesController.selectedBadgeIndex.value = pendentBadgesController.popularBadgesList[index].id!;
+                                      pendentBadgesController.selectedBadgeIcon.value = pendentBadgesController.popularBadgesList[index].icon!;
+                                      pendentBadgesController.selectedBadgeStar.value = pendentBadgesController.popularBadgesList[index].star.toString();
+                                      pendentBadgesController.selectedBadgePrice.value = pendentBadgesController.popularBadgesList[index].price.toString();
+                                      pendentBadgesController.selectedBadgeDescription.value = pendentBadgesController.popularBadgesList[index].description!;
                                       pendentBadgesController.resetPurchaseCustomStar();
                                     },
-                                    leading: SvgPicture.asset(kiBadgeSvgImageUrl, width: 20, height: 20),
-                                    title: '${packages[index]['amount']} stars',
-                                    borderColor: pendentBadgesController.selectedPackage.value == packages[index] ? cPrimaryColor : cLineColor,
-                                    itemColor: pendentBadgesController.selectedPackage.value == packages[index] ? cPrimaryTint3Color : cWhiteColor,
+                                    leading: Image.network(
+                                      pendentBadgesController.popularBadgesList[index].icon!,
+                                      width: h20,
+                                      height: h20,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Image.asset(
+                                          kiProfileDefaultImageUrl,
+                                          height: h40,
+                                          width: h40,
+                                        );
+                                      },
+                                      loadingBuilder: imageLoadingBuilder,
+                                    ),
+                                    title: '${pendentBadgesController.popularBadgesList[index].star} stars',
+                                    borderColor: pendentBadgesController.selectedBadgeIndex.value == pendentBadgesController.popularBadgesList[index].id
+                                        ? cPrimaryColor
+                                        : cLineColor,
+                                    itemColor: pendentBadgesController.selectedBadgeIndex.value == pendentBadgesController.popularBadgesList[index].id
+                                        ? cPrimaryTint3Color
+                                        : cWhiteColor,
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         // if (pendentBadgesController.currentStar < int.parse(packages[index]['amount']))
                                         Text(
-                                          '${packages[index]['cost']}',
+                                          '${pendentBadgesController.popularBadgesList[index].price}',
                                           style: semiBold16TextStyle(cBlackColor),
                                         ),
                                         kW8sizedBox,
                                         Radio(
                                           value: packages[index],
-                                          groupValue: pendentBadgesController.selectedPackage.value,
+                                          groupValue: pendentBadgesController.selectedBadgeIndex.value,
                                           onChanged: (v) {
-                                            pendentBadgesController.selectedPackage.value = v;
+                                            pendentBadgesController.selectedBadgeIndex.value = v;
                                           },
                                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                           visualDensity: const VisualDensity(

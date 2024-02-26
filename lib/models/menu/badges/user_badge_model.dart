@@ -1,8 +1,8 @@
 class UserBadgesModel {
   int? starBalance;
-  List<Badge> recommendedBadges;
-  List<Badge> allBadges;
-  List<Badge> popularBadges;
+  List<Badges> recommendedBadges;
+  List<Badges> allBadges;
+  List<Badges> popularBadges;
   LastPurchase? lastPurchase;
 
   UserBadgesModel({
@@ -15,14 +15,14 @@ class UserBadgesModel {
 
   factory UserBadgesModel.fromJson(Map<String, dynamic> json) => UserBadgesModel(
         starBalance: json["star_balance"],
-        recommendedBadges: List<Badge>.from(json["recommended_badges"].map((x) => Badge.fromJson(x))),
-        allBadges: List<Badge>.from(json["all_badges"].map((x) => Badge.fromJson(x))),
-        popularBadges: List<Badge>.from(json["popular_badges"].map((x) => Badge.fromJson(x))),
+        recommendedBadges: List<Badges>.from(json["recommended_badges"].map((x) => Badges.fromJson(x))),
+        allBadges: List<Badges>.from(json["all_badges"].map((x) => Badges.fromJson(x))),
+        popularBadges: List<Badges>.from(json["popular_badges"].map((x) => Badges.fromJson(x))),
         lastPurchase: json["last_purchase"] == null ? null : LastPurchase.fromJson(json["last_purchase"]),
       );
 }
 
-class Badge {
+class Badges {
   int? id;
   String? name;
   String? description;
@@ -30,7 +30,7 @@ class Badge {
   int? star;
   String? icon;
 
-  Badge({
+  Badges({
     required this.id,
     required this.name,
     required this.description,
@@ -39,7 +39,7 @@ class Badge {
     required this.icon,
   });
 
-  factory Badge.fromJson(Map<String, dynamic> json) => Badge(
+  factory Badges.fromJson(Map<String, dynamic> json) => Badges(
         id: json["id"],
         name: json["name"],
         description: json["description"],
