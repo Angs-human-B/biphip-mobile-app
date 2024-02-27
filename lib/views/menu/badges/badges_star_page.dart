@@ -136,7 +136,6 @@ class BadgesStarPage extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
                           onTap: () {
-                            // pendentBadgesController.selectedPackage.value = pendentBadgesController.recommendedBadgesList[index];//!Change it
                             pendentBadgesController.isPackageSelected.value = true;
                             pendentBadgesController.selectedBadgeIndex.value = index;
                             pendentBadgesController.selectedBadgeIndex.value = -1;
@@ -152,6 +151,7 @@ class BadgesStarPage extends StatelessWidget {
                             pendentBadgesController.selectedBadgeStar.value = pendentBadgesController.recommendedBadgesList[index].star.toString();
                             pendentBadgesController.selectedBadgePrice.value = pendentBadgesController.recommendedBadgesList[index].price.toString();
                             pendentBadgesController.selectedBadgeDescription.value = pendentBadgesController.recommendedBadgesList[index].description!;
+                            pendentBadgesController.badgeId.value = pendentBadgesController.recommendedBadgesList[index].id!;
                             Get.toNamed(krPurchaseStar);
                           },
                           child: BadgesGridViewContainer(

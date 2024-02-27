@@ -106,5 +106,17 @@ class BadgeClass {
         price: json["price"],
         star: json["star"],
         isActive: json["is_active"],
-      );
+      );     
+}
+
+class GetStarPriceModel {
+    double ?starPrice;
+
+    GetStarPriceModel({
+        required this.starPrice,
+    });
+
+    factory GetStarPriceModel.fromJson(Map<String, dynamic> json) => GetStarPriceModel(
+        starPrice: json["star_price"]?.toDouble(),
+    );
 }

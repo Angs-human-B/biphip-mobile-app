@@ -248,6 +248,7 @@ class PurchaseStar extends StatelessWidget {
                                       pendentBadgesController.selectedBadgeStar.value = pendentBadgesController.popularBadgesList[index].star.toString();
                                       pendentBadgesController.selectedBadgePrice.value = pendentBadgesController.popularBadgesList[index].price.toString();
                                       pendentBadgesController.selectedBadgeDescription.value = pendentBadgesController.popularBadgesList[index].description!;
+                                      pendentBadgesController.badgeId.value = pendentBadgesController.popularBadgesList[index].id!;
                                       pendentBadgesController.resetPurchaseCustomStar();
                                     },
                                     leading: Image.network(
@@ -258,33 +259,28 @@ class PurchaseStar extends StatelessWidget {
                                       errorBuilder: (context, error, stackTrace) {
                                         return Image.asset(
                                           kiProfileDefaultImageUrl,
-                                          height: h40,
-                                          width: h40,
+                                          height: h20,
+                                          width: h20,
                                         );
                                       },
                                       loadingBuilder: imageLoadingBuilder,
                                     ),
                                     title: '${pendentBadgesController.popularBadgesList[index].star} stars',
-                                    borderColor: pendentBadgesController.selectedBadgeIndex.value == pendentBadgesController.popularBadgesList[index].id
-                                        ? cPrimaryColor
-                                        : cLineColor,
-                                    itemColor: pendentBadgesController.selectedBadgeIndex.value == pendentBadgesController.popularBadgesList[index].id
-                                        ? cPrimaryTint3Color
-                                        : cWhiteColor,
+                                    borderColor: pendentBadgesController.selectedBadgeIndex.value == index ? cPrimaryColor : cLineColor,
+                                    itemColor: pendentBadgesController.selectedBadgeIndex.value == index ? cPrimaryTint3Color : cWhiteColor,
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        // if (pendentBadgesController.currentStar < int.parse(packages[index]['amount']))
                                         Text(
-                                          '${pendentBadgesController.popularBadgesList[index].price}',
+                                          '\$${pendentBadgesController.popularBadgesList[index].price}',
                                           style: semiBold16TextStyle(cBlackColor),
                                         ),
                                         kW8sizedBox,
                                         Radio(
-                                          value: packages[index],
+                                          value: index,
                                           groupValue: pendentBadgesController.selectedBadgeIndex.value,
                                           onChanged: (v) {
-                                            pendentBadgesController.selectedBadgeIndex.value = v;
+                                            pendentBadgesController.selectedBadgeIndex.value = int.parse(v.toString());
                                           },
                                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                           visualDensity: const VisualDensity(
@@ -339,7 +335,7 @@ class PurchaseStar extends StatelessWidget {
                         label: ksNext,
                         buttonWidth: width - 40,
                         onPressed: pendentBadgesController.badgesCheckBox.value
-                            ? () {
+                            ? () async {
                                 Get.find<GlobalController>().commonBottomSheet(
                                     context: context,
                                     bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
@@ -392,12 +388,14 @@ class GiftPurchasePaymentContent extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  '\$105.00',
+                  '\$${pendentBadgesController.totalStars.value != '' ? '\$${pendentBadgesController.totalStarBuyAmount.value.toStringAsFixed(2)}' : '\$${pendentBadgesController.selectedBadgePrice.value}'}',
                   style: semiBold18TextStyle(cBlackColor),
                 ),
                 kH4sizedBox,
                 Text(
-                  '1000 stars',
+                  pendentBadgesController.totalStars.value != ''
+                      ? '${pendentBadgesController.totalStars.value} stars'
+                      : '${pendentBadgesController.selectedBadgeStar.value} stars',
                   style: semiBold14TextStyle(cPlaceHolderColor),
                 ),
               ],
@@ -511,8 +509,9 @@ class GiftPurchasePaymentContent extends StatelessWidget {
             buttonHeight: 42,
             buttonWidth: width - 40,
             onPressed: pendentBadgesController.badgesPaymentCheckBox.value
-                ? () {
+                ? () async {
                     pendentBadgesController.resetBadgesData();
+                    await pendentBadgesController.buyBadge();
                     Get.offNamedUntil(krBadgesStarPage, ModalRoute.withName(krMenu));
                   }
                 : null)),

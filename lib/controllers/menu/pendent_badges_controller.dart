@@ -2,7 +2,7 @@ import 'package:bip_hip/models/menu/badges/user_badge_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class PendentBadgesController extends GetxController {
-   final ApiController apiController = ApiController();
+  final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
   final RxString currentPendent = RxString("Crown");
@@ -51,7 +51,7 @@ class PendentBadgesController extends GetxController {
     {'pendent': kiPendentSvgImageUrl, 'packageName': 'LOVE', 'cost': '10'},
     {'pendent': kiPendentSvgImageUrl, 'packageName': 'ROSE', 'cost': '10'},
   ];
-  
+
   final RxBool pendentCheckBox = RxBool(false);
   final RxBool paymentCheckBox = RxBool(false);
   final TextEditingController cardNumberTextEditingController = TextEditingController();
@@ -69,18 +69,13 @@ class PendentBadgesController extends GetxController {
 
   final RxBool badgesCheckBox = RxBool(false);
   final RxBool badgesPaymentCheckBox = RxBool(false);
-  final RxDouble perStarAmount = RxDouble(0.09);
+  // final RxDouble perStarAmount = RxDouble(0.09);
   final RxDouble temporarytotalStarBuyAmount = RxDouble(0);
   final RxDouble totalStarBuyAmount = RxDouble(0);
   final RxString temporaryTotalStars = RxString('');
   final RxString totalStars = RxString('');
   final RxBool isStarAmountConfirmButtonEnabled = RxBool(false);
   final TextEditingController starAmountTextEditingController = TextEditingController();
-  // final Rx<Map?> selectedPackage = Rx<Map?>(null);
-  // final Rx<Badges?> selectedPackage = Rx<Badges?>(null);
-  // final Rx<Badges?> selectedPackage = Rx<Badges?>(null);
-  // final Rx<Badges?> selectedPackage = Rx<Badges?>(null);
-  // final RxString selectedPackageStarAmount = RxString('');
   final RxString selectedBadgeIcon = RxString('');
   final RxString selectedBadgeStar = RxString('');
   final RxString selectedBadgePrice = RxString('');
@@ -108,7 +103,6 @@ class PendentBadgesController extends GetxController {
     selectedBadgeIndex.value = -1;
     badgesCheckBox.value = false;
     badgesPaymentCheckBox.value = false;
-    // selectedPackage.value = null;//!Change it
     badgesCardNumberTextEditingController.clear();
     badgesMMYYTextEditingController.clear();
     badgesCvvTextEditingController.clear();
@@ -118,8 +112,9 @@ class PendentBadgesController extends GetxController {
     totalStars.value = '';
     isStarAmountConfirmButtonEnabled.value = false;
     starAmountTextEditingController.clear();
-}
-     //*User Badges Api call
+  }
+
+  //*User Badges Api call
   final Rx<UserBadgesModel?> userBadgesData = Rx<UserBadgesModel?>(null);
   final RxList<Badges> recommendedBadgesList = RxList<Badges>([]);
   final RxList<Badges> allBadgesList = RxList<Badges>([]);
@@ -158,39 +153,71 @@ class PendentBadgesController extends GetxController {
     }
   }
 
-  // final RxInt pendentId = RxInt(-1);
-  // final RxBool isBuyPendentLoading = RxBool(false);
-  // Future<void> buyPendent() async {
-  //   try {
-  //     isBuyPendentLoading.value = true;
-  //     String? token = await spController.getBearerToken();
-  //     Map<String, dynamic> body = {
-  //       'pendent_id': pendentId.value.toString(),
-  //     };
-  //     var response = await apiController.commonApiCall(
-  //       requestMethod: kPost,
-  //       url: kuSetUserPendent,
-  //       body: body,
-  //       token: token,
-  //     ) as CommonDM;
-  //     if (response.success == true) {
-  //       await getUserPendent();
-  //       isBuyPendentLoading.value = false;
-  //       globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-  //     } else {
-  //       isBuyPendentLoading.value = false;
-  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
-  //       if (errorModel.errors.isEmpty) {
-  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-  //       } else {
-  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     isBuyPendentLoading.value = false;
-  //     ll('buyPendent error: $e');
-  //   }
-  // }
+  //* Api call
+  final Rx<GetStarPriceModel?> starPriceData = Rx<GetStarPriceModel?>(null);
+  final RxBool isgetStarPriceLoading = RxBool(false);
+  Future<void> getStarPrice() async {
+    try {
+      isgetStarPriceLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetStarPrice,
+      ) as CommonDM;
+      if (response.success == true) {
+        starPriceData.value = GetStarPriceModel.fromJson(response.data);
+        isgetStarPriceLoading.value = false;
+      } else {
+        isgetStarPriceLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isgetStarPriceLoading.value = true;
+      ll('getStarPrice error: $e');
+    }
+  }
 
-
+  final RxInt badgeId = RxInt(-1);
+  final RxString badgeStar = RxString("");
+  final RxString badgePrice = RxString("");
+  final RxBool isBuyPendentLoading = RxBool(false);
+  Future<void> buyBadge() async {
+    try {
+      isBuyPendentLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'badge_id': badgeId.value.toString(),
+        'star': badgeStar.value,
+        'price': badgePrice.value,
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuPurchaseStar,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        await getUserBadges();
+        isBuyPendentLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isBuyPendentLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isBuyPendentLoading.value = false;
+      ll('buyBadge error: $e');
+    }
+  }
 }

@@ -155,6 +155,8 @@ const String kuMyQuizWinner = '/mobile/user/get-my-quiz-winning';
 
 //*Badges
 const String kuUserBadges = '/mobile/user/get-user-badges';
+const String kuGetStarPrice = '/mobile/get-star-price';
+const String kuPurchaseStar = '/mobile/user/purchase-star';
 
 /*
 |--------------------------------------------------------------------------
