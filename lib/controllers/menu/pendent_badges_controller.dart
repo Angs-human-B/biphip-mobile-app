@@ -1,6 +1,10 @@
+import 'package:bip_hip/models/menu/birthday/birthday_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class PendentBadgesController extends GetxController {
+  final ApiController apiController = ApiController();
+  final SpController spController = SpController();
+  final GlobalController globalController = Get.find<GlobalController>();
   final RxString currentPendent = RxString("Crown");
   final RxString currentPendentCost = RxString("10");
   final RxInt selectedPendentIndex = RxInt(-1);
@@ -114,100 +118,150 @@ class PendentBadgesController extends GetxController {
   // List birthday = [];
   // final TextEditingController birthdayTimelineTextEditingController = TextEditingController();
   List todayBirthdayTimelineTextEditingController = [];
-  List in2DaysBirthdayTimelineTextEditingController = [];
+  List inTwoDaysBirthdayTimelineTextEditingController = [];
   List upcomingBirthdayTimelineTextEditingController = [];
   final RxList todayBirthdaySendButtonEnabled = RxList([]);
-  final RxList in2DaysBirthdaySendButtonEnabled = RxList([]);
-  List birthdayList = [
-    {
-      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-      "name": "Aminul Islam Rana",
-      "birthday": "Today",
-      "birthDate": "25 september",
-      "age": "15 years old",
-      "isTimelinePostEnable": true,
-      "isAlreadyWished": false,
-    },
-    {
-      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-      "name": "Aminul Islam Rana",
-      "birthday": "Today",
-      "birthDate": "25 september",
-      "age": "15 years old",
-      "isTimelinePostEnable": true,
-      "isAlreadyWished": false,
-    },
-    {
-      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-      "name": "Aminul Islam Rana",
-      "birthday": "Today",
-      "birthDate": "25 september",
-      "age": "15 years old",
-      "isTimelinePostEnable": true,
-      "isAlreadyWished": true,
-    },
-    {
-      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-      "name": "Aminul Islam Rana",
-      "birthday": "Tomorrow",
-      "birthDate": "25 september",
-      "age": "15 years old",
-      "isTimelinePostEnable": false,
-      "isAlreadyWished": false,
-    },
-    {
-      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-      "name": "Aminul Islam Rana",
-      "birthday": "2 days",
-      "birthDate": "25 september",
-      "age": "15 years old",
-      "isTimelinePostEnable": true,
-      "isAlreadyWished": false,
-    },
-    {
-      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-      "name": "Aminul Islam Rana",
-      "birthday": "Upcoming",
-      "birthDate": "25 september",
-      "age": "15 years old",
-      "isTimelinePostEnable": true,
-      "isAlreadyWished": false,
-    },
-    {
-      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-      "name": "Aminul Islam Rana",
-      "birthday": "Upcoming",
-      "birthDate": "25 september",
-      "age": "15 years old",
-      "isTimelinePostEnable": true,
-      "isAlreadyWished": false,
-    },
-    {
-      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-      "name": "Aminul Islam Rana",
-      "birthday": "Upcoming",
-      "birthDate": "25 september",
-      "age": "15 years old",
-      "isTimelinePostEnable": true,
-      "isAlreadyWished": false,
-    },
-    {
-      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-      "name": "Aminul Islam Rana",
-      "birthday": "Upcoming",
-      "birthDate": "25 september",
-      "age": "15 years old",
-      "isTimelinePostEnable": true,
-      "isAlreadyWished": false,
-    },
-    {
-      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-      "name": "Aminul Islam Rana",
-      "birthday": "Upcoming",
-      "birthDate": "25 september",
-      "age": "15 years old",
-      "isTimelinePostEnable": true,
-      "isAlreadyWished": false,
-    },
-  ];
+  final RxList inTwoDaysBirthdaySendButtonEnabled = RxList([]);
+  // List birthdayList = [
+  //   {
+  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+  //     "name": "Aminul Islam Rana",
+  //     "birthday": "Today",
+  //     "birthDate": "25 september",
+  //     "age": "15 years old",
+  //     "isTimelinePostEnable": true,
+  //     "isAlreadyWished": false,
+  //   },
+  //   {
+  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+  //     "name": "Aminul Islam Rana",
+  //     "birthday": "Today",
+  //     "birthDate": "25 september",
+  //     "age": "15 years old",
+  //     "isTimelinePostEnable": true,
+  //     "isAlreadyWished": false,
+  //   },
+  //   {
+  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+  //     "name": "Aminul Islam Rana",
+  //     "birthday": "Today",
+  //     "birthDate": "25 september",
+  //     "age": "15 years old",
+  //     "isTimelinePostEnable": true,
+  //     "isAlreadyWished": true,
+  //   },
+  //   {
+  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+  //     "name": "Aminul Islam Rana",
+  //     "birthday": "Tomorrow",
+  //     "birthDate": "25 september",
+  //     "age": "15 years old",
+  //     "isTimelinePostEnable": false,
+  //     "isAlreadyWished": false,
+  //   },
+  //   {
+  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+  //     "name": "Aminul Islam Rana",
+  //     "birthday": "2 days",
+  //     "birthDate": "25 september",
+  //     "age": "15 years old",
+  //     "isTimelinePostEnable": true,
+  //     "isAlreadyWished": false,
+  //   },
+  //   {
+  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+  //     "name": "Aminul Islam Rana",
+  //     "birthday": "Upcoming",
+  //     "birthDate": "25 september",
+  //     "age": "15 years old",
+  //     "isTimelinePostEnable": true,
+  //     "isAlreadyWished": false,
+  //   },
+  //   {
+  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+  //     "name": "Aminul Islam Rana",
+  //     "birthday": "Upcoming",
+  //     "birthDate": "25 september",
+  //     "age": "15 years old",
+  //     "isTimelinePostEnable": true,
+  //     "isAlreadyWished": false,
+  //   },
+  //   {
+  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+  //     "name": "Aminul Islam Rana",
+  //     "birthday": "Upcoming",
+  //     "birthDate": "25 september",
+  //     "age": "15 years old",
+  //     "isTimelinePostEnable": true,
+  //     "isAlreadyWished": false,
+  //   },
+  //   {
+  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+  //     "name": "Aminul Islam Rana",
+  //     "birthday": "Upcoming",
+  //     "birthDate": "25 september",
+  //     "age": "15 years old",
+  //     "isTimelinePostEnable": true,
+  //     "isAlreadyWished": false,
+  //   },
+  //   {
+  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+  //     "name": "Aminul Islam Rana",
+  //     "birthday": "Upcoming",
+  //     "birthDate": "25 september",
+  //     "age": "15 years old",
+  //     "isTimelinePostEnable": true,
+  //     "isAlreadyWished": false,
+  //   },
+  // ];
+
+  //*Birthday Api call
+  final Rx<BirthdayModel?> birthdayData = Rx<BirthdayModel?>(null);
+  final RxList<Today> todayBirthdayList = RxList<Today>([]);
+  final RxList<Today> inTwoDaysBirthdayList = RxList<Today>([]);
+  final RxList<Today> upcomingsBirthdayList = RxList<Today>([]);
+  final RxBool isBirthdayLoading = RxBool(false);
+  Future<void> getBirthday() async {
+    try {
+      isBirthdayLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetBirthdays,
+      ) as CommonDM;
+      if (response.success == true) {
+        todayBirthdayList.clear();
+        inTwoDaysBirthdayList.clear();
+        upcomingsBirthdayList.clear();
+        birthdayData.value = BirthdayModel.fromJson(response.data);
+        todayBirthdayList.addAll(birthdayData.value!.today);
+        inTwoDaysBirthdayList.addAll(birthdayData.value!.inTwoDays);
+        upcomingsBirthdayList.addAll(birthdayData.value!.upcomings);
+        for (int i = 0; i < todayBirthdayList.length; i++) {
+          todayBirthdayTimelineTextEditingController.add(TextEditingController());
+          todayBirthdaySendButtonEnabled.add(false.obs);
+        }
+        for (int i = 0; i < inTwoDaysBirthdayList.length; i++) {
+          inTwoDaysBirthdayTimelineTextEditingController.add(TextEditingController());
+          inTwoDaysBirthdaySendButtonEnabled.add(false.obs);
+        }
+        for (int i = 0; i < upcomingsBirthdayList.length; i++) {
+          upcomingBirthdayTimelineTextEditingController.add(TextEditingController());
+        }
+        isBirthdayLoading.value = false;
+      } else {
+        isBirthdayLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isBirthdayLoading.value = true;
+      ll('getBirthday error: $e');
+    }
+  }
 }
