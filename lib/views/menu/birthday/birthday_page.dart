@@ -49,78 +49,93 @@ class BirthdayPage extends StatelessWidget {
                                         style: semiBold18TextStyle(cBlackColor),
                                       ),
                                       kH16sizedBox,
-                                      ListView.separated(
-                                        itemCount: pendentBadgesController.todayBirthdayList.length,
-                                        shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        separatorBuilder: (context, index) => kH16sizedBox,
-                                        itemBuilder: (context, index) {
-                                          return BirthdayCommonView(
-                                            userImage: pendentBadgesController.todayBirthdayList[index].profilePicture,
-                                            name: pendentBadgesController.todayBirthdayList[index].fullName,
-                                            birthday: 'Today',
-                                            birthDate: DateFormat('dd MMMM').format(pendentBadgesController.todayBirthdayList[index].dob),
-                                            age: pendentBadgesController.todayBirthdayList[index].yearsOld.toString(),
-                                            birthdayTextEditingControllerValue: pendentBadgesController.todayBirthdayTimelineTextEditingController[index],
-                                            isBirthdaySendButtonEnabled: pendentBadgesController.todayBirthdaySendButtonEnabled[index],
-                                            isAlreadyWished: pendentBadgesController.todayBirthdayList[index].myWish == null ? true : false,
-                                            userId: pendentBadgesController.todayBirthdayList[index].id,
-                                            // isTimelinePostEnabled: todayBirthdays[index]['isAlreadyWished'],
-                                          );
-                                        },
-                                      ),
+                                      if (pendentBadgesController.todayBirthdayList.isEmpty)
+                                        BirthdayEmptyView(
+                                          title: ksNoOnesBirthdayToday.tr,
+                                        ),
+                                      if (pendentBadgesController.todayBirthdayList.isNotEmpty)
+                                        ListView.separated(
+                                          itemCount: pendentBadgesController.todayBirthdayList.length,
+                                          shrinkWrap: true,
+                                          physics: const NeverScrollableScrollPhysics(),
+                                          separatorBuilder: (context, index) => kH16sizedBox,
+                                          itemBuilder: (context, index) {
+                                            return BirthdayCommonView(
+                                              userImage: pendentBadgesController.todayBirthdayList[index].profilePicture,
+                                              name: pendentBadgesController.todayBirthdayList[index].fullName,
+                                              birthday: 'Today',
+                                              birthDate: DateFormat('dd MMMM').format(pendentBadgesController.todayBirthdayList[index].dob),
+                                              age: pendentBadgesController.todayBirthdayList[index].yearsOld.toString(),
+                                              birthdayTextEditingControllerValue: pendentBadgesController.todayBirthdayTimelineTextEditingController[index],
+                                              isBirthdaySendButtonEnabled: pendentBadgesController.todayBirthdaySendButtonEnabled[index],
+                                              isAlreadyWished: pendentBadgesController.todayBirthdayList[index].myWish == null ? true : false,
+                                              userId: pendentBadgesController.todayBirthdayList[index].id,
+                                              // isTimelinePostEnabled: todayBirthdays[index]['isAlreadyWished'],
+                                            );
+                                          },
+                                        ),
                                       kH16sizedBox,
                                       Text(
                                         ksIn2Days.tr,
                                         style: semiBold18TextStyle(cBlackColor),
                                       ),
                                       kH16sizedBox,
-                                      ListView.separated(
-                                        itemCount: pendentBadgesController.inTwoDaysBirthdayList.length,
-                                        shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        separatorBuilder: (context, index) => kH16sizedBox,
-                                        itemBuilder: (context, index) {
-                                          return BirthdayCommonView(
-                                            userImage: pendentBadgesController.inTwoDaysBirthdayList[index].profilePicture,
-                                            name: pendentBadgesController.inTwoDaysBirthdayList[index].fullName,
-                                            birthday: 'In 2 days',
-                                            birthDate: DateFormat('dd MMMM').format(pendentBadgesController.inTwoDaysBirthdayList[index].dob),
-                                            age: pendentBadgesController.inTwoDaysBirthdayList[index].yearsOld.toString(),
-                                            birthdayTextEditingControllerValue: pendentBadgesController.inTwoDaysBirthdayTimelineTextEditingController[index],
-                                            isBirthdaySendButtonEnabled: pendentBadgesController.inTwoDaysBirthdaySendButtonEnabled[index],
-                                            isAlreadyWished: pendentBadgesController.inTwoDaysBirthdayList[index].myWish == null ? true : false,
-                                            userId: pendentBadgesController.inTwoDaysBirthdayList[index].id,
-                                            // isTimelinePostEnabled: inTwoDaysBirthdays[index]['isAlreadyWished'],
-                                          );
-                                        },
-                                      ),
+                                      if (pendentBadgesController.inTwoDaysBirthdayList.isEmpty)
+                                        BirthdayEmptyView(
+                                          title: ksNoOnesBirthdayInTwoDays.tr,
+                                        ),
+                                      if (pendentBadgesController.inTwoDaysBirthdayList.isNotEmpty)
+                                        ListView.separated(
+                                          itemCount: pendentBadgesController.inTwoDaysBirthdayList.length,
+                                          shrinkWrap: true,
+                                          physics: const NeverScrollableScrollPhysics(),
+                                          separatorBuilder: (context, index) => kH16sizedBox,
+                                          itemBuilder: (context, index) {
+                                            return BirthdayCommonView(
+                                              userImage: pendentBadgesController.inTwoDaysBirthdayList[index].profilePicture,
+                                              name: pendentBadgesController.inTwoDaysBirthdayList[index].fullName,
+                                              birthday: 'In 2 days',
+                                              birthDate: DateFormat('dd MMMM').format(pendentBadgesController.inTwoDaysBirthdayList[index].dob),
+                                              age: pendentBadgesController.inTwoDaysBirthdayList[index].yearsOld.toString(),
+                                              birthdayTextEditingControllerValue: pendentBadgesController.inTwoDaysBirthdayTimelineTextEditingController[index],
+                                              isBirthdaySendButtonEnabled: pendentBadgesController.inTwoDaysBirthdaySendButtonEnabled[index],
+                                              isAlreadyWished: pendentBadgesController.inTwoDaysBirthdayList[index].myWish == null ? true : false,
+                                              userId: pendentBadgesController.inTwoDaysBirthdayList[index].id,
+                                              // isTimelinePostEnabled: inTwoDaysBirthdays[index]['isAlreadyWished'],
+                                            );
+                                          },
+                                        ),
                                       kH16sizedBox,
                                       Text(
                                         ksUpcomingBirthdays.tr,
                                         style: semiBold18TextStyle(cBlackColor),
                                       ),
                                       kH16sizedBox,
-                                      ListView.separated(
-                                        itemCount: pendentBadgesController.upcomingsBirthdayList.length,
-                                        shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        separatorBuilder: (context, index) => kH16sizedBox,
-                                        itemBuilder: (context, index) {
-                                          return BirthdayCommonView(
-                                            userImage: pendentBadgesController.upcomingsBirthdayList[index].profilePicture,
-                                            name: pendentBadgesController.upcomingsBirthdayList[index].fullName,
-                                            birthday: 'Upcoming',
-                                            birthDate: DateFormat('dd MMMM').format(pendentBadgesController.upcomingsBirthdayList[index].dob),
-                                            age: pendentBadgesController.upcomingsBirthdayList[index].yearsOld.toString(),
-                                            isTodayOrIn2DaysBirthday: false,
-                                            birthdayTextEditingControllerValue: pendentBadgesController.upcomingBirthdayTimelineTextEditingController[index],
-                                            isAlreadyWished: pendentBadgesController.upcomingsBirthdayList[index].myWish == null ? true : false,
-                                            userId: pendentBadgesController.upcomingsBirthdayList[index].id,
-                                            // isTimelinePostEnabled: upcomingBirthdays[index]['isAlreadyWished'],
-                                          );
-                                        },
-                                      ),
+                                      if (pendentBadgesController.upcomingsBirthdayList.isEmpty)
+                                        BirthdayEmptyView(
+                                          title: ksNoOnesUpcomingBirthday.tr,
+                                        ),
+                                      if (pendentBadgesController.upcomingsBirthdayList.isNotEmpty)
+                                        ListView.separated(
+                                          itemCount: pendentBadgesController.upcomingsBirthdayList.length,
+                                          shrinkWrap: true,
+                                          physics: const NeverScrollableScrollPhysics(),
+                                          separatorBuilder: (context, index) => kH16sizedBox,
+                                          itemBuilder: (context, index) {
+                                            return BirthdayCommonView(
+                                              userImage: pendentBadgesController.upcomingsBirthdayList[index].profilePicture,
+                                              name: pendentBadgesController.upcomingsBirthdayList[index].fullName,
+                                              birthday: 'Upcoming',
+                                              birthDate: DateFormat('dd MMMM').format(pendentBadgesController.upcomingsBirthdayList[index].dob),
+                                              age: pendentBadgesController.upcomingsBirthdayList[index].yearsOld.toString(),
+                                              isTodayOrIn2DaysBirthday: false,
+                                              birthdayTextEditingControllerValue: pendentBadgesController.upcomingBirthdayTimelineTextEditingController[index],
+                                              isAlreadyWished: pendentBadgesController.upcomingsBirthdayList[index].myWish == null ? true : false,
+                                              userId: pendentBadgesController.upcomingsBirthdayList[index].id,
+                                              // isTimelinePostEnabled: upcomingBirthdays[index]['isAlreadyWished'],
+                                            );
+                                          },
+                                        ),
                                     ],
                                   ),
                           ),
@@ -352,6 +367,30 @@ class BirthdayCommonView extends StatelessWidget {
           //       onPressed: () {}),
           // ),
         ],
+      ),
+    );
+  }
+}
+
+class BirthdayEmptyView extends StatelessWidget {
+  const BirthdayEmptyView({super.key, required this.title});
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width - 40,
+      height: 120,
+      decoration: BoxDecoration(
+        color: cWhiteColor,
+        borderRadius: BorderRadius.circular(k8BorderRadius),
+        border: Border.all(width: 1, color: cLineColor),
+      ),
+      child: Center(
+        child: Text(
+          title,
+          style: semiBold14TextStyle(cSmallBodyTextColor),
+        ),
       ),
     );
   }

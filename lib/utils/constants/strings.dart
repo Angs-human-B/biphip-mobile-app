@@ -575,3 +575,6 @@ const String ksIn2Days = "In 2 Days";
 const String ksUpcomingBirthdays = "Upcoming birthdays";
 const String ksViewPost = "View post";
 const String ksWishInChat = "Wish in chat";
+const String ksNoOnesBirthdayToday = "No one's birthday today";
+const String ksNoOnesBirthdayInTwoDays = "No one's birthday in two days";
+const String ksNoOnesUpcomingBirthday = "No one's upcoming birthday";
