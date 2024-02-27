@@ -78,8 +78,8 @@ class MenuHelper {
         Get.find<PendentBadgesController>().upcomingBirthdayTimelineTextEditingController.clear();
         Get.find<PendentBadgesController>().todayBirthdaySendButtonEnabled.clear();
         Get.find<PendentBadgesController>().inTwoDaysBirthdaySendButtonEnabled.clear();
-        await Get.find<PendentBadgesController>().getBirthday();
         Get.toNamed(krBirthdayPage);
+        await Get.find<PendentBadgesController>().getBirthday();
         break;
     }
   }

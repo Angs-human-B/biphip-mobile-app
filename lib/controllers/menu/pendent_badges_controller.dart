@@ -122,98 +122,6 @@ class PendentBadgesController extends GetxController {
   List upcomingBirthdayTimelineTextEditingController = [];
   final RxList todayBirthdaySendButtonEnabled = RxList([]);
   final RxList inTwoDaysBirthdaySendButtonEnabled = RxList([]);
-  // List birthdayList = [
-  //   {
-  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-  //     "name": "Aminul Islam Rana",
-  //     "birthday": "Today",
-  //     "birthDate": "25 september",
-  //     "age": "15 years old",
-  //     "isTimelinePostEnable": true,
-  //     "isAlreadyWished": false,
-  //   },
-  //   {
-  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-  //     "name": "Aminul Islam Rana",
-  //     "birthday": "Today",
-  //     "birthDate": "25 september",
-  //     "age": "15 years old",
-  //     "isTimelinePostEnable": true,
-  //     "isAlreadyWished": false,
-  //   },
-  //   {
-  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-  //     "name": "Aminul Islam Rana",
-  //     "birthday": "Today",
-  //     "birthDate": "25 september",
-  //     "age": "15 years old",
-  //     "isTimelinePostEnable": true,
-  //     "isAlreadyWished": true,
-  //   },
-  //   {
-  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-  //     "name": "Aminul Islam Rana",
-  //     "birthday": "Tomorrow",
-  //     "birthDate": "25 september",
-  //     "age": "15 years old",
-  //     "isTimelinePostEnable": false,
-  //     "isAlreadyWished": false,
-  //   },
-  //   {
-  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-  //     "name": "Aminul Islam Rana",
-  //     "birthday": "2 days",
-  //     "birthDate": "25 september",
-  //     "age": "15 years old",
-  //     "isTimelinePostEnable": true,
-  //     "isAlreadyWished": false,
-  //   },
-  //   {
-  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-  //     "name": "Aminul Islam Rana",
-  //     "birthday": "Upcoming",
-  //     "birthDate": "25 september",
-  //     "age": "15 years old",
-  //     "isTimelinePostEnable": true,
-  //     "isAlreadyWished": false,
-  //   },
-  //   {
-  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-  //     "name": "Aminul Islam Rana",
-  //     "birthday": "Upcoming",
-  //     "birthDate": "25 september",
-  //     "age": "15 years old",
-  //     "isTimelinePostEnable": true,
-  //     "isAlreadyWished": false,
-  //   },
-  //   {
-  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-  //     "name": "Aminul Islam Rana",
-  //     "birthday": "Upcoming",
-  //     "birthDate": "25 september",
-  //     "age": "15 years old",
-  //     "isTimelinePostEnable": true,
-  //     "isAlreadyWished": false,
-  //   },
-  //   {
-  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-  //     "name": "Aminul Islam Rana",
-  //     "birthday": "Upcoming",
-  //     "birthDate": "25 september",
-  //     "age": "15 years old",
-  //     "isTimelinePostEnable": true,
-  //     "isAlreadyWished": false,
-  //   },
-  //   {
-  //     "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-  //     "name": "Aminul Islam Rana",
-  //     "birthday": "Upcoming",
-  //     "birthDate": "25 september",
-  //     "age": "15 years old",
-  //     "isTimelinePostEnable": true,
-  //     "isAlreadyWished": false,
-  //   },
-  // ];
 
   //*Birthday Api call
   final Rx<BirthdayModel?> birthdayData = Rx<BirthdayModel?>(null);
@@ -264,9 +172,10 @@ class PendentBadgesController extends GetxController {
       ll('getBirthday error: $e');
     }
   }
-    final RxInt userId = RxInt(-1);
-    final RxString birthdayWishContent = RxString('');
-    final RxBool isBirthdayWishLoading = RxBool(false);
+
+  final RxInt userId = RxInt(-1);
+  final RxString birthdayWishContent = RxString('');
+  final RxBool isBirthdayWishLoading = RxBool(false);
   Future<void> birthdayWish() async {
     try {
       isBirthdayWishLoading.value = true;
