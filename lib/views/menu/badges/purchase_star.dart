@@ -511,9 +511,9 @@ class GiftPurchasePaymentContent extends StatelessWidget {
             buttonWidth: width - 40,
             onPressed: pendentBadgesController.badgesPaymentCheckBox.value
                 ? () async {
+                    Get.offNamedUntil(krBadgesStarPage, ModalRoute.withName(krMenu));
                     pendentBadgesController.resetBadgesData();
                     await pendentBadgesController.buyBadge();
-                    Get.offNamedUntil(krBadgesStarPage, ModalRoute.withName(krMenu));
                   }
                 : null)),
       ],

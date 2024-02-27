@@ -119,10 +119,10 @@ class PendentBadgesController extends GetxController {
   final RxList<Badges> recommendedBadgesList = RxList<Badges>([]);
   final RxList<Badges> allBadgesList = RxList<Badges>([]);
   final RxList<Badges> popularBadgesList = RxList<Badges>([]);
-  final RxBool isUserPendentLoading = RxBool(false);
+  final RxBool isUserBadgeLoading = RxBool(false);
   Future<void> getUserBadges() async {
     try {
-      isUserPendentLoading.value = true;
+      isUserBadgeLoading.value = true;
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -137,9 +137,9 @@ class PendentBadgesController extends GetxController {
         recommendedBadgesList.addAll(userBadgesData.value!.recommendedBadges);
         allBadgesList.addAll(userBadgesData.value!.allBadges);
         popularBadgesList.addAll(userBadgesData.value!.popularBadges);
-        isUserPendentLoading.value = false;
+        isUserBadgeLoading.value = false;
       } else {
-        isUserPendentLoading.value = true;
+        isUserBadgeLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -148,7 +148,7 @@ class PendentBadgesController extends GetxController {
         }
       }
     } catch (e) {
-      isUserPendentLoading.value = true;
+      isUserBadgeLoading.value = true;
       ll('getUserBadges error: $e');
     }
   }
@@ -186,10 +186,10 @@ class PendentBadgesController extends GetxController {
   final RxInt badgeId = RxInt(-1);
   final RxString badgeStar = RxString("");
   final RxString badgePrice = RxString("");
-  final RxBool isBuyPendentLoading = RxBool(false);
+  final RxBool isBuyBadgeLoading = RxBool(false);
   Future<void> buyBadge() async {
     try {
-      isBuyPendentLoading.value = true;
+      isBuyBadgeLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         if (badgeId.value != -1) 'badge_id': badgeId.value.toString(),
@@ -204,10 +204,10 @@ class PendentBadgesController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         await getUserBadges();
-        isBuyPendentLoading.value = false;
+        isBuyBadgeLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
-        isBuyPendentLoading.value = false;
+        isBuyBadgeLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -216,7 +216,7 @@ class PendentBadgesController extends GetxController {
         }
       }
     } catch (e) {
-      isBuyPendentLoading.value = false;
+      isBuyBadgeLoading.value = false;
       ll('buyBadge error: $e');
     }
   }
