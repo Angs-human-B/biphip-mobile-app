@@ -264,4 +264,39 @@ class PendentBadgesController extends GetxController {
       ll('getBirthday error: $e');
     }
   }
+    final RxInt userId = RxInt(-1);
+    final RxString birthdayWishContent = RxString('');
+    final RxBool isBirthdayWishLoading = RxBool(false);
+  Future<void> birthdayWish() async {
+    try {
+      isBirthdayWishLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'user_id': userId.value.toString(),
+        'content': birthdayWishContent.value,
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuBirthdayWish,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        await getBirthday();
+        isBirthdayWishLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isBirthdayWishLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isBirthdayWishLoading.value = false;
+      ll('acceptFriendRequest error: $e');
+    }
+  }
 }

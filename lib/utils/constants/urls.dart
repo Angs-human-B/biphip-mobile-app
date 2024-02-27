@@ -155,6 +155,7 @@ const String kuMyQuizWinner = '/mobile/user/get-my-quiz-winning';
 
 //*Birthday
 const String kuGetBirthdays = '/mobile/user/get-birthdays';
+const String kuBirthdayWish = '/mobile/user/store-birthday-wish';
 
 /*
 |--------------------------------------------------------------------------
