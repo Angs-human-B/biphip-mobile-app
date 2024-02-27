@@ -243,7 +243,7 @@ class PurchaseStar extends StatelessWidget {
                               child: Obx(() => CustomListTile(
                                     onPressed: () {
                                       // pendentBadgesController.selectedPackage.value = packages[index];
-                                      pendentBadgesController.selectedBadgeIndex.value = pendentBadgesController.popularBadgesList[index].id!;
+                                      pendentBadgesController.selectedBadgeIndex.value = index;
                                       pendentBadgesController.selectedBadgeIcon.value = pendentBadgesController.popularBadgesList[index].icon!;
                                       pendentBadgesController.selectedBadgeStar.value = pendentBadgesController.popularBadgesList[index].star.toString();
                                       pendentBadgesController.selectedBadgePrice.value = pendentBadgesController.popularBadgesList[index].price.toString();
@@ -281,6 +281,7 @@ class PurchaseStar extends StatelessWidget {
                                           groupValue: pendentBadgesController.selectedBadgeIndex.value,
                                           onChanged: (v) {
                                             pendentBadgesController.selectedBadgeIndex.value = int.parse(v.toString());
+                                            ll("2222");
                                           },
                                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                           visualDensity: const VisualDensity(
