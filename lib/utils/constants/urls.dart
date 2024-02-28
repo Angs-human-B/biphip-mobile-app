@@ -154,6 +154,10 @@ const String kuSubmitAnswer = '/mobile/user/submit-quiz';
 const String kuMyAllQuizes = '/mobile/user/get-my-quiz-all';
 const String kuMyQuizWinner = '/mobile/user/get-my-quiz-winning';
 
+//*Badges
+const String kuUserBadges = '/mobile/user/get-user-badges';
+const String kuGetStarPrice = '/mobile/get-star-price';
+const String kuPurchaseStar = '/mobile/user/purchase-star';
 //* Pendent
 const String kuUserPendent = '/mobile/user/get-user-pendents';
 const String kuSetUserPendent = '/mobile/user/set-user-pendent';

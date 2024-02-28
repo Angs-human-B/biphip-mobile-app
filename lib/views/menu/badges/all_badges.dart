@@ -10,106 +10,126 @@ class AllBadges extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: cWhiteColor,
-      child: SafeArea(
-        top: false,
-        child: Scaffold(
-          backgroundColor: cWhiteColor,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(kAppBarSize),
-            //* info:: appBar
-            child: CustomAppBar(
-              title: ksBadges.tr,
-              hasBackButton: true,
-              isCenterTitle: true,
-              onBack: () {
-                Get.back();
-              },
-              action: [
-                Padding(
-                  padding: const EdgeInsets.only(right: h20),
-                  child: TextButton(
-                    style: kTextButtonStyle,
-                    onPressed: () {
-                      unFocus(context);
-                      Get.find<GlobalController>().commonBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
-                          content: PurchaseCustomStarContent(),
-                          onPressCloseButton: () {
-                            Get.back();
-                          },
-                          onPressRightButton: null,
-                          rightText: '',
-                          rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                          title: ksBuyCustomStar.tr,
-                          isRightButtonShow: false);
-                    },
-                    child: Text(
-                      ksCustomStars.tr,
-                      style: semiBold14TextStyle(cPrimaryColor),
+    return WillPopScope(
+      onWillPop: () async {
+        pendentBadgesController.resetBadgesData();
+        return true;
+      },
+      child: Container(
+        color: cWhiteColor,
+        child: SafeArea(
+          top: false,
+          child: Scaffold(
+            backgroundColor: cWhiteColor,
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(kAppBarSize),
+              //* info:: appBar
+              child: CustomAppBar(
+                title: ksBadges.tr,
+                hasBackButton: true,
+                isCenterTitle: true,
+                onBack: () {
+                  pendentBadgesController.resetBadgesData();
+                  Get.back();
+                },
+                action: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: h20),
+                    child: TextButton(
+                      style: kTextButtonStyle,
+                      onPressed: () {
+                        unFocus(context);
+                        Get.find<GlobalController>().commonBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
+                            content: PurchaseCustomStarContent(),
+                            onPressCloseButton: () {
+                              Get.back();
+                            },
+                            onPressRightButton: null,
+                            rightText: '',
+                            rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                            title: ksBuyCustomStar.tr,
+                            isRightButtonShow: false);
+                      },
+                      child: Text(
+                        ksCustomStars.tr,
+                        style: semiBold14TextStyle(cPrimaryColor),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                kH16sizedBox,
-                Text(
-                  ksAllBadges.tr,
-                  style: semiBold16TextStyle(cBlackColor),
-                ),
-                kH16sizedBox,
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: giftPackages.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: isDeviceScreenLarge() ? 0.95 : 1,
-                            crossAxisCount: 3,
-                            crossAxisSpacing: k16Padding,
-                            mainAxisSpacing: k16Padding,
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  kH16sizedBox,
+                  Text(
+                    ksAllBadges.tr,
+                    style: semiBold16TextStyle(cBlackColor),
+                  ),
+                  kH16sizedBox,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: pendentBadgesController.allBadgesList.length,
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
+                              crossAxisCount: 3,
+                              crossAxisSpacing: k16Padding,
+                              mainAxisSpacing: k16Padding,
+                            ),
+                            itemBuilder: (BuildContext context, int index) {
+                              return InkWell(
+                                onTap: () {
+                                  pendentBadgesController.isPackageSelected.value = true;
+                                  // pendentBadgesController.selectedBadgeIndex.value = index;
+                                  pendentBadgesController.selectedBadgeIndex.value = -1;
+                                  pendentBadgesController.badgesCheckBox.value = false;
+                                  pendentBadgesController.badgesPaymentCheckBox.value = false;
+                                  pendentBadgesController.temporarytotalStarBuyAmount.value = 0;
+                                  pendentBadgesController.totalStarBuyAmount.value = 0;
+                                  pendentBadgesController.temporaryTotalStars.value = '';
+                                  pendentBadgesController.totalStars.value = '';
+                                  pendentBadgesController.isStarAmountConfirmButtonEnabled.value = false;
+                                  pendentBadgesController.starAmountTextEditingController.clear();
+                                  pendentBadgesController.selectedBadgeIcon.value = pendentBadgesController.allBadgesList[index].icon!;
+                                  pendentBadgesController.selectedBadgeStar.value = pendentBadgesController.allBadgesList[index].star.toString();
+                                  pendentBadgesController.selectedBadgePrice.value = pendentBadgesController.allBadgesList[index].price.toString();
+                                  pendentBadgesController.selectedBadgeDescription.value = pendentBadgesController.allBadgesList[index].description!;
+                                  pendentBadgesController.badgeId.value = pendentBadgesController.allBadgesList[index].id!;
+                                  pendentBadgesController.badgesCheckBox.value = false;
+                                  pendentBadgesController.badgesPaymentCheckBox.value = false;
+                                  pendentBadgesController.badgesCardNumberTextEditingController.clear();
+                                  pendentBadgesController.badgesMMYYTextEditingController.clear();
+                                  pendentBadgesController.badgesCvvTextEditingController.clear();
+                                  Get.toNamed(krPurchaseStar);
+                                },
+                                child: BadgesGridViewContainer(
+                                  index: index,
+                                  recommendedOrAllBadgesList: pendentBadgesController.allBadgesList,
+                                  badgeIcon: pendentBadgesController.allBadgesList[index].icon,
+                                  badgeName: pendentBadgesController.allBadgesList[index].name,
+                                  badgeStar: pendentBadgesController.allBadgesList[index].star.toString(),
+                                ),
+                              );
+                            },
                           ),
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              onTap: () {
-                                pendentBadgesController.selectedPackage.value = giftPackages[index];
-                                pendentBadgesController.isPackageSelected.value = true;
-                                pendentBadgesController.selectedBadgeIndex.value = index;
-                                pendentBadgesController.selectedBadgeIndex.value = -1;
-                                pendentBadgesController.badgesCheckBox.value = false;
-                                pendentBadgesController.badgesPaymentCheckBox.value = false;
-                                pendentBadgesController.temporarytotalStarBuyAmount.value = 0;
-                                pendentBadgesController.totalStarBuyAmount.value = 0;
-                                pendentBadgesController.temporaryTotalStars.value = '';
-                                pendentBadgesController.totalStars.value = '';
-                                pendentBadgesController.isStarAmountConfirmButtonEnabled.value = false;
-                                pendentBadgesController.starAmountTextEditingController.clear();
-                                Get.toNamed(krPurchaseStar);
-                              },
-                              child: BadgesGridViewContainer(
-                                index: index,
-                                recommendedOrAllBadgesList: giftPackages,
-                              ),
-                            );
-                          },
-                        ),
-                      ],
+                          kH20sizedBox,
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -166,7 +186,8 @@ class PurchaseCustomStarContent extends StatelessWidget {
                     pendentBadgesController.starAmountTextEditingController.text.toString().trim() != '0') {
                   pendentBadgesController.isStarAmountConfirmButtonEnabled.value = true;
                   pendentBadgesController.temporarytotalStarBuyAmount.value =
-                      (double.parse(pendentBadgesController.starAmountTextEditingController.text.toString()) * pendentBadgesController.perStarAmount.value);
+                      (double.parse(pendentBadgesController.starAmountTextEditingController.text.toString()) *
+                          pendentBadgesController.starPriceData.value!.starPrice!.toDouble());
                   pendentBadgesController.temporaryTotalStars.value = pendentBadgesController.starAmountTextEditingController.text.toString().trim();
                 } else {
                   pendentBadgesController.isStarAmountConfirmButtonEnabled.value = false;
@@ -196,7 +217,7 @@ class PurchaseCustomStarContent extends StatelessWidget {
                     style: regular10TextStyle(cIconColor),
                   ),
                   TextSpan(
-                    text: ' ${pendentBadgesController.perStarAmount.value}\$ ',
+                    text: ' ${pendentBadgesController.starPriceData.value!.starPrice.toString()}\$ ',
                     style: regular10TextStyle(cGreenColor),
                   ),
                   TextSpan(
@@ -217,22 +238,30 @@ class PurchaseCustomStarContent extends StatelessWidget {
                           pendentBadgesController.totalStarBuyAmount.value = pendentBadgesController.temporarytotalStarBuyAmount.value;
                           pendentBadgesController.totalStars.value = pendentBadgesController.temporaryTotalStars.value;
                           pendentBadgesController.selectedBadgeIndex.value = -1;
-                          pendentBadgesController.selectedPackage.value = null;
                           pendentBadgesController.isPackageSelected.value = false;
+                          pendentBadgesController.selectedBadgeDescription.value = "";
+                          pendentBadgesController.badgeId.value = -1;
+                          pendentBadgesController.badgeStar.value = pendentBadgesController.totalStars.value;
+                          pendentBadgesController.badgePrice.value = pendentBadgesController.totalStarBuyAmount.value.toString();
+                          pendentBadgesController.badgesCheckBox.value = false;
+                          pendentBadgesController.badgesPaymentCheckBox.value = false;
+                          pendentBadgesController.badgesCardNumberTextEditingController.clear();
+                          pendentBadgesController.badgesMMYYTextEditingController.clear();
+                          pendentBadgesController.badgesCvvTextEditingController.clear();
                           Get.back();
-                           Get.find<GlobalController>().commonBottomSheet(
-                                    context: context,
-                                    bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
-                                    isScrollControlled: true,
-                                    content: GiftPurchasePaymentContent(),
-                                    onPressCloseButton: () {
-                                      Get.back();
-                                    },
-                                    onPressRightButton: () {},
-                                    rightText: '',
-                                    rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                    title: ksPayNow.tr,
-                                    isRightButtonShow: false);
+                          Get.find<GlobalController>().commonBottomSheet(
+                              context: context,
+                              bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
+                              isScrollControlled: true,
+                              content: GiftPurchasePaymentContent(),
+                              onPressCloseButton: () {
+                                Get.back();
+                              },
+                              onPressRightButton: () {},
+                              rightText: '',
+                              rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                              title: ksPayNow.tr,
+                              isRightButtonShow: false);
                         }
                       : null,
                   textStyle: semiBold14TextStyle(cWhiteColor),
