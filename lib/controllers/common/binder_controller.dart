@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/auth/social_login_controller.dart';
+import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/controllers/menu/store_controller.dart';
@@ -31,6 +32,7 @@ class BinderController implements Bindings {
     Get.put<KidsController>(KidsController());
     Get.put<StoreController>(StoreController());
     Get.put<PendentBadgesController>(PendentBadgesController());
+    Get.put<AwardController>(AwardController());
     Get.put<MenuSectionController>(MenuSectionController());
   }
 }
