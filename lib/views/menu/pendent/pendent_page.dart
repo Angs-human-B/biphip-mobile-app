@@ -119,7 +119,7 @@ class PendentPage extends StatelessWidget {
                                                         // buttonColor: cWhiteColor,
                                                         buttonColor: cPrimaryColor,
                                                         label: ksHistory.tr,
-                                                        textStyle: semiBold12TextStyle(cPrimaryColor),
+                                                        textStyle: semiBold12TextStyle(cWhiteColor),
                                                         onPressed: null,
                                                       ),
                                                     ],
@@ -187,9 +187,8 @@ class PendentPage extends StatelessWidget {
                                           pendentBadgesController.pendentId.value = pendentBadgesController.recommendedPendentList[index].id!;
 
                                           if (pendentBadgesController.userPendentList.isEmpty ||
-                                              (
-                                                  pendentBadgesController.userPendentList[0].pendent!.price! <
-                                                      pendentBadgesController.recommendedPendentList[index].price!)) {
+                                              (pendentBadgesController.userPendentList[0].pendent!.price! <
+                                                  pendentBadgesController.recommendedPendentList[index].price!)) {
                                             Get.find<GlobalController>().commonBottomSheet(
                                               context: context,
                                               content: PurchasePendentBottomSheetContent(
