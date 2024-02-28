@@ -78,12 +78,17 @@ class GalleryPhotoHelper {
     // await galleryController.downloadPhoto();
     // }
     else if (galleryController.photoActionSelect.value == 'Edit caption') {
-      if (galleryController.imageDetailsData.value!.image!.description == null || galleryController.imageDetailsData.value!.image!.description == '') {
+      galleryController.isImageDescriptionSaveButtonEnable.value = false;
+      ll("0");
+      if (galleryController.imageDetailsData.value!.image!.description != null && galleryController.imageData.value?.description == null) {
+        galleryController.imageDescriptionUpdateController.text = galleryController.imageDetailsData.value!.image!.description;
+        galleryController.previousImageDescription.value = galleryController.imageDetailsData.value!.image!.description;
+      } else if (galleryController.imageData.value!.description != null) {
+        galleryController.imageDescriptionUpdateController.text = galleryController.imageData.value!.description;
+        galleryController.previousImageDescription.value = galleryController.imageData.value!.description;
+      } else {
         galleryController.imageDescriptionUpdateController.text = '';
         galleryController.previousImageDescription.value = '';
-      } else {
-        galleryController.imageDescriptionUpdateController.text = galleryController.imageDetailsData.value!.image!.description;
-        galleryController.previousImageDescription.value = galleryController.imageDetailsData.value?.image?.description;
       }
       Get.to(() => SingleImageDescription(
             image: galleryController.imageDetailsData.value!.image!.fullPath.toString(),
