@@ -6,7 +6,7 @@ class AwardController extends GetxController{
   final RxBool isAwardSuffixVisible = RxBool(false);
    final RxInt selectedCatagoriesIndex = RxInt(0);
   final RxBool isCategoriesSelected = RxBool(false);
-  resetAwardData(){
+  void resetAwardData(){
     selectedCatagoriesIndex.value =0;
     isCategoriesSelected.value=false;
   }
