@@ -68,7 +68,7 @@ class PendentPage extends StatelessWidget {
                                 if (pendentBadgesController.userPendentList.isNotEmpty)
                                   Container(
                                     width: width - 40,
-                                    height: 108,
+                                    height: 124,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(k8BorderRadius),
                                       border: Border.all(
@@ -78,72 +78,85 @@ class PendentPage extends StatelessWidget {
                                     ),
                                     child: Padding(
                                       padding: const EdgeInsets.only(left: k16Padding, top: k16Padding),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      child: Column(
                                         children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
-                                                "Your current pendent is ${pendentBadgesController.userPendentList[0].pendent!.name}",
-                                                style: regular14TextStyle(cBlackColor),
-                                              ),
-                                              kH4sizedBox,
-                                              Text(
-                                                "Purchased on: ${DateFormat('dd MMM, yyyy').format(pendentBadgesController.userPendentList[0].startDate ?? DateTime.now())}",
-                                                style: regular12TextStyle(cSmallBodyTextColor),
-                                              ),
-                                              kH12sizedBox,
-                                              Row(
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  CustomElevatedButton(
-                                                      buttonWidth: 70,
-                                                      buttonHeight: h24,
-                                                      buttonColor: cPrimaryColor,
-                                                      label: ksUpdate.tr,
-                                                      textStyle: semiBold12TextStyle(cWhiteColor),
-                                                      onPressed: () {}),
-                                                  kW12sizedBox,
-                                                  CustomElevatedButton(
-                                                      buttonWidth: 70,
-                                                      buttonHeight: h24,
-                                                      borderColor: cPrimaryColor,
-                                                      buttonColor: cWhiteColor,
-                                                      label: ksHistory.tr,
-                                                      textStyle: semiBold12TextStyle(cPrimaryColor),
-                                                      onPressed: () {}),
+                                                  Text(
+                                                    "Your current pendent is ${pendentBadgesController.userPendentList[0].pendent!.name}",
+                                                    style: regular14TextStyle(cBlackColor),
+                                                  ),
+                                                  kH4sizedBox,
+                                                  Text(
+                                                    ksYouCantDownYourCurrentPendent.tr,
+                                                    style: semiBold12TextStyle(cBlackColor),
+                                                    // textAlign: TextAlign.center,
+                                                  ),
+                                                  kH4sizedBox,
+                                                  Text(
+                                                    "Purchased on: ${DateFormat('dd MMM, yyyy').format(pendentBadgesController.userPendentList[0].startDate ?? DateTime.now())}",
+                                                    style: regular12TextStyle(cSmallBodyTextColor),
+                                                  ),
+                                                  kH12sizedBox,
+                                                  Row(
+                                                    children: [
+                                                      CustomElevatedButton(
+                                                        buttonWidth: 70,
+                                                        buttonHeight: h24,
+                                                        buttonColor: cPrimaryColor,
+                                                        label: ksUpdate.tr,
+                                                        textStyle: semiBold12TextStyle(cWhiteColor),
+                                                        onPressed: null,
+                                                      ),
+                                                      kW12sizedBox,
+                                                      CustomElevatedButton(
+                                                        buttonWidth: 70,
+                                                        buttonHeight: h24,
+                                                        // borderColor: cPrimaryColor,
+                                                        // buttonColor: cWhiteColor,
+                                                        buttonColor: cPrimaryColor,
+                                                        label: ksHistory.tr,
+                                                        textStyle: semiBold12TextStyle(cPrimaryColor),
+                                                        onPressed: null,
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ],
                                               ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(right: k16Padding),
+                                                child: Column(
+                                                  children: [
+                                                    ClipRRect(
+                                                      borderRadius: k8CircularBorderRadius,
+                                                      child: Image.network(
+                                                        "${pendentBadgesController.userPendentList[0].pendent?.icon}",
+                                                        fit: BoxFit.fill,
+                                                        height: 48,
+                                                        width: 48,
+                                                        loadingBuilder: imageLoadingBuilder,
+                                                        errorBuilder: (context, error, stackTrace) {
+                                                          return Image.asset(
+                                                            kiProfileDefaultImageUrl,
+                                                            height: h40,
+                                                            width: h40,
+                                                          );
+                                                        },
+                                                      ),
+                                                    ),
+                                                    kH8sizedBox,
+                                                    Text(
+                                                      "${pendentBadgesController.userPendentList[0].pendent!.name}",
+                                                      style: semiBold14TextStyle(cBlackColor),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
                                             ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(right: k16Padding),
-                                            child: Column(
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius: k8CircularBorderRadius,
-                                                  child: Image.network(
-                                                    "${pendentBadgesController.userPendentList[0].pendent?.icon}",
-                                                    fit: BoxFit.fill,
-                                                    height: 48,
-                                                    width: 48,
-                                                    loadingBuilder: imageLoadingBuilder,
-                                                    errorBuilder: (context, error, stackTrace) {
-                                                      return Image.asset(
-                                                        kiProfileDefaultImageUrl,
-                                                        height: h40,
-                                                        width: h40,
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
-                                                kH8sizedBox,
-                                                Text(
-                                                  "${pendentBadgesController.userPendentList[0].pendent!.name}",
-                                                  style: semiBold14TextStyle(cBlackColor),
-                                                ),
-                                              ],
-                                            ),
                                           ),
                                         ],
                                       ),
@@ -161,7 +174,7 @@ class PendentPage extends StatelessWidget {
                                     physics: const NeverScrollableScrollPhysics(),
                                     itemCount: pendentBadgesController.recommendedPendentList.length,
                                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                      childAspectRatio: isDeviceScreenLarge() ? 0.95 : 1,
+                                      childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
                                       crossAxisCount: 3,
                                       crossAxisSpacing: k16Padding,
                                       mainAxisSpacing: k16Padding,
@@ -169,13 +182,8 @@ class PendentPage extends StatelessWidget {
                                     itemBuilder: (BuildContext context, int index) {
                                       return InkWell(
                                         onTap: () {
-                                          if (pendentBadgesController.selectedPendentIndex.value == index) {
-                                            pendentBadgesController.pendentCheckBox.value = true;
-                                            pendentBadgesController.paymentCheckBox.value = true;
-                                          } else {
-                                            pendentBadgesController.pendentCheckBox.value = false;
-                                            pendentBadgesController.paymentCheckBox.value = false;
-                                          }
+                                          pendentBadgesController.pendentCheckBox.value = false;
+                                          pendentBadgesController.paymentCheckBox.value = false;
                                           pendentBadgesController.selectedPendentIndex.value = index;
                                           pendentBadgesController.pendentId.value = pendentBadgesController.recommendedPendentList[index].id!;
                                           Get.find<GlobalController>().commonBottomSheet(

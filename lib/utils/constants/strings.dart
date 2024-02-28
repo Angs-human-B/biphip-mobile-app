@@ -568,3 +568,4 @@ const String ksOthersWinner = "Others winner";
 const String ksNoPlayedQuizYet = "No played quiz yet";
 const String ksWonOn = "won on";
 const String ksYouHaveNotWonAnyQuiz = "You haven't won any quiz on this date";
+const String ksYouCantDownYourCurrentPendent = "You can't down your current pendent";
