@@ -56,6 +56,7 @@ class PendentBadgesController extends GetxController {
     cvvTextEditingController.clear();
   }
 
+
   void resetBadgesData() {
     selectedBadgeIndex.value = -1;
     badgesCheckBox.value = false;

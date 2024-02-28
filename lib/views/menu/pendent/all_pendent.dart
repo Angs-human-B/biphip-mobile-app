@@ -63,8 +63,7 @@ class AllPendent extends StatelessWidget {
                                   itemBuilder: (BuildContext context, int index) {
                                     return InkWell(
                                       onTap: () {
-                                        pendentBadgesController.pendentCheckBox.value = false;
-                                        pendentBadgesController.paymentCheckBox.value = false;
+                                        pendentBadgesController.resetPendentData();
                                         pendentBadgesController.selectedPendentIndex.value = index;
                                         pendentBadgesController.pendentId.value = pendentBadgesController.allPendentList[index].id!;
                                         if (pendentBadgesController.userPendentList[0].pendent!.price! < pendentBadgesController.allPendentList[index].price!) {

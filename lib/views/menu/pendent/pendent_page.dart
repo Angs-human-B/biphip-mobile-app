@@ -181,11 +181,9 @@ class PendentPage extends StatelessWidget {
                                     itemBuilder: (BuildContext context, int index) {
                                       return InkWell(
                                         onTap: () {
-                                          pendentBadgesController.pendentCheckBox.value = false;
-                                          pendentBadgesController.paymentCheckBox.value = false;
+                                       pendentBadgesController.resetPendentData();
                                           pendentBadgesController.selectedPendentIndex.value = index;
                                           pendentBadgesController.pendentId.value = pendentBadgesController.recommendedPendentList[index].id!;
-
                                           if (pendentBadgesController.userPendentList.isEmpty ||
                                               (pendentBadgesController.userPendentList[0].pendent!.price! <
                                                   pendentBadgesController.recommendedPendentList[index].price!)) {
