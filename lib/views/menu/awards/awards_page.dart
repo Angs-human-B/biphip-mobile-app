@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
+import 'package:flutter_svg/svg.dart';
 
 class AwardsPage extends StatelessWidget {
   AwardsPage({super.key});
@@ -108,10 +109,81 @@ class AwardsPage extends StatelessWidget {
                     ),
                   ],
                 ),
+                AwardView(),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class AwardView extends StatelessWidget {
+  const AwardView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: (width - 40) / 3,
+      height: 120,
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(k8BorderRadius),
+            child: Image.network(
+              'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png',
+              width: (width - 40) / 3,
+              height: 120,
+              fit: BoxFit.contain,
+              loadingBuilder: imageLoadingBuilder,
+              errorBuilder: (context, error, stackTrace) => const Icon(
+                BipHip.imageFile,
+                size: kIconSize120,
+                color: cIconColor,
+              ),
+            ),
+          ),
+          // Positioned(
+          //   top: 6,
+          //   left: 6,
+          //   child: SvgPicture.asset(kiPositionBadge),
+          // ),
+          Positioned(
+            top: 6,
+            left: 6,
+            child: Stack(
+              children: [
+                Container(),
+                SvgPicture.asset(
+                  kiPositionBadge,
+                  width: h24,
+                  height: h24,
+                ),
+                Positioned(
+                    top: 6,
+                    left: 6,
+                    child: Text(
+                      '10',
+                      style: regular12TextStyle(cWhiteColor),
+                    )),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 6,
+            right: 6,
+            child: SvgPicture.asset(kiWinner),
+          ),
+          Positioned(
+            left: 6,
+            bottom: 6,
+            child: Text(
+              'Wining Date: 14 Sep, 2023',
+              style: semiBold12TextStyle(cWhiteColor),
+            ),
+          ),
+        ],
       ),
     );
   }
