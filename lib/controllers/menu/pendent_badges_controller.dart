@@ -220,4 +220,105 @@ class PendentBadgesController extends GetxController {
       ll('buyBadge error: $e');
     }
   }
+
+  //!Birthday
+  // List birthday = [];
+  // final TextEditingController birthdayTimelineTextEditingController = TextEditingController();
+  List todayBirthdayTimelineTextEditingController = [];
+  List in2DaysBirthdayTimelineTextEditingController = [];
+  List upcomingBirthdayTimelineTextEditingController = [];
+  final RxList todayBirthdaySendButtonEnabled = RxList([]);
+  final RxList in2DaysBirthdaySendButtonEnabled = RxList([]);
+  List birthdayList = [
+    {
+      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+      "name": "Aminul Islam Rana",
+      "birthday": "Today",
+      "birthDate": "25 september",
+      "age": "15 years old",
+      "isTimelinePostEnable": true,
+      "isAlreadyWished": false,
+    },
+    {
+      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+      "name": "Aminul Islam Rana",
+      "birthday": "Today",
+      "birthDate": "25 september",
+      "age": "15 years old",
+      "isTimelinePostEnable": true,
+      "isAlreadyWished": false,
+    },
+    {
+      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+      "name": "Aminul Islam Rana",
+      "birthday": "Today",
+      "birthDate": "25 september",
+      "age": "15 years old",
+      "isTimelinePostEnable": true,
+      "isAlreadyWished": true,
+    },
+    {
+      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+      "name": "Aminul Islam Rana",
+      "birthday": "Tomorrow",
+      "birthDate": "25 september",
+      "age": "15 years old",
+      "isTimelinePostEnable": false,
+      "isAlreadyWished": false,
+    },
+    {
+      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+      "name": "Aminul Islam Rana",
+      "birthday": "2 days",
+      "birthDate": "25 september",
+      "age": "15 years old",
+      "isTimelinePostEnable": true,
+      "isAlreadyWished": false,
+    },
+    {
+      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+      "name": "Aminul Islam Rana",
+      "birthday": "Upcoming",
+      "birthDate": "25 september",
+      "age": "15 years old",
+      "isTimelinePostEnable": true,
+      "isAlreadyWished": false,
+    },
+    {
+      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+      "name": "Aminul Islam Rana",
+      "birthday": "Upcoming",
+      "birthDate": "25 september",
+      "age": "15 years old",
+      "isTimelinePostEnable": true,
+      "isAlreadyWished": false,
+    },
+    {
+      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+      "name": "Aminul Islam Rana",
+      "birthday": "Upcoming",
+      "birthDate": "25 september",
+      "age": "15 years old",
+      "isTimelinePostEnable": true,
+      "isAlreadyWished": false,
+    },
+    {
+      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+      "name": "Aminul Islam Rana",
+      "birthday": "Upcoming",
+      "birthDate": "25 september",
+      "age": "15 years old",
+      "isTimelinePostEnable": true,
+      "isAlreadyWished": false,
+    },
+    {
+      "image": "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+      "name": "Aminul Islam Rana",
+      "birthday": "Upcoming",
+      "birthDate": "25 september",
+      "age": "15 years old",
+      "isTimelinePostEnable": true,
+      "isAlreadyWished": false,
+    },
+  ];
 }

@@ -20,7 +20,8 @@ class CustomModifiedTextField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final double? borderRadius;
   final InputBorder? border;
-
+  final Color? suffixIconColor;
+  final double? suffixIconSize;
   const CustomModifiedTextField({
     this.label,
     this.hint,
@@ -49,7 +50,7 @@ class CustomModifiedTextField extends StatelessWidget {
     this.fillColor,
     this.isFilled,
     this.borderRadius,
-    this.border,
+    this.border, this.suffixIconColor, this.suffixIconSize,
   }) : super(key: key);
 
   @override
@@ -112,7 +113,8 @@ class CustomModifiedTextField extends StatelessWidget {
                     onPress: onSuffixPress,
                     icon: suffixIcon,
                     hasBorder: false,
-                    size: screenWiseSize(kIconSize20, 4),
+                    size: suffixIconSize?? screenWiseSize(kIconSize20, 4),
+                    iconColor: suffixIconColor,
                   ),
                 )
               : null,
