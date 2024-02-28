@@ -136,7 +136,7 @@ class BirthdayPage extends StatelessWidget {
                                             );
                                           },
                                         ),
-                                      kH16sizedBox,
+                                      kH20sizedBox,
                                     ],
                                   ),
                           ),
