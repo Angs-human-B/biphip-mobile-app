@@ -52,22 +52,19 @@ class CommonPhotoView extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      InkWell(
-                        onTap: () {},
-                        child: SizedBox(
-                          width: width,
-                          height: height * 0.6,
-                          child: Image.network(
-                            image,
-                            fit: BoxFit.contain,
-                            filterQuality: FilterQuality.high,
-                            errorBuilder: (context, error, stackTrace) => const Icon(
-                              BipHip.imageFile,
-                              size: kIconSize100,
-                              color: cIconColor,
-                            ),
-                            loadingBuilder: imageLoadingBuilder,
+                      SizedBox(
+                        width: width,
+                        height: height * 0.6,
+                        child: Image.network(
+                          image,
+                          fit: BoxFit.contain,
+                          filterQuality: FilterQuality.high,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            BipHip.imageFile,
+                            size: kIconSize100,
+                            color: cIconColor,
                           ),
+                          loadingBuilder: imageLoadingBuilder,
                         ),
                       ),
                     ],
