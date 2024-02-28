@@ -235,7 +235,7 @@ class BadgesGridViewContainer extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.network(
-                badgeIcon!,
+                badgeIcon ?? '',
                 width: 48,
                 height: 48,
                 fit: BoxFit.cover,
