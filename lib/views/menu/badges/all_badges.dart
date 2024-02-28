@@ -106,6 +106,11 @@ class AllBadges extends StatelessWidget {
                                   pendentBadgesController.selectedBadgePrice.value = pendentBadgesController.allBadgesList[index].price.toString();
                                   pendentBadgesController.selectedBadgeDescription.value = pendentBadgesController.allBadgesList[index].description!;
                                   pendentBadgesController.badgeId.value = pendentBadgesController.allBadgesList[index].id!;
+                                  pendentBadgesController.badgesCheckBox.value = false;
+                                  pendentBadgesController.badgesPaymentCheckBox.value = false;
+                                  pendentBadgesController.badgesCardNumberTextEditingController.clear();
+                                  pendentBadgesController.badgesMMYYTextEditingController.clear();
+                                  pendentBadgesController.badgesCvvTextEditingController.clear();
                                   Get.toNamed(krPurchaseStar);
                                 },
                                 child: BadgesGridViewContainer(
@@ -238,6 +243,11 @@ class PurchaseCustomStarContent extends StatelessWidget {
                           pendentBadgesController.badgeId.value = -1;
                           pendentBadgesController.badgeStar.value = pendentBadgesController.totalStars.value;
                           pendentBadgesController.badgePrice.value = pendentBadgesController.totalStarBuyAmount.value.toString();
+                          pendentBadgesController.badgesCheckBox.value = false;
+                          pendentBadgesController.badgesPaymentCheckBox.value = false;
+                          pendentBadgesController.badgesCardNumberTextEditingController.clear();
+                          pendentBadgesController.badgesMMYYTextEditingController.clear();
+                          pendentBadgesController.badgesCvvTextEditingController.clear();
                           Get.back();
                           Get.find<GlobalController>().commonBottomSheet(
                               context: context,

@@ -155,6 +155,11 @@ class BadgesStarPage extends StatelessWidget {
                                         pendentBadgesController.selectedBadgeDescription.value =
                                             pendentBadgesController.recommendedBadgesList[index].description!;
                                         pendentBadgesController.badgeId.value = pendentBadgesController.recommendedBadgesList[index].id!;
+                                        pendentBadgesController.badgesCheckBox.value = false;
+                                        pendentBadgesController.badgesPaymentCheckBox.value = false;
+                                        pendentBadgesController.badgesCardNumberTextEditingController.clear();
+                                        pendentBadgesController.badgesMMYYTextEditingController.clear();
+                                        pendentBadgesController.badgesCvvTextEditingController.clear();
                                         Get.toNamed(krPurchaseStar);
                                       },
                                       child: BadgesGridViewContainer(

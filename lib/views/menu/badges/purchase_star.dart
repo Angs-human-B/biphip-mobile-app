@@ -253,6 +253,11 @@ class PurchaseStar extends StatelessWidget {
                                         pendentBadgesController.selectedBadgePrice.value = pendentBadgesController.popularBadgesList[index].price.toString();
                                         pendentBadgesController.selectedBadgeDescription.value = pendentBadgesController.popularBadgesList[index].description!;
                                         pendentBadgesController.badgeId.value = pendentBadgesController.popularBadgesList[index].id!;
+                                        pendentBadgesController.badgesCheckBox.value = false;
+                                        pendentBadgesController.badgesPaymentCheckBox.value = false;
+                                        pendentBadgesController.badgesCardNumberTextEditingController.clear();
+                                        pendentBadgesController.badgesMMYYTextEditingController.clear();
+                                        pendentBadgesController.badgesCvvTextEditingController.clear();
                                         pendentBadgesController.resetPurchaseCustomStar();
                                       },
                                       leading: Image.network(
@@ -294,6 +299,11 @@ class PurchaseStar extends StatelessWidget {
                                               pendentBadgesController.selectedBadgeDescription.value =
                                                   pendentBadgesController.popularBadgesList[index].description!;
                                               pendentBadgesController.badgeId.value = pendentBadgesController.popularBadgesList[index].id!;
+                                              pendentBadgesController.badgesCheckBox.value = false;
+                                              pendentBadgesController.badgesPaymentCheckBox.value = false;
+                                              pendentBadgesController.badgesCardNumberTextEditingController.clear();
+                                              pendentBadgesController.badgesMMYYTextEditingController.clear();
+                                              pendentBadgesController.badgesCvvTextEditingController.clear();
                                               pendentBadgesController.resetPurchaseCustomStar();
                                             },
                                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -350,6 +360,11 @@ class PurchaseStar extends StatelessWidget {
                           buttonWidth: width - 40,
                           onPressed: pendentBadgesController.badgesCheckBox.value
                               ? () async {
+                                  pendentBadgesController.badgesCheckBox.value = false;
+                                  pendentBadgesController.badgesPaymentCheckBox.value = false;
+                                  pendentBadgesController.badgesCardNumberTextEditingController.clear();
+                                  pendentBadgesController.badgesMMYYTextEditingController.clear();
+                                  pendentBadgesController.badgesCvvTextEditingController.clear();
                                   Get.find<GlobalController>().commonBottomSheet(
                                       context: context,
                                       bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
