@@ -53,7 +53,7 @@ class Badges {
 //   int? id;
 //   int? userId;
 //   int? badgeId;
-//   int? price;
+//   double ? price;
 //   int? star;
 //   DateTime dateTime;
 //   BadgeClass badge;
