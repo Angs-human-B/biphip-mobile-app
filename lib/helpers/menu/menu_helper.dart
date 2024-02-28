@@ -54,6 +54,7 @@ class MenuHelper {
         ll('Pendent');
         Get.find<PendentBadgesController>().resetPendentData();
         Get.toNamed(krPendentPage);
+        await Get.find<PendentBadgesController>().getUserPendent();
         break;
       case 6:
         ll('Earnings');
