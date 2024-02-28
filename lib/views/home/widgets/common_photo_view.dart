@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:photo_view/photo_view.dart';
@@ -51,22 +52,19 @@ class CommonPhotoView extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      InkWell(
-                        onTap: () {},
-                        child: SizedBox(
-                          width: width,
-                          height: height * 0.6,
-                          child: Image.network(
-                            image,
-                            fit: BoxFit.contain,
-                            filterQuality: FilterQuality.high,
-                            errorBuilder: (context, error, stackTrace) => const Icon(
-                              BipHip.imageFile,
-                              size: kIconSize100,
-                              color: cIconColor,
-                            ),
-                            loadingBuilder: imageLoadingBuilder,
+                      SizedBox(
+                        width: width,
+                        height: height * 0.6,
+                        child: Image.network(
+                          image,
+                          fit: BoxFit.contain,
+                          filterQuality: FilterQuality.high,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            BipHip.imageFile,
+                            size: kIconSize100,
+                            color: cIconColor,
                           ),
+                          loadingBuilder: imageLoadingBuilder,
                         ),
                       ),
                     ],
@@ -79,10 +77,10 @@ class CommonPhotoView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          description ?? '',
-                          style: semiBold14TextStyle(cWhiteColor),
-                        ),
+                        Obx(() => Text(
+                              Get.find<GalleryController>().imageData.value?.description ?? description,
+                              style: semiBold14TextStyle(cWhiteColor),
+                            )),
                         kH16sizedBox,
                         Container(
                           color: cWhiteColor,
