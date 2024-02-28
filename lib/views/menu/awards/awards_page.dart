@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 
 class AwardsPage extends StatelessWidget {
   AwardsPage({super.key});
@@ -52,7 +53,41 @@ class AwardsPage extends StatelessWidget {
                         awardController.isAwardSuffixVisible.value = false;
                       }
                     }),
-                    kH20sizedBox,
+                kH16sizedBox,
+                Container(
+                  color: cWhiteColor,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: width,
+                        height: 50,
+                        child: ListView.builder(
+                          itemCount: interestProfile.length,
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.symmetric(horizontal: k10Padding),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, i) {
+                            return Obx(
+                              () => Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                                child: CustomChoiceChips(
+                                  label: interestProfile[i],
+                                  isSelected: (awardController.selectedCatagoriesIndex.value == i && awardController.isCategoriesSelected.value),
+                                  onSelected: (value) {
+                                    awardController.selectedCatagoriesIndex.value = i;
+                                    awardController.isCategoriesSelected.value = value;
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                kH20sizedBox,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/auth/social_login_controller.dart';
+import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
@@ -80,8 +81,9 @@ class MenuHelper {
         Get.find<PendentBadgesController>().in2DaysBirthdaySendButtonEnabled.clear();
         Get.toNamed(krBirthdayPage);
         break;
-          case 11:
+      case 11:
         ll('Awards');
+        Get.find<AwardController>().resetAwardData();
         Get.toNamed(krAwardsPage);
         break;
     }
