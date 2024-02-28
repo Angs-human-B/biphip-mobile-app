@@ -136,6 +136,7 @@ class BirthdayPage extends StatelessWidget {
                                             );
                                           },
                                         ),
+                                      kH16sizedBox,
                                     ],
                                   ),
                           ),
@@ -343,12 +344,13 @@ class BirthdayCommonView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
               child: CustomElevatedButton(
-                  buttonWidth: width - 82,
-                  buttonHeight: h32,
-                  buttonColor: cPrimaryColor,
-                  textStyle: regular12TextStyle(cWhiteColor),
-                  label: ksViewPost.tr,
-                  onPressed: () {}),
+                buttonWidth: width - 82,
+                buttonHeight: h32,
+                buttonColor: cPrimaryColor,
+                textStyle: regular12TextStyle(cWhiteColor),
+                label: ksViewPost.tr,
+                onPressed: null,
+              ),
             ),
           //*Timeline post disable option api have no prameter for differenciate this
           // if (isTodayOrIn2DaysBirthday == true && isTimelinePostEnabled == true)
