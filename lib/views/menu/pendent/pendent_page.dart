@@ -93,8 +93,7 @@ class PendentPage extends StatelessWidget {
                                                   kH4sizedBox,
                                                   Text(
                                                     ksYouCantDownYourCurrentPendent.tr,
-                                                    style: semiBold12TextStyle(cBlackColor),
-                                                    // textAlign: TextAlign.center,
+                                                    style: semiBold12TextStyle(cPrimaryColor),
                                                   ),
                                                   kH4sizedBox,
                                                   Text(
@@ -186,28 +185,34 @@ class PendentPage extends StatelessWidget {
                                           pendentBadgesController.paymentCheckBox.value = false;
                                           pendentBadgesController.selectedPendentIndex.value = index;
                                           pendentBadgesController.pendentId.value = pendentBadgesController.recommendedPendentList[index].id!;
-                                          Get.find<GlobalController>().commonBottomSheet(
-                                            context: context,
-                                            content: PurchasePendentBottomSheetContent(
-                                              index: index,
-                                              recommendedOrAllPendentList: pendentBadgesController.recommendedPendentList,
-                                              pendentIcon: pendentBadgesController.recommendedPendentList[index].icon,
-                                              pendentName: pendentBadgesController.recommendedPendentList[index].name,
-                                              pendentPrice: pendentBadgesController.recommendedPendentList[index].price.toString(),
-                                              pendentDescription: pendentBadgesController.recommendedPendentList[index].description,
-                                            ),
-                                            onPressCloseButton: () {
-                                              Get.back();
-                                            },
-                                            onPressRightButton: () {
-                                              Get.back();
-                                            },
-                                            rightText: "",
-                                            rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                            title: ksPurchasePendent.tr,
-                                            isRightButtonShow: false,
-                                            isScrollControlled: true,
-                                          );
+
+                                          if (pendentBadgesController.userPendentList.isEmpty ||
+                                              (
+                                                  pendentBadgesController.userPendentList[0].pendent!.price! <
+                                                      pendentBadgesController.recommendedPendentList[index].price!)) {
+                                            Get.find<GlobalController>().commonBottomSheet(
+                                              context: context,
+                                              content: PurchasePendentBottomSheetContent(
+                                                index: index,
+                                                recommendedOrAllPendentList: pendentBadgesController.recommendedPendentList,
+                                                pendentIcon: pendentBadgesController.recommendedPendentList[index].icon,
+                                                pendentName: pendentBadgesController.recommendedPendentList[index].name,
+                                                pendentPrice: pendentBadgesController.recommendedPendentList[index].price.toString(),
+                                                pendentDescription: pendentBadgesController.recommendedPendentList[index].description,
+                                              ),
+                                              onPressCloseButton: () {
+                                                Get.back();
+                                              },
+                                              onPressRightButton: () {
+                                                Get.back();
+                                              },
+                                              rightText: "",
+                                              rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                              title: ksPurchasePendent.tr,
+                                              isRightButtonShow: false,
+                                              isScrollControlled: true,
+                                            );
+                                          }
                                         },
                                         child: PendentGridViewContainer(
                                           index: index,

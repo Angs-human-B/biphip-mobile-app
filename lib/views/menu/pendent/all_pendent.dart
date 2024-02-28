@@ -67,28 +67,30 @@ class AllPendent extends StatelessWidget {
                                         pendentBadgesController.paymentCheckBox.value = false;
                                         pendentBadgesController.selectedPendentIndex.value = index;
                                         pendentBadgesController.pendentId.value = pendentBadgesController.allPendentList[index].id!;
-                                        Get.find<GlobalController>().commonBottomSheet(
-                                          context: context,
-                                          content: PurchasePendentBottomSheetContent(
-                                            index: index,
-                                            recommendedOrAllPendentList: pendentBadgesController.allPendentList,
-                                            pendentIcon: pendentBadgesController.allPendentList[index].icon,
-                                            pendentName: pendentBadgesController.allPendentList[index].name,
-                                            pendentPrice: pendentBadgesController.allPendentList[index].price.toString(),
-                                            pendentDescription: pendentBadgesController.allPendentList[index].description,
-                                          ),
-                                          onPressCloseButton: () {
-                                            Get.back();
-                                          },
-                                          onPressRightButton: () {
-                                            Get.back();
-                                          },
-                                          rightText: "",
-                                          rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                          title: ksPurchasePendent.tr,
-                                          isRightButtonShow: false,
-                                          isScrollControlled: true,
-                                        );
+                                        if (pendentBadgesController.userPendentList[0].pendent!.price! < pendentBadgesController.allPendentList[index].price!) {
+                                          Get.find<GlobalController>().commonBottomSheet(
+                                            context: context,
+                                            content: PurchasePendentBottomSheetContent(
+                                              index: index,
+                                              recommendedOrAllPendentList: pendentBadgesController.allPendentList,
+                                              pendentIcon: pendentBadgesController.allPendentList[index].icon,
+                                              pendentName: pendentBadgesController.allPendentList[index].name,
+                                              pendentPrice: pendentBadgesController.allPendentList[index].price.toString(),
+                                              pendentDescription: pendentBadgesController.allPendentList[index].description,
+                                            ),
+                                            onPressCloseButton: () {
+                                              Get.back();
+                                            },
+                                            onPressRightButton: () {
+                                              Get.back();
+                                            },
+                                            rightText: "",
+                                            rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                            title: ksPurchasePendent.tr,
+                                            isRightButtonShow: false,
+                                            isScrollControlled: true,
+                                          );
+                                        }
                                       },
                                       child: PendentGridViewContainer(
                                         index: index,
