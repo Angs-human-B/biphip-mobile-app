@@ -112,6 +112,7 @@ class AllBadges extends StatelessWidget {
                             );
                           },
                         ),
+                        kH20sizedBox,
                       ],
                     ),
                   ),
