@@ -15,6 +15,7 @@ import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/menu/badges/all_badges.dart';
 import 'package:bip_hip/views/menu/badges/badges_star_page.dart';
 import 'package:bip_hip/views/menu/badges/purchase_star.dart';
+import 'package:bip_hip/views/menu/birthday/birthday_page.dart';
 import 'package:bip_hip/views/menu/pendent/all_pendent.dart';
 import 'package:bip_hip/views/menu/pendent/pendent_page.dart';
 import 'package:bip_hip/views/home/quiz/my_quiz.dart';
@@ -147,6 +148,8 @@ const String krAllPendent = '/all-pendent';
 const String krBadgesStarPage = '/badges-star-page';
 const String krAllBadges = '/all-badges';
 const String krPurchaseStar = '/purchase-star';
+//*
+const String krBirthdayPage = '/birthday-page';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -233,4 +236,7 @@ List<GetPage<dynamic>>? routes = [
  //*Quiz
   GetPage(name: krQuizPage, page: () => QuizPage(), transition: Transition.noTransition),
   GetPage(name: krMyQuiz, page: () => MyQuiz(), transition: Transition.noTransition),
+  //*Birthday
+  GetPage(name: krBirthdayPage, page: () => BirthdayPage(), transition: Transition.noTransition),
+
 ];
