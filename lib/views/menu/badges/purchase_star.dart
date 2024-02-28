@@ -182,8 +182,6 @@ class PurchaseStar extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // if (postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount']) ||
-                    //     (postReactionController.totalStars.value != '' && postReactionController.balance < int.parse(postReactionController.totalStars.value)))
                     InkWell(
                       onTap: () {
                         pendentBadgesController.temporarytotalStarBuyAmount.value = pendentBadgesController.totalStarBuyAmount.value;
@@ -281,7 +279,15 @@ class PurchaseStar extends StatelessWidget {
                                           groupValue: pendentBadgesController.selectedBadgeIndex.value,
                                           onChanged: (v) {
                                             pendentBadgesController.selectedBadgeIndex.value = int.parse(v.toString());
-                                            ll("2222");
+                                            pendentBadgesController.selectedBadgeIndex.value = index;
+                                            pendentBadgesController.selectedBadgeIcon.value = pendentBadgesController.popularBadgesList[index].icon!;
+                                            pendentBadgesController.selectedBadgeStar.value = pendentBadgesController.popularBadgesList[index].star.toString();
+                                            pendentBadgesController.selectedBadgePrice.value =
+                                                pendentBadgesController.popularBadgesList[index].price.toString();
+                                            pendentBadgesController.selectedBadgeDescription.value =
+                                                pendentBadgesController.popularBadgesList[index].description!;
+                                            pendentBadgesController.badgeId.value = pendentBadgesController.popularBadgesList[index].id!;
+                                            pendentBadgesController.resetPurchaseCustomStar();
                                           },
                                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                           visualDensity: const VisualDensity(
