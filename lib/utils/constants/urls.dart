@@ -90,6 +90,7 @@ const String kuImageMakeProfilePicture = '/mobile/user/image-make-profile-pictur
 const String kuImageMakeCoverPhoto = '/mobile/user/image-make-cover-photo';
 const String kuDeleteImage = '/mobile/user/delete-image';
 const String kuDownloadImage = '/mobile/user/download-image';
+const String kuUpdateImageDescription = '/mobile/user/update-image-description';
 const String kuCreateAlbum = '/mobile/user/store-image-album';
 
 //---------------------------------------
@@ -156,6 +157,14 @@ const String kuMyQuizWinner = '/mobile/user/get-my-quiz-winning';
 //*Birthday
 const String kuGetBirthdays = '/mobile/user/get-birthdays';
 const String kuBirthdayWish = '/mobile/user/store-birthday-wish';
+//*Badges
+const String kuUserBadges = '/mobile/user/get-user-badges';
+const String kuGetStarPrice = '/mobile/get-star-price';
+const String kuPurchaseStar = '/mobile/user/purchase-star';
+//* Pendent
+const String kuUserPendent = '/mobile/user/get-user-pendents';
+const String kuSetUserPendent = '/mobile/user/set-user-pendent';
+
 
 /*
 |--------------------------------------------------------------------------

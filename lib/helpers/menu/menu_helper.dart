@@ -47,11 +47,14 @@ class MenuHelper {
         ll('Badges');
         Get.find<PendentBadgesController>().resetBadgesData();
         Get.toNamed(krBadgesStarPage);
+        await Get.find<PendentBadgesController>().getUserBadges();
+        await Get.find<PendentBadgesController>().getStarPrice();
         break;
       case 5:
         ll('Pendent');
         Get.find<PendentBadgesController>().resetPendentData();
         Get.toNamed(krPendentPage);
+        await Get.find<PendentBadgesController>().getUserPendent();
         break;
       case 6:
         ll('Earnings');

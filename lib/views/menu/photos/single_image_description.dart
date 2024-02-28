@@ -15,93 +15,112 @@ class SingleImageDescription extends StatelessWidget {
       },
       child: Container(
         color: cWhiteColor,
-        child: SafeArea(
-          top: false,
-          child: Scaffold(
-            backgroundColor: cWhiteColor,
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(kAppBarSize),
-              child: CustomAppBar(
-                appBarColor: cWhiteColor,
-                title: ksImage.tr,
-                hasBackButton: true,
-                isCenterTitle: true,
-                onBack: () {
-                  unFocus(context);
-                  Get.back();
-                },
-                action: [
-                  Obx(() => Padding(
-                        padding: const EdgeInsets.only(right: h16),
-                        child: TextButton(
-                          style: kTextButtonStyle,
-                          onPressed: galleryController.isImageDescriptionSaveButtonEnable.value
-                              ? () async {
-                                  await galleryController.imageDescriptionUpdate();
-                                }
-                              : null,
-                          child: Text(
-                            ksSave.tr,
-                            style: medium14TextStyle(galleryController.isImageDescriptionSaveButtonEnable.value ? cPrimaryColor : cPlaceHolderColor),
-                          ),
-                        ),
-                      ))
-                ],
-              ),
-            ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: k4Padding,
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                      child: Container(
-                        color: cWhiteColor,
-                        height: 150,
-                        width: width - 40,
-                        child: Image.network(
-                          image!,
-                          fit: BoxFit.cover,
-                          filterQuality: FilterQuality.high,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            BipHip.imageFile,
-                            size: kIconSize100,
-                            color: cIconColor,
-                          ),
-                          loadingBuilder: imageLoadingBuilder,
-                        ),
-                      ),
+        child: Obx(
+          () => Stack(
+            children: [
+              SafeArea(
+                top: false,
+                child: Scaffold(
+                  backgroundColor: cWhiteColor,
+                  appBar: PreferredSize(
+                    preferredSize: const Size.fromHeight(kAppBarSize),
+                    child: CustomAppBar(
+                      appBarColor: cWhiteColor,
+                      title: ksImage.tr,
+                      hasBackButton: true,
+                      isCenterTitle: true,
+                      onBack: () {
+                        unFocus(context);
+                        Get.back();
+                      },
+                      action: [
+                        Obx(() => Padding(
+                              padding: const EdgeInsets.only(right: h16),
+                              child: TextButton(
+                                style: kTextButtonStyle,
+                                onPressed: galleryController.isImageDescriptionSaveButtonEnable.value
+                                    ? () async {
+                                        unFocus(context);
+                                        await galleryController.imageDescriptionUpdate();
+                                      }
+                                    : null,
+                                child: Text(
+                                  ksSave.tr,
+                                  style: medium14TextStyle(galleryController.isImageDescriptionSaveButtonEnable.value ? cPrimaryColor : cPlaceHolderColor),
+                                ),
+                              ),
+                            ))
+                      ],
                     ),
                   ),
-                  kH12sizedBox,
-                  CustomModifiedTextField(
-                    controller: galleryController.imageDescriptionUpdateController,
-                    maxLength: 1000,
-                    maxLines: 100,
-                    minLines: 1,
-                    isFilled: false,
-                    fillColor: cWhiteColor,
-                    inputAction: TextInputAction.newline,
-                    inputType: TextInputType.multiline,
-                    hint: ksAddACaption.tr,
-                    contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
-                    textHintStyle: regular14TextStyle(cPlaceHolderColor),
-                    textInputStyle: regular14TextStyle(cBlackColor),
-                    onChanged: (v) {
-                      if (galleryController.imageDescriptionUpdateController.text.toString().trim() == ''|| galleryController.imageDescriptionUpdateController.text.toString().trim()==galleryController.previousImageDescription.value) {
-                        galleryController.isImageDescriptionSaveButtonEnable.value = false;
-                      } else {
-                        galleryController.isImageDescriptionSaveButtonEnable.value = true;
+                  body: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: k4Padding,
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(k8BorderRadius),
+                            child: Container(
+                              color: cWhiteColor,
+                              height: 150,
+                              width: width - 40,
+                              child: Image.network(
+                                image!,
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.high,
+                                errorBuilder: (context, error, stackTrace) => const Icon(
+                                  BipHip.imageFile,
+                                  size: kIconSize100,
+                                  color: cIconColor,
+                                ),
+                                loadingBuilder: imageLoadingBuilder,
+                              ),
+                            ),
+                          ),
+                        ),
+                        kH12sizedBox,
+                        CustomModifiedTextField(
+                          controller: galleryController.imageDescriptionUpdateController,
+                          maxLength: 1000,
+                          maxLines: 100,
+                          minLines: 1,
+                          isFilled: false,
+                          fillColor: cWhiteColor,
+                          inputAction: TextInputAction.newline,
+                          inputType: TextInputType.multiline,
+                          hint: ksAddACaption.tr,
+                          contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
+                          textHintStyle: regular14TextStyle(cPlaceHolderColor),
+                          textInputStyle: regular14TextStyle(cBlackColor),
+                          onChanged: (v) {
+                            if (galleryController.imageDescriptionUpdateController.text.toString().trim() == '' ||
+                                galleryController.imageDescriptionUpdateController.text.toString().trim() == galleryController.previousImageDescription.value) {
+                              galleryController.isImageDescriptionSaveButtonEnable.value = false;
+                            } else {
+                              galleryController.isImageDescriptionSaveButtonEnable.value = true;
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              if (galleryController.isImageDescriptionUpdateLoading.value)
+                Positioned(
+                  child: CommonLoadingAnimation(
+                    onWillPop: () async {
+                      if (galleryController.isImageDescriptionUpdateLoading.value) {
+                        return false;
                       }
+                      return true;
                     },
                   ),
-                ],
-              ),
-            ),
+                ),
+            ],
           ),
         ),
       ),

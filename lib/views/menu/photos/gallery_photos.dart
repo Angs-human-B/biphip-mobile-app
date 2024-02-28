@@ -48,7 +48,6 @@ class GalleryPhotos extends StatelessWidget {
               ],
             ),
           ),
-         
           body: Obx(
             () => Column(
               children: [
@@ -130,7 +129,10 @@ class GalleryPhotos extends StatelessWidget {
                                                 );
                                               },
                                               onPressed: () {
-                                                Get.to(()=> Photos(imageList: galleryController.imageDataList[index].imageList,imageListTitle: galleryController.imageDataList[index].title ?? ksNA,));
+                                                Get.to(() => Photos(
+                                                      imageList: galleryController.imageDataList[index].imageList,
+                                                      imageListTitle: galleryController.imageDataList[index].title ?? ksNA,
+                                                    ));
                                               },
                                             ),
                                           ],
@@ -192,7 +194,7 @@ class GalleryPhotoActionContent extends StatelessWidget {
                   ),
                   itemColor: GalleryPhotoHelper().galleryPhotoItemColor(index: index),
                   onPressed: () {
-                    GalleryPhotoHelper().galleryPhotoOnPressed(index: index);
+                     GalleryPhotoHelper().galleryPhotoOnPressed(index: index);
                   },
                 ),
               ),

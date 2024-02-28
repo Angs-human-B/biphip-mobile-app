@@ -81,9 +81,10 @@ class Photos extends StatelessWidget {
                               galleryController.imageId.value = imageList[index].id!;
                               ll(galleryController.imageId.value.toString());
                               await galleryController.getImageDetails();
+                              galleryController.imageData.value?.description = null;
                               Get.to(() => CommonPhotoView(
                                     image: galleryController.imageDetailsData.value!.image!.fullPath.toString(),
-                                    description: galleryController.imageDetailsData.value!.image!.description,
+                                    description: galleryController.imageDetailsData.value!.image!.description ?? '',
                                     onPressed: () {
                                       galleryController.photoActionSelect.value = '';
                                       Get.find<GlobalController>().blankBottomSheet(

@@ -312,6 +312,8 @@ class GalleryController extends GetxController {
   final RxString previousImageDescription = RxString('');
   final RxBool isImageDescriptionSaveButtonEnable = RxBool(false);
   final RxBool isImageDescriptionUpdateLoading = RxBool(false);
+  Rx<ImageList?> imageData = Rx<ImageList?>(null);
+
   Future<void> imageDescriptionUpdate() async {
     try {
       isImageDescriptionUpdateLoading.value = true;
@@ -322,11 +324,12 @@ class GalleryController extends GetxController {
       };
       var response = await apiController.commonApiCall(
         requestMethod: kPost,
-        url: kuImageMakeCoverPhoto,
+        url: kuUpdateImageDescription,
         body: body,
         token: token,
       ) as CommonDM;
       if (response.success == true) {
+        imageData.value = ImageList.fromJson(response.data);
         isImageDescriptionUpdateLoading.value = false;
         Get.back();
         if (!Get.isSnackbarOpen) {
