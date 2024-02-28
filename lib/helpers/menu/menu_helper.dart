@@ -77,12 +77,12 @@ class MenuHelper {
       case 10:
         ll('Birthday');
         Get.find<PendentBadgesController>().todayBirthdayTimelineTextEditingController.clear();
-        Get.find<PendentBadgesController>().in2DaysBirthdayTimelineTextEditingController.clear();
+        Get.find<PendentBadgesController>().inTwoDaysBirthdayTimelineTextEditingController.clear();
         Get.find<PendentBadgesController>().upcomingBirthdayTimelineTextEditingController.clear();
         Get.find<PendentBadgesController>().todayBirthdaySendButtonEnabled.clear();
-        Get.find<PendentBadgesController>().in2DaysBirthdaySendButtonEnabled.clear();
-
+        Get.find<PendentBadgesController>().inTwoDaysBirthdaySendButtonEnabled.clear();
         Get.toNamed(krBirthdayPage);
+        await Get.find<PendentBadgesController>().getBirthday();
         break;
     }
   }

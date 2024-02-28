@@ -154,6 +154,9 @@ const String kuSubmitAnswer = '/mobile/user/submit-quiz';
 const String kuMyAllQuizes = '/mobile/user/get-my-quiz-all';
 const String kuMyQuizWinner = '/mobile/user/get-my-quiz-winning';
 
+//*Birthday
+const String kuGetBirthdays = '/mobile/user/get-birthdays';
+const String kuBirthdayWish = '/mobile/user/store-birthday-wish';
 //*Badges
 const String kuUserBadges = '/mobile/user/get-user-badges';
 const String kuGetStarPrice = '/mobile/get-star-price';
