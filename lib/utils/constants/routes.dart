@@ -12,6 +12,7 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
 import 'package:bip_hip/views/menu/awards/awards_page.dart';
 import 'package:bip_hip/views/menu/badges/all_badges.dart';
 import 'package:bip_hip/views/menu/badges/badges_star_page.dart';
@@ -153,6 +154,7 @@ const String krPurchaseStar = '/purchase-star';
 const String krBirthdayPage = '/birthday-page';
 //*Awards
 const String krAwardsPage = '/awards-page';
+const String krAwardDetailsPage = '/award-details-page';
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -242,6 +244,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krBirthdayPage, page: () => BirthdayPage(), transition: Transition.noTransition),
    //* Awards
   GetPage(name: krAwardsPage, page: () => AwardsPage(), transition: Transition.noTransition),
+  GetPage(name: krAwardDetailsPage, page: () => AwardDetailsPage(), transition: Transition.noTransition),
 
 
 ];

@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -125,10 +126,21 @@ class AwardsPage extends StatelessWidget {
                               mainAxisSpacing: k16Padding,
                             ),
                             itemBuilder: (BuildContext context, int index) {
-                              return AwardView(
-                                image: awardController.youWonAwardList[index]['image'],
-                                ranking: awardController.youWonAwardList[index]['ranking'],
-                                winningDate: awardController.youWonAwardList[index]['WinningDate'],
+                              return InkWell(
+                                onTap: () {
+                                  awardController.isOthersWinner.value = false;
+                                  Get.to(() => AwardDetailsPage(
+                                        userImage: awardController.youWonAwardList[index]['image'],
+                                        ranking: awardController.youWonAwardList[index]['ranking'],
+                                        certificateImage: awardController.youWonAwardList[index]['certificate'],
+                                        winningDate: awardController.youWonAwardList[index]['WinningDate'],
+                                      ));
+                                },
+                                child: AwardView(
+                                  image: awardController.youWonAwardList[index]['image'],
+                                  ranking: awardController.youWonAwardList[index]['ranking'],
+                                  winningDate: awardController.youWonAwardList[index]['WinningDate'],
+                                ),
                               );
                             },
                           ),
@@ -149,10 +161,21 @@ class AwardsPage extends StatelessWidget {
                               mainAxisSpacing: k16Padding,
                             ),
                             itemBuilder: (BuildContext context, int index) {
-                              return AwardView(
-                                image: awardController.othersWinnerAwardList[index]['image'],
-                                ranking: awardController.othersWinnerAwardList[index]['ranking'],
-                                winningDate: awardController.othersWinnerAwardList[index]['WinningDate'],
+                              return InkWell(
+                                onTap: () {
+                                  awardController.isOthersWinner.value = true;
+                                  Get.to(() => AwardDetailsPage(
+                                        userImage: awardController.othersWinnerAwardList[index]['image'],
+                                        ranking: awardController.othersWinnerAwardList[index]['ranking'],
+                                        certificateImage: awardController.othersWinnerAwardList[index]['certificate'],
+                                        winningDate: awardController.othersWinnerAwardList[index]['WinningDate'],
+                                      ));
+                                },
+                                child: AwardView(
+                                  image: awardController.othersWinnerAwardList[index]['image'],
+                                  ranking: awardController.othersWinnerAwardList[index]['ranking'],
+                                  winningDate: awardController.othersWinnerAwardList[index]['WinningDate'],
+                                ),
                               );
                             },
                           ),
@@ -160,8 +183,6 @@ class AwardsPage extends StatelessWidget {
                       ),
                     ),
                   ),
-
-                  // AwardView(),
                 ],
               ),
             ),
