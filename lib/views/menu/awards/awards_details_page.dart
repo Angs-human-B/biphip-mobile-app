@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
@@ -134,26 +135,28 @@ class AwardDetailsPage extends StatelessWidget {
                   style: regular12TextStyle(cSmallBodyTextColor),
                   textAlign: TextAlign.left,
                 ),
-                if(awardController.isOthersWinner.value)
-                Padding(
-                  padding: const EdgeInsets.only(top: k8Padding),
-                  child: Text(ksSeeProfile.tr,style: semiBold14TextStyle(cPrimaryColor),),
-                ),
-                kH24sizedBox,
-                Container(
-                  width: width - 40,
-                  height: h32,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(k8BorderRadius),
-                    color: cWhiteColor,
-                    border: Border.all(width: 1, color: cPrimaryColor),
-                  ),
-                  child: Center(
+                if (awardController.isOthersWinner.value)
+                  Padding(
+                    padding: const EdgeInsets.only(top: k8Padding),
                     child: Text(
-                      ksViewCertificate.tr,
-                      style: regular12TextStyle(cPrimaryColor),
+                      ksSeeProfile.tr,
+                      style: semiBold14TextStyle(cPrimaryColor),
                     ),
                   ),
+                kH24sizedBox,
+                CustomElevatedButton(
+                  label: ksViewCertificate.tr,
+                  onPressed: () {
+                    Get.to(() => CommonPhotoView(
+                          image: certificateImage ?? '',
+                          description: '',
+                        ));
+                  },
+                  buttonWidth: width - 40,
+                  buttonHeight: h32,
+                  buttonColor: cWhiteColor,
+                  borderColor: cPrimaryColor,
+                  textStyle: regular12TextStyle(cPrimaryColor),
                 ),
                 kH24sizedBox,
                 const PostUpperContainer(
