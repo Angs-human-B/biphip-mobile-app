@@ -42,21 +42,23 @@ class AllFamilyListView extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return ClipRRect(
                                   borderRadius: BorderRadius.circular(k8BorderRadius),
-                                  child: FriendFamilyButtonAction(
-                                    backgroundImage: familyController.familyList[index].profilePicture.toString(),
-                                    imageSize: h50,
-                                    name: familyController.familyList[index].fullName ?? ksNA.tr,
-                                    icon: BipHip.relation,
-                                    subTitle: familyController.familyList[index].familyRelationStatus ?? ksNA.tr,
-                                    firstButtonText: ksMessage.tr,
-                                    secondButtonText: ksBlock.tr,
-                                    firstButtonOnPressed: () {
-                                      unFocus(context);
-                                    },
-                                    secondButtonOnPressed: () {
-                                      unFocus(context);
-                                    },
-                                  ),
+                                  child: Obx(() => FriendFamilyButtonAction(
+                                        backgroundImage: familyController.familyList[index].profilePicture.toString(),
+                                        imageSize: h50,
+                                        name: familyController.familyList[index].fullName ?? ksNA.tr,
+                                        icon: BipHip.relation,
+                                        subTitle: familyController.familyList[index].familyRelationStatus ?? ksNA.tr,
+                                        firstButtonText: ksMessage.tr,
+                                        secondButtonText: familyController.familyBlockList[index] ? ksUnBlock.tr : ksBlock.tr,
+                                        firstButtonOnPressed: () {
+                                          unFocus(context);
+                                        },
+                                        secondButtonOnPressed: () async {
+                                          unFocus(context);
+                                          familyController.userId.value = familyController.familyList[index].id!;
+                                          await familyController.blockUser();
+                                        },
+                                      )),
                                 );
                               },
                             ),

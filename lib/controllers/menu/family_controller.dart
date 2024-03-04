@@ -41,7 +41,9 @@ class FamilyController extends GetxController {
         } else {
           familyListScrolled.value = true;
         }
-
+        for (int i = 0; i < familyList.length; i++) {
+          familyBlockList.add(false);
+        }
         isFamilyListLoading.value = false;
       } else {
         isFamilyListLoading.value = true;
@@ -505,6 +507,43 @@ class FamilyController extends GetxController {
   Timer? debounce;
   final RxBool isFamilySuffixIconVisible = RxBool(false);
   final RxBool isRouteFromAllFriend = RxBool(false);
-  final RxString selectedAddFamilyFullName= RxString('');
-  final RxString selectedAddFamilyProfilePicture= RxString('');
+  final RxString selectedAddFamilyFullName = RxString('');
+  final RxString selectedAddFamilyProfilePicture = RxString('');
+
+  //*Block Family Member
+  final RxList familyBlockList = RxList([]);
+  final RxBool isBlockUserLoading = RxBool(false);
+  Future<void> blockUser() async {
+    try {
+      isBlockUserLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: '$kuBlockUser/${userId.value.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+         for (int index = 0; index < familyList.length; index++) {
+         if (familyList[index].id == userId.value) {
+          familyBlockList[index]=true;
+          }
+         }
+        isBlockUserLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isBlockUserLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isBlockUserLoading.value = false;
+      ll('blockUser error: $e');
+    }
+  }
 }
