@@ -466,7 +466,15 @@ class CommonDailyAndPlayedQuiz extends StatelessWidget {
                                     child: ClipOval(
                                       child: Image.network(
                                         imageList![i].profilePicture ?? "",
-                                        fit: BoxFit.fill,
+                                        fit: BoxFit.cover,
+                                        loadingBuilder: imageLoadingBuilder,
+                                        errorBuilder: (context, error, stackTrace) {
+                                          return Image.asset(
+                                            kiProfileDefaultImageUrl,
+                                            height: h20,
+                                            width: h20,
+                                          );
+                                        },
                                       ),
                                     ),
                                   ),
