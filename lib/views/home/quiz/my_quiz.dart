@@ -648,44 +648,45 @@ class QuizWinner extends StatelessWidget {
                       height: 72,
                       width: 56,
                     ),
-                    if (image != null)
-                      Positioned(
-                        top: h16,
-                        child: Container(
-                          width: 56,
-                          height: 56,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                              colors: [
-                                cYellowLinearColor1,
-                                cYellowLinearColor2,
-                              ],
-                            ),
+                    Positioned(
+                      top: h16,
+                      child: Container(
+                        width: 56,
+                        height: 56,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            colors: [
+                              cYellowLinearColor1,
+                              cYellowLinearColor2,
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(k4Padding),
-                            child: ClipOval(
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: cWhiteColor,
-                                ),
-                                child: Image.network(
-                                  image!,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) => const Icon(
-                                    BipHip.imageFile,
-                                    size: kIconSize40,
-                                    color: cIconColor,
-                                  ),
-                                  loadingBuilder: imageLoadingBuilder,
-                                ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(k4Padding),
+                          child: ClipOval(
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: cWhiteColor,
+                              ),
+                              child: Image.network(
+                                image ?? '',
+                                fit: BoxFit.cover,
+                                loadingBuilder: imageLoadingBuilder,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.asset(
+                                    kiProfileDefaultImageUrl,
+                                    height: h40,
+                                    width: h40,
+                                  );
+                                },
                               ),
                             ),
                           ),
                         ),
                       ),
+                    ),
                     Positioned(
                       top: 2,
                       right: h16,
