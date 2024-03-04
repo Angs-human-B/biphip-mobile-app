@@ -56,7 +56,17 @@ class MyQuiz extends StatelessWidget {
                           },
                         ]),
                       ),
+
+                      if (postReactionController.quizTapButtonState[0])
+                        Padding(
+                          padding: const EdgeInsets.only(top: k20Padding, bottom: k16Padding),
+                          child: Text(
+                            ksTodaysQuiz.tr,
+                            style: semiBold18TextStyle(cBlackColor),
+                          ),
+                        ),
                       if (postReactionController.quizTapButtonState[0]) MyDailyQuiz(),
+
                       if (postReactionController.quizTapButtonState[1])
                         Padding(
                           padding: const EdgeInsets.only(top: k20Padding, bottom: k16Padding),
@@ -276,56 +286,52 @@ class MyDailyQuiz extends StatelessWidget {
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        kH20sizedBox,
-        Text(
-          ksTodaysQuiz.tr,
-          style: semiBold18TextStyle(cBlackColor),
-        ),
-        kH16sizedBox,
-        CommonDailyAndPlayedQuiz(
-          image: postReactionController.questionList.isNotEmpty
-              ? postReactionController.questionListData.value?.quiz?.media.toString()
-              : postReactionController.questionListData.value?.result?.quiz?.media.toString(),
-          title: postReactionController.questionList.isNotEmpty
-              ? "${postReactionController.questionListData.value?.quiz?.title}"
-              : "${postReactionController.questionListData.value!.result!.quiz?.title.toString()}",
-          noOfQuestions: postReactionController.questionList.isNotEmpty
-              ? "${postReactionController.questionListData.value?.quiz?.noOfQuestions.toString()} questions"
-              : "${postReactionController.questionListData.value!.result!.quiz?.noOfQuestions.toString()} questions",
-          totalTime: postReactionController.questionList.isNotEmpty
-              ? "Duration: ${postReactionController.questionListData.value?.quiz?.playingDuration} sec"
-              : "Duration: ${postReactionController.questionListData.value!.result!.quiz?.playingDuration.toString()} sec",
-          actionText: 'Tap to play',
-          icon: BipHip.rightArrow,
-          actionTextStyle: semiBold14TextStyle(cPrimaryColor),
-          imageList: postReactionController.questionList.isNotEmpty
-              ? postReactionController.questionListData.value?.quiz?.participants
-              : postReactionController.questionListData.value!.result?.quiz!.participants,
-          onPressed: () {
-            // Get.toNamed(krQuizPage);
-            if (postReactionController.questionList.isNotEmpty) {
-              postReactionController.totalTimeCalculation();
-              postReactionController.timerStartFunction();
-              Get.toNamed(krQuizPage);
-            } else {
-              postReactionController.timer?.cancel();
-              Get.toNamed(krQuizPage);
-              if (postReactionController.questionListData.value!.result!.countRightAnswer == 0) {
-                quizZeroScoreAlertDialog(context: context, content: QuizZeroScoreContent());
-              } else {
-                quizCongratulationsAlertDialog(
-                  context: context,
-                  content: QuizCongratulationContent(),
-                );
-              }
-            }
-          },
-        ),
-      ],
-    );
+    return Obx(() => postReactionController.isQuestionLoading.value
+        ? const PlayedQuizShimmer()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CommonDailyAndPlayedQuiz(
+                image: postReactionController.questionList.isNotEmpty
+                    ? postReactionController.questionListData.value?.quiz?.media.toString()
+                    : postReactionController.questionListData.value?.result?.quiz?.media.toString(),
+                title: postReactionController.questionList.isNotEmpty
+                    ? "${postReactionController.questionListData.value?.quiz?.title}"
+                    : "${postReactionController.questionListData.value?.result?.quiz?.title.toString()}",
+                noOfQuestions: postReactionController.questionList.isNotEmpty
+                    ? "${postReactionController.questionListData.value?.quiz?.noOfQuestions.toString()} questions"
+                    : "${postReactionController.questionListData.value?.result?.quiz?.noOfQuestions.toString()} questions",
+                totalTime: postReactionController.questionList.isNotEmpty
+                    ? "Duration: ${postReactionController.questionListData.value?.quiz?.playingDuration} sec"
+                    : "Duration: ${postReactionController.questionListData.value?.result?.quiz?.playingDuration.toString()} sec",
+                actionText: 'Tap to play',
+                icon: BipHip.rightArrow,
+                actionTextStyle: semiBold14TextStyle(cPrimaryColor),
+                imageList: postReactionController.questionList.isNotEmpty
+                    ? postReactionController.questionListData.value?.quiz?.participants
+                    : postReactionController.questionListData.value?.result?.quiz?.participants,
+                onPressed: () {
+                  // Get.toNamed(krQuizPage);
+                  if (postReactionController.questionList.isNotEmpty) {
+                    postReactionController.totalTimeCalculation();
+                    postReactionController.timerStartFunction();
+                    Get.toNamed(krQuizPage);
+                  } else {
+                    postReactionController.timer?.cancel();
+                    Get.toNamed(krQuizPage);
+                    if (postReactionController.questionListData.value!.result!.countRightAnswer == 0) {
+                      quizZeroScoreAlertDialog(context: context, content: QuizZeroScoreContent());
+                    } else {
+                      quizCongratulationsAlertDialog(
+                        context: context,
+                        content: QuizCongratulationContent(),
+                      );
+                    }
+                  }
+                },
+              ),
+            ],
+          ));
   }
 }
 

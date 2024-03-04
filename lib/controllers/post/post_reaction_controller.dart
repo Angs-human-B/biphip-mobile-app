@@ -562,6 +562,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxList quizTapButtonText = RxList(["Daily Quiz", "Played", "Winner"]);
   void dailyQuizTapableButtonOnPressed() async {
     quizToggleType(0);
+    await getQuestionList();
   }
 
   void playedQuizTapableButtonOnPressed() async {
