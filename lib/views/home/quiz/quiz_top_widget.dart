@@ -39,7 +39,9 @@ class QuizTopWidget extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(k8BorderRadius),
                 child: Image.network(
-                  '', //!replace here media data
+                  postReactionController.questionList.isNotEmpty
+                      ? "${postReactionController.questionListData.value?.quiz?.media}"
+                      : "${postReactionController.questionListData.value!.result!.quiz?.media}", //!replace here media data
                   errorBuilder: (context, error, stackTrace) {
                     return Image.asset(
                       kiDummyImage1ImageUrl,
@@ -91,18 +93,6 @@ class HomePageTopTapableQuizShimmer extends StatelessWidget {
                       color: cWhiteColor,
                       borderRadius: BorderRadius.circular(k8BorderRadius),
                     ))),
-            // Positioned(
-            //   bottom: h8,
-            //   left: h8,
-            //   child: ShimmerCommon(
-            //       widget: Container(
-            //           height: h16,
-            //           width: width - 40,
-            //           decoration: BoxDecoration(
-            //             color: cWhiteColor,
-            //             borderRadius: BorderRadius.circular(k8BorderRadius),
-            //           ))),
-            // ),
           ],
         ),
       ),
@@ -120,8 +110,6 @@ class QuizFirstBottomSheetContent extends StatelessWidget {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (postReactionController.questionListData.value?.quiz?.mediaUrl != null ||
-                  postReactionController.questionListData.value!.result?.quiz?.mediaUrl != null)
                 ClipRRect(
                   borderRadius: BorderRadius.circular(k8BorderRadius),
                   child: Image.network(

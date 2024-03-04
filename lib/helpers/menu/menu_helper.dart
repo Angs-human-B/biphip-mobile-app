@@ -70,6 +70,7 @@ class MenuHelper {
         ll('Quiz');
         Get.find<PostReactionController>().resetQuizTapButtonData();
         Get.toNamed(krMyQuiz);
+        await Get.find<PostReactionController>().getQuestionList();
         break;
       case 10:
         ll('Birthday');

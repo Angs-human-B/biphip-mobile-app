@@ -1,5 +1,7 @@
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
+import 'package:bip_hip/models/home/quiz/all_quiz_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/quiz/quiz_page.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:flutter/rendering.dart';
@@ -54,7 +56,7 @@ class MyQuiz extends StatelessWidget {
                           },
                         ]),
                       ),
-                      if (postReactionController.quizTapButtonState[0]) const MyDailyQuiz(),
+                      if (postReactionController.quizTapButtonState[0]) MyDailyQuiz(),
                       if (postReactionController.quizTapButtonState[1])
                         Padding(
                           padding: const EdgeInsets.only(top: k20Padding, bottom: k16Padding),
@@ -270,8 +272,8 @@ class MyPlayedQuiz extends StatelessWidget {
 }
 
 class MyDailyQuiz extends StatelessWidget {
-  const MyDailyQuiz({super.key});
-
+  MyDailyQuiz({super.key});
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -284,15 +286,43 @@ class MyDailyQuiz extends StatelessWidget {
         ),
         kH16sizedBox,
         CommonDailyAndPlayedQuiz(
-          image:
-              'https://images.unsplash.com/photo-1500076656116-558758c991c1?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-          title: 'How to play golf',
-          noOfQuestions: '12 questions',
-          totalTime: 'Duration: 30 Sec',
+          image: postReactionController.questionList.isNotEmpty
+              ? postReactionController.questionListData.value?.quiz?.media.toString()
+              : postReactionController.questionListData.value?.result?.quiz?.media.toString(),
+          title: postReactionController.questionList.isNotEmpty
+              ? "${postReactionController.questionListData.value?.quiz?.title}"
+              : "${postReactionController.questionListData.value!.result!.quiz?.title.toString()}",
+          noOfQuestions: postReactionController.questionList.isNotEmpty
+              ? "${postReactionController.questionListData.value?.quiz?.noOfQuestions.toString()} questions"
+              : "${postReactionController.questionListData.value!.result!.quiz?.noOfQuestions.toString()} questions",
+          totalTime: postReactionController.questionList.isNotEmpty
+              ? "Duration: ${postReactionController.questionListData.value?.quiz?.playingDuration} sec"
+              : "Duration: ${postReactionController.questionListData.value!.result!.quiz?.playingDuration.toString()} sec",
           actionText: 'Tap to play',
           icon: BipHip.rightArrow,
           actionTextStyle: semiBold14TextStyle(cPrimaryColor),
-          imageList: Get.find<PostReactionController>().quizParticipentList,
+          imageList: postReactionController.questionList.isNotEmpty
+              ? postReactionController.questionListData.value?.quiz?.participants
+              : postReactionController.questionListData.value!.result?.quiz!.participants,
+          onPressed: () {
+            // Get.toNamed(krQuizPage);
+            if (postReactionController.questionList.isNotEmpty) {
+              postReactionController.totalTimeCalculation();
+              postReactionController.timerStartFunction();
+              Get.toNamed(krQuizPage);
+            } else {
+              postReactionController.timer?.cancel();
+              Get.toNamed(krQuizPage);
+              if (postReactionController.questionListData.value!.result!.countRightAnswer == 0) {
+                quizZeroScoreAlertDialog(context: context, content: QuizZeroScoreContent());
+              } else {
+                quizCongratulationsAlertDialog(
+                  context: context,
+                  content: QuizCongratulationContent(),
+                );
+              }
+            }
+          },
         ),
       ],
     );
@@ -312,6 +342,7 @@ class CommonDailyAndPlayedQuiz extends StatelessWidget {
     this.imageList = const [],
     this.correctAnswer,
     this.totalQuestions,
+    this.onPressed,
   });
   final String? image;
   final String title;
@@ -322,145 +353,149 @@ class CommonDailyAndPlayedQuiz extends StatelessWidget {
   final String actionText;
   final TextStyle actionTextStyle;
   final IconData? icon;
-  final List? imageList;
+  final List<Participant>? imageList;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width - 40,
-      height: 108,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(k8BorderRadius),
-        border: Border.all(width: 1, color: cLineColor),
-      ),
-      child: Row(
-        children: [
-          if (image != null)
-            Padding(
-              padding: const EdgeInsets.all(k8Padding),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(k8BorderRadius),
-                child: SizedBox(
-                  width: 90,
-                  height: 90,
-                  child: Image.network(
-                    image!,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset(kiDummyImage1ImageUrl);
-                    },
-                    loadingBuilder: imageLoadingBuilder,
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        width: width - 40,
+        height: 108,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(k8BorderRadius),
+          border: Border.all(width: 1, color: cLineColor),
+        ),
+        child: Row(
+          children: [
+            if (image != null)
+              Padding(
+                padding: const EdgeInsets.all(k8Padding),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                  child: SizedBox(
+                    width: 90,
+                    height: 90,
+                    child: Image.network(
+                      image ?? '',
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(kiDummyImage1ImageUrl);
+                      },
+                      loadingBuilder: imageLoadingBuilder,
+                    ),
                   ),
                 ),
               ),
-            ),
-          if (image == null) kW8sizedBox,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                kH12sizedBox,
-                Text(
-                  title,
-                  style: semiBold16TextStyle(cBlackColor),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                if (noOfQuestions != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: k4Padding),
-                    child: Text(
-                      noOfQuestions!,
-                      style: regular12TextStyle(csmallBodyTextColor2),
-                      textAlign: TextAlign.left,
-                    ),
+            if (image == null) kW8sizedBox,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  kH12sizedBox,
+                  Text(
+                    title,
+                    style: semiBold16TextStyle(cBlackColor),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                if (correctAnswer != null && totalQuestions != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: k4Padding),
-                    child: RichText(
+                  if (noOfQuestions != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: k4Padding),
+                      child: Text(
+                        noOfQuestions!,
+                        style: regular12TextStyle(csmallBodyTextColor2),
                         textAlign: TextAlign.left,
-                        text: TextSpan(children: [
-                          TextSpan(text: "${ksCorrectAnswer.tr}: ${correctAnswer}/", style: regular12TextStyle(cBlackColor)),
-                          TextSpan(text: "${totalQuestions}", style: regular12TextStyle(cSmallBodyTextColor)),
-                        ])),
-                  ),
-                kH4sizedBox,
-                Text(
-                  totalTime,
-                  style: regular12TextStyle(csmallBodyTextColor2),
-                  textAlign: TextAlign.left,
-                ),
-                kH8sizedBox,
-                SizedBox(
-                  width: width - (40 + 120),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        actionText,
-                        style: actionTextStyle,
                       ),
-                      if (icon != null)
-                        Icon(
-                          icon,
-                          size: kIconSize16,
-                          color: cPrimaryColor,
+                    ),
+                  if (correctAnswer != null && totalQuestions != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: k4Padding),
+                      child: RichText(
+                          textAlign: TextAlign.left,
+                          text: TextSpan(children: [
+                            TextSpan(text: "${ksCorrectAnswer.tr}: $correctAnswer/", style: regular12TextStyle(cBlackColor)),
+                            TextSpan(text: "$totalQuestions", style: regular12TextStyle(cSmallBodyTextColor)),
+                          ])),
+                    ),
+                  kH4sizedBox,
+                  Text(
+                    totalTime,
+                    style: regular12TextStyle(csmallBodyTextColor2),
+                    textAlign: TextAlign.left,
+                  ),
+                  kH8sizedBox,
+                  SizedBox(
+                    width: width - (40 + 120),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          actionText,
+                          style: actionTextStyle,
                         ),
-                      const Spacer(),
-                      Stack(
-                        children: [
-                          const SizedBox(
-                            width: 60,
-                            height: 20,
+                        if (icon != null)
+                          Icon(
+                            icon,
+                            size: kIconSize16,
+                            color: cPrimaryColor,
                           ),
-                          if (imageList!.isNotEmpty)
-                            for (int i = 0; i < 3; i++)
-                              Positioned(
-                                left: i * 12,
-                                child: Container(
-                                  height: 20,
-                                  width: 20,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: cWhiteColor, width: 1),
+                        const Spacer(),
+                        Stack(
+                          children: [
+                            const SizedBox(
+                              width: 60,
+                              height: 20,
+                            ),
+                            if (imageList!.isNotEmpty)
+                              for (int i = 0; i < 3; i++)
+                                Positioned(
+                                  left: i * 12,
+                                  child: Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: cWhiteColor, width: 1),
+                                    ),
+                                    child: ClipOval(
+                                      child: Image.network(
+                                        imageList![i].profilePicture ?? "",
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
                                   ),
-                                  child: ClipOval(
-                                    child: Image.network(
-                                      imageList![i],
-                                      fit: BoxFit.fill,
+                                ),
+                            if (imageList!.isNotEmpty && imageList != null && imageList!.length > 3)
+                              Positioned(
+                                left: 36,
+                                child: Container(
+                                  width: h20,
+                                  height: h20,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: cBlackColor,
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "+" "${imageList!.length - 3}",
+                                      style: regular10TextStyle(cWhiteColor),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                 ),
                               ),
-                          if (imageList!.isNotEmpty && imageList != null && imageList!.length > 3)
-                            Positioned(
-                              left: 36,
-                              child: Container(
-                                width: h20,
-                                height: h20,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: cBlackColor,
-                                ),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "+" "${imageList!.length - 3}",
-                                    style: regular10TextStyle(cWhiteColor),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -596,7 +631,7 @@ class QuizWinner extends StatelessWidget {
               children: [
                 Stack(
                   children: [
-                    Container(
+                    const SizedBox(
                       height: 72,
                       width: 56,
                     ),
