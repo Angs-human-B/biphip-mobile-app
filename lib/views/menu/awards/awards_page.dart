@@ -139,7 +139,7 @@ class AwardsPage extends StatelessWidget {
                                 child: AwardView(
                                   image: awardController.youWonAwardList[index]['image'],
                                   ranking: awardController.youWonAwardList[index]['ranking'],
-                                  winningDate: awardController.youWonAwardList[index]['WinningDate'],
+                                  titleText: awardController.youWonAwardList[index]['WinningDate'],
                                 ),
                               );
                             },
@@ -174,11 +174,12 @@ class AwardsPage extends StatelessWidget {
                                 child: AwardView(
                                   image: awardController.othersWinnerAwardList[index]['image'],
                                   ranking: awardController.othersWinnerAwardList[index]['ranking'],
-                                  winningDate: awardController.othersWinnerAwardList[index]['WinningDate'],
+                                  titleText: awardController.othersWinnerAwardList[index]['WinningDate'],
                                 ),
                               );
                             },
                           ),
+                          kH20sizedBox,
                         ],
                       ),
                     ),
@@ -194,15 +195,16 @@ class AwardsPage extends StatelessWidget {
 }
 
 class AwardView extends StatelessWidget {
-  const AwardView({super.key, this.image, this.ranking, this.winningDate});
+  const AwardView({super.key, this.image, this.ranking, this.titleText, this.awardContainerHeight});
   final String? image;
   final String? ranking;
-  final String? winningDate;
+  final String? titleText;
+  final double? awardContainerHeight;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: (width - 40) / 3,
-      height: 120,
+      height: awardContainerHeight ?? 120,
       child: Stack(
         children: [
           ClipRRect(
@@ -210,8 +212,8 @@ class AwardView extends StatelessWidget {
             child: Image.network(
               image!,
               width: (width - 40) / 3,
-              height: 120,
-              fit: BoxFit.contain,
+              height: awardContainerHeight ?? 120,
+              fit: BoxFit.cover,
               loadingBuilder: imageLoadingBuilder,
               errorBuilder: (context, error, stackTrace) => const Icon(
                 BipHip.imageFile,
@@ -220,11 +222,6 @@ class AwardView extends StatelessWidget {
               ),
             ),
           ),
-          // Positioned(
-          //   top: 6,
-          //   left: 6,
-          //   child: SvgPicture.asset(kiPositionBadge),
-          // ),
           Positioned(
             top: 6,
             left: 6,
@@ -257,7 +254,7 @@ class AwardView extends StatelessWidget {
             child: SizedBox(
               width: ((width - 40) / 3) / 1.5,
               child: Text(
-                winningDate ?? "",
+                titleText ?? "",
                 style: semiBold12TextStyle(cWhiteColor),
               ),
             ),
