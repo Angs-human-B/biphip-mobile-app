@@ -120,6 +120,7 @@ const String kuCancelFamilyRequest = '/mobile/user/cancel-family-request';
 const String kuAcceptFamilyRequest = '/mobile/user/accept-family-request';
 const String kuRejectFamilyRequest = '/mobile/user/reject-family-request';
 const String kuBlockUser = '/user/block-user';
+const String kuUnblockUser = '/user/unblock-user';
 
 //* Family Relation Status
 const String kuGetAllFamilyRelations = '/mobile/get-all-family-relations';

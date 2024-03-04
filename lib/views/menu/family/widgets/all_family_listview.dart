@@ -56,7 +56,11 @@ class AllFamilyListView extends StatelessWidget {
                                         secondButtonOnPressed: () async {
                                           unFocus(context);
                                           familyController.userId.value = familyController.familyList[index].id!;
-                                          await familyController.blockUser();
+                                          if (familyController.familyBlockList[index]) {
+                                            await familyController.unBlockUser();
+                                          } else {
+                                            await familyController.blockUser();
+                                          }
                                         },
                                       )),
                                 );

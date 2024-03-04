@@ -546,4 +546,40 @@ class FamilyController extends GetxController {
       ll('blockUser error: $e');
     }
   }
+   //*Block Family Member
+  final RxList familyUnblockList = RxList([]);
+  final RxBool isUnblockUserLoading = RxBool(false);
+  Future<void> unBlockUser() async {
+    try {
+      isUnblockUserLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: '$kuUnblockUser/${userId.value.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+         for (int index = 0; index < familyList.length; index++) {
+         if (familyList[index].id == userId.value) {
+          familyBlockList[index]=false;
+          }
+         }
+        isUnblockUserLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isUnblockUserLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isUnblockUserLoading.value = false;
+      ll('unBlockUser error: $e');
+    }
+  }
 }
