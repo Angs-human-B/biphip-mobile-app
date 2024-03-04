@@ -110,23 +110,25 @@ class QuizFirstBottomSheetContent extends StatelessWidget {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(k8BorderRadius),
-                  child: Image.network(
-                    postReactionController.questionList.isNotEmpty
-                        ? postReactionController.questionListData.value?.quiz?.mediaUrl
-                        : postReactionController.questionListData.value!.result?.quiz!.mediaUrl,
-                    width: width - 40,
-                    height: 150,
-                    fit: BoxFit.cover,
-                    // errorBuilder: (context, error, stackTrace) => const Icon(
-                    //   BipHip.imageFile,
-                    //   size: kIconSize100,
-                    //   color: cIconColor,
-                    // ),
-                    loadingBuilder: imageLoadingBuilder,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(k8BorderRadius),
+                child: Image.network(
+                  postReactionController.questionList.isNotEmpty
+                      ? postReactionController.questionListData.value?.quiz?.media
+                      : postReactionController.questionListData.value!.result?.quiz!.media,
+                  width: width - 40,
+                  height: 150,
+                  fit: BoxFit.cover,
+                  loadingBuilder: imageLoadingBuilder,
+                  errorBuilder: (context, error, stackTrace) => const Center(
+                    child: Icon(
+                      BipHip.imageFile,
+                      size: kIconSize100,
+                      color: cIconColor,
+                    ),
                   ),
                 ),
+              ),
               kH16sizedBox,
               Text(
                 postReactionController.questionList.isNotEmpty

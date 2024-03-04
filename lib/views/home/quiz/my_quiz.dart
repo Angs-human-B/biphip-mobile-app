@@ -311,7 +311,6 @@ class MyDailyQuiz extends StatelessWidget {
                     ? postReactionController.questionListData.value?.quiz?.participants
                     : postReactionController.questionListData.value?.result?.quiz?.participants,
                 onPressed: () {
-                  // Get.toNamed(krQuizPage);
                   if (postReactionController.questionList.isNotEmpty) {
                     postReactionController.totalTimeCalculation();
                     postReactionController.timerStartFunction();

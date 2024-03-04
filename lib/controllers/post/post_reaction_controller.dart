@@ -176,32 +176,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
-  //* Quiz
-  // final RxList<Map<String, dynamic>> quizQuestions = RxList([
-  //   {
-  //     "image":
-  //         'https://images.unsplash.com/photo-1500076656116-558758c991c1?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //     'question':
-  //         "Question1:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?"
-  //   },
-  //   {
-  //     "image": null,
-  //     'question':
-  //         "Question1:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?"
-  //   },
-  //   {
-  //     "image": null,
-  //     'question':
-  //         "Question1:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?"
-  //   },
-  //   {
-  //     "image":
-  //         'https://images.unsplash.com/photo-1500076656116-558758c991c1?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //     'question':
-  //         "Question1:What is the term for the number of strokes a skilled golfer should take to complete a hole or round of golf, considering the course's difficulty?"
-  //   },
-  // ]);
-
   final RxInt currentIndex = RxInt(0);
 
   void nextQuestion() {
@@ -284,10 +258,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   }
 
   late BuildContext contextValue;
-  // final RxString playingDuration = RxString('');
-  // final RxString noOfQuestions = RxString('');
-  // final RxString startDate = RxString('');
-  // final RxString endDate = RxString('');
   final RxBool isQuizTimedOut = RxBool(false);
   //* All quiz data
   final RxInt quizId = RxInt(-1);
@@ -602,18 +572,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   final TextEditingController quizWinnerTextEditingController = TextEditingController();
   final RxBool isWinnerSuffixVisible = RxBool(false);
-  final List quizParticipentList = [
-    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-    "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-  ];
   void resetPurchaseCustomStar() {
     isStarAmountConfirmButtonEnabled.value = false;
     starAmountTextEditingController.clear();
