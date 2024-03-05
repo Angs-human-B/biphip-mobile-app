@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/shimmers/menu/kids/kid_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/kid_profile.dart';
 import 'package:flutter_svg/svg.dart';
 
 class KidsListView extends StatelessWidget {
@@ -25,47 +26,56 @@ class KidsListView extends StatelessWidget {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return CustomListTile(
-                              padding: const EdgeInsets.only(left: k8Padding, top: k8Padding, bottom: k8Padding),
-                              borderColor: cLineColor,
-                              leading: Container(
-                                height: h40,
-                                width: h40,
-                                decoration: const BoxDecoration(
-                                  color: cWhiteColor,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: ClipOval(
-                                  child: Image.network(
-                                    kidsController.kidList[index].profilePicture.toString(),
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Image.asset(kiProfileDefaultImageUrl);
-                                    },
-                                    loadingBuilder: imageLoadingBuilder,
+                            return InkWell(
+                              onTap: () {
+                                Get.to(() => KidProfile(
+                                      userName: kidsController.kidList[index].name ?? ksNA.tr,
+                                      profilePicture: kidsController.kidList[index].profilePicture.toString(),
+                                      coverPhoto: kidsController.kidList[index].coverPhoto.toString(),
+                                    ));
+                              },
+                              child: CustomListTile(
+                                padding: const EdgeInsets.only(left: k8Padding, top: k8Padding, bottom: k8Padding),
+                                borderColor: cLineColor,
+                                leading: Container(
+                                  height: h40,
+                                  width: h40,
+                                  decoration: const BoxDecoration(
+                                    color: cWhiteColor,
+                                    shape: BoxShape.circle,
                                   ),
-                                ),
-                              ),
-                              title: Text(
-                                kidsController.kidList[index].name ?? ksNA.tr,
-                                style: semiBold16TextStyle(cBlackColor),
-                              ),
-                              subtitle: Row(
-                                children: [
-                                  Container(
-                                    width: 8,
-                                    height: 8,
-                                    decoration: const BoxDecoration(
-                                      color: cPrimaryColor,
-                                      shape: BoxShape.circle,
+                                  child: ClipOval(
+                                    child: Image.network(
+                                      kidsController.kidList[index].profilePicture.toString(),
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Image.asset(kiProfileDefaultImageUrl);
+                                      },
+                                      loadingBuilder: imageLoadingBuilder,
                                     ),
                                   ),
-                                  kW4sizedBox,
-                                  Text(
-                                    '2 Notifications',
-                                    style: regular14TextStyle(cBlackColor),
-                                  ),
-                                ],
+                                ),
+                                title: Text(
+                                  kidsController.kidList[index].name ?? ksNA.tr,
+                                  style: semiBold16TextStyle(cBlackColor),
+                                ),
+                                subtitle: Row(
+                                  children: [
+                                    Container(
+                                      width: 8,
+                                      height: 8,
+                                      decoration: const BoxDecoration(
+                                        color: cPrimaryColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    kW4sizedBox,
+                                    Text(
+                                      '2 Notifications',
+                                      style: regular14TextStyle(cBlackColor),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           },
