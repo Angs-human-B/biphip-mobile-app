@@ -1,5 +1,8 @@
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
+import 'package:bip_hip/widgets/post/post_button_widget.dart';
 import 'package:flutter_svg/svg.dart';
 
 class KidProfile extends StatelessWidget {
@@ -258,7 +261,7 @@ class KidProfile extends StatelessWidget {
                               CustomElevatedButton(
                                 label: ksEditProfile.tr,
                                 onPressed: () {
-                                  Get.toNamed(krEditProfile);
+                                  // Get.toNamed(krEditProfile);
                                 },
                                 prefixIcon: BipHip.edit,
                                 prefixIconColor: cPrimaryColor,
@@ -268,6 +271,61 @@ class KidProfile extends StatelessWidget {
                                 buttonColor: cWhiteColor,
                                 textStyle: semiBold16TextStyle(cPrimaryColor),
                               )
+                            ],
+                          ),
+                        ),
+                        kH12sizedBox,
+                        DefaultTabController(
+                          length: 3,
+                          // initialIndex: profileController.postSectionVisible.value ? 0 : 1,//!con
+                          initialIndex: 0,
+                          child: Column(
+                            children: [
+                              Container(
+                                color: cWhiteColor,
+                                height: 40,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                  child: DecoratedBox(
+                                    decoration: const BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(color: cLineColor, width: 1),
+                                      ),
+                                    ),
+                                    child: TabBar(
+                                      onTap: (value) {
+                                        // profileHelper.showProfileTabSection(value);
+                                      },
+                                      indicatorColor: cPrimaryColor,
+                                      indicatorWeight: 1,
+                                      unselectedLabelColor: cSmallBodyTextColor,
+                                      unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
+                                      labelStyle: medium14TextStyle(cPrimaryColor),
+                                      labelColor: cPrimaryColor,
+                                      tabs: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                          child: Text(
+                                            ksPosts.tr,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                          child: Text(
+                                            ksPhotos.tr,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                          child: Text(
+                                            ksVideos.tr,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -304,73 +362,79 @@ class KidProfile extends StatelessWidget {
                                   text: ksSeeYourAboutInfo.tr,
                                   textStyle: medium16TextStyle(cPrimaryColor),
                                   onPressed: () {
-                                    Get.toNamed(krEditProfile);
+                                    // Get.toNamed(krEditProfile);
                                   },
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   padding: EdgeInsets.zero,
                                 ),
-                                kH12sizedBox
+                                kH16sizedBox,
                               ],
                             ),
                           ),
                         ),
-
-                        kH16sizedBox,
                       ],
+                    ),
+                  ),
+                  kH8sizedBox,
+                  Container(
+                    color: cWhiteColor,
+                    child: CustomPostButton(
+                      name: userName ?? ksNA,
+                      profilePic: profilePicture ?? '',
+                      onPressed: () {
+                        // Get.find<CreatePostController>().isPostedFromProfile.value = true;
+                        // CreatePostHelper().resetCreatePostData();
+                        Get.toNamed(krCreatePost);
+                      },
                     ),
                   ),
                   kH12sizedBox,
-                  DefaultTabController(
-                    length: 2,
-                    // initialIndex: profileController.postSectionVisible.value ? 0 : 1,//!con
-                    initialIndex: 0,
-                    child: Column(
-                      children: [
-                        Container(
-                          color: cWhiteColor,
-                          height: 40,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                            child: DecoratedBox(
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(color: cLineColor, width: 1),
-                                ),
-                              ),
-                              child: TabBar(
-                                onTap: (value) {
-                                  // profileHelper.showProfileTabSection(value);
-                                },
-                                indicatorColor: cPrimaryColor,
-                                indicatorWeight: 1,
-                                unselectedLabelColor: cSmallBodyTextColor,
-                                unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
-                                labelStyle: medium14TextStyle(cPrimaryColor),
-                                labelColor: cPrimaryColor,
-                                tabs: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                    child: Text(
-                                      ksPosts.tr,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                    child: Text(
-                                      ksFriendsAndFamily.tr,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   // if (profileController.postSectionVisible.value) PostTab(),
                   // if (!profileController.postSectionVisible.value) FriendFamilyTab(),
-                  kHBottomSizedBox
+                  // kHBottomSizedBox,
+                  //! This section Must Chnage When the kid post is available
+                  ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      separatorBuilder: (context, index) => kH8sizedBox,
+                      itemCount: Get.find<HomeController>().allTimelinePostList.length,
+                      itemBuilder: (context, index) {
+                        var item = Get.find<HomeController>().allTimelinePostList[index];
+                        return Container(
+                          color: cWhiteColor,
+                          width: width,
+                          child: CommonPostWidget(
+                            isCommented: false,
+                            isLiked: false,
+                            isSharedPost: false,
+                            showBottomSection: true,
+                            userName: item.user!.fullName!,
+                            postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
+                            isCategorized: true,
+                            subCategory: null, //API
+                            category: item.postCategory == null ? null : item.postCategory!.name, //API
+                            categoryIcon:
+                                item.postCategory == null ? null : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
+                            categoryIconColor:
+                                item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
+                            privacy: BipHip.world,
+                            brandName: item.store == null ? null : item.store!.name, //API
+                            kidName: item.kid == null ? null : item.kid!.name, //API
+                            kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                            title: item.title, //API
+                            postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
+                            price: null, //API
+
+                            // mediaList: item.imageUrls, //API
+                            mediaList: item.images,
+                            isSelfPost: true,
+                            isInStock: true,
+                            isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
+                            userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
+                            reactCount: item.countReactions,
+                          ),
+                        );
+                      }),
                 ],
               ),
             ),

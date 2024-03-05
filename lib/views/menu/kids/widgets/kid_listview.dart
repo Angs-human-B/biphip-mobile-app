@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/shimmers/menu/kids/kid_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -27,7 +28,9 @@ class KidsListView extends StatelessWidget {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return InkWell(
-                              onTap: () {
+                              onTap: () async {
+                                ll(kidsController.kidList[index].id);
+                                await Get.find<HomeController>().getTimelinePostList();
                                 Get.to(() => KidProfile(
                                       userName: kidsController.kidList[index].name ?? ksNA.tr,
                                       profilePicture: kidsController.kidList[index].profilePicture.toString(),
