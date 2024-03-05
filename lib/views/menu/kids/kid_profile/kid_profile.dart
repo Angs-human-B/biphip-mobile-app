@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/edit_kid_profile.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -262,6 +263,10 @@ class KidProfile extends StatelessWidget {
                                 label: ksEditProfile.tr,
                                 onPressed: () {
                                   // Get.toNamed(krEditProfile);
+                                  Get.to(() => EditKidProfile(
+                                        profilePicture: profilePicture,
+                                        coverPhoto: coverPhoto,
+                                      ));
                                 },
                                 prefixIcon: BipHip.edit,
                                 prefixIconColor: cPrimaryColor,
@@ -363,6 +368,10 @@ class KidProfile extends StatelessWidget {
                                   textStyle: medium16TextStyle(cPrimaryColor),
                                   onPressed: () {
                                     // Get.toNamed(krEditProfile);
+                                    Get.to(() => EditKidProfile(
+                                          profilePicture: profilePicture,
+                                          coverPhoto: coverPhoto,
+                                        ));
                                   },
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   padding: EdgeInsets.zero,

@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/kid_picture_upload_content.dart';
 
 //*kids
 class KidHelper {
   final KidsController kidsController = Get.find<KidsController>();
+  final GlobalController globalController = Get.find<GlobalController>();
   Widget totalKidShow() {
     if (kidsController.totalKidsCount.value == 0) {
       return const SizedBox();
@@ -64,5 +68,41 @@ class KidHelper {
   void kidDeleteButtonOnPressed() async {
     Get.back();
     await kidsController.kidDelete();
+  }
+  //!Kid Profile
+
+  void resetKidImage() {
+    kidsController.profileImageFile.value = File('');
+    kidsController.profileImageLink.value = '';
+    kidsController.isProfileImageChanged.value = false;
+    kidsController.isSharedToNewFeed.value = false;
+    kidsController.coverImageFile.value = File('');
+    kidsController.coverImageLink.value = '';
+    kidsController.isCoverImageChanged.value = false;
+  }
+
+  void kidCoverPhotoUploadBottomSheet(context) {
+    kidsController.isKidProfilePicEditor.value = false;
+    kidsController.kidViewOptionEnabled.value = false;
+    resetKidImage();
+    globalController.commonBottomSheet(
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {},
+      rightText: '',
+      rightTextStyle: regular14TextStyle(cBiddingColor),
+      title: ksUploadImage.tr,
+      isRightButtonShow: false,
+      isScrollControlled: false,
+      bottomSheetHeight: 170,
+      content: KidPictureUploadContent(
+        isImageChanged: kidsController.isCoverImageChanged,
+        imagePath: kidsController.coverImageLink,
+        imageFile: kidsController.coverImageFile,
+        isViewOptionEnabled: false.obs,
+      ),
+    );
   }
 }
