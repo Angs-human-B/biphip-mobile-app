@@ -81,6 +81,7 @@ class KidHelper {
     kidsController.isCoverImageChanged.value = false;
   }
 
+  //*Edit kid cover bottom sheet content
   void kidCoverPhotoUploadBottomSheet(context) {
     kidsController.isKidProfilePicEditor.value = false;
     kidsController.kidViewOptionEnabled.value = false;
@@ -101,6 +102,32 @@ class KidHelper {
         isImageChanged: kidsController.isCoverImageChanged,
         imagePath: kidsController.coverImageLink,
         imageFile: kidsController.coverImageFile,
+        isViewOptionEnabled: false.obs,
+      ),
+    );
+  }
+
+  //*Edit kid profile bottom sheet content
+  void kidProfilePicUploadBottomSheet(context) {
+    kidsController.isProfilePicEditor.value = true;
+    kidsController.viewOptionEnabled.value = false;
+    resetKidImage();
+    globalController.commonBottomSheet(
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {},
+      rightText: '',
+      rightTextStyle: regular14TextStyle(cBiddingColor),
+      title: ksUploadImage.tr,
+      isRightButtonShow: false,
+      isScrollControlled: false,
+      bottomSheetHeight: 170,
+      content: KidPictureUploadContent(
+        isImageChanged: kidsController.isProfileImageChanged,
+        imagePath: kidsController.profileImageLink,
+        imageFile: kidsController.profileImageFile,
         isViewOptionEnabled: false.obs,
       ),
     );

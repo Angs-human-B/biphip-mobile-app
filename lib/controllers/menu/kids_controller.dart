@@ -356,12 +356,16 @@ class KidsController extends GetxController {
   //!Kid profile
    final RxString profileImageLink = RxString('');
   final Rx<File> profileImageFile = File('').obs;
+  final Rx<File> newProfileImageFile = File('').obs;
   final RxBool isProfileImageChanged = RxBool(false);
    final RxString coverImageLink = RxString('');
   final Rx<File> coverImageFile = File('').obs;
+  final Rx<File> newCoverImageFile = File('').obs;
   final RxBool isCoverImageChanged = RxBool(false);
   final RxBool viewOptionEnabled = RxBool(false);
   final RxBool isSharedToNewFeed = RxBool(false);
   final RxBool isKidProfilePicEditor = RxBool(false);
   final RxBool kidViewOptionEnabled = RxBool(false);
+  final RxBool isProfilePicEditor = RxBool(false);
+  
 }

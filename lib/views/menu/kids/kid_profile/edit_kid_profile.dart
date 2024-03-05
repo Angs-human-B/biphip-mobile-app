@@ -59,6 +59,7 @@ class EditKidProfile extends StatelessWidget {
                               suffix: ksEdit.tr,
                               onEditPressed: () {
                                 // profileHelper.profilePicUploadBottomSheet(context);//!Change it
+                                kidHelper.kidProfilePicUploadBottomSheet(context);
                               },
                             ),
                             kH10sizedBox,
@@ -78,7 +79,7 @@ class EditKidProfile extends StatelessWidget {
                                     ),
                                     child: ClipOval(
                                       child: Image.network(
-                                        profilePicture ?? '', //!Change it
+                                     profilePicture ?? '', //!Change it
                                         // profileController.userData.value!.profilePicture.toString(),
                                         fit: BoxFit.cover,
                                         errorBuilder: (context, error, stackTrace) => const Icon(
@@ -102,7 +103,6 @@ class EditKidProfile extends StatelessWidget {
                               prefix: ksCoverPhoto.tr,
                               suffix: ksEdit.tr,
                               onEditPressed: () {
-                                // profileHelper.coverPhotoUploadBottomSheet(context);//!Change it
                                 kidHelper.kidCoverPhotoUploadBottomSheet(context);
                               },
                             ),
