@@ -583,3 +583,7 @@ const String ksNoOnesUpcomingBirthday = "No one's upcoming birthday";
 const String ksManage = "Manage";
 const String ksPage = "Page";
 const String ksKid = "Kid";
+const String ksAddHobbies = "Add Hobbies";
+const String ksEditHobbies = "Edit Hobbies";
+const String ksHobbiesSubtitle = "This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.";
+const String ksHobbies = "Hobbies";

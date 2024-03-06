@@ -221,4 +221,29 @@ class KidHelper {
     }
     Get.toNamed(krKidEditBio);
   }
+
+  //*Hobbies select
+  void setHobbies() async {
+    // kidsController.hobbiesIndex.clear();
+    Get.toNamed(krSelectHobbiesPage);
+    // await profileController.getInterestList();//!Api call here
+    //!Needed after api call
+    // for (int j = 0; j < profileController.userData.value!.interest.length; j++) {
+    //   for (int i = 0; i < globalController.interestList.length; i++) {
+    //     if (globalController.interestList[i] == profileController.userData.value!.interest[j]) {
+    //       globalController.interestIndex.add(i);
+    //     }
+    //   }
+    // }
+  }
+
+  void onSelectHobbies(index) {
+    if (!kidsController.hobbiesIndex.contains(index)) {
+      kidsController.hobbiesIndex.add(index);
+      kidsController.temporarySelectedHobbies.add(kidsController.allHobbiesList[index]);
+    } else {
+      kidsController.hobbiesIndex.remove(index);
+      kidsController.temporarySelectedHobbies.remove(kidsController.allHobbiesList[index]);
+    }
+  }
 }

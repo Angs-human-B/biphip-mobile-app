@@ -371,4 +371,9 @@ class KidsController extends GetxController {
   final RxInt bioCount = RxInt(0);
   final RxBool isKidProfilePhoto = RxBool(false);
   final RxString kidPreviewPhoto = RxString('');
+  final RxList hobbiesList = RxList([]);
+  final RxList<int> hobbiesIndex = RxList<int>([]);
+   final RxList selectedHobbies = RxList([]);
+   final RxList temporarySelectedHobbies = RxList([]);
+  final allHobbiesList = ['Cricket', 'Football', 'Garden', 'Tour', 'Watching Movie'];
 }
