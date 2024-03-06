@@ -173,7 +173,7 @@ class EditKidProfile extends StatelessWidget {
                                 onEditPressed: () {
                                   // editProfileHelper.resetEditAboutPage();//!function write
                                   // profileController.showAllEditOption.value = false;//!Change
-                                  // Get.toNamed(krEditAboutInfo);
+                                  Get.toNamed(krKidEditAboutInfo);
                                 },
                               ),
                               kH16sizedBox,
@@ -192,8 +192,8 @@ class EditKidProfile extends StatelessWidget {
                                 onPressed: () async {
                                   // profileController.showAllEditOption.value = true;//!variable define
                                   // editProfileHelper.resetEditAboutPage();//!Function write
-                                  // Get.toNamed(krEditAboutInfo);
-                                  // await profileController.getPositionList();
+                                   Get.toNamed(krKidEditAboutInfo);
+                                  // await profileController.getPositionList();//!Write this function
                                 },
                               ),
                               kH20sizedBox

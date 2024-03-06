@@ -16,6 +16,7 @@ import 'package:bip_hip/views/menu/badges/all_badges.dart';
 import 'package:bip_hip/views/menu/badges/badges_star_page.dart';
 import 'package:bip_hip/views/menu/badges/purchase_star.dart';
 import 'package:bip_hip/views/menu/birthday/birthday_page.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/kid_edit_about.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_edit_bio.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_photo_preview.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_photo_view.dart';
@@ -160,6 +161,7 @@ const String krKidProfile = '/kid-profile';
 const String krKidPhotoPreview = '/kid-photo-profile';
 const String krKidPhotoView = '/kid-photo-view';
 const String krKidEditBio = '/kid-edit-bio';
+const String krKidEditAboutInfo = '/kid-edit-about-info';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -253,4 +255,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krKidPhotoPreview, page: () => KidPhotoPreview(), transition: Transition.noTransition),
   GetPage(name: krKidPhotoView, page: () => KidPhotoView(), transition: Transition.noTransition),
   GetPage(name: krKidEditBio, page: () => KidEditBio(), transition: Transition.noTransition),
+  GetPage(name: krKidEditAboutInfo, page: () => KidEditAboutInfo(), transition: Transition.noTransition),
 ];
