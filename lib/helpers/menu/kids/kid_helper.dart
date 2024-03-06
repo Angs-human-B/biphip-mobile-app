@@ -219,6 +219,6 @@ class KidHelper {
       kidsController.bioCount.value = kidsController.kidBio.value!.length;
       kidsController.kidBioEditingController.text = kidsController.kidBio.value!;
     }
-    Get.toNamed(krEditBio);
+    Get.toNamed(krKidEditBio);
   }
 }
