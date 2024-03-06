@@ -375,5 +375,7 @@ class KidsController extends GetxController {
   final RxList<int> hobbiesIndex = RxList<int>([]);
    final RxList selectedHobbies = RxList([]);
    final RxList temporarySelectedHobbies = RxList([]);
+   final RxList phoneNumberList = RxList(['017236748765478','019823973893']);
+   final RxList emailList = RxList(['abcdef@gmail.com','hjfdnd@gmail.com']);
   final allHobbiesList = ['Cricket', 'Football', 'Garden', 'Tour', 'Watching Movie'];
 }
