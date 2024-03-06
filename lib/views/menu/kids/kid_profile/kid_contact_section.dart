@@ -29,20 +29,20 @@ class KidContactSection extends StatelessWidget {
                 suffixText: ksPhone.tr,
                 isAddButton: true,
                 suffixOnPressed: () {
-                  // editProfileHelper.addPhone();//!write function
+                  kidHelper.kidAddPhone();
                 },
               ),
             ),
-            for (int i = 0; i < kidsController.phoneNumberList.length; i++)
+            for (int i = 0; i < kidsController.kidPhoneNumberList.length; i++)
               // if (kidsController.phoneNumberList[i].type == 'phone')//!Use it when api call
               Padding(
                 padding: const EdgeInsets.only(bottom: k12Padding),
                 child: InfoContainer(
                   suffixText: '',
-                  prefixText: checkNullOrStringNull(kidsController.phoneNumberList[i]),
+                  prefixText: checkNullOrStringNull(kidsController.kidPhoneNumberList[i]),
                   isAddButton: false,
                   suffixOnPressed: () {
-                    // editProfileHelper.editPhone(i);//! Write function
+                    kidHelper.editKidPhone(i);
                   },
                 ),
               ),
@@ -52,20 +52,20 @@ class KidContactSection extends StatelessWidget {
                 suffixText: ksEmail.tr,
                 isAddButton: true,
                 suffixOnPressed: () {
-                  // editProfileHelper.addEmail();//!Add email function write
+                  kidHelper.kidAddEmail();
                 },
               ),
             ),
-            for (int i = 0; i < kidsController.emailList.length; i++)
+            for (int i = 0; i < kidsController.kidEmailList.length; i++)
               // if (profileController.contactDataList[i].type == 'email')//!use condition when api call in future
               Padding(
                 padding: const EdgeInsets.only(bottom: k12Padding),
                 child: InfoContainer(
                   suffixText: '',
-                  prefixText: checkNullOrStringNull(kidsController.emailList[i]),
+                  prefixText: checkNullOrStringNull(kidsController.kidEmailList[i]),
                   isAddButton: false,
                   suffixOnPressed: () {
-                    // editProfileHelper.editEmail(i);//!Function write for edit kid email
+                    kidHelper.editKidEmail(i); 
                   },
                 ),
               ),
