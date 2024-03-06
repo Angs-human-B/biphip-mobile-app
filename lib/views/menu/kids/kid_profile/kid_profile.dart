@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/edit_kid_profile.dart';
@@ -16,6 +17,7 @@ class KidProfile extends StatelessWidget {
   // final HomeController homeController = Get.find<HomeController>();
   // final ProfileHelper profileHelper = ProfileHelper();
   final KidsController kidsController = Get.find<KidsController>();
+  final KidHelper kidHelper = KidHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +73,7 @@ class KidProfile extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           // profileHelper.coverPhotoEditBottomSheet(context);
+                          kidHelper.kidCoverPhotoEditBottomSheet(context);
                         },
                         child: Container(
                           height: 150,
@@ -96,6 +99,7 @@ class KidProfile extends StatelessWidget {
                             InkWell(
                               onTap: () {
                                 // profileHelper.profilePicEditBottomSheet(context);//!needed
+                                kidHelper.kidProfilePicEditBottomSheet(context);
                               },
                               child: Container(
                                 height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
@@ -129,6 +133,7 @@ class KidProfile extends StatelessWidget {
                                 style: kTextButtonStyle,
                                 onPressed: () {
                                   // profileHelper.profilePicUploadBottomSheet(context);//!needed
+                                  kidHelper.kidProfilePicUploadBottomSheet(context);
                                 },
                                 child: Container(
                                   height: h28,
@@ -171,6 +176,7 @@ class KidProfile extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () {
                             // profileHelper.coverPhotoUploadBottomSheet(context);//!needed
+                            kidHelper.kidCoverPhotoUploadBottomSheet(context);
                           },
                           child: Container(
                             height: h28,

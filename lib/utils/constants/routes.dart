@@ -17,6 +17,7 @@ import 'package:bip_hip/views/menu/badges/badges_star_page.dart';
 import 'package:bip_hip/views/menu/badges/purchase_star.dart';
 import 'package:bip_hip/views/menu/birthday/birthday_page.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_photo_preview.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/kid_photo_view.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_profile.dart';
 import 'package:bip_hip/views/menu/pendent/all_pendent.dart';
 import 'package:bip_hip/views/menu/pendent/pendent_page.dart';
@@ -156,6 +157,7 @@ const String krBirthdayPage = '/birthday-page';
 //* Kid profile
 const String krKidProfile = '/kid-profile';
 const String krKidPhotoPreview = '/kid-photo-profile';
+const String krKidPhotoView = '/kid-photo-view';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -247,4 +249,5 @@ List<GetPage<dynamic>>? routes = [
   //*Kid profile
   GetPage(name: krKidProfile, page: () => KidProfile(), transition: Transition.noTransition),
   GetPage(name: krKidPhotoPreview, page: () => KidPhotoPreview(), transition: Transition.noTransition),
+  GetPage(name: krKidPhotoView, page: () => KidPhotoView(), transition: Transition.noTransition),
 ];

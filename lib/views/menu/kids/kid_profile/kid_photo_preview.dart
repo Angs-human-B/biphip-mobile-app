@@ -24,7 +24,7 @@ class KidPhotoPreview extends StatelessWidget {
                   //* info:: appBar
                   child: CustomAppBar(
                     appBarColor: cWhiteColor,
-                    title: kidsController.isProfilePicEditor.value ? ksPreviewProfilePicture.tr : ksPreviewCoverPicture.tr,
+                    title: kidsController.isKidProfilePicEditor.value ? ksPreviewProfilePicture.tr : ksPreviewCoverPicture.tr,
                     hasBackButton: true,
                     isCenterTitle: true,
                     onBack: () {
@@ -55,7 +55,7 @@ class KidPhotoPreview extends StatelessWidget {
                       () => Column(
                         children: [
                           kH10sizedBox,
-                          kidsController.isProfilePicEditor.value
+                          kidsController.isKidProfilePicEditor.value
                               ? Container(
                                   width: width,
                                   color: cBlackColor,
@@ -115,14 +115,13 @@ class KidPhotoPreview extends StatelessWidget {
                               ],
                             ),
                           ),
-                          // const Spacer(),
                           kH24sizedBox,
                           CustomElevatedButton(
                             buttonWidth: width - 40,
                             buttonHeight: h32,
                             label: ksSave.tr,
                             onPressed: () async {
-                              if (kidsController.isProfilePicEditor.value) {
+                              if (kidsController.isKidProfilePicEditor.value) {
                                 kidsController.newProfileImageFile.value = kidsController.profileImageFile.value;
                                 // await profileController.uploadProfileAndCover(profileController.newProfileImageFile.value, 'profile');//!Api call
                               } else {

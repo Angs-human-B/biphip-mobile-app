@@ -1,10 +1,12 @@
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
 
-class KidViewPhoto extends StatelessWidget {
-  const KidViewPhoto({super.key, required this.isProfilePicture, required this.previewPhoto});
-  final RxBool isProfilePicture;
-  final RxString previewPhoto;
+class KidPhotoView extends StatelessWidget {
+  KidPhotoView({
+    super.key,
+  });
+  final KidsController kidsController = Get.find<KidsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +39,9 @@ class KidViewPhoto extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: width,
-                      height:  isProfilePicture.value ? height * 0.6 : height * 0.4,
+                      height: kidsController.isKidProfilePhoto.value ? height * 0.6 : height * 0.4,
                       child: Image.network(
-                        previewPhoto.value,
+                        kidsController.kidPreviewPhoto.value,
                         fit: BoxFit.cover,
                         filterQuality: FilterQuality.high,
                         errorBuilder: (context, error, stackTrace) => const Icon(

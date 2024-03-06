@@ -1,24 +1,28 @@
 import 'dart:io';
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class KidPictureUploadContent extends StatelessWidget {
-  KidPictureUploadContent(
-      {super.key, required this.isImageChanged, required this.imageFile, required this.imagePath, this.viewPhoto, this.isViewOptionEnabled});
+  KidPictureUploadContent({
+    super.key,
+    required this.isImageChanged,
+    required this.imageFile,
+    required this.imagePath,
+    this.viewPhoto,
+  });
 
   final GlobalController globalController = Get.find<GlobalController>();
   final RxBool isImageChanged;
   final Rx<File> imageFile;
   final RxString imagePath;
   final String? viewPhoto;
-  final RxBool? isViewOptionEnabled;
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Column(
+    return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (isViewOptionEnabled!.value && viewPhoto != null)
+          if (Get.find<KidsController>().kidViewOptionEnabled.value && viewPhoto != null)
             Padding(
               padding: const EdgeInsets.only(bottom: k16Padding),
               child: CustomElevatedButton(
@@ -28,7 +32,7 @@ class KidPictureUploadContent extends StatelessWidget {
                 suffixIconColor: cIconColor,
                 onPressed: () {
                   Get.back();
-                  Get.toNamed(krKidPhotoPreview);
+                  Get.toNamed(krKidPhotoView);
                 },
                 buttonHeight: h32,
                 buttonWidth: width - 40,
@@ -73,7 +77,6 @@ class KidPictureUploadContent extends StatelessWidget {
             textStyle: semiBold14TextStyle(cBlackColor),
           ),
         ],
-      ),
     );
   }
 }

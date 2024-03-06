@@ -40,188 +40,190 @@ class EditKidProfile extends StatelessWidget {
                   },
                 ),
               ),
-              body: Stack(
-                children: [
-                  Container(
-                    color: cWhiteColor,
-                    height: height - kAppBarSize,
-                    width: width,
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            kH16sizedBox,
-                            RowTextEdit(
-                              prefix: ksProfilePicture.tr,
-                              suffix: ksEdit.tr,
-                              onEditPressed: () {
-                                // profileHelper.profilePicUploadBottomSheet(context);//!Change it
-                                kidHelper.kidProfilePicUploadBottomSheet(context);
-                              },
-                            ),
-                            kH10sizedBox,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    // profileHelper.viewProfilePic();//!Change it
-                                  },
-                                  child: Container(
-                                    height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
-                                    width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
-                                    decoration: const BoxDecoration(
-                                      color: cBlackColor,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: ClipOval(
-                                      child: Image.network(
-                                     profilePicture ?? '', //!Change it
-                                        // profileController.userData.value!.profilePicture.toString(),
-                                        fit: BoxFit.cover,
-                                        errorBuilder: (context, error, stackTrace) => const Icon(
-                                          BipHip.user,
-                                          size: kIconSize70,
-                                          color: cIconColor,
+              body: Obx(
+                () => Stack(
+                  children: [
+                    Container(
+                      color: cWhiteColor,
+                      height: height - kAppBarSize,
+                      width: width,
+                      child: SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              kH16sizedBox,
+                              RowTextEdit(
+                                prefix: ksProfilePicture.tr,
+                                suffix: ksEdit.tr,
+                                onEditPressed: () {
+                                  kidHelper.kidProfilePicUploadBottomSheet(context);//!1
+                                },
+                              ),
+                              kH10sizedBox,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      // profileHelper.viewProfilePic();//!Change it
+                                    },
+                                    child: Container(
+                                      height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                                      width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                                      decoration: const BoxDecoration(
+                                        color: cBlackColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: ClipOval(
+                                        child: Image.network(
+                                          profilePicture ?? '', //!Change it
+                                          // profileController.userData.value!.profilePicture.toString(),
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stackTrace) => const Icon(
+                                            BipHip.user,
+                                            size: kIconSize70,
+                                            color: cIconColor,
+                                          ),
+                                          loadingBuilder: imageLoadingBuilder,
                                         ),
-                                        loadingBuilder: imageLoadingBuilder,
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            kH16sizedBox,
-                            const CustomDivider(
-                              thickness: 2,
-                            ),
-                            kH16sizedBox,
-                            RowTextEdit(
-                              prefix: ksCoverPhoto.tr,
-                              suffix: ksEdit.tr,
-                              onEditPressed: () {
-                                kidHelper.kidCoverPhotoUploadBottomSheet(context);
-                              },
-                            ),
-                            kH16sizedBox,
-                            InkWell(
-                              onTap: () {
-                                // profileHelper.viewCoverPhoto();//!Change it
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(width: 0, color: cLineColor),
-                                  borderRadius: k8CircularBorderRadius,
-                                  color: cBlackColor,
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: k8CircularBorderRadius,
-                                  child: Image.network(
-                                    coverPhoto ?? '', //!Change throught api
-                                    // profileController.userData.value!.coverPhoto.toString(),
-                                    height: 150,
-                                    width: width,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) => Container(
-                                      width: width,
+                                ],
+                              ),
+                              kH16sizedBox,
+                              const CustomDivider(
+                                thickness: 2,
+                              ),
+                              kH16sizedBox,
+                              RowTextEdit(
+                                prefix: ksCoverPhoto.tr,
+                                suffix: ksEdit.tr,
+                                onEditPressed: () {
+                                  kidHelper.kidCoverPhotoUploadBottomSheet(context);//!2
+                                },
+                              ),
+                              kH16sizedBox,
+                              InkWell(
+                                onTap: () {
+                                  // profileHelper.viewCoverPhoto();//!Change it
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(width: 0, color: cLineColor),
+                                    borderRadius: k8CircularBorderRadius,
+                                    color: cBlackColor,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: k8CircularBorderRadius,
+                                    child: Image.network(
+                                      coverPhoto ?? '', //!Change throught api
+                                      // profileController.userData.value!.coverPhoto.toString(),
                                       height: 150,
-                                      color: cBlackColor,
-                                      child: const CommonImageErrorBuilder(
-                                        icon: BipHip.imageFile,
-                                        iconSize: kIconSize120,
+                                      width: width,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) => Container(
+                                        width: width,
+                                        height: 150,
+                                        color: cBlackColor,
+                                        child: const CommonImageErrorBuilder(
+                                          icon: BipHip.imageFile,
+                                          iconSize: kIconSize120,
+                                        ),
                                       ),
+                                      loadingBuilder: imageLoadingBuilderCover,
                                     ),
-                                    loadingBuilder: imageLoadingBuilderCover,
                                   ),
                                 ),
                               ),
-                            ),
-                            kH16sizedBox,
-                            const CustomDivider(
-                              thickness: 2,
-                            ),
-                            kH16sizedBox,
-                            RowTextEdit(
-                              prefix: ksBio.tr,
-                              // suffix: profileController.userData.value!.bio == null ? ksAdd.tr : ksEdit.tr,
-                              suffix: ksAdd.tr,
-                              onEditPressed: () {
-                                // profileHelper.editBio();//!Must change it
-                              },
-                            ),
-                            // if (profileController.userData.value!.bio != null)//!change the condition
-                            Padding(
-                              padding: const EdgeInsets.only(top: k16Padding),
-                              child: Text(
-                                // profileController.userData.value!.bio ?? '',//!Change it using api
-                                'This is Kid bio',
-                                style: regular14TextStyle(cIconColor),
+                              kH16sizedBox,
+                              const CustomDivider(
+                                thickness: 2,
                               ),
-                            ),
-                            kH16sizedBox,
-                            const CustomDivider(
-                              thickness: 2,
-                            ),
-                            kH16sizedBox,
-                            RowTextEdit(
-                              prefix: ksIntro.tr,
-                              suffix: ksEdit.tr,
-                              onEditPressed: () {
-                                // editProfileHelper.resetEditAboutPage();//!function write
-                                // profileController.showAllEditOption.value = false;//!Change
-                                // Get.toNamed(krEditAboutInfo);
-                              },
-                            ),
-                            kH16sizedBox,
-                            // IntroContents(),
-                            KidIntroContents(),
-                            const CustomDivider(
-                              thickness: 2,
-                            ),
-                            kH16sizedBox,
-                            CustomElevatedButton(
-                              label: ksEditYouAboutInfo.tr,
-                              buttonHeight: h32,
-                              buttonWidth: width - 40,
-                              buttonColor: cPrimaryColor,
-                              textStyle: semiBold14TextStyle(cWhiteColor),
-                              onPressed: () async {
-                                // profileController.showAllEditOption.value = true;//!variable define
-                                // editProfileHelper.resetEditAboutPage();//!Function write
-                                // Get.toNamed(krEditAboutInfo);
-                                // await profileController.getPositionList();
-                              },
-                            ),
-                            kH20sizedBox
-                          ],
+                              kH16sizedBox,
+                              RowTextEdit(
+                                prefix: ksBio.tr,
+                                suffix: kidsController.kidBio.value == null ? ksAdd : ksEdit.tr,
+                                onEditPressed: () {
+                                  // profileHelper.editBio();//!Must change it
+                                  kidHelper.kidEditBio();
+                                },
+                              ),
+                              // if (profileController.userData.value!.bio != null)//!change the condition
+                              if (kidsController.kidBio.value != null)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: k16Padding),
+                                  child: Text(
+                                    // profileController.userData.value!.bio ?? '',//!Change it using api
+                                    kidsController.kidBio.value ?? '', //!change
+                                    style: regular14TextStyle(cIconColor),
+                                  ),
+                                ),
+                              kH16sizedBox,
+                              const CustomDivider(
+                                thickness: 2,
+                              ),
+                              kH16sizedBox,
+                              RowTextEdit(
+                                prefix: ksIntro.tr,
+                                suffix: ksEdit.tr,
+                                onEditPressed: () {
+                                  // editProfileHelper.resetEditAboutPage();//!function write
+                                  // profileController.showAllEditOption.value = false;//!Change
+                                  // Get.toNamed(krEditAboutInfo);
+                                },
+                              ),
+                              kH16sizedBox,
+                              // IntroContents(),
+                              KidIntroContents(),
+                              const CustomDivider(
+                                thickness: 2,
+                              ),
+                              kH16sizedBox,
+                              CustomElevatedButton(
+                                label: ksEditYouAboutInfo.tr,
+                                buttonHeight: h32,
+                                buttonWidth: width - 40,
+                                buttonColor: cPrimaryColor,
+                                textStyle: semiBold14TextStyle(cWhiteColor),
+                                onPressed: () async {
+                                  // profileController.showAllEditOption.value = true;//!variable define
+                                  // editProfileHelper.resetEditAboutPage();//!Function write
+                                  // Get.toNamed(krEditAboutInfo);
+                                  // await profileController.getPositionList();
+                                },
+                              ),
+                              kH20sizedBox
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const Positioned(
-                    top: 1,
-                    child: CustomDivider(
-                      thickness: 1,
+                    const Positioned(
+                      top: 1,
+                      child: CustomDivider(
+                        thickness: 1,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
+            // if (profileController.isBioLoading.value == true)//!Condition required
+            // Positioned(
+            //   child: CommonLoadingAnimation(
+            //     onWillPop: () async {
+            //       if (profileController.isBioLoading.value) {
+            //         return false;
+            //       }
+            //       return true;
+            //     },
+            //   ),
+            // ),
           ),
-          // if (profileController.isBioLoading.value == true)//!Condition required
-          // Positioned(
-          //   child: CommonLoadingAnimation(
-          //     onWillPop: () async {
-          //       if (profileController.isBioLoading.value) {
-          //         return false;
-          //       }
-          //       return true;
-          //     },
-          //   ),
-          // ),
         ],
       ),
     );
@@ -252,7 +254,7 @@ class KidIntroContents extends StatelessWidget {
         KidStoreProfileLinkUpIconTextRow(
           iconOrSvg: SvgPicture.asset(kiParentSvgImageUrl),
           prefixText: 'Father',
-          suffixText: ' Emma Isabella',
+          suffixText: 'Emma Isabella',
           onPressed: null,
         ),
         // if (profileController.profileData.value!.school != null)//!Condition must use in future
