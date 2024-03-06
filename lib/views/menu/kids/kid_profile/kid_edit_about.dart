@@ -54,9 +54,64 @@ class KidEditAboutInfo extends StatelessWidget {
                       // if (profileController.showAllEditOption.value) kH8sizedBox,
                       // if (profileController.showAllEditOption.value) InterestSection(),
                       kH8sizedBox,
-                      // WorkplaceSection(),//!Not needed for kid
-                      kH8sizedBox,
-
+                      Container(
+                        width: width,
+                        color: cWhiteColor,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              kH16sizedBox,
+                              Text(
+                                ksPageTransparency,
+                                style: semiBold18TextStyle(cBlackColor),
+                              ),
+                              kH16sizedBox,
+                              Text(
+                                "BipHip is showing informatino to help people understand the purpose of your page. You won't be able to edit what is shown here.",
+                                style: regular14TextStyle(cSmallBodyTextColor),
+                              ),
+                              kH16sizedBox,
+                              Text(
+                                "2021211511514411",
+                                style: regular16TextStyle(cBlackColor),
+                              ),
+                              kH4sizedBox,
+                              Text(
+                                "Page ID",
+                                style: regular10TextStyle(cSmallBodyTextColor),
+                              ),
+                              kH16sizedBox,
+                              Text(
+                                "08 Feb, 2022",
+                                style: regular16TextStyle(cBlackColor),
+                              ),
+                              kH4sizedBox,
+                              Text(
+                                "Creating Date",
+                                style: regular10TextStyle(cSmallBodyTextColor),
+                              ),
+                              kH16sizedBox,
+                              Text(
+                                "Admin Info",
+                                style: regular16TextStyle(cBlackColor),
+                              ),
+                              kH4sizedBox,
+                              Text(
+                                "This page can’t have admin right now. We will add admin feature in coming updates.",
+                                style: regular10TextStyle(cSmallBodyTextColor),
+                              ),
+                              kH16sizedBox,
+                              Text(
+                                "This page is currently not running ads",
+                                style: regular16TextStyle(cBlackColor),
+                              ),
+                              kH16sizedBox,
+                            ],
+                          ),
+                        ),
+                      ),
                       //!Need to solve these
                       // if (profileController.showAllEditOption.value) ContactSection(),
                       // if (profileController.showAllEditOption.value) kH8sizedBox,
