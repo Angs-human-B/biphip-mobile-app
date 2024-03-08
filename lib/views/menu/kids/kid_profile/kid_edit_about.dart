@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/kid_basic_info_section.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_contact_section.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_education_background.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_select_hobbies.dart';
@@ -46,6 +47,8 @@ class KidEditAboutInfo extends StatelessWidget {
                       KidEducationBackground(),
                       kH8sizedBox,
                       KidSelectHobbies(),
+                      kH8sizedBox,
+                      KidBasicInfoSection(),
                       // RelationshipSection(),
                       //!Need to solve these
                       // if (profileController.showAllEditOption.value) kH8sizedBox,

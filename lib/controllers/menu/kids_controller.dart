@@ -393,4 +393,7 @@ class KidsController extends GetxController {
    final RxInt deleteIndex = RxInt(-1);
     final RxBool isDropdownShown = RxBool(false);
     final RxBool editCommonSelectionBottomSheetRightButtonState = RxBool(false);
+    final Rx<String?> kidGender = Rx<String?>("Male");
+    final Rx<DateTime?> kidDob = Rx<DateTime?>(DateTime.now()); 
+    final RxList languageList = RxList(['English,Bangla']);
 }

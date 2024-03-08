@@ -466,4 +466,22 @@ class KidHelper {
     kidsController.kidEmailTextEditingController.text = kidsController.kidEmailList[index]!;
     getMethod(6);
   }
+  String languageSorting(List languageList) {
+    String result;
+
+    switch (languageList.length) {
+      case 0:
+        result = '';
+        break;
+      case 1:
+        result = languageList[0];
+        break;
+      case 2:
+        result = '${languageList[0]} and ${languageList[1]}';
+        break;
+      default:
+        result = languageList.sublist(0, languageList.length - 1).join(', ') + ' and ' + languageList.last;
+    }
+     return result;
+  }
 }
