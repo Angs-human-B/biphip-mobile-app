@@ -186,7 +186,7 @@ class HomePage extends StatelessWidget {
                                           Padding(
                                             padding: const EdgeInsets.symmetric(vertical: k8Padding),
                                             child: Text(
-                                              ksWeeklyWinner.tr,
+                                              ksAwardWinner.tr,
                                             ),
                                           ),
                                         ],

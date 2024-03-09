@@ -124,7 +124,7 @@ const String ksSeeAll = 'See all';
 //* Home
 //---------------------------------------
 const String ksDailyQuiz = 'Daily Quiz';
-const String ksWeeklyWinner = 'Winner';
+const String ksAwardWinner = 'Winner';
 
 //---------------------------------------
 //* Home widget

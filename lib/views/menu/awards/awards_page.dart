@@ -119,8 +119,8 @@ class AwardsPage extends StatelessWidget {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: awardController.youWonAwardList.length,
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: 0.8,
                               crossAxisCount: 3,
                               crossAxisSpacing: k16Padding,
                               mainAxisSpacing: k16Padding,
@@ -154,9 +154,9 @@ class AwardsPage extends StatelessWidget {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: awardController.othersWinnerAwardList.length,
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
+                              childAspectRatio: 0.8,
                               crossAxisSpacing: k16Padding,
                               mainAxisSpacing: k16Padding,
                             ),
@@ -204,7 +204,7 @@ class AwardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: (width - 40) / 3,
-      height: awardContainerHeight ?? 120,
+      height: awardContainerHeight ?? 137,
       child: Stack(
         children: [
           ClipRRect(
@@ -212,7 +212,7 @@ class AwardView extends StatelessWidget {
             child: Image.network(
               image!,
               width: (width - 40) / 3,
-              height: awardContainerHeight ?? 120,
+              height: awardContainerHeight ?? 137,
               fit: BoxFit.cover,
               loadingBuilder: imageLoadingBuilder,
               errorBuilder: (context, error, stackTrace) => const Icon(
@@ -250,7 +250,7 @@ class AwardView extends StatelessWidget {
           ),
           Positioned(
             left: 6,
-            bottom: 6,
+            bottom: 4,
             child: SizedBox(
               width: ((width - 40) / 3) / 1.5,
               child: Text(
@@ -260,8 +260,8 @@ class AwardView extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 6,
             right: 6,
+            bottom: 6,
             child: SvgPicture.asset(kiAward),
           ),
         ],
