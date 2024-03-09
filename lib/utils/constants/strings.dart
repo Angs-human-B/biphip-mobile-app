@@ -589,3 +589,4 @@ const String ksHobbiesSubtitle = "This will help us to provide you a nice experi
 const String ksHobbies = "Hobbies";
 const String ksPageTransparency = "Page Transparency";
 const String ksRelation = "Relation";
+const String ksEditRelation = "Edit Relation";

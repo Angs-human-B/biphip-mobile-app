@@ -283,7 +283,7 @@ class KidHelper {
   }
 
   void selectFunction(functionFlag, [index]) async {
-    if (functionFlag == 'ADD SCHOOL') {
+   if (functionFlag == 'ADD SCHOOL') {
       if (kidsController.kidEducationBackground.value == 'School') {
         // await profileController.storeSchool();//!Api call
       } else {
@@ -426,6 +426,12 @@ class KidHelper {
     Get.toNamed(krKidEditPage);
   }
 
+    void resetKidRelationEditPage() {
+    kidsController.kidRelation.value = "";
+    kidsController.temporaryKidRelation.value = "";
+    kidsController.isKidRelationSaveButtonActive.value = false;
+  }
+
   void resetTextEditor() {
     // profileController.temporaryListCommon.clear();
     kidsController.kidEducationInstituteTextEditingController.clear();
@@ -466,6 +472,7 @@ class KidHelper {
     kidsController.kidEmailTextEditingController.text = kidsController.kidEmailList[index]!;
     getMethod(6);
   }
+
   String languageSorting(List languageList) {
     String result;
 
@@ -482,6 +489,6 @@ class KidHelper {
       default:
         result = languageList.sublist(0, languageList.length - 1).join(', ') + ' and ' + languageList.last;
     }
-     return result;
+    return result;
   }
 }

@@ -386,15 +386,17 @@ class KidsController extends GetxController {
   final TextEditingController kidEmailTextEditingController = TextEditingController();
   final RxBool enableKidSaveButton = RxBool(false);
   final RxString kidCommonEditPageTitle = RxString('');
-   final RxString kidFunctionFlag = RxString('');
-     final RxString kidEducationBackground = RxString('');
-      final RxString kidTemporaryEducationBackground = RxString('');
+  final RxString kidFunctionFlag = RxString('');
+  final RxString kidEducationBackground = RxString('');
+  final RxString kidTemporaryEducationBackground = RxString('');
   final TextEditingController kidCommonEditTextEditingController = TextEditingController();
-   final RxInt deleteIndex = RxInt(-1);
-    final RxBool isDropdownShown = RxBool(false);
-    final RxBool editCommonSelectionBottomSheetRightButtonState = RxBool(false);
-    final Rx<String?> kidGender = Rx<String?>("Male");
-    final Rx<DateTime?> kidDob = Rx<DateTime?>(DateTime.now()); 
-    final RxList languageList = RxList(['English,Bangla']);
-    final Rx<String?> kidRelation = Rx<String?>("Father");
+  final RxInt deleteIndex = RxInt(-1);
+  final RxBool isDropdownShown = RxBool(false);
+  final RxBool editCommonSelectionBottomSheetRightButtonState = RxBool(false);
+  final Rx<String?> kidGender = Rx<String?>("Male");
+  final Rx<DateTime?> kidDob = Rx<DateTime?>(DateTime.now());
+  final RxList languageList = RxList(['English,Bangla']);
+  final Rx<String?> kidRelation = Rx<String?>("Father");
+  final RxString temporaryKidRelation = RxString('');
+  final RxBool isKidRelationSaveButtonActive = RxBool(false);
 }

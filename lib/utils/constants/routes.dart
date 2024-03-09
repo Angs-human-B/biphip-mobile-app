@@ -166,6 +166,7 @@ const String krKidEditBio = '/kid-edit-bio';
 const String krKidEditAboutInfo = '/kid-edit-about-info';
 const String krSelectHobbiesPage = '/select-hobbies-page';
 const String krKidEditPage = '/kid-edit-page';
+const String krKidEditRelation = '/kid-edit-relation';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -262,4 +263,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krKidEditAboutInfo, page: () => KidEditAboutInfo(), transition: Transition.noTransition),
   GetPage(name: krSelectHobbiesPage, page: () => SelectHobbiesPage(), transition: Transition.noTransition),
   GetPage(name: krKidEditPage, page: () => KidEditPage(), transition: Transition.noTransition),
+  GetPage(name: krKidEditRelation, page: () => KidEditRelationPage(), transition: Transition.noTransition),
 ];

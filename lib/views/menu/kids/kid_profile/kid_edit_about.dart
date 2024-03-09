@@ -1,10 +1,12 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_basic_info_section.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_contact_section.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_education_background.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_select_hobbies.dart';
 import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
+import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 
 class KidEditAboutInfo extends StatelessWidget {
   KidEditAboutInfo({super.key});
@@ -60,6 +62,8 @@ class KidEditAboutInfo extends StatelessWidget {
                       //     Get.toNamed(krEditBasicInfo);
                       //   },
                       // ),
+                      kH8sizedBox,
+                      const KidRelationContent(),
                       kH8sizedBox,
                       KidEducationBackground(),
                       kH8sizedBox,
@@ -122,7 +126,7 @@ class KidEditAboutInfo extends StatelessWidget {
                               ),
                               kH4sizedBox,
                               Text(
-                                "This page can’t have admin right now. We will add admin feature in coming updates.",
+                                "This page can't have admin right now. We will add admin feature in coming updates.",
                                 style: regular10TextStyle(cSmallBodyTextColor),
                               ),
                               kH16sizedBox,
@@ -173,10 +177,11 @@ class InfoContainer extends StatelessWidget {
       this.isAddButton,
       this.subtitlePrefixText,
       this.subtitleSuffixText,
-      this.suffixTextStyle});
+      this.suffixTextStyle,
+      this.subTitlePrefixTextStyle});
   final String suffixText;
   final String? prefixText, subtitlePrefixText, subtitleSuffixText;
-  final TextStyle? suffixTextStyle;
+  final TextStyle? suffixTextStyle, subTitlePrefixTextStyle;
   final VoidCallback? suffixOnPressed;
   final bool? isAddButton;
 
@@ -206,7 +211,7 @@ class InfoContainer extends StatelessWidget {
                       overflow: TextOverflow.clip,
                       text: TextSpan(
                         children: [
-                          TextSpan(text: '$subtitlePrefixText ', style: regular12TextStyle(cSmallBodyTextColor)),
+                          TextSpan(text: '$subtitlePrefixText ', style: subTitlePrefixTextStyle ?? regular12TextStyle(cSmallBodyTextColor)),
                           TextSpan(
                             text: subtitleSuffixText,
                             style: regular12TextStyle(cSmallBodyTextColor),
@@ -312,6 +317,112 @@ class RowTextButton extends StatelessWidget {
             child: suffixWidget!,
           ),
       ],
+    );
+  }
+}
+
+class KidRelationContent extends StatelessWidget {
+  const KidRelationContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: cWhiteColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+        child: Column(
+          children: [
+            kH16sizedBox,
+            InfoContainer(
+              suffixText: ksRelation.tr,
+              subtitlePrefixText:
+                  Get.find<KidsController>().kidRelation.value == null ? ksRelation.tr : checkNullOrStringNull(Get.find<KidsController>().kidRelation.value),
+              subTitlePrefixTextStyle: regular16TextStyle(cBlackColor),
+              isAddButton: false,
+              suffixOnPressed: () {
+                Get.toNamed(krKidEditRelation);
+              },
+            ),
+            kH16sizedBox,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class KidEditRelationPage extends StatelessWidget {
+  KidEditRelationPage({super.key});
+  final KidsController kidsController = Get.find<KidsController>();
+  final KidHelper kidHelper = KidHelper();
+  final FocusNode partnerFocusNode = FocusNode();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: cWhiteColor,
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+          backgroundColor: cWhiteColor,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kAppBarSize),
+            //* info:: appBar
+            child: CustomAppBar(
+              appBarColor: cWhiteColor,
+              title: ksEditRelation.tr,
+              hasBackButton: true,
+              isCenterTitle: true,
+              onBack: () {
+                Get.back();
+              },
+            ),
+          ),
+          body: Obx(
+            () => Stack(
+              children: [
+                SizedBox(
+                  height: height - kAppBarSize - MediaQuery.of(context).padding.top,
+                  width: width,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                    child: Column(
+                      children: [
+                        kH16sizedBox,
+                        CustomSelectionButton(
+                          buttonHeight: h50,
+                          onPressed: () async {
+                            unFocus(context);
+                            // editProfileHelper.setRelationshipStatus(context);
+                          },
+                          text: kidsController.kidRelation.value,
+                          hintText: kidsController.kidRelation.value == '' ? ksSelectRelationshipStatus.tr : kidsController.kidRelation.value,
+                        ),
+                        kH16sizedBox,
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 20,
+                  left: 20,
+                  child: CustomElevatedButton(
+                      label: ksSave,
+                      textStyle: semiBold14TextStyle(cWhiteColor),
+                      buttonHeight: h42,
+                      buttonWidth: width - 40,
+                      onPressed: () async {
+                        unFocus(context);
+                        Get.back();
+                        // await profileController.storeUserSetting('relationship', profileController.relationshipStatus.value);//! APi call
+                        kidHelper.resetKidRelationEditPage();
+                      }),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
