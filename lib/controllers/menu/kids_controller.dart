@@ -396,4 +396,5 @@ class KidsController extends GetxController {
     final Rx<String?> kidGender = Rx<String?>("Male");
     final Rx<DateTime?> kidDob = Rx<DateTime?>(DateTime.now()); 
     final RxList languageList = RxList(['English,Bangla']);
+    final Rx<String?> kidRelation = Rx<String?>("Father");
 }

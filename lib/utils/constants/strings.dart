@@ -588,3 +588,4 @@ const String ksEditHobbies = "Edit Hobbies";
 const String ksHobbiesSubtitle = "This will help us to provide you a nice experience while you will use our system. You can also change it from your profile anytime.";
 const String ksHobbies = "Hobbies";
 const String ksPageTransparency = "Page Transparency";
+const String ksRelation = "Relation";

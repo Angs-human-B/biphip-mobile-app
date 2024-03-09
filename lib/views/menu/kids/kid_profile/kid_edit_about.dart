@@ -42,7 +42,24 @@ class KidEditAboutInfo extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      kH8sizedBox,
+                      // kH8sizedBox,
+                      // InfoContainer(
+                      //   suffixText: ksRelation.tr,
+                      //   isAddButton: true,
+                      //   suffixOnPressed: null,
+                      // ),
+                      // InfoContainer(
+                      //   // suffixText: profileController.userData.value!.gender == null
+                      //   //     ? ksGender.tr
+                      //   //     : checkNullOrStringNull(profileController.userData.value!.gender.toString().trim()),
+                      //   suffixText: kidsController.kidRelation.value == null ? ksRelation.tr : checkNullOrStringNull(kidsController.kidRelation.value),
+                      //   // subtitlePrefixText: ksRelation.tr,
+                      //   suffixTextStyle: ,
+                      //   isAddButton: false,
+                      //   suffixOnPressed: () {
+                      //     Get.toNamed(krEditBasicInfo);
+                      //   },
+                      // ),
                       kH8sizedBox,
                       KidEducationBackground(),
                       kH8sizedBox,
