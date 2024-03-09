@@ -259,7 +259,7 @@ class MyPlayedQuiz extends StatelessWidget {
                                 correctAnswer: "${postReactionController.myAllPlayedQuizList[index].countRightAnswer}/",
                                 totalQuestions: "${postReactionController.myAllPlayedQuizList[index].totalMarks}",
                                 totalTime:
-                                    "Taken Time: ${double.parse(postReactionController.myAllPlayedQuizList[index].elapsedTime.toString()).toStringAsFixed(0)}",
+                                    "Taken Time: ${double.parse(postReactionController.myAllPlayedQuizList[index].elapsedTime.toString()).toStringAsFixed(0)} sec",
                                 actionText: "Score: ${postReactionController.myAllPlayedQuizList[index].obtainedMarks}",
                                 actionTextStyle:
                                     semiBold14TextStyle(postReactionController.myAllPlayedQuizList[index].obtainedMarks == 0 ? cRedColor : cPrimaryColor),
@@ -763,7 +763,7 @@ class QuizWinner extends StatelessWidget {
                       ])),
                   kH4sizedBox,
                   Text(
-                    "Completion Time: $totalTime",
+                    "Completion Time: $totalTime sec",
                     style: semiBold14TextStyle(cPrimaryColor),
                   ),
                 ],

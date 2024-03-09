@@ -38,7 +38,9 @@ class QuizPage extends StatelessWidget {
               //* info:: appBar
               child: CustomAppBar(
                 appBarColor: cWhiteColor,
-                title: 'Golf Quiz',
+                title: postReactionController.questionList.isNotEmpty
+                    ? "${postReactionController.questionListData.value?.quiz?.title.toString()}"
+                    : "${postReactionController.questionListData.value?.result?.quiz?.title.toString()}",
                 hasBackButton: true,
                 isCenterTitle: true,
                 onBack: () {
@@ -198,72 +200,30 @@ class QuizPage extends StatelessWidget {
                             // for (int j = 0; j < postReactionController.questionList[i].options.length; j++)
                             Padding(
                               padding: const EdgeInsets.only(bottom: k8Padding),
-                              child: CustomListTile(
-                                itemColor: postReactionController.selectedAnswer.value ==
-                                        postReactionController.questionList[postReactionController.currentIndex.value].options[i]
-                                    ? cPrimaryTint3Color
-                                    : cWhiteColor,
-                                onPressed: () {
-                                  postReactionController.selectedAnswer.value =
-                                      postReactionController.questionList[postReactionController.currentIndex.value].options[i];
-                                },
-                                title: postReactionController.questionList[postReactionController.currentIndex.value].options[i],
-                                borderColor: postReactionController.selectedAnswer.value ==
-                                        postReactionController.questionList[postReactionController.currentIndex.value].options[i]
-                                    ? cPrimaryColor
-                                    : cLineColor,
-                                trailing: CustomRadioButton(
-                                  onChanged: () {
-                                    postReactionController.selectedAnswer.value =
-                                        postReactionController.questionList[postReactionController.currentIndex.value].options[i];
-                                  },
-                                  isSelected: postReactionController.selectedAnswer.value ==
-                                      postReactionController.questionList[postReactionController.currentIndex.value].options[i],
-                                ),
-                              ),
+                              child: Obx(() => CustomListTile(
+                                    itemColor: postReactionController.selectedAnswer.value ==
+                                            postReactionController.questionList[postReactionController.currentIndex.value].options[i]
+                                        ? cPrimaryTint3Color
+                                        : cWhiteColor,
+                                    onPressed: () {
+                                      postReactionController.selectedAnswer.value =
+                                          postReactionController.questionList[postReactionController.currentIndex.value].options[i];
+                                    },
+                                    title: postReactionController.questionList[postReactionController.currentIndex.value].options[i],
+                                    borderColor: postReactionController.selectedAnswer.value ==
+                                            postReactionController.questionList[postReactionController.currentIndex.value].options[i]
+                                        ? cPrimaryColor
+                                        : cLineColor,
+                                    trailing: CustomRadioButton(
+                                      onChanged: () {
+                                        postReactionController.selectedAnswer.value =
+                                            postReactionController.questionList[postReactionController.currentIndex.value].options[i];
+                                      },
+                                      isSelected: postReactionController.selectedAnswer.value ==
+                                          postReactionController.questionList[postReactionController.currentIndex.value].options[i],
+                                    ),
+                                  )),
                             ),
-
-                          // SizedBox(
-                          //   height: 500,
-                          //   child: ListView.builder(
-                          //     itemCount: postReactionController.questionList.length,
-                          //     itemBuilder: (context, i) {
-                          //       final currentQuestion = postReactionController.questionList[i];
-
-                          //       return Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           Text(
-                          //             currentQuestion.content.toString(),
-                          //             style: TextStyle(fontWeight: FontWeight.bold),
-                          //           ),
-                          //           SizedBox(height: 8),
-                          //           Column(
-                          //             children: currentQuestion.options.map((option) {
-                          //               return Padding(
-                          //                 padding: const EdgeInsets.only(bottom: k8Padding),
-                          //                 child: CustomListTile(
-                          //                   itemColor: postReactionController.selectedAnswer.value == option ? cPrimaryTint3Color : cWhiteColor,
-                          //                   onPressed: () {
-                          //                     postReactionController.selectedAnswer.value = option;
-                          //                   },
-                          //                   title: option,
-                          //                   borderColor: postReactionController.selectedAnswer.value == option ? cPrimaryColor : cLineColor,
-                          //                   trailing: CustomRadioButton(
-                          //                     onChanged: () {
-                          //                       postReactionController.selectedAnswer.value = option;
-                          //                     },
-                          //                     isSelected: postReactionController.selectedAnswer.value == option,
-                          //                   ),
-                          //                 ),
-                          //               );
-                          //             }).toList(),
-                          //           ),
-                          //         ],
-                          //       );
-                          //     },
-                          //   ),
-                          // ),
                         ],
                       ),
                     )
@@ -491,35 +451,35 @@ class QuizZeroScoreContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        kH40sizedBox,
-        Text(
-          '${ksOpps.tr}!!!',
-          style: regular14TextStyle(cRedColor),
-        ),
-        kH12sizedBox,
-        Text(
-          postReactionController.questionList.isNotEmpty
-              ? "${ksYourScore.tr}: ${postReactionController.rightAnswer.value}"
-              : "${ksYourScore.tr}: ${postReactionController.questionListData.value!.result!.countRightAnswer.toString()}",
-          style: semiBold24TextStyle(cRedColor),
-        ),
-        kH12sizedBox,
-        PopupQuizCommonElement(
-          subTitleText: ksLetWhoWillWinThisQuiz.tr,
-          playMoreOnPresse: () {
-            Get.find<HomeController>().homeTabIndex.value = 0;
-            Get.offAllNamed(krHome);
-          },
-          backHomeOnPressed: () {
-            Get.find<HomeController>().homeTabIndex.value = 0;
-            Get.offAllNamed(krHome);
-          },
-        ),
-      ],
-    );
+    return Obx(() => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            kH40sizedBox,
+            Text(
+              '${ksOpps.tr}!!!',
+              style: regular14TextStyle(cRedColor),
+            ),
+            kH12sizedBox,
+            Text(
+              postReactionController.questionList.isNotEmpty
+                  ? "${ksYourScore.tr}: ${postReactionController.rightAnswer.value}"
+                  : "${ksYourScore.tr}: ${postReactionController.questionListData.value!.result!.countRightAnswer.toString()}",
+              style: semiBold24TextStyle(cRedColor),
+            ),
+            kH12sizedBox,
+            PopupQuizCommonElement(
+              subTitleText: ksLetWhoWillWinThisQuiz.tr,
+              playMoreOnPresse: () {
+                Get.find<HomeController>().homeTabIndex.value = 0;
+                Get.offAllNamed(krHome);
+              },
+              backHomeOnPressed: () {
+                Get.find<HomeController>().homeTabIndex.value = 0;
+                Get.offAllNamed(krHome);
+              },
+            ),
+          ],
+        ));
   }
 }
 
@@ -545,8 +505,8 @@ class PopupQuizCommonElement extends StatelessWidget {
             QuizResultCommonContainer(
                 title: ksCorrectAnswer.tr,
                 subTitle: postReactionController.questionList.isNotEmpty
-                    ? postReactionController.rightAnswer.value
-                    : postReactionController.questionListData.value!.result!.countRightAnswer.toString()),
+                    ? "${postReactionController.rightAnswer.value} answers"
+                    : "${postReactionController.questionListData.value!.result!.countRightAnswer.toString()} answers"),
             const SizedBox(
               width: 5,
             ),
@@ -565,16 +525,16 @@ class PopupQuizCommonElement extends StatelessWidget {
             QuizResultCommonContainer(
                 title: ksTime.tr,
                 subTitle: postReactionController.questionList.isNotEmpty
-                    ? postReactionController.totalElapsedTime.value.toString()
-                    : double.parse(postReactionController.questionListData.value!.result!.elapsedTime.toString()).toStringAsFixed(0)),
+                    ? "${postReactionController.totalElapsedTime.value.toString()} sec"
+                    : "${double.parse(postReactionController.questionListData.value!.result!.elapsedTime.toString()).toStringAsFixed(0)} sec"),
             const SizedBox(
               width: 5,
             ),
             QuizResultCommonContainer(
                 title: ksWrongAnswer.tr,
                 subTitle: postReactionController.questionList.isNotEmpty
-                    ? postReactionController.wrongAnswer.value
-                    : postReactionController.questionListData.value!.result!.countWrongAnswer.toString()),
+                    ? "${postReactionController.wrongAnswer.value} answers"
+                    : "${postReactionController.questionListData.value!.result!.countWrongAnswer.toString()} answers"),
           ],
         ),
         kH24sizedBox,
