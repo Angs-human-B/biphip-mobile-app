@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/edit_kid_gender_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_about.dart';
 import 'package:intl/intl.dart';
 
@@ -22,9 +23,7 @@ class KidBasicInfoSection extends StatelessWidget {
             InfoContainer(
               suffixText: ksBasicInfo.tr,
               suffixTextStyle: semiBold18TextStyle(cBlackColor),
-              suffixOnPressed: () {
-                Get.toNamed(krEditBasicInfo);
-              },
+              suffixOnPressed: null,
             ),
             kH16sizedBox,
             InfoContainer(
@@ -35,7 +34,8 @@ class KidBasicInfoSection extends StatelessWidget {
               subtitlePrefixText: ksGender,
               isAddButton: false,
               suffixOnPressed: () {
-                Get.toNamed(krEditBasicInfo);
+                // Get.toNamed(krEditBasicInfo);
+                Get.to(() => EditKidGenderSection());
               },
             ),
             kH16sizedBox,
@@ -44,7 +44,7 @@ class KidBasicInfoSection extends StatelessWidget {
               //     profileController.userData.value!.dob == null ? ksDateOfBirth.tr : DateFormat("yyyy-MM-dd").format(profileController.userData.value!.dob!),
               suffixText: kidsController.kidDob.value == null ? ksDateOfBirth.tr : DateFormat("yyyy-MM-dd").format(kidsController.kidDob.value!),
               subtitlePrefixText: ksDateOfBirth.tr,
-              isAddButton: false,
+              isAddButton: null,
               suffixOnPressed: () {
                 // editProfileHelper.editBirthday();
               },
@@ -52,15 +52,15 @@ class KidBasicInfoSection extends StatelessWidget {
             kH16sizedBox,
             InfoContainer(
               suffixOnPressed: () {
-                // Get.toNamed(krEditBasicInfo);//!Change the route
+                // Get.toNamed(krEditBasicInfo);
               },
               // suffixText: profileController.userData.value!.languages.isEmpty
               //     ? ksLanguage.tr
               //     : editProfileHelper.languageSorting(profileController.userData.value!.languages),
-              suffixText: kidsController.languageList.isEmpty ? ksLanguage.tr : kidHelper.languageSorting(kidsController.languageList),
+              suffixText: kidsController.kidLanguageList.isEmpty ? ksLanguage.tr : kidHelper.languageSorting(kidsController.kidLanguageList),
               // isAddButton: profileController.userData.value!.languages.isEmpty ? true : false,
-              isAddButton: kidsController.languageList.isEmpty ? true : false,
-              subtitlePrefixText: kidsController.languageList.isEmpty ? null : ksLanguages.tr,
+              isAddButton: kidsController.kidLanguageList.isEmpty ? true : false,
+              subtitlePrefixText: kidsController.kidLanguageList.isEmpty ? null : ksLanguages.tr,
             ),
             kH16sizedBox,
           ],

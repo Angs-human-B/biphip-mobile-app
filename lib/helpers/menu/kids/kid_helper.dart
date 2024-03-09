@@ -296,11 +296,13 @@ class KidHelper {
       // await profileController.updateSchool(profileController.schoolID.value);//!Api call
       kidsController.kidEducationInstituteTextEditingController.clear();
       kidsController.kidCommonEditTextEditingController.clear();
-    } else if (functionFlag == 'EDIT COLLEGE') {
-      // await profileController.updateCollege(profileController.collegeID.value);//!Api
-      kidsController.kidEducationInstituteTextEditingController.clear();
-      kidsController.kidCommonEditTextEditingController.clear();
-    } else if (functionFlag == 'ADD PHONE') {
+    }
+    //  else if (functionFlag == 'EDIT COLLEGE') {
+    //   // await profileController.updateCollege(profileController.collegeID.value);//!Api
+    //   kidsController.kidEducationInstituteTextEditingController.clear();
+    //   kidsController.kidCommonEditTextEditingController.clear();
+    // }
+    else if (functionFlag == 'ADD PHONE') {
       // await profileController.storeContact('phone');//!Api
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT PHONE') {

@@ -415,7 +415,7 @@ class KidEditRelationPage extends StatelessWidget {
                       buttonHeight: h42,
                       buttonWidth: width - 40,
                       onPressed: kidsController.isKidRelationSaveButtonActive.value
-                          ? () async {
+                          ? () {
                               unFocus(context);
                               Get.back();
                               if (kidsController.kidRelationData.value != '') {

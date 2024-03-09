@@ -395,7 +395,7 @@ class KidsController extends GetxController {
   final RxBool editCommonSelectionBottomSheetRightButtonState = RxBool(false);
   final Rx<String?> kidGender = Rx<String?>("Male");
   final Rx<DateTime?> kidDob = Rx<DateTime?>(DateTime.now());
-  final RxList languageList = RxList(['English,Bangla']);
+  final RxList kidLanguageList = RxList(['English,Bangla']);
   final Rx<String?> kidRelation = Rx<String?>("Father");
   final RxString temporaryKidRelationData = RxString('');
   final RxString kidRelationData = RxString('');
