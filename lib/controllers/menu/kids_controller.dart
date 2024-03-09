@@ -401,4 +401,6 @@ class KidsController extends GetxController {
   final RxString kidRelationData = RxString('');
   final RxBool isKidRelationSaveButtonActive = RxBool(false);
   final RxBool kidRelationDataBottomSheetState = RxBool(false);
+  final RxString temporaryKidGender = RxString('');
+  final RxBool kidGenderBottomSheetState = RxBool(false);
 }

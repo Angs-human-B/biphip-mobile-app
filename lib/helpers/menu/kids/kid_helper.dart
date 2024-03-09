@@ -506,6 +506,80 @@ class KidHelper {
     );
   }
 
+  void selectKidGender(context) async {
+    if (kidsController.kidGender.value != '') {
+      kidsController.temporaryKidGender.value = kidsController.kidGender.value!;
+      kidsController.kidGenderBottomSheetState.value = true;
+    } else {
+      kidsController.temporaryKidGender.value = '';
+      kidsController.kidGenderBottomSheetState.value = false;
+    }
+    // profileController.isGenderListLoading.value = true;
+    globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: kidsController.kidGenderBottomSheetState,
+      context: context,
+      content: Column(
+        children: [
+          ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: kidsController.kidGenderList.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: k12Padding),
+                  child: Obx(
+                    () => CustomListTile(
+                      onPressed: () {
+                        kidsController.temporaryKidGender.value = kidsController.kidGenderList[index].toString();
+                        if (kidsController.temporaryKidGender.value == '') {
+                          kidsController.kidGenderBottomSheetState.value = false;
+                        } else {
+                          kidsController.kidGenderBottomSheetState.value = true;
+                        }
+                      },
+                      title: kidsController.kidGenderList[index].toString(),
+                      titleTextStyle: regular16TextStyle(cBlackColor),
+                      borderColor: kidsController.temporaryKidGender.value == kidsController.kidGenderList[index].toString() ? cPrimaryColor : cLineColor2,
+                      itemColor: kidsController.temporaryKidGender.value == kidsController.kidGenderList[index].toString() ? cPrimaryTint3Color : cWhiteColor,
+                      trailing: CustomRadioButton(
+                        onChanged: () {
+                          kidsController.temporaryKidGender.value = kidsController.kidGenderList[index];
+                          if (kidsController.temporaryKidGender.value == '') {
+                            kidsController.kidGenderBottomSheetState.value = false;
+                          } else {
+                            kidsController.kidGenderBottomSheetState.value = true;
+                          }
+                        },
+                        isSelected: kidsController.temporaryKidGender.value == kidsController.kidGenderList[index],
+                      ),
+                    ),
+                  ),
+                );
+              }),
+        ],
+      ),
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        // profileController.isGenderListLoading.value = true;
+        // if (profileController.temporarySelectedGender.value != '') {
+        //   authenticationController.gender.value = profileController.temporarySelectedGender.value;
+        //   profileController.isGenderSelected.value = true;
+        // }
+        kidsController.kidGender.value = kidsController.temporaryKidGender.value;
+        Get.back();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: medium14TextStyle(cPrimaryColor),
+      title: ksSelectGender.tr,
+      isRightButtonShow: true,
+      isScrollControlled: true,
+      bottomSheetHeight: height * 0.4,
+    );
+    // await profileController.getGenderList();//!Api call
+  }
+
   void resetTextEditor() {
     // profileController.temporaryListCommon.clear();
     kidsController.kidEducationInstituteTextEditingController.clear();

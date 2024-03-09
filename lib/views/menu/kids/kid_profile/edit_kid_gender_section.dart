@@ -41,7 +41,7 @@ class EditKidGenderSection extends StatelessWidget {
                 CustomSelectionButton(
                   prefixIcon: BipHip.gender,
                   onPressed: () async {
-                    // editProfileHelper.selectGender(context);
+                    kidHelper.selectKidGender(context);
                   },
                   text: kidsController.kidGender.value != '' ? kidsController.kidGender.value : ksSelectGender.tr,
                   hintText: ksSelectGender.tr,
