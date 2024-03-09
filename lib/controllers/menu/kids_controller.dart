@@ -397,6 +397,8 @@ class KidsController extends GetxController {
   final Rx<DateTime?> kidDob = Rx<DateTime?>(DateTime.now());
   final RxList languageList = RxList(['English,Bangla']);
   final Rx<String?> kidRelation = Rx<String?>("Father");
-  final RxString temporaryKidRelation = RxString('');
+  final RxString temporaryKidRelationData = RxString('');
+  final RxString kidRelationData = RxString('');
   final RxBool isKidRelationSaveButtonActive = RxBool(false);
+  final RxBool kidRelationDataBottomSheetState = RxBool(false);
 }

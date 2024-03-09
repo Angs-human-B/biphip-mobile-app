@@ -283,7 +283,7 @@ class KidHelper {
   }
 
   void selectFunction(functionFlag, [index]) async {
-   if (functionFlag == 'ADD SCHOOL') {
+    if (functionFlag == 'ADD SCHOOL') {
       if (kidsController.kidEducationBackground.value == 'School') {
         // await profileController.storeSchool();//!Api call
       } else {
@@ -426,10 +426,82 @@ class KidHelper {
     Get.toNamed(krKidEditPage);
   }
 
-    void resetKidRelationEditPage() {
-    kidsController.kidRelation.value = "";
-    kidsController.temporaryKidRelation.value = "";
+  void checkCanKidSaveRelation() {
+    if (kidsController.kidRelation.value != "") {
+      kidsController.isKidRelationSaveButtonActive.value = true;
+    } else {
+      kidsController.isKidRelationSaveButtonActive.value = false;
+    }
+  }
+
+  void resetKidRelationEditPage() {
+    kidsController.temporaryKidRelationData.value = "";
+    kidsController.kidRelationData.value = "";
     kidsController.isKidRelationSaveButtonActive.value = false;
+    kidsController.kidRelationDataBottomSheetState.value = false;
+  }
+
+  void kidRelationButtonOnPressed(context) {
+    kidsController.temporaryKidRelationData.value = kidsController.kidRelation.value!;
+    if (kidsController.kidRelation.value != '') {
+      kidsController.temporaryKidRelationData.value = kidsController.kidRelation.value!;
+      kidsController.kidRelationDataBottomSheetState.value = true;
+    } else {
+      kidsController.temporaryKidRelationData.value = "";
+      kidsController.kidRelationDataBottomSheetState.value = false;
+    }
+    globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: kidsController.kidRelationDataBottomSheetState,
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        Get.back();
+        kidsController.kidRelationData.value = kidsController.temporaryKidRelationData.value;
+        checkCanKidSaveRelation();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksSelectRelation.tr,
+      isRightButtonShow: true,
+      content: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: kidsController.kidRelationList.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: k10Padding),
+            child: Obx(
+              () => CustomListTile(
+                itemColor: kidsController.temporaryKidRelationData.value == kidsController.kidRelationList[index] ? cPrimaryTint3Color : cWhiteColor,
+                onPressed: () {
+                  kidsController.temporaryKidRelationData.value = kidsController.kidRelationList[index];
+                  if (kidsController.temporaryKidRelationData.value == '') {
+                    kidsController.kidRelationDataBottomSheetState.value = false;
+                  } else {
+                    kidsController.kidRelationDataBottomSheetState.value = true;
+                  }
+                },
+                title: kidsController.kidRelationList[index],
+                borderColor: kidsController.temporaryKidRelationData.value == kidsController.kidRelationList[index] ? cPrimaryColor : cLineColor,
+                trailing: CustomRadioButton(
+                  onChanged: () {
+                    kidsController.temporaryKidRelationData.value = kidsController.kidRelationList[index];
+                    if (kidsController.temporaryKidRelationData.value == '') {
+                      kidsController.kidRelationDataBottomSheetState.value = false;
+                    } else {
+                      kidsController.kidRelationDataBottomSheetState.value = true;
+                    }
+                  },
+                  isSelected: kidsController.temporaryKidRelationData.value == kidsController.kidRelationList[index],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   void resetTextEditor() {

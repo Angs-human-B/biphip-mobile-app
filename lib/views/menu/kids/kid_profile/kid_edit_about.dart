@@ -333,16 +333,18 @@ class KidRelationContent extends StatelessWidget {
         child: Column(
           children: [
             kH16sizedBox,
-            InfoContainer(
-              suffixText: ksRelation.tr,
-              subtitlePrefixText:
-                  Get.find<KidsController>().kidRelation.value == null ? ksRelation.tr : checkNullOrStringNull(Get.find<KidsController>().kidRelation.value),
-              subTitlePrefixTextStyle: regular16TextStyle(cBlackColor),
-              isAddButton: false,
-              suffixOnPressed: () {
-                Get.toNamed(krKidEditRelation);
-              },
-            ),
+            Obx(() => InfoContainer(
+                  suffixText: ksRelation.tr,
+                  subtitlePrefixText: Get.find<KidsController>().kidRelation.value == null
+                      ? ksRelation.tr
+                      : checkNullOrStringNull(Get.find<KidsController>().kidRelation.value),
+                  subTitlePrefixTextStyle: regular16TextStyle(cBlackColor),
+                  isAddButton: false,
+                  suffixOnPressed: () {
+                    KidHelper().resetKidRelationEditPage();
+                    Get.toNamed(krKidEditRelation);
+                  },
+                )),
             kH16sizedBox,
           ],
         ),
@@ -394,6 +396,7 @@ class KidEditRelationPage extends StatelessWidget {
                           onPressed: () async {
                             unFocus(context);
                             // editProfileHelper.setRelationshipStatus(context);
+                            kidHelper.kidRelationButtonOnPressed(context);
                           },
                           text: kidsController.kidRelation.value,
                           hintText: kidsController.kidRelation.value == '' ? ksSelectRelationshipStatus.tr : kidsController.kidRelation.value,
@@ -411,12 +414,17 @@ class KidEditRelationPage extends StatelessWidget {
                       textStyle: semiBold14TextStyle(cWhiteColor),
                       buttonHeight: h42,
                       buttonWidth: width - 40,
-                      onPressed: () async {
-                        unFocus(context);
-                        Get.back();
-                        // await profileController.storeUserSetting('relationship', profileController.relationshipStatus.value);//! APi call
-                        kidHelper.resetKidRelationEditPage();
-                      }),
+                      onPressed: kidsController.isKidRelationSaveButtonActive.value
+                          ? () async {
+                              unFocus(context);
+                              Get.back();
+                              if (kidsController.kidRelationData.value != '') {
+                                kidsController.kidRelation.value = kidsController.kidRelationData.value;
+                              }
+                              // await profileController.storeUserSetting('relationship', profileController.relationshipStatus.value);//! APi call
+                              kidHelper.resetKidRelationEditPage();
+                            }
+                          : null),
                 )
               ],
             ),
