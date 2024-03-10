@@ -186,6 +186,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   final RxList selectedAnswerList = RxList([]);
   final RxString selectedAnswer = RxString('');
+  final RxInt selectedAnswerIndex = RxInt(-1);
 //* Quiz Timer All function
   Timer? timer;
   final RxInt remainingSeconds = RxInt(1);
@@ -511,6 +512,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         wrongAnswer.value = (submitQuizData.value?.result!.countWrongAnswer).toString();
         totalMarks.value = (submitQuizData.value?.result!.totalMarks).toString();
         totalElapsedTime.value = (submitQuizData.value?.result!.elapsedTime).toString();
+        timer?.cancel();
         isSubmitQuizLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {

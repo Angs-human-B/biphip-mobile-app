@@ -73,6 +73,7 @@ class MenuHelper {
       case 9:
         ll('Quiz');
         Get.find<PostReactionController>().resetQuizTapButtonData();
+        Get.find<PostReactionController>().resetQuizData();
         Get.toNamed(krMyQuiz);
         await Get.find<PostReactionController>().getQuestionList();
         break;
