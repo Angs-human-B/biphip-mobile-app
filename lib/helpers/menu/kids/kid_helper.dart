@@ -267,19 +267,19 @@ class KidHelper {
       showDatePickerRow, showEditPrivacy, showCheckBox, checkBoxSelect, checkBoxText, function, startDate, endDate) {
     kidsController.kidCommonEditPageTitle.value = pageTitle;
     kidsController.isDropdownShown.value = showDropDown;
-    // profileController.commonEditIconData.value = iconData;
-    // profileController.commonEditTextEditingController = textEditingController;
-    // profileController.isSecondaryTextfieldShown.value = showSecondaryTextfield;
-    // profileController.commonEditSecondaryTextEditingController = secondaryTextEditingController;
-    // profileController.commonEditTextfieldHintText.value = textfieldHintText;
-    // profileController.isCommonEditDatePickerShown.value = showDatePickerRow;
-    // profileController.isCommonEditPrivacyShown.value = showEditPrivacy;
-    // profileController.isCommonEditCheckBoxShown.value = showCheckBox;
-    // profileController.isCommonEditCheckBoxSelected.value = checkBoxSelect;
-    // profileController.commonEditCheckBoxText.value = checkBoxText;
-    // profileController.functionFlag.value = function;
-    // profileController.commonStartDate.value = startDate;
-    // profileController.commonEndDate.value = endDate;
+    kidsController.kidCommonEditIconData.value = iconData;
+    kidsController.kidCommonEditTextEditingController = textEditingController;
+    kidsController.isKidSecondaryTextfieldShown.value = showSecondaryTextfield;
+    kidsController.kidCommonEditSecondaryTextEditingController = secondaryTextEditingController;
+    kidsController.commonEditTextfieldHintText.value = textfieldHintText;
+    kidsController.isCommonEditDatePickerShown.value = showDatePickerRow;
+    kidsController.isCommonEditPrivacyShown.value = showEditPrivacy;
+    kidsController.isCommonEditCheckBoxShown.value = showCheckBox;
+    kidsController.isCommonEditCheckBoxSelected.value = checkBoxSelect;
+    kidsController.commonEditCheckBoxText.value = checkBoxText;
+    kidsController.kidFunctionFlag.value = function;
+    kidsController.commonStartDate.value = startDate;
+    kidsController.commonEndDate.value = endDate;
   }
 
   void selectFunction(functionFlag, [index]) async {

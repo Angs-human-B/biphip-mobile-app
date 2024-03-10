@@ -389,7 +389,6 @@ class KidsController extends GetxController {
   final RxString kidFunctionFlag = RxString('');
   final RxString kidEducationBackground = RxString('');
   final RxString kidTemporaryEducationBackground = RxString('');
-  final TextEditingController kidCommonEditTextEditingController = TextEditingController();
   final RxInt deleteIndex = RxInt(-1);
   final RxBool isDropdownShown = RxBool(false);
   final RxBool editCommonSelectionBottomSheetRightButtonState = RxBool(false);
@@ -405,7 +404,26 @@ class KidsController extends GetxController {
   final RxBool kidGenderBottomSheetState = RxBool(false);
   final RxInt kidInterestCatagoriesIndex = RxInt(-1);
   final RxBool isKidInterestSelected = RxBool(false);
-  void resetKidProfileData(){
+  final Rx<IconData> kidCommonEditIconData = Rx<IconData>(BipHip.add);
+  final RxBool isKidSecondaryTextfieldShown = RxBool(false);
+  TextEditingController kidCommonEditTextEditingController = TextEditingController();
+  TextEditingController kidCommonEditSecondaryTextEditingController = TextEditingController();
+  final RxString commonEditTextfieldHintText = RxString('');
+  final RxBool isCommonEditDatePickerShown = RxBool(false);
+  final RxBool isCommonEditPrivacyShown = RxBool(false);
+  final RxBool isCommonEditCheckBoxShown = RxBool(false);
+  final RxBool isCommonEditCheckBoxSelected = RxBool(false);
+  final RxString commonEditCheckBoxText = RxString('');
+  final RxString commonStartDate = RxString('');
+  final RxString commonEndDate = RxString('');
+  final RxBool isSingleDatePicker = RxBool(false);
+  final RxBool showCommonSecondaryEditSuffixIcon = RxBool(false);
+   final RxList<String> temporaryListCommon = RxList<String>([]);
+   final Rx<IconData?> commonEditPageIcon = Rx<IconData?>(null);
+   final RxBool showCommonEditSuffixIcon = RxBool(false);
+    RxList<String> temporaryList = RxList<String>();
+  //* kid data reset
+  void resetKidProfileData() {
     kidInterestCatagoriesIndex.value = -1;
     isKidInterestSelected.value = false;
   }

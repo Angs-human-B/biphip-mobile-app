@@ -404,7 +404,9 @@ class KidProfile extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(
+                  kH8sizedBox,
+                  Container(
+                    color: cWhiteColor,
                     width: width,
                     height: 50,
                     child: ListView.builder(
@@ -429,7 +431,7 @@ class KidProfile extends StatelessWidget {
                       },
                     ),
                   ),
-                  kH12sizedBox,
+                  kH8sizedBox,
                   // if (profileController.postSectionVisible.value) PostTab(),
                   // if (!profileController.postSectionVisible.value) FriendFamilyTab(),
                   // kHBottomSizedBox,

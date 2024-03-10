@@ -12,9 +12,6 @@ class EditKidProfile extends StatelessWidget {
   EditKidProfile({super.key, this.profilePicture, this.coverPhoto});
   final String? profilePicture;
   final String? coverPhoto;
-  // final ProfileController profileController = Get.find<ProfileController>();
-  // final ProfileHelper profileHelper = ProfileHelper();
-  // final EditProfileHelper editProfileHelper = EditProfileHelper();
   final KidsController kidsController = Get.find<KidsController>();
   final KidHelper kidHelper = KidHelper();
   @override
@@ -59,10 +56,10 @@ class EditKidProfile extends StatelessWidget {
                                 prefix: ksProfilePicture.tr,
                                 suffix: ksEdit.tr,
                                 onEditPressed: () {
-                                  kidHelper.kidProfilePicUploadBottomSheet(context);//!1
+                                  kidHelper.kidProfilePicUploadBottomSheet(context); //!1
                                 },
                               ),
-                              kH10sizedBox,
+                              kH12sizedBox,
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -94,7 +91,7 @@ class EditKidProfile extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              kH16sizedBox,
+                              kH20sizedBox,
                               const CustomDivider(
                                 thickness: 2,
                               ),
@@ -103,10 +100,10 @@ class EditKidProfile extends StatelessWidget {
                                 prefix: ksCoverPhoto.tr,
                                 suffix: ksEdit.tr,
                                 onEditPressed: () {
-                                  kidHelper.kidCoverPhotoUploadBottomSheet(context);//!2
+                                  kidHelper.kidCoverPhotoUploadBottomSheet(context); //!2
                                 },
                               ),
-                              kH16sizedBox,
+                              kH12sizedBox,
                               InkWell(
                                 onTap: () {
                                   // profileHelper.viewCoverPhoto();//!Change it
@@ -139,7 +136,7 @@ class EditKidProfile extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              kH16sizedBox,
+                              kH20sizedBox,
                               const CustomDivider(
                                 thickness: 2,
                               ),
@@ -179,9 +176,6 @@ class EditKidProfile extends StatelessWidget {
                               kH16sizedBox,
                               // IntroContents(),
                               KidIntroContents(),
-                              const CustomDivider(
-                                thickness: 2,
-                              ),
                               kH16sizedBox,
                               CustomElevatedButton(
                                 label: ksEditYouAboutInfo.tr,
@@ -192,7 +186,7 @@ class EditKidProfile extends StatelessWidget {
                                 onPressed: () async {
                                   // profileController.showAllEditOption.value = true;//!variable define
                                   // editProfileHelper.resetEditAboutPage();//!Function write
-                                   Get.toNamed(krKidEditAboutInfo);
+                                  Get.toNamed(krKidEditAboutInfo);
                                   // await profileController.getPositionList();//!Write this function
                                 },
                               ),
