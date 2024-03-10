@@ -582,5 +582,6 @@ const String ksAwards = "Awards";
 const String ksNoOnesBirthdayToday = "No one's birthday today";
 const String ksNoOnesBirthdayInTwoDays = "No one's birthday in two days";
 const String ksNoOnesUpcomingBirthday = "No one's upcoming birthday";
+const String ksUnBlock = "Unblock";
 const String ksViewCertificate = "View certificate";
 const String ksSeeProfile = "See profile";
