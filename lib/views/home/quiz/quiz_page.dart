@@ -336,8 +336,14 @@ class QuizCongratulationContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
+    return WillPopScope(
+      onWillPop: () async {
+        Get.find<PostReactionController>().resetQuizTapButtonData();
+        Get.find<PostReactionController>().resetQuizData();
+        Get.offNamedUntil(krMyQuiz, ModalRoute.withName(krMenu));
+        await Get.find<PostReactionController>().getQuestionList();
+        return true;
+      },
       child: Padding(
         padding: const EdgeInsets.only(top: k20Padding),
         child: Column(
@@ -425,8 +431,14 @@ class QuizTimeOutContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
+    return WillPopScope(
+      onWillPop: () async {
+        Get.find<PostReactionController>().resetQuizTapButtonData();
+        Get.find<PostReactionController>().resetQuizData();
+        Get.offNamedUntil(krMyQuiz, ModalRoute.withName(krMenu));
+        await Get.find<PostReactionController>().getQuestionList();
+        return true;
+      },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -475,8 +487,14 @@ class QuizZeroScoreContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
+    return WillPopScope(
+      onWillPop: () async {
+        Get.find<PostReactionController>().resetQuizTapButtonData();
+        Get.find<PostReactionController>().resetQuizData();
+        Get.offNamedUntil(krMyQuiz, ModalRoute.withName(krMenu));
+        await Get.find<PostReactionController>().getQuestionList();
+        return true;
+      },
       child: Obx(() => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -540,8 +558,8 @@ class PopupQuizCommonElement extends StatelessWidget {
             QuizResultCommonContainer(
                 title: ksScore.tr,
                 subTitle: postReactionController.questionList.isNotEmpty
-                    ? postReactionController.totalMarks.value
-                    : postReactionController.questionListData.value!.result!.totalMarks.toString()),
+                    ? postReactionController.rightAnswer.value.toString()
+                    : postReactionController.questionListData.value!.result!.countRightAnswer.toString()),
           ],
         ),
         const SizedBox(
@@ -565,15 +583,7 @@ class PopupQuizCommonElement extends StatelessWidget {
           ],
         ),
         kH24sizedBox,
-        CustomElevatedButton(buttonWidth: width - 80, label: ksPlayMore.tr, onPressed: playMoreOnPresse),
-        kH20sizedBox,
-        InkWell(
-          onTap: backHomeOnPressed,
-          child: Text(
-            ksBackToHome.tr,
-            style: regular12TextStyle(cSmallBodyTextColor),
-          ),
-        ),
+        CustomElevatedButton(buttonWidth: width - 80, label: ksBackToHome.tr, onPressed: playMoreOnPresse),
         kH20sizedBox,
       ],
     );
