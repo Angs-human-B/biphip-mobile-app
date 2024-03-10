@@ -6,6 +6,7 @@ import 'package:bip_hip/shimmers/home/home_page_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/quiz/quiz_top_widget.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
+import 'package:bip_hip/views/menu/awards/widgets/awards_widget.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
@@ -185,7 +186,7 @@ class HomePage extends StatelessWidget {
                                           Padding(
                                             padding: const EdgeInsets.symmetric(vertical: k8Padding),
                                             child: Text(
-                                              ksWeeklyWinner.tr,
+                                              ksAwardWinner.tr,
                                             ),
                                           ),
                                         ],
@@ -210,7 +211,7 @@ class HomePage extends StatelessWidget {
                                 Container(
                                   color: cWhiteColor,
                                   width: width,
-                                  child: const StoriesWidget(),
+                                  child: AwardsWidget(),
                                 ),
                               kH8sizedBox,
                               //!This part must be changed, it for just birthday test post

@@ -12,6 +12,8 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
+import 'package:bip_hip/views/menu/awards/awards_page.dart';
 import 'package:bip_hip/views/menu/badges/all_badges.dart';
 import 'package:bip_hip/views/menu/badges/badges_star_page.dart';
 import 'package:bip_hip/views/menu/badges/purchase_star.dart';
@@ -155,7 +157,7 @@ const String krAllPendent = '/all-pendent';
 const String krBadgesStarPage = '/badges-star-page';
 const String krAllBadges = '/all-badges';
 const String krPurchaseStar = '/purchase-star';
-//*
+//* Birthday
 const String krBirthdayPage = '/birthday-page';
 
 //* Kid profile
@@ -168,6 +170,9 @@ const String krSelectHobbiesPage = '/select-hobbies-page';
 const String krKidEditPage = '/kid-edit-page';
 const String krKidEditRelation = '/kid-edit-relation';
 
+//*Awards
+const String krAwardsPage = '/awards-page';
+const String krAwardDetailsPage = '/award-details-page';
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -264,4 +269,9 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krSelectHobbiesPage, page: () => SelectHobbiesPage(), transition: Transition.noTransition),
   GetPage(name: krKidEditPage, page: () => KidEditPage(), transition: Transition.noTransition),
   GetPage(name: krKidEditRelation, page: () => KidEditRelationPage(), transition: Transition.noTransition),
+   //* Awards
+  GetPage(name: krAwardsPage, page: () => AwardsPage(), transition: Transition.noTransition),
+  GetPage(name: krAwardDetailsPage, page: () => AwardDetailsPage(), transition: Transition.noTransition),
+
+
 ];

@@ -124,7 +124,7 @@ const String ksSeeAll = 'See all';
 //* Home
 //---------------------------------------
 const String ksDailyQuiz = 'Daily Quiz';
-const String ksWeeklyWinner = 'Winner';
+const String ksAwardWinner = 'Winner';
 
 //---------------------------------------
 //* Home widget
@@ -577,6 +577,8 @@ const String ksIn2Days = "In 2 Days";
 const String ksUpcomingBirthdays = "Upcoming birthdays";
 const String ksViewPost = "View post";
 const String ksWishInChat = "Wish in chat";
+//*Awards
+const String ksAwards = "Awards";
 const String ksNoOnesBirthdayToday = "No one's birthday today";
 const String ksNoOnesBirthdayInTwoDays = "No one's birthday in two days";
 const String ksNoOnesUpcomingBirthday = "No one's upcoming birthday";
@@ -590,3 +592,6 @@ const String ksHobbies = "Hobbies";
 const String ksPageTransparency = "Page Transparency";
 const String ksRelation = "Relation";
 const String ksEditRelation = "Edit Relation";
+const String ksUnBlock = "Unblock";
+const String ksViewCertificate = "View certificate";
+const String ksSeeProfile = "See profile";
