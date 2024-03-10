@@ -7,8 +7,8 @@ import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
+import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/controllers/menu/store_controller.dart';
-import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/helpers/menu/friend/friend_helper.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -72,10 +72,10 @@ class MenuHelper {
         break;
       case 9:
         ll('Quiz');
-        Get.find<PostReactionController>().resetQuizTapButtonData();
-        Get.find<PostReactionController>().resetQuizData();
+        Get.find<QuizController>().resetQuizTapButtonData();
+        Get.find<QuizController>().resetQuizData();
         Get.toNamed(krMyQuiz);
-        await Get.find<PostReactionController>().getQuestionList();
+        await Get.find<QuizController>().getQuestionList();
         break;
       case 10:
         ll('Birthday');

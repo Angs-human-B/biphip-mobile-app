@@ -1,4 +1,4 @@
-import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
+import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/models/home/quiz/all_quiz_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/quiz/quiz_page.dart';
@@ -9,7 +9,7 @@ import 'package:flutter_svg/svg.dart';
 
 class MyQuiz extends StatelessWidget {
   MyQuiz({super.key});
-  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final QuizController quizController = Get.find<QuizController>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,25 +39,25 @@ class MyQuiz extends StatelessWidget {
                     children: [
                       kH16sizedBox,
                       TapAbleButtonContainer(
-                        buttonText: postReactionController.quizTapButtonText,
-                        buttonState: postReactionController.quizTapButtonState,
+                        buttonText: quizController.quizTapButtonText,
+                        buttonState: quizController.quizTapButtonState,
                         buttonPress: RxList([
                           () {
                             unFocus(context);
-                            postReactionController.dailyQuizTapableButtonOnPressed();
+                            quizController.dailyQuizTapableButtonOnPressed();
                           },
                           () async {
                             unFocus(context);
-                            postReactionController.playedQuizTapableButtonOnPressed();
+                            quizController.playedQuizTapableButtonOnPressed();
                           },
                           () {
                             unFocus(context);
-                            postReactionController.winnerQuizTapableButtonOnPressed();
+                            quizController.winnerQuizTapableButtonOnPressed();
                           },
                         ]),
                       ),
 
-                      if (postReactionController.quizTapButtonState[0])
+                      if (quizController.quizTapButtonState[0])
                         Padding(
                           padding: const EdgeInsets.only(top: k20Padding, bottom: k16Padding),
                           child: Text(
@@ -65,9 +65,9 @@ class MyQuiz extends StatelessWidget {
                             style: semiBold18TextStyle(cBlackColor),
                           ),
                         ),
-                      if (postReactionController.quizTapButtonState[0]) MyDailyQuiz(),
+                      if (quizController.quizTapButtonState[0]) MyDailyQuiz(),
 
-                      if (postReactionController.quizTapButtonState[1])
+                      if (quizController.quizTapButtonState[1])
                         Padding(
                           padding: const EdgeInsets.only(top: k20Padding, bottom: k16Padding),
                           child: Text(
@@ -75,36 +75,36 @@ class MyQuiz extends StatelessWidget {
                             style: semiBold18TextStyle(cBlackColor),
                           ),
                         ),
-                      if (postReactionController.quizTapButtonState[1]) MyPlayedQuiz(),
+                      if (quizController.quizTapButtonState[1]) MyPlayedQuiz(),
                       // postReactionController.isMyQuizesLoading.value ? const PlayedQuizShimmer() : MyPlayedQuiz(),
-                      if (postReactionController.quizTapButtonState[2])
+                      if (quizController.quizTapButtonState[2])
                         Padding(
                           padding: const EdgeInsets.only(top: k16Padding),
                           child: CustomModifiedTextField(
                               borderRadius: h8,
-                              controller: postReactionController.quizWinnerTextEditingController,
+                              controller: quizController.quizWinnerTextEditingController,
                               prefixIcon: BipHip.search,
-                              suffixIcon: postReactionController.isWinnerSuffixVisible.value ? BipHip.circleCrossNew : null,
+                              suffixIcon: quizController.isWinnerSuffixVisible.value ? BipHip.circleCrossNew : null,
                               hint: ksSearch.tr,
                               contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
                               textInputStyle: regular16TextStyle(cBlackColor),
                               onSuffixPress: () {
-                                postReactionController.isWinnerSuffixVisible.value = false;
-                                postReactionController.quizWinnerTextEditingController.clear();
+                                quizController.isWinnerSuffixVisible.value = false;
+                                quizController.quizWinnerTextEditingController.clear();
                               },
                               onSubmit: (v) {
                                 unfocus(context);
-                                postReactionController.isWinnerSuffixVisible.value = true;
+                                quizController.isWinnerSuffixVisible.value = true;
                               },
                               onChanged: (v) {
-                                if (postReactionController.quizWinnerTextEditingController.text.toString().trim() != '') {
-                                  postReactionController.isWinnerSuffixVisible.value = true;
+                                if (quizController.quizWinnerTextEditingController.text.toString().trim() != '') {
+                                  quizController.isWinnerSuffixVisible.value = true;
                                 } else {
-                                  postReactionController.isWinnerSuffixVisible.value = false;
+                                  quizController.isWinnerSuffixVisible.value = false;
                                 }
                               }),
                         ),
-                      if (postReactionController.quizTapButtonState[2])
+                      if (quizController.quizTapButtonState[2])
                         Padding(
                           padding: const EdgeInsets.only(top: k8Padding),
                           child: Row(
@@ -128,19 +128,19 @@ class MyQuiz extends StatelessWidget {
                             ],
                           ),
                         ),
-                      if (postReactionController.quizTapButtonState[2]) kH16sizedBox,
-                      if (postReactionController.quizTapButtonState[2])
-                        postReactionController.myQuizWinnerLoading.value
+                      if (quizController.quizTapButtonState[2]) kH16sizedBox,
+                      if (quizController.quizTapButtonState[2])
+                        quizController.myQuizWinnerLoading.value
                             ? const QuizWinnerShimmer()
-                            : postReactionController.myQuizWinnerList.isNotEmpty
+                            : quizController.myQuizWinnerList.isNotEmpty
                                 ? NotificationListener<ScrollNotification>(
                                     onNotification: (scrollNotification) {
-                                      if (postReactionController.myQuizWinnerScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                                      if (quizController.myQuizWinnerScrollController.position.userScrollDirection == ScrollDirection.reverse &&
                                           scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
-                                          !postReactionController.myQuizWinnerListScrolled.value) {
-                                        postReactionController.myQuizWinnerListScrolled.value = true;
-                                        if (postReactionController.myQuizWinnerList.isNotEmpty) {
-                                          postReactionController.getMoreMyQuizWinnerList(null);
+                                          !quizController.myQuizWinnerListScrolled.value) {
+                                        quizController.myQuizWinnerListScrolled.value = true;
+                                        if (quizController.myQuizWinnerList.isNotEmpty) {
+                                          quizController.getMoreMyQuizWinnerList(null);
                                         }
                                         return true;
                                       }
@@ -148,7 +148,7 @@ class MyQuiz extends StatelessWidget {
                                     },
                                     child: Expanded(
                                       child: SingleChildScrollView(
-                                        controller: postReactionController.myQuizWinnerScrollController,
+                                        controller: quizController.myQuizWinnerScrollController,
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
@@ -156,24 +156,24 @@ class MyQuiz extends StatelessWidget {
                                               shrinkWrap: true,
                                               physics: const NeverScrollableScrollPhysics(),
                                               separatorBuilder: (context, index) => kH16sizedBox,
-                                              itemCount: postReactionController.myQuizWinnerList.length,
+                                              itemCount: quizController.myQuizWinnerList.length,
                                               itemBuilder: (context, index) {
                                                 return QuizWinner(
-                                                  image: postReactionController.myQuizWinnerList[index].user?.profilePicture,
-                                                  name: postReactionController.myQuizWinnerList[index].user?.fullName,
-                                                  quizTitle: postReactionController.myQuizWinnerList[index].quiz?.title,
-                                                  ranking: postReactionController.myQuizWinnerList[index].obtainedMarks.toString(),
-                                                  correctAnswer: postReactionController.myQuizWinnerList[index].countRightAnswer.toString(),
-                                                  totalQuestions: postReactionController.myQuizWinnerList[index].totalMarks.toString(),
+                                                  image: quizController.myQuizWinnerList[index].user?.profilePicture,
+                                                  name: quizController.myQuizWinnerList[index].user?.fullName,
+                                                  quizTitle: quizController.myQuizWinnerList[index].quiz?.title,
+                                                  ranking: quizController.myQuizWinnerList[index].obtainedMarks.toString(),
+                                                  correctAnswer: quizController.myQuizWinnerList[index].countRightAnswer.toString(),
+                                                  totalQuestions: quizController.myQuizWinnerList[index].totalMarks.toString(),
                                                   totalTime:
-                                                      double.parse(postReactionController.myQuizWinnerList[index].elapsedTime.toString()).toStringAsFixed(0),
+                                                      double.parse(quizController.myQuizWinnerList[index].elapsedTime.toString()).toStringAsFixed(0),
                                                 );
                                               },
                                             ),
-                                            if (postReactionController.myQuizWinnerList.isNotEmpty)
-                                              if (postReactionController.myQuizWinnerList.isNotEmpty &&
-                                                  postReactionController.myQuizWinnerListScrolled.value &&
-                                                  postReactionController.myQuizWinnertListSubLink.value != null)
+                                            if (quizController.myQuizWinnerList.isNotEmpty)
+                                              if (quizController.myQuizWinnerList.isNotEmpty &&
+                                                  quizController.myQuizWinnerListScrolled.value &&
+                                                  quizController.myQuizWinnertListSubLink.value != null)
                                                 const Center(child: CircularProgressIndicator()),
                                             Padding(
                                               padding: const EdgeInsets.only(top: k24Padding, bottom: k20Padding),
@@ -218,22 +218,22 @@ class MyQuiz extends StatelessWidget {
 
 class MyPlayedQuiz extends StatelessWidget {
   MyPlayedQuiz({super.key});
-  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final QuizController quizController = Get.find<QuizController>();
 
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => postReactionController.isMyAllPlayedQuizLoading.value
+      () => quizController.isMyAllPlayedQuizLoading.value
           ? const PlayedQuizShimmer()
-          : postReactionController.myAllPlayedQuizList.isNotEmpty
+          : quizController.myAllPlayedQuizList.isNotEmpty
               ? NotificationListener<ScrollNotification>(
                   onNotification: (scrollNotification) {
-                    if (postReactionController.myAllPlayedQuizScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                    if (quizController.myAllPlayedQuizScrollController.position.userScrollDirection == ScrollDirection.reverse &&
                         scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
-                        !postReactionController.myAllPlayedQuizListScrolled.value) {
-                      postReactionController.myAllPlayedQuizListScrolled.value = true;
-                      if (postReactionController.myAllPlayedQuizList.isNotEmpty) {
-                        postReactionController.getMorePlayedQuizList(null);
+                        !quizController.myAllPlayedQuizListScrolled.value) {
+                      quizController.myAllPlayedQuizListScrolled.value = true;
+                      if (quizController.myAllPlayedQuizList.isNotEmpty) {
+                        quizController.getMorePlayedQuizList(null);
                       }
                       return true;
                     }
@@ -241,35 +241,35 @@ class MyPlayedQuiz extends StatelessWidget {
                   },
                   child: Expanded(
                     child: SingleChildScrollView(
-                      controller: postReactionController.myAllPlayedQuizScrollController,
+                      controller: quizController.myAllPlayedQuizScrollController,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: postReactionController.myAllPlayedQuizList.length,
+                            itemCount: quizController.myAllPlayedQuizList.length,
                             separatorBuilder: (context, index) => kH16sizedBox,
                             itemBuilder: (BuildContext context, int index) {
                               return CommonDailyAndPlayedQuiz(
-                                image: postReactionController.myAllPlayedQuizList[index].quiz!.mediaUrl,
-                                title: postReactionController.myAllPlayedQuizList[index].quiz!.title == null
+                                image: quizController.myAllPlayedQuizList[index].quiz!.mediaUrl,
+                                title: quizController.myAllPlayedQuizList[index].quiz!.title == null
                                     ? ksNA
-                                    : (postReactionController.myAllPlayedQuizList[index].quiz!.title).toString(),
-                                correctAnswer: "${postReactionController.myAllPlayedQuizList[index].countRightAnswer}/",
-                                totalQuestions: "${postReactionController.myAllPlayedQuizList[index].totalMarks}",
+                                    : (quizController.myAllPlayedQuizList[index].quiz!.title).toString(),
+                                correctAnswer: "${quizController.myAllPlayedQuizList[index].countRightAnswer}/",
+                                totalQuestions: "${quizController.myAllPlayedQuizList[index].totalMarks}",
                                 totalTime:
-                                    "Taken Time: ${double.parse(postReactionController.myAllPlayedQuizList[index].elapsedTime.toString()).toStringAsFixed(0)} sec",
-                                actionText: "Score: ${postReactionController.myAllPlayedQuizList[index].obtainedMarks}",
+                                    "Taken Time: ${double.parse(quizController.myAllPlayedQuizList[index].elapsedTime.toString()).toStringAsFixed(0)} sec",
+                                actionText: "Score: ${quizController.myAllPlayedQuizList[index].obtainedMarks}",
                                 actionTextStyle:
-                                    semiBold14TextStyle(postReactionController.myAllPlayedQuizList[index].obtainedMarks == 0 ? cRedColor : cPrimaryColor),
+                                    semiBold14TextStyle(quizController.myAllPlayedQuizList[index].obtainedMarks == 0 ? cRedColor : cPrimaryColor),
                               );
                             },
                           ),
-                          if (postReactionController.myAllPlayedQuizList.isNotEmpty)
-                            if (postReactionController.myAllPlayedQuizList.isNotEmpty &&
-                                postReactionController.myAllPlayedQuizListScrolled.value &&
-                                postReactionController.myAllPlayedQuizListSubLink.value != null)
+                          if (quizController.myAllPlayedQuizList.isNotEmpty)
+                            if (quizController.myAllPlayedQuizList.isNotEmpty &&
+                                quizController.myAllPlayedQuizListScrolled.value &&
+                                quizController.myAllPlayedQuizListSubLink.value != null)
                               const Center(child: CircularProgressIndicator()),
                         ],
                       ),
@@ -283,42 +283,42 @@ class MyPlayedQuiz extends StatelessWidget {
 
 class MyDailyQuiz extends StatelessWidget {
   MyDailyQuiz({super.key});
-  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final QuizController quizController = Get.find<QuizController>();
   @override
   Widget build(BuildContext context) {
-    return Obx(() => postReactionController.isQuestionLoading.value
+    return Obx(() => quizController.isQuestionLoading.value
         ? const PlayedQuizShimmer()
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CommonDailyAndPlayedQuiz(
-                image: postReactionController.questionList.isNotEmpty
-                    ? postReactionController.questionListData.value?.quiz?.media.toString()
-                    : postReactionController.questionListData.value?.result?.quiz?.media.toString(),
-                title: postReactionController.questionList.isNotEmpty
-                    ? "${postReactionController.questionListData.value?.quiz?.title}"
-                    : "${postReactionController.questionListData.value?.result?.quiz?.title.toString()}",
-                noOfQuestions: postReactionController.questionList.isNotEmpty
-                    ? "${postReactionController.questionListData.value?.quiz?.noOfQuestions.toString()} questions"
-                    : "${postReactionController.questionListData.value?.result?.quiz?.noOfQuestions.toString()} questions",
-                totalTime: postReactionController.questionList.isNotEmpty
-                    ? "Duration: ${postReactionController.questionListData.value?.quiz?.playingDuration} sec"
-                    : "Duration: ${postReactionController.questionListData.value?.result?.quiz?.playingDuration.toString()} sec",
-                actionText: postReactionController.questionList.isNotEmpty ? ksTapToPlay.tr : ksAlreadyPlayed.tr,
-                icon: postReactionController.questionList.isNotEmpty ? BipHip.rightArrow : null,
-                actionTextStyle: semiBold14TextStyle(postReactionController.questionList.isNotEmpty ? cPrimaryColor : cRedColor),
-                imageList: postReactionController.questionList.isNotEmpty
-                    ? postReactionController.questionListData.value?.quiz?.participants
-                    : postReactionController.questionListData.value?.result?.quiz?.participants,
+                image: quizController.questionList.isNotEmpty
+                    ? quizController.questionListData.value?.quiz?.media.toString()
+                    : quizController.questionListData.value?.result?.quiz?.media.toString(),
+                title: quizController.questionList.isNotEmpty
+                    ? "${quizController.questionListData.value?.quiz?.title}"
+                    : "${quizController.questionListData.value?.result?.quiz?.title.toString()}",
+                noOfQuestions: quizController.questionList.isNotEmpty
+                    ? "${quizController.questionListData.value?.quiz?.noOfQuestions.toString()} questions"
+                    : "${quizController.questionListData.value?.result?.quiz?.noOfQuestions.toString()} questions",
+                totalTime: quizController.questionList.isNotEmpty
+                    ? "Duration: ${quizController.questionListData.value?.quiz?.playingDuration} sec"
+                    : "Duration: ${quizController.questionListData.value?.result?.quiz?.playingDuration.toString()} sec",
+                actionText: quizController.questionList.isNotEmpty ? ksTapToPlay.tr : ksAlreadyPlayed.tr,
+                icon: quizController.questionList.isNotEmpty ? BipHip.rightArrow : null,
+                actionTextStyle: semiBold14TextStyle(quizController.questionList.isNotEmpty ? cPrimaryColor : cRedColor),
+                imageList: quizController.questionList.isNotEmpty
+                    ? quizController.questionListData.value?.quiz?.participants
+                    : quizController.questionListData.value?.result?.quiz?.participants,
                 onPressed: () {
-                  if (postReactionController.questionList.isNotEmpty) {
-                    postReactionController.totalTimeCalculation();
-                    postReactionController.timerStartFunction();
+                  if (quizController.questionList.isNotEmpty) {
+                    quizController.totalTimeCalculation();
+                    quizController.timerStartFunction();
                     Get.toNamed(krQuizPage);
                   } else {
-                    postReactionController.timer?.cancel();
+                    quizController.timer?.cancel();
                     Get.toNamed(krQuizPage);
-                    if (postReactionController.questionListData.value!.result!.countRightAnswer == 0) {
+                    if (quizController.questionListData.value!.result!.countRightAnswer == 0) {
                       quizZeroScoreAlertDialog(context: context, content: QuizZeroScoreContent());
                     } else {
                       quizCongratulationsAlertDialog(
