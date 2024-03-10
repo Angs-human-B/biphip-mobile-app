@@ -595,3 +595,4 @@ const String ksEditRelation = "Edit Relation";
 const String ksUnBlock = "Unblock";
 const String ksViewCertificate = "View certificate";
 const String ksSeeProfile = "See profile";
+const String ksTapToPlay = "Tap to play";

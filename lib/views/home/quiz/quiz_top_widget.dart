@@ -1,11 +1,11 @@
-import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
+import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/quiz/quiz_page.dart';
 import 'package:intl/intl.dart';
 
 class QuizTopWidget extends StatelessWidget {
   QuizTopWidget({super.key});
-  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final QuizController quizController = Get.find<QuizController>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,9 @@ class QuizTopWidget extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(k8BorderRadius),
                 child: Image.network(
-                  '', //!replace here media data
+                  quizController.questionList.isNotEmpty
+                      ? "${quizController.questionListData.value?.quiz?.media}"
+                      : "${quizController.questionListData.value!.result!.quiz?.media}", 
                   errorBuilder: (context, error, stackTrace) {
                     return Image.asset(
                       kiDummyImage1ImageUrl,
@@ -56,9 +58,9 @@ class QuizTopWidget extends StatelessWidget {
                 bottom: h8,
                 left: h8,
                 child: Text(
-                  postReactionController.questionList.isNotEmpty
-                      ? "${postReactionController.questionListData.value?.quiz?.title}"
-                      : "${postReactionController.questionListData.value!.result!.quiz?.title.toString()}",
+                  quizController.questionList.isNotEmpty
+                      ? "${quizController.questionListData.value?.quiz?.title}"
+                      : "${quizController.questionListData.value!.result!.quiz?.title.toString()}",
                   style: semiBold12TextStyle(cWhiteColor),
                   textAlign: TextAlign.center,
                 ),
@@ -91,18 +93,6 @@ class HomePageTopTapableQuizShimmer extends StatelessWidget {
                       color: cWhiteColor,
                       borderRadius: BorderRadius.circular(k8BorderRadius),
                     ))),
-            // Positioned(
-            //   bottom: h8,
-            //   left: h8,
-            //   child: ShimmerCommon(
-            //       widget: Container(
-            //           height: h16,
-            //           width: width - 40,
-            //           decoration: BoxDecoration(
-            //             color: cWhiteColor,
-            //             borderRadius: BorderRadius.circular(k8BorderRadius),
-            //           ))),
-            // ),
           ],
         ),
       ),
@@ -112,75 +102,75 @@ class HomePageTopTapableQuizShimmer extends StatelessWidget {
 
 class QuizFirstBottomSheetContent extends StatelessWidget {
   QuizFirstBottomSheetContent({super.key});
-  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final QuizController quizController = Get.find<QuizController>();
   @override
   Widget build(BuildContext context) {
-    return Obx(() => postReactionController.isQuestionLoading.value
+    return Obx(() => quizController.isQuestionLoading.value
         ? const QuizBottomSheetContentShimmer()
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (postReactionController.questionListData.value?.quiz?.mediaUrl != null ||
-                  postReactionController.questionListData.value!.result?.quiz?.mediaUrl != null)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(k8BorderRadius),
-                  child: Image.network(
-                    postReactionController.questionList.isNotEmpty
-                        ? postReactionController.questionListData.value?.quiz?.mediaUrl
-                        : postReactionController.questionListData.value!.result?.quiz!.mediaUrl,
-                    width: width - 40,
-                    height: 150,
-                    fit: BoxFit.cover,
-                    // errorBuilder: (context, error, stackTrace) => const Icon(
-                    //   BipHip.imageFile,
-                    //   size: kIconSize100,
-                    //   color: cIconColor,
-                    // ),
-                    loadingBuilder: imageLoadingBuilder,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(k8BorderRadius),
+                child: Image.network(
+                  quizController.questionList.isNotEmpty
+                      ? quizController.questionListData.value?.quiz?.media
+                      : quizController.questionListData.value!.result?.quiz!.media,
+                  width: width - 40,
+                  height: 150,
+                  fit: BoxFit.cover,
+                  loadingBuilder: imageLoadingBuilder,
+                  errorBuilder: (context, error, stackTrace) => const Center(
+                    child: Icon(
+                      BipHip.imageFile,
+                      size: kIconSize100,
+                      color: cIconColor,
+                    ),
                   ),
                 ),
+              ),
               kH16sizedBox,
               Text(
-                postReactionController.questionList.isNotEmpty
-                    ? "${postReactionController.questionListData.value?.quiz?.title}"
-                    : "${postReactionController.questionListData.value!.result!.quiz?.title.toString()}",
+                quizController.questionList.isNotEmpty
+                    ? "${quizController.questionListData.value?.quiz?.title}"
+                    : "${quizController.questionListData.value!.result!.quiz?.title.toString()}",
                 style: semiBold14TextStyle(cBlackColor),
               ),
               kH16sizedBox,
               IconAndTextRow(
                 icon: BipHip.activity, //!Icon must change
-                title: postReactionController.questionList.isNotEmpty
-                    ? "${ksDuration.tr}:  ${DateFormat('dd MMM, yyyy').format(postReactionController.questionListData.value?.quiz!.startDate ?? DateTime.now())} - ${DateFormat('dd MMM, yyyy').format(postReactionController.questionListData.value?.quiz!.endDate ?? DateTime.now())}"
-                    : "${ksDuration.tr}: ${DateFormat('dd MMM, yyyy').format(postReactionController.questionListData.value!.result!.quiz?.startDate ?? DateTime.now())} - ${DateFormat('dd MMM, yyyy').format(postReactionController.questionListData.value!.result!.quiz?.endDate ?? DateTime.now())}",
+                title: quizController.questionList.isNotEmpty
+                    ? "${ksDuration.tr}:  ${DateFormat('dd MMM, yyyy').format(quizController.questionListData.value?.quiz!.startDate ?? DateTime.now())} - ${DateFormat('dd MMM, yyyy').format(quizController.questionListData.value?.quiz!.endDate ?? DateTime.now())}"
+                    : "${ksDuration.tr}: ${DateFormat('dd MMM, yyyy').format(quizController.questionListData.value!.result!.quiz?.startDate ?? DateTime.now())} - ${DateFormat('dd MMM, yyyy').format(quizController.questionListData.value!.result!.quiz?.endDate ?? DateTime.now())}",
               ),
               kH16sizedBox,
               IconAndTextRow(
                 icon: BipHip.twitchFill, //!Icon must change
-                title: postReactionController.questionList.isNotEmpty
-                    ? "${ksPlayingDuration.tr}: ${postReactionController.questionListData.value?.quiz?.playingDuration}"
-                    : "${ksPlayingDuration.tr}: ${postReactionController.questionListData.value!.result!.quiz?.playingDuration.toString()}",
+                title: quizController.questionList.isNotEmpty
+                    ? "${ksPlayingDuration.tr}: ${quizController.questionListData.value?.quiz?.playingDuration}"
+                    : "${ksPlayingDuration.tr}: ${quizController.questionListData.value!.result!.quiz?.playingDuration.toString()}",
               ),
               kH16sizedBox,
               IconAndTextRow(
                 icon: BipHip.termsCondition, //!Icon must change
-                title: postReactionController.questionList.isNotEmpty
-                    ? "${ksQuestions.tr}: ${postReactionController.questionListData.value?.quiz?.noOfQuestions}"
-                    : "${ksQuestions.tr}: ${postReactionController.questionListData.value!.result!.quiz?.noOfQuestions.toString()}",
+                title: quizController.questionList.isNotEmpty
+                    ? "${ksQuestions.tr}: ${quizController.questionListData.value?.quiz?.noOfQuestions}"
+                    : "${ksQuestions.tr}: ${quizController.questionListData.value!.result!.quiz?.noOfQuestions.toString()}",
               ),
               kH30sizedBox,
               CustomElevatedButton(
                   label: ksPlayNow.tr,
                   onPressed: () async {
                     Get.back();
-                    postReactionController.resetQuizData();
-                    if (postReactionController.questionList.isNotEmpty) {
-                      postReactionController.totalTimeCalculation();
-                      postReactionController.timerStartFunction();
+                    quizController.resetQuizData();
+                    if (quizController.questionList.isNotEmpty) {
+                      quizController.totalTimeCalculation();
+                      quizController.timerStartFunction();
                       Get.toNamed(krQuizPage);
                     } else {
-                      postReactionController.timer?.cancel();
+                      quizController.timer?.cancel();
                       Get.toNamed(krQuizPage);
-                      if (postReactionController.questionListData.value!.result!.countRightAnswer == 0) {
+                      if (quizController.questionListData.value!.result!.countRightAnswer == 0) {
                         quizZeroScoreAlertDialog(context: context, content: QuizZeroScoreContent());
                       } else {
                         quizCongratulationsAlertDialog(

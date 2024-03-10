@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
-import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/shimmers/home/home_page_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -159,7 +159,7 @@ class HomePage extends StatelessWidget {
                                         onTap: (value) async {
                                           homeController.homeTabIndex.value = value;
                                           if (homeController.homeTabIndex.value == 1) {
-                                            await Get.find<PostReactionController>().getQuestionList();
+                                            await Get.find<QuizController>().getQuestionList();
                                           }
                                         },
                                         unselectedLabelColor: cSmallBodyTextColor,
@@ -205,7 +205,7 @@ class HomePage extends StatelessWidget {
                                 Container(
                                   color: cWhiteColor,
                                   width: width,
-                                  child: Get.find<PostReactionController>().isQuestionLoading.value ? const HomePageTopTapableQuizShimmer() : QuizTopWidget(),
+                                  child: Get.find<QuizController>().isQuestionLoading.value ? const HomePageTopTapableQuizShimmer() : QuizTopWidget(),
                                 ),
                               if (homeController.homeTabIndex.value == 2)
                                 Container(

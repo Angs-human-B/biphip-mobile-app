@@ -217,6 +217,7 @@ class BirthdayCommonView extends StatelessWidget {
                       userImage ?? '',
                       width: 50,
                       height: 50,
+                      fit: BoxFit.cover,
                       loadingBuilder: imageLoadingBuilder,
                       errorBuilder: (context, error, stackTrace) {
                         return Image.asset(
