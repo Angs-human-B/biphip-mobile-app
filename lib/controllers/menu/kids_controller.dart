@@ -403,4 +403,10 @@ class KidsController extends GetxController {
   final RxBool kidRelationDataBottomSheetState = RxBool(false);
   final RxString temporaryKidGender = RxString('');
   final RxBool kidGenderBottomSheetState = RxBool(false);
+  final RxInt kidInterestCatagoriesIndex = RxInt(-1);
+  final RxBool isKidInterestSelected = RxBool(false);
+  void resetKidProfileData(){
+    kidInterestCatagoriesIndex.value = -1;
+    isKidInterestSelected.value = false;
+  }
 }

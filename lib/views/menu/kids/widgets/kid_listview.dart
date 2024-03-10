@@ -31,6 +31,7 @@ class KidsListView extends StatelessWidget {
                               onTap: () async {
                                 ll(kidsController.kidList[index].id);
                                 await Get.find<HomeController>().getTimelinePostList();
+                                kidsController.resetKidProfileData();
                                 Get.to(() => KidProfile(
                                       userName: kidsController.kidList[index].name ?? ksNA.tr,
                                       profilePicture: kidsController.kidList[index].profilePicture.toString(),

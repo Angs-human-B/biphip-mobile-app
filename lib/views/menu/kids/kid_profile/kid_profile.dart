@@ -4,6 +4,7 @@ import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/edit_kid_profile.dart';
+import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -400,6 +401,31 @@ class KidProfile extends StatelessWidget {
                         // Get.find<CreatePostController>().isPostedFromProfile.value = true;
                         // CreatePostHelper().resetCreatePostData();
                         Get.toNamed(krCreatePost);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: width,
+                    height: 50,
+                    child: ListView.builder(
+                      itemCount: interestProfile.length,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(horizontal: k10Padding),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, i) {
+                        return Obx(
+                          () => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                            child: CustomChoiceChips(
+                              label: interestProfile[i],
+                              isSelected: (kidsController.kidInterestCatagoriesIndex.value == i && kidsController.isKidInterestSelected.value),
+                              onSelected: (value) {
+                                kidsController.kidInterestCatagoriesIndex.value = i;
+                                kidsController.isKidInterestSelected.value = value;
+                              },
+                            ),
+                          ),
+                        );
                       },
                     ),
                   ),
