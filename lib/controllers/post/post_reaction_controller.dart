@@ -514,7 +514,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         totalElapsedTime.value = (submitQuizData.value?.result!.elapsedTime).toString();
         timer?.cancel();
         isSubmitQuizLoading.value = false;
-        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isSubmitQuizLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
