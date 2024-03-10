@@ -125,11 +125,13 @@ class Family extends StatelessWidget {
                 ),
               ),
             ),
-            if (familyController.isFamilyRequestListLoading.value)
+            if (familyController.isFamilyRequestListLoading.value || familyController.isBlockUserLoading.value || familyController.isUnblockUserLoading.value)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (familyController.isFamilyRequestListLoading.value) {
+                    if (familyController.isFamilyRequestListLoading.value ||
+                        familyController.isBlockUserLoading.value ||
+                        familyController.isUnblockUserLoading.value) {
                       return false;
                     }
                     return true;

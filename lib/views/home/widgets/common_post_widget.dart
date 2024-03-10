@@ -1334,7 +1334,6 @@ class GiftContent extends StatelessWidget {
               },
             ),
           ),
-         
           kH20sizedBox,
           CustomElevatedButton(
               label: ksGetStars.tr,
@@ -1585,7 +1584,6 @@ class PurchaseStarContent extends StatelessWidget {
                 ),
               ),
             ),
-        
           kH16sizedBox,
           const CustomDivider(),
           kH16sizedBox,
