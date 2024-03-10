@@ -304,9 +304,9 @@ class MyDailyQuiz extends StatelessWidget {
                 totalTime: postReactionController.questionList.isNotEmpty
                     ? "Duration: ${postReactionController.questionListData.value?.quiz?.playingDuration} sec"
                     : "Duration: ${postReactionController.questionListData.value?.result?.quiz?.playingDuration.toString()} sec",
-                actionText: 'Tap to play',
-                icon: BipHip.rightArrow,
-                actionTextStyle: semiBold14TextStyle(cPrimaryColor),
+                actionText: postReactionController.questionList.isNotEmpty ? ksTapToPlay.tr : ksAlreadyPlayed.tr,
+                icon: postReactionController.questionList.isNotEmpty ? BipHip.rightArrow : null,
+                actionTextStyle: semiBold14TextStyle(postReactionController.questionList.isNotEmpty ? cPrimaryColor : cRedColor),
                 imageList: postReactionController.questionList.isNotEmpty
                     ? postReactionController.questionListData.value?.quiz?.participants
                     : postReactionController.questionListData.value?.result?.quiz?.participants,

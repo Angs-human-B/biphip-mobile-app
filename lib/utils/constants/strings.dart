@@ -585,3 +585,4 @@ const String ksNoOnesUpcomingBirthday = "No one's upcoming birthday";
 const String ksUnBlock = "Unblock";
 const String ksViewCertificate = "View certificate";
 const String ksSeeProfile = "See profile";
+const String ksTapToPlay = "'Tap to play'";
