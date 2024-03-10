@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
@@ -5,11 +6,14 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class CommonPhotoView extends StatelessWidget {
-  const CommonPhotoView({super.key, required this.image, this.postIndex = 0, this.onPressed, this.description});
+  const CommonPhotoView(
+      {super.key, required this.image, this.postIndex = 0, this.onPressed, this.description, this.isLikeSectionShow = true, this.topRightIcon});
   final String image;
   final int postIndex;
   final String? description;
   final VoidCallback? onPressed;
+  final bool? isLikeSectionShow;
+  final IconData? topRightIcon;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,27 +25,28 @@ class CommonPhotoView extends StatelessWidget {
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
-            child: CustomAppBar(
-              systemUiOverlayStyle: SystemUiOverlayStyle.light,
-              appBarColor: Colors.black,
-              hasBackButton: true,
-              iconColor: cWhiteColor,
-              isCenterTitle: true,
-              onBack: () {
-                Get.back();
-              },
-              action: [
-                Padding(
-                  padding: const EdgeInsets.only(right: k8Padding),
-                  child: CustomIconButton(
-                    onPress: onPressed,
-                    icon: BipHip.system,
-                    iconColor: cWhiteColor,
-                    size: kIconSize20,
-                  ),
-                ),
-              ],
-            ),
+            child: Obx(() => CustomAppBar(
+                  systemUiOverlayStyle: SystemUiOverlayStyle.light,
+                  appBarColor: Colors.black,
+                  hasBackButton: true,
+                  iconColor: cWhiteColor,
+                  isCenterTitle: true,
+                  onBack: () {
+                    Get.back();
+                  },
+                  action: [
+                    if (Get.find<AwardController>().isOthersWinner.value == false)
+                      Padding(
+                        padding: const EdgeInsets.only(right: k8Padding),
+                        child: CustomIconButton(
+                          onPress: onPressed,
+                          icon: topRightIcon ?? BipHip.system,
+                          iconColor: cWhiteColor,
+                          size: kIconSize20,
+                        ),
+                      ),
+                  ],
+                )),
           ),
           body: SingleChildScrollView(
             child: Stack(
@@ -82,16 +87,18 @@ class CommonPhotoView extends StatelessWidget {
                               style: semiBold14TextStyle(cWhiteColor),
                             )),
                         kH16sizedBox,
-                        Container(
-                          color: cWhiteColor,
-                          height: 1,
-                          width: width - 40,
-                        ),
-                        LikeSectionWidget(
-                          postIndex: postIndex,
-                          sectionColor: cWhiteColor,
-                          isGiftShown: false,
-                        ),
+                        if (isLikeSectionShow == true)
+                          Container(
+                            color: cWhiteColor,
+                            height: 1,
+                            width: width - 40,
+                          ),
+                        if (isLikeSectionShow == true)
+                          LikeSectionWidget(
+                            postIndex: postIndex,
+                            sectionColor: cWhiteColor,
+                            isGiftShown: false,
+                          ),
                       ],
                     ),
                   ),

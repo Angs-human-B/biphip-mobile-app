@@ -120,7 +120,7 @@ class AwardsPage extends StatelessWidget {
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: awardController.youWonAwardList.length,
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 0.8,
+                              // childAspectRatio: 0.8,
                               crossAxisCount: 3,
                               crossAxisSpacing: k16Padding,
                               mainAxisSpacing: k16Padding,
@@ -156,7 +156,7 @@ class AwardsPage extends StatelessWidget {
                             itemCount: awardController.othersWinnerAwardList.length,
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
-                              childAspectRatio: 0.8,
+                              // childAspectRatio: 0.8,
                               crossAxisSpacing: k16Padding,
                               mainAxisSpacing: k16Padding,
                             ),
@@ -250,7 +250,7 @@ class AwardView extends StatelessWidget {
           ),
           Positioned(
             left: 6,
-            bottom: 4,
+            bottom: 6,
             child: SizedBox(
               width: ((width - 40) / 3) / 1.5,
               child: Text(
