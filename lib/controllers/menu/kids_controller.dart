@@ -394,7 +394,7 @@ class KidsController extends GetxController {
   final RxBool editCommonSelectionBottomSheetRightButtonState = RxBool(false);
   final Rx<String?> kidGender = Rx<String?>("Male");
   final Rx<DateTime?> kidDob = Rx<DateTime?>(DateTime.now());
-  final RxList kidLanguageList = RxList(['English,Bangla']);
+  final RxList kidLanguageList = RxList(['English', 'Bangla']);
   final Rx<String?> kidRelation = Rx<String?>("Father");
   final RxString temporaryKidRelationData = RxString('');
   final RxString kidRelationData = RxString('');
@@ -418,11 +418,11 @@ class KidsController extends GetxController {
   final RxString commonEndDate = RxString('');
   final RxBool isSingleDatePicker = RxBool(false);
   final RxBool showCommonSecondaryEditSuffixIcon = RxBool(false);
-   final RxList<String> temporaryListCommon = RxList<String>([]);
-   final Rx<IconData?> commonEditPageIcon = Rx<IconData?>(null);
-   final RxBool showCommonEditSuffixIcon = RxBool(false);
-    RxList<String> temporaryList = RxList<String>();
-    final List kidSchoolList = ['abc school','def school','ghi school'];
+  final RxList<String> temporaryListCommon = RxList<String>([]);
+  final Rx<IconData?> commonEditPageIcon = Rx<IconData?>(null);
+  final RxBool showCommonEditSuffixIcon = RxBool(false);
+  RxList<String> temporaryList = RxList<String>();
+  final List kidSchoolList = ['abc school', 'def school', 'ghi school'];
   //* kid data reset
   void resetKidProfileData() {
     kidInterestCatagoriesIndex.value = -1;

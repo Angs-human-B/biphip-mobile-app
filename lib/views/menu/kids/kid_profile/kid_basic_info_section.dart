@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/edit_kid_gender_section.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/edit_kid_language_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_about.dart';
 import 'package:intl/intl.dart';
 
@@ -45,14 +46,16 @@ class KidBasicInfoSection extends StatelessWidget {
               suffixText: kidsController.kidDob.value == null ? ksDateOfBirth.tr : DateFormat("yyyy-MM-dd").format(kidsController.kidDob.value!),
               subtitlePrefixText: ksDateOfBirth.tr,
               isAddButton: null,
-              suffixOnPressed: () {
-                // editProfileHelper.editBirthday();
-              },
+              suffixOnPressed: null,
+              // suffixOnPressed: () {
+              //   // editProfileHelper.editBirthday();
+              // },
             ),
             kH16sizedBox,
             InfoContainer(
               suffixOnPressed: () {
                 // Get.toNamed(krEditBasicInfo);
+                Get.to(()=>EditKidLanguageSection());
               },
               // suffixText: profileController.userData.value!.languages.isEmpty
               //     ? ksLanguage.tr
