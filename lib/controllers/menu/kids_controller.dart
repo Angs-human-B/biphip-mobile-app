@@ -428,6 +428,7 @@ class KidsController extends GetxController {
   TextEditingController kidSearchLanguageTextEditingController = TextEditingController();
   final RxBool isAddLanguageButtonEnabled = RxBool(false);
   final RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
+  final RxInt kidProfileTabIndex = RxInt(0);
   //* kid data reset
   void resetKidProfileData() {
     kidInterestCatagoriesIndex.value = -1;

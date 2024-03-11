@@ -1,0 +1,160 @@
+
+import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/kid_profile.dart';
+import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
+import 'package:bip_hip/widgets/post/post_button_widget.dart';
+import 'package:flutter_svg/svg.dart';
+
+class KidProfilePostSection extends StatelessWidget {
+   KidProfilePostSection({super.key, required this.seeAllAboutOnPressed, this.userName, this.profilePicture, this.coverPhoto});
+   final KidsController kidsController = Get.find<KidsController>();
+   final VoidCallback? seeAllAboutOnPressed;
+    final String? userName;
+  final String? profilePicture;
+  final String? coverPhoto;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+          
+                        Container(
+                          color: cWhiteColor,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k16Padding),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  ksDetails.tr,
+                                  style: semiBold18TextStyle(cBlackColor),
+                                ),
+                                kH12sizedBox,
+                                KidStoreProfileLinkUpIconTextRow(
+                                  iconOrSvg: const Icon(
+                                    BipHip.info,
+                                    size: kIconSize20,
+                                    color: cIconColor,
+                                  ),
+                                  onPressed: null,
+                                  prefixText: '${ksPage.tr} ',
+                                  suffixText: ksKid.tr,
+                                ),
+                                // if (profileController.currentCityData.value?.city != null && profileController.currentCityData.value?.isCurrent == 1)
+                                KidStoreProfileLinkUpIconTextRow(
+                                  iconOrSvg: SvgPicture.asset(kiParentSvgImageUrl),
+                                  prefixText: 'Father',
+                                  suffixText: ' Emma Isabella',
+                                  onPressed: null,
+                                ),
+                                CustomTextButton(
+                                  text: ksSeeYourAboutInfo.tr,
+                                  textStyle: medium16TextStyle(cPrimaryColor),
+                                 onPressed: seeAllAboutOnPressed,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  padding: EdgeInsets.zero,
+                                ),
+                                kH16sizedBox,
+                              ],
+                            ),
+                          ),
+                        ),
+                         kH8sizedBox,
+                  Container(
+                    color: cWhiteColor,
+                    child: CustomPostButton(
+                      name: userName ?? ksNA,
+                      profilePic: profilePicture ?? '',
+                      onPressed: () {
+                        // Get.find<CreatePostController>().isPostedFromProfile.value = true;
+                        // CreatePostHelper().resetCreatePostData();
+                        Get.toNamed(krCreatePost);
+                      },
+                    ),
+                  ),
+                  kH8sizedBox,
+                  Container(
+                    color: cWhiteColor,
+                    width: width,
+                    height: 50,
+                    child: ListView.builder(
+                      itemCount: interestProfile.length,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(horizontal: k10Padding),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, i) {
+                        return Obx(
+                          () => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                            child: CustomChoiceChips(
+                              label: interestProfile[i],
+                              isSelected: (kidsController.kidInterestCatagoriesIndex.value == i && kidsController.isKidInterestSelected.value),
+                              onSelected: (value) {
+                                kidsController.kidInterestCatagoriesIndex.value = i;
+                                kidsController.isKidInterestSelected.value = value;
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  kH8sizedBox,
+                  // if (profileController.postSectionVisible.value) PostTab(),
+                  // if (!profileController.postSectionVisible.value) FriendFamilyTab(),
+                  // kHBottomSizedBox,
+                  //! This section Must Chnage When the kid post is available
+                  ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      separatorBuilder: (context, index) => kH8sizedBox,
+                      itemCount: Get.find<HomeController>().allTimelinePostList.length,
+                      itemBuilder: (context, index) {
+                        var item = Get.find<HomeController>().allTimelinePostList[index];
+                        return Container(
+                          color: cWhiteColor,
+                          width: width,
+                          child: CommonPostWidget(
+                            isCommented: false,
+                            isLiked: false,
+                            isSharedPost: false,
+                            showBottomSection: true,
+                            userName: item.user!.fullName!,
+                            postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
+                            isCategorized: true,
+                            subCategory: null, //API
+                            category: item.postCategory == null ? null : item.postCategory!.name, //API
+                            categoryIcon:
+                                item.postCategory == null ? null : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
+                            categoryIconColor:
+                                item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
+                            privacy: BipHip.world,
+                            brandName: item.store == null ? null : item.store!.name, //API
+                            kidName: item.kid == null ? null : item.kid!.name, //API
+                            kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                            title: item.title, //API
+                            postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
+                            price: null, //API
+
+                            // mediaList: item.imageUrls, //API
+                            mediaList: item.images,
+                            isSelfPost: true,
+                            isInStock: true,
+                            isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
+                            userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
+                            reactCount: item.countReactions,
+                          ),
+                        );
+                      }),
+              
+                      // ],
+                  //   ),
+                  // ),
+                 
+      ],
+    );
+  }
+}

@@ -1,12 +1,8 @@
-import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/edit_kid_profile.dart';
-import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
-import 'package:bip_hip/widgets/post/post_button_widget.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/kid_profile_post_section.dart';
 
 class KidProfile extends StatelessWidget {
   KidProfile({super.key, this.userName, this.profilePicture, this.coverPhoto});
@@ -42,337 +38,233 @@ class KidProfile extends StatelessWidget {
               },
             ),
           ),
-          body: SizedBox(
-            height: height,
-            width: width,
-            // child: NotificationListener<ScrollNotification>(
-            //   onNotification: (scrollNotification) {
-            //     // if (homeController.timelinePostListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
-            //     //     scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
-            //     //     !homeController.timelinePostListScrolled.value) {
-            //     //       homeController.timelinePostListScrolled.value = true;
-            //     //   if (homeController.allTimelinePostList.isNotEmpty) {
-            //     //     homeController.getMoreTimelinePostList();
-            //     //   }
-            //       return true;
-            //     }
-            //     // homeController.timelinePostListScrolled.value = false;
-            //     return false;
-            //   },
-            child: SingleChildScrollView(
-              // controller: homeController.timelinePostListScrollController,
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
-                    children: [
-                      Container(
-                        height: 225,
-                        color: cWhiteColor,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          // profileHelper.coverPhotoEditBottomSheet(context);
-                          kidHelper.kidCoverPhotoEditBottomSheet(context);
-                        },
-                        child: Container(
-                          height: 150,
-                          width: width,
-                          decoration: const BoxDecoration(color: cBlackColor, border: Border(bottom: BorderSide(color: cLineColor))),
-                          child: Image.network(
-                            coverPhoto ?? '',
-                            fit: BoxFit.cover,
-                            filterQuality: FilterQuality.high,
-                            errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(context, error, stackTrace, BipHip.imageFile, kIconSize120),
-                            loadingBuilder: imageLoadingBuilder,
-                            frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                              return child;
-                            },
-                          ),
+          body: Obx(
+            () => SizedBox(
+              height: height,
+              width: width,
+              // child: NotificationListener<ScrollNotification>(
+              //   onNotification: (scrollNotification) {
+              //     // if (homeController.timelinePostListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+              //     //     scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
+              //     //     !homeController.timelinePostListScrolled.value) {
+              //     //       homeController.timelinePostListScrolled.value = true;
+              //     //   if (homeController.allTimelinePostList.isNotEmpty) {
+              //     //     homeController.getMoreTimelinePostList();
+              //     //   }
+              //       return true;
+              //     }
+              //     // homeController.timelinePostListScrolled.value = false;
+              //     return false;
+              //   },
+              child: SingleChildScrollView(
+                // controller: homeController.timelinePostListScrollController,
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Stack(
+                      children: [
+                        Container(
+                          height: 225,
+                          color: cWhiteColor,
                         ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: 20,
-                        child: Stack(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                // profileHelper.profilePicEditBottomSheet(context);//!needed
-                                kidHelper.kidProfilePicEditBottomSheet(context);
-                              },
-                              child: Container(
-                                height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
-                                width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
-                                decoration: BoxDecoration(
-                                  color: cBlackColor,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: cWhiteColor.withAlpha(500), width: 2),
-                                ),
-                                child: ClipOval(
-                                  child: Image.network(
-                                    profilePicture ?? "",
-                                    fit: BoxFit.cover,
-                                    filterQuality: FilterQuality.high,
-                                    errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(
-                                      context,
-                                      error,
-                                      stackTrace,
-                                      BipHip.user,
-                                      kIconSize70,
-                                    ),
-                                    loadingBuilder: imageLoadingBuilder,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              right: 6,
-                              bottom: 10,
-                              child: TextButton(
-                                style: kTextButtonStyle,
-                                onPressed: () {
-                                  // profileHelper.profilePicUploadBottomSheet(context);//!needed
-                                  kidHelper.kidProfilePicUploadBottomSheet(context);
-                                },
-                                child: Container(
-                                  height: h28,
-                                  width: h28,
-                                  decoration: BoxDecoration(
-                                    color: cGreyBoxColor,
-                                    borderRadius: BorderRadius.circular(26),
-                                    border: Border.all(
-                                      color: cLineColor,
-                                    ),
-                                  ),
-                                  child: const Icon(
-                                    BipHip.camera,
-                                    color: cBlackColor,
-                                    size: kIconSize14,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            // Positioned(
-                            //   right: 6,
-                            //   top: 10,
-                            //   child: Container(
-                            //       height: h28,
-                            //       width: h28,
-                            //       decoration: BoxDecoration(
-                            //         color: cGreyBoxColor,
-                            //         borderRadius: BorderRadius.circular(26),
-                            //         border: Border.all(color: cPrimaryColor, width: 1),
-                            //       ),
-                            //       child: SvgPicture.asset(kiBadge1SvgImageUrl)),
-                            // ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        right: 16,
-                        bottom: 60,
-                        child: TextButton(
-                          style: kTextButtonStyle,
-                          onPressed: () {
-                            // profileHelper.coverPhotoUploadBottomSheet(context);//!needed
-                            kidHelper.kidCoverPhotoUploadBottomSheet(context);
+                        InkWell(
+                          onTap: () {
+                            // profileHelper).coverPhotoEditBottomSheet(context);
+                            kidHelper.kidCoverPhotoEditBottomSheet(context);
                           },
                           child: Container(
-                            height: h28,
-                            width: h28,
-                            decoration: BoxDecoration(
-                              color: cGreyBoxColor,
-                              borderRadius: BorderRadius.circular(26),
-                              border: Border.all(
-                                color: cLineColor,
-                              ),
+                            height: 150,
+                            width: width,
+                            decoration: const BoxDecoration(color: cBlackColor, border: Border(bottom: BorderSide(color: cLineColor))),
+                            child: Image.network(
+                              coverPhoto ?? '',
+                              fit: BoxFit.cover,
+                              filterQuality: FilterQuality.high,
+                              errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(context, error, stackTrace, BipHip.imageFile, kIconSize120),
+                              loadingBuilder: imageLoadingBuilder,
+                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                return child;
+                              },
                             ),
-                            child: const Icon(
-                              BipHip.camera,
-                              color: cBlackColor,
-                              size: kIconSize14,
-                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    color: cWhiteColor,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        kH10sizedBox,
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                          child: Text(
-                            userName ?? "",
-                            // '${profileController.userData.value!.firstName} ${profileController.userData.value!.lastName}',//*needed and change it
-                            style: medium24TextStyle(cBlackColor),
-                          ),
-                        ),
-                        kH10sizedBox,
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.start,
-                        //     children: [
-                        //       const Icon(
-                        //         Icons.attach_money_sharp,
-                        //         color: cSecondaryColor,
-                        //         size: kIconSize14,
-                        //       ),
-                        //       Text(
-                        //         '2.57',
-                        //         style: medium14TextStyle(cSmallBodyTextColor),
-                        //       ),
-                        //       kW4sizedBox,
-                        //       const Icon(
-                        //         BipHip.giftNew,
-                        //         color: cSecondaryColor,
-                        //         size: kIconSize14,
-                        //       ),
-                        //       kW4sizedBox,
-                        //       Text(
-                        //         '457',
-                        //         style: medium14TextStyle(cSmallBodyTextColor),
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
-                        kH4sizedBox,
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                          child: Text(
-                            "500 Followers",
-                            style: semiBold14TextStyle(cSmallBodyTextColor),
-                          ),
-                        ),
-                        kH12sizedBox,
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                        Positioned(
+                          bottom: 0,
+                          left: 20,
+                          child: Stack(
                             children: [
-                              CustomElevatedButton(
-                                label: ksManage.tr,
-                                buttonHeight: 32,
-                                buttonWidth: 130,
-                                prefixIcon: BipHip.setting,
-                                textStyle: semiBold16TextStyle(cWhiteColor),
-                                prefixIconSize: screenWiseSize(kIconSize18, 4),
-                                onPressed: () {},
-                              ),
-                              kW16sizedBox,
-                              CustomElevatedButton(
-                                label: ksEditProfile.tr,
-                                onPressed: () {
-                                  // Get.toNamed(krEditProfile);
-                                  Get.to(() => EditKidProfile(
-                                        profilePicture: profilePicture,
-                                        coverPhoto: coverPhoto,
-                                      ));
+                              InkWell(
+                                onTap: () {
+                                  // profileHelper.profilePicEditBottomSheet(context);//!needed
+                                  kidHelper.kidProfilePicEditBottomSheet(context);
                                 },
-                                prefixIcon: BipHip.edit,
-                                prefixIconColor: cPrimaryColor,
-                                prefixIconSize: screenWiseSize(kIconSize18, 4),
-                                buttonHeight: 32,
-                                buttonWidth: 130,
-                                buttonColor: cWhiteColor,
-                                textStyle: semiBold16TextStyle(cPrimaryColor),
-                              )
-                            ],
-                          ),
-                        ),
-                        kH12sizedBox,
-                        DefaultTabController(
-                          length: 3,
-                          // initialIndex: profileController.postSectionVisible.value ? 0 : 1,//!con
-                          initialIndex: 0,
-                          child: Column(
-                            children: [
-                              Container(
-                                color: cWhiteColor,
-                                height: 40,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                  child: DecoratedBox(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(color: cLineColor, width: 1),
+                                child: Container(
+                                  height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                                  width: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
+                                  decoration: BoxDecoration(
+                                    color: cBlackColor,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: cWhiteColor.withAlpha(500), width: 2),
+                                  ),
+                                  child: ClipOval(
+                                    child: Image.network(
+                                      profilePicture ?? "",
+                                      fit: BoxFit.cover,
+                                      filterQuality: FilterQuality.high,
+                                      errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(
+                                        context,
+                                        error,
+                                        stackTrace,
+                                        BipHip.user,
+                                        kIconSize70,
+                                      ),
+                                      loadingBuilder: imageLoadingBuilder,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                right: 6,
+                                bottom: 10,
+                                child: TextButton(
+                                  style: kTextButtonStyle,
+                                  onPressed: () {
+                                    // profileHelper.profilePicUploadBottomSheet(context);//!needed
+                                    kidHelper.kidProfilePicUploadBottomSheet(context);
+                                  },
+                                  child: Container(
+                                    height: h28,
+                                    width: h28,
+                                    decoration: BoxDecoration(
+                                      color: cGreyBoxColor,
+                                      borderRadius: BorderRadius.circular(26),
+                                      border: Border.all(
+                                        color: cLineColor,
                                       ),
                                     ),
-                                    child: TabBar(
-                                      onTap: (value) {
-                                        // profileHelper.showProfileTabSection(value);
-                                      },
-                                      indicatorColor: cPrimaryColor,
-                                      indicatorWeight: 1,
-                                      unselectedLabelColor: cSmallBodyTextColor,
-                                      unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
-                                      labelStyle: medium14TextStyle(cPrimaryColor),
-                                      labelColor: cPrimaryColor,
-                                      tabs: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                          child: Text(
-                                            ksPosts.tr,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                          child: Text(
-                                            ksPhotos.tr,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                          child: Text(
-                                            ksVideos.tr,
-                                          ),
-                                        ),
-                                      ],
+                                    child: const Icon(
+                                      BipHip.camera,
+                                      color: cBlackColor,
+                                      size: kIconSize14,
                                     ),
                                   ),
                                 ),
                               ),
+                              // Positioned(
+                              //   right: 6,
+                              //   top: 10,
+                              //   child: Container(
+                              //       height: h28,
+                              //       width: h28,
+                              //       decoration: BoxDecoration(
+                              //         color: cGreyBoxColor,
+                              //         borderRadius: BorderRadius.circular(26),
+                              //         border: Border.all(color: cPrimaryColor, width: 1),
+                              //       ),
+                              //       child: SvgPicture.asset(kiBadge1SvgImageUrl)),
+                              // ),
                             ],
                           ),
                         ),
-                        Container(
-                          color: cWhiteColor,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k16Padding),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                        Positioned(
+                          right: 16,
+                          bottom: 60,
+                          child: TextButton(
+                            style: kTextButtonStyle,
+                            onPressed: () {
+                              // profileHelper.coverPhotoUploadBottomSheet(context);//!needed
+                              kidHelper.kidCoverPhotoUploadBottomSheet(context);
+                            },
+                            child: Container(
+                              height: h28,
+                              width: h28,
+                              decoration: BoxDecoration(
+                                color: cGreyBoxColor,
+                                borderRadius: BorderRadius.circular(26),
+                                border: Border.all(
+                                  color: cLineColor,
+                                ),
+                              ),
+                              child: const Icon(
+                                BipHip.camera,
+                                color: cBlackColor,
+                                size: kIconSize14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      color: cWhiteColor,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          kH10sizedBox,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                            child: Text(
+                              userName ?? "",
+                              // '${profileController.userData.value!.firstName} ${profileController.userData.value!.lastName}',//*needed and change it
+                              style: medium24TextStyle(cBlackColor),
+                            ),
+                          ),
+                          kH10sizedBox,
+                          // Padding(
+                          //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.start,
+                          //     children: [
+                          //       const Icon(
+                          //         Icons.attach_money_sharp,
+                          //         color: cSecondaryColor,
+                          //         size: kIconSize14,
+                          //       ),
+                          //       Text(
+                          //         '2.57',
+                          //         style: medium14TextStyle(cSmallBodyTextColor),
+                          //       ),
+                          //       kW4sizedBox,
+                          //       const Icon(
+                          //         BipHip.giftNew,
+                          //         color: cSecondaryColor,
+                          //         size: kIconSize14,
+                          //       ),
+                          //       kW4sizedBox,
+                          //       Text(
+                          //         '457',
+                          //         style: medium14TextStyle(cSmallBodyTextColor),
+                          //       )
+                          //     ],
+                          //   ),
+                          // ),
+                          kH4sizedBox,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                            child: Text(
+                              "500 Followers",
+                              style: semiBold14TextStyle(cSmallBodyTextColor),
+                            ),
+                          ),
+                          kH12sizedBox,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text(
-                                  ksDetails.tr,
-                                  style: semiBold18TextStyle(cBlackColor),
+                                CustomElevatedButton(
+                                  label: ksManage.tr,
+                                  buttonHeight: 32,
+                                  buttonWidth: 130,
+                                  prefixIcon: BipHip.setting,
+                                  textStyle: semiBold16TextStyle(cWhiteColor),
+                                  prefixIconSize: screenWiseSize(kIconSize18, 4),
+                                  onPressed: () {},
                                 ),
-                                kH12sizedBox,
-                                KidStoreProfileLinkUpIconTextRow(
-                                  iconOrSvg: const Icon(
-                                    BipHip.info,
-                                    size: kIconSize20,
-                                    color: cIconColor,
-                                  ),
-                                  onPressed: null,
-                                  prefixText: '${ksPage.tr} ',
-                                  suffixText: ksKid.tr,
-                                ),
-                                // if (profileController.currentCityData.value?.city != null && profileController.currentCityData.value?.isCurrent == 1)
-                                KidStoreProfileLinkUpIconTextRow(
-                                  iconOrSvg: SvgPicture.asset(kiParentSvgImageUrl),
-                                  prefixText: 'Father',
-                                  suffixText: ' Emma Isabella',
-                                  onPressed: null,
-                                ),
-                                CustomTextButton(
-                                  text: ksSeeYourAboutInfo.tr,
-                                  textStyle: medium16TextStyle(cPrimaryColor),
+                                kW16sizedBox,
+                                CustomElevatedButton(
+                                  label: ksEditProfile.tr,
                                   onPressed: () {
                                     // Get.toNamed(krEditProfile);
                                     Get.to(() => EditKidProfile(
@@ -380,112 +272,94 @@ class KidProfile extends StatelessWidget {
                                           coverPhoto: coverPhoto,
                                         ));
                                   },
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  padding: EdgeInsets.zero,
-                                ),
-                                kH16sizedBox,
+                                  prefixIcon: BipHip.edit,
+                                  prefixIconColor: cPrimaryColor,
+                                  prefixIconSize: screenWiseSize(kIconSize18, 4),
+                                  buttonHeight: 32,
+                                  buttonWidth: 130,
+                                  buttonColor: cWhiteColor,
+                                  textStyle: semiBold16TextStyle(cPrimaryColor),
+                                )
                               ],
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  kH8sizedBox,
-                  Container(
-                    color: cWhiteColor,
-                    child: CustomPostButton(
-                      name: userName ?? ksNA,
-                      profilePic: profilePicture ?? '',
-                      onPressed: () {
-                        // Get.find<CreatePostController>().isPostedFromProfile.value = true;
-                        // CreatePostHelper().resetCreatePostData();
-                        Get.toNamed(krCreatePost);
-                      },
-                    ),
-                  ),
-                  kH8sizedBox,
-                  Container(
-                    color: cWhiteColor,
-                    width: width,
-                    height: 50,
-                    child: ListView.builder(
-                      itemCount: interestProfile.length,
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.symmetric(horizontal: k10Padding),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, i) {
-                        return Obx(
-                          () => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: k4Padding),
-                            child: CustomChoiceChips(
-                              label: interestProfile[i],
-                              isSelected: (kidsController.kidInterestCatagoriesIndex.value == i && kidsController.isKidInterestSelected.value),
-                              onSelected: (value) {
-                                kidsController.kidInterestCatagoriesIndex.value = i;
-                                kidsController.isKidInterestSelected.value = value;
-                              },
+                          kH12sizedBox,
+                          DefaultTabController(
+                            length: 3,
+                            // initialIndex: profileController.postSectionVisible.value ? 0 : 1,//!con
+                            initialIndex: 0,
+                            child: Column(
+                              children: [
+                                Container(
+                                  color: cWhiteColor,
+                                  height: 40,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                    child: DecoratedBox(
+                                      decoration: const BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(color: cLineColor, width: 1),
+                                        ),
+                                      ),
+                                      child: TabBar(
+                                        onTap: (value) {
+                                          kidsController.kidProfileTabIndex.value = value;
+                                          // profileHelper.showProfileTabSection(value);
+                                        },
+                                        indicatorColor: cPrimaryColor,
+                                        indicatorWeight: 1,
+                                        unselectedLabelColor: cSmallBodyTextColor,
+                                        unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
+                                        labelStyle: medium14TextStyle(cPrimaryColor),
+                                        labelColor: cPrimaryColor,
+                                        tabs: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                            child: Text(
+                                              ksPosts.tr,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                            child: Text(
+                                              ksPhotos.tr,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                            child: Text(
+                                              ksVideos.tr,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        );
-                      },
+                          if (kidsController.kidProfileTabIndex.value == 0)
+                            KidProfilePostSection(
+                              seeAllAboutOnPressed: () {
+                                // Get.toNamed(krEditProfile);
+                                Get.to(() => EditKidProfile(
+                                      profilePicture: profilePicture,
+                                      coverPhoto: coverPhoto,
+                                    ));
+                              },
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
-                  kH8sizedBox,
-                  // if (profileController.postSectionVisible.value) PostTab(),
-                  // if (!profileController.postSectionVisible.value) FriendFamilyTab(),
-                  // kHBottomSizedBox,
-                  //! This section Must Chnage When the kid post is available
-                  ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      separatorBuilder: (context, index) => kH8sizedBox,
-                      itemCount: Get.find<HomeController>().allTimelinePostList.length,
-                      itemBuilder: (context, index) {
-                        var item = Get.find<HomeController>().allTimelinePostList[index];
-                        return Container(
-                          color: cWhiteColor,
-                          width: width,
-                          child: CommonPostWidget(
-                            isCommented: false,
-                            isLiked: false,
-                            isSharedPost: false,
-                            showBottomSection: true,
-                            userName: item.user!.fullName!,
-                            postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
-                            isCategorized: true,
-                            subCategory: null, //API
-                            category: item.postCategory == null ? null : item.postCategory!.name, //API
-                            categoryIcon:
-                                item.postCategory == null ? null : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
-                            categoryIconColor:
-                                item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
-                            privacy: BipHip.world,
-                            brandName: item.store == null ? null : item.store!.name, //API
-                            kidName: item.kid == null ? null : item.kid!.name, //API
-                            kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                            title: item.title, //API
-                            postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
-                            price: null, //API
-
-                            // mediaList: item.imageUrls, //API
-                            mediaList: item.images,
-                            isSelfPost: true,
-                            isInStock: true,
-                            isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
-                            userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
-                            reactCount: item.countReactions,
-                          ),
-                        );
-                      }),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
         ),
+        // ),
       ),
-      // ),
-      // ),
     );
   }
 }
