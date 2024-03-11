@@ -2,7 +2,7 @@ import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/edit_kid_profile.dart';
-import 'package:bip_hip/views/menu/kids/kid_profile/kid_profile_post_section.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/kid_profile_post_tab.dart';
 
 class KidProfile extends StatelessWidget {
   KidProfile({super.key, this.userName, this.profilePicture, this.coverPhoto});
@@ -283,75 +283,76 @@ class KidProfile extends StatelessWidget {
                               ],
                             ),
                           ),
-                          kH12sizedBox,
-                          DefaultTabController(
-                            length: 3,
-                            // initialIndex: profileController.postSectionVisible.value ? 0 : 1,//!con
-                            initialIndex: 0,
-                            child: Column(
-                              children: [
-                                Container(
-                                  color: cWhiteColor,
-                                  height: 40,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                    child: DecoratedBox(
-                                      decoration: const BoxDecoration(
-                                        border: Border(
-                                          bottom: BorderSide(color: cLineColor, width: 1),
-                                        ),
-                                      ),
-                                      child: TabBar(
-                                        onTap: (value) {
-                                          kidsController.kidProfileTabIndex.value = value;
-                                          // profileHelper.showProfileTabSection(value);
-                                        },
-                                        indicatorColor: cPrimaryColor,
-                                        indicatorWeight: 1,
-                                        unselectedLabelColor: cSmallBodyTextColor,
-                                        unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
-                                        labelStyle: medium14TextStyle(cPrimaryColor),
-                                        labelColor: cPrimaryColor,
-                                        tabs: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                            child: Text(
-                                              ksPosts.tr,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                            child: Text(
-                                              ksPhotos.tr,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                            child: Text(
-                                              ksVideos.tr,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          if (kidsController.kidProfileTabIndex.value == 0)
-                            KidProfilePostSection(
-                              seeAllAboutOnPressed: () {
-                                // Get.toNamed(krEditProfile);
-                                Get.to(() => EditKidProfile(
-                                      profilePicture: profilePicture,
-                                      coverPhoto: coverPhoto,
-                                    ));
-                              },
-                            ),
+                          kH16sizedBox,
                         ],
                       ),
                     ),
+                    kH8sizedBox,
+                    DefaultTabController(
+                      length: 3,
+                      // initialIndex: profileController.postSectionVisible.value ? 0 : 1,//!con
+                      initialIndex: 0,
+                      child: Column(
+                        children: [
+                          Container(
+                            color: cWhiteColor,
+                            height: 40,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: DecoratedBox(
+                                decoration: const BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(color: cLineColor, width: 1),
+                                  ),
+                                ),
+                                child: TabBar(
+                                  onTap: (value) {
+                                    kidsController.kidProfileTabIndex.value = value;
+                                    // profileHelper.showProfileTabSection(value);
+                                  },
+                                  indicatorColor: cPrimaryColor,
+                                  indicatorWeight: 1,
+                                  unselectedLabelColor: cSmallBodyTextColor,
+                                  unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
+                                  labelStyle: medium14TextStyle(cPrimaryColor),
+                                  labelColor: cPrimaryColor,
+                                  tabs: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                      child: Text(
+                                        ksPosts.tr,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                      child: Text(
+                                        ksPhotos.tr,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                      child: Text(
+                                        ksVideos.tr,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (kidsController.kidProfileTabIndex.value == 0)
+                      KidProfilePostSection(
+                        seeAllAboutOnPressed: () {
+                          // Get.toNamed(krEditProfile);
+                          Get.to(() => EditKidProfile(
+                                profilePicture: profilePicture,
+                                coverPhoto: coverPhoto,
+                              ));
+                        },
+                      ),
                   ],
                 ),
               ),
