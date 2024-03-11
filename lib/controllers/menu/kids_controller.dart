@@ -433,5 +433,6 @@ class KidsController extends GetxController {
   void resetKidProfileData() {
     kidInterestCatagoriesIndex.value = -1;
     isKidInterestSelected.value = false;
+    kidProfileTabIndex.value = 0;
   }
 }
