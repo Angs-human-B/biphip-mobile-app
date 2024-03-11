@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_edit_about.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
@@ -43,7 +44,8 @@ class EditKidLanguageSection extends StatelessWidget {
                         isAddButton: true,
                         suffixOnPressed: () async {
                           // editProfileHelper.clearAddLanguagePage();//!Write this function
-                          Get.toNamed(krAddLanguage);
+                          KidHelper().clearAddLanguagePage();
+                          Get.toNamed(krKidAddLanguage);
                           // await profileController.getLanguageList();//!Api call
                         },
                       ),

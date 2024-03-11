@@ -651,6 +651,22 @@ class KidHelper {
     // profileController.getSchoolList();//!Api call
   }
 
+   void clearAddLanguagePage() {
+    kidsController.kidSearchLanguageTextEditingController.clear();
+    kidsController.addedLanguage.value = "";
+    kidsController.isAddLanguageButtonEnabled.value = false;
+    kidsController.isSearchLanguageSuffixIconShowing.value = false;
+  }
+
+  void checkCanAddLanguage() {
+    if (kidsController.addedLanguage.value != "" && kidsController.kidSearchLanguageTextEditingController.text != "") {
+      kidsController.isAddLanguageButtonEnabled.value = true;
+    } else {
+      kidsController.isAddLanguageButtonEnabled.value = false;
+    }
+  }
+
+
   String languageSorting(List languageList) {
     String result;
 

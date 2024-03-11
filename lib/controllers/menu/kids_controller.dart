@@ -394,7 +394,6 @@ class KidsController extends GetxController {
   final RxBool editCommonSelectionBottomSheetRightButtonState = RxBool(false);
   final Rx<String?> kidGender = Rx<String?>("Male");
   final Rx<DateTime?> kidDob = Rx<DateTime?>(DateTime.now());
-  final RxList kidLanguageList = RxList(['English', 'Bangla']);
   final Rx<String?> kidRelation = Rx<String?>("Father");
   final RxString temporaryKidRelationData = RxString('');
   final RxString kidRelationData = RxString('');
@@ -423,6 +422,12 @@ class KidsController extends GetxController {
   final RxBool showCommonEditSuffixIcon = RxBool(false);
   RxList<String> temporaryList = RxList<String>();
   final List kidSchoolList = ['abc school', 'def school', 'ghi school'];
+  final RxList kidLanguageList = RxList(['English', 'Bangla']);
+  final List<String> allLanguageList = ['English', 'Bangla', 'Hindi', 'Urdu', 'Spanish', 'Japanese', 'Yue Chinese', 'Marathi', 'Telugu'];
+  final RxString addedLanguage = RxString("");
+  TextEditingController kidSearchLanguageTextEditingController = TextEditingController();
+  final RxBool isAddLanguageButtonEnabled = RxBool(false);
+  final RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
   //* kid data reset
   void resetKidProfileData() {
     kidInterestCatagoriesIndex.value = -1;

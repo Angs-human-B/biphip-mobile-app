@@ -18,6 +18,7 @@ import 'package:bip_hip/views/menu/badges/all_badges.dart';
 import 'package:bip_hip/views/menu/badges/badges_star_page.dart';
 import 'package:bip_hip/views/menu/badges/purchase_star.dart';
 import 'package:bip_hip/views/menu/birthday/birthday_page.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/kid_add_language.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_edit_about.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_edit_bio.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_edit_page.dart';
@@ -169,7 +170,7 @@ const String krKidEditAboutInfo = '/kid-edit-about-info';
 const String krSelectHobbiesPage = '/select-hobbies-page';
 const String krKidEditPage = '/kid-edit-page';
 const String krKidEditRelation = '/kid-edit-relation';
-
+const String krKidAddLanguage = '/kid-add-language';
 //*Awards
 const String krAwardsPage = '/awards-page';
 const String krAwardDetailsPage = '/award-details-page';
@@ -269,6 +270,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krSelectHobbiesPage, page: () => SelectHobbiesPage(), transition: Transition.noTransition),
   GetPage(name: krKidEditPage, page: () => KidEditPage(), transition: Transition.noTransition),
   GetPage(name: krKidEditRelation, page: () => KidEditRelationPage(), transition: Transition.noTransition),
+  GetPage(name: krKidAddLanguage, page: () => KidAddLanguagePage(), transition: Transition.noTransition),
    //* Awards
   GetPage(name: krAwardsPage, page: () => AwardsPage(), transition: Transition.noTransition),
   GetPage(name: krAwardDetailsPage, page: () => AwardDetailsPage(), transition: Transition.noTransition),
