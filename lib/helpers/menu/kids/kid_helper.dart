@@ -621,6 +621,36 @@ class KidHelper {
     getMethod(6);
   }
 
+  void addKidEducationBackground() {
+    resetTextEditor();
+    getMethod(0);
+    // kidsController.getSchoolList();//!Api call here
+  }
+
+  void editKidSchool(index) {
+    resetTextEditor();
+    kidsController.enableKidSaveButton.value = true;
+    // if (profileController.schoolDataList[index].started != null) {
+    //   profileController.temporarySchoolStartDate.value = DateFormat("yyyy-MM-dd").format(profileController.schoolDataList[index].started!);
+    // }
+    // if (profileController.schoolDataList[index].ended != null) {
+    //   profileController.temporarySchoolEndDate.value = DateFormat("yyyy-MM-dd").format(profileController.schoolDataList[index].ended!);
+    // }
+    // profileController.schoolID.value = profileController.schoolDataList[index].id!;
+    // profileController.educationInstituteTextEditingController.text = profileController.schoolDataList[index].school!;
+    // if (profileController.schoolDataList[index].graduated == 0) {
+    //   profileController.isCurrentlyStudyingHere.value = true;
+    // } else {
+    //   profileController.isCurrentlyStudyingHere.value = false;
+    // }
+    //*For locally handle school list
+    for (int i = 0; i < kidsController.kidSchoolList.length; i++) {
+      kidsController.kidEducationInstituteTextEditingController.text = kidsController.kidSchoolList[i];
+    }
+    getMethod(1);
+    // profileController.getSchoolList();//!Api call
+  }
+
   String languageSorting(List languageList) {
     String result;
 

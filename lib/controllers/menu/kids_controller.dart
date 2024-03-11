@@ -422,6 +422,7 @@ class KidsController extends GetxController {
    final Rx<IconData?> commonEditPageIcon = Rx<IconData?>(null);
    final RxBool showCommonEditSuffixIcon = RxBool(false);
     RxList<String> temporaryList = RxList<String>();
+    final List kidSchoolList = ['abc school','def school','ghi school'];
   //* kid data reset
   void resetKidProfileData() {
     kidInterestCatagoriesIndex.value = -1;

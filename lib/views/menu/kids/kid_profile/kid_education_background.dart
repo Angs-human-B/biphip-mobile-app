@@ -23,27 +23,28 @@ class KidEducationBackground extends StatelessWidget {
               suffixTextStyle: semiBold18TextStyle(cBlackColor),
               isAddButton: true,
               suffixOnPressed: () {
-                // editProfileHelper.addEducationBackground(); //!Write this function
+                kidHelper.addKidEducationBackground();
               },
             ),
             kH12sizedBox,
-            // for (int i = 0; i < profileController.schoolDataList.length; i++)//! using api
-            Padding(
-              padding: const EdgeInsets.only(bottom: k12Padding),
-              child: InfoContainer(
-                // suffixText: checkNullOrStringNull(profileController.schoolDataList[i].school),
-                suffixText: 'Majedul islam model school', //! Using api
-                // prefixText: profileController.schoolDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
-                prefixText: "Studied at", //! Using api
-                // subtitlePrefixText:
-                //     editProfileHelper.schoolSubtitleText(profileController.schoolDataList[i].started, profileController.schoolDataList[i].ended),
-                subtitlePrefixText: 'Started at and End at',
-                isAddButton: false,
-                suffixOnPressed: () async {
-                  // editProfileHelper.editSchool(i);//! write this function
-                },
+            for (int i = 0; i < kidsController.kidSchoolList.length; i++) //! using api
+              Padding(
+                padding: const EdgeInsets.only(bottom: k12Padding),
+                child: InfoContainer(
+                  // suffixText: checkNullOrStringNull(profileController.schoolDataList[i].school),
+                  suffixText: kidsController.kidSchoolList[i], //! Using api
+                  // prefixText: profileController.schoolDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
+                  prefixText: "Studied at", //! Using api
+                  // subtitlePrefixText:
+                  //     editProfileHelper.schoolSubtitleText(profileController.schoolDataList[i].started, profileController.schoolDataList[i].ended),
+                  subtitlePrefixText: 'Started at and End at',
+                  isAddButton: false,
+                  suffixOnPressed: () async {
+                    kidHelper.editKidSchool(i);
+                    // editProfileHelper.editSchool(i);//! write this function
+                  },
+                ),
               ),
-            ),
             // for (int i = 0; i < profileController.collegeDataList.length; i++)
             // Padding(
             //   padding: const EdgeInsets.only(bottom: k12Padding),
