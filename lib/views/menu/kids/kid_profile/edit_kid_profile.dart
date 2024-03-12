@@ -143,19 +143,18 @@ class EditKidProfile extends StatelessWidget {
                               kH16sizedBox,
                               RowTextEdit(
                                 prefix: ksBio.tr,
-                                suffix: kidsController.kidOverviewData.value?.kids?.bio == null ? ksAdd : ksEdit.tr,
+                                suffix: kidsController.kidBio.value == null ? ksAdd : ksEdit.tr,
                                 onEditPressed: () {
-                                  // profileHelper.editBio();//!Must change it
                                   kidHelper.kidEditBio();
                                 },
                               ),
                               // if (profileController.userData.value!.bio != null)//!change the condition
-                              if (kidsController.kidOverviewData.value?.kids?.bio != null)
+                              if (kidsController.kidBio.value != null)
                                 Padding(
                                   padding: const EdgeInsets.only(top: k16Padding),
                                   child: Text(
                                     // profileController.userData.value!.bio ?? '',//!Change it using api
-                                   kidsController.kidOverviewData.value?.kids?.bio ?? '', //!change
+                                    kidsController.kidBio.value ?? '', //!change
                                     style: regular14TextStyle(cIconColor),
                                   ),
                                 ),
@@ -273,7 +272,6 @@ class KidIntroContents extends StatelessWidget {
           // prefixText: profileController.collegeDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
           onPressed: null,
         ),
-        // if (profileController.currentWorkplace.value != null)//!Condition must use in future
         LinkUpIconTextRow(
           icon: BipHip.phoneFill,
           // suffixText: checkNullOrStringNull(profileController.currentWorkplace.value!.company),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
+import 'package:bip_hip/models/menu/kids/kid_profile/kid_bio_update_model.dart';
 import 'package:bip_hip/models/menu/kids/kid_profile/kid_overview_model.dart';
 import 'package:bip_hip/models/post/kid_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -441,6 +442,7 @@ class KidsController extends GetxController {
   //*Kid Overview Api call
   final Rx<KidOverviewModel?> kidOverviewData = Rx<KidOverviewModel?>(null);
   final RxList<FeaturePost> featuredPostList = RxList<FeaturePost>([]);
+  final Rx<Kids?> kidsData = Rx<Kids?>(null);
   final RxBool isKidOverviewLoading = RxBool(false);
   final RxInt selectedKidId = RxInt(-1);
   Future<void> getKidOverview() async {
@@ -455,7 +457,9 @@ class KidsController extends GetxController {
       if (response.success == true) {
         featuredPostList.clear();
         kidOverviewData.value = KidOverviewModel.fromJson(response.data);
+        kidsData.value = kidOverviewData.value!.kids;
         featuredPostList.addAll(kidOverviewData.value!.featurePost);
+        kidBio.value = kidsData.value!.bio;
         isKidOverviewLoading.value = false;
       } else {
         isKidOverviewLoading.value = true;
@@ -472,12 +476,14 @@ class KidsController extends GetxController {
     }
   }
 
-    void clearBio() {
+  void clearBio() {
     bioCount.value = 0;
     kidBioEditingController.clear();
   }
 
-    //* update Kid bio API Implementation
+  //* update Kid bio API Implementation
+  final Rx<KidBioUpdateModel?> kidBioUpdateData = Rx<KidBioUpdateModel?>(null);
+  // final Rx<Kids?> kidsData = Rx<Kids?>(null);
   RxBool isKidBioLoading = RxBool(false);
   Future<void> updateKidBio([isUpdate = true]) async {
     try {
@@ -495,8 +501,11 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        kidOverviewData.value = KidOverviewModel.fromJson(response.data);
-        // ll(userData.value!.bio);
+        kidBioUpdateData.value = KidBioUpdateModel.fromJson(response.data);
+        kidsData.value = kidBioUpdateData.value!.kids;
+        kidBio.value = kidsData.value!.bio;
+        ll(kidsData.value!.bio);
+
         if (isUpdate) {
           Get.back();
         }
@@ -514,8 +523,7 @@ class KidsController extends GetxController {
       }
     } catch (e) {
       isKidBioLoading.value = false;
-      ll('updateBio error: $e');
+      ll('updateKidBio error: $e');
     }
   }
-
 }

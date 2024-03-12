@@ -209,20 +209,20 @@ class KidHelper {
 
   //* kid Bio edit
   void kidEditBio() {
-    if (kidsController.kidOverviewData.value?.kids?.bio == null) {
+    if (kidsController.kidsData.value!.bio == null) {
       kidsController.bioCount.value = 0;
       kidsController.kidBioEditingController.text = '';
       kidsController.kidBio.value = '';
     } else {
       //!Api Data
-      kidsController.kidBio.value = kidsController.kidOverviewData.value?.kids?.bio;
-      kidsController.bioCount.value = kidsController.kidOverviewData.value?.kids?.bio.length;
-      kidsController.kidBioEditingController.text = kidsController.kidOverviewData.value?.kids?.bio;
+      kidsController.kidBio.value = kidsController.kidsData.value!.bio;
+      kidsController.bioCount.value = kidsController.kidsData.value!.bio.length;
+      kidsController.kidBioEditingController.text = kidsController.kidsData.value!.bio;
     }
     Get.toNamed(krKidEditBio);
   }
 
-    void saveEditBio() async {
+  void saveEditBio() async {
     kidsController.kidBio.value = kidsController.kidBioEditingController.text.trim();
     await kidsController.updateKidBio();
   }
@@ -656,7 +656,7 @@ class KidHelper {
     // profileController.getSchoolList();//!Api call
   }
 
-   void clearAddLanguagePage() {
+  void clearAddLanguagePage() {
     kidsController.kidSearchLanguageTextEditingController.clear();
     kidsController.addedLanguage.value = "";
     kidsController.isAddLanguageButtonEnabled.value = false;
@@ -670,7 +670,6 @@ class KidHelper {
       kidsController.isAddLanguageButtonEnabled.value = false;
     }
   }
-
 
   String languageSorting(List languageList) {
     String result;
