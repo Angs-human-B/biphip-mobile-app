@@ -448,6 +448,24 @@ class KidHelper {
     kidsController.kidRelationDataBottomSheetState.value = false;
   }
 
+  void viewKidProfilePic() {
+    if (kidsController.kidOverviewData.value?.kids?.profilePicture != null) {
+      kidsController.isKidProfilePhoto.value = true;
+      kidsController.kidViewOptionEnabled.value = true;
+      kidsController.kidPreviewPhoto.value = kidsController.kidOverviewData.value!.kids!.profilePicture.toString();
+      Get.toNamed(krKidPhotoView);
+    }
+  }
+
+  void viewKidCoverPhoto() {
+    if (kidsController.kidOverviewData.value?.kids?.coverPhoto != null) {
+      kidsController.kidViewOptionEnabled.value = true;
+      kidsController.isKidProfilePhoto.value = false;
+      kidsController.kidPreviewPhoto.value = kidsController.kidOverviewData.value!.kids!.coverPhoto.toString();
+      Get.toNamed(krKidPhotoView);
+    }
+  }
+
   void kidRelationButtonOnPressed(context) {
     kidsController.temporaryKidRelationData.value = kidsController.kidRelation.value!;
     if (kidsController.kidRelation.value != '') {

@@ -2,8 +2,6 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/home/home_post_details.dart';
-import 'package:bip_hip/views/home/home_post_details_screen.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
@@ -154,9 +152,9 @@ class CommonFeaturePostWidget extends StatelessWidget {
         kH10sizedBox,
         InkWell(
           onTap: () async {
-            Get.to(() => HomePostDetails(
-                  postIndex: postIndex,
-                ));
+            // Get.to(() => HomePostDetails(
+            //       postIndex: postIndex,
+            //     ));
             // await Get.find<HomeController>().getPostData(postID);
           },
           child: Padding(
@@ -375,7 +373,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
                         style: kTextButtonStyle,
                         onPressed: () async {
                           if ((postText != null && postText?.trim() != '') || mediaList.length > 1) {
-                            Get.toNamed(krHomePostDetailsScreen);
+                            // Get.toNamed(krHomePostDetailsScreen);
                             // await Get.find<HomeController>().getPostData(postID);
                           } else {
                             Get.to(() => CommonPhotoView(
@@ -391,7 +389,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: k8CircularBorderRadius,
                             child: Image.network(
-                             mediaList[0].fullPath.toString(),
+                              mediaList[0].fullPath.toString(),
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) => const Icon(
                                 BipHip.imageFile,
@@ -414,9 +412,9 @@ class CommonFeaturePostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            Get.to(() => HomePostDetailsScreen(
-                                  postIndex: postIndex,
-                                ));
+                            // Get.to(() => HomePostDetailsScreen(
+                            //       postIndex: postIndex,
+                            //     ));
                             // await Get.find<HomeController>().getPostData(postID);
                           },
                           child: Container(
@@ -426,7 +424,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                 mediaList[1].fullPath.toString(),
+                                mediaList[1].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -453,19 +451,19 @@ class CommonFeaturePostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            Get.to(() => HomePostDetailsScreen(
-                                  postIndex: postIndex,
-                                ));
+                            // Get.to(() => HomePostDetailsScreen(
+                            //       postIndex: postIndex,
+                            //     ));
                             // await Get.find<HomeController>().getPostData(postID);
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 125,
-                            width: mediaList.length < 3 ? (width - 40) : (width - 42) / 2,
+                            width: mediaList.length < 3 ? (width - 38) : (width - 46) / 2,
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                 mediaList[1].fullPath.toString(),
+                                mediaList[1].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -488,9 +486,9 @@ class CommonFeaturePostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            Get.to(() => HomePostDetailsScreen(
-                                  postIndex: postIndex,
-                                ));
+                            // Get.to(() => HomePostDetailsScreen(
+                            //       postIndex: postIndex,
+                            //     ));
                             // await Get.find<HomeController>().getPostData(postID);
                           },
                           child: Container(
@@ -500,7 +498,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                 mediaList[2].fullPath.toString(),
+                                mediaList[2].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -523,7 +521,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            Get.toNamed(krHomePostDetailsScreen);
+                            // Get.toNamed(krHomePostDetailsScreen);
                             // await Get.find<HomeController>().getPostData(postID);
                           },
                           child: Container(
@@ -533,7 +531,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                 mediaList[3].fullPath.toString(),
+                                mediaList[3].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -559,9 +557,9 @@ class CommonFeaturePostWidget extends StatelessWidget {
                             TextButton(
                               style: kTextButtonStyle,
                               onPressed: () async {
-                                Get.to(() => HomePostDetailsScreen(
-                                      postIndex: postIndex,
-                                    ));
+                                // Get.to(() => HomePostDetailsScreen(
+                                //       postIndex: postIndex,
+                                //     ));
                                 // await Get.find<HomeController>().getPostData(postID);
                               },
                               child: Container(

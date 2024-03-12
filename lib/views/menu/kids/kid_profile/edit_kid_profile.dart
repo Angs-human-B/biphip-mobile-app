@@ -65,7 +65,7 @@ class EditKidProfile extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      // profileHelper.viewProfilePic();//!Change it
+                                      kidHelper.viewKidProfilePic();
                                     },
                                     child: Container(
                                       height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
@@ -107,6 +107,7 @@ class EditKidProfile extends StatelessWidget {
                               InkWell(
                                 onTap: () {
                                   // profileHelper.viewCoverPhoto();//!Change it
+                                  kidHelper.viewKidCoverPhoto();
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

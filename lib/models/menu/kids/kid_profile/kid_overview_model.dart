@@ -62,7 +62,7 @@ class FeaturePost {
   int? countShare;
   int? countComment;
   int? countStar;
-  dynamic countReactions;
+  // dynamic countReactions;
   dynamic postSubCategoryId;
   dynamic timelineId;
   dynamic type;
@@ -122,7 +122,7 @@ class FeaturePost {
     required this.countShare,
     required this.countComment,
     required this.countStar,
-    required this.countReactions,
+    // required this.countReactions,
     required this.postSubCategoryId,
     required this.timelineId,
     required this.type,
@@ -183,7 +183,7 @@ class FeaturePost {
         countShare: json["count_share"],
         countComment: json["count_comment"],
         countStar: json["count_star"],
-        countReactions: json["count_reactions"],
+        // countReactions: json["count_reactions"],
         postSubCategoryId: json["post_sub_category_id"],
         timelineId: json["timeline_id"],
         type: json["type"],
@@ -199,10 +199,10 @@ class FeaturePost {
         hasReport: json["has_report"],
         myReport: json["my_report"],
         isNotifaction: json["is_notifaction"],
-        isVisibleToMe: json["is_visible_to_me"],
-        user: Parent.fromJson(json["user"]),
-        kid: Kids.fromJson(json["kid"]),
-        postCategory: PostCategory.fromJson(json["post_category"]),
+        isVisibleToMe:  json["is_visible_to_me"],
+        user: json["user"]==null ? null : Parent.fromJson(json["user"]),
+        kid: json["kid"]==null ? null : Kids.fromJson(json["kid"]),
+        postCategory: json["post_category"]==null ? null : PostCategory.fromJson(json["post_category"]),
         postSubCategory: json["post_sub_category"],
         postTags: List<dynamic>.from(json["post_tags"].map((x) => x)),
         images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
@@ -231,7 +231,7 @@ class Image {
   int? countShare;
   int? countComment;
   int? countStar;
-  dynamic countReactions;
+  // dynamic countReactions;
   String? fullPath;
   // List<dynamic> taggedFriends;
   // String? reactingPersons;
@@ -258,7 +258,7 @@ class Image {
     required this.countShare,
     required this.countComment,
     required this.countStar,
-    required this.countReactions,
+    // required this.countReactions,
     required this.fullPath,
     // required this.taggedFriends,
     // required this.reactingPersons,
@@ -286,7 +286,7 @@ class Image {
         countShare: json["count_share"],
         countComment: json["count_comment"],
         countStar: json["count_star"],
-        countReactions: json["count_reactions"],
+        // countReactions: json["count_reactions"],
         fullPath: json["full_path"],
         // taggedFriends: List<dynamic>.from(json["tagged_friends"].map((x) => x)),
         // reactingPersons: json["reacting_persons"],

@@ -177,7 +177,7 @@ class KidProfilePostSection extends StatelessWidget {
                               postID: item.id!,
                               userImage: kidsController.kidOverviewData.value?.kids?.profilePicture ?? '',
                               taggedFriends: const [],
-                              reactCount: item.countReactions,
+                              // reactCount: item.countReactions,
                             ),
                           );
                         },
