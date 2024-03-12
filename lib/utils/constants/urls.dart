@@ -166,7 +166,8 @@ const String kuPurchaseStar = '/mobile/user/purchase-star';
 //* Pendent
 const String kuUserPendent = '/mobile/user/get-user-pendents';
 const String kuSetUserPendent = '/mobile/user/set-user-pendent';
-
+//* Kid profile
+const String kuKidOverview = '/mobile/user/kid-profile-overview';
 
 /*
 |--------------------------------------------------------------------------

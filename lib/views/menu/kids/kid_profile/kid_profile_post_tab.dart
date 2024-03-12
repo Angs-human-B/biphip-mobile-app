@@ -9,12 +9,9 @@ import 'package:bip_hip/widgets/post/post_button_widget.dart';
 import 'package:flutter_svg/svg.dart';
 
 class KidProfilePostSection extends StatelessWidget {
-  KidProfilePostSection({super.key, required this.seeAllAboutOnPressed, this.userName, this.profilePicture, this.coverPhoto});
+  KidProfilePostSection({super.key, required this.seeAllAboutOnPressed});
   final KidsController kidsController = Get.find<KidsController>();
   final VoidCallback? seeAllAboutOnPressed;
-  final String? userName;
-  final String? profilePicture;
-  final String? coverPhoto;
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +36,14 @@ class KidProfilePostSection extends StatelessWidget {
                     color: cIconColor,
                   ),
                   onPressed: null,
-                  prefixText: '${ksPage.tr} ',
-                  suffixText: ksKid.tr,
+                  prefixText: ksPage.tr,
+                  suffixText: kidsController.kidOverviewData.value?.kids?.pageType ?? ksNA.tr,
                 ),
                 // if (profileController.currentCityData.value?.city != null && profileController.currentCityData.value?.isCurrent == 1)
                 KidStoreProfileLinkUpIconTextRow(
                   iconOrSvg: SvgPicture.asset(kiParentSvgImageUrl),
-                  prefixText: 'Father',
-                  suffixText: ' Emma Isabella',
+                  prefixText: kidsController.kidOverviewData.value?.kids?.relation ?? ksNA,
+                  suffixText: kidsController.kidOverviewData.value?.parent?.fullName ?? ksNA,
                   onPressed: null,
                 ),
                 CustomTextButton(
@@ -65,8 +62,8 @@ class KidProfilePostSection extends StatelessWidget {
         Container(
           color: cWhiteColor,
           child: CustomPostButton(
-            name: userName ?? ksNA,
-            profilePic: profilePicture ?? '',
+            name: kidsController.kidOverviewData.value?.kids?.name ?? ksNA,
+            profilePic: kidsController.kidOverviewData.value?.kids?.profilePicture ?? '',
             onPressed: () {
               // Get.find<CreatePostController>().isPostedFromProfile.value = true;
               // CreatePostHelper().resetCreatePostData();
@@ -127,9 +124,9 @@ class KidProfilePostSection extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const AlwaysScrollableScrollPhysics(),
                         separatorBuilder: (context, index) => kW16sizedBox,
-                        itemCount: Get.find<HomeController>().allTimelinePostList.length,
+                        itemCount: kidsController.featuredPostList.length,
                         itemBuilder: (context, index) {
-                          var item = Get.find<HomeController>().allTimelinePostList[index];
+                          var item = kidsController.featuredPostList[index];
                           return Container(
                             width: width,
                             decoration: BoxDecoration(
@@ -143,7 +140,7 @@ class KidProfilePostSection extends StatelessWidget {
                               isSharedPost: false,
                               showBottomSection: false,
                               userName: item.user!.fullName!,
-                              postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
+                              postTime: Get.find<HomeController>().postTimeDifference(item.createdAt!),
                               isCategorized: true,
                               subCategory: null, //API
                               category: item.postCategory == null ? null : item.postCategory!.name, //API
@@ -152,18 +149,20 @@ class KidProfilePostSection extends StatelessWidget {
                               categoryIconColor:
                                   item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
                               privacy: BipHip.world,
-                              brandName: item.store == null ? null : item.store!.name, //API
+                              // brandName: item.store == null ? null : item.store!.name, //API
                               kidName: item.kid == null ? null : item.kid!.name, //API
                               kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
                               title: item.title, //API
                               postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
                               price: null, //API
+                              // mediaList: item.images,
                               mediaList: item.images,
                               isSelfPost: true,
                               isInStock: true,
                               isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
                               postID: item.id!,
-                              userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
+                              userImage: kidsController.kidOverviewData.value?.kids?.profilePicture ?? '',
+                              taggedFriends: const [],
                               reactCount: item.countReactions,
                             ),
                           );

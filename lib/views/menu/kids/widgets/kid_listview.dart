@@ -1,7 +1,6 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/shimmers/menu/kids/kid_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/kids/kid_profile/kid_profile.dart';
 import 'package:flutter_svg/svg.dart';
 
 class KidsListView extends StatelessWidget {
@@ -28,14 +27,11 @@ class KidsListView extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () async {
-                                ll(kidsController.kidList[index].id);
+                                kidsController.selectedKidId.value = kidsController.kidList[index].id!;
                                 // await Get.find<HomeController>().getTimelinePostList();
                                 kidsController.resetKidProfileData();
-                                Get.to(() => KidProfile(
-                                      userName: kidsController.kidList[index].name ?? ksNA.tr,
-                                      profilePicture: kidsController.kidList[index].profilePicture.toString(),
-                                      coverPhoto: kidsController.kidList[index].coverPhoto.toString(),
-                                    ));
+                                await kidsController.getKidOverview();
+                                Get.toNamed(krKidProfile);
                               },
                               child: CustomListTile(
                                 padding: const EdgeInsets.only(left: k8Padding, top: k8Padding, bottom: k8Padding),

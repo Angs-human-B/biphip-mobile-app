@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
+import 'package:bip_hip/models/menu/kids/kid_profile/kid_overview_model.dart';
 import 'package:bip_hip/models/post/kid_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -435,5 +436,39 @@ class KidsController extends GetxController {
     kidInterestCatagoriesIndex.value = -1;
     isKidInterestSelected.value = false;
     kidProfileTabIndex.value = 0;
+  }
+
+  //*Kid Overview Api call
+  final Rx<KidOverviewModel?> kidOverviewData = Rx<KidOverviewModel?>(null);
+  final RxList<FeaturePost> featuredPostList = RxList<FeaturePost>([]);
+  final RxBool isKidOverviewLoading = RxBool(false);
+  final RxInt selectedKidId = RxInt(-1);
+  Future<void> getKidOverview() async {
+    try {
+      isKidOverviewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuKidOverview/${selectedKidId.value}",
+      ) as CommonDM;
+      if (response.success == true) {
+        featuredPostList.clear();
+        kidOverviewData.value = KidOverviewModel.fromJson(response.data);
+        featuredPostList.addAll(kidOverviewData.value!.featurePost);
+        isKidOverviewLoading.value = false;
+      } else {
+        isKidOverviewLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidOverviewLoading.value = true;
+      ll('getKidOverview error: $e');
+    }
   }
 }
