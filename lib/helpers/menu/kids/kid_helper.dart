@@ -209,17 +209,22 @@ class KidHelper {
 
   //* kid Bio edit
   void kidEditBio() {
-    if (kidsController.kidBio.value == null) {
+    if (kidsController.kidOverviewData.value?.kids?.bio == null) {
       kidsController.bioCount.value = 0;
       kidsController.kidBioEditingController.text = '';
       kidsController.kidBio.value = '';
     } else {
       //!Api Data
-      kidsController.kidBio.value = kidsController.kidBio.value;
-      kidsController.bioCount.value = kidsController.kidBio.value!.length;
-      kidsController.kidBioEditingController.text = kidsController.kidBio.value!;
+      kidsController.kidBio.value = kidsController.kidOverviewData.value?.kids?.bio;
+      kidsController.bioCount.value = kidsController.kidOverviewData.value?.kids?.bio.length;
+      kidsController.kidBioEditingController.text = kidsController.kidOverviewData.value?.kids?.bio;
     }
     Get.toNamed(krKidEditBio);
+  }
+
+    void saveEditBio() async {
+    kidsController.kidBio.value = kidsController.kidBioEditingController.text.trim();
+    await kidsController.updateKidBio();
   }
 
   //*Hobbies select

@@ -74,28 +74,42 @@ class KidProfilePostSection extends StatelessWidget {
         kH8sizedBox,
         Container(
           color: cWhiteColor,
-          width: width,
-          height: 50,
-          child: ListView.builder(
-            itemCount: interestProfile.length,
-            shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(horizontal: k10Padding),
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (BuildContext context, i) {
-              return Obx(
-                () => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: k4Padding),
-                  child: CustomChoiceChips(
-                    label: interestProfile[i],
-                    isSelected: (kidsController.kidInterestCatagoriesIndex.value == i && kidsController.isKidInterestSelected.value),
-                    onSelected: (value) {
-                      kidsController.kidInterestCatagoriesIndex.value = i;
-                      kidsController.isKidInterestSelected.value = value;
-                    },
-                  ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
+                child: Text(
+                  ksCatagories.tr,
+                  style: semiBold14TextStyle(cBlackColor),
                 ),
-              );
-            },
+              ),
+              SizedBox(
+                width: width,
+                height: 50,
+                child: ListView.builder(
+                  itemCount: interestProfile.length,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: k10Padding),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, i) {
+                    return Obx(
+                      () => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                        child: CustomChoiceChips(
+                          label: interestProfile[i],
+                          isSelected: (kidsController.kidInterestCatagoriesIndex.value == i && kidsController.isKidInterestSelected.value),
+                          onSelected: (value) {
+                            kidsController.kidInterestCatagoriesIndex.value = i;
+                            kidsController.isKidInterestSelected.value = value;
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
         kH8sizedBox,

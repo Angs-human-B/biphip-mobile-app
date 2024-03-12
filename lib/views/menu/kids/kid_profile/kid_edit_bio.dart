@@ -37,7 +37,7 @@ class KidEditBio extends StatelessWidget {
                               onPressed: kidsController.kidBioEditingController.text != kidsController.kidBio.value
                                   ? () async {
                                       unfocus(context);
-                                      // profileHelper.saveBio();//! Change using api(save bio api call)
+                                      kidHelper.saveEditBio();
                                     }
                                   : null,
                               text: ksSave.tr,

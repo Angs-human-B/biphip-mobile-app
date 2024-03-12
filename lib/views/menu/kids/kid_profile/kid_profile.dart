@@ -257,12 +257,7 @@ class KidProfile extends StatelessWidget {
                               CustomElevatedButton(
                                 label: ksEditProfile.tr,
                                 onPressed: () {
-                                  // Get.toNamed(krEditProfile);
-                                  //!Kid Edit page route
-                                  // Get.to(() => EditKidProfile(
-                                  //       profilePicture: profilePicture,
-                                  //       coverPhoto: coverPhoto,
-                                  //     ));
+                                  Get.toNamed(krEditKidProfile);
                                 },
                                 prefixIcon: BipHip.edit,
                                 prefixIconColor: cPrimaryColor,
@@ -338,12 +333,7 @@ class KidProfile extends StatelessWidget {
                   if (kidsController.kidProfileTabIndex.value == 0)
                     KidProfilePostSection(
                       seeAllAboutOnPressed: () {
-                        //!Kid edit profile route
-                        // Get.toNamed(krEditProfile);
-                        // Get.to(() => EditKidProfile(
-                        //       profilePicture: profilePicture,
-                        //       coverPhoto: coverPhoto,
-                        //     ));
+                        Get.toNamed(krEditKidProfile);
                       },
                     ),
                 ],

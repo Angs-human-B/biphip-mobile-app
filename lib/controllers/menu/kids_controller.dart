@@ -367,7 +367,7 @@ class KidsController extends GetxController {
   final RxBool isSharedToNewFeed = RxBool(false);
   final RxBool isKidProfilePicEditor = RxBool(false);
   final RxBool kidViewOptionEnabled = RxBool(false);
-  final Rx<String?> kidBio = Rx<String?>('This is kid bio');
+  final Rx<String?> kidBio = Rx<String?>(null);
   final TextEditingController kidBioEditingController = TextEditingController();
   final RxInt bioCount = RxInt(0);
   final RxBool isKidProfilePhoto = RxBool(false);
@@ -471,4 +471,51 @@ class KidsController extends GetxController {
       ll('getKidOverview error: $e');
     }
   }
+
+    void clearBio() {
+    bioCount.value = 0;
+    kidBioEditingController.clear();
+  }
+
+    //* update Kid bio API Implementation
+  RxBool isKidBioLoading = RxBool(false);
+  Future<void> updateKidBio([isUpdate = true]) async {
+    try {
+      isKidBioLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'kid_id': selectedKidId.value.toString(),
+        'bio': kidBioEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuKidUpdateBio,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        kidOverviewData.value = KidOverviewModel.fromJson(response.data);
+        // ll(userData.value!.bio);
+        if (isUpdate) {
+          Get.back();
+        }
+        clearBio();
+        isKidBioLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isKidBioLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidBioLoading.value = false;
+      ll('updateBio error: $e');
+    }
+  }
+
 }
