@@ -102,7 +102,6 @@ class KidHelper {
         isImageChanged: kidsController.isCoverImageChanged,
         imagePath: kidsController.coverImageLink,
         imageFile: kidsController.coverImageFile,
-        // isViewOptionEnabled: false.obs,
       ),
     );
   }
@@ -175,7 +174,6 @@ class KidHelper {
         isImageChanged: kidsController.isCoverImageChanged,
         imagePath: kidsController.coverImageLink,
         imageFile: kidsController.coverImageFile,
-        // isViewOptionEnabled: true.obs,
       ),
     );
   }
@@ -200,7 +198,6 @@ class KidHelper {
           isImageChanged: kidsController.isProfileImageChanged,
           imagePath: kidsController.profileImageLink,
           imageFile: kidsController.profileImageFile,
-          // isViewOptionEnabled: true.obs,
         ));
   }
 
@@ -441,6 +438,8 @@ class KidHelper {
   void resetKidRelationEditPage() {
     kidsController.temporaryKidRelationData.value = "";
     kidsController.kidRelationData.value = "";
+    kidsController.temporaryKidRelationId.value = "";
+    kidsController.kidRelationId.value = "";
     kidsController.isKidRelationSaveButtonActive.value = false;
     kidsController.kidRelationDataBottomSheetState.value = false;
   }
@@ -467,6 +466,7 @@ class KidHelper {
 
   void kidRelationButtonOnPressed(context) {
     kidsController.temporaryKidRelationData.value = kidsController.kidRelation.value!;
+    kidsController.temporaryKidRelationId.value = kidsController.kidRelationId.value;
     if (kidsController.kidRelation.value != '') {
       kidsController.temporaryKidRelationData.value = kidsController.kidRelation.value!;
       kidsController.kidRelationDataBottomSheetState.value = true;
@@ -483,6 +483,7 @@ class KidHelper {
       onPressRightButton: () {
         Get.back();
         kidsController.kidRelationData.value = kidsController.temporaryKidRelationData.value;
+        kidsController.kidRelationId.value = kidsController.temporaryKidRelationId.value;
         checkCanKidSaveRelation();
       },
       rightText: ksDone.tr,
@@ -492,33 +493,35 @@ class KidHelper {
       content: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: kidsController.kidRelationList.length,
+        itemCount: kidsController.kidRelationMap.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.only(bottom: k10Padding),
             child: Obx(
               () => CustomListTile(
-                itemColor: kidsController.temporaryKidRelationData.value == kidsController.kidRelationList[index] ? cPrimaryTint3Color : cWhiteColor,
+                itemColor: kidsController.temporaryKidRelationId.value == kidsController.kidRelationMap[index]['relation_id'] ? cPrimaryTint3Color : cWhiteColor,
                 onPressed: () {
-                  kidsController.temporaryKidRelationData.value = kidsController.kidRelationList[index];
+                  kidsController.temporaryKidRelationData.value = kidsController.kidRelationMap[index]['relation']!;
+                  kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
                   if (kidsController.temporaryKidRelationData.value == '') {
                     kidsController.kidRelationDataBottomSheetState.value = false;
                   } else {
                     kidsController.kidRelationDataBottomSheetState.value = true;
                   }
                 },
-                title: kidsController.kidRelationList[index],
-                borderColor: kidsController.temporaryKidRelationData.value == kidsController.kidRelationList[index] ? cPrimaryColor : cLineColor,
+                title: kidsController.kidRelationMap[index]['relation'],
+                borderColor: kidsController.temporaryKidRelationId.value == kidsController.kidRelationMap[index]['relation_id'] ? cPrimaryColor : cLineColor,
                 trailing: CustomRadioButton(
                   onChanged: () {
-                    kidsController.temporaryKidRelationData.value = kidsController.kidRelationList[index];
+                    kidsController.temporaryKidRelationData.value = kidsController.kidRelationMap[index]['relation']!;
+                    kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
                     if (kidsController.temporaryKidRelationData.value == '') {
                       kidsController.kidRelationDataBottomSheetState.value = false;
                     } else {
                       kidsController.kidRelationDataBottomSheetState.value = true;
                     }
                   },
-                  isSelected: kidsController.temporaryKidRelationData.value == kidsController.kidRelationList[index],
+                  isSelected: kidsController.temporaryKidRelationId.value == kidsController.kidRelationMap[index]['relation_id'],
                 ),
               ),
             ),

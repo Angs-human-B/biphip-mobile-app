@@ -152,6 +152,24 @@ class KidsController extends GetxController {
   final RxBool isKidCoverImageChanged = RxBool(false);
 
   final List kidRelationList = (['Father', 'Mother', 'Sister', 'Brother']);
+  final kidRelationMap = [
+    {
+      "relation": "Father",
+      "relation_id": "0",
+    },
+    {
+      "relation": "Mother",
+      "relation_id": "1",
+    },
+    {
+      "relation": "Sister",
+      "relation_id": "2",
+    },
+    {
+      "relation": "Brother",
+      "relation_id": "3",
+    },
+  ];
   final RxString selectedKidRelation = RxString('');
   final RxString tempSelectedKidRelation = RxString('');
 
@@ -396,9 +414,11 @@ class KidsController extends GetxController {
   final RxBool editCommonSelectionBottomSheetRightButtonState = RxBool(false);
   final Rx<String?> kidGender = Rx<String?>("Male");
   final Rx<DateTime?> kidDob = Rx<DateTime?>(DateTime.now());
-  final Rx<String?> kidRelation = Rx<String?>("Father");
+  final Rx<String?> kidRelation = Rx<String?>(null);
   final RxString temporaryKidRelationData = RxString('');
   final RxString kidRelationData = RxString('');
+  final RxString temporaryKidRelationId = RxString('');
+  final RxString kidRelationId = RxString('');
   final RxBool isKidRelationSaveButtonActive = RxBool(false);
   final RxBool kidRelationDataBottomSheetState = RxBool(false);
   final RxString temporaryKidGender = RxString('');
@@ -460,6 +480,7 @@ class KidsController extends GetxController {
         kidsData.value = kidOverviewData.value!.kids;
         featuredPostList.addAll(kidOverviewData.value!.featurePost);
         kidBio.value = kidsData.value!.bio;
+        kidRelation.value = kidsData.value?.relation.toString();
         isKidOverviewLoading.value = false;
       } else {
         isKidOverviewLoading.value = true;
@@ -598,51 +619,43 @@ class KidsController extends GetxController {
       ll('uploadProfileAndCover error: $e');
     }
   }
-  // Future<void> uploadKidProfileAndCover(File imageFile, String type, [isFromProfile = true]) async {
-  //   try {
-  //     isImageUploadPageLoading.value = true;
-  //     String? token = await spController.getBearerToken();
-  //     List<String> key = [];
-  //     List<dynamic> value = [];
-  //     key.add('kid_id');
-  //     value.add(selectedKidId.value.toString());
-  //     if (type == 'profile') {
-  //       key.add('profile_image');
-  //     } else {
-  //       key.add('cover_photo');
-  //     }
-  //     value.add(imageFile);
-  //     ll(key);
-  //     ll(value);
 
-  //     // Check if the file exists before attempting to upload
-  //     if (!imageFile.existsSync()) {
-  //       print('File does not exist at the specified path');
-  //       return; // Exit the function if the file does not exist
-  //     }
+  // final Rx<Kids?> kidsData = Rx<Kids?>(null);
+  // final Rx<Kids?> kidRelationModelData = Rx<Kids?>(null);
+  RxBool isKidRelationLoading = RxBool(false);
+  Future<void> updateKidRelation([isUpdate = true]) async {
+    try {
+      isKidRelationLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'kid_id': selectedKidId.value.toString(),
+        'relation_id': kidRelationId.value.toString(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuKidUpdateParentRelation,
+        body: body,
+        token: token,
+      ) as CommonDM;
 
-  //     var response = await apiController.mediaUploadMultipleKeyAndValue(
-  //       url: type == 'profile' ? kuKidUpdateProfilePicture : kuKidUpdateCoverPhoto,
-  //       token: token,
-  //       keys: key,
-  //       values: value,
-  //     );
-
-  //     // Check if the response is null before proceeding
-  //     if (response == null) {
-  //       print('API response is null');
-  //       return; // Exit the function if the response is null
-  //     }
-
-  //     // Assuming CommonDM is a class you've defined elsewhere
-  //     CommonDM commonDMResponse = response as CommonDM; // Cast the response to CommonDM
-
-  //     // Proceed with handling the response...
-  //   } catch (e) {
-  //     if (isFromProfile == true) {
-  //       isImageUploadPageLoading.value = false;
-  //     }
-  //     print('uploadProfileAndCover error: $e');
-  //   }
-  // }
+      if (response.success == true) {
+        kidRelation.value = kidsData.value?.relation;
+        ll(kidRelation.value);
+        isKidRelationLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isKidRelationLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidRelationLoading.value = false;
+      ll('updateKidRelation error: $e');
+    }
+  }
 }
