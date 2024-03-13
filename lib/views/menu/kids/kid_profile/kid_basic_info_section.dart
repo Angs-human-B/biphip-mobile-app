@@ -36,7 +36,6 @@ class KidBasicInfoSection extends StatelessWidget {
                 subtitlePrefixText: ksGender,
                 isAddButton: false,
                 suffixOnPressed: () async {
-                  // Get.toNamed(krEditBasicInfo);
                   Get.to(() => EditKidGenderSection());
                 },
               ),
@@ -58,13 +57,12 @@ class KidBasicInfoSection extends StatelessWidget {
                   // Get.toNamed(krEditBasicInfo);
                   Get.to(() => EditKidLanguageSection());
                 },
-                // suffixText: profileController.userData.value!.languages.isEmpty
-                //     ? ksLanguage.tr
-                //     : editProfileHelper.languageSorting(profileController.userData.value!.languages),
-                suffixText: kidsController.kidLanguageList.isEmpty ? ksLanguage.tr : kidHelper.languageSorting(kidsController.kidLanguageList),
+                suffixText:
+                    kidsController.kidsData.value!.languages.isEmpty ? ksLanguage.tr : kidHelper.languageSorting(kidsController.kidsData.value!.languages),
+                // suffixText: kidsController.userLanguages.isEmpty ? ksLanguage.tr : kidHelper.languageSorting(kidsController.kidLanguageList),
                 // isAddButton: profileController.userData.value!.languages.isEmpty ? true : false,
-                isAddButton: kidsController.kidLanguageList.isEmpty ? true : false,
-                subtitlePrefixText: kidsController.kidLanguageList.isEmpty ? null : ksLanguages.tr,
+                isAddButton: kidsController.userLanguages.isEmpty ? true : false,
+                subtitlePrefixText: kidsController.userLanguages.isEmpty ? null : ksLanguages.tr,
               ),
               kH16sizedBox,
             ],

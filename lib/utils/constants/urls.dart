@@ -173,6 +173,7 @@ const String kuKidUpdateProfilePicture = '/mobile/user/update-kid-profile-image'
 const String kuKidUpdateCoverPhoto = '/mobile/user/update-kid-cover-photo';
 const String kuKidUpdateParentRelation = '/mobile/user/update-kid-parent-relation';
 const String kuKidUpdateGender = '/mobile/user/update-kid-gender';
+const String kuKidUpdateLanguages = '/mobile/user/update-kid-languages';
 
 /*
 |--------------------------------------------------------------------------

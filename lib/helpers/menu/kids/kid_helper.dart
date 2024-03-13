@@ -608,6 +608,16 @@ class KidHelper {
     await kidsController.getKidGenderList();
   }
 
+  Future<void> removeLanguage(index) async {
+    kidsController.userLanguages.removeAt(index);
+    if (kidsController.userLanguages.length == 1) {
+      if (kidsController.userLanguages[0] == "") {
+        kidsController.userLanguages.clear();
+      }
+    }
+    await kidsController.storeLanguages(kidsController.userLanguages);
+  }
+
   void resetTextEditor() {
     // profileController.temporaryListCommon.clear();
     kidsController.kidEducationInstituteTextEditingController.clear();

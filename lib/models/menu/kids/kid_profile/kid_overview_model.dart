@@ -322,7 +322,7 @@ class Kids {
   dynamic country;
   int? rating;
   List<dynamic> hobbies;
-  List<dynamic> languages;
+  List<String> languages;
   dynamic gender;
   dynamic privacyLink;
   dynamic qr;
@@ -403,7 +403,7 @@ class Kids {
         country: json["country"],
         rating: json["rating"],
         hobbies: List<dynamic>.from(json["hobbies"].map((x) => x)),
-        languages: List<dynamic>.from(json["languages"].map((x) => x)),
+        languages: List<String>.from(json["languages"].map((x) => x)),
         gender: json["gender"],
         privacyLink: json["privacy_link"],
         qr: json["qr"],

@@ -446,8 +446,6 @@ class KidsController extends GetxController {
   final RxBool showCommonEditSuffixIcon = RxBool(false);
   RxList<String> temporaryList = RxList<String>();
   final List kidSchoolList = ['abc school', 'def school', 'ghi school'];
-  final RxList kidLanguageList = RxList(['English', 'Bangla']);
-  // final List<String> allLanguageList = ['English', 'Bangla', 'Hindi', 'Urdu', 'Spanish', 'Japanese', 'Yue Chinese', 'Marathi', 'Telugu'];
   TextEditingController kidSearchLanguageTextEditingController = TextEditingController();
   // final RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
   final RxInt kidProfileTabIndex = RxInt(0);
@@ -475,12 +473,14 @@ class KidsController extends GetxController {
         url: "$kuKidOverview/${selectedKidId.value}",
       ) as CommonDM;
       if (response.success == true) {
+        clearDataList();
         featuredPostList.clear();
         kidOverviewData.value = KidOverviewModel.fromJson(response.data);
         kidsData.value = kidOverviewData.value!.kids;
         featuredPostList.addAll(kidOverviewData.value!.featurePost);
         kidBio.value = kidsData.value!.bio;
         kidGender.value = kidsData.value?.gender;
+        userLanguages.addAll(kidsData.value!.languages);
         kidRelation.value = kidsData.value?.relation.toString();
         isKidOverviewLoading.value = false;
       } else {
@@ -729,7 +729,19 @@ class KidsController extends GetxController {
       ll('updateKidGender error: $e');
     }
   }
-   //* Get Language list api implementation
+
+  void clearDataList() {
+    // otherCityList.clear();
+    // schoolDataList.clear();
+    // collegeDataList.clear();
+    // contactDataList.clear();
+    // emailDataList.clear();
+    // phoneDataList.clear();
+    // linkDataList.clear();
+    userLanguages.clear();
+  }
+
+  //* Get Language list api implementation
   Rx<LanguageListModel?> languageListData = Rx<LanguageListModel?>(null);
   final TextEditingController searchLanguageTextEditingController = TextEditingController();
   final RxBool isAddLanguageButtonEnabled = RxBool(false);
@@ -762,5 +774,42 @@ class KidsController extends GetxController {
     }
   }
 
+  final RxBool isStoreLanguageLoading = RxBool(false);
+  Future<void> storeLanguages(languages) async {
+    try {
+      isStoreLanguageLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'kid_id': selectedKidId.value.toString(),
+        'languages': languages,
+      };
+      ll(body);
+      var response = await apiController.commonPostDio(
+        url: kuKidUpdateLanguages,
+        body: body,
+        token: token,
+      ) as CommonDM;
 
+      if (response.success == true) {
+        userLanguages.clear();
+        kidBioUpdateData.value = KidBioUpdateModel.fromJson(response.data);
+        kidsData.value = kidBioUpdateData.value!.kids;
+        userLanguages.addAll(kidsData.value!.languages);
+        isStoreLanguageLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isStoreLanguageLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreLanguageLoading.value = false;
+      ll('storeLanguages error: $e');
+    }
+  }
 }

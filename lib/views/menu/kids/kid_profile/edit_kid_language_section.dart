@@ -7,6 +7,7 @@ import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 class EditKidLanguageSection extends StatelessWidget {
   EditKidLanguageSection({super.key});
   final KidsController kidsController = Get.find<KidsController>();
+  final KidHelper kidHelper = KidHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class EditKidLanguageSection extends StatelessWidget {
             //* info:: appBar
             child: Obx(() => CustomAppBar(
                   appBarColor: cWhiteColor,
-                  title: kidsController.kidLanguageList.isEmpty ? ksSelectLanguage.tr : ksEditLanguage.tr,
+                  title: kidsController.userLanguages.isEmpty ? ksSelectLanguage.tr : ksEditLanguage.tr,
                   hasBackButton: true,
                   isCenterTitle: true,
                   onBack: () {
@@ -29,51 +30,53 @@ class EditKidLanguageSection extends StatelessWidget {
                   },
                 )),
           ),
-          body: Column(
-            children: [
-              Container(
-                color: cWhiteColor,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      InfoContainer(
-                        suffixText: ksLanguage.tr,
-                        suffixTextStyle: semiBold18TextStyle(cBlackColor),
-                        isAddButton: true,
-                        suffixOnPressed: () async {
-                          KidHelper().clearAddLanguagePage();
-                          Get.toNamed(krKidAddLanguage);
-                          // await profileController.getLanguageList();//!Api call
-                        },
-                      ),
-                      kH16sizedBox,
-                    ],
+          body: Obx(
+            () => Column(
+              children: [
+                Container(
+                  color: cWhiteColor,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        InfoContainer(
+                          suffixText: ksLanguage.tr,
+                          suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                          isAddButton: true,
+                          suffixOnPressed: () async {
+                            KidHelper().clearAddLanguagePage();
+                            await kidsController.getLanguageList();
+                            Get.toNamed(krKidAddLanguage);
+                          },
+                        ),
+                        kH16sizedBox,
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              if (kidsController.kidLanguageList.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return CustomSelectionButton(
-                        prefixIcon: BipHip.language,
-                        trailingIcon: BipHip.cross,
-                        onPressSuffixButton: () async {
-                          // await editProfileHelper.removeLanguage(index);//!
-                        },
-                        text: kidsController.kidLanguageList[index],
-                      );
-                    },
-                    separatorBuilder: (context, index) => kH16sizedBox,
-                    itemCount: kidsController.kidLanguageList.length,
+                if (kidsController.userLanguages.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return CustomSelectionButton(
+                          prefixIcon: BipHip.language,
+                          trailingIcon: BipHip.cross,
+                          onPressSuffixButton: () async {
+                            await kidHelper.removeLanguage(index);
+                          },
+                          text: kidsController.userLanguages[index],
+                        );
+                      },
+                      separatorBuilder: (context, index) => kH16sizedBox,
+                      itemCount: kidsController.userLanguages.length,
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
