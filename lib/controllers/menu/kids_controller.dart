@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
 import 'package:bip_hip/models/menu/kids/kid_profile/kid_bio_update_model.dart';
 import 'package:bip_hip/models/menu/kids/kid_profile/kid_overview_model.dart';
+import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/models/post/kid_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -412,7 +413,8 @@ class KidsController extends GetxController {
   final RxInt deleteIndex = RxInt(-1);
   final RxBool isDropdownShown = RxBool(false);
   final RxBool editCommonSelectionBottomSheetRightButtonState = RxBool(false);
-  final Rx<String?> kidGender = Rx<String?>("Male");
+  final RxString kidGender = RxString('');
+  final RxBool isKidGenderSelected = RxBool(false);
   final Rx<DateTime?> kidDob = Rx<DateTime?>(DateTime.now());
   final Rx<String?> kidRelation = Rx<String?>(null);
   final RxString temporaryKidRelationData = RxString('');
@@ -445,11 +447,9 @@ class KidsController extends GetxController {
   RxList<String> temporaryList = RxList<String>();
   final List kidSchoolList = ['abc school', 'def school', 'ghi school'];
   final RxList kidLanguageList = RxList(['English', 'Bangla']);
-  final List<String> allLanguageList = ['English', 'Bangla', 'Hindi', 'Urdu', 'Spanish', 'Japanese', 'Yue Chinese', 'Marathi', 'Telugu'];
-  final RxString addedLanguage = RxString("");
+  // final List<String> allLanguageList = ['English', 'Bangla', 'Hindi', 'Urdu', 'Spanish', 'Japanese', 'Yue Chinese', 'Marathi', 'Telugu'];
   TextEditingController kidSearchLanguageTextEditingController = TextEditingController();
-  final RxBool isAddLanguageButtonEnabled = RxBool(false);
-  final RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
+  // final RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
   final RxInt kidProfileTabIndex = RxInt(0);
   final RxBool seeMore = RxBool(false);
   //* kid data reset
@@ -480,6 +480,7 @@ class KidsController extends GetxController {
         kidsData.value = kidOverviewData.value!.kids;
         featuredPostList.addAll(kidOverviewData.value!.featurePost);
         kidBio.value = kidsData.value!.bio;
+        kidGender.value = kidsData.value?.gender;
         kidRelation.value = kidsData.value?.relation.toString();
         isKidOverviewLoading.value = false;
       } else {
@@ -623,7 +624,7 @@ class KidsController extends GetxController {
   // final Rx<Kids?> kidsData = Rx<Kids?>(null);
   // final Rx<Kids?> kidRelationModelData = Rx<Kids?>(null);
   RxBool isKidRelationLoading = RxBool(false);
-  Future<void> updateKidRelation([isUpdate = true]) async {
+  Future<void> updateKidRelation() async {
     try {
       isKidRelationLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -658,4 +659,108 @@ class KidsController extends GetxController {
       ll('updateKidRelation error: $e');
     }
   }
+
+  final RxList genderList = RxList([]);
+  //* get gender list API
+  Rx<GenderListModel?> genderListData = Rx<GenderListModel?>(null);
+  RxBool isGenderListLoading = RxBool(false);
+  Future<void> getKidGenderList() async {
+    try {
+      isGenderListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllGenders,
+      ) as CommonDM;
+      if (response.success == true) {
+        genderList.clear();
+        genderListData.value = GenderListModel.fromJson(response.data);
+        genderList.addAll(genderListData.value!.genders);
+        isGenderListLoading.value = false;
+      } else {
+        isGenderListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isGenderListLoading.value = true;
+      ll('getGenderList error: $e');
+    }
+  }
+
+  RxBool isKidGenderLoading = RxBool(false);
+  Future<void> updateKidGender() async {
+    try {
+      isKidGenderLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'kid_id': selectedKidId.value.toString(),
+        'gender': kidGender.value.toString(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuKidUpdateGender,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        // kidRelation.value = kidsData.value?.relation;
+        // ll(kidRelation.value);
+        isKidGenderLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isKidGenderLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidGenderLoading.value = false;
+      ll('updateKidGender error: $e');
+    }
+  }
+   //* Get Language list api implementation
+  Rx<LanguageListModel?> languageListData = Rx<LanguageListModel?>(null);
+  final TextEditingController searchLanguageTextEditingController = TextEditingController();
+  final RxBool isAddLanguageButtonEnabled = RxBool(false);
+  final RxString addedLanguage = RxString("");
+  List<String> allLanguageList = [];
+  RxList<String> userLanguages = RxList<String>([]);
+  RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
+  Future<void> getLanguageList() async {
+    try {
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetALlLanguageList,
+      ) as CommonDM;
+      if (response.success == true) {
+        allLanguageList.clear();
+        languageListData.value = LanguageListModel.fromJson(response.data);
+        allLanguageList.addAll(languageListData.value!.languages);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getLanguageList error: $e');
+    }
+  }
+
+
 }

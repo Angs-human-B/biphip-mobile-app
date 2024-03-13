@@ -43,7 +43,6 @@ class EditKidLanguageSection extends StatelessWidget {
                         suffixTextStyle: semiBold18TextStyle(cBlackColor),
                         isAddButton: true,
                         suffixOnPressed: () async {
-                          // editProfileHelper.clearAddLanguagePage();//!Write this function
                           KidHelper().clearAddLanguagePage();
                           Get.toNamed(krKidAddLanguage);
                           // await profileController.getLanguageList();//!Api call
@@ -65,7 +64,7 @@ class EditKidLanguageSection extends StatelessWidget {
                         prefixIcon: BipHip.language,
                         trailingIcon: BipHip.cross,
                         onPressSuffixButton: () async {
-                          // await editProfileHelper.removeLanguage(index);//!Api call
+                          // await editProfileHelper.removeLanguage(index);//!
                         },
                         text: kidsController.kidLanguageList[index],
                       );

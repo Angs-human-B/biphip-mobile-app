@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/shimmers/profile/gender_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_picture_upload_content.dart';
 
@@ -499,7 +500,8 @@ class KidHelper {
             padding: const EdgeInsets.only(bottom: k10Padding),
             child: Obx(
               () => CustomListTile(
-                itemColor: kidsController.temporaryKidRelationId.value == kidsController.kidRelationMap[index]['relation_id'] ? cPrimaryTint3Color : cWhiteColor,
+                itemColor:
+                    kidsController.temporaryKidRelationId.value == kidsController.kidRelationMap[index]['relation_id'] ? cPrimaryTint3Color : cWhiteColor,
                 onPressed: () {
                   kidsController.temporaryKidRelationData.value = kidsController.kidRelationMap[index]['relation']!;
                   kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
@@ -533,7 +535,7 @@ class KidHelper {
 
   void selectKidGender(context) async {
     if (kidsController.kidGender.value != '') {
-      kidsController.temporaryKidGender.value = kidsController.kidGender.value!;
+      kidsController.temporaryKidGender.value = kidsController.kidGender.value;
       kidsController.kidGenderBottomSheetState.value = true;
     } else {
       kidsController.temporaryKidGender.value = '';
@@ -543,55 +545,56 @@ class KidHelper {
     globalController.commonBottomSheet(
       isBottomSheetRightButtonActive: kidsController.kidGenderBottomSheetState,
       context: context,
-      content: Column(
-        children: [
-          ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: kidsController.kidGenderList.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: k12Padding),
-                  child: Obx(
-                    () => CustomListTile(
-                      onPressed: () {
-                        kidsController.temporaryKidGender.value = kidsController.kidGenderList[index].toString();
-                        if (kidsController.temporaryKidGender.value == '') {
-                          kidsController.kidGenderBottomSheetState.value = false;
-                        } else {
-                          kidsController.kidGenderBottomSheetState.value = true;
-                        }
-                      },
-                      title: kidsController.kidGenderList[index].toString(),
-                      titleTextStyle: regular16TextStyle(cBlackColor),
-                      borderColor: kidsController.temporaryKidGender.value == kidsController.kidGenderList[index].toString() ? cPrimaryColor : cLineColor2,
-                      itemColor: kidsController.temporaryKidGender.value == kidsController.kidGenderList[index].toString() ? cPrimaryTint3Color : cWhiteColor,
-                      trailing: CustomRadioButton(
-                        onChanged: () {
-                          kidsController.temporaryKidGender.value = kidsController.kidGenderList[index];
-                          if (kidsController.temporaryKidGender.value == '') {
-                            kidsController.kidGenderBottomSheetState.value = false;
-                          } else {
-                            kidsController.kidGenderBottomSheetState.value = true;
-                          }
-                        },
-                        isSelected: kidsController.temporaryKidGender.value == kidsController.kidGenderList[index],
-                      ),
-                    ),
-                  ),
-                );
-              }),
-        ],
-      ),
+      content: Obx(() => kidsController.isGenderListLoading.value
+          ? const GenderListShimmer()
+          : Column(
+              children: [
+                ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: kidsController.genderList.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: k12Padding),
+                        child: Obx(() => CustomListTile(
+                              onPressed: () {
+                                kidsController.temporaryKidGender.value = kidsController.genderList[index].toString();
+                                if (kidsController.temporaryKidGender.value == '') {
+                                  kidsController.kidGenderBottomSheetState.value = false;
+                                } else {
+                                  kidsController.kidGenderBottomSheetState.value = true;
+                                }
+                              },
+                              title: kidsController.genderList[index].toString(),
+                              titleTextStyle: regular16TextStyle(cBlackColor),
+                              borderColor: kidsController.temporaryKidGender.value == kidsController.genderList[index].toString() ? cPrimaryColor : cLineColor2,
+                              itemColor:
+                                  kidsController.temporaryKidGender.value == kidsController.genderList[index].toString() ? cPrimaryTint3Color : cWhiteColor,
+                              trailing: CustomRadioButton(
+                                onChanged: () {
+                                  kidsController.temporaryKidGender.value = kidsController.genderList[index];
+                                  if (kidsController.temporaryKidGender.value == '') {
+                                    kidsController.kidGenderBottomSheetState.value = false;
+                                  } else {
+                                    kidsController.kidGenderBottomSheetState.value = true;
+                                  }
+                                },
+                                isSelected: kidsController.temporaryKidGender.value == kidsController.genderList[index],
+                              ),
+                            )),
+                      );
+                    }),
+              ],
+            )),
       onPressCloseButton: () {
         Get.back();
       },
       onPressRightButton: () {
-        // profileController.isGenderListLoading.value = true;
-        // if (profileController.temporarySelectedGender.value != '') {
-        //   authenticationController.gender.value = profileController.temporarySelectedGender.value;
-        //   profileController.isGenderSelected.value = true;
-        // }
+        kidsController.isGenderListLoading.value = true;
+        if (kidsController.temporaryKidGender.value != '') {
+          kidsController.kidGender.value = kidsController.temporaryKidGender.value;
+          kidsController.isKidGenderSelected.value = true;
+        }
         kidsController.kidGender.value = kidsController.temporaryKidGender.value;
         Get.back();
       },
@@ -602,7 +605,7 @@ class KidHelper {
       isScrollControlled: true,
       bottomSheetHeight: height * 0.4,
     );
-    // await profileController.getGenderList();//!Api call
+    await kidsController.getKidGenderList();
   }
 
   void resetTextEditor() {
