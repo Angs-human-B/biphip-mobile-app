@@ -169,6 +169,8 @@ const String kuSetUserPendent = '/mobile/user/set-user-pendent';
 //* Kid profile
 const String kuKidOverview = '/mobile/user/kid-profile-overview';
 const String kuKidUpdateBio = '/mobile/user/update-kid-bio';
+const String kuKidUpdateProfilePicture = '/mobile/user/update-kid-profile-image';
+const String kuKidUpdateCoverPhoto = '/mobile/user/update-kid-cover-photo';
 
 /*
 |--------------------------------------------------------------------------

@@ -526,4 +526,123 @@ class KidsController extends GetxController {
       ll('updateKidBio error: $e');
     }
   }
+
+  // //* upload profile photo
+  final RxBool isImageUploadPageLoading = RxBool(false);
+  Future<void> uploadKidProfileAndCover(File imageFile, String type, [isFromProfile = true]) async {
+    try {
+      // if (isFromProfile == true) {
+      isImageUploadPageLoading.value = true;
+      // }
+      String? token = await spController.getBearerToken();
+      List<String> key = [];
+      List<dynamic> value = [];
+      key.add('kid_id');
+      value.add(selectedKidId.value.toString());
+      if (type == 'profile') {
+        key.add('profile_image');
+        // value.add(newProfileImageFile.value);
+      } else {
+        key.add('cover_photo');
+        // value.add(coverImageFile.value);
+      }
+      value.add(imageFile);
+      ll(key);
+      ll(value);
+      var response = await apiController.mediaUploadMultipleKeyAndValue(
+        url: type == 'profile' ? kuKidUpdateProfilePicture : kuKidUpdateCoverPhoto,
+        token: token,
+        keys: key,
+        values: value,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        // ll(response.data.toString());
+        // KidBioUpdateModel kidsModelData = KidBioUpdateModel.fromJson(response.data);
+        // kidsData.value = kidsModelData.kids;
+        // var rememberMe = await spController.getRememberMe();
+        // if (rememberMe == true) {
+        //   // await spController.saveUserList({
+        //   //   "email": userData.value!.email.toString(),
+        //   //   "name": userData.value!.fullName.toString(),
+        //   //   "first_name": userData.value!.firstName.toString(),
+        //   //   "last_name": userData.value!.lastName.toString(),
+        //   //   "image_url": userData.value!.profilePicture.toString(),
+        //   //   "token": token.toString(),
+        //   // });
+        // }
+        // await spController.saveUserImage(kidsData.value!.profilePicture.toString());
+        // await globalController.getUserInfo();
+        // if (isFromProfile == true) {
+        //   Get.back();
+        //   isImageUploadPageLoading.value = false;
+        // } else {
+        //   Get.offAllNamed(krHome);
+        // }
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        if (isFromProfile == true) {
+          isImageUploadPageLoading.value = false;
+        }
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      if (isFromProfile == true) {
+        isImageUploadPageLoading.value = false;
+      }
+      ll('uploadProfileAndCover error: $e');
+    }
+  }
+  // Future<void> uploadKidProfileAndCover(File imageFile, String type, [isFromProfile = true]) async {
+  //   try {
+  //     isImageUploadPageLoading.value = true;
+  //     String? token = await spController.getBearerToken();
+  //     List<String> key = [];
+  //     List<dynamic> value = [];
+  //     key.add('kid_id');
+  //     value.add(selectedKidId.value.toString());
+  //     if (type == 'profile') {
+  //       key.add('profile_image');
+  //     } else {
+  //       key.add('cover_photo');
+  //     }
+  //     value.add(imageFile);
+  //     ll(key);
+  //     ll(value);
+
+  //     // Check if the file exists before attempting to upload
+  //     if (!imageFile.existsSync()) {
+  //       print('File does not exist at the specified path');
+  //       return; // Exit the function if the file does not exist
+  //     }
+
+  //     var response = await apiController.mediaUploadMultipleKeyAndValue(
+  //       url: type == 'profile' ? kuKidUpdateProfilePicture : kuKidUpdateCoverPhoto,
+  //       token: token,
+  //       keys: key,
+  //       values: value,
+  //     );
+
+  //     // Check if the response is null before proceeding
+  //     if (response == null) {
+  //       print('API response is null');
+  //       return; // Exit the function if the response is null
+  //     }
+
+  //     // Assuming CommonDM is a class you've defined elsewhere
+  //     CommonDM commonDMResponse = response as CommonDM; // Cast the response to CommonDM
+
+  //     // Proceed with handling the response...
+  //   } catch (e) {
+  //     if (isFromProfile == true) {
+  //       isImageUploadPageLoading.value = false;
+  //     }
+  //     print('uploadProfileAndCover error: $e');
+  //   }
+  // }
 }

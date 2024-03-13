@@ -128,32 +128,29 @@ class KidHelper {
         isImageChanged: kidsController.isProfileImageChanged,
         imagePath: kidsController.profileImageLink,
         imageFile: kidsController.profileImageFile,
-        // isViewOptionEnabled: false.obs,
       ),
     );
   }
 
   void kidInitialDataCoverPhoto() {
-    // if (kidsController.userData.value!.coverPhoto != null) {
-    //   profileController.viewOptionEnabled.value = true;
-    //   profileController.isProfilePhoto.value = false;
-    //   profileController.previewPhoto.value = profileController.userData.value!.coverPhoto.toString();
-    // } else {
-    // kidsController.viewOptionEnabled.value = false;//!correct
-    kidsController.kidViewOptionEnabled.value = true;
-    // }
+    if (kidsController.kidsData.value!.coverPhoto != null) {
+      kidsController.kidViewOptionEnabled.value = true;
+      kidsController.isKidProfilePhoto.value = false;
+      kidsController.kidPreviewPhoto.value = kidsController.kidsData.value!.coverPhoto.toString();
+    } else {
+      kidsController.kidViewOptionEnabled.value = false;
+    }
     kidsController.isKidProfilePicEditor.value = false;
   }
 
   void kidInitialDataProfilePicture() {
-    // if (kidsController.userData.value!.coverPhoto != null) {
-    // kidsController.viewOptionEnabled.value = true;
-    //   profileController.isProfilePhoto.value = false;
-    //   profileController.previewPhoto.value = profileController.userData.value!.coverPhoto.toString();
-    // } else {
-    // kidsController.viewOptionEnabled.value = false;//!Correct
-    kidsController.kidViewOptionEnabled.value = true;
-    // }
+    if (kidsController.kidsData.value!.profilePicture != null) {
+      kidsController.kidViewOptionEnabled.value = true;
+      kidsController.isKidProfilePhoto.value = false;
+      kidsController.kidPreviewPhoto.value = kidsController.kidsData.value!.profilePicture.toString();
+    } else {
+      kidsController.kidViewOptionEnabled.value = false;
+    }
     kidsController.isKidProfilePicEditor.value = true;
   }
 
@@ -212,7 +209,7 @@ class KidHelper {
     if (kidsController.kidsData.value!.bio == null) {
       kidsController.bioCount.value = 0;
       kidsController.kidBioEditingController.text = '';
-      kidsController.kidBio.value = '';
+      kidsController.kidBio.value = null;
     } else {
       //!Api Data
       kidsController.kidBio.value = kidsController.kidsData.value!.bio;
@@ -453,6 +450,7 @@ class KidHelper {
       kidsController.isKidProfilePhoto.value = true;
       kidsController.kidViewOptionEnabled.value = true;
       kidsController.kidPreviewPhoto.value = kidsController.kidOverviewData.value!.kids!.profilePicture.toString();
+      ll(kidsController.kidOverviewData.value!.kids!.profilePicture);
       Get.toNamed(krKidPhotoView);
     }
   }
@@ -462,6 +460,7 @@ class KidHelper {
       kidsController.kidViewOptionEnabled.value = true;
       kidsController.isKidProfilePhoto.value = false;
       kidsController.kidPreviewPhoto.value = kidsController.kidOverviewData.value!.kids!.coverPhoto.toString();
+      ll(kidsController.kidPreviewPhoto.value);
       Get.toNamed(krKidPhotoView);
     }
   }

@@ -123,10 +123,10 @@ class KidPhotoPreview extends StatelessWidget {
                             onPressed: () async {
                               if (kidsController.isKidProfilePicEditor.value) {
                                 kidsController.newProfileImageFile.value = kidsController.profileImageFile.value;
-                                // await profileController.uploadProfileAndCover(profileController.newProfileImageFile.value, 'profile');//!Api call
+                                await kidsController.uploadKidProfileAndCover(kidsController.newProfileImageFile.value, 'profile'); //!Api call
                               } else {
                                 kidsController.newCoverImageFile.value = kidsController.coverImageFile.value;
-                                // await profileController.uploadProfileAndCover(profileController.newCoverImageFile.value, 'cover');//!APi call
+                                await kidsController.uploadKidProfileAndCover(kidsController.newCoverImageFile.value, 'cover'); //!APi call
                               }
                             },
                           ),
