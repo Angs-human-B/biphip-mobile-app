@@ -67,9 +67,9 @@ class SelectHobbiesPage extends StatelessWidget {
                           direction: Axis.horizontal,
                           spacing: 8.0,
                           children: [
-                            for (int i = 0; i < kidsController.allHobbiesList.length; i++)
+                            for (int i = 0; i < kidsController.temporaryHobbiesList.length; i++)
                               CustomChoiceChips(
-                                label: kidsController.allHobbiesList[i],
+                                label: kidsController.temporaryHobbiesList[i],
                                 isSelected: (kidsController.hobbiesIndex.contains(i)),
                                 onSelected: (value) {
                                   kidHelper.onSelectHobbies(i);
@@ -84,6 +84,7 @@ class SelectHobbiesPage extends StatelessWidget {
                         onPressed: kidsController.hobbiesIndex.isNotEmpty
                             ? () {
                                 // registrationHelper.saveInterest();//!Api call
+                                kidHelper.saveHobbies();
                                 kidsController.selectedHobbies.addAll(kidsController.temporarySelectedHobbies);
                                 Get.back();
                                 kidsController.temporarySelectedHobbies.clear();

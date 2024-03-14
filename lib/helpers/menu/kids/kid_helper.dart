@@ -224,26 +224,26 @@ class KidHelper {
 
   //*Hobbies select
   void setHobbies() async {
-    // kidsController.hobbiesIndex.clear();
+    kidsController.hobbiesIndex.clear();
+    await kidsController.getAllHobbiesList();
     Get.toNamed(krSelectHobbiesPage);
-    // await profileController.getInterestList();//!Api call here
     //!Needed after api call
-    // for (int j = 0; j < profileController.userData.value!.interest.length; j++) {
-    //   for (int i = 0; i < globalController.interestList.length; i++) {
-    //     if (globalController.interestList[i] == profileController.userData.value!.interest[j]) {
-    //       globalController.interestIndex.add(i);
-    //     }
-    //   }
-    // }
+    for (int j = 0; j < kidsController.kidsData.value!.hobbies.length; j++) {
+      for (int i = 0; i < kidsController.hobbiesList.length; i++) {
+        if (kidsController.hobbiesList[i] == kidsController.kidsData.value!.hobbies[j]) {
+          kidsController.hobbiesIndex.add(i);
+        }
+      }
+    }
   }
 
   void onSelectHobbies(index) {
     if (!kidsController.hobbiesIndex.contains(index)) {
       kidsController.hobbiesIndex.add(index);
-      kidsController.temporarySelectedHobbies.add(kidsController.allHobbiesList[index]);
+      kidsController.temporarySelectedHobbies.add(kidsController.temporaryHobbiesList[index]);
     } else {
       kidsController.hobbiesIndex.remove(index);
-      kidsController.temporarySelectedHobbies.remove(kidsController.allHobbiesList[index]);
+      kidsController.temporarySelectedHobbies.remove(kidsController.temporaryHobbiesList[index]);
     }
   }
 
@@ -663,6 +663,15 @@ class KidHelper {
     resetTextEditor();
     getMethod(0);
     // kidsController.getSchoolList();//!Api call here
+  }
+
+    void saveHobbies() async {
+      kidsController.selectedHobbies.clear();
+      for (int i = 0; i < kidsController.hobbiesIndex.length; i++) {
+        kidsController.selectedHobbies.add(kidsController.temporaryHobbiesList[kidsController.hobbiesIndex[i]]);
+      }
+      Get.back();
+      await kidsController.setHobbies(kidsController.selectedHobbies);
   }
 
   void editKidSchool(index) {

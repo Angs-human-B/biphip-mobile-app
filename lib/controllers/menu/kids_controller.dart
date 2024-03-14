@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:bip_hip/models/menu/kids/all_hobbies_model.dart';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
 import 'package:bip_hip/models/menu/kids/kid_profile/kid_bio_update_model.dart';
 import 'package:bip_hip/models/menu/kids/kid_profile/kid_overview_model.dart';
@@ -392,13 +393,11 @@ class KidsController extends GetxController {
   final RxInt bioCount = RxInt(0);
   final RxBool isKidProfilePhoto = RxBool(false);
   final RxString kidPreviewPhoto = RxString('');
-  final RxList hobbiesList = RxList([]);
   final RxList<int> hobbiesIndex = RxList<int>([]);
   final RxList selectedHobbies = RxList([]);
   final RxList temporarySelectedHobbies = RxList([]);
   final RxList kidPhoneNumberList = RxList(['017236748765478', '019823973893']);
   final RxList kidEmailList = RxList(['abcdef@gmail.com', 'hjfdnd@gmail.com']);
-  final allHobbiesList = ['Cricket', 'Football', 'Garden', 'Tour', 'Watching Movie'];
   final TextEditingController kidEducationInstituteTextEditingController = TextEditingController();
   final RxBool isKidCurrentlyStudyingHere = RxBool(false);
   final RxString temporaryKidSchoolStartDate = RxString('');
@@ -481,6 +480,7 @@ class KidsController extends GetxController {
         kidBio.value = kidsData.value!.bio;
         kidGender.value = kidsData.value?.gender;
         userLanguages.addAll(kidsData.value!.languages);
+        selectedHobbies.addAll(kidsData.value!.hobbies);
         kidRelation.value = kidsData.value?.relation.toString();
         isKidOverviewLoading.value = false;
       } else {
@@ -810,6 +810,89 @@ class KidsController extends GetxController {
     } catch (e) {
       isStoreLanguageLoading.value = false;
       ll('storeLanguages error: $e');
+    }
+  }
+
+  //* get Hobbies list API
+  final RxList hobbiesList = RxList([]);
+  Rx<AllHobbiesModel?> allHobbiesListData = Rx<AllHobbiesModel?>(null);
+  RxBool isAllHobbiesListLoading = RxBool(false);
+  RxList temporaryHobbiesList = RxList([]);
+  Future<void> getAllHobbiesList() async {
+    try {
+      isAllHobbiesListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllHobbies,
+      ) as CommonDM;
+      if (response.success == true) {
+        temporaryHobbiesList.clear();
+        hobbiesList.clear();
+        allHobbiesListData.value = AllHobbiesModel.fromJson(response.data);
+        temporaryHobbiesList.addAll(allHobbiesListData.value!.hobbies);
+        for (int i = 0; i < temporaryHobbiesList.length; i++) {
+          if (hobbiesList.contains(temporaryHobbiesList[i])) {
+            hobbiesList.add(temporaryHobbiesList[i]);
+            ll(hobbiesList);
+          }
+        }
+        isAllHobbiesListLoading.value = false;
+      } else {
+        isAllHobbiesListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isAllHobbiesListLoading.value = true;
+      ll('getAllHobbiesList error: $e');
+    }
+  }
+  //* set Hobbies API implementation
+  final RxBool isSetHobbiesLoading = RxBool(false);
+  Future<void> setHobbies(hobbies) async {
+    ll(interest);
+    try {
+      isSetHobbiesLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'kid_id': selectedKidId.value.toString(),
+       'hobbies': hobbies
+       };
+      ll(body);
+      var response = await apiController.commonPostDio(
+        url: kuKidUpdateHobbies,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        ll(response.data);
+         selectedHobbies.clear();
+        kidBioUpdateData.value = KidBioUpdateModel.fromJson(response.data);
+        kidsData.value = kidBioUpdateData.value!.kids;
+        selectedHobbies.addAll(kidsData.value!.hobbies);
+        // commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
+        // userData.value = commonUserLayeredData.value!.user;
+        isSetHobbiesLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isSetHobbiesLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isSetHobbiesLoading.value = false;
+      ll('setHobbies error: $e');
     }
   }
 }

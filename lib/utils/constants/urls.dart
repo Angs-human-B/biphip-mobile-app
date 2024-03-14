@@ -174,6 +174,8 @@ const String kuKidUpdateCoverPhoto = '/mobile/user/update-kid-cover-photo';
 const String kuKidUpdateParentRelation = '/mobile/user/update-kid-parent-relation';
 const String kuKidUpdateGender = '/mobile/user/update-kid-gender';
 const String kuKidUpdateLanguages = '/mobile/user/update-kid-languages';
+const String kuGetAllHobbies = '/mobile/get-all-hobbies';
+const String kuKidUpdateHobbies = '/mobile/user/update-kid-hobbies';
 
 /*
 |--------------------------------------------------------------------------
