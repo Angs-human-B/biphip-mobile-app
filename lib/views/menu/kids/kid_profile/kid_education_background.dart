@@ -27,13 +27,12 @@ class KidEducationBackground extends StatelessWidget {
               },
             ),
             kH12sizedBox,
-            // for (int i = 0; i < kidsController.schoolList.length; i++) //! using api
+            for (int i = 0; i < kidsController.kidSchoolList.length; i++) //! using api
               Padding(
                 padding: const EdgeInsets.only(bottom: k12Padding),
                 child: InfoContainer(
-                  // suffixText: checkNullOrStringNull(profileController.schoolDataList[i].school),
+                  suffixText: checkNullOrStringNull(kidsController.kidSchoolList[i].school),
                   // suffixText: kidsController.schoolList[i], //! Using api
-                  suffixText: '',//!change it
                   // prefixText: profileController.schoolDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
                   prefixText: "Studied at", //! Using api
                   // subtitlePrefixText:

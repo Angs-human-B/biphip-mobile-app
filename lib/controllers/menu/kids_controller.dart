@@ -4,6 +4,7 @@ import 'package:bip_hip/models/menu/kids/all_hobbies_model.dart';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
 import 'package:bip_hip/models/menu/kids/kid_profile/kid_bio_update_model.dart';
 import 'package:bip_hip/models/menu/kids/kid_profile/kid_overview_model.dart';
+import 'package:bip_hip/models/menu/kids/kid_profile/kid_school_model.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/models/post/kid_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -443,10 +444,10 @@ class KidsController extends GetxController {
   final RxBool showCommonEditSuffixIcon = RxBool(false);
   RxList<String> temporaryList = RxList<String>();
   TextEditingController kidSearchLanguageTextEditingController = TextEditingController();
-    final RxString commonStartDate = RxString('');
+  final RxString commonStartDate = RxString('');
   final RxString temporaryCommonStartDate = RxString('');
   final RxString commonEndDate = RxString('');
-   final RxString temporaryCommonEndDate = RxString('');
+  final RxString temporaryCommonEndDate = RxString('');
   final RxBool commonEditStartDateBottomSheetRightButtonState = RxBool(false);
   final RxBool commonEditEndDateBottomSheetRightButtonState = RxBool(false);
   // final RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
@@ -1077,8 +1078,8 @@ class KidsController extends GetxController {
   }
 
   //* Get school list api implementation
-   final List<String> schoolList = [];
-   //* Get school list api implementation
+  final List<String> schoolList = [];
+  //* Get school list api implementation
   Rx<SchoolListModel?> schoolListData = Rx<SchoolListModel?>(null);
   Future<void> getSchoolList() async {
     try {
@@ -1103,6 +1104,35 @@ class KidsController extends GetxController {
       }
     } catch (e) {
       ll('getSchoolList error: $e');
+    }
+  }
+
+  //* Kid All school list api implementation
+  Rx<KidSchoolModel?> kidAllSchoolData = Rx<KidSchoolModel?>(null);
+  RxList<School> kidSchoolList = RxList<School>([]);
+  Future<void> getKidAllSchoolList() async {
+    try {
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: '$kuKidAllSchools/${selectedKidId.value.toString()}',
+      ) as CommonDM;
+      if (response.success == true) {
+        kidSchoolList.clear();
+        kidAllSchoolData.value = KidSchoolModel.fromJson(response.data);
+        kidSchoolList.addAll(kidAllSchoolData.value!.schools);
+        temporaryListCommon.addAll(schoolList);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getKidAllSchoolList error: $e');
     }
   }
 }
