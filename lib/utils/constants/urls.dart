@@ -176,6 +176,9 @@ const String kuKidUpdateGender = '/mobile/user/update-kid-gender';
 const String kuKidUpdateLanguages = '/mobile/user/update-kid-languages';
 const String kuGetAllHobbies = '/mobile/get-all-hobbies';
 const String kuKidUpdateHobbies = '/mobile/user/update-kid-hobbies';
+const String kuKidStoreContact = '/mobile/user/store-kid-contact';
+const String kuKidUpdateContact = '/mobile/user/update-kid-contact';
+const String kuKidDeleteContact = '/mobile/user/delete-kid-contact';
 
 /*
 |--------------------------------------------------------------------------

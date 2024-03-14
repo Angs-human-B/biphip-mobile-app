@@ -5,7 +5,6 @@ import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
 import 'package:bip_hip/models/menu/kids/kid_profile/kid_bio_update_model.dart';
 import 'package:bip_hip/models/menu/kids/kid_profile/kid_overview_model.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
-import 'package:bip_hip/models/menu/profile/profile_overview_model.dart';
 import 'package:bip_hip/models/post/kid_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -397,8 +396,8 @@ class KidsController extends GetxController {
   final RxList<int> hobbiesIndex = RxList<int>([]);
   final RxList selectedHobbies = RxList([]);
   final RxList temporarySelectedHobbies = RxList([]);
-  final RxList kidPhoneNumberList = RxList(['017236748765478', '019823973893']);
-  final RxList kidEmailList = RxList(['abcdef@gmail.com', 'hjfdnd@gmail.com']);
+  // final RxList kidPhoneNumberList = RxList(['017236748765478', '019823973893']);
+  // final RxList kidEmailList = RxList(['abcdef@gmail.com', 'hjfdnd@gmail.com']);
   final TextEditingController kidEducationInstituteTextEditingController = TextEditingController();
   final RxBool isKidCurrentlyStudyingHere = RxBool(false);
   final RxString temporaryKidSchoolStartDate = RxString('');
@@ -482,8 +481,21 @@ class KidsController extends GetxController {
         kidGender.value = kidsData.value?.gender;
         userLanguages.addAll(kidsData.value!.languages);
         selectedHobbies.addAll(kidsData.value!.hobbies);
-        kidRelation.value = kidsData.value?.relation.toString();
+        //  contactDataList.addAll(kidsData.value!.email);
+        // for (int i = 0; i < contactDataList.length; i++) {
+        //   if (contactDataList[i].type == 'email') {
+        //     emailDataList.add(contactDataList[i]);
+        //   } else {
+        //     phoneDataList.add(contactDataList[i]);
+        //   }
+        // }
+        // phoneDataList.add(kidsData.value!.phone);
+        // emailDataList.add(kidsData.value!.email);
+        phoneData.value = kidsData.value?.phone;
+        emailData.value = kidsData.value?.email;
         isKidOverviewLoading.value = false;
+        // ll(phoneDataList);
+        // ll(emailDataList);
       } else {
         isKidOverviewLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -736,9 +748,8 @@ class KidsController extends GetxController {
     // schoolDataList.clear();
     // collegeDataList.clear();
     // contactDataList.clear();
-    // emailDataList.clear();
-    // phoneDataList.clear();
-    // linkDataList.clear();
+    emailData.value = null;
+    phoneData.value = null;
     userLanguages.clear();
   }
 
@@ -854,17 +865,17 @@ class KidsController extends GetxController {
       ll('getAllHobbiesList error: $e');
     }
   }
+
   //* set Hobbies API implementation
   final RxBool isSetHobbiesLoading = RxBool(false);
   Future<void> setHobbies(hobbies) async {
-    ll(interest);
     try {
       isSetHobbiesLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'kid_id': selectedKidId.value.toString(),
-       'hobbies': hobbies
-       };
+        'hobbies': hobbies.join(','),
+      };
       ll(body);
       var response = await apiController.commonPostDio(
         url: kuKidUpdateHobbies,
@@ -874,13 +885,14 @@ class KidsController extends GetxController {
 
       if (response.success == true) {
         ll(response.data);
-         selectedHobbies.clear();
+        selectedHobbies.clear();
         kidBioUpdateData.value = KidBioUpdateModel.fromJson(response.data);
         kidsData.value = kidBioUpdateData.value!.kids;
         selectedHobbies.addAll(kidsData.value!.hobbies);
         // commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
         // userData.value = commonUserLayeredData.value!.user;
         isSetHobbiesLoading.value = false;
+        Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isSetHobbiesLoading.value = false;
@@ -898,133 +910,167 @@ class KidsController extends GetxController {
   }
 
   // //* store contact API Implementation
-  // RxList<Contact> contactDataList = RxList<Contact>([]);
-  // RxList<Contact> emailDataList = RxList<Contact>([]);
-  // RxList<Contact> phoneDataList = RxList<Contact>([]);
-  // Future<void> storeContact(type) async {
-  //   try {
-  //     isEditProfileLoading.value = true;
-  //     String? token = await spController.getBearerToken();
-  //     Map<String, dynamic> body = {
-  //       'type': type,
-  //       'value': type == 'phone' ? phoneTextEditingController.text.trim() : emailTextEditingController.text.trim(),
-  //     };
-  //     var response = await apiController.commonApiCall(
-  //       requestMethod: kPost,
-  //       url: kuStoreContact,
-  //       body: body,
-  //       token: token,
-  //     ) as CommonDM;
+  Rx<KidContact?> kidcontactData = Rx<KidContact?>(null);
+  Rx<String?> emailData = Rx<String?>(null);
+  Rx<String?> phoneData = Rx<String?>(null);
+  // RxList<KidContact> emailDataList = RxList<KidContact>([]);
+  // RxList<KidContact> phoneDataList = RxList<KidContact>([]);
+  final RxBool isKidContactLoading = RxBool(false);
+  Future<void> storeContact(type) async {
+    try {
+      isKidContactLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'kid_id': selectedKidId.value.toString(),
+        'type': type,
+        'value': type == 'phone' ? kidPhoneNumberTextEditingController.text.trim() : kidEmailTextEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuKidStoreContact,
+        body: body,
+        token: token,
+      ) as CommonDM;
 
-  //     if (response.success == true) {
-  //       emailDataList.clear();
-  //       phoneDataList.clear();
-  //       contactDataList.add(Contact.fromJson(response.data));
-  //       for (int i = 0; i < contactDataList.length; i++) {
-  //         if (contactDataList[i].type == 'email') {
-  //           emailDataList.add(contactDataList[i]);
-  //         } else {
-  //           phoneDataList.add(contactDataList[i]);
-  //         }
-  //       }
-  //       isEditProfileLoading.value = false;
-  //       globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-  //     } else {
-  //       isEditProfileLoading.value = false;
-  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
-  //       if (errorModel.errors.isEmpty) {
-  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-  //       } else {
-  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     isEditProfileLoading.value = false;
-  //     ll('storeContact error: $e');
-  //   }
-  // }
+      if (response.success == true) {
+        // emailDataList.clear();
+        // phoneDataList.clear();
+        // contactDataList.add(KidContact.fromJson(response.data));
+        // for (int i = 0; i < contactDataList.length; i++) {
+        //   if (contactDataList[i].type == 'email') {
+        //     emailDataList.add(contactDataList[i]);
+        //   } else {
+        //     phoneDataList.add(contactDataList[i]);
+        //   }
+        // }
+        // phoneData.value = contactDataList.add(KidContact.fromJson(response.data).value);
+        // kidBioUpdateData.value = KidBioUpdateModel.fromJson(response.data);
+        // kidsData.value = kidBioUpdateData.value!.kids;
+        // contactDataList.value = KidContact.fromJson(response.data);
+        kidcontactData.value = KidContact.fromJson(response.data);
+        if (type == 'phone') {
+          phoneData.value = kidcontactData.value?.value;
+        } else {
+          emailData.value = kidcontactData.value?.value;
+        }
+        isKidContactLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isKidContactLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidContactLoading.value = false;
+      ll('storeContact error: $e');
+    }
+  }
 
+  final RxInt phoneID = RxInt(-1);
+  final RxInt emailID = RxInt(-1);
   // //* update contact API Implementation
-  // Future<void> updateContact(id, type) async {
-  //   try {
-  //     isEditProfileLoading.value = true;
-  //     String? token = await spController.getBearerToken();
-  //     Map<String, dynamic> body = {
-  //       'id': id.toString(),
-  //       'type': type,
-  //       'value': type == 'phone' ? phoneTextEditingController.text.trim() : emailTextEditingController.text.trim(),
-  //     };
-  //     var response = await apiController.commonApiCall(
-  //       requestMethod: kPost,
-  //       url: kuUpdateContact,
-  //       body: body,
-  //       token: token,
-  //     ) as CommonDM;
+  Future<void> updateContact(id, type) async {
+    try {
+      isKidContactLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'id': id.toString(),
+        'type': type,
+        'value': type == 'phone' ? kidPhoneNumberTextEditingController.text.trim() : kidEmailTextEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuKidUpdateContact,
+        body: body,
+        token: token,
+      ) as CommonDM;
 
-  //     if (response.success == true) {
-  //       for (int i = 0; i < contactDataList.length; i++) {
-  //         if (contactDataList[i].id == id) {
-  //           contactDataList[i] = Contact.fromJson(response.data);
-  //         }
-  //       }
-  //       isEditProfileLoading.value = false;
-  //       globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-  //     } else {
-  //       isEditProfileLoading.value = false;
-  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
-  //       if (errorModel.errors.isEmpty) {
-  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-  //       } else {
-  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     isEditProfileLoading.value = false;
-  //     ll('updateContact error: $e');
-  //   }
-  // }
+      if (response.success == true) {
+        // for (int i = 0; i < contactDataList.length; i++) {
+        //   if (contactDataList[i].id == id) {
+        //     contactDataList[i] = Contact.fromJson(response.data);
+        //   }
+        // }
+        kidcontactData.value = KidContact.fromJson(response.data);
+        if (type == 'phone') {
+          phoneData.value = kidcontactData.value?.value;
+        } else {
+          emailData.value = kidcontactData.value?.value;
+        }
+        isKidContactLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isKidContactLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidContactLoading.value = false;
+      ll('updateContact error: $e');
+    }
+  }
 
   // //* delete contact API Implementation
-  // Future<void> deleteContact(id) async {
-  //   try {
-  //     isEditProfileLoading.value = true;
-  //     String? token = await spController.getBearerToken();
-  //     var response = await apiController.commonApiCall(
-  //       requestMethod: kDelete,
-  //       url: '$kuDeleteContact/${id.toString()}',
-  //       token: token,
-  //     ) as CommonDM;
+  Future<void> deleteContact(id) async {
+    try {
+      isKidContactLoading.value = true;
+      Get.back();
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuKidDeleteContact/${id.toString()}',
+        token: token,
+      ) as CommonDM;
 
-  //     if (response.success == true) {
-  //       emailDataList.clear();
-  //       phoneDataList.clear();
-  //       for (int i = 0; i < contactDataList.length; i++) {
-  //         if (contactDataList[i].id == id) {
-  //           contactDataList.removeAt(i);
-  //         }
-  //       }
-  //       for (int i = 0; i < contactDataList.length; i++) {
-  //         if (contactDataList[i].type == 'email') {
-  //           emailDataList.add(contactDataList[i]);
-  //         } else {
-  //           phoneDataList.add(contactDataList[i]);
-  //         }
-  //       }
-  //       isEditProfileLoading.value = false;
-  //       globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-  //     } else {
-  //       isEditProfileLoading.value = false;
-  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
-  //       if (errorModel.errors.isEmpty) {
-  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-  //       } else {
-  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     isEditProfileLoading.value = false;
-  //     ll('deleteContact error: $e');
-  //   }
-  // }
+      if (response.success == true) {
+        // emailDataList.clear();
+        // phoneDataList.clear();
+        // for (int i = 0; i < contactDataList.length; i++) {
+        //   if (contactDataList[i].id == id) {
+        //     contactDataList.removeAt(i);
+        //   }
+        // }
+        // for (int i = 0; i < contactDataList.length; i++) {
+        //   if (contactDataList[i].type == 'email') {
+        //     emailDataList.add(contactDataList[i]);
+        //   } else {
+        //     phoneDataList.add(contactDataList[i]);
+        //   }
+        // }
+        // kidcontactData.value = KidContact.fromJson(response.data);
+        // if (type == 'phone') {
+        //   phoneData.value = null;
 
+        // } else {
+        //   emailData.value = null;
+        // }
+        phoneData.value = null;
+        emailData.value = null;
+        isKidContactLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isKidContactLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidContactLoading.value = false;
+      ll('deleteContact error: $e');
+    }
+  }
 }

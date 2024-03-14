@@ -10,67 +10,72 @@ class KidContactSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: cWhiteColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            kH16sizedBox,
-            Text(
-              ksContactDetails.tr,
-              style: semiBold18TextStyle(cBlackColor),
-            ),
-            kH12sizedBox,
-            Padding(
-              padding: const EdgeInsets.only(bottom: k12Padding),
-              child: InfoContainer(
-                suffixText: ksPhone.tr,
-                isAddButton: true,
-                suffixOnPressed: () {
-                  kidHelper.kidAddPhone();
-                },
+    return Obx(
+      () => Container(
+        color: cWhiteColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              kH16sizedBox,
+              Text(
+                ksContactDetails.tr,
+                style: semiBold18TextStyle(cBlackColor),
               ),
-            ),
-            for (int i = 0; i < kidsController.kidPhoneNumberList.length; i++)
+              kH12sizedBox,
+              Padding(
+                padding: const EdgeInsets.only(bottom: k12Padding),
+                child: InfoContainer(
+                  suffixText: ksPhone.tr,
+                  isAddButton: true,
+                  suffixOnPressed: () {
+                    kidHelper.kidAddPhone();
+                  },
+                ),
+              ),
+              // for (int i = 0; i < kidsController.phoneData.length; i++)
               // if (kidsController.phoneNumberList[i].type == 'phone')//!Use it when api call
+              if (kidsController.phoneData.value != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: k12Padding),
+                  child: InfoContainer(
+                    suffixText: '',
+                    prefixText: checkNullOrStringNull(kidsController.phoneData.value),
+                    isAddButton: false,
+                    suffixOnPressed: () {
+                      // kidHelper.editKidPhone(i);
+                      kidHelper.editKidPhone();
+                    },
+                  ),
+                ),
               Padding(
                 padding: const EdgeInsets.only(bottom: k12Padding),
                 child: InfoContainer(
-                  suffixText: '',
-                  prefixText: checkNullOrStringNull(kidsController.kidPhoneNumberList[i]),
-                  isAddButton: false,
+                  suffixText: ksEmail.tr,
+                  isAddButton: true,
                   suffixOnPressed: () {
-                    kidHelper.editKidPhone(i);
+                    kidHelper.kidAddEmail();
                   },
                 ),
               ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: k12Padding),
-              child: InfoContainer(
-                suffixText: ksEmail.tr,
-                isAddButton: true,
-                suffixOnPressed: () {
-                  kidHelper.kidAddEmail();
-                },
-              ),
-            ),
-            for (int i = 0; i < kidsController.kidEmailList.length; i++)
+              // for (int i = 0; i < kidsController.emailDataList.length; i++)
               // if (profileController.contactDataList[i].type == 'email')//!use condition when api call in future
-              Padding(
-                padding: const EdgeInsets.only(bottom: k12Padding),
-                child: InfoContainer(
-                  suffixText: '',
-                  prefixText: checkNullOrStringNull(kidsController.kidEmailList[i]),
-                  isAddButton: false,
-                  suffixOnPressed: () {
-                    kidHelper.editKidEmail(i); 
-                  },
+              if (kidsController.emailData.value != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: k12Padding),
+                  child: InfoContainer(
+                    suffixText: '',
+                    prefixText: checkNullOrStringNull(kidsController.emailData.value),
+                    isAddButton: false,
+                    suffixOnPressed: () {
+                      kidHelper.editKidEmail();
+                    },
+                  ),
                 ),
-              ),
-            kH4sizedBox
-          ],
+              kH4sizedBox
+            ],
+          ),
         ),
       ),
     );

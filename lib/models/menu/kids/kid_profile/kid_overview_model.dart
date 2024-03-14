@@ -199,10 +199,10 @@ class FeaturePost {
         hasReport: json["has_report"],
         myReport: json["my_report"],
         isNotifaction: json["is_notifaction"],
-        isVisibleToMe:  json["is_visible_to_me"],
-        user: json["user"]==null ? null : Parent.fromJson(json["user"]),
-        kid: json["kid"]==null ? null : Kids.fromJson(json["kid"]),
-        postCategory: json["post_category"]==null ? null : PostCategory.fromJson(json["post_category"]),
+        isVisibleToMe: json["is_visible_to_me"],
+        user: json["user"] == null ? null : Parent.fromJson(json["user"]),
+        kid: json["kid"] == null ? null : Kids.fromJson(json["kid"]),
+        postCategory: json["post_category"] == null ? null : PostCategory.fromJson(json["post_category"]),
         postSubCategory: json["post_sub_category"],
         postTags: List<dynamic>.from(json["post_tags"].map((x) => x)),
         images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
@@ -580,3 +580,24 @@ class Parent {
 //         return reverseMap;
 //     }
 // }
+
+class KidContact {
+  // String ? pageId;
+  String? type;
+  String? value;
+  int? id;
+
+  KidContact({
+    // required this.pageId,
+    required this.type,
+    required this.value,
+    required this.id,
+  });
+
+  factory KidContact.fromJson(Map<String, dynamic> json) => KidContact(
+        // pageId: json["page_id"],
+        type: json["type"],
+        value: json["value"],
+        id: json["id"],
+      );
+}

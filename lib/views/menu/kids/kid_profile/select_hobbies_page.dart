@@ -86,7 +86,6 @@ class SelectHobbiesPage extends StatelessWidget {
                                 // registrationHelper.saveInterest();//!Api call
                                 kidHelper.saveHobbies();
                                 kidsController.selectedHobbies.addAll(kidsController.temporarySelectedHobbies);
-                                Get.back();
                                 kidsController.temporarySelectedHobbies.clear();
                               }
                             : null,
