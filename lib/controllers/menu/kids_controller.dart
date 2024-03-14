@@ -1051,14 +1051,14 @@ class KidsController extends GetxController {
         //     phoneDataList.add(contactDataList[i]);
         //   }
         // }
-        // kidcontactData.value = KidContact.fromJson(response.data);
-        // if (type == 'phone') {
-        //   phoneData.value = null;
-        // } else {
-        //   emailData.value = null;
-        // }
-        phoneData.value = null;
-        emailData.value = null;
+        kidcontactData.value = KidContact.fromJson(response.data);
+        if (type == 'phone') {
+          phoneData.value = null;
+        } else {
+          emailData.value = null;
+        }
+        // phoneData.value = null;
+        // emailData.value = null;
         isKidContactLoading.value = false;
         Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
