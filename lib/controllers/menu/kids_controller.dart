@@ -436,16 +436,19 @@ class KidsController extends GetxController {
   final RxBool isCommonEditCheckBoxShown = RxBool(false);
   final RxBool isCommonEditCheckBoxSelected = RxBool(false);
   final RxString commonEditCheckBoxText = RxString('');
-  final RxString commonStartDate = RxString('');
-  final RxString commonEndDate = RxString('');
   final RxBool isSingleDatePicker = RxBool(false);
   final RxBool showCommonSecondaryEditSuffixIcon = RxBool(false);
   final RxList<String> temporaryListCommon = RxList<String>([]);
   final Rx<IconData?> commonEditPageIcon = Rx<IconData?>(null);
   final RxBool showCommonEditSuffixIcon = RxBool(false);
   RxList<String> temporaryList = RxList<String>();
-  final List kidSchoolList = ['abc school', 'def school', 'ghi school'];
   TextEditingController kidSearchLanguageTextEditingController = TextEditingController();
+    final RxString commonStartDate = RxString('');
+  final RxString temporaryCommonStartDate = RxString('');
+  final RxString commonEndDate = RxString('');
+   final RxString temporaryCommonEndDate = RxString('');
+  final RxBool commonEditStartDateBottomSheetRightButtonState = RxBool(false);
+  final RxBool commonEditEndDateBottomSheetRightButtonState = RxBool(false);
   // final RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
   final RxInt kidProfileTabIndex = RxInt(0);
   final RxBool seeMore = RxBool(false);
@@ -1073,4 +1076,33 @@ class KidsController extends GetxController {
     }
   }
 
+  //* Get school list api implementation
+   final List<String> schoolList = [];
+   //* Get school list api implementation
+  Rx<SchoolListModel?> schoolListData = Rx<SchoolListModel?>(null);
+  Future<void> getSchoolList() async {
+    try {
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllSchools,
+      ) as CommonDM;
+      if (response.success == true) {
+        schoolList.clear();
+        schoolListData.value = SchoolListModel.fromJson(response.data);
+        schoolList.addAll(schoolListData.value!.schools);
+        temporaryListCommon.addAll(schoolList);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getSchoolList error: $e');
+    }
+  }
 }

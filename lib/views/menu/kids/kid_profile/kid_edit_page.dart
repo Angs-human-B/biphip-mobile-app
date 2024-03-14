@@ -118,7 +118,7 @@ class KidEditPage extends StatelessWidget {
                                             onPressed: () {
                                               onSelected(option.toString());
                                               kidsController.kidCommonEditTextEditingController.text = option.toString();
-                                              // kidHelper.checkKidSaveButtonActive();//!Write this function
+                                              kidHelper.checkSaveButtonActive();
                                               unfocus(context);
                                             },
                                           );
@@ -201,7 +201,7 @@ class KidEditPage extends StatelessWidget {
                                                 onPressed: () {
                                                   onSelected(option.toString());
                                                   kidsController.kidCommonEditSecondaryTextEditingController.text = option.toString();
-                                                  // editProfileHelper.checkSaveButtonActive();//! Write this function
+                                                  kidHelper.checkSaveButtonActive();
                                                   unfocus(context);
                                                 },
                                               );
@@ -226,7 +226,7 @@ class KidEditPage extends StatelessWidget {
                                         suffixIcon: kidsController.showCommonSecondaryEditSuffixIcon.value ? BipHip.circleCrossNew : null,
                                         borderRadius: k8BorderRadius,
                                         onSuffixPress: () {
-                                          // editProfileHelper.commonSecondaryTextfieldSuffixOnPressed();//!write this function
+                                          kidHelper.commonSecondaryTextfieldSuffixOnPressed();
                                         },
                                         onSubmit: (value) {
                                           unFocus(context);
@@ -252,7 +252,7 @@ class KidEditPage extends StatelessWidget {
                                         prefixIcon: BipHip.calendarFill,
                                         prefixIconSize: screenWiseSize(kIconSize20, 4),
                                         onPressed: () {
-                                          // editProfileHelper.startDateButtonOnPressed(context);//!Write this function
+                                          kidHelper.startDateButtonOnPressed(context); //!Write this function
                                         },
                                         text: kidsController.commonStartDate.value,
                                         hintText: kidsController.isSingleDatePicker.value ? ksDate.tr : ksStartDate.tr,
@@ -265,7 +265,7 @@ class KidEditPage extends StatelessWidget {
                                           prefixIcon: BipHip.calendarFill,
                                           prefixIconSize: screenWiseSize(kIconSize20, 4),
                                           onPressed: () {
-                                            // editProfileHelper.endDateButtonOnPressed(context);//!Change
+                                            kidHelper.endDateButtonOnPressed(context); //!Change
                                           },
                                           text: kidsController.commonEndDate.value,
                                           hintText: ksEndDate.tr,

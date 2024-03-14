@@ -3,6 +3,8 @@ import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/shimmers/profile/gender_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_picture_upload_content.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 //*kids
 class KidHelper {
@@ -306,13 +308,13 @@ class KidHelper {
       await kidsController.storeContact('phone');
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT PHONE') {
-      await kidsController.updateContact(kidsController.phoneID.value, 'phone');//!Api
+      await kidsController.updateContact(kidsController.phoneID.value, 'phone'); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'ADD EMAIL') {
       await kidsController.storeContact('email');
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT EMAIL') {
-      await kidsController.updateContact(kidsController.emailID.value, 'email');//!Api
+      await kidsController.updateContact(kidsController.emailID.value, 'email'); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT SCHOOL DELETE') {
       // await profileController.deleteSchool(profileController.schoolID.value);//!Api
@@ -323,10 +325,10 @@ class KidHelper {
       kidsController.kidEducationInstituteTextEditingController.clear();
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT PHONE DELETE') {
-      await kidsController.deleteContact(kidsController.phoneID.value,"phone");//!Api
+      await kidsController.deleteContact(kidsController.phoneID.value, "phone"); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT EMAIL DELETE') {
-      await kidsController.deleteContact(kidsController.emailID.value,"email");//!Api
+      await kidsController.deleteContact(kidsController.emailID.value, "email"); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     }
   }
@@ -635,6 +637,7 @@ class KidHelper {
   //* kid Contact Section
   void kidAddPhone() {
     resetTextEditor();
+    // checkSaveButtonActive();
     kidsController.enableKidSaveButton.value = true;
     getMethod(3);
   }
@@ -656,6 +659,7 @@ class KidHelper {
 
   void kidAddEmail() {
     resetTextEditor();
+    // checkSaveButtonActive();
     kidsController.enableKidSaveButton.value = true;
     getMethod(5);
   }
@@ -663,7 +667,7 @@ class KidHelper {
   void editKidEmail() {
     resetTextEditor();
     kidsController.enableKidSaveButton.value = true;
-    kidsController.emailID.value =  kidsController.kidcontactData.value!.id!;
+    kidsController.emailID.value = kidsController.kidcontactData.value!.id!;
     kidsController.kidEmailTextEditingController.text = kidsController.emailData.value ?? '';
     getMethod(6);
   }
@@ -678,7 +682,7 @@ class KidHelper {
   void addKidEducationBackground() {
     resetTextEditor();
     getMethod(0);
-    // kidsController.getSchoolList();//!Api call here
+    kidsController.getSchoolList(); //!Api call here
   }
 
   void saveHobbies() async {
@@ -706,11 +710,11 @@ class KidHelper {
     //   profileController.isCurrentlyStudyingHere.value = false;
     // }
     //*For locally handle school list
-    for (int i = 0; i < kidsController.kidSchoolList.length; i++) {
-      kidsController.kidEducationInstituteTextEditingController.text = kidsController.kidSchoolList[i];
+    for (int i = 0; i < kidsController.schoolList.length; i++) {
+      kidsController.kidEducationInstituteTextEditingController.text = kidsController.schoolList[i];
     }
     getMethod(1);
-    // profileController.getSchoolList();//!Api call
+    kidsController.getSchoolList(); //!Api call
   }
 
   void clearAddLanguagePage() {
@@ -745,5 +749,114 @@ class KidHelper {
         result = languageList.sublist(0, languageList.length - 1).join(', ') + ' and ' + languageList.last;
     }
     return result;
+  }
+
+  void startDateButtonOnPressed(context) {
+    kidsController.temporaryCommonStartDate.value = '';
+    if (kidsController.commonStartDate.value != '') {
+      kidsController.temporaryCommonStartDate.value = kidsController.commonStartDate.value;
+    }
+    kidsController.commonEditStartDateBottomSheetRightButtonState.value = false;
+    globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: kidsController.commonEditStartDateBottomSheetRightButtonState,
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        Get.back();
+        kidsController.commonStartDate.value = kidsController.temporaryCommonStartDate.value;
+        if (kidsController.commonEndDate.value != '') {
+          if (DateTime.parse(kidsController.commonStartDate.value).isAfter(DateTime.parse(kidsController.commonEndDate.value))) {
+            kidsController.commonEndDate.value = '';
+          }
+        }
+        checkSaveButtonActive();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksStartDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          maximumDate: DateTime.now().add(const Duration(minutes: 30)),
+          initialDateTime: kidsController.temporaryCommonStartDate.value != '' ? DateTime.parse(kidsController.temporaryCommonStartDate.value) : DateTime.now(),
+          mode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: (value) {
+            kidsController.commonEditStartDateBottomSheetRightButtonState.value = true;
+            kidsController.temporaryCommonStartDate.value = DateFormat("yyyy-MM-dd").format(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  void endDateButtonOnPressed(context) {
+    kidsController.temporaryCommonEndDate.value = '';
+    if (kidsController.commonEndDate.value != "") {
+      kidsController.temporaryCommonEndDate.value = kidsController.commonEndDate.value;
+    }
+    kidsController.commonEditEndDateBottomSheetRightButtonState.value = false;
+    globalController.commonBottomSheet(
+      isBottomSheetRightButtonActive: kidsController.commonEditEndDateBottomSheetRightButtonState,
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        Get.back();
+        kidsController.commonEndDate.value = kidsController.temporaryCommonEndDate.value;
+        checkSaveButtonActive();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: ksEndDate,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          minimumDate: (kidsController.commonStartDate.value != "" ? DateTime.parse(kidsController.commonStartDate.value) : null),
+          maximumDate: DateTime.now().add(const Duration(minutes: 30)),
+          initialDateTime: kidsController.commonEndDate.value != ''
+              ? (DateTime.parse(kidsController.temporaryCommonEndDate.value))
+              : (kidsController.commonStartDate.value != "" ? DateTime.parse(kidsController.commonStartDate.value) : DateTime.now()),
+          mode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: (value) {
+            kidsController.commonEditEndDateBottomSheetRightButtonState.value = true;
+            kidsController.temporaryCommonEndDate.value = DateFormat("yyyy-MM-dd").format(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  void commonSecondaryTextfieldSuffixOnPressed() {
+    kidsController.kidCommonEditSecondaryTextEditingController.clear();
+    checkSaveButtonActive();
+    kidsController.showCommonSecondaryEditSuffixIcon.value = false;
+  }
+
+  void checkSaveButtonActive() {
+    if (kidsController.kidFunctionFlag.value == 'ADD SCHOOL') {
+      if (kidsController.kidEducationBackground.value != '') {
+        //! kidsController.kidCommonEditTextEditingController.text.trim() != '' &&
+        kidsController.enableKidSaveButton.value = true;
+      } else {
+        kidsController.enableKidSaveButton.value = false;
+      }
+    } else if (kidsController.kidFunctionFlag.value.contains('EMAIL')) {
+      if (kidsController.kidCommonEditTextEditingController.text.trim() != '' && kidsController.kidCommonEditTextEditingController.text.isValidEmail) {
+        kidsController.enableKidSaveButton.value = true;
+      } else {
+        kidsController.enableKidSaveButton.value = false;
+      }
+    } else {
+      if (kidsController.kidCommonEditTextEditingController.text.trim() != '') {
+        kidsController.enableKidSaveButton.value = true;
+      } else {
+        kidsController.enableKidSaveButton.value = false;
+      }
+    }
   }
 }

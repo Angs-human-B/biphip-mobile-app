@@ -27,12 +27,13 @@ class KidEducationBackground extends StatelessWidget {
               },
             ),
             kH12sizedBox,
-            for (int i = 0; i < kidsController.kidSchoolList.length; i++) //! using api
+            // for (int i = 0; i < kidsController.schoolList.length; i++) //! using api
               Padding(
                 padding: const EdgeInsets.only(bottom: k12Padding),
                 child: InfoContainer(
                   // suffixText: checkNullOrStringNull(profileController.schoolDataList[i].school),
-                  suffixText: kidsController.kidSchoolList[i], //! Using api
+                  // suffixText: kidsController.schoolList[i], //! Using api
+                  suffixText: '',//!change it
                   // prefixText: profileController.schoolDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
                   prefixText: "Studied at", //! Using api
                   // subtitlePrefixText:
@@ -40,7 +41,7 @@ class KidEducationBackground extends StatelessWidget {
                   subtitlePrefixText: 'Started at and End at',
                   isAddButton: false,
                   suffixOnPressed: () async {
-                    kidHelper.editKidSchool(i);
+                    // kidHelper.editKidSchool(i);
                     // editProfileHelper.editSchool(i);//! write this function
                   },
                 ),
