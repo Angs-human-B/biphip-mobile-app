@@ -134,8 +134,11 @@ class KidAddLanguagePage extends StatelessWidget {
                                 ? () async {
                                     kidsController.userLanguages.clear(); //!Api data
                                     kidsController.userLanguages.addAll(kidsController.kidsData.value!.languages); //!Api Data
+                                    ll(kidsController.kidsData.value!.languages);
                                     kidsController.userLanguages.add(kidsController.addedLanguage.value); //!Api Data
-                                    await kidsController.storeLanguages(kidsController.userLanguages); //!Api call
+                                    ll(kidsController.addedLanguage.value);
+                                    await kidsController.storeLanguages(kidsController.kidSearchLanguageTextEditingController.text);
+                                    // await kidsController.storeLanguages(kidsController.userLanguages); //!Api call
                                   }
                                 : null),
                       ),

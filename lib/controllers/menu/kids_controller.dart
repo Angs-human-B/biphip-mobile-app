@@ -5,6 +5,7 @@ import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
 import 'package:bip_hip/models/menu/kids/kid_profile/kid_bio_update_model.dart';
 import 'package:bip_hip/models/menu/kids/kid_profile/kid_overview_model.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
+import 'package:bip_hip/models/menu/profile/profile_overview_model.dart';
 import 'package:bip_hip/models/post/kid_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -895,4 +896,135 @@ class KidsController extends GetxController {
       ll('setHobbies error: $e');
     }
   }
+
+  // //* store contact API Implementation
+  // RxList<Contact> contactDataList = RxList<Contact>([]);
+  // RxList<Contact> emailDataList = RxList<Contact>([]);
+  // RxList<Contact> phoneDataList = RxList<Contact>([]);
+  // Future<void> storeContact(type) async {
+  //   try {
+  //     isEditProfileLoading.value = true;
+  //     String? token = await spController.getBearerToken();
+  //     Map<String, dynamic> body = {
+  //       'type': type,
+  //       'value': type == 'phone' ? phoneTextEditingController.text.trim() : emailTextEditingController.text.trim(),
+  //     };
+  //     var response = await apiController.commonApiCall(
+  //       requestMethod: kPost,
+  //       url: kuStoreContact,
+  //       body: body,
+  //       token: token,
+  //     ) as CommonDM;
+
+  //     if (response.success == true) {
+  //       emailDataList.clear();
+  //       phoneDataList.clear();
+  //       contactDataList.add(Contact.fromJson(response.data));
+  //       for (int i = 0; i < contactDataList.length; i++) {
+  //         if (contactDataList[i].type == 'email') {
+  //           emailDataList.add(contactDataList[i]);
+  //         } else {
+  //           phoneDataList.add(contactDataList[i]);
+  //         }
+  //       }
+  //       isEditProfileLoading.value = false;
+  //       globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+  //     } else {
+  //       isEditProfileLoading.value = false;
+  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+  //       if (errorModel.errors.isEmpty) {
+  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+  //       } else {
+  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isEditProfileLoading.value = false;
+  //     ll('storeContact error: $e');
+  //   }
+  // }
+
+  // //* update contact API Implementation
+  // Future<void> updateContact(id, type) async {
+  //   try {
+  //     isEditProfileLoading.value = true;
+  //     String? token = await spController.getBearerToken();
+  //     Map<String, dynamic> body = {
+  //       'id': id.toString(),
+  //       'type': type,
+  //       'value': type == 'phone' ? phoneTextEditingController.text.trim() : emailTextEditingController.text.trim(),
+  //     };
+  //     var response = await apiController.commonApiCall(
+  //       requestMethod: kPost,
+  //       url: kuUpdateContact,
+  //       body: body,
+  //       token: token,
+  //     ) as CommonDM;
+
+  //     if (response.success == true) {
+  //       for (int i = 0; i < contactDataList.length; i++) {
+  //         if (contactDataList[i].id == id) {
+  //           contactDataList[i] = Contact.fromJson(response.data);
+  //         }
+  //       }
+  //       isEditProfileLoading.value = false;
+  //       globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+  //     } else {
+  //       isEditProfileLoading.value = false;
+  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+  //       if (errorModel.errors.isEmpty) {
+  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+  //       } else {
+  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isEditProfileLoading.value = false;
+  //     ll('updateContact error: $e');
+  //   }
+  // }
+
+  // //* delete contact API Implementation
+  // Future<void> deleteContact(id) async {
+  //   try {
+  //     isEditProfileLoading.value = true;
+  //     String? token = await spController.getBearerToken();
+  //     var response = await apiController.commonApiCall(
+  //       requestMethod: kDelete,
+  //       url: '$kuDeleteContact/${id.toString()}',
+  //       token: token,
+  //     ) as CommonDM;
+
+  //     if (response.success == true) {
+  //       emailDataList.clear();
+  //       phoneDataList.clear();
+  //       for (int i = 0; i < contactDataList.length; i++) {
+  //         if (contactDataList[i].id == id) {
+  //           contactDataList.removeAt(i);
+  //         }
+  //       }
+  //       for (int i = 0; i < contactDataList.length; i++) {
+  //         if (contactDataList[i].type == 'email') {
+  //           emailDataList.add(contactDataList[i]);
+  //         } else {
+  //           phoneDataList.add(contactDataList[i]);
+  //         }
+  //       }
+  //       isEditProfileLoading.value = false;
+  //       globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+  //     } else {
+  //       isEditProfileLoading.value = false;
+  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+  //       if (errorModel.errors.isEmpty) {
+  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+  //       } else {
+  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isEditProfileLoading.value = false;
+  //     ll('deleteContact error: $e');
+  //   }
+  // }
+
 }

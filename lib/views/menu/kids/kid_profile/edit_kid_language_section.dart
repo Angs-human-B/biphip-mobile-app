@@ -55,7 +55,7 @@ class EditKidLanguageSection extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (kidsController.userLanguages.isNotEmpty)
+                if (kidsController.kidsData.value!.languages.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                     child: ListView.separated(
@@ -66,13 +66,13 @@ class EditKidLanguageSection extends StatelessWidget {
                           prefixIcon: BipHip.language,
                           trailingIcon: BipHip.cross,
                           onPressSuffixButton: () async {
-                            await kidHelper.removeLanguage(index);
+                            // await kidHelper.removeLanguage(index);
                           },
-                          text: kidsController.userLanguages[index],
+                          text: kidsController.kidsData.value!.languages[index],
                         );
                       },
                       separatorBuilder: (context, index) => kH16sizedBox,
-                      itemCount: kidsController.userLanguages.length,
+                      itemCount: kidsController.kidsData.value!.languages.length,
                     ),
                   ),
               ],
