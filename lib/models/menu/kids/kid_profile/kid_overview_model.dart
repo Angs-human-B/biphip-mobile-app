@@ -607,3 +607,36 @@ class KidContact {
         id: json["id"],
       );
 }
+
+class KidSchool {
+    String? pageId;
+    String? school;
+    dynamic description;
+    DateTime? started;
+    DateTime? ended;
+    int? graduated;
+    int? isCurrent;
+    int? id;
+
+    KidSchool({
+        required this.pageId,
+        required this.school,
+        required this.description,
+        required this.started,
+        required this.ended,
+        required this.graduated,
+        required this.isCurrent,
+        required this.id,
+    });
+
+    factory KidSchool.fromJson(Map<String, dynamic> json) => KidSchool(
+        pageId: json["page_id"],
+        school: json["school"],
+        description: json["description"],
+        started: DateTime.parse(json["started"]),
+        ended: DateTime.parse(json["ended"]),
+        graduated: json["graduated"],
+        isCurrent: json["is_current"],
+        id: json["id"],
+    );
+}

@@ -977,6 +977,8 @@ class KidsController extends GetxController {
 
   final RxInt phoneID = RxInt(-1);
   final RxInt emailID = RxInt(-1);
+  final RxInt schoolID = RxInt(-1);
+   final RxBool isCurrentlyStudyingHere = RxBool(false);
   // //* update contact API Implementation
   Future<void> updateContact(id, type) async {
     try {
@@ -1133,6 +1135,123 @@ class KidsController extends GetxController {
       }
     } catch (e) {
       ll('getKidAllSchoolList error: $e');
+    }
+  }
+
+
+  //* store school API Implementation
+  RxList<KidSchool> schoolDataList = RxList<KidSchool>([]);
+  final RxBool isKidSchoolLoading = RxBool(false);
+  Future<void> storeSchool() async {
+    try {
+      isKidSchoolLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'kid_id': selectedKidId.value.toString(),
+        'school': kidEducationInstituteTextEditingController.text.trim(),
+        'started': commonStartDate.value,
+        'ended': commonEndDate.value,
+        'is_current': isCommonEditCheckBoxSelected.value ? '0' : '1',
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuKidStoreSchool,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        schoolDataList.add(KidSchool.fromJson(response.data));
+        isKidSchoolLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isKidSchoolLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidSchoolLoading.value = false;
+      ll('storeSchool error: $e');
+    }
+  }
+
+  //* update school API Implement
+  Future<void> updateSchool(id) async {
+    try {
+      isKidSchoolLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'id': id.toString(),
+        'school': kidEducationInstituteTextEditingController.text.trim(),
+        'started': commonStartDate.value,
+        'ended': commonEndDate.value,
+        'is_current': isCommonEditCheckBoxSelected.value ? '0' : '1',
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuKidUpdateSchool,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < schoolDataList.length; i++) {
+          if (schoolDataList[i].id == id) {
+            schoolDataList[i] = KidSchool.fromJson(response.data);
+          }
+        }
+        isKidSchoolLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isKidSchoolLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidSchoolLoading.value = false;
+      ll('updateSchool error: $e');
+    }
+  }
+
+  //* delete school API Implementation
+  Future<void> deleteSchool(id) async {
+    try {
+      isKidSchoolLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuKidDeleteSchool/${id.toString()}',
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < schoolDataList.length; i++) {
+          if (schoolDataList[i].id == id) {
+            schoolDataList.removeAt(i);
+          }
+        }
+        isKidSchoolLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isKidSchoolLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidSchoolLoading.value = false;
+      ll('deleteSchool error: $e');
     }
   }
 }

@@ -10,8 +10,7 @@ class KidSelectHobbies extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Container(
+    return Container(
         color: cWhiteColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -22,7 +21,6 @@ class KidSelectHobbies extends StatelessWidget {
               suffixTextStyle: semiBold18TextStyle(cBlackColor),
               // isAddButton: profileController.userData.value!.interest.isEmpty ? true : false,
               isAddButton: kidsController.selectedHobbies.isEmpty ? true : false,
-              // isAddButton: true, //!From api
               suffixOnPressed: () async {
                 kidHelper.setHobbies();
               },
@@ -60,7 +58,7 @@ class KidSelectHobbies extends StatelessWidget {
             kH8sizedBox,
           ]),
         ),
-      ),
+      // ),
     );
   }
 }

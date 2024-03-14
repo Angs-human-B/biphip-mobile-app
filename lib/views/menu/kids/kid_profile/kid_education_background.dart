@@ -34,8 +34,8 @@ class KidEducationBackground extends StatelessWidget {
                   suffixText: checkNullOrStringNull(kidsController.kidSchoolList[i].school),
                   // suffixText: kidsController.schoolList[i], //! Using api
                   prefixText: kidsController.kidSchoolList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
-                  subtitlePrefixText:
-                      kidHelper.schoolSubtitleText(kidsController.kidSchoolList[i].started, kidsController.kidSchoolList[i].ended),
+                  // subtitlePrefixText: kidHelper.schoolSubtitleText(
+                  // kidsController.kidSchoolList[i].started ?? DateTime.now(), kidsController.kidSchoolList[i].ended ?? DateTime.now()),
                   // subtitlePrefixText: 'Started at and End at',
                   isAddButton: false,
                   suffixOnPressed: () async {

@@ -286,7 +286,7 @@ class KidHelper {
   void selectFunction(functionFlag, [index]) async {
     if (functionFlag == 'ADD SCHOOL') {
       if (kidsController.kidEducationBackground.value == 'School') {
-        // await profileController.storeSchool();//!Api call
+        await kidsController.storeSchool();
       } else {
         // await profileController.storeCollege();//!Api call
       }
@@ -294,7 +294,7 @@ class KidHelper {
       kidsController.kidCommonEditTextEditingController.clear();
       kidsController.kidEducationBackground.value = '';
     } else if (functionFlag == 'EDIT SCHOOL') {
-      // await profileController.updateSchool(profileController.schoolID.value);//!Api call
+      await kidsController.updateSchool(kidsController.schoolID.value);
       kidsController.kidEducationInstituteTextEditingController.clear();
       kidsController.kidCommonEditTextEditingController.clear();
     }
@@ -317,7 +317,7 @@ class KidHelper {
       await kidsController.updateContact(kidsController.emailID.value, 'email'); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT SCHOOL DELETE') {
-      // await profileController.deleteSchool(profileController.schoolID.value);//!Api
+      await kidsController.deleteSchool(kidsController.schoolID.value);
       kidsController.kidEducationInstituteTextEditingController.clear();
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT COLLEGE DELETE') {
@@ -371,37 +371,39 @@ class KidHelper {
           kidsController.temporaryKidSchoolStartDate.value,
           kidsController.temporaryKidSchoolEndDate.value);
     } else if (methodID == 2) {
-      setEditPageValue(
-          ksEditCollege.tr,
-          false,
-          BipHip.schoolNew,
-          kidsController.kidEducationInstituteTextEditingController,
-          false,
-          kidsController.kidEducationInstituteTextEditingController,
-          ksEditCollege.tr,
-          true,
-          true,
-          true,
-          kidsController.isKidCurrentlyStudyingHere.value,
-          ksCurrentlyStudyingHere.tr,
-          'EDIT COLLEGE',
-          kidsController.temporaryKidSchoolStartDate.value,
-          kidsController.temporaryKidSchoolEndDate.value);
-    } else if (methodID == 3) {
       setEditPageValue(ksAddPhoneNumber.tr, false, BipHip.phoneFill, kidsController.kidPhoneNumberTextEditingController, false,
           kidsController.kidPhoneNumberTextEditingController, ksPhone.tr, false, true, false, false, '', 'ADD PHONE', '', '');
-    } else if (methodID == 4) {
+    } else if (methodID == 3) {
       setEditPageValue(ksEditPhone.tr, false, BipHip.phoneFill, kidsController.kidPhoneNumberTextEditingController, false,
           kidsController.kidPhoneNumberTextEditingController, ksEditPhone.tr, false, true, false, false, '', 'EDIT PHONE', '', '');
       // Get.back();
-    } else if (methodID == 5) {
+    } else if (methodID == 4) {
       setEditPageValue(ksAddEmail.tr, false, BipHip.mail, kidsController.kidEmailTextEditingController, false, kidsController.kidEmailTextEditingController,
           ksEmail.tr, false, true, false, false, '', 'ADD EMAIL', '', '');
-    } else if (methodID == 6) {
+    } else if (methodID == 5) {
       setEditPageValue(ksEditEmail.tr, false, BipHip.mail, kidsController.kidEmailTextEditingController, false, kidsController.kidEmailTextEditingController,
           ksEditEmail.tr, false, true, false, false, '', 'EDIT EMAIL', '', '');
       // Get.back();
     }
+
+    //  else if (methodID == 2) {
+    //   setEditPageValue(
+    //       ksEditCollege.tr,
+    //       false,
+    //       BipHip.schoolNew,
+    //       kidsController.kidEducationInstituteTextEditingController,
+    //       false,
+    //       kidsController.kidEducationInstituteTextEditingController,
+    //       ksEditCollege.tr,
+    //       true,
+    //       true,
+    //       true,
+    //       kidsController.isKidCurrentlyStudyingHere.value,
+    //       ksCurrentlyStudyingHere.tr,
+    //       'EDIT COLLEGE',
+    //       kidsController.temporaryKidSchoolStartDate.value,
+    //       kidsController.temporaryKidSchoolEndDate.value);
+    // }
     // else if (methodID == 15) {
     //   setEditPageValue(ksAddLink, true, BipHip.webLink, profileController.linkTextEditingController, false, profileController.emailTextEditingController,
     //       ksAddLink, false, true, false, false, '', 'ADD LINK', '', '');
@@ -696,23 +698,23 @@ class KidHelper {
   void editKidSchool(index) {
     resetTextEditor();
     kidsController.enableKidSaveButton.value = true;
-    // if (profileController.schoolDataList[index].started != null) {
-    //   profileController.temporarySchoolStartDate.value = DateFormat("yyyy-MM-dd").format(profileController.schoolDataList[index].started!);
-    // }
-    // if (profileController.schoolDataList[index].ended != null) {
-    //   profileController.temporarySchoolEndDate.value = DateFormat("yyyy-MM-dd").format(profileController.schoolDataList[index].ended!);
-    // }
-    // profileController.schoolID.value = profileController.schoolDataList[index].id!;
-    // profileController.educationInstituteTextEditingController.text = profileController.schoolDataList[index].school!;
-    // if (profileController.schoolDataList[index].graduated == 0) {
-    //   profileController.isCurrentlyStudyingHere.value = true;
-    // } else {
-    //   profileController.isCurrentlyStudyingHere.value = false;
-    // }
-    //*For locally handle school list
-    for (int i = 0; i < kidsController.schoolList.length; i++) {
-      kidsController.kidEducationInstituteTextEditingController.text = kidsController.schoolList[i];
+    if (kidsController.schoolDataList[index].started != null) {
+      kidsController.temporaryKidSchoolStartDate.value = DateFormat("yyyy-MM-dd").format(kidsController.schoolDataList[index].started!);
     }
+    if (kidsController.schoolDataList[index].ended != null) {
+      kidsController.temporaryKidSchoolEndDate.value = DateFormat("yyyy-MM-dd").format(kidsController.schoolDataList[index].ended!);
+    }
+    kidsController.schoolID.value = kidsController.schoolDataList[index].id!;
+    kidsController.kidEducationInstituteTextEditingController.text = kidsController.schoolDataList[index].school!;
+    if (kidsController.schoolDataList[index].graduated == 0) {
+      kidsController.isCurrentlyStudyingHere.value = true;
+    } else {
+      kidsController.isCurrentlyStudyingHere.value = false;
+    }
+    // //*For locally handle school list
+    // for (int i = 0; i < kidsController.schoolList.length; i++) {
+    //   kidsController.kidEducationInstituteTextEditingController.text = kidsController.schoolList[i];
+    // }
     getMethod(1);
     kidsController.getSchoolList(); //!Api call
   }
