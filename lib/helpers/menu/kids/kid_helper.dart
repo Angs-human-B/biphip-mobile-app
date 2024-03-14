@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/shimmers/profile/gender_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -324,10 +323,10 @@ class KidHelper {
       kidsController.kidEducationInstituteTextEditingController.clear();
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT PHONE DELETE') {
-      await kidsController.deleteContact(kidsController.phoneID.value);//!Api
+      await kidsController.deleteContact(kidsController.phoneID.value,"phone");//!Api
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT EMAIL DELETE') {
-      await kidsController.deleteContact(kidsController.emailID.value);//!Api
+      await kidsController.deleteContact(kidsController.emailID.value,"email");//!Api
       kidsController.kidCommonEditTextEditingController.clear();
     }
   }

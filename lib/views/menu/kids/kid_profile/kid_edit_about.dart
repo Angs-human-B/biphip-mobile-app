@@ -7,6 +7,7 @@ import 'package:bip_hip/views/menu/kids/kid_profile/kid_education_background.dar
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_select_hobbies.dart';
 import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+import 'package:intl/intl.dart';
 
 class KidEditAboutInfo extends StatelessWidget {
   KidEditAboutInfo({super.key});
@@ -101,22 +102,22 @@ class KidEditAboutInfo extends StatelessWidget {
                               ),
                               kH16sizedBox,
                               Text(
-                                "2021211511514411",
+                                kidsController.kidOverviewData.value?.kids?.pageId ?? ksNA,
                                 style: regular16TextStyle(cBlackColor),
                               ),
                               kH4sizedBox,
                               Text(
-                                "Page ID",
+                                ksPageId.tr,
                                 style: regular10TextStyle(cSmallBodyTextColor),
                               ),
                               kH16sizedBox,
                               Text(
-                                "08 Feb, 2022",
+                                DateFormat('dd MMM, yyyy').format(kidsController.kidOverviewData.value?.kids!.createdAt ?? DateTime.now()),
                                 style: regular16TextStyle(cBlackColor),
                               ),
                               kH4sizedBox,
                               Text(
-                                "Creating Date",
+                                ksCreatingDate.tr,
                                 style: regular10TextStyle(cSmallBodyTextColor),
                               ),
                               kH16sizedBox,

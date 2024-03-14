@@ -1021,7 +1021,7 @@ class KidsController extends GetxController {
   }
 
   // //* delete contact API Implementation
-  Future<void> deleteContact(id) async {
+  Future<void> deleteContact(id, type) async {
     try {
       isKidContactLoading.value = true;
       Get.back();
@@ -1050,7 +1050,6 @@ class KidsController extends GetxController {
         // kidcontactData.value = KidContact.fromJson(response.data);
         // if (type == 'phone') {
         //   phoneData.value = null;
-
         // } else {
         //   emailData.value = null;
         // }
@@ -1073,4 +1072,5 @@ class KidsController extends GetxController {
       ll('deleteContact error: $e');
     }
   }
+
 }

@@ -179,6 +179,7 @@ const String kuKidUpdateHobbies = '/mobile/user/update-kid-hobbies';
 const String kuKidStoreContact = '/mobile/user/store-kid-contact';
 const String kuKidUpdateContact = '/mobile/user/update-kid-contact';
 const String kuKidDeleteContact = '/mobile/user/delete-kid-contact';
+const String kuKidAllSchools = '/mobile/user/get-kid-schools';
 
 /*
 |--------------------------------------------------------------------------

@@ -331,6 +331,8 @@ class Kids {
   dynamic email;
   dynamic phone;
   dynamic address;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   String? profilePicture;
   dynamic coverPhoto;
   int? profileImageId;
@@ -371,6 +373,8 @@ class Kids {
     required this.email,
     required this.phone,
     required this.address,
+    required this.createdAt,
+    required this.updatedAt,
     required this.profilePicture,
     required this.coverPhoto,
     required this.profileImageId,
@@ -412,6 +416,8 @@ class Kids {
         email: json["email"],
         phone: json["phone"],
         address: json["address"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
         profilePicture: json["profile_picture"],
         coverPhoto: json["cover_photo"],
         profileImageId: json["profile_image_id"],
