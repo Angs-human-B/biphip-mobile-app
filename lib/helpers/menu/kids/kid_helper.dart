@@ -256,7 +256,6 @@ class KidHelper {
       kidsController.hobbiesIndex.add(index);
       kidsController.temporarySelectedHobbies.add(kidsController.temporaryHobbiesList[index]);
     }
-    ll("bello : ${kidsController.temporarySelectedHobbies}");
   }
 
   //* Common Edit page

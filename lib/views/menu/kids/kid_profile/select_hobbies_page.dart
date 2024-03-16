@@ -82,13 +82,11 @@ class SelectHobbiesPage extends StatelessWidget {
                       kH16sizedBox,
                       CustomElevatedButton(
                         label: ksSave.tr,
-                        onPressed: kidsController.hobbiesIndex.isNotEmpty
-                            ? () {
-                                kidsController.selectedHobbies.clear();
-                                kidsController.selectedHobbies.addAll(kidsController.temporarySelectedHobbies);
-                                kidHelper.saveHobbies();
-                              }
-                            : null,
+                        onPressed: () {
+                          kidsController.selectedHobbies.clear();
+                          kidsController.selectedHobbies.addAll(kidsController.temporarySelectedHobbies);
+                          kidHelper.saveHobbies();
+                        },
                         buttonWidth: width - 40,
                         textStyle: semiBold16TextStyle(cWhiteColor),
                       ),
