@@ -6,7 +6,7 @@ class GetKidPostModel {
   });
 
   factory GetKidPostModel.fromJson(Map<String, dynamic> json) => GetKidPostModel(
-        posts:  Posts.fromJson(json["posts"]),
+        posts: Posts.fromJson(json["posts"]),
       );
 }
 
@@ -139,7 +139,6 @@ class Posts {
 //       );
 // }
 
-
 class KidPostData {
   int? id;
   int? userId;
@@ -197,6 +196,8 @@ class KidPostData {
   List<dynamic>? images;
   // List<Comment>? comments;
   dynamic sharePosts;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   KidPostData({
     required this.id,
@@ -255,6 +256,8 @@ class KidPostData {
     this.images,
     // this.comments,
     this.sharePosts,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory KidPostData.fromJson(Map<String, dynamic> json) => KidPostData(
@@ -314,6 +317,8 @@ class KidPostData {
         images: json["images"] == null ? [] : List<dynamic>.from(json["images"]!.map((x) => x)),
         // comments: json["comments"] == null ? [] : List<Comment>.from(json["comments"]!.map((x) => Comment.fromJson(x))),
         sharePosts: json["share_posts"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
       );
 }
 

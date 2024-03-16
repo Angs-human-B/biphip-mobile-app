@@ -1,8 +1,8 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/common_feature_post_widget.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/kid_post_widget.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_profile.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
@@ -298,15 +298,15 @@ class KidProfilePostSection extends StatelessWidget {
                 return Container(
                   color: cWhiteColor,
                   width: width,
-                  child: CommonPostWidget(
+                  child: KidPostWidget(
                     postIndex: index,
                     isCommented: index % 2 == 0,
                     isLiked: index % 2 != 0,
                     isSharedPost: false,
                     showBottomSection: true,
-                    userName: item.user!.fullName!,
-                    // postTime: homeController.postTimeDifference(item.createdAt),
-                    postTime: '1 hour ago',
+                    userName: item.kidsData!.name ?? ksNA,
+                    postTime: Get.find<HomeController>().postTimeDifference(item.createdAt ?? DateTime.now()),
+                    // postTime: '1 hour ago',
                     isCategorized: true,
                     category: item.postCategory == null ? null : item.postCategory!.name, //API
                     categoryIcon: item.postCategory == null ? null : kidsController.getCategoryIcon(item.postCategory!.id), // need change API
@@ -316,8 +316,7 @@ class KidProfilePostSection extends StatelessWidget {
                     // kidName: item.kid == null ? null : item.kid!.name, //API
                     // kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
                     postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
-                    // mediaList: item.images??[], //API
-                    mediaList: const [], //!Must change for image type post
+                    mediaList: item.images ?? [],
                     isSelfPost: index % 2 != 0,
                     isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
                     reactCount: item.countReactions,
@@ -334,7 +333,7 @@ class KidProfilePostSection extends StatelessWidget {
                     isInStock: false,
                     // productCondition: 'New',
                     // productCategory: 'Phone',
-                    userImage: item.user!.profilePicture ?? '',
+                    userImage: item.kidsData!.profilePicture ?? '',
                     taggedFriends: [],
                     // taggedFriends: item.taggedFriends,
                   ),
