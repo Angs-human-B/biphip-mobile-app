@@ -225,27 +225,38 @@ class KidHelper {
 
   //*Hobbies select
   void setHobbies() async {
+    kidsController.temporarySelectedHobbies.clear();
     kidsController.hobbiesIndex.clear();
     await kidsController.getAllHobbiesList();
     Get.toNamed(krSelectHobbiesPage);
-    for (int j = 0; j < kidsController.kidsData.value!.hobbies.length; j++) {
-      for (int i = 0; i < kidsController.allHobbiesList.length; i++) {
-        if (kidsController.allHobbiesList[i] == kidsController.kidsData.value!.hobbies[j]) {
-          kidsController.hobbiesIndex.add(i);
-          ll(kidsController.hobbiesIndex);
-        }
-      }
-    }
+    kidsController.temporarySelectedHobbies.addAll(kidsController.kidsData.value!.hobbies);
+    // for (int j = 0; j < kidsController.kidsData.value!.hobbies.length; j++) {
+    //   for (int i = 0; i < kidsController.allHobbiesList.length; i++) {
+    //     if (kidsController.allHobbiesList[i] == kidsController.kidsData.value!.hobbies[j]) {
+    //       kidsController.hobbiesIndex.add(i);
+    //       kidsController.temporarySelectedHobbies.addAll();
+    //       ll(kidsController.hobbiesIndex);
+    //     }
+    //   }
+    // }
   }
 
   void onSelectHobbies(index) {
-    if (!kidsController.hobbiesIndex.contains(index)) {
-      kidsController.hobbiesIndex.add(index);
-      kidsController.temporarySelectedHobbies.add(kidsController.temporaryHobbiesList[index]);
-    } else {
+    // if (!kidsController.hobbiesIndex.contains(index)) {
+    //   kidsController.hobbiesIndex.add(index);
+    //   kidsController.temporarySelectedHobbies.add(kidsController.temporaryHobbiesList[index]);
+    // } else {
+    //   kidsController.hobbiesIndex.remove(index);
+    //   kidsController.temporarySelectedHobbies.remove(kidsController.temporaryHobbiesList[index]);
+    // }
+    if (kidsController.temporarySelectedHobbies.contains(kidsController.temporaryHobbiesList[index])) {
       kidsController.hobbiesIndex.remove(index);
       kidsController.temporarySelectedHobbies.remove(kidsController.temporaryHobbiesList[index]);
+    } else {
+      kidsController.hobbiesIndex.add(index);
+      kidsController.temporarySelectedHobbies.add(kidsController.temporaryHobbiesList[index]);
     }
+    ll("bello : ${kidsController.temporarySelectedHobbies}");
   }
 
   //* Common Edit page
@@ -692,8 +703,7 @@ class KidHelper {
     // for (int i = 0; i < kidsController.hobbiesIndex.length; i++) {
     //   // kidsController.selectedHobbies.add(kidsController.temporaryHobbiesList[kidsController.hobbiesIndex[i]]);
     // }
-    ll(kidsController.selectedHobbies);
-    // await kidsController.setHobbies(kidsController.selectedHobbies);
+    await kidsController.setHobbies(kidsController.selectedHobbies);
     // kidsController.selectedHobbies.clear();
   }
 
