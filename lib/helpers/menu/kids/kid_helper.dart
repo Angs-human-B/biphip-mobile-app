@@ -694,7 +694,7 @@ class KidHelper {
     // }
     ll(kidsController.selectedHobbies);
     await kidsController.setHobbies(kidsController.selectedHobbies);
-    kidsController.selectedHobbies.clear();
+    // kidsController.selectedHobbies.clear();
   }
 
   void editKidSchool(index) {

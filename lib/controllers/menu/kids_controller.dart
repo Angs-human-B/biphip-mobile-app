@@ -752,6 +752,8 @@ class KidsController extends GetxController {
     emailData.value = null;
     phoneData.value = null;
     userLanguages.clear();
+    selectedHobbies.clear();
+    hobbiesIndex.clear();
   }
 
   //* Get Language list api implementation
