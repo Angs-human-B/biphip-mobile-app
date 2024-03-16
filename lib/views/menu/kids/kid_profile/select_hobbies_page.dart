@@ -54,6 +54,7 @@ class SelectHobbiesPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TopTitleAndSubtitle(
                         title: "",
@@ -83,9 +84,8 @@ class SelectHobbiesPage extends StatelessWidget {
                         label: ksSave.tr,
                         onPressed: kidsController.hobbiesIndex.isNotEmpty
                             ? () {
-                                // registrationHelper.saveInterest();//!Api call
-                                kidHelper.saveHobbies();
                                 kidsController.selectedHobbies.addAll(kidsController.temporarySelectedHobbies);
+                                kidHelper.saveHobbies();
                                 kidsController.temporarySelectedHobbies.clear();
                               }
                             : null,

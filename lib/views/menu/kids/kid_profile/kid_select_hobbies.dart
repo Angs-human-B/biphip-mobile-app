@@ -10,7 +10,8 @@ class KidSelectHobbies extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Obx(
+      () => Container(
         color: cWhiteColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -32,7 +33,7 @@ class KidSelectHobbies extends StatelessWidget {
               spacing: 8.0,
               children: [
                 // for (int i = 0; i < kidsController.kidsData.value!.hobbies.length; i++)
-                  for (int i = 0; i < kidsController.selectedHobbies.length; i++)
+                for (int i = 0; i < kidsController.selectedHobbies.length; i++)
                   Padding(
                     padding: const EdgeInsets.only(bottom: k8Padding),
                     child: Container(
@@ -47,6 +48,7 @@ class KidSelectHobbies extends StatelessWidget {
                         child: Text(
                           // profileController.userData.value!.interest[i],
                           // kidsController.kidsData.value?.hobbies[i],
+                          // kidsController.kidsData.value!.hobbies[i],
                           kidsController.selectedHobbies[i],
                           style: regular14TextStyle(cBlackColor),
                         ),
@@ -58,7 +60,7 @@ class KidSelectHobbies extends StatelessWidget {
             kH8sizedBox,
           ]),
         ),
-      // ),
+      ),
     );
   }
 }

@@ -568,31 +568,22 @@ class KidsController extends GetxController {
 
   // //* upload profile photo
   final RxBool isImageUploadPageLoading = RxBool(false);
+  final Rx<KidBioUpdateModel?> kidProfileCoverData = Rx<KidBioUpdateModel?>(null);
   Future<void> uploadKidProfileAndCover(File imageFile, String type, [isFromProfile = true]) async {
     try {
       // if (isFromProfile == true) {
       isImageUploadPageLoading.value = true;
       // }
       String? token = await spController.getBearerToken();
-      List<String> key = [];
-      List<dynamic> value = [];
-      key.add('kid_id');
-      value.add(selectedKidId.value.toString());
-      if (type == 'profile') {
-        key.add('profile_image');
-        // value.add(newProfileImageFile.value);
-      } else {
-        key.add('cover_photo');
-        // value.add(coverImageFile.value);
-      }
-      value.add(imageFile);
-      ll(key);
-      ll(value);
-      var response = await apiController.mediaUploadMultipleKeyAndValue(
+      Map<String, String> body = {
+        'kid_id': selectedKidId.value.toString(),
+      };
+      var response = await apiController.mediaUpload(
         url: type == 'profile' ? kuKidUpdateProfilePicture : kuKidUpdateCoverPhoto,
         token: token,
-        keys: key,
-        values: value,
+        body: body,
+        key: type == 'profile' ? "profile_image" : "cover_photo",
+        value: imageFile.path,
       ) as CommonDM;
 
       if (response.success == true) {
@@ -618,6 +609,11 @@ class KidsController extends GetxController {
         // } else {
         //   Get.offAllNamed(krHome);
         // }
+        // kidProfileCoverData.value = KidBioUpdateModel.fromJson(response.data);
+        // kidsData.value = kidBioUpdateData.value!.kids;
+        await getKidOverview();
+        isImageUploadPageLoading.value = false;
+        Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         if (isFromProfile == true) {
@@ -830,7 +826,7 @@ class KidsController extends GetxController {
   }
 
   //* get Hobbies list API
-  final RxList hobbiesList = RxList([]);
+  final RxList allHobbiesList = RxList([]);
   Rx<AllHobbiesModel?> allHobbiesListData = Rx<AllHobbiesModel?>(null);
   RxBool isAllHobbiesListLoading = RxBool(false);
   RxList temporaryHobbiesList = RxList([]);
@@ -845,13 +841,13 @@ class KidsController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         temporaryHobbiesList.clear();
-        hobbiesList.clear();
+        allHobbiesList.clear();
         allHobbiesListData.value = AllHobbiesModel.fromJson(response.data);
         temporaryHobbiesList.addAll(allHobbiesListData.value!.hobbies);
         for (int i = 0; i < temporaryHobbiesList.length; i++) {
-          if (hobbiesList.contains(temporaryHobbiesList[i])) {
-            hobbiesList.add(temporaryHobbiesList[i]);
-            ll(hobbiesList);
+          if (!allHobbiesList.contains(temporaryHobbiesList[i])) {
+            allHobbiesList.add(temporaryHobbiesList[i]);
+            ll(allHobbiesList);
           }
         }
         isAllHobbiesListLoading.value = false;
@@ -978,7 +974,7 @@ class KidsController extends GetxController {
   final RxInt phoneID = RxInt(-1);
   final RxInt emailID = RxInt(-1);
   final RxInt schoolID = RxInt(-1);
-   final RxBool isCurrentlyStudyingHere = RxBool(false);
+  final RxBool isCurrentlyStudyingHere = RxBool(false);
   // //* update contact API Implementation
   Future<void> updateContact(id, type) async {
     try {
@@ -1137,7 +1133,6 @@ class KidsController extends GetxController {
       ll('getKidAllSchoolList error: $e');
     }
   }
-
 
   //* store school API Implementation
   RxList<KidSchool> schoolDataList = RxList<KidSchool>([]);

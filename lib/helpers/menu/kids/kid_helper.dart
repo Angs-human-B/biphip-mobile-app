@@ -229,8 +229,8 @@ class KidHelper {
     await kidsController.getAllHobbiesList();
     Get.toNamed(krSelectHobbiesPage);
     for (int j = 0; j < kidsController.kidsData.value!.hobbies.length; j++) {
-      for (int i = 0; i < kidsController.hobbiesList.length; i++) {
-        if (kidsController.hobbiesList[i] == kidsController.kidsData.value!.hobbies[j]) {
+      for (int i = 0; i < kidsController.allHobbiesList.length; i++) {
+        if (kidsController.allHobbiesList[i] == kidsController.kidsData.value!.hobbies[j]) {
           kidsController.hobbiesIndex.add(i);
           ll(kidsController.hobbiesIndex);
         }
@@ -688,11 +688,13 @@ class KidHelper {
   }
 
   void saveHobbies() async {
-    kidsController.selectedHobbies.clear();
-    for (int i = 0; i < kidsController.hobbiesIndex.length; i++) {
-      // kidsController.selectedHobbies.add(kidsController.temporaryHobbiesList[kidsController.hobbiesIndex[i]]);
-    }
+    // kidsController.selectedHobbies.clear();
+    // for (int i = 0; i < kidsController.hobbiesIndex.length; i++) {
+    //   // kidsController.selectedHobbies.add(kidsController.temporaryHobbiesList[kidsController.hobbiesIndex[i]]);
+    // }
+    ll(kidsController.selectedHobbies);
     await kidsController.setHobbies(kidsController.selectedHobbies);
+    kidsController.selectedHobbies.clear();
   }
 
   void editKidSchool(index) {
@@ -861,7 +863,8 @@ class KidHelper {
       }
     }
   }
-   String? schoolSubtitleText(DateTime? startDate, DateTime? endDate) {
+
+  String? schoolSubtitleText(DateTime? startDate, DateTime? endDate) {
     if (startDate != null && endDate != null) {
       return '${DateFormat("dd MMMM, yyyy").format(startDate)} - ${DateFormat("dd MMMM, yyyy").format(endDate)}';
     } else if (startDate == null && endDate != null) {

@@ -138,17 +138,17 @@ class KidPhotoPreview extends StatelessWidget {
                 ),
               ),
             ),
-            // if (profileController.isImageUploadPageLoading.value == true)//!Condition for loading
-            //   Positioned(
-            //     child: CommonLoadingAnimation(
-            //       onWillPop: () async {
-            //         if (profileController.isImageUploadPageLoading.value) {
-            //           return false;
-            //         }
-            //         return true;
-            //       },
-            //     ),
-            //   ),
+            if (kidsController.isImageUploadPageLoading.value == true)
+              Positioned(
+                child: CommonLoadingAnimation(
+                  onWillPop: () async {
+                    if (kidsController.isImageUploadPageLoading.value) {
+                      return false;
+                    }
+                    return true;
+                  },
+                ),
+              ),
           ],
         ),
       ),
