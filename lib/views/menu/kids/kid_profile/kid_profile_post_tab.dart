@@ -242,50 +242,104 @@ class KidProfilePostSection extends StatelessWidget {
         // kHBottomSizedBox,
         kH8sizedBox,
         //! This section Must Chnage When the kid post is available
-        ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => kH8sizedBox,
-            itemCount: Get.find<HomeController>().allTimelinePostList.length,
-            itemBuilder: (context, index) {
-              var item = Get.find<HomeController>().allTimelinePostList[index];
-              return Container(
-                color: cWhiteColor,
-                width: width,
-                child: CommonPostWidget(
-                  isCommented: false,
-                  isLiked: false,
-                  isSharedPost: false,
-                  showBottomSection: true,
-                  userName: item.user!.fullName!,
-                  postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
-                  isCategorized: true,
-                  subCategory: null, //API
-                  category: item.postCategory == null ? null : item.postCategory!.name, //API
-                  categoryIcon: item.postCategory == null ? null : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
-                  categoryIconColor: item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
-                  privacy: BipHip.world,
-                  brandName: item.store == null ? null : item.store!.name, //API
-                  kidName: item.kid == null ? null : item.kid!.name, //API
-                  kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                  title: item.title, //API
-                  postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
-                  price: null, //API
+        // ListView.separated(
+        //     shrinkWrap: true,
+        //     physics: const NeverScrollableScrollPhysics(),
+        //     separatorBuilder: (context, index) => kH8sizedBox,
+        //     itemCount: Get.find<HomeController>().allTimelinePostList.length,
+        //     itemBuilder: (context, index) {
+        //       var item = Get.find<HomeController>().allTimelinePostList[index];
+        //       return Container(
+        //         color: cWhiteColor,
+        //         width: width,
+        //         child: CommonPostWidget(
+        //           isCommented: false,
+        //           isLiked: false,
+        //           isSharedPost: false,
+        //           showBottomSection: true,
+        //           userName: item.user!.fullName!,
+        //           postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
+        //           isCategorized: true,
+        //           subCategory: null, //API
+        //           category: item.postCategory == null ? null : item.postCategory!.name, //API
+        //           categoryIcon: item.postCategory == null ? null : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
+        //           categoryIconColor: item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
+        //           privacy: BipHip.world,
+        //           brandName: item.store == null ? null : item.store!.name, //API
+        //           kidName: item.kid == null ? null : item.kid!.name, //API
+        //           kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+        //           title: item.title, //API
+        //           postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
+        //           price: null, //API
 
-                  // mediaList: item.imageUrls, //API
-                  mediaList: item.images,
-                  isSelfPost: true,
-                  isInStock: true,
-                  isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
-                  userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
-                  reactCount: item.countReactions,
-                ),
-              );
-            }),
+        //           // mediaList: item.imageUrls, //API
+        //           mediaList: item.images,
+        //           isSelfPost: true,
+        //           isInStock: true,
+        //           isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
+        //           userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
+        //           reactCount: item.countReactions,
+        //         ),
+        //       );
+        //     }),
 
-        // ],
+        // // ],
         //   ),
         // ),
+
+        if (kidsController.allPostList.isNotEmpty)
+          ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) => kH8sizedBox,
+              itemCount: kidsController.allPostList.length,
+              itemBuilder: (context, index) {
+                var item = kidsController.allPostList[index];
+                return Container(
+                  color: cWhiteColor,
+                  width: width,
+                  child: CommonPostWidget(
+                    postIndex: index,
+                    isCommented: index % 2 == 0,
+                    isLiked: index % 2 != 0,
+                    isSharedPost: false,
+                    showBottomSection: true,
+                    userName: item.user!.fullName!,
+                    // postTime: homeController.postTimeDifference(item.createdAt),
+                    postTime: '1 hour ago',
+                    isCategorized: true,
+                    category: item.postCategory == null ? null : item.postCategory!.name, //API
+                    categoryIcon: item.postCategory == null ? null : kidsController.getCategoryIcon(item.postCategory!.id), // need change API
+                    categoryIconColor: item.postCategory == null ? null : kidsController.getCategoryColor(item.postCategory!.id), // Based on API
+                    privacy: BipHip.world,
+                    // brandName: item.store == null ? null : item.store!.name, //API
+                    // kidName: item.kid == null ? null : item.kid!.name, //API
+                    // kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                    postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
+                    // mediaList: item.images??[], //API
+                    mediaList: const [], //!Must change for image type post
+                    isSelfPost: index % 2 != 0,
+                    isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
+                    reactCount: item.countReactions,
+                    postID: item.id!,
+                    // secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
+                    subCategory: null,
+                    platformName: 'Jane Clothing',
+                    platformLink: 'www.facebook.com/Clothing/lorem',
+                    actionName: null,
+                    title: item.title, //API
+                    price: item.price.toString(), //API
+                    mainPrice: '400',
+                    discount: item.discount.toString(),
+                    isInStock: false,
+                    // productCondition: 'New',
+                    // productCategory: 'Phone',
+                    userImage: item.user!.profilePicture ?? '',
+                    taggedFriends: [],
+                    // taggedFriends: item.taggedFriends,
+                  ),
+                );
+              }),
       ],
     );
   }

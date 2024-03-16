@@ -31,6 +31,7 @@ class KidsListView extends StatelessWidget {
                                 // await Get.find<HomeController>().getTimelinePostList();
                                 kidsController.resetKidProfileData();
                                 await kidsController.getKidOverview();
+                                await kidsController.getPostList();
                                 Get.toNamed(krKidProfile);
                               },
                               child: CustomListTile(
