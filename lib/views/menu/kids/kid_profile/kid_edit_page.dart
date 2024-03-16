@@ -74,21 +74,21 @@ class KidEditPage extends StatelessWidget {
                         child: Column(
                           children: [
                             kH16sizedBox,
-                            if (kidsController.isDropdownShown.value)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: k16Padding),
-                                child: CustomSelectionButton(
-                                  buttonColor: cWhiteColor,
-                                  buttonHeight: 32,
-                                  borderColor: cLineColor,
-                                  contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding),
-                                  onPressed: () async {
-                                    kidHelper.commonSelectionButtonOnPressed(context);
-                                  },
-                                  text: kidsController.kidEducationBackground.value,
-                                  hintText: ksSelectEducationInstitute.tr,
-                                ),
-                              ),
+                            // if (kidsController.isDropdownShown.value)
+                            // Padding(
+                            //   padding: const EdgeInsets.only(bottom: k16Padding),
+                            //   child: CustomSelectionButton(
+                            //     buttonColor: cWhiteColor,
+                            //     buttonHeight: 32,
+                            //     borderColor: cLineColor,
+                            //     contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding),
+                            //     onPressed: () async {
+                            //       kidHelper.commonSelectionButtonOnPressed(context);
+                            //     },
+                            //     text: kidsController.kidEducationBackground.value,
+                            //     hintText: ksSelectEducationInstitute.tr,
+                            //   ),
+                            // ),
                             RawAutocomplete(
                               textEditingController: kidsController.kidCommonEditTextEditingController,
                               focusNode: commonFocusNode,
@@ -322,16 +322,15 @@ class KidEditPage extends StatelessWidget {
                           textStyle: semiBold14TextStyle(cWhiteColor),
                           buttonHeight: h42,
                           buttonWidth: width - 40,
-                          onPressed: kidsController.enableKidSaveButton.value
-                              ? () {
-                                  ll(kidsController.kidFunctionFlag.value);
-                                  kidHelper.selectFunction(kidsController.kidFunctionFlag.value);
-                                  // if (kidsController.kidFunctionFlag.value != 'ADD LINK' && profileController.functionFlag.value != 'EDIT LINK') {
-                                  //   Get.back();
-                                  // }
-                                  //_profileController.clearCommonEditPageData();
-                                }
-                              : null),
+                          onPressed: () {
+                            //kidsController.enableKidSaveButton.value ?
+                            ll(kidsController.kidFunctionFlag.value);
+                            kidHelper.selectFunction(kidsController.kidFunctionFlag.value);
+                            // if (kidsController.kidFunctionFlag.value != 'ADD LINK' && profileController.functionFlag.value != 'EDIT LINK') {
+                            //   Get.back();
+                            // }
+                            //_profileController.clearCommonEditPageData();
+                          }),
                     ),
                     // ),
                   ],

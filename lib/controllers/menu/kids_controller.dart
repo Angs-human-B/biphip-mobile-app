@@ -1160,6 +1160,7 @@ class KidsController extends GetxController {
 
       if (response.success == true) {
         schoolDataList.add(KidSchool.fromJson(response.data));
+        Get.back();
         isKidSchoolLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -1253,6 +1254,7 @@ class KidsController extends GetxController {
     }
   }
 
+  //*Kid all post data get Api implement
   final ScrollController postListScrollController = ScrollController();
   final ScrollController timelinePostListScrollController = ScrollController();
   final Rx<GetKidPostModel?> postListData = Rx<GetKidPostModel?>(null);

@@ -39,7 +39,7 @@ class KidEducationBackground extends StatelessWidget {
                   // subtitlePrefixText: 'Started at and End at',
                   isAddButton: false,
                   suffixOnPressed: () async {
-                    // kidHelper.editKidSchool(i);
+                    kidHelper.editKidSchool(i);
                     // editProfileHelper.editSchool(i);//! write this function
                   },
                 ),

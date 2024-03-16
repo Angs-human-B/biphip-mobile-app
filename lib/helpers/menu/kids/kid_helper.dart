@@ -285,11 +285,11 @@ class KidHelper {
 
   void selectFunction(functionFlag, [index]) async {
     if (functionFlag == 'ADD SCHOOL') {
-      if (kidsController.kidEducationBackground.value == 'School') {
-        await kidsController.storeSchool();
-      } else {
-        // await profileController.storeCollege();//!Api call
-      }
+      // if (kidsController.kidEducationBackground.value == 'School') {
+      await kidsController.storeSchool();
+      // } else {
+      // await profileController.storeCollege();//!Api call
+      // }
       kidsController.kidEducationInstituteTextEditingController.clear();
       kidsController.kidCommonEditTextEditingController.clear();
       kidsController.kidEducationBackground.value = '';
@@ -693,13 +693,15 @@ class KidHelper {
     //   // kidsController.selectedHobbies.add(kidsController.temporaryHobbiesList[kidsController.hobbiesIndex[i]]);
     // }
     ll(kidsController.selectedHobbies);
-    await kidsController.setHobbies(kidsController.selectedHobbies);
+    // await kidsController.setHobbies(kidsController.selectedHobbies);
     // kidsController.selectedHobbies.clear();
   }
 
   void editKidSchool(index) {
     resetTextEditor();
     kidsController.enableKidSaveButton.value = true;
+    ll(index);
+    ll(kidsController.schoolDataList[index]);
     if (kidsController.schoolDataList[index].started != null) {
       kidsController.temporaryKidSchoolStartDate.value = DateFormat("yyyy-MM-dd").format(kidsController.schoolDataList[index].started!);
     }
@@ -717,8 +719,8 @@ class KidHelper {
     // for (int i = 0; i < kidsController.schoolList.length; i++) {
     //   kidsController.kidEducationInstituteTextEditingController.text = kidsController.schoolList[i];
     // }
-    getMethod(1);
-    kidsController.getSchoolList(); //!Api call
+    // getMethod(1);
+    // kidsController.getSchoolList(); //!Api call
   }
 
   void clearAddLanguagePage() {
