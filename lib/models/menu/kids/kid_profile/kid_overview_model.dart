@@ -316,8 +316,8 @@ class Kids {
   dynamic dob;
   dynamic relationId;
   List<String> categories;
-  String? image;
-  dynamic cover;
+  // String? image;
+  // dynamic cover;
   dynamic bin;
   dynamic country;
   int? rating;
@@ -358,8 +358,8 @@ class Kids {
     required this.dob,
     required this.relationId,
     required this.categories,
-    required this.image,
-    required this.cover,
+    // required this.image,
+    // required this.cover,
     required this.bin,
     required this.country,
     required this.rating,
@@ -401,8 +401,8 @@ class Kids {
         dob: json["dob"],
         relationId: json["relation_id"],
         categories: List<String>.from(json["categories"].map((x) => x)),
-        image: json["image"],
-        cover: json["cover"],
+        // image: json["image"],
+        // cover: json["cover"],
         bin: json["bin"],
         country: json["country"],
         rating: json["rating"],
@@ -457,32 +457,32 @@ class PostCategory {
 
 class Parent {
   int? id;
-  String? image;
+  // String? image;
   String? userName;
-  String? referralCode;
+  // String? referralCode;
   String? firstName;
   // String? lastName;
   String? email;
   dynamic phone;
   String? gender;
   DateTime? dob;
-  List<String> profession;
-  List<String> interest;
-  String? bio;
+  // List<String> profession;
+  // List<String> interest;
+  // String? bio;
   List<String> languages;
-  String? status;
-  dynamic blockTill;
-  String? otp;
-  int? refId;
+  // String? status;
+  // dynamic blockTill;
+  // String? otp;
+  // int? refId;
   String? relation;
   dynamic relationWithName;
   dynamic relationWithId;
   dynamic relationSince;
-  String? cover;
+  // String? cover;
   dynamic badge;
   int? starBalance;
   dynamic socialProvider;
-  String? referralUrl;
+  // String? referralUrl;
   String? fullName;
   String? profilePicture;
   String? coverPhoto;
@@ -496,32 +496,32 @@ class Parent {
 
   Parent({
     required this.id,
-    required this.image,
+    // required this.image,
     required this.userName,
-    required this.referralCode,
+    // required this.referralCode,
     required this.firstName,
     // required this.lastName,
     required this.email,
     required this.phone,
     required this.gender,
     required this.dob,
-    required this.profession,
-    required this.interest,
-    required this.bio,
+    // required this.profession,
+    // required this.interest,
+    // required this.bio,
     required this.languages,
-    required this.status,
-    required this.blockTill,
-    required this.otp,
-    required this.refId,
+    // required this.status,
+    // required this.blockTill,
+    // required this.otp,
+    // required this.refId,
     required this.relation,
     required this.relationWithName,
     required this.relationWithId,
     required this.relationSince,
-    required this.cover,
+    // required this.cover,
     required this.badge,
     required this.starBalance,
     required this.socialProvider,
-    required this.referralUrl,
+    // required this.referralUrl,
     required this.fullName,
     required this.profilePicture,
     required this.coverPhoto,
@@ -536,32 +536,32 @@ class Parent {
 
   factory Parent.fromJson(Map<String, dynamic> json) => Parent(
         id: json["id"],
-        image: json["image"],
+        // image: json["image"],
         userName: json["user_name"],
-        referralCode: json["referral_code"],
+        // referralCode: json["referral_code"],
         firstName: json["first_name"],
         // lastName: json["last_name"],
         email: json["email"],
         phone: json["phone"],
         gender: json["gender"],
         dob: DateTime.parse(json["dob"]),
-        profession: List<String>.from(json["profession"].map((x) => x)),
-        interest: List<String>.from(json["interest"].map((x) => x)),
-        bio: json["bio"],
+        // profession: List<String>.from(json["profession"].map((x) => x)),
+        // interest: List<String>.from(json["interest"].map((x) => x)),
+        // bio: json["bio"],
         languages: List<String>.from(json["languages"].map((x) => x)),
-        status: json["status"],
-        blockTill: json["block_till"],
-        otp: json["otp"],
-        refId: json["ref_id"],
+        // status: json["status"],
+        // blockTill: json["block_till"],
+        // otp: json["otp"],
+        // refId: json["ref_id"],
         relation: json["relation"],
         relationWithName: json["relation_with_name"],
         relationWithId: json["relation_with_id"],
         relationSince: json["relation_since"],
-        cover: json["cover"],
+        // cover: json["cover"],
         badge: json["badge"],
         starBalance: json["star_balance"],
         socialProvider: json["social_provider"],
-        referralUrl: json["referral_url"],
+        // referralUrl: json["referral_url"],
         fullName: json["full_name"],
         profilePicture: json["profile_picture"],
         coverPhoto: json["cover_photo"],

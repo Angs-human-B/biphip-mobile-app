@@ -30,9 +30,9 @@ class KidsListView extends StatelessWidget {
                                 kidsController.selectedKidId.value = kidsController.kidList[index].id!;
                                 // await Get.find<HomeController>().getTimelinePostList();
                                 kidsController.resetKidProfileData();
+                                Get.toNamed(krKidProfile);
                                 await kidsController.getKidOverview();
                                 await kidsController.getPostList();
-                                Get.toNamed(krKidProfile);
                               },
                               child: CustomListTile(
                                 padding: const EdgeInsets.only(left: k8Padding, top: k8Padding, bottom: k8Padding),
