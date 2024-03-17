@@ -330,6 +330,10 @@ class StoreController extends GetxController {
   final RxString qrCode = RxString('www.storeqr.com');
   final Rx<String?> storeCategory = Rx<String?>('Electronics');
   final RxList storeLocationList = RxList(["Shewrapara, Mirpur, Dhaka, Bangladesh"]);
+  final RxString storeBIN = RxString('129874675766');
+  final RxList storeNumberList = RxList([{"id":1, "phone":'0175634536785'},{"id":2, "phone":'0175634536786'}]);
+  final RxList storeEmailList = RxList([{"id":1, "email":'Genieelec@gmail.com'},{"id":2, "email":'Genieelec1@gmail.com'}]);
+  final RxList legalPaperAllInfoList = RxList([{"fileName": "Image.png", "fileSize": "250KB"},{"fileName": "Image1.png", "fileSize": "251KB"}]);
   final legalPapersList = [
     //!Remove it
     "https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/featured_hu6547841b230d5bd693e155a5fda2f54e_25956_768x0_resize_q75_lanczos.jpg",
