@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/helpers/menu/store/store_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -263,6 +264,10 @@ class StoreProfile extends StatelessWidget {
                               CustomElevatedButton(
                                 label: ksEditProfile.tr,
                                 onPressed: () {
+                                  Get.to(() => EditStoreProfile(
+                                        profilePicture: profilePicture,
+                                        coverPhoto: coverPhoto,
+                                      ));
                                   // Get.toNamed(krEditKidProfile);//!Route edit page
                                 },
                                 prefixIcon: BipHip.edit,

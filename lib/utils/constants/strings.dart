@@ -590,3 +590,4 @@ const String ksManage = "Manage";
 const String ksPage = "Page";
 const String ksFeatured = "Featured";
 const String ksRating = "Rating";
+const String ksPayment = "Payment";
