@@ -31,13 +31,12 @@ class KidEducationBackground extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: k12Padding),
                 child: InfoContainer(
-                  // suffixText: checkNullOrStringNull(profileController.schoolDataList[i].school),
-                  suffixText: kidsController.kidSchoolList[i], //! Using api
-                  // prefixText: profileController.schoolDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
-                  prefixText: "Studied at", //! Using api
-                  // subtitlePrefixText:
-                  //     editProfileHelper.schoolSubtitleText(profileController.schoolDataList[i].started, profileController.schoolDataList[i].ended),
-                  subtitlePrefixText: 'Started at and End at',
+                  suffixText: checkNullOrStringNull(kidsController.kidSchoolList[i].school),
+                  // suffixText: kidsController.schoolList[i], //! Using api
+                  prefixText: kidsController.kidSchoolList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
+                  // subtitlePrefixText: kidHelper.schoolSubtitleText(
+                  // kidsController.kidSchoolList[i].started ?? DateTime.now(), kidsController.kidSchoolList[i].ended ?? DateTime.now()),
+                  // subtitlePrefixText: 'Started at and End at',
                   isAddButton: false,
                   suffixOnPressed: () async {
                     kidHelper.editKidSchool(i);

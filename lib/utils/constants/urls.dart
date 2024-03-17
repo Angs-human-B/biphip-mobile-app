@@ -166,7 +166,24 @@ const String kuPurchaseStar = '/mobile/user/purchase-star';
 //* Pendent
 const String kuUserPendent = '/mobile/user/get-user-pendents';
 const String kuSetUserPendent = '/mobile/user/set-user-pendent';
-
+//* Kid profile
+const String kuKidOverview = '/mobile/user/kid-profile-overview';
+const String kuKidUpdateBio = '/mobile/user/update-kid-bio';
+const String kuKidUpdateProfilePicture = '/mobile/user/update-kid-profile-image';
+const String kuKidUpdateCoverPhoto = '/mobile/user/update-kid-cover-photo';
+const String kuKidUpdateParentRelation = '/mobile/user/update-kid-parent-relation';
+const String kuKidUpdateGender = '/mobile/user/update-kid-gender';
+const String kuKidUpdateLanguages = '/mobile/user/update-kid-languages';
+const String kuGetAllHobbies = '/mobile/get-all-hobbies';
+const String kuKidUpdateHobbies = '/mobile/user/update-kid-hobbies';
+const String kuKidStoreContact = '/mobile/user/store-kid-contact';
+const String kuKidUpdateContact = '/mobile/user/update-kid-contact';
+const String kuKidDeleteContact = '/mobile/user/delete-kid-contact';
+const String kuKidAllSchools = '/mobile/user/get-kid-schools';
+const String kuKidStoreSchool = '/mobile/user/store-kid-school';
+const String kuKidUpdateSchool = '/mobile/user/update-kid-school';
+const String kuKidDeleteSchool = '/mobile/user/delete-kid-school';
+const String kuGetKidPosts = '/mobile/user/get-kid-posts';
 
 /*
 |--------------------------------------------------------------------------

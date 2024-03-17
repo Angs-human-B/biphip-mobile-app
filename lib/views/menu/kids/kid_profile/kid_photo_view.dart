@@ -29,29 +29,29 @@ class KidPhotoView extends StatelessWidget {
               },
             ),
           ),
-          body: Stack(
-            children: [
-              SizedBox(
-                height: height - kAppBarSize,
-                width: width,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: width,
-                      height: kidsController.isKidProfilePhoto.value ? height * 0.6 : height * 0.4,
-                      child: Image.network(
-                        kidsController.kidPreviewPhoto.value,
-                        fit: BoxFit.cover,
-                        filterQuality: FilterQuality.high,
-                        errorBuilder: (context, error, stackTrace) => const Icon(
-                          BipHip.imageFile,
-                          size: kIconSize100,
-                          color: cIconColor,
-                        ),
-                        loadingBuilder: imageLoadingBuilder,
-                      ),
-                    ),
+          body: Obx(() => Stack(
+                      children: [
+                        SizedBox(
+                          height: height - kAppBarSize,
+                          width: width,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: width,
+                                height: kidsController.isKidProfilePhoto.value ? height * 0.6 : height * 0.4,
+                                child: Image.network(
+                                  kidsController.kidPreviewPhoto.value,
+                                  fit: BoxFit.cover,
+                                  filterQuality: FilterQuality.high,
+                                  errorBuilder: (context, error, stackTrace) => const Icon(
+                                    BipHip.imageFile,
+                                    size: kIconSize100,
+                                    color: cIconColor,
+                                  ),
+                                  loadingBuilder: imageLoadingBuilder,
+                                ),
+                              ),
                   ],
                 ),
               ),
@@ -77,6 +77,7 @@ class KidPhotoView extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }

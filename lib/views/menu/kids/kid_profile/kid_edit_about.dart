@@ -7,6 +7,7 @@ import 'package:bip_hip/views/menu/kids/kid_profile/kid_education_background.dar
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_select_hobbies.dart';
 import 'package:bip_hip/widgets/common/button/custom_modified_text_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
+import 'package:intl/intl.dart';
 
 class KidEditAboutInfo extends StatelessWidget {
   KidEditAboutInfo({super.key});
@@ -101,22 +102,22 @@ class KidEditAboutInfo extends StatelessWidget {
                               ),
                               kH16sizedBox,
                               Text(
-                                "2021211511514411",
+                                kidsController.kidOverviewData.value?.kids?.pageId ?? ksNA,
                                 style: regular16TextStyle(cBlackColor),
                               ),
                               kH4sizedBox,
                               Text(
-                                "Page ID",
+                                ksPageId.tr,
                                 style: regular10TextStyle(cSmallBodyTextColor),
                               ),
                               kH16sizedBox,
                               Text(
-                                "08 Feb, 2022",
+                                DateFormat('dd MMM, yyyy').format(kidsController.kidOverviewData.value?.kids!.createdAt ?? DateTime.now()),
                                 style: regular16TextStyle(cBlackColor),
                               ),
                               kH4sizedBox,
                               Text(
-                                "Creating Date",
+                                ksCreatingDate.tr,
                                 style: regular10TextStyle(cSmallBodyTextColor),
                               ),
                               kH16sizedBox,
@@ -363,74 +364,89 @@ class KidEditRelationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: cWhiteColor,
-      child: SafeArea(
-        top: false,
-        child: Scaffold(
-          backgroundColor: cWhiteColor,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(kAppBarSize),
-            //* info:: appBar
-            child: CustomAppBar(
-              appBarColor: cWhiteColor,
-              title: ksEditRelation.tr,
-              hasBackButton: true,
-              isCenterTitle: true,
-              onBack: () {
-                Get.back();
-              },
-            ),
-          ),
-          body: Obx(
-            () => Stack(
-              children: [
-                SizedBox(
-                  height: height - kAppBarSize - MediaQuery.of(context).padding.top,
-                  width: width,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                    child: Column(
+      child: Obx(() => Stack(
+            children: [
+              SafeArea(
+                top: false,
+                child: Scaffold(
+                  backgroundColor: cWhiteColor,
+                  appBar: PreferredSize(
+                    preferredSize: const Size.fromHeight(kAppBarSize),
+                    //* info:: appBar
+                    child: CustomAppBar(
+                      appBarColor: cWhiteColor,
+                      title: ksEditRelation.tr,
+                      hasBackButton: true,
+                      isCenterTitle: true,
+                      onBack: () {
+                        Get.back();
+                      },
+                    ),
+                  ),
+                  body: Obx(
+                    () => Stack(
                       children: [
-                        kH16sizedBox,
-                        CustomSelectionButton(
-                          buttonHeight: h50,
-                          onPressed: () async {
-                            unFocus(context);
-                            // editProfileHelper.setRelationshipStatus(context);
-                            kidHelper.kidRelationButtonOnPressed(context);
-                          },
-                          text: kidsController.kidRelation.value,
-                          hintText: kidsController.kidRelation.value == '' ? ksSelectRelationshipStatus.tr : kidsController.kidRelation.value,
+                        SizedBox(
+                          height: height - kAppBarSize - MediaQuery.of(context).padding.top,
+                          width: width,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                            child: Column(
+                              children: [
+                                kH16sizedBox,
+                                CustomSelectionButton(
+                                  buttonHeight: h50,
+                                  onPressed: () async {
+                                    unFocus(context);
+                                    // editProfileHelper.setRelationshipStatus(context);
+                                    kidHelper.kidRelationButtonOnPressed(context);
+                                  },
+                                  text: kidsController.kidRelationData.value,
+                                  hintText: kidsController.kidRelation.value == '' ? ksSelectRelationshipStatus.tr : kidsController.kidRelation.value,
+                                ),
+                                kH16sizedBox,
+                              ],
+                            ),
+                          ),
                         ),
-                        kH16sizedBox,
+                        Positioned(
+                          bottom: 20,
+                          left: 20,
+                          child: CustomElevatedButton(
+                              label: ksSave,
+                              textStyle: semiBold14TextStyle(cWhiteColor),
+                              buttonHeight: h42,
+                              buttonWidth: width - 40,
+                              onPressed: kidsController.isKidRelationSaveButtonActive.value
+                                  ? () async {
+                                      unFocus(context);
+                                      if (kidsController.kidRelationData.value != '') {
+                                        kidsController.kidRelation.value = kidsController.kidRelationData.value;
+                                      }
+                                      // await profileController.storeUserSetting('relationship', profileController.relationshipStatus.value);//! APi call
+                                      await kidsController.updateKidRelation();
+                                      kidHelper.resetKidRelationEditPage();
+                                    }
+                                  : null),
+                        )
                       ],
                     ),
                   ),
                 ),
+              ),
+              if (kidsController.isKidRelationLoading.value)
                 Positioned(
-                  bottom: 20,
-                  left: 20,
-                  child: CustomElevatedButton(
-                      label: ksSave,
-                      textStyle: semiBold14TextStyle(cWhiteColor),
-                      buttonHeight: h42,
-                      buttonWidth: width - 40,
-                      onPressed: kidsController.isKidRelationSaveButtonActive.value
-                          ? () {
-                              unFocus(context);
-                              Get.back();
-                              if (kidsController.kidRelationData.value != '') {
-                                kidsController.kidRelation.value = kidsController.kidRelationData.value;
-                              }
-                              // await profileController.storeUserSetting('relationship', profileController.relationshipStatus.value);//! APi call
-                              kidHelper.resetKidRelationEditPage();
-                            }
-                          : null),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
+                  child: CommonLoadingAnimation(
+                    onWillPop: () async {
+                      if (kidsController.isKidRelationLoading.value) {
+                        return false;
+                      }
+                      return true;
+                    },
+                  ),
+                ),
+            ],
+          )),
     );
   }
 }

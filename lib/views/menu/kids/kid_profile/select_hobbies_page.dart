@@ -54,6 +54,7 @@ class SelectHobbiesPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TopTitleAndSubtitle(
                         title: "",
@@ -67,10 +68,10 @@ class SelectHobbiesPage extends StatelessWidget {
                           direction: Axis.horizontal,
                           spacing: 8.0,
                           children: [
-                            for (int i = 0; i < kidsController.allHobbiesList.length; i++)
+                            for (int i = 0; i < kidsController.temporaryHobbiesList.length; i++)
                               CustomChoiceChips(
-                                label: kidsController.allHobbiesList[i],
-                                isSelected: (kidsController.hobbiesIndex.contains(i)),
+                                label: kidsController.temporaryHobbiesList[i],
+                                isSelected: (kidsController.temporarySelectedHobbies.contains(kidsController.temporaryHobbiesList[i])),
                                 onSelected: (value) {
                                   kidHelper.onSelectHobbies(i);
                                 },
@@ -81,14 +82,11 @@ class SelectHobbiesPage extends StatelessWidget {
                       kH16sizedBox,
                       CustomElevatedButton(
                         label: ksSave.tr,
-                        onPressed: kidsController.hobbiesIndex.isNotEmpty
-                            ? () {
-                                // registrationHelper.saveInterest();//!Api call
-                                kidsController.selectedHobbies.addAll(kidsController.temporarySelectedHobbies);
-                                Get.back();
-                                kidsController.temporarySelectedHobbies.clear();
-                              }
-                            : null,
+                        onPressed: () {
+                          kidsController.selectedHobbies.clear();
+                          kidsController.selectedHobbies.addAll(kidsController.temporarySelectedHobbies);
+                          kidHelper.saveHobbies();
+                        },
                         buttonWidth: width - 40,
                         textStyle: semiBold16TextStyle(cWhiteColor),
                       ),

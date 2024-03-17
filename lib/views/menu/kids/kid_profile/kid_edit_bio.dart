@@ -37,7 +37,7 @@ class KidEditBio extends StatelessWidget {
                               onPressed: kidsController.kidBioEditingController.text != kidsController.kidBio.value
                                   ? () async {
                                       unfocus(context);
-                                      // profileHelper.saveBio();//! Change using api(save bio api call)
+                                      kidHelper.saveEditBio();
                                     }
                                   : null,
                               text: ksSave.tr,
@@ -74,7 +74,7 @@ class KidEditBio extends StatelessWidget {
                                   inputType: TextInputType.name,
                                 ),
                                 Text(
-                                  '${ kidsController.bioCount.value}/255',
+                                  '${kidsController.bioCount.value}/255',
                                   style: regular14TextStyle(cIconColor),
                                 )
                               ],
@@ -85,18 +85,17 @@ class KidEditBio extends StatelessWidget {
                     ],
                   )),
             ),
-            //!Add api call loading condition
-            // if (profileController.isBioLoading.value == true)
-            //   Positioned(
-            //     child: CommonLoadingAnimation(
-            //       onWillPop: () async {
-            //         if (profileController.isBioLoading.value) {
-            //           return false;
-            //         }
-            //         return true;
-            //       },
-            //     ),
-            //   ),
+            if (kidsController.isKidBioLoading.value == true)
+              Positioned(
+                child: CommonLoadingAnimation(
+                  onWillPop: () async {
+                    if (kidsController.isKidBioLoading.value) {
+                      return false;
+                    }
+                    return true;
+                  },
+                ),
+              ),
           ],
         ),
       ),

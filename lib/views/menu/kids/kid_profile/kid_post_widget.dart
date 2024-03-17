@@ -2,6 +2,8 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/home_post_details.dart';
+import 'package:bip_hip/views/home/home_post_details_screen.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
@@ -15,8 +17,8 @@ import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
-class CommonFeaturePostWidget extends StatelessWidget {
-  CommonFeaturePostWidget({
+class KidPostWidget extends StatelessWidget {
+  KidPostWidget({
     super.key,
     required this.isCommented,
     required this.isLiked,
@@ -152,10 +154,10 @@ class CommonFeaturePostWidget extends StatelessWidget {
         kH10sizedBox,
         InkWell(
           onTap: () async {
-            // Get.to(() => HomePostDetails(
-            //       postIndex: postIndex,
-            //     ));
-            // await Get.find<HomeController>().getPostData(postID);
+            Get.to(() => HomePostDetails(
+                  postIndex: postIndex,
+                ));
+            await Get.find<HomeController>().getPostData(postID);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -284,47 +286,39 @@ class CommonFeaturePostWidget extends StatelessWidget {
             ),
           ),
         if (postText != '')
-          Padding(
-            padding: EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: mediaList.isNotEmpty ? k8Padding : 0),
-            // child: RichText(
-            //   textAlign: TextAlign.left,
-            //   overflow: TextOverflow.ellipsis,
-            //   maxLines: (homeController.seeMore.value && postText!.length > 100) ? 3 : null,
-            //   text: TextSpan(
-            //     children: [
-            //       TextSpan(
-            //         text: postText,
-            //         style: (postText!.length < 150 && category != 'Selling' && mediaList.isEmpty)
-            //             ? regular20TextStyle(cBlackColor)
-            //             : regular14TextStyle(cBlackColor),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            child: Container(
-              constraints: BoxConstraints.tight(Size.fromHeight(52)),
-              child: Text(
-                postText ?? '',
-                style: regular14TextStyle(cBlackColor),
-                overflow: TextOverflow.fade,
-              ),
-            ),
-          ),
-        if (postText!.length > 60)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: TextButton(
-              style: kTextButtonStyle,
-              onPressed: () {
-                // Get.find<KidsController>().seeMore.value = !Get.find<KidsController>().seeMore.value;
-              },
-              child: Text(
-                ksSeeMore.tr,
-                style: semiBold14TextStyle(cPrimaryColor),
-              ),
-            ),
-          ),
-        kH8sizedBox,
+          Obx(() => Padding(
+                padding: EdgeInsets.only(
+                    left: kHorizontalPadding, right: kHorizontalPadding, bottom: (mediaList.isNotEmpty || category == 'Selling') ? k12Padding : 0),
+                child: RichText(
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.clip,
+                  maxLines: (homeController.seeMore.value && postText!.length > 256) ? 5 : null,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: postText,
+                        style: (postText!.length < 150 && category != 'Selling' && mediaList.isEmpty)
+                            ? regular20TextStyle(cBlackColor)
+                            : regular14TextStyle(cBlackColor),
+                      ),
+                    ],
+                  ),
+                ),
+              )),
+        if (postText!.length > 256)
+          Obx(() => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                child: TextButton(
+                  style: kTextButtonStyle,
+                  onPressed: () {
+                    homeController.seeMore.value = !homeController.seeMore.value;
+                  },
+                  child: Text(
+                    homeController.seeMore.value ? ksSeeMore.tr : ksShowLess.tr,
+                    style: semiBold14TextStyle(cPrimaryColor),
+                  ),
+                ),
+              )),
         if (isSharedPost)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -333,7 +327,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
                   borderRadius: k8CircularBorderRadius,
                   border: Border.all(color: cLineColor),
                 ),
-                child: CommonFeaturePostWidget(
+                child: KidPostWidget(
                   taggedFriends: [],
                   postID: 0,
                   reactCount: null,
@@ -362,7 +356,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
             child: Container(
               color: cWhiteColor,
-              height: 252,
+              height: 302,
               width: width - 40,
               child: Column(
                 children: [
@@ -373,23 +367,23 @@ class CommonFeaturePostWidget extends StatelessWidget {
                         style: kTextButtonStyle,
                         onPressed: () async {
                           if ((postText != null && postText?.trim() != '') || mediaList.length > 1) {
-                            // Get.toNamed(krHomePostDetailsScreen);
-                            // await Get.find<HomeController>().getPostData(postID);
+                            Get.toNamed(krHomePostDetailsScreen);
+                            await Get.find<HomeController>().getPostData(postID);
                           } else {
                             Get.to(() => CommonPhotoView(
-                                  image: mediaList[0].fullPath.toString(),
+                                  image: Environment.imageBaseUrl + mediaList[0].path.toString(),
                                   postIndex: postIndex,
                                 ));
                           }
                         },
                         child: Container(
                           decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                          height: mediaList.length < 2 ? 252 : 125,
-                          width: mediaList.length > 3 ? (width - 46) / 2 : (width - 42),
+                          height: mediaList.length < 2 ? 302 : 150,
+                          width: mediaList.length > 3 ? (width - 42) / 2 : (width - 40),
                           child: ClipRRect(
                             borderRadius: k8CircularBorderRadius,
                             child: Image.network(
-                              mediaList[0].fullPath.toString(),
+                              mediaList[0].toString(),
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) => const Icon(
                                 BipHip.imageFile,
@@ -412,19 +406,19 @@ class CommonFeaturePostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            // Get.to(() => HomePostDetailsScreen(
-                            //       postIndex: postIndex,
-                            //     ));
-                            // await Get.find<HomeController>().getPostData(postID);
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
+                            await Get.find<HomeController>().getPostData(postID);
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                            height: 125,
-                            width: (width - 46) / 2,
+                            height: 150,
+                            width: (width - 42) / 2,
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                mediaList[1].fullPath.toString(),
+                                mediaList[1].toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -451,19 +445,19 @@ class CommonFeaturePostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            // Get.to(() => HomePostDetailsScreen(
-                            //       postIndex: postIndex,
-                            //     ));
-                            // await Get.find<HomeController>().getPostData(postID);
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
+                            await Get.find<HomeController>().getPostData(postID);
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                            height: 125,
-                            width: mediaList.length < 3 ? (width - 38) : (width - 46) / 2,
+                            height: 150,
+                            width: mediaList.length < 3 ? (width - 40) : (width - 42) / 2,
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                mediaList[1].fullPath.toString(),
+                                mediaList[1].toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -486,19 +480,19 @@ class CommonFeaturePostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            // Get.to(() => HomePostDetailsScreen(
-                            //       postIndex: postIndex,
-                            //     ));
-                            // await Get.find<HomeController>().getPostData(postID);
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
+                            await Get.find<HomeController>().getPostData(postID);
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                            height: 125,
-                            width: mediaList.length > 4 ? (width - 50) / 3 : (width - 42) / 2,
+                            height: 150,
+                            width: mediaList.length > 4 ? (width - 44) / 3 : (width - 42) / 2,
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                mediaList[2].fullPath.toString(),
+                                mediaList[2].toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -521,17 +515,17 @@ class CommonFeaturePostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            // Get.toNamed(krHomePostDetailsScreen);
-                            // await Get.find<HomeController>().getPostData(postID);
+                            Get.toNamed(krHomePostDetailsScreen);
+                            await Get.find<HomeController>().getPostData(postID);
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                            height: 125,
-                            width: mediaList.length < 5 ? (width - 46) / 2 : (width - 44) / 3,
+                            height: 150,
+                            width: mediaList.length < 5 ? (width - 42) / 2 : (width - 44) / 3,
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                mediaList[3].fullPath.toString(),
+                                mediaList[3].toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -557,19 +551,19 @@ class CommonFeaturePostWidget extends StatelessWidget {
                             TextButton(
                               style: kTextButtonStyle,
                               onPressed: () async {
-                                // Get.to(() => HomePostDetailsScreen(
-                                //       postIndex: postIndex,
-                                //     ));
-                                // await Get.find<HomeController>().getPostData(postID);
+                                Get.to(() => HomePostDetailsScreen(
+                                      postIndex: postIndex,
+                                    ));
+                                await Get.find<HomeController>().getPostData(postID);
                               },
                               child: Container(
                                   decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                                  height: 125,
+                                  height: 150,
                                   width: (width - 44) / 3,
                                   child: ClipRRect(
                                     borderRadius: k8CircularBorderRadius,
                                     child: Image.network(
-                                      mediaList[4].fullPath.toString(),
+                                      mediaList[4].toString(),
                                       fit: BoxFit.cover,
                                       color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
                                       colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,

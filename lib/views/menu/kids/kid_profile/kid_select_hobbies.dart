@@ -22,7 +22,6 @@ class KidSelectHobbies extends StatelessWidget {
               suffixTextStyle: semiBold18TextStyle(cBlackColor),
               // isAddButton: profileController.userData.value!.interest.isEmpty ? true : false,
               isAddButton: kidsController.selectedHobbies.isEmpty ? true : false,
-              // isAddButton: true, //!From api
               suffixOnPressed: () async {
                 kidHelper.setHobbies();
               },
@@ -33,8 +32,8 @@ class KidSelectHobbies extends StatelessWidget {
               direction: Axis.horizontal,
               spacing: 8.0,
               children: [
-                // for (int i = 0; i < profileController.userData.value!.interest.length; i++)
-                for (int i = 0; i < kidsController.selectedHobbies.length; i++)
+                for (int i = 0; i < kidsController.kidsData.value!.hobbies.length; i++)
+                  // for (int i = 0; i < kidsController.selectedHobbies.length; i++)
                   Padding(
                     padding: const EdgeInsets.only(bottom: k8Padding),
                     child: Container(
@@ -48,7 +47,9 @@ class KidSelectHobbies extends StatelessWidget {
                         padding: const EdgeInsets.all(k8Padding),
                         child: Text(
                           // profileController.userData.value!.interest[i],
-                          kidsController.selectedHobbies[i],
+                          // kidsController.kidsData.value?.hobbies[i],
+                          kidsController.kidsData.value!.hobbies[i],
+                          // kidsController.selectedHobbies[i],
                           style: regular14TextStyle(cBlackColor),
                         ),
                       ),

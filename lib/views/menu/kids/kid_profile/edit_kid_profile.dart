@@ -9,36 +9,36 @@ import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
 import 'package:flutter_svg/svg.dart';
 
 class EditKidProfile extends StatelessWidget {
-  EditKidProfile({super.key, this.profilePicture, this.coverPhoto});
-  final String? profilePicture;
-  final String? coverPhoto;
+  EditKidProfile({
+    super.key,
+  });
   final KidsController kidsController = Get.find<KidsController>();
   final KidHelper kidHelper = KidHelper();
   @override
   Widget build(BuildContext context) {
     return Container(
       color: cWhiteColor,
-      child: Stack(
-        children: [
-          SafeArea(
-            top: false,
-            child: Scaffold(
-              backgroundColor: cWhiteColor,
-              appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(kAppBarSize),
-                //* info:: appBar
-                child: CustomAppBar(
-                  appBarColor: cWhiteColor,
-                  title: ksEditProfile.tr,
-                  hasBackButton: true,
-                  isCenterTitle: true,
-                  onBack: () {
-                    Get.back();
-                  },
+      child: Obx(
+        () => Stack(
+          children: [
+            SafeArea(
+              top: false,
+              child: Scaffold(
+                backgroundColor: cWhiteColor,
+                appBar: PreferredSize(
+                  preferredSize: const Size.fromHeight(kAppBarSize),
+                  //* info:: appBar
+                  child: CustomAppBar(
+                    appBarColor: cWhiteColor,
+                    title: ksEditProfile.tr,
+                    hasBackButton: true,
+                    isCenterTitle: true,
+                    onBack: () {
+                      Get.back();
+                    },
+                  ),
                 ),
-              ),
-              body: Obx(
-                () => Stack(
+                body: Stack(
                   children: [
                     Container(
                       color: cWhiteColor,
@@ -65,7 +65,7 @@ class EditKidProfile extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      // profileHelper.viewProfilePic();//!Change it
+                                      kidHelper.viewKidProfilePic();
                                     },
                                     child: Container(
                                       height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
@@ -76,7 +76,7 @@ class EditKidProfile extends StatelessWidget {
                                       ),
                                       child: ClipOval(
                                         child: Image.network(
-                                          profilePicture ?? '', //!Change it
+                                          kidsController.kidOverviewData.value?.kids?.profilePicture ?? '',
                                           // profileController.userData.value!.profilePicture.toString(),
                                           fit: BoxFit.cover,
                                           errorBuilder: (context, error, stackTrace) => const Icon(
@@ -107,6 +107,7 @@ class EditKidProfile extends StatelessWidget {
                               InkWell(
                                 onTap: () {
                                   // profileHelper.viewCoverPhoto();//!Change it
+                                  kidHelper.viewKidCoverPhoto();
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -117,7 +118,7 @@ class EditKidProfile extends StatelessWidget {
                                   child: ClipRRect(
                                     borderRadius: k8CircularBorderRadius,
                                     child: Image.network(
-                                      coverPhoto ?? '', //!Change throught api
+                                      kidsController.kidOverviewData.value?.kids?.coverPhoto ?? '',
                                       // profileController.userData.value!.coverPhoto.toString(),
                                       height: 150,
                                       width: width,
@@ -145,7 +146,6 @@ class EditKidProfile extends StatelessWidget {
                                 prefix: ksBio.tr,
                                 suffix: kidsController.kidBio.value == null ? ksAdd : ksEdit.tr,
                                 onEditPressed: () {
-                                  // profileHelper.editBio();//!Must change it
                                   kidHelper.kidEditBio();
                                 },
                               ),
@@ -167,7 +167,8 @@ class EditKidProfile extends StatelessWidget {
                               RowTextEdit(
                                 prefix: ksIntro.tr,
                                 suffix: ksEdit.tr,
-                                onEditPressed: () {
+                                onEditPressed: () async{
+                                  await kidsController.getKidAllSchoolList();
                                   // editProfileHelper.resetEditAboutPage();//!function write
                                   // profileController.showAllEditOption.value = false;//!Change
                                   Get.toNamed(krKidEditAboutInfo);
@@ -184,6 +185,7 @@ class EditKidProfile extends StatelessWidget {
                                 buttonColor: cPrimaryColor,
                                 textStyle: semiBold14TextStyle(cWhiteColor),
                                 onPressed: () async {
+                                  await kidsController.getKidAllSchoolList();
                                   // profileController.showAllEditOption.value = true;//!variable define
                                   // editProfileHelper.resetEditAboutPage();//!Function write
                                   Get.toNamed(krKidEditAboutInfo);
@@ -217,8 +219,8 @@ class EditKidProfile extends StatelessWidget {
             //     },
             //   ),
             // ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -240,45 +242,44 @@ class KidIntroContents extends StatelessWidget {
             size: kIconSize20,
             color: cPrimaryColor,
           ),
-          prefixText: '${ksPage.tr} ',
-          suffixText: ksKid.tr,
+          prefixText: ksPage.tr,
+          suffixText: kidsController.kidOverviewData.value?.kids?.pageType ?? ksNA,
           onPressed: null,
         ),
         // if (profileController.hometownData.value != null)//!Condition must use in future
         KidStoreProfileLinkUpIconTextRow(
           iconOrSvg: SvgPicture.asset(kiParentSvgImageUrl),
-          prefixText: 'Father',
-          suffixText: 'Emma Isabella',
+          prefixText: kidsController.kidOverviewData.value?.kids?.relation ?? ksNA,
+          suffixText: kidsController.kidOverviewData.value?.parent?.fullName ?? ksNA,
           onPressed: null,
         ),
         // if (profileController.profileData.value!.school != null)//!Condition must use in future
         //  for (int i = 0; i < profileController.schoolDataList.length; i++)
-        const LinkUpIconTextRow(
+        LinkUpIconTextRow(
           icon: BipHip.school,
           // suffixText: checkNullOrStringNull(profileController.schoolDataList[i].school),
           // prefixText: profileController.schoolDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
           // suffixText: checkNullOrStringNull(profileController.profileData.value!.school!.school),//!Change using api
           suffixText: "",
-          prefixText: "Majedul islam model school",
+          prefixText: kidsController.kidOverviewData.value?.school ?? ksNA,
           onPressed: null,
         ),
         // if (profileController.profileData.value!.college != null)//!Condition must use in future
         //  for (int i = 0; i < profileController.collegeDataList.length; i++)
-        const LinkUpIconTextRow(
+        LinkUpIconTextRow(
           icon: BipHip.mail,
           // suffixText: checkNullOrStringNull(profileController.profileData.value!.college!.school),//!Change it using api data
           suffixText: "",
-          prefixText: "genie.kid@gmail.com",
+          prefixText: kidsController.kidOverviewData.value?.email ?? ksNA,
           // suffixText: checkNullOrStringNull(profileController.collegeDataList[i].school),
           // prefixText: profileController.collegeDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
           onPressed: null,
         ),
-        // if (profileController.currentWorkplace.value != null)//!Condition must use in future
-        const LinkUpIconTextRow(
+        LinkUpIconTextRow(
           icon: BipHip.phoneFill,
           // suffixText: checkNullOrStringNull(profileController.currentWorkplace.value!.company),
           suffixText: "",
-          prefixText: "01763564354",
+          prefixText: kidsController.kidOverviewData.value?.phone ?? ksNA,
           // prefixText: profileController.currentWorkplace.value!.position == null ? '' : '${profileController.currentWorkplace.value!.position} at ',//!if needed use it in future
           onPressed: null,
         ),
