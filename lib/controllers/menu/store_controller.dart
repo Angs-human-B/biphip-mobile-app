@@ -339,6 +339,7 @@ class StoreController extends GetxController {
   final RxString storeBIN = RxString('129874675766');
   //!* Edit store 
   final TextEditingController storePhoneNumberTextEditingController = TextEditingController();
+  final TextEditingController storeEmailTextEditingController = TextEditingController();
   final legalPapersList = [
     //!Remove it
     "https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/featured_hu6547841b230d5bd693e155a5fda2f54e_25956_768x0_resize_q75_lanczos.jpg",

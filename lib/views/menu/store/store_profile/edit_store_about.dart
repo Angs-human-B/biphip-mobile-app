@@ -178,7 +178,8 @@ class StoreContactInfoContent extends StatelessWidget {
                   prefixText: checkNullOrStringNull(storeController.storeEmailList[i]['email']), //*Use here api
                   isAddButton: false,
                   suffixOnPressed: () async {
-                    // kidHelper.editKidSchool(i);
+                    storeController.storeEmailTextEditingController.text = storeController.storeEmailList[i]['email'];
+                    Get.toNamed(krEditStoreEmail);
                   },
                 ),
               ),
