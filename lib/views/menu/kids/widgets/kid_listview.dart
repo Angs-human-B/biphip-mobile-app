@@ -25,47 +25,57 @@ class KidsListView extends StatelessWidget {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return CustomListTile(
-                              padding: const EdgeInsets.only(left: k8Padding, top: k8Padding, bottom: k8Padding),
-                              borderColor: cLineColor,
-                              leading: Container(
-                                height: h40,
-                                width: h40,
-                                decoration: const BoxDecoration(
-                                  color: cWhiteColor,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: ClipOval(
-                                  child: Image.network(
-                                    kidsController.kidList[index].profilePicture.toString(),
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Image.asset(kiProfileDefaultImageUrl);
-                                    },
-                                    loadingBuilder: imageLoadingBuilder,
+                            return InkWell(
+                              onTap: () async {
+                                kidsController.selectedKidId.value = kidsController.kidList[index].id!;
+                                // await Get.find<HomeController>().getTimelinePostList();
+                                kidsController.resetKidProfileData();
+                                Get.toNamed(krKidProfile);
+                                await kidsController.getKidOverview();
+                                await kidsController.getPostList();
+                              },
+                              child: CustomListTile(
+                                padding: const EdgeInsets.only(left: k8Padding, top: k8Padding, bottom: k8Padding),
+                                borderColor: cLineColor,
+                                leading: Container(
+                                  height: h40,
+                                  width: h40,
+                                  decoration: const BoxDecoration(
+                                    color: cWhiteColor,
+                                    shape: BoxShape.circle,
                                   ),
-                                ),
-                              ),
-                              title: Text(
-                                kidsController.kidList[index].name ?? ksNA.tr,
-                                style: semiBold16TextStyle(cBlackColor),
-                              ),
-                              subtitle: Row(
-                                children: [
-                                  Container(
-                                    width: 8,
-                                    height: 8,
-                                    decoration: const BoxDecoration(
-                                      color: cPrimaryColor,
-                                      shape: BoxShape.circle,
+                                  child: ClipOval(
+                                    child: Image.network(
+                                      kidsController.kidList[index].profilePicture.toString(),
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Image.asset(kiProfileDefaultImageUrl);
+                                      },
+                                      loadingBuilder: imageLoadingBuilder,
                                     ),
                                   ),
-                                  kW4sizedBox,
-                                  Text(
-                                    '2 Notifications',
-                                    style: regular14TextStyle(cBlackColor),
-                                  ),
-                                ],
+                                ),
+                                title: Text(
+                                  kidsController.kidList[index].name ?? ksNA.tr,
+                                  style: semiBold16TextStyle(cBlackColor),
+                                ),
+                                subtitle: Row(
+                                  children: [
+                                    Container(
+                                      width: 8,
+                                      height: 8,
+                                      decoration: const BoxDecoration(
+                                        color: cPrimaryColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    kW4sizedBox,
+                                    Text(
+                                      '2 Notifications',
+                                      style: regular14TextStyle(cBlackColor),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           },

@@ -20,6 +20,7 @@ class Kid {
   dynamic cover;
   dynamic gender;
   String? profilePicture;
+  String? coverPhoto;
 
   Kid({
     required this.id,
@@ -31,6 +32,7 @@ class Kid {
     required this.cover,
     required this.gender,
     required this.profilePicture,
+    required this.coverPhoto,
   });
 
   factory Kid.fromJson(Map<String, dynamic> json) => Kid(
@@ -43,5 +45,6 @@ class Kid {
         cover: json["cover"],
         gender: json["gender"],
         profilePicture: json["profile_picture"],
+        coverPhoto: json["cover_photo"],
       );
 }
