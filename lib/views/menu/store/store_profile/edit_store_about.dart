@@ -45,66 +45,7 @@ class StoreEditAbout extends StatelessWidget {
                 kH8sizedBox,
                 StoreReviewContent(),
                 kH8sizedBox,
-                Container(
-                  width: width,
-                  color: cWhiteColor,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        kH16sizedBox,
-                        Text(
-                          ksPageTransparency,
-                          style: semiBold18TextStyle(cBlackColor),
-                        ),
-                        kH16sizedBox,
-                        Text(
-                          "BipHip is showing informatino to help people understand the purpose of your page. You won't be able to edit what is shown here.",
-                          style: regular14TextStyle(cSmallBodyTextColor),
-                        ),
-                        kH16sizedBox,
-                        Text(
-                          // kidsController.kidOverviewData.value?.kids?.pageId ?? ksNA,//!From api data
-                          '12345678',
-                          style: regular16TextStyle(cBlackColor),
-                        ),
-                        kH4sizedBox,
-                        Text(
-                          ksPageId.tr,
-                          style: regular10TextStyle(cSmallBodyTextColor),
-                        ),
-                        kH16sizedBox,
-                        Text(
-                          // DateFormat('dd MMM, yyyy').format(kidsController.kidOverviewData.value?.kids!.createdAt ?? DateTime.now()),//! data from Api
-                          DateFormat('dd MMM, yyyy').format(DateTime.now()),
-                          style: regular16TextStyle(cBlackColor),
-                        ),
-                        kH4sizedBox,
-                        Text(
-                          ksCreatingDate.tr,
-                          style: regular10TextStyle(cSmallBodyTextColor),
-                        ),
-                        kH16sizedBox,
-                        Text(
-                          "Admin Info",
-                          style: regular16TextStyle(cBlackColor),
-                        ),
-                        kH4sizedBox,
-                        Text(
-                          "This page can't have admin right now. We will add admin feature in coming updates.",
-                          style: regular10TextStyle(cSmallBodyTextColor),
-                        ),
-                        kH16sizedBox,
-                        Text(
-                          "This page is currently not running ads",
-                          style: regular16TextStyle(cBlackColor),
-                        ),
-                        kH16sizedBox,
-                      ],
-                    ),
-                  ),
-                ),
+                StorePageTransperencyContent(),
               ],
             ),
           ),
@@ -361,6 +302,74 @@ class StoreReviewContent extends StatelessWidget {
             kH16sizedBox,
             Text(
               "Not Yet Rated (0 Reviews)",
+              style: regular16TextStyle(cBlackColor),
+            ),
+            kH16sizedBox,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class StorePageTransperencyContent extends StatelessWidget {
+  StorePageTransperencyContent({super.key});
+  final StoreController storeController = Get.find<StoreController>();
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      color: cWhiteColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            kH16sizedBox,
+            Text(
+              ksPageTransparency,
+              style: semiBold18TextStyle(cBlackColor),
+            ),
+            kH16sizedBox,
+            Text(
+              "BipHip is showing informatino to help people understand the purpose of your page. You won't be able to edit what is shown here.",
+              style: regular14TextStyle(cSmallBodyTextColor),
+            ),
+            kH16sizedBox,
+            Text(
+              // kidsController.kidOverviewData.value?.kids?.pageId ?? ksNA,//!From api data
+              '12345678',
+              style: regular16TextStyle(cBlackColor),
+            ),
+            kH4sizedBox,
+            Text(
+              ksPageId.tr,
+              style: regular10TextStyle(cSmallBodyTextColor),
+            ),
+            kH16sizedBox,
+            Text(
+              // DateFormat('dd MMM, yyyy').format(kidsController.kidOverviewData.value?.kids!.createdAt ?? DateTime.now()),//! data from Api
+              DateFormat('dd MMM, yyyy').format(DateTime.now()),
+              style: regular16TextStyle(cBlackColor),
+            ),
+            kH4sizedBox,
+            Text(
+              ksCreatingDate.tr,
+              style: regular10TextStyle(cSmallBodyTextColor),
+            ),
+            kH16sizedBox,
+            Text(
+              "Admin Info",
+              style: regular16TextStyle(cBlackColor),
+            ),
+            kH4sizedBox,
+            Text(
+              "This page can't have admin right now. We will add admin feature in coming updates.",
+              style: regular10TextStyle(cSmallBodyTextColor),
+            ),
+            kH16sizedBox,
+            Text(
+              "This page is currently not running ads",
               style: regular16TextStyle(cBlackColor),
             ),
             kH16sizedBox,
