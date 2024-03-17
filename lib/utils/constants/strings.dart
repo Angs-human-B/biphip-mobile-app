@@ -606,3 +606,5 @@ const String ksCreatingDate = "Creating Date";
 const String ksQR = "QR";
 const String ksStoreLocation = "Store Location";
 const String ksPrivacyAndLegalInfo = "Privacy and Legal Info";
+const String ksEditPrivacyLink = "Edit Privacy Link";
+const String ksAddPrivacyLink = "Add Privacy Link";

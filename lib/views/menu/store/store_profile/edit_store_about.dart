@@ -249,8 +249,13 @@ class StorePrivacyAndLegalInfoContent extends StatelessWidget {
                   subTitlePrefixTextStyle: regular16TextStyle(cBlackColor),
                   isAddButton: storeController.storePrivacyLink.value == null ? true : false,
                   suffixOnPressed: () {
-                    // KidHelper().resetKidRelationEditPage();
-                    // Get.toNamed(krKidEditRelation);
+                    storeController.storePrivacyLinkTextEditingController.text = storeController.storePrivacyLink.value ?? "";
+                    if (storeController.storePrivacyLink.value == null) {
+                      storeController.isEditOrAdd.value = false;
+                    } else {
+                      storeController.isEditOrAdd.value = true;
+                    }
+                    Get.toNamed(krEditStorePrivacyLink);
                   },
                 )),
             kH16sizedBox,

@@ -2,8 +2,8 @@ import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 
-class EditStoreEmail extends StatelessWidget {
-  EditStoreEmail({super.key});
+class EditStorePrivacyLink extends StatelessWidget {
+  EditStorePrivacyLink({super.key});
   final StoreController storeController = Get.find<StoreController>();
   @override
   Widget build(BuildContext context) {
@@ -19,34 +19,34 @@ class EditStoreEmail extends StatelessWidget {
             child: CustomAppBar(
               appBarColor: cWhiteColor,
               // title: '${profileController.commonEditPageTitle}'.tr,
-              title: ksEditEmail.tr,
+              title: storeController.isEditOrAdd.value ? ksEditPrivacyLink.tr : ksAddPrivacyLink.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
                 Get.back();
               },
               action: [
-                // if (profileController.functionFlag.contains('EDIT'))
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CustomTextButton(
-                      onPressed: () {
-                        deleteAlertDialog(
-                            context: context,
-                            content: DeletePopupContent(
-                                text: ksDeleteConfirmation.tr,
-                                deleteOnPressed: () {
-                                  // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
-                                  Get.back();
-                                  Get.back();
-                                }),
-                            title: ksConfirmation.tr);
-                        // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
-                        // Get.back();
-                      },
-                      text: ksDelete,
-                      textStyle: semiBold14TextStyle(cRedColor)),
-                )
+                if (storeController.isEditOrAdd.value)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: CustomTextButton(
+                        onPressed: () {
+                          deleteAlertDialog(
+                              context: context,
+                              content: DeletePopupContent(
+                                  text: ksDeleteConfirmation.tr,
+                                  deleteOnPressed: () {
+                                    // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
+                                    Get.back();
+                                    Get.back();
+                                  }),
+                              title: ksConfirmation.tr);
+                          // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
+                          // Get.back();
+                        },
+                        text: ksDelete,
+                        textStyle: semiBold14TextStyle(cRedColor)),
+                  )
               ],
             ),
           ),
@@ -57,9 +57,9 @@ class EditStoreEmail extends StatelessWidget {
                 kH16sizedBox,
                 kH8sizedBox,
                 CustomModifiedTextField(
-                  controller: storeController.storeEmailTextEditingController,
-                  prefixIcon: BipHip.mail,
-                  hint: ksStorePhone.tr,
+                  controller: storeController.storePrivacyLinkTextEditingController,
+                  prefixIcon: BipHip.addLink,
+                  hint: ksAddLink.tr,
                   onChanged: (text) {},
                   onSubmit: (text) {},
                   inputAction: TextInputAction.next,

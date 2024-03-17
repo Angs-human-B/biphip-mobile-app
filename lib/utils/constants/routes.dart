@@ -51,6 +51,7 @@ import 'package:bip_hip/views/menu/store/store_profile/edit_store_about.dart';
 import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile.dart';
 import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_email.dart';
 import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_phone_number.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_privacy_link.dart';
 import 'package:bip_hip/views/menu/store/store_profile/store_profile.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/create_post.dart';
@@ -189,6 +190,7 @@ const String krEditStoreProfile = '/edit-store-profile';
 const String krStoreEditAbout = '/store-edit-about';
 const String krEditStorePhoneNumber = '/edit-store-phone-number';
 const String krEditStoreEmail = '/edit-store-email';
+const String krEditStorePrivacyLink = '/edit-store-privacy-link';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -298,4 +300,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krStoreEditAbout, page: () => StoreEditAbout(), transition: Transition.noTransition),
   GetPage(name: krEditStorePhoneNumber, page: () => EditStorePhoneNumber(), transition: Transition.noTransition),
   GetPage(name: krEditStoreEmail, page: () => EditStoreEmail(), transition: Transition.noTransition),
+  GetPage(name: krEditStorePrivacyLink, page: () => EditStorePrivacyLink(), transition: Transition.noTransition),
 ];
