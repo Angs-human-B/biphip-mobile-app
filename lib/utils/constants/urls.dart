@@ -235,3 +235,5 @@ const String kiWinner = 'assets/svg/winner.svg';
 const String kiPositionBadge = 'assets/svg/position_badge.svg';
 const String kiQuizWinner = 'assets/svg/quiz_winner.svg';
 const String kiAward = 'assets/svg/award.svg';
+const String kiWorldSvgImage = 'assets/svg/world.svg';
+const String kiStarSvgImage = 'assets/svg/star.svg';

@@ -1,6 +1,8 @@
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/shimmers/menu/kids/kid_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/store/store_profile/store_profile.dart';
 import 'package:flutter_svg/svg.dart';
 
 class StoreListView extends StatelessWidget {
@@ -25,8 +27,16 @@ class StoreListView extends StatelessWidget {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: k12Padding),
+                            return InkWell(
+                              onTap: ()async{
+                                // Get.to(()=>);
+                                 await Get.find<HomeController>().getTimelinePostList();//!Remove this api call
+                                 Get.to(() => StoreProfile(
+                                      name: storeController.storeList[index].name ?? ksNA.tr,
+                                      profilePicture: storeController.storeList[index].profilePicture.toString(),
+                                      coverPhoto: storeController.storeList[index].coverPhoto.toString(),
+                                    ));
+                              },
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(k8BorderRadius),
                                 child: CustomListTile(

@@ -38,6 +38,7 @@ import 'package:bip_hip/views/menu/kids/add_kid_basic_info.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_contact_info.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_social_links.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_upload_image.dart';
+import 'package:bip_hip/views/menu/store/store_profile/store_profile.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/create_post.dart';
 import 'package:bip_hip/views/post/upload_media_list.dart';
@@ -156,6 +157,11 @@ const String krBirthdayPage = '/birthday-page';
 const String krAwardsPage = '/awards-page';
 const String krAwardDetailsPage = '/award-details-page';
 
+
+//*Store profile
+const String krStoreProfile = '/store-profile';
+
+
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
   GetPage(name: krLogin, page: () => Login(), transition: Transition.noTransition),
@@ -246,5 +252,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krAwardsPage, page: () => AwardsPage(), transition: Transition.noTransition),
   GetPage(name: krAwardDetailsPage, page: () => AwardDetailsPage(), transition: Transition.noTransition),
 
-
+ //*Store profile
+  GetPage(name: krStoreProfile, page: () => StoreProfile(), transition: Transition.noTransition),
 ];

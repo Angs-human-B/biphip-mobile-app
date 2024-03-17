@@ -586,3 +586,7 @@ const String ksUnBlock = "Unblock";
 const String ksViewCertificate = "View certificate";
 const String ksSeeProfile = "See profile";
 const String ksTapToPlay = "Tap to play";
+const String ksManage = "Manage";
+const String ksPage = "Page";
+const String ksFeatured = "Featured";
+const String ksRating = "Rating";
