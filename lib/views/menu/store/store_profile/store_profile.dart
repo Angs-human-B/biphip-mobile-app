@@ -437,7 +437,7 @@ class StoreProfile extends StatelessWidget {
                                   itemCount: storeController.legalPapersList.length,
                                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                     childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
-                                    crossAxisCount: 3,
+                                    crossAxisCount: 4,
                                     crossAxisSpacing: k16Padding,
                                     mainAxisSpacing: k16Padding,
                                   ),
