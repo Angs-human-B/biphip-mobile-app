@@ -164,7 +164,7 @@ class EditStoreProfile extends StatelessWidget {
                                 onEditPressed: () {
                                   // editProfileHelper.resetEditAboutPage();//!function write
                                   // profileController.showAllEditOption.value = false;//!Change
-                                  // Get.toNamed(krKidEditAboutInfo);//!Route here
+                                  Get.toNamed(krStoreEditAbout);
                                 },
                               ),
                               kH16sizedBox,
@@ -180,7 +180,7 @@ class EditStoreProfile extends StatelessWidget {
                                 onPressed: () async {
                                   // profileController.showAllEditOption.value = true;//!variable define
                                   // editProfileHelper.resetEditAboutPage();//!Function write
-                                  // Get.toNamed(krKidEditAboutInfo);//!Route from here
+                                  Get.toNamed(krStoreEditAbout);
                                   // await profileController.getPositionList();//!Write this function
                                 },
                               ),

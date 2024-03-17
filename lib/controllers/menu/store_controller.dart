@@ -328,7 +328,10 @@ class StoreController extends GetxController {
   final RxInt storeProfileTabIndex = RxInt(0);
   final Rx<String?> storeBio = Rx<String?>(null);
   final RxString qrCode = RxString('www.storeqr.com');
-  final legalPapersList = [//!Remove it
+  final Rx<String?> storeCategory = Rx<String?>('Electronics');
+  final RxList storeLocationList = RxList(["Shewrapara, Mirpur, Dhaka, Bangladesh"]);
+  final legalPapersList = [
+    //!Remove it
     "https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/featured_hu6547841b230d5bd693e155a5fda2f54e_25956_768x0_resize_q75_lanczos.jpg",
     "https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/featured_hu6547841b230d5bd693e155a5fda2f54e_25956_768x0_resize_q75_lanczos.jpg",
     "https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/featured_hu6547841b230d5bd693e155a5fda2f54e_25956_768x0_resize_q75_lanczos.jpg",
