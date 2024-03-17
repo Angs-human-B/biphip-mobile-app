@@ -330,10 +330,13 @@ class StoreController extends GetxController {
   final RxString qrCode = RxString('www.storeqr.com');
   final Rx<String?> storeCategory = Rx<String?>('Electronics');
   final RxList storeLocationList = RxList(["Shewrapara, Mirpur, Dhaka, Bangladesh"]);
-  final RxString storeBIN = RxString('129874675766');
   final RxList storeNumberList = RxList([{"id":1, "phone":'0175634536785'},{"id":2, "phone":'0175634536786'}]);
   final RxList storeEmailList = RxList([{"id":1, "email":'Genieelec@gmail.com'},{"id":2, "email":'Genieelec1@gmail.com'}]);
   final RxList legalPaperAllInfoList = RxList([{"fileName": "Image.png", "fileSize": "250KB"},{"fileName": "Image1.png", "fileSize": "251KB"}]);
+  final RxList websiteAndSocialLinkList = RxList(["Facebook.1","Facebook.2","Facebook.3","Facebook.4","Facebook.5"]);
+  final Rx<String?> storePrivacyLink = Rx<String?>(null);
+  final RxList paymentMethodList = RxList([{"paymentGetway":"Nagad","payment":"01789368774638"},{"paymentGetway":"Paypal","payment":"Shohagjalal@gmail.com"}]);
+  final RxString storeBIN = RxString('129874675766');
   //!* Edit store 
   final TextEditingController storePhoneNumberTextEditingController = TextEditingController();
   final legalPapersList = [

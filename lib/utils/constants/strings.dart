@@ -605,3 +605,4 @@ const String ksPageId = "Page ID";
 const String ksCreatingDate = "Creating Date";
 const String ksQR = "QR";
 const String ksStoreLocation = "Store Location";
+const String ksPrivacyAndLegalInfo = "Privacy and Legal Info";

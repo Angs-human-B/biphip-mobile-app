@@ -37,6 +37,12 @@ class StoreEditAbout extends StatelessWidget {
                 kH8sizedBox,
                 StoreContactInfoContent(),
                 kH8sizedBox,
+                StoreWebsiteSocialLinkContent(),
+                kH8sizedBox,
+                StorePrivacyAndLegalInfoContent(),
+                kH8sizedBox,
+                StorePaymentContent(),
+                kH8sizedBox,
                 StoreBINContent(),
                 kH8sizedBox,
                 StoreQrCodeContent(),
@@ -173,6 +179,118 @@ class StoreContactInfoContent extends StatelessWidget {
                   isAddButton: false,
                   suffixOnPressed: () async {
                     // kidHelper.editKidSchool(i);
+                  },
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class StoreWebsiteSocialLinkContent extends StatelessWidget {
+  StoreWebsiteSocialLinkContent({super.key});
+  final StoreController storeController = Get.find<StoreController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: cWhiteColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+        child: Column(
+          children: [
+            kH16sizedBox,
+            InfoContainer(
+              suffixText: ksWebsiteAndSocialLinks.tr,
+              suffixTextStyle: semiBold18TextStyle(cBlackColor),
+              isAddButton: true,
+              suffixOnPressed: () {},
+            ),
+            kH12sizedBox,
+            for (int i = 0; i < storeController.websiteAndSocialLinkList.length; i++) //! using api
+              Padding(
+                padding: const EdgeInsets.only(bottom: k12Padding),
+                child: InfoContainer(
+                  suffixText: '',
+                  prefixText: checkNullOrStringNull(storeController.websiteAndSocialLinkList[i]), //*Use here api
+                  isAddButton: false,
+                  suffixOnPressed: () async {
+                    // storeController.storePhoneNumberTextEditingController.text = storeController.websiteAndSocialLinkList[i]['phone'];
+                    Get.toNamed(krEditStorePhoneNumber);
+                  },
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class StorePrivacyAndLegalInfoContent extends StatelessWidget {
+  StorePrivacyAndLegalInfoContent({super.key});
+  final StoreController storeController = Get.find<StoreController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: cWhiteColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+        child: Column(
+          children: [
+            kH16sizedBox,
+            Obx(() => InfoContainer(
+                  suffixText: ksPrivacyAndLegalInfo.tr,
+                  subtitlePrefixText: storeController.storePrivacyLink.value,
+                  subTitlePrefixTextStyle: regular16TextStyle(cBlackColor),
+                  isAddButton: storeController.storePrivacyLink.value == null ? true : false,
+                  suffixOnPressed: () {
+                    // KidHelper().resetKidRelationEditPage();
+                    // Get.toNamed(krKidEditRelation);
+                  },
+                )),
+            kH16sizedBox,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class StorePaymentContent extends StatelessWidget {
+  StorePaymentContent({super.key});
+  final StoreController storeController = Get.find<StoreController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: cWhiteColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+        child: Column(
+          children: [
+            kH16sizedBox,
+            InfoContainer(
+              suffixText: ksPayment.tr,
+              suffixTextStyle: semiBold18TextStyle(cBlackColor),
+              isAddButton: true,
+              suffixOnPressed: () {},
+            ),
+            kH12sizedBox,
+            for (int i = 0; i < storeController.paymentMethodList.length; i++) //! using api
+              Padding(
+                padding: const EdgeInsets.only(bottom: k12Padding),
+                child: InfoContainer(
+                  suffixText: '',
+                  prefixText: checkNullOrStringNull(storeController.paymentMethodList[i]['payment']), //*Use here api
+                  subtitlePrefixText: checkNullOrStringNull(storeController.paymentMethodList[i]['paymentGetway']), //*Use here api
+                  isAddButton: false,
+                  suffixOnPressed: () async {
+                    // storeController.storePhoneNumberTextEditingController.text = storeController.websiteAndSocialLinkList[i]['phone'];
+                    Get.toNamed(krEditStorePhoneNumber);
                   },
                 ),
               ),
