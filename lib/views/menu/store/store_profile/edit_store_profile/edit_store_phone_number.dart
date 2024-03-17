@@ -58,6 +58,7 @@ class EditStorePhoneNumber extends StatelessWidget {
                 kH8sizedBox,
                 CustomModifiedTextField(
                   controller: storeController.storePhoneNumberTextEditingController,
+                  prefixIcon: BipHip.phoneFill,
                   hint: ksStorePhone.tr,
                   onChanged: (text) {},
                   onSubmit: (text) {},

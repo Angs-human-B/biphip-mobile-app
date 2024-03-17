@@ -58,6 +58,7 @@ class EditStoreEmail extends StatelessWidget {
                 kH8sizedBox,
                 CustomModifiedTextField(
                   controller: storeController.storeEmailTextEditingController,
+                  prefixIcon: BipHip.mail,
                   hint: ksStorePhone.tr,
                   onChanged: (text) {},
                   onSubmit: (text) {},
