@@ -5,6 +5,7 @@ import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 import 'package:bip_hip/views/menu/store/store_profile/store_profile.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class EditStoreProfile extends StatelessWidget {
   EditStoreProfile({super.key, this.profilePicture, this.coverPhoto});
@@ -350,6 +351,21 @@ class StoreIntroContent extends StatelessWidget {
             },
           ),
         ),
+        kH16sizedBox,
+        Text(
+          ksQR.tr,
+          style: semiBold16TextStyle(cBlackColor),
+        ),
+        QrImageView(
+          data: storeController.qrCode.value,
+          version: QrVersions.auto,
+          size: 120,
+        ),
+        //  QrImage(
+        //     data: storeController.qrCode.value,
+        //     version: QrVersions.auto,
+        //     size: 200.0,
+        //   ),
       ],
     );
   }
