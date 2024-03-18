@@ -327,7 +327,7 @@ class StoreController extends GetxController {
   //! Store profile
   final RxInt storeProfileTabIndex = RxInt(0);
   final Rx<String?> storeBio = Rx<String?>(null);
-  final RxString qrCode = RxString('www.storeqr.com');
+  final RxString qrCode = RxString('store.qr.code');
   final Rx<String?> storeCategory = Rx<String?>('Electronics');
   final RxList storeLocationList = RxList(["Shewrapara, Mirpur, Dhaka, Bangladesh"]);
   final RxList storeNumberList = RxList([{"id":1, "phone":'0175634536785'},{"id":2, "phone":'0175634536786'}]);
@@ -341,6 +341,7 @@ class StoreController extends GetxController {
   final TextEditingController storePhoneNumberTextEditingController = TextEditingController();
   final TextEditingController storeEmailTextEditingController = TextEditingController();
   final TextEditingController storePrivacyLinkTextEditingController = TextEditingController();
+  final TextEditingController storeQrCodeTextEditingController = TextEditingController();
   final RxBool isEditOrAdd = RxBool(false);
   final legalPapersList = [
     //!Remove it

@@ -2,8 +2,8 @@ import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 
-class EditStoreEmail extends StatelessWidget {
-  EditStoreEmail({super.key});
+class EditStoreQrCode extends StatelessWidget {
+  EditStoreQrCode({super.key});
   final StoreController storeController = Get.find<StoreController>();
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class EditStoreEmail extends StatelessWidget {
             child: CustomAppBar(
               appBarColor: cWhiteColor,
               // title: '${profileController.commonEditPageTitle}'.tr,
-              title: ksEditEmail.tr,
+            title: storeController.qrCode.value == ""? ksAddQrCode : ksEditQrCode.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -27,6 +27,7 @@ class EditStoreEmail extends StatelessWidget {
               },
               action: [
                 // if (profileController.functionFlag.contains('EDIT'))
+                if(storeController.qrCode.value != "")
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: CustomTextButton(
@@ -57,9 +58,8 @@ class EditStoreEmail extends StatelessWidget {
                 kH16sizedBox,
                 kH8sizedBox,
                 CustomModifiedTextField(
-                  controller: storeController.storeEmailTextEditingController,
-                  prefixIcon: BipHip.mail,
-                  hint: ksStoreEmail.tr,
+                  controller: storeController.storeQrCodeTextEditingController,
+                  hint: "${ksQrCodeHere.tr}...",
                   onChanged: (text) {},
                   onSubmit: (text) {},
                   inputAction: TextInputAction.next,

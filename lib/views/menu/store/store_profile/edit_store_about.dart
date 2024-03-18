@@ -353,12 +353,16 @@ class StoreQrCodeContent extends StatelessWidget {
             kH16sizedBox,
             Obx(() => InfoContainer(
                   suffixText: ksQRCode.tr,
-                  subtitlePrefixText: storeController.qrCode.value,
+                  subtitlePrefixText: storeController.qrCode.value == "" ? null : storeController.qrCode.value,
                   subTitlePrefixTextStyle: regular16TextStyle(cBlackColor),
-                  isAddButton: false,
+                  isAddButton: storeController.qrCode.value == "" ? true : false,
                   suffixOnPressed: () {
-                    // KidHelper().resetKidRelationEditPage();
-                    // Get.toNamed(krKidEditRelation);
+                    if (storeController.qrCode.value == "") {
+                      storeController.storeQrCodeTextEditingController.text = "";
+                    } else {
+                      storeController.storeQrCodeTextEditingController.text = storeController.qrCode.value;
+                    }
+                    Get.toNamed(krEditStoreQrCode);
                   },
                 )),
             kH16sizedBox,

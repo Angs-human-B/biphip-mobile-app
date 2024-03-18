@@ -608,3 +608,6 @@ const String ksStoreLocation = "Store Location";
 const String ksPrivacyAndLegalInfo = "Privacy and Legal Info";
 const String ksEditPrivacyLink = "Edit Privacy Link";
 const String ksAddPrivacyLink = "Add Privacy Link";
+const String ksQrCodeHere = "Qr code here";
+const String ksAddQrCode = "Add Qr Code";
+const String ksEditQrCode = "Edit Qr Code";
