@@ -61,6 +61,7 @@ import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_s
 import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_social_link.dart';
 import 'package:bip_hip/views/menu/store/store_profile/store_add_legal_document.dart';
 import 'package:bip_hip/views/menu/store/store_profile/store_profile.dart';
+import 'package:bip_hip/views/menu/store/store_profile/store_review.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/create_post.dart';
 import 'package:bip_hip/views/post/upload_media_list.dart';
@@ -207,6 +208,7 @@ const String krEditStoreSocialLink = '/edit-store-social-link';
 const String krEditStorePayment = '/edit-store-payment';
 const String krStoreAddLegalDocument = '/store-add-legal-document';
 const String krStoreEditBio = '/store-edit-bio';
+const String krStoreReview = '/store-review';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -325,4 +327,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krEditStorePayment, page: () => EditStorePayment(), transition: Transition.noTransition),
   GetPage(name: krStoreAddLegalDocument, page: () => StoreAddLegalDocument(), transition: Transition.noTransition),
   GetPage(name: krStoreEditBio, page: () => StoreEditBio(), transition: Transition.noTransition),
+  GetPage(name: krStoreReview, page: () => StoreReview(), transition: Transition.noTransition),
 ];

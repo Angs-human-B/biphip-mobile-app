@@ -620,3 +620,5 @@ const String ksEditPayment = "Edit Payment";
 const String ksAddPayment = "Add Payment";
 const String ksSelectPaymentMethod = "Select payment method";
 const String ksAddLegalDocument = "Add Legal Document";
+const String ksReview = "Review";
+const String ksNoReviews = "No Reviews";

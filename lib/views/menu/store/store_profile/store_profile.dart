@@ -372,14 +372,14 @@ class StoreProfile extends StatelessWidget {
                                 prefixText: '${ksPage.tr} ',
                                 suffixText: 'electronics',
                               ),
-                              const KidStoreProfileLinkUpIconTextRow(
-                                iconOrSvg: Icon(
+                               KidStoreProfileLinkUpIconTextRow(
+                                iconOrSvg: const Icon(
                                   BipHip.info,
                                   size: kIconSize20,
                                   color: cPrimaryColor,
                                 ),
                                 onPressed: null,
-                                prefixText: 'BIN',
+                                prefixText: ksBIN.tr,
                                 suffixText: '129874675766',
                               ),
                               const StoreProfileLinkUpIconTextRow(
@@ -425,7 +425,9 @@ class StoreProfile extends StatelessWidget {
                                   kiStarSvgImage,
                                   color: cAmberColor,
                                 ),
-                                onPressed: null,
+                                onPressed: (){
+                                  Get.toNamed(krStoreReview);
+                                },
                                 prefixText: ksRating.tr,
                                 suffixText: '4.5 (2.800 reviews)',
                               ),
