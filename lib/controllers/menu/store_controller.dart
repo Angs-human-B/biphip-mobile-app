@@ -366,6 +366,8 @@ class StoreController extends GetxController {
   final RxList storeSocialLinkSourceList = RxList(["Facebook","Twitter","Youtube","Instagram","Website"]);
   final RxBool storeSocialLinkBottomSheetRightButtonState = RxBool(false);
   final TextEditingController storePaymentTextEditingController = TextEditingController();
+  final TextEditingController storeBioTextEditingController = TextEditingController();
+    final RxInt bioCount = RxInt(0);
   final RxString selectedStorePaymentMethod = RxString("");
   final RxString temporarySelectedStorePaymentMethod = RxString("");
   final RxList storePaymentMethodList = RxList(["Bkash","Nagad","Rocket","Paypal","Visacard","Mastercard"]);

@@ -140,7 +140,12 @@ class EditStoreProfile extends StatelessWidget {
                                 prefix: ksBio.tr,
                                 suffix: storeController.storeBio.value == null ? ksAdd : ksEdit.tr,
                                 onEditPressed: () {
-                                  // kidHelper.kidEditBio();//!Write this function
+                                  if (storeController.storeBio.value == null) {
+                                    storeController.storeBioTextEditingController.text = "";
+                                  } else {
+                                    storeController.storeBioTextEditingController.text = storeController.storeBio.value!;
+                                  }
+                                  Get.toNamed(krStoreEditBio);
                                 },
                               ),
                               // if (profileController.userData.value!.bio != null)//!change the condition
