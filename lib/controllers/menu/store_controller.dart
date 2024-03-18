@@ -343,13 +343,23 @@ class StoreController extends GetxController {
   final TextEditingController storePrivacyLinkTextEditingController = TextEditingController();
   final TextEditingController storeQrCodeTextEditingController = TextEditingController();
   final TextEditingController storeBINTextEditingController = TextEditingController();
+  final TextEditingController storeLocationTextEditingController = TextEditingController();
+  final RxBool isStoreLocationSuffixIconVisible = RxBool(false);
+  final RxList<String> allLocationList = RxList<String>([
+    "Shewrapar, Dhaka",
+    "Kazipara, Dhaka",
+    "Mirpur10, Dhaka",
+    "Mirpur11, Dhaka",
+    "Mirpur12, Dhaka",
+    "Agargaon, Dhaka",
+  ]);
   final RxBool isEditOrAdd = RxBool(false);
-  final legalPapersList = [
-    //!Remove it
+  final legalPapersList = [//!Remove it
     "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
     "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
     "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
     "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
     "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
   ];
+  
 }

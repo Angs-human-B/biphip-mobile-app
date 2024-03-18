@@ -110,7 +110,10 @@ class StoreLocationContent extends StatelessWidget {
               suffixTextStyle: semiBold18TextStyle(cBlackColor),
               isAddButton: true,
               suffixOnPressed: () {
-                // kidHelper.addKidEducationBackground();
+                storeController.isEditOrAdd.value = false;
+                  storeController.storeLocationTextEditingController.text = '';
+                  storeController.isStoreLocationSuffixIconVisible.value= false;
+                    Get.toNamed(krEditStoreLocation);
               },
             ),
             kH12sizedBox,
@@ -121,8 +124,11 @@ class StoreLocationContent extends StatelessWidget {
                   suffixText: '',
                   prefixText: checkNullOrStringNull(storeController.storeLocationList[i]), //*Use here api
                   isAddButton: false,
-                  suffixOnPressed: () async {
-                    // kidHelper.editKidSchool(i);
+                  suffixOnPressed: () {
+                    storeController.isEditOrAdd.value = true;
+                    storeController.storeLocationTextEditingController.text = storeController.storeLocationList[i];
+                    storeController.isStoreLocationSuffixIconVisible.value=false;
+                    Get.toNamed(krEditStoreLocation);
                   },
                 ),
               ),
