@@ -80,7 +80,7 @@ class StoreCategoryContent extends StatelessWidget {
                   subTitlePrefixTextStyle: regular16TextStyle(cBlackColor),
                   isAddButton: false,
                   suffixOnPressed: () {
-                    storeController.storeCategoryTextEditingController.text= storeController.storeCategory.value??'';
+                    storeController.storeCategoryTextEditingController.text = storeController.storeCategory.value ?? '';
                     Get.toNamed(krEditStoreCategory);
                   },
                 )),
@@ -111,9 +111,9 @@ class StoreLocationContent extends StatelessWidget {
               isAddButton: true,
               suffixOnPressed: () {
                 storeController.isEditOrAdd.value = false;
-                  storeController.storeLocationTextEditingController.text = '';
-                  storeController.isStoreLocationSuffixIconVisible.value= false;
-                    Get.toNamed(krEditStoreLocation);
+                storeController.storeLocationTextEditingController.text = '';
+                storeController.isStoreLocationSuffixIconVisible.value = false;
+                Get.toNamed(krEditStoreLocation);
               },
             ),
             kH12sizedBox,
@@ -127,7 +127,7 @@ class StoreLocationContent extends StatelessWidget {
                   suffixOnPressed: () {
                     storeController.isEditOrAdd.value = true;
                     storeController.storeLocationTextEditingController.text = storeController.storeLocationList[i];
-                    storeController.isStoreLocationSuffixIconVisible.value=false;
+                    storeController.isStoreLocationSuffixIconVisible.value = false;
                     Get.toNamed(krEditStoreLocation);
                   },
                 ),
@@ -213,7 +213,12 @@ class StoreWebsiteSocialLinkContent extends StatelessWidget {
               suffixText: ksWebsiteAndSocialLinks.tr,
               suffixTextStyle: semiBold18TextStyle(cBlackColor),
               isAddButton: true,
-              suffixOnPressed: () {},
+              suffixOnPressed: () {
+                storeController.isEditOrAdd.value = false;
+                storeController.storeSocialLinkTextEditingController.text = "";
+                storeController.selectedStoreSocialLinkSource.value = "";
+                Get.toNamed(krEditStoreSocialLink);
+              },
             ),
             kH12sizedBox,
             for (int i = 0; i < storeController.websiteAndSocialLinkList.length; i++) //! using api
@@ -223,9 +228,11 @@ class StoreWebsiteSocialLinkContent extends StatelessWidget {
                   suffixText: '',
                   prefixText: checkNullOrStringNull(storeController.websiteAndSocialLinkList[i]), //*Use here api
                   isAddButton: false,
-                  suffixOnPressed: () async {
-                    // storeController.storePhoneNumberTextEditingController.text = storeController.websiteAndSocialLinkList[i]['phone'];
-                    Get.toNamed(krEditStorePhoneNumber);
+                  suffixOnPressed: () {
+                    storeController.isEditOrAdd.value = true;
+                    storeController.storeSocialLinkTextEditingController.text = storeController.websiteAndSocialLinkList[i];
+                    storeController.selectedStoreSocialLinkSource.value = "Facebook";
+                    Get.toNamed(krEditStoreSocialLink);
                   },
                 ),
               ),

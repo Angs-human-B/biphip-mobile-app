@@ -329,15 +329,27 @@ class StoreController extends GetxController {
   final Rx<String?> storeBio = Rx<String?>(null);
   final Rx<String?> storeCategory = Rx<String?>('Electronics');
   final RxList storeLocationList = RxList(["Shewrapara, Mirpur, Dhaka, Bangladesh"]);
-  final RxList storeNumberList = RxList([{"id":1, "phone":'0175634536785'},{"id":2, "phone":'0175634536786'}]);
-  final RxList storeEmailList = RxList([{"id":1, "email":'Genieelec@gmail.com'},{"id":2, "email":'Genieelec1@gmail.com'}]);
-  final RxList legalPaperAllInfoList = RxList([{"fileName": "Image.png", "fileSize": "250KB"},{"fileName": "Image1.png", "fileSize": "251KB"}]);
-  final RxList websiteAndSocialLinkList = RxList(["Facebook.1","Facebook.2","Facebook.3","Facebook.4","Facebook.5"]);
+  final RxList storeNumberList = RxList([
+    {"id": 1, "phone": '0175634536785'},
+    {"id": 2, "phone": '0175634536786'}
+  ]);
+  final RxList storeEmailList = RxList([
+    {"id": 1, "email": 'Genieelec@gmail.com'},
+    {"id": 2, "email": 'Genieelec1@gmail.com'}
+  ]);
+  final RxList legalPaperAllInfoList = RxList([
+    {"fileName": "Image.png", "fileSize": "250KB"},
+    {"fileName": "Image1.png", "fileSize": "251KB"}
+  ]);
+  final RxList websiteAndSocialLinkList = RxList(["Facebook.1", "Facebook.2", "Facebook.3", "Facebook.4", "Facebook.5"]);
   final Rx<String?> storePrivacyLink = Rx<String?>('abc');
-  final RxList paymentMethodList = RxList([{"paymentGetway":"Nagad","payment":"01789368774638"},{"paymentGetway":"Paypal","payment":"Shohagjalal@gmail.com"}]);
+  final RxList paymentMethodList = RxList([
+    {"paymentGetway": "Nagad", "payment": "01789368774638"},
+    {"paymentGetway": "Paypal", "payment": "Shohagjalal@gmail.com"}
+  ]);
   final RxString qrCode = RxString('store.qr.code');
   final RxString storeBIN = RxString('129874675766');
-  //!* Edit store 
+  //!* Edit store
   final TextEditingController storePhoneNumberTextEditingController = TextEditingController();
   final TextEditingController storeEmailTextEditingController = TextEditingController();
   final TextEditingController storePrivacyLinkTextEditingController = TextEditingController();
@@ -346,8 +358,13 @@ class StoreController extends GetxController {
   final TextEditingController storeLocationTextEditingController = TextEditingController();
   final RxBool isStoreLocationSuffixIconVisible = RxBool(false);
   final TextEditingController storeCategoryTextEditingController = TextEditingController();
+  final TextEditingController storeSocialLinkTextEditingController = TextEditingController();
   final RxBool isStoreCategorySuffixIconVisible = RxBool(false);
-    final List<String> storeCategoryList = ['Electronics', 'Shop', 'Gadgets', 'Hardware'];
+  final RxString selectedStoreSocialLinkSource = RxString("");
+  final RxString temporarySelectedStoreSocialLinkSource = RxString("");
+  final RxList storeSocialLinkSourceList = RxList(["Facebook","Twitter","Youtube","Instagram","Website"]);
+  final RxBool storeSocialLinkBottomSheetRightButtonState = RxBool(false);
+  final List<String> storeCategoryList = ['Electronics', 'Shop', 'Gadgets', 'Hardware'];
   final RxList<String> allLocationList = RxList<String>([
     "Shewrapar, Dhaka",
     "Kazipara, Dhaka",
@@ -357,12 +374,12 @@ class StoreController extends GetxController {
     "Agargaon, Dhaka",
   ]);
   final RxBool isEditOrAdd = RxBool(false);
-  final legalPapersList = [//!Remove it
+  final legalPapersList = [
+    //!Remove it
     "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
     "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
     "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
     "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
     "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
   ];
-  
 }

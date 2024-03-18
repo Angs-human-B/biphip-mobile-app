@@ -614,3 +614,5 @@ const String ksEditQrCode = "Edit Qr Code";
 const String ksAddBIN = "Add BIN";
 const String ksEditBIN = "Edit BIN";
 const String ksStoreBIN = "Store BIN";
+const String ksEditSocialLink = "Edit Social link";
+const String ksAddSocialLink = "Add Social link";
