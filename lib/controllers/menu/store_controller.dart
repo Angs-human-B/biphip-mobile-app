@@ -344,10 +344,10 @@ class StoreController extends GetxController {
   final RxBool isEditOrAdd = RxBool(false);
   final legalPapersList = [
     //!Remove it
-    "https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/featured_hu6547841b230d5bd693e155a5fda2f54e_25956_768x0_resize_q75_lanczos.jpg",
-    "https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/featured_hu6547841b230d5bd693e155a5fda2f54e_25956_768x0_resize_q75_lanczos.jpg",
-    "https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/featured_hu6547841b230d5bd693e155a5fda2f54e_25956_768x0_resize_q75_lanczos.jpg",
-    "https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/featured_hu6547841b230d5bd693e155a5fda2f54e_25956_768x0_resize_q75_lanczos.jpg",
-    "https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/featured_hu6547841b230d5bd693e155a5fda2f54e_25956_768x0_resize_q75_lanczos.jpg",
+    "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
+    "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
+    "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
+    "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
+    "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
   ];
 }
