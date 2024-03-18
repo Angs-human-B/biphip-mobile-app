@@ -619,3 +619,4 @@ const String ksAddSocialLink = "Add Social link";
 const String ksEditPayment = "Edit Payment";
 const String ksAddPayment = "Add Payment";
 const String ksSelectPaymentMethod = "Select payment method";
+const String ksAddLegalDocument = "Add Legal Document";

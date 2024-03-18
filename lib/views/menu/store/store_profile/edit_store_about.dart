@@ -415,7 +415,8 @@ class StoreLegalPaperContent extends StatelessWidget {
               suffixTextStyle: semiBold18TextStyle(cBlackColor),
               isAddButton: true,
               suffixOnPressed: () {
-                // kidHelper.addKidEducationBackground();
+                storeController.selectedImages.clear();
+                Get.toNamed(krStoreAddLegalDocument);
               },
             ),
             kH12sizedBox,

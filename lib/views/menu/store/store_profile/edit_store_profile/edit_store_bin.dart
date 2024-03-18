@@ -26,7 +26,6 @@ import 'package:bip_hip/views/menu/profile/edit_profile.dart';
                 Get.back();
               },
               action: [
-                // if (profileController.functionFlag.contains('EDIT'))
                 if(storeController.qrCode.value != "")
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
