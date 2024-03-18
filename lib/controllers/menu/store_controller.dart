@@ -345,6 +345,9 @@ class StoreController extends GetxController {
   final TextEditingController storeBINTextEditingController = TextEditingController();
   final TextEditingController storeLocationTextEditingController = TextEditingController();
   final RxBool isStoreLocationSuffixIconVisible = RxBool(false);
+  final TextEditingController storeCategoryTextEditingController = TextEditingController();
+  final RxBool isStoreCategorySuffixIconVisible = RxBool(false);
+    final List<String> storeCategoryList = ['Electronics', 'Shop', 'Gadgets', 'Hardware'];
   final RxList<String> allLocationList = RxList<String>([
     "Shewrapar, Dhaka",
     "Kazipara, Dhaka",

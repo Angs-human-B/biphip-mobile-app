@@ -80,8 +80,8 @@ class StoreCategoryContent extends StatelessWidget {
                   subTitlePrefixTextStyle: regular16TextStyle(cBlackColor),
                   isAddButton: false,
                   suffixOnPressed: () {
-                    // KidHelper().resetKidRelationEditPage();
-                    // Get.toNamed(krKidEditRelation);
+                    storeController.storeCategoryTextEditingController.text= storeController.storeCategory.value??'';
+                    Get.toNamed(krEditStoreCategory);
                   },
                 )),
             kH16sizedBox,

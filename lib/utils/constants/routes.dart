@@ -50,6 +50,7 @@ import 'package:bip_hip/views/menu/kids/add_kid_upload_image.dart';
 import 'package:bip_hip/views/menu/store/store_profile/edit_store_about.dart';
 import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile.dart';
 import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_bin.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_category.dart';
 import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_email.dart';
 import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_location.dart';
 import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_phone_number.dart';
@@ -197,6 +198,7 @@ const String krEditStorePrivacyLink = '/edit-store-privacy-link';
 const String krEditStoreQrCode = '/edit-store-qr-code';
 const String krEditStoreBIN = '/edit-store-bin';
 const String krEditStoreLocation = '/edit-store-location';
+const String krEditStoreCategory = '/edit-store-category';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -310,4 +312,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krEditStoreQrCode, page: () => EditStoreQrCode(), transition: Transition.noTransition),
   GetPage(name: krEditStoreBIN, page: () => EditStoreBIN(), transition: Transition.noTransition),
   GetPage(name: krEditStoreLocation, page: () => EditStoreLocation(), transition: Transition.noTransition),
+  GetPage(name: krEditStoreCategory, page: () => EditStoreCategory(), transition: Transition.noTransition),
 ];
