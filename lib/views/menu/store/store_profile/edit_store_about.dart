@@ -296,7 +296,12 @@ class StorePaymentContent extends StatelessWidget {
               suffixText: ksPayment.tr,
               suffixTextStyle: semiBold18TextStyle(cBlackColor),
               isAddButton: true,
-              suffixOnPressed: () {},
+              suffixOnPressed: () {
+                storeController.isEditOrAdd.value = false;
+                storeController.storePaymentTextEditingController.text = "";
+                storeController.selectedStorePaymentMethod.value = "";
+                Get.toNamed(krEditStorePayment);
+              },
             ),
             kH12sizedBox,
             for (int i = 0; i < storeController.paymentMethodList.length; i++) //! using api
@@ -305,11 +310,13 @@ class StorePaymentContent extends StatelessWidget {
                 child: InfoContainer(
                   suffixText: '',
                   prefixText: checkNullOrStringNull(storeController.paymentMethodList[i]['payment']), //*Use here api
-                  subtitlePrefixText: checkNullOrStringNull(storeController.paymentMethodList[i]['paymentGetway']), //*Use here api
+                  subtitlePrefixText: checkNullOrStringNull(storeController.paymentMethodList[i]['paymentMethod']), //*Use here api
                   isAddButton: false,
                   suffixOnPressed: () async {
-                    // storeController.storePhoneNumberTextEditingController.text = storeController.websiteAndSocialLinkList[i]['phone'];
-                    Get.toNamed(krEditStorePhoneNumber);
+                    storeController.isEditOrAdd.value = true;
+                    storeController.storePaymentTextEditingController.text = storeController.paymentMethodList[i]['payment'];
+                    storeController.selectedStorePaymentMethod.value = storeController.paymentMethodList[i]['paymentMethod'];
+                    Get.toNamed(krEditStorePayment);
                   },
                 ),
               ),

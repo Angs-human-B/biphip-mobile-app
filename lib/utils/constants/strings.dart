@@ -616,3 +616,6 @@ const String ksEditBIN = "Edit BIN";
 const String ksStoreBIN = "Store BIN";
 const String ksEditSocialLink = "Edit Social link";
 const String ksAddSocialLink = "Add Social link";
+const String ksEditPayment = "Edit Payment";
+const String ksAddPayment = "Add Payment";
+const String ksSelectPaymentMethod = "Select payment method";

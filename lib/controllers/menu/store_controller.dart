@@ -344,8 +344,8 @@ class StoreController extends GetxController {
   final RxList websiteAndSocialLinkList = RxList(["Facebook.1", "Facebook.2", "Facebook.3", "Facebook.4", "Facebook.5"]);
   final Rx<String?> storePrivacyLink = Rx<String?>('abc');
   final RxList paymentMethodList = RxList([
-    {"paymentGetway": "Nagad", "payment": "01789368774638"},
-    {"paymentGetway": "Paypal", "payment": "Shohagjalal@gmail.com"}
+    {"paymentMethod": "Nagad", "payment": "01789368774638"},
+    {"paymentMethod": "Paypal", "payment": "Shohagjalal@gmail.com"}
   ]);
   final RxString qrCode = RxString('store.qr.code');
   final RxString storeBIN = RxString('129874675766');
@@ -360,11 +360,16 @@ class StoreController extends GetxController {
   final TextEditingController storeCategoryTextEditingController = TextEditingController();
   final TextEditingController storeSocialLinkTextEditingController = TextEditingController();
   final RxBool isStoreCategorySuffixIconVisible = RxBool(false);
+  final List<String> storeCategoryList = ['Electronics', 'Shop', 'Gadgets', 'Hardware'];
   final RxString selectedStoreSocialLinkSource = RxString("");
   final RxString temporarySelectedStoreSocialLinkSource = RxString("");
   final RxList storeSocialLinkSourceList = RxList(["Facebook","Twitter","Youtube","Instagram","Website"]);
   final RxBool storeSocialLinkBottomSheetRightButtonState = RxBool(false);
-  final List<String> storeCategoryList = ['Electronics', 'Shop', 'Gadgets', 'Hardware'];
+  final TextEditingController storePaymentTextEditingController = TextEditingController();
+  final RxString selectedStorePaymentMethod = RxString("");
+  final RxString temporarySelectedStorePaymentMethod = RxString("");
+  final RxList storePaymentMethodList = RxList(["Bkash","Nagad","Rocket","Paypal","Visacard","Mastercard"]);
+  final RxBool storePaymentMethodBottomSheetRightButtonState = RxBool(false);
   final RxList<String> allLocationList = RxList<String>([
     "Shewrapar, Dhaka",
     "Kazipara, Dhaka",
