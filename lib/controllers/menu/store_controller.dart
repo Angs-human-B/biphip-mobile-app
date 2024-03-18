@@ -327,7 +327,6 @@ class StoreController extends GetxController {
   //! Store profile
   final RxInt storeProfileTabIndex = RxInt(0);
   final Rx<String?> storeBio = Rx<String?>(null);
-  final RxString qrCode = RxString('store.qr.code');
   final Rx<String?> storeCategory = Rx<String?>('Electronics');
   final RxList storeLocationList = RxList(["Shewrapara, Mirpur, Dhaka, Bangladesh"]);
   final RxList storeNumberList = RxList([{"id":1, "phone":'0175634536785'},{"id":2, "phone":'0175634536786'}]);
@@ -336,12 +335,14 @@ class StoreController extends GetxController {
   final RxList websiteAndSocialLinkList = RxList(["Facebook.1","Facebook.2","Facebook.3","Facebook.4","Facebook.5"]);
   final Rx<String?> storePrivacyLink = Rx<String?>('abc');
   final RxList paymentMethodList = RxList([{"paymentGetway":"Nagad","payment":"01789368774638"},{"paymentGetway":"Paypal","payment":"Shohagjalal@gmail.com"}]);
+  final RxString qrCode = RxString('store.qr.code');
   final RxString storeBIN = RxString('129874675766');
   //!* Edit store 
   final TextEditingController storePhoneNumberTextEditingController = TextEditingController();
   final TextEditingController storeEmailTextEditingController = TextEditingController();
   final TextEditingController storePrivacyLinkTextEditingController = TextEditingController();
   final TextEditingController storeQrCodeTextEditingController = TextEditingController();
+  final TextEditingController storeBINTextEditingController = TextEditingController();
   final RxBool isEditOrAdd = RxBool(false);
   final legalPapersList = [
     //!Remove it

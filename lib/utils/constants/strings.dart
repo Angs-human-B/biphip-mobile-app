@@ -611,3 +611,6 @@ const String ksAddPrivacyLink = "Add Privacy Link";
 const String ksQrCodeHere = "Qr code here";
 const String ksAddQrCode = "Add Qr Code";
 const String ksEditQrCode = "Edit Qr Code";
+const String ksAddBIN = "Add BIN";
+const String ksEditBIN = "Edit BIN";
+const String ksStoreBIN = "Store BIN";

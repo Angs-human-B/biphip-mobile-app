@@ -322,12 +322,16 @@ class StoreBINContent extends StatelessWidget {
             kH16sizedBox,
             Obx(() => InfoContainer(
                   suffixText: ksBIN.tr,
-                  subtitlePrefixText: storeController.storeBIN.value,
+                  subtitlePrefixText: storeController.storeBIN.value == "" ? null : storeController.storeBIN.value,
                   subTitlePrefixTextStyle: regular16TextStyle(cBlackColor),
-                  isAddButton: false,
+                  isAddButton: storeController.storeBIN.value == "" ? true : false,
                   suffixOnPressed: () {
-                    // KidHelper().resetKidRelationEditPage();
-                    // Get.toNamed(krKidEditRelation);
+                    if (storeController.storeBIN.value == "") {
+                      storeController.storeBINTextEditingController.text = "";
+                    } else {
+                      storeController.storeBINTextEditingController.text = storeController.storeBIN.value;
+                    }
+                    Get.toNamed(krEditStoreBIN);
                   },
                 )),
             kH16sizedBox,

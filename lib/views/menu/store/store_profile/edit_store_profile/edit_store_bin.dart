@@ -2,9 +2,9 @@ import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 
-class EditStoreQrCode extends StatelessWidget {
-  EditStoreQrCode({super.key});
-  final StoreController storeController = Get.find<StoreController>();
+ class EditStoreBIN extends StatelessWidget {
+ EditStoreBIN({super.key});
+ final StoreController storeController = Get.find<StoreController>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +19,7 @@ class EditStoreQrCode extends StatelessWidget {
             child: CustomAppBar(
               appBarColor: cWhiteColor,
               // title: '${profileController.commonEditPageTitle}'.tr,
-            title: storeController.qrCode.value == ""? ksAddQrCode : ksEditQrCode.tr,
+            title: storeController.storeBIN.value == ""? ksAddBIN.tr : ksEditBIN.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -58,8 +58,8 @@ class EditStoreQrCode extends StatelessWidget {
                 kH16sizedBox,
                 kH8sizedBox,
                 CustomModifiedTextField(
-                  controller: storeController.storeQrCodeTextEditingController,
-                  hint: "${ksQrCodeHere.tr}...",
+                  controller: storeController.storeBINTextEditingController,
+                  hint: ksStoreBIN.tr,
                   onChanged: (text) {},
                   onSubmit: (text) {},
                   inputAction: TextInputAction.next,
