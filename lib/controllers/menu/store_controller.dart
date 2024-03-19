@@ -352,7 +352,7 @@ class StoreController extends GetxController {
   ]);
   final RxString qrCode = RxString('');
   final RxString storeBIN = RxString('');
-  //!* Edit store
+  //!* Edit store profile
   final TextEditingController storePhoneNumberTextEditingController = TextEditingController();
   final TextEditingController storeEmailTextEditingController = TextEditingController();
   final TextEditingController storePrivacyLinkTextEditingController = TextEditingController();
@@ -485,7 +485,7 @@ class StoreController extends GetxController {
     storeBioTextEditingController.clear();
   }
 
-  //* update Kid bio API Implementation
+  //* update store bio API Implementation
   final Rx<StoreCommonUpdateModel?> storeCommonUpdateData = Rx<StoreCommonUpdateModel?>(null);
   // final Rx<Kids?> kidsData = Rx<Kids?>(null);
   RxBool isStoreBioLoading = RxBool(false);
@@ -526,7 +526,7 @@ class StoreController extends GetxController {
       ll('updateStoreBio error: $e');
     }
   }
-
+  //*update store BIN Api implement
   RxBool isStoreBINLoading = RxBool(false);
   Future<void> updateStoreBIN() async {
     try {
@@ -564,4 +564,44 @@ class StoreController extends GetxController {
       ll('updateStoreBIN error: $e');
     }
   }
+
+   //*update store Qr code Api implement
+  RxBool isStoreQrCodeLoading = RxBool(false);
+  Future<void> updateStoreQrCode() async {
+    try {
+      isStoreQrCodeLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'store_id': selectedStoreId.value.toString(),
+        'qr_code': storeQrCodeTextEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateStoreQr,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        storeCommonUpdateData.value = StoreCommonUpdateModel.fromJson(response.data);
+        storesData.value = storeCommonUpdateData.value!.stores;
+        qrCode.value = storesData.value!.qrCode!;
+        Get.back();
+        isStoreQrCodeLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isStoreQrCodeLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreQrCodeLoading.value = false;
+      ll('updateStoreQrCode error: $e');
+    }
+  }
+
 }
