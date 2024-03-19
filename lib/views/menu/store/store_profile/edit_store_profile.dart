@@ -53,7 +53,7 @@ class EditStoreProfile extends StatelessWidget {
                                 prefix: ksProfilePicture.tr,
                                 suffix: ksEdit.tr,
                                 onEditPressed: () {
-                                  // kidHelper.kidProfilePicUploadBottomSheet(context); //!Change this function
+                                  storeHelper.storeProfilePicUploadBottomSheet(context);
                                 },
                               ),
                               kH12sizedBox,
@@ -62,7 +62,7 @@ class EditStoreProfile extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      // profileHelper.viewProfilePic();//!Change it
+                                      storeHelper.viewProfilePic();
                                     },
                                     child: Container(
                                       height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
@@ -97,13 +97,13 @@ class EditStoreProfile extends StatelessWidget {
                                 prefix: ksCoverPhoto.tr,
                                 suffix: ksEdit.tr,
                                 onEditPressed: () {
-                                  // kidHelper.kidCoverPhotoUploadBottomSheet(context); //!write this function
+                                  storeHelper.storeCoverPhotoUploadBottomSheet(context);
                                 },
                               ),
                               kH12sizedBox,
                               InkWell(
                                 onTap: () {
-                                  // profileHelper.viewCoverPhoto();//!Change it
+                                  storeHelper.viewCoverPhoto();
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -114,8 +114,7 @@ class EditStoreProfile extends StatelessWidget {
                                   child: ClipRRect(
                                     borderRadius: k8CircularBorderRadius,
                                     child: Image.network(
-                                      storeController.storeCoverPhoto.value, //!Change throught api
-                                      // profileController.userData.value!.coverPhoto.toString(),
+                                      storeController.storeCoverPhoto.value,
                                       height: 150,
                                       width: width,
                                       fit: BoxFit.cover,

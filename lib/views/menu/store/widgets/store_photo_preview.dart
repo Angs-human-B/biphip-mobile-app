@@ -123,10 +123,10 @@ class StorePhotoPreview extends StatelessWidget {
                             onPressed: () async {
                               if (storeController.isStoreProfilePicEditor.value) {
                                 storeController.newProfileImageFile.value = storeController.profileImageFile.value;
-                                // await storeController.uploadStoreProfileAndCover(storeController.newProfileImageFile.value, 'profile'); //!Api call
+                                await storeController.uploadStoreProfileAndCover(storeController.newProfileImageFile.value, 'profile'); 
                               } else {
                                 storeController.newCoverImageFile.value = storeController.coverImageFile.value;
-                                // await storeController.uploadStoreProfileAndCover(storeController.newCoverImageFile.value, 'cover'); //!APi call
+                                await storeController.uploadStoreProfileAndCover(storeController.newCoverImageFile.value, 'cover'); 
                               }
                             },
                           ),
@@ -138,17 +138,17 @@ class StorePhotoPreview extends StatelessWidget {
                 ),
               ),
             ),
-            // if (kidsController.isImageUploadPageLoading.value == true)
-            //   Positioned(
-            //     child: CommonLoadingAnimation(
-            //       onWillPop: () async {
-            //         if (kidsController.isImageUploadPageLoading.value) {
-            //           return false;
-            //         }
-            //         return true;
-            //       },
-            //     ),
-            //   ),
+            if (storeController.isImageUploadPageLoading.value == true)
+              Positioned(
+                child: CommonLoadingAnimation(
+                  onWillPop: () async {
+                    if (storeController.isImageUploadPageLoading.value) {
+                      return false;
+                    }
+                    return true;
+                  },
+                ),
+              ),
           ],
         ),
       ),

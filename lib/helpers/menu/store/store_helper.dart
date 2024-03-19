@@ -68,6 +68,24 @@ class StoreHelper{
     );
   }
 
+    void viewProfilePic() {
+    if (storeController.storeProfilePicture.value != "") {
+      storeController.isStoreProfilePhoto.value = true;
+      storeController.storeViewOptionEnabled.value = true;
+      storeController.storePreviewPhoto.value = storeController.storeProfilePicture.value;
+      Get.toNamed(krViewPhoto);
+    }
+  }
+
+  void viewCoverPhoto() {
+    if (storeController.storeCoverPhoto.value != "") {
+      storeController.storeViewOptionEnabled.value = true;
+      storeController.isStoreProfilePhoto.value = false;
+      storeController.storePreviewPhoto.value = storeController.storeCoverPhoto.value;
+      Get.toNamed(krViewPhoto);
+    }
+  }
+
     void resetStoreImage() {
     storeController.profileImageFile.value = File('');
     storeController.profileImageLink.value = '';

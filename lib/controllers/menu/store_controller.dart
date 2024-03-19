@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bip_hip/models/menu/store/all_business_category_model.dart';
+import 'package:bip_hip/models/menu/store/profile_cover_picture_update_model.dart';
 import 'package:bip_hip/models/menu/store/store_common_update_model.dart';
 import 'package:bip_hip/models/menu/store/store_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -783,6 +784,54 @@ class StoreController extends GetxController {
     } catch (e) {
       isLegalFileLoading.value = false;
       ll('updateLegalFiles error: $e');
+    }
+  }
+
+  final RxBool isImageUploadPageLoading = RxBool(false);
+  final Rx<ProfileCoverPictureUpdateModel?> profileCoverPictureUpdateData = Rx<ProfileCoverPictureUpdateModel?>(null);
+  Future<void> uploadStoreProfileAndCover(File imageFile, String type, [isFromProfile = true]) async {
+    try {
+      // if (isFromProfile == true) {
+      isImageUploadPageLoading.value = true;
+      // }
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'store_id': selectedStoreId.value.toString(),
+      };
+      var response = await apiController.mediaUpload(
+        url: type == 'profile' ? kuUpdateStoreProfilePicture : kuUpdateStoreCoverPhoto,
+        token: token,
+        body: body,
+        key: "image",
+        value: imageFile.path,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        profileCoverPictureUpdateData.value = ProfileCoverPictureUpdateModel.fromJson(response.data);
+        if (type == "profile") {
+          storeProfilePicture.value = profileCoverPictureUpdateData.value!.profilePicture!;
+        } else {
+          storeCoverPhoto.value = profileCoverPictureUpdateData.value!.coverPhoto!;
+        }
+        isImageUploadPageLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        if (isFromProfile == true) {
+          isImageUploadPageLoading.value = false;
+        }
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      if (isFromProfile == true) {
+        isImageUploadPageLoading.value = false;
+      }
+      ll('uploadProfileAndCover error: $e');
     }
   }
 }

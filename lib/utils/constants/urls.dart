@@ -194,6 +194,8 @@ const String kuUpdateStoreQr = '/mobile/user/update-store-qr';
 const String kuUpdateStorePrivacyLink = '/mobile/user/update-store-privacy-link';
 const String kuUpdateStoreCategories = '/mobile/user/update-store-categories';
 const String kuUpdateStoreLegalFiles = '/mobile/user/update-store-legal-files';
+const String kuUpdateStoreProfilePicture = '/mobile/user/set-store-profile-picture';
+const String kuUpdateStoreCoverPhoto = '/mobile/user/set-store-cover-picture';
 
 /*
 |--------------------------------------------------------------------------
