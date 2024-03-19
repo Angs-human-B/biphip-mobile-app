@@ -466,6 +466,7 @@ class StoreController extends GetxController {
         storeLegalPapersList.addAll(storesData.value!.legalPapers);
         qrCode.value = storesData.value!.qrCode!;
         storePrivacyLink.value = storesData.value!.privacyLink;
+        storeCategory.value = storesData.value!.categories[0];
         isStoreOverviewLoading.value = false;
       } else {
         isStoreOverviewLoading.value = true;
@@ -683,6 +684,46 @@ class StoreController extends GetxController {
     } catch (e) {
       isBusinessCategoryLoading.value = true;
       ll('getAllBusinessCategory error: $e');
+    }
+  }
+
+  // storeCategory.value
+  //*update store category Api implement
+  RxBool isStoreCategoryLoading = RxBool(false);
+  Future<void> updateStoreCategory() async {
+    try {
+      isStoreCategoryLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'store_id': selectedStoreId.value.toString(),
+        'categories': storeCategoryTextEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateStoreCategories,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        storeCommonUpdateData.value = StoreCommonUpdateModel.fromJson(response.data);
+        storesData.value = storeCommonUpdateData.value!.stores;
+        storeCategory.value = storesData.value!.categories[0];
+        Get.back();
+        isStoreCategoryLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isStoreCategoryLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreCategoryLoading.value = false;
+      ll('updateStoreQrCode error: $e');
     }
   }
 }
