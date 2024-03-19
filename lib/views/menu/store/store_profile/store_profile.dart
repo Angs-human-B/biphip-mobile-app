@@ -70,7 +70,7 @@ class StoreProfile extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          // kidHelper.kidCoverPhotoEditBottomSheet(context);//!needed(write this function)
+                          StoreHelper().storeCoverPhotoEditBottomSheet(context);
                         },
                         child: Container(
                           height: 150,
@@ -95,7 +95,7 @@ class StoreProfile extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: () {
-                                // kidHelper.kidProfilePicEditBottomSheet(context);//!needed(write this function)
+                                StoreHelper().storeProfilePicEditBottomSheet(context);
                               },
                               child: Container(
                                 height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
@@ -128,7 +128,7 @@ class StoreProfile extends StatelessWidget {
                               child: TextButton(
                                 style: kTextButtonStyle,
                                 onPressed: () {
-                                  // kidHelper.kidProfilePicUploadBottomSheet(context);//!needed(write this function)
+                                  StoreHelper().storeProfilePicUploadBottomSheet(context);
                                 },
                                 child: Container(
                                   height: h28,
@@ -170,7 +170,7 @@ class StoreProfile extends StatelessWidget {
                         child: TextButton(
                           style: kTextButtonStyle,
                           onPressed: () {
-                            // kidHelper.kidCoverPhotoUploadBottomSheet(context);//!needed(write this function)
+                            StoreHelper().storeCoverPhotoUploadBottomSheet(context);
                           },
                           child: Container(
                             height: h28,
