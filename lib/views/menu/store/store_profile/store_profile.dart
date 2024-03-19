@@ -242,7 +242,7 @@ class StoreProfile extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                           child: Text(
                             // "${kidsController.kidOverviewData.value?.kids?.countFollowers.toString() ?? ksNA} Followers",//!Correct(Data from api)
-                            '500 Followers',
+                            '${storeController.storesData.value!.countFollowers.toString()} Followers',
                             style: semiBold14TextStyle(cSmallBodyTextColor),
                           ),
                         ),

@@ -8,9 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class EditStoreProfile extends StatelessWidget {
-  EditStoreProfile({super.key, this.profilePicture, this.coverPhoto});
-  final String? profilePicture;
-  final String? coverPhoto;
+  EditStoreProfile({super.key});
   final StoreController storeController = Get.find<StoreController>();
   final StoreHelper storeHelper = StoreHelper();
   @override
@@ -75,7 +73,7 @@ class EditStoreProfile extends StatelessWidget {
                                       ),
                                       child: ClipOval(
                                         child: Image.network(
-                                          profilePicture ?? '', //!write this function
+                                          storeController.storeProfilePicture.value, //!write this function
                                           // profileController.userData.value!.profilePicture.toString(),
                                           fit: BoxFit.cover,
                                           errorBuilder: (context, error, stackTrace) => const Icon(
@@ -116,7 +114,7 @@ class EditStoreProfile extends StatelessWidget {
                                   child: ClipRRect(
                                     borderRadius: k8CircularBorderRadius,
                                     child: Image.network(
-                                      coverPhoto ?? '', //!Change throught api
+                                      storeController.storeCoverPhoto.value, //!Change throught api
                                       // profileController.userData.value!.coverPhoto.toString(),
                                       height: 150,
                                       width: width,
@@ -240,46 +238,46 @@ class StoreIntroContent extends StatelessWidget {
           ),
           onPressed: null,
           prefixText: '${ksPage.tr} ',
-          suffixText: 'electronics',
+          suffixText: storeController.storesData.value!.pageType ?? ksNA.tr,
         ),
-        const KidStoreProfileLinkUpIconTextRow(
-          iconOrSvg: Icon(
+        KidStoreProfileLinkUpIconTextRow(
+          iconOrSvg: const Icon(
             BipHip.info,
             size: kIconSize20,
             color: cPrimaryColor,
           ),
           onPressed: null,
-          prefixText: 'BIN',
-          suffixText: '129874675766',
+          prefixText: ksBIN.tr,
+          suffixText: storeController.storeBIN.value,
         ),
-        const StoreProfileLinkUpIconTextRow(
-          iconOrSvg: Icon(
+        StoreProfileLinkUpIconTextRow(
+          iconOrSvg: const Icon(
             BipHip.location,
             size: kIconSize20,
             color: cPrimaryColor,
           ),
           onPressed: null,
-          prefixText: 'Shop 231, Motalib Plaza, Hatipul.',
+          prefixText: storeController.storeOverviewData.value!.location ?? ksNA.tr,
           suffixText: '',
         ),
-        const StoreProfileLinkUpIconTextRow(
-          iconOrSvg: Icon(
+        StoreProfileLinkUpIconTextRow(
+          iconOrSvg: const Icon(
             BipHip.mail,
             size: kIconSize20,
             color: cPrimaryColor,
           ),
           onPressed: null,
-          prefixText: 'genieelec@gmail.com',
+          prefixText: storeController.storeOverviewData.value!.email ?? ksNA.tr,
           suffixText: '',
         ),
-        const StoreProfileLinkUpIconTextRow(
-          iconOrSvg: Icon(
+        StoreProfileLinkUpIconTextRow(
+          iconOrSvg: const Icon(
             BipHip.phoneFill,
             size: kIconSize20,
             color: cPrimaryColor,
           ),
           onPressed: null,
-          prefixText: '01858268951',
+          prefixText: storeController.storeOverviewData.value!.phone ?? ksNA.tr,
           suffixText: '',
         ),
         StoreProfileLinkUpIconTextRow(
@@ -287,7 +285,7 @@ class StoreIntroContent extends StatelessWidget {
             kiWorldSvgImage,
           ),
           onPressed: null,
-          prefixText: 'Bangladesh',
+          prefixText: storeController.storesData.value!.country ?? ksNA,
           suffixText: '',
         ),
         StoreProfileLinkUpIconTextRow(
@@ -295,9 +293,11 @@ class StoreIntroContent extends StatelessWidget {
             kiStarSvgImage,
             color: cAmberColor,
           ),
-          onPressed: null,
+          onPressed: () {
+            Get.toNamed(krStoreReview);
+          },
           prefixText: ksRating.tr,
-          suffixText: '4.5 (2.800 reviews)',
+          suffixText: "${storeController.storesData.value!.countPageRating.toString()} (${storeController.storesData.value!.countPageReviews.toString()})",
         ),
         kH20sizedBox,
         Text(

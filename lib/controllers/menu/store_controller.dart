@@ -349,7 +349,7 @@ class StoreController extends GetxController {
     {"paymentMethod": "Nagad", "payment": "01789368774638"},
     {"paymentMethod": "Paypal", "payment": "Shohagjalal@gmail.com"}
   ]);
-  final RxString qrCode = RxString('store.qr.code');
+  final RxString qrCode = RxString('');
   final RxString storeBIN = RxString('129874675766');
   //!* Edit store
   final TextEditingController storePhoneNumberTextEditingController = TextEditingController();
@@ -462,6 +462,7 @@ class StoreController extends GetxController {
         storeCoverPhoto.value = storesData.value!.coverPhoto ?? "";
         storeBIN.value = storesData.value!.bin!;
         storeLegalPapersList.addAll(storesData.value!.legalPapers);
+        qrCode.value = storesData.value!.qrCode ?? "";
         isStoreOverviewLoading.value = false;
       } else {
         isStoreOverviewLoading.value = true;
@@ -477,4 +478,5 @@ class StoreController extends GetxController {
       ll('getStoreOverview error: $e');
     }
   }
+  
 }
