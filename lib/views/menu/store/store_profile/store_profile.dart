@@ -3,17 +3,18 @@ import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/helpers/menu/store/store_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
-import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
 import 'package:flutter_svg/svg.dart';
 
 class StoreProfile extends StatelessWidget {
-  StoreProfile({super.key, this.name, this.profilePicture, this.coverPhoto});
+  StoreProfile({
+    super.key,
+  });
   final StoreController storeController = Get.find<StoreController>();
   final StoreHelper storeHelper = StoreHelper();
-  final String? name;
-  final String? profilePicture;
-  final String? coverPhoto;
+  // final String? name;
+  // final String? profilePicture;
+  // final String? coverPhoto;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class StoreProfile extends StatelessWidget {
             child: CustomAppBar(
               appBarColor: cWhiteColor,
               // title: kidsController.kidOverviewData.value?.kids?.name ?? ksNA,
-              title: name ?? '',
+              title: storeController.storeName.value,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -77,7 +78,7 @@ class StoreProfile extends StatelessWidget {
                           decoration: const BoxDecoration(color: cBlackColor, border: Border(bottom: BorderSide(color: cLineColor))),
                           child: Image.network(
                             // kidsController.kidOverviewData.value?.kids?.coverPhoto ?? '',//!This is correct and data from api call
-                            coverPhoto ?? '',
+                            storeController.storeCoverPhoto.value,
                             fit: BoxFit.cover,
                             filterQuality: FilterQuality.high,
                             errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(context, error, stackTrace, BipHip.imageFile, kIconSize120),
@@ -108,7 +109,7 @@ class StoreProfile extends StatelessWidget {
                                 child: ClipOval(
                                   child: Image.network(
                                     // kidsController.kidOverviewData.value?.kids?.profilePicture ?? "",//!Correct(data from api)
-                                    profilePicture ?? '',
+                                    storeController.storeProfilePicture.value,
                                     fit: BoxFit.cover,
                                     filterQuality: FilterQuality.high,
                                     errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(
@@ -203,7 +204,7 @@ class StoreProfile extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                           child: Text(
                             // kidsController.kidOverviewData.value?.kids?.name ?? ksNA,//!correct(data from api)
-                            name ?? ksNA,
+                            storeController.storeName.value,
                             style: medium24TextStyle(cBlackColor),
                           ),
                         ),
@@ -264,11 +265,11 @@ class StoreProfile extends StatelessWidget {
                               CustomElevatedButton(
                                 label: ksEditProfile.tr,
                                 onPressed: () {
-                                  Get.to(() => EditStoreProfile(
-                                        profilePicture: profilePicture,
-                                        coverPhoto: coverPhoto,
-                                      ));
-                                  // Get.toNamed(krEditKidProfile);//!Route edit page
+                                  // Get.to(() => EditStoreProfile(
+                                  //       profilePicture: profilePicture,
+                                  //       coverPhoto: coverPhoto,
+                                  //     ));
+                                  Get.toNamed(krEditStoreProfile);
                                 },
                                 prefixIcon: BipHip.edit,
                                 prefixIconColor: cPrimaryColor,
@@ -370,9 +371,9 @@ class StoreProfile extends StatelessWidget {
                                 ),
                                 onPressed: null,
                                 prefixText: '${ksPage.tr} ',
-                                suffixText: 'electronics',
+                                suffixText: storeController.storesData.value!.pageType ?? ksNA.tr,
                               ),
-                               KidStoreProfileLinkUpIconTextRow(
+                              KidStoreProfileLinkUpIconTextRow(
                                 iconOrSvg: const Icon(
                                   BipHip.info,
                                   size: kIconSize20,
@@ -380,36 +381,36 @@ class StoreProfile extends StatelessWidget {
                                 ),
                                 onPressed: null,
                                 prefixText: ksBIN.tr,
-                                suffixText: '129874675766',
+                                suffixText: storeController.storeBIN.value,
                               ),
-                              const StoreProfileLinkUpIconTextRow(
-                                iconOrSvg: Icon(
+                              StoreProfileLinkUpIconTextRow(
+                                iconOrSvg: const Icon(
                                   BipHip.location,
                                   size: kIconSize20,
                                   color: cPrimaryColor,
                                 ),
                                 onPressed: null,
-                                prefixText: 'Shop 231, Motalib Plaza, Hatipul.',
+                                prefixText: storeController.storeOverviewData.value!.location ?? ksNA.tr,
                                 suffixText: '',
                               ),
-                              const StoreProfileLinkUpIconTextRow(
-                                iconOrSvg: Icon(
+                              StoreProfileLinkUpIconTextRow(
+                                iconOrSvg: const Icon(
                                   BipHip.mail,
                                   size: kIconSize20,
                                   color: cPrimaryColor,
                                 ),
                                 onPressed: null,
-                                prefixText: 'genieelec@gmail.com',
+                                prefixText: storeController.storeOverviewData.value!.email ?? ksNA.tr,
                                 suffixText: '',
                               ),
-                              const StoreProfileLinkUpIconTextRow(
-                                iconOrSvg: Icon(
+                              StoreProfileLinkUpIconTextRow(
+                                iconOrSvg: const Icon(
                                   BipHip.phoneFill,
                                   size: kIconSize20,
                                   color: cPrimaryColor,
                                 ),
                                 onPressed: null,
-                                prefixText: '01858268951',
+                                prefixText: storeController.storeOverviewData.value!.phone ?? ksNA.tr,
                                 suffixText: '',
                               ),
                               StoreProfileLinkUpIconTextRow(
@@ -417,7 +418,7 @@ class StoreProfile extends StatelessWidget {
                                   kiWorldSvgImage,
                                 ),
                                 onPressed: null,
-                                prefixText: 'Bangladesh',
+                                prefixText: storeController.storesData.value!.country ?? ksNA,
                                 suffixText: '',
                               ),
                               StoreProfileLinkUpIconTextRow(
@@ -425,11 +426,12 @@ class StoreProfile extends StatelessWidget {
                                   kiStarSvgImage,
                                   color: cAmberColor,
                                 ),
-                                onPressed: (){
+                                onPressed: () {
                                   Get.toNamed(krStoreReview);
                                 },
                                 prefixText: ksRating.tr,
-                                suffixText: '4.5 (2.800 reviews)',
+                                suffixText:
+                                    "${storeController.storesData.value!.countPageRating.toString()} (${storeController.storesData.value!.countPageReviews.toString()})",
                               ),
                               kH20sizedBox,
                               Text(
@@ -441,7 +443,7 @@ class StoreProfile extends StatelessWidget {
                                 child: GridView.builder(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: storeController.legalPapersList.length,
+                                  itemCount: storeController.storeLegalPapersList.length,
                                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                     childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
                                     crossAxisCount: 4,
@@ -455,11 +457,14 @@ class StoreProfile extends StatelessWidget {
                                         width: 75,
                                         height: 75,
                                         child: Image.network(
-                                          storeController.legalPapersList[index],
+                                          storeController.storeLegalPapersList[index],
                                           fit: BoxFit.cover,
-                                          errorBuilder: (context, error, stackTrace) => Image.asset(
-                                            kiDummyImage1ImageUrl,
+                                          errorBuilder: (context, error, stackTrace) => const Icon(
+                                            BipHip.imageFile,
+                                            size: kIconSize70,
+                                            color: cIconColor,
                                           ),
+                                          loadingBuilder: imageLoadingBuilder,
                                         ),
                                       ),
                                     );
@@ -482,8 +487,8 @@ class StoreProfile extends StatelessWidget {
                       Container(
                         color: cWhiteColor,
                         child: CustomPostButton(
-                          name: name ?? ksNA,
-                          profilePic: profilePicture ?? '',
+                          name: storeController.storeName.value,
+                          profilePic: storeController.storeProfilePicture.value,
                           onPressed: () {
                             // Get.find<CreatePostController>().isPostedFromProfile.value = true;
                             // CreatePostHelper().resetCreatePostData();

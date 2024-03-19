@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bip_hip/models/menu/store/store_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:image_picker/image_picker.dart';
@@ -326,6 +327,7 @@ class StoreController extends GetxController {
   //!
   //! Store profile
   final RxInt storeProfileTabIndex = RxInt(0);
+  final RxInt selectedStoreId = RxInt(-1);
   final Rx<String?> storeBio = Rx<String?>(null);
   final Rx<String?> storeCategory = Rx<String?>('Electronics');
   final RxList storeLocationList = RxList(["Shewrapara, Mirpur, Dhaka, Bangladesh"]);
@@ -363,14 +365,17 @@ class StoreController extends GetxController {
   final List<String> storeCategoryList = ['Electronics', 'Shop', 'Gadgets', 'Hardware'];
   final RxString selectedStoreSocialLinkSource = RxString("");
   final RxString temporarySelectedStoreSocialLinkSource = RxString("");
-  final RxList storeSocialLinkSourceList = RxList(["Facebook","Twitter","Youtube","Instagram","Website"]);
+  final RxList storeSocialLinkSourceList = RxList(["Facebook", "Twitter", "Youtube", "Instagram", "Website"]);
   final RxBool storeSocialLinkBottomSheetRightButtonState = RxBool(false);
   final TextEditingController storePaymentTextEditingController = TextEditingController();
   final TextEditingController storeBioTextEditingController = TextEditingController();
-    final RxInt bioCount = RxInt(0);
+  final RxInt bioCount = RxInt(0);
   final RxString selectedStorePaymentMethod = RxString("");
   final RxString temporarySelectedStorePaymentMethod = RxString("");
-  final RxList storePaymentMethodList = RxList(["Bkash","Nagad","Rocket","Paypal","Visacard","Mastercard"]);
+  final RxString storeProfilePicture = RxString("");
+  final RxString storeCoverPhoto = RxString("");
+  final RxString storeName = RxString("");
+  final RxList storePaymentMethodList = RxList(["Bkash", "Nagad", "Rocket", "Paypal", "Visacard", "Mastercard"]);
   final RxBool storePaymentMethodBottomSheetRightButtonState = RxBool(false);
   final RxList<String> allLocationList = RxList<String>([
     "Shewrapar, Dhaka",
@@ -381,18 +386,95 @@ class StoreController extends GetxController {
     "Agargaon, Dhaka",
   ]);
   final RxBool isEditOrAdd = RxBool(false);
-  final legalPapersList = [
-    //!Remove it
-    "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
-    "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
-    "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
-    "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
-    "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
-  ];
+  final RxList storeLegalPapersList = RxList([]);
+  // final legalPapersList = [
+  //   //!Remove it
+  //   "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
+  //   "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
+  //   "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
+  //   "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
+  //   "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
+  // ];
+
   final storeReviewList = [
-    {"userImage": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D","userName": "Emma isabela","storeName":"Store Name","rating":"4.0","content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
-    {"userImage": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D","userName": "Emma isabela2","storeName":"Store Name2","rating":"4.0","content": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"},
-    {"userImage": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D","userName": "Emma isabela3","storeName":"Store Name3","rating":"4.0","content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
-    {"userImage": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D","userName": "Emma isabela4","storeName":"Store Name4","rating":"4.0","content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
+    {
+      "userImage":
+          "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "userName": "Emma isabela",
+      "storeName": "Store Name",
+      "rating": "4.0",
+      "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+    },
+    {
+      "userImage":
+          "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "userName": "Emma isabela2",
+      "storeName": "Store Name2",
+      "rating": "4.0",
+      "content":
+          "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
+    },
+    {
+      "userImage":
+          "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "userName": "Emma isabela3",
+      "storeName": "Store Name3",
+      "rating": "4.0",
+      "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+    },
+    {
+      "userImage":
+          "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "userName": "Emma isabela4",
+      "storeName": "Store Name4",
+      "rating": "4.0",
+      "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+    },
   ];
+  void clearStoreData() {
+    storeLegalPapersList.clear();
+  }
+  //!Store profile api call
+
+  //*store Overview Api call
+  final Rx<StoreOverviewModel?> storeOverviewData = Rx<StoreOverviewModel?>(null);
+  // final RxList<FeaturePost> featuredPostList = RxList<FeaturePost>([]);
+  final Rx<Stores?> storesData = Rx<Stores?>(null);
+  final RxBool isStoreOverviewLoading = RxBool(false);
+  Future<void> getStoreOverview() async {
+    try {
+      isStoreOverviewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuStoreProfileOverview/${selectedStoreId.value}",
+      ) as CommonDM;
+      if (response.success == true) {
+        clearStoreData();
+        // featuredPostList.clear();
+        storeOverviewData.value = StoreOverviewModel.fromJson(response.data);
+        storesData.value = storeOverviewData.value!.stores;
+        // featuredPostList.addAll(kidOverviewData.value!.featurePost);
+        storeBio.value = storesData.value!.bio;
+        storeName.value = storesData.value!.name ?? "";
+        storeProfilePicture.value = storesData.value!.profilePicture ?? "";
+        storeCoverPhoto.value = storesData.value!.coverPhoto ?? "";
+        storeBIN.value = storesData.value!.bin!;
+        storeLegalPapersList.addAll(storesData.value!.legalPapers);
+        isStoreOverviewLoading.value = false;
+      } else {
+        isStoreOverviewLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreOverviewLoading.value = true;
+      ll('getStoreOverview error: $e');
+    }
+  }
 }

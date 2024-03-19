@@ -331,7 +331,7 @@ class StoreIntroContent extends StatelessWidget {
           child: GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: storeController.legalPapersList.length,
+            itemCount: storeController.storeLegalPapersList.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
               crossAxisCount: 4,
@@ -345,11 +345,14 @@ class StoreIntroContent extends StatelessWidget {
                   width: 75,
                   height: 75,
                   child: Image.network(
-                    storeController.legalPapersList[index],
+                    storeController.storeLegalPapersList[index],
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Image.asset(
-                      kiDummyImage1ImageUrl,
+                    errorBuilder: (context, error, stackTrace) => const Icon(
+                      BipHip.imageFile,
+                      size: kIconSize70,
+                      color: cIconColor,
                     ),
+                    loadingBuilder: imageLoadingBuilder,
                   ),
                 ),
               );
