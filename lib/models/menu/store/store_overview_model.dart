@@ -1,6 +1,6 @@
 class StoreOverviewModel {
   Stores? stores;
-  List<dynamic> featurePost;
+  // List<dynamic> featurePost;
   Admin? admin;
   dynamic location;
   dynamic email;
@@ -8,7 +8,7 @@ class StoreOverviewModel {
 
   StoreOverviewModel({
     required this.stores,
-    required this.featurePost,
+    // required this.featurePost,
     required this.admin,
     required this.location,
     required this.email,
@@ -17,7 +17,7 @@ class StoreOverviewModel {
 
   factory StoreOverviewModel.fromJson(Map<String, dynamic> json) => StoreOverviewModel(
         stores: json["store"] == null ? null : Stores.fromJson(json["store"]),
-        featurePost: List<dynamic>.from(json["feature_post"].map((x) => x)),
+        // featurePost: List<dynamic>.from(json["feature_post"].map((x) => x)),
         admin: json["admin"] == null ? null : Admin.fromJson(json["admin"]),
         location: json["location"],
         email: json["email"],

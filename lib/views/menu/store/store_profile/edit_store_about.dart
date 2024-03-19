@@ -79,9 +79,10 @@ class StoreCategoryContent extends StatelessWidget {
                   subtitlePrefixText: storeController.storeCategory.value ?? ksCategory.tr,
                   subTitlePrefixTextStyle: regular16TextStyle(cBlackColor),
                   isAddButton: false,
-                  suffixOnPressed: () {
+                  suffixOnPressed: () async{
                     storeController.storeCategoryTextEditingController.text = storeController.storeCategory.value ?? '';
                     Get.toNamed(krEditStoreCategory);
+                    await storeController.getAllBusinessCategory();
                   },
                 )),
             kH16sizedBox,

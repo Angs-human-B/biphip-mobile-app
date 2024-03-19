@@ -186,10 +186,12 @@ const String kuKidDeleteSchool = '/mobile/user/delete-kid-school';
 const String kuGetKidPosts = '/mobile/user/get-kid-posts';
 
 //* Store profile
+const String kuGetBusinessCategories = '/mobile/get-business-categories';
 const String kuStoreProfileOverview = '/mobile/user/store-profile-overview';
 const String kuUpdateStoreBio = '/mobile/user/update-store-bio';
 const String kuUpdateStoreBin = '/mobile/user/update-store-bin';
 const String kuUpdateStoreQr = '/mobile/user/update-store-qr';
+const String kuUpdateStorePrivacyLink = '/mobile/user/update-store-privacy-link';
 
 /*
 |--------------------------------------------------------------------------

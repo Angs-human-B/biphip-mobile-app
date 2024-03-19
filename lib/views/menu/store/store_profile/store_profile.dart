@@ -242,7 +242,7 @@ class StoreProfile extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                           child: Text(
                             // "${kidsController.kidOverviewData.value?.kids?.countFollowers.toString() ?? ksNA} Followers",//!Correct(Data from api)
-                            '${storeController.storesData.value!.countFollowers.toString()} Followers',
+                            '${storeController.storesData.value?.countFollowers.toString()} Followers',
                             style: semiBold14TextStyle(cSmallBodyTextColor),
                           ),
                         ),
@@ -371,7 +371,7 @@ class StoreProfile extends StatelessWidget {
                                 ),
                                 onPressed: null,
                                 prefixText: '${ksPage.tr} ',
-                                suffixText: storeController.storesData.value!.pageType ?? ksNA.tr,
+                                suffixText: storeController.storesData.value?.pageType ?? ksNA.tr,
                               ),
                               KidStoreProfileLinkUpIconTextRow(
                                 iconOrSvg: const Icon(

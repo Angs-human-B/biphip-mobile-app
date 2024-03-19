@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bip_hip/models/menu/store/all_business_category_model.dart';
 import 'package:bip_hip/models/menu/store/store_common_update_model.dart';
 import 'package:bip_hip/models/menu/store/store_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -345,7 +346,7 @@ class StoreController extends GetxController {
     {"fileName": "Image1.png", "fileSize": "251KB"}
   ]);
   final RxList websiteAndSocialLinkList = RxList(["Facebook.1", "Facebook.2", "Facebook.3", "Facebook.4", "Facebook.5"]);
-  final Rx<String?> storePrivacyLink = Rx<String?>('abc');
+  final Rx<String?> storePrivacyLink = Rx<String?>('');
   final RxList paymentMethodList = RxList([
     {"paymentMethod": "Nagad", "payment": "01789368774638"},
     {"paymentMethod": "Paypal", "payment": "Shohagjalal@gmail.com"}
@@ -363,7 +364,7 @@ class StoreController extends GetxController {
   final TextEditingController storeCategoryTextEditingController = TextEditingController();
   final TextEditingController storeSocialLinkTextEditingController = TextEditingController();
   final RxBool isStoreCategorySuffixIconVisible = RxBool(false);
-  final List<String> storeCategoryList = ['Electronics', 'Shop', 'Gadgets', 'Hardware'];
+  final RxList<String> storeCategoryList = RxList([]);
   final RxString selectedStoreSocialLinkSource = RxString("");
   final RxString temporarySelectedStoreSocialLinkSource = RxString("");
   final RxList storeSocialLinkSourceList = RxList(["Facebook", "Twitter", "Youtube", "Instagram", "Website"]);
@@ -463,7 +464,8 @@ class StoreController extends GetxController {
         storeCoverPhoto.value = storesData.value!.coverPhoto ?? "";
         storeBIN.value = storesData.value!.bin!;
         storeLegalPapersList.addAll(storesData.value!.legalPapers);
-        qrCode.value = storesData.value!.qrCode ?? "";
+        qrCode.value = storesData.value!.qrCode!;
+        storePrivacyLink.value = storesData.value!.privacyLink;
         isStoreOverviewLoading.value = false;
       } else {
         isStoreOverviewLoading.value = true;
@@ -526,6 +528,7 @@ class StoreController extends GetxController {
       ll('updateStoreBio error: $e');
     }
   }
+
   //*update store BIN Api implement
   RxBool isStoreBINLoading = RxBool(false);
   Future<void> updateStoreBIN() async {
@@ -565,7 +568,7 @@ class StoreController extends GetxController {
     }
   }
 
-   //*update store Qr code Api implement
+  //*update store Qr code Api implement
   RxBool isStoreQrCodeLoading = RxBool(false);
   Future<void> updateStoreQrCode() async {
     try {
@@ -604,4 +607,82 @@ class StoreController extends GetxController {
     }
   }
 
+  //*update store Qr code Api implement
+  RxBool isStorePrivacyLinkLoading = RxBool(false);
+  Future<void> updateStorePrivacyLink() async {
+    try {
+      isStorePrivacyLinkLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'store_id': selectedStoreId.value.toString(),
+        'privacy_link': storePrivacyLinkTextEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateStorePrivacyLink,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        storeCommonUpdateData.value = StoreCommonUpdateModel.fromJson(response.data);
+        storesData.value = storeCommonUpdateData.value!.stores;
+        storePrivacyLink.value = storesData.value!.privacyLink;
+        Get.back();
+        isStorePrivacyLinkLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isStorePrivacyLinkLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStorePrivacyLinkLoading.value = false;
+      ll('updateStorePrivacyLink error: $e');
+    }
+  }
+
+//* All Business category Api call
+  final Rx<AllBusinessCategoryModel?> businessCategoryData = Rx<AllBusinessCategoryModel?>(null);
+  // final RxList<FeaturePost> featuredPostList = RxList<FeaturePost>([]);
+  final RxList<BusinessCategory?> businessCategoryList = RxList<BusinessCategory?>([]);
+  final RxBool isBusinessCategoryLoading = RxBool(false);
+  Future<void> getAllBusinessCategory() async {
+    try {
+      isBusinessCategoryLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuGetBusinessCategories?take=100",
+      ) as CommonDM;
+      if (response.success == true) {
+        clearStoreData();
+        // featuredPostList.clear();
+        businessCategoryData.value = AllBusinessCategoryModel.fromJson(response.data);
+        businessCategoryList.addAll(businessCategoryData.value!.businessCategories!.data);
+        // storeCategoryList.addAll(businessCategoryList.value);
+        List<String> categoryValues = businessCategoryList.map((category) => category!.value).toList();
+        storeCategoryList.addAll(categoryValues);
+        ll(storeCategoryList);
+        // storeCategoryList.addAll(businessCategoryData.value!.businessCategory.value);
+        isBusinessCategoryLoading.value = false;
+      } else {
+        isBusinessCategoryLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isBusinessCategoryLoading.value = true;
+      ll('getAllBusinessCategory error: $e');
+    }
+  }
 }

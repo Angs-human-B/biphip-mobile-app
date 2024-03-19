@@ -133,6 +133,7 @@ class EditStoreCategory extends StatelessWidget {
                     buttonHeight: h42,
                     buttonWidth: width - 40,
                     onPressed: () {
+                      
                       Get.back();
                     }),
                 kH20sizedBox,
