@@ -77,7 +77,6 @@ class StoreProfile extends StatelessWidget {
                           width: width,
                           decoration: const BoxDecoration(color: cBlackColor, border: Border(bottom: BorderSide(color: cLineColor))),
                           child: Image.network(
-                            // kidsController.kidOverviewData.value?.kids?.coverPhoto ?? '',//!This is correct and data from api call
                             storeController.storeCoverPhoto.value,
                             fit: BoxFit.cover,
                             filterQuality: FilterQuality.high,
@@ -108,7 +107,6 @@ class StoreProfile extends StatelessWidget {
                                 ),
                                 child: ClipOval(
                                   child: Image.network(
-                                    // kidsController.kidOverviewData.value?.kids?.profilePicture ?? "",//!Correct(data from api)
                                     storeController.storeProfilePicture.value,
                                     fit: BoxFit.cover,
                                     filterQuality: FilterQuality.high,
@@ -439,38 +437,38 @@ class StoreProfile extends StatelessWidget {
                                 style: semiBold16TextStyle(cBlackColor),
                               ),
                               kH8sizedBox,
-                              SizedBox(
-                                child: GridView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: storeController.storeLegalPapersList.length,
-                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                    childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
-                                    crossAxisCount: 4,
-                                    crossAxisSpacing: k16Padding,
-                                    mainAxisSpacing: k16Padding,
-                                  ),
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return ClipRRect(
-                                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                                      child: SizedBox(
-                                        width: 75,
-                                        height: 75,
-                                        child: Image.network(
-                                          storeController.storeLegalPapersList[index],
-                                          fit: BoxFit.cover,
-                                          errorBuilder: (context, error, stackTrace) => const Icon(
-                                            BipHip.imageFile,
-                                            size: kIconSize70,
-                                            color: cIconColor,
-                                          ),
-                                          loadingBuilder: imageLoadingBuilder,
-                                        ),
+                              Obx(() => SizedBox(
+                                    child: GridView.builder(
+                                      shrinkWrap: true,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      itemCount: storeController.storeLegalPapersList.length,
+                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                        childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
+                                        crossAxisCount: 4,
+                                        crossAxisSpacing: k16Padding,
+                                        mainAxisSpacing: k16Padding,
                                       ),
-                                    );
-                                  },
-                                ),
-                              ),
+                                      itemBuilder: (BuildContext context, int index) {
+                                        return ClipRRect(
+                                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                                          child: SizedBox(
+                                            width: 75,
+                                            height: 75,
+                                            child: Image.network(
+                                              storeController.storeLegalPapersList[index],
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (context, error, stackTrace) => const Icon(
+                                                BipHip.imageFile,
+                                                size: kIconSize70,
+                                                color: cIconColor,
+                                              ),
+                                              loadingBuilder: imageLoadingBuilder,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  )),
                               // CustomTextButton(
                               //   text: ksSeeYourAboutInfo.tr,
                               //   textStyle: medium16TextStyle(cPrimaryColor),

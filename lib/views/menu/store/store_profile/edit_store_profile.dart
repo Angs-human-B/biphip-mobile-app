@@ -227,154 +227,154 @@ class StoreIntroContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        KidStoreProfileLinkUpIconTextRow(
-          iconOrSvg: const Icon(
-            BipHip.info,
-            size: kIconSize20,
-            color: cPrimaryColor,
-          ),
-          onPressed: null,
-          prefixText: '${ksPage.tr} ',
-          suffixText: storeController.storesData.value!.pageType ?? ksNA.tr,
-        ),
-        KidStoreProfileLinkUpIconTextRow(
-          iconOrSvg: const Icon(
-            BipHip.info,
-            size: kIconSize20,
-            color: cPrimaryColor,
-          ),
-          onPressed: null,
-          prefixText: ksBIN.tr,
-          suffixText: storeController.storeBIN.value,
-        ),
-        StoreProfileLinkUpIconTextRow(
-          iconOrSvg: const Icon(
-            BipHip.location,
-            size: kIconSize20,
-            color: cPrimaryColor,
-          ),
-          onPressed: null,
-          prefixText: storeController.storeOverviewData.value!.location ?? ksNA.tr,
-          suffixText: '',
-        ),
-        StoreProfileLinkUpIconTextRow(
-          iconOrSvg: const Icon(
-            BipHip.mail,
-            size: kIconSize20,
-            color: cPrimaryColor,
-          ),
-          onPressed: null,
-          prefixText: storeController.storeOverviewData.value!.email ?? ksNA.tr,
-          suffixText: '',
-        ),
-        StoreProfileLinkUpIconTextRow(
-          iconOrSvg: const Icon(
-            BipHip.phoneFill,
-            size: kIconSize20,
-            color: cPrimaryColor,
-          ),
-          onPressed: null,
-          prefixText: storeController.storeOverviewData.value!.phone ?? ksNA.tr,
-          suffixText: '',
-        ),
-        StoreProfileLinkUpIconTextRow(
-          iconOrSvg: SvgPicture.asset(
-            kiWorldSvgImage,
-          ),
-          onPressed: null,
-          prefixText: storeController.storesData.value!.country ?? ksNA,
-          suffixText: '',
-        ),
-        StoreProfileLinkUpIconTextRow(
-          iconOrSvg: SvgPicture.asset(
-            kiStarSvgImage,
-            color: cAmberColor,
-          ),
-          onPressed: () {
-            Get.toNamed(krStoreReview);
-          },
-          prefixText: ksRating.tr,
-          suffixText: "${storeController.storesData.value!.countPageRating.toString()} (${storeController.storesData.value!.countPageReviews.toString()})",
-        ),
-        kH20sizedBox,
-        Text(
-          ksPayment.tr,
-          style: semiBold16TextStyle(cBlackColor),
-        ),
-        kH12sizedBox,
-        StoreProfileLinkUpIconTextRow(
-          iconOrSvg: SvgPicture.asset(
-            kiNagadSvgImage,
-          ),
-          onPressed: null,
-          prefixText: '01858268951',
-          suffixText: '',
-        ),
-        StoreProfileLinkUpIconTextRow(
-          iconOrSvg: SvgPicture.asset(
-            kiPaypalSvgImage,
-          ),
-          onPressed: null,
-          prefixText: 'Shohagjalal@gmail.com',
-          suffixText: '',
-        ),
-        kH16sizedBox,
-        Text(
-          ksLegalPapers.tr,
-          style: semiBold16TextStyle(cBlackColor),
-        ),
-        kH8sizedBox,
-        SizedBox(
-          child: GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: storeController.storeLegalPapersList.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
-              crossAxisCount: 4,
-              crossAxisSpacing: k16Padding,
-              mainAxisSpacing: k16Padding,
+    return Obx(() => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            KidStoreProfileLinkUpIconTextRow(
+              iconOrSvg: const Icon(
+                BipHip.info,
+                size: kIconSize20,
+                color: cPrimaryColor,
+              ),
+              onPressed: null,
+              prefixText: '${ksPage.tr} ',
+              suffixText: storeController.storesData.value!.pageType ?? ksNA.tr,
             ),
-            itemBuilder: (BuildContext context, int index) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(k8BorderRadius),
-                child: SizedBox(
-                  width: 75,
-                  height: 75,
-                  child: Image.network(
-                    storeController.storeLegalPapersList[index],
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => const Icon(
-                      BipHip.imageFile,
-                      size: kIconSize70,
-                      color: cIconColor,
-                    ),
-                    loadingBuilder: imageLoadingBuilder,
-                  ),
+            KidStoreProfileLinkUpIconTextRow(
+              iconOrSvg: const Icon(
+                BipHip.info,
+                size: kIconSize20,
+                color: cPrimaryColor,
+              ),
+              onPressed: null,
+              prefixText: ksBIN.tr,
+              suffixText: storeController.storeBIN.value,
+            ),
+            StoreProfileLinkUpIconTextRow(
+              iconOrSvg: const Icon(
+                BipHip.location,
+                size: kIconSize20,
+                color: cPrimaryColor,
+              ),
+              onPressed: null,
+              prefixText: storeController.storeOverviewData.value!.location ?? ksNA.tr,
+              suffixText: '',
+            ),
+            StoreProfileLinkUpIconTextRow(
+              iconOrSvg: const Icon(
+                BipHip.mail,
+                size: kIconSize20,
+                color: cPrimaryColor,
+              ),
+              onPressed: null,
+              prefixText: storeController.storeOverviewData.value!.email ?? ksNA.tr,
+              suffixText: '',
+            ),
+            StoreProfileLinkUpIconTextRow(
+              iconOrSvg: const Icon(
+                BipHip.phoneFill,
+                size: kIconSize20,
+                color: cPrimaryColor,
+              ),
+              onPressed: null,
+              prefixText: storeController.storeOverviewData.value!.phone ?? ksNA.tr,
+              suffixText: '',
+            ),
+            StoreProfileLinkUpIconTextRow(
+              iconOrSvg: SvgPicture.asset(
+                kiWorldSvgImage,
+              ),
+              onPressed: null,
+              prefixText: storeController.storesData.value!.country ?? ksNA,
+              suffixText: '',
+            ),
+            StoreProfileLinkUpIconTextRow(
+              iconOrSvg: SvgPicture.asset(
+                kiStarSvgImage,
+                color: cAmberColor,
+              ),
+              onPressed: () {
+                Get.toNamed(krStoreReview);
+              },
+              prefixText: ksRating.tr,
+              suffixText: "${storeController.storesData.value!.countPageRating.toString()} (${storeController.storesData.value!.countPageReviews.toString()})",
+            ),
+            kH20sizedBox,
+            Text(
+              ksPayment.tr,
+              style: semiBold16TextStyle(cBlackColor),
+            ),
+            kH12sizedBox,
+            StoreProfileLinkUpIconTextRow(
+              iconOrSvg: SvgPicture.asset(
+                kiNagadSvgImage,
+              ),
+              onPressed: null,
+              prefixText: '01858268951',
+              suffixText: '',
+            ),
+            StoreProfileLinkUpIconTextRow(
+              iconOrSvg: SvgPicture.asset(
+                kiPaypalSvgImage,
+              ),
+              onPressed: null,
+              prefixText: 'Shohagjalal@gmail.com',
+              suffixText: '',
+            ),
+            kH16sizedBox,
+            Text(
+              ksLegalPapers.tr,
+              style: semiBold16TextStyle(cBlackColor),
+            ),
+            kH8sizedBox,
+            SizedBox(
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: storeController.storeLegalPapersList.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
+                  crossAxisCount: 4,
+                  crossAxisSpacing: k16Padding,
+                  mainAxisSpacing: k16Padding,
                 ),
-              );
-            },
-          ),
-        ),
-        kH16sizedBox,
-        Text(
-          ksQR.tr,
-          style: semiBold16TextStyle(cBlackColor),
-        ),
-        QrImageView(
-          data: storeController.qrCode.value,
-          version: QrVersions.auto,
-          size: 120,
-        ),
-        //  QrImage(
-        //     data: storeController.qrCode.value,
-        //     version: QrVersions.auto,
-        //     size: 200.0,
-        //   ),
-      ],
-    );
+                itemBuilder: (BuildContext context, int index) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(k8BorderRadius),
+                    child: SizedBox(
+                      width: 75,
+                      height: 75,
+                      child: Image.network(
+                        storeController.storeLegalPapersList[index],
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => const Icon(
+                          BipHip.imageFile,
+                          size: kIconSize70,
+                          color: cIconColor,
+                        ),
+                        loadingBuilder: imageLoadingBuilder,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            kH16sizedBox,
+            Text(
+              ksQR.tr,
+              style: semiBold16TextStyle(cBlackColor),
+            ),
+            QrImageView(
+              data: storeController.qrCode.value,
+              version: QrVersions.auto,
+              size: 120,
+            ),
+            //  QrImage(
+            //     data: storeController.qrCode.value,
+            //     version: QrVersions.auto,
+            //     size: 200.0,
+            //   ),
+          ],
+        ));
   }
 }

@@ -726,4 +726,50 @@ class StoreController extends GetxController {
       ll('updateStoreQrCode error: $e');
     }
   }
+
+  //* update store legal files API Implementation
+  final RxBool isLegalFileLoading = RxBool(false);
+  Future<void> updateLegalFiles() async {
+    try {
+      isLegalFileLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'store_id': selectedStoreId.value.toString(),
+      };
+      List<String> key = [];
+      List<dynamic> value = [];
+      for (int i = 0; i < selectedImages.length; i++) {
+        key.add('legal_files[$i]');
+        value.add(selectedImages[i].path);
+      }
+      var response = await apiController.mediaUploadMultipleKeyAndValue(
+        url: kuUpdateStoreLegalFiles,
+        body: body,
+        token: token,
+        keys: key,
+        values: value,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        storeLegalPapersList.clear();
+        storeCommonUpdateData.value = StoreCommonUpdateModel.fromJson(response.data);
+        storesData.value = storeCommonUpdateData.value!.stores;
+        storeLegalPapersList.addAll(storesData.value!.legalPapers);
+        isLegalFileLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isLegalFileLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isLegalFileLoading.value = false;
+      ll('updateLegalFiles error: $e');
+    }
+  }
 }

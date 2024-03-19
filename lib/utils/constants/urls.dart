@@ -193,6 +193,7 @@ const String kuUpdateStoreBin = '/mobile/user/update-store-bin';
 const String kuUpdateStoreQr = '/mobile/user/update-store-qr';
 const String kuUpdateStorePrivacyLink = '/mobile/user/update-store-privacy-link';
 const String kuUpdateStoreCategories = '/mobile/user/update-store-categories';
+const String kuUpdateStoreLegalFiles = '/mobile/user/update-store-legal-files';
 
 /*
 |--------------------------------------------------------------------------
