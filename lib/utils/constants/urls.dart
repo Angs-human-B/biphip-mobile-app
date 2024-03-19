@@ -187,6 +187,8 @@ const String kuGetKidPosts = '/mobile/user/get-kid-posts';
 
 //* Store profile
 const String kuStoreProfileOverview = '/mobile/user/store-profile-overview';
+const String kuUpdateStoreBio = '/mobile/user/update-store-bio';
+const String kuUpdateStoreBin = '/mobile/user/update-store-bin';
 
 /*
 |--------------------------------------------------------------------------

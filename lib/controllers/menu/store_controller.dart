@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bip_hip/models/menu/store/store_common_update_model.dart';
 import 'package:bip_hip/models/menu/store/store_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
@@ -350,7 +351,7 @@ class StoreController extends GetxController {
     {"paymentMethod": "Paypal", "payment": "Shohagjalal@gmail.com"}
   ]);
   final RxString qrCode = RxString('');
-  final RxString storeBIN = RxString('129874675766');
+  final RxString storeBIN = RxString('');
   //!* Edit store
   final TextEditingController storePhoneNumberTextEditingController = TextEditingController();
   final TextEditingController storeEmailTextEditingController = TextEditingController();
@@ -478,5 +479,89 @@ class StoreController extends GetxController {
       ll('getStoreOverview error: $e');
     }
   }
-  
+
+  void clearStoreBio() {
+    bioCount.value = 0;
+    storeBioTextEditingController.clear();
+  }
+
+  //* update Kid bio API Implementation
+  final Rx<StoreCommonUpdateModel?> storeCommonUpdateData = Rx<StoreCommonUpdateModel?>(null);
+  // final Rx<Kids?> kidsData = Rx<Kids?>(null);
+  RxBool isStoreBioLoading = RxBool(false);
+  Future<void> updateStoreBio() async {
+    try {
+      isStoreBioLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'store_id': selectedStoreId.value.toString(),
+        'bio': storeBioTextEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateStoreBio,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        storeCommonUpdateData.value = StoreCommonUpdateModel.fromJson(response.data);
+        storesData.value = storeCommonUpdateData.value!.stores;
+        storeBio.value = storesData.value!.bio;
+        clearStoreBio();
+        Get.back();
+        isStoreBioLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isStoreBioLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreBioLoading.value = false;
+      ll('updateStoreBio error: $e');
+    }
+  }
+
+  RxBool isStoreBINLoading = RxBool(false);
+  Future<void> updateStoreBIN() async {
+    try {
+      isStoreBINLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'store_id': selectedStoreId.value.toString(),
+        'bin': storeBINTextEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateStoreBin,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        storeCommonUpdateData.value = StoreCommonUpdateModel.fromJson(response.data);
+        storesData.value = storeCommonUpdateData.value!.stores;
+        storeBIN.value = storesData.value!.bin!;
+        Get.back();
+        isStoreBINLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isStoreBINLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreBINLoading.value = false;
+      ll('updateStoreBIN error: $e');
+    }
+  }
 }
