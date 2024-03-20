@@ -12,9 +12,6 @@ class StoreProfile extends StatelessWidget {
   });
   final StoreController storeController = Get.find<StoreController>();
   final StoreHelper storeHelper = StoreHelper();
-  // final String? name;
-  // final String? profilePicture;
-  // final String? coverPhoto;
 
   @override
   Widget build(BuildContext context) {
@@ -241,7 +238,7 @@ class StoreProfile extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                             child: Text(
                               // "${kidsController.kidOverviewData.value?.kids?.countFollowers.toString() ?? ksNA} Followers",//!Correct(Data from api)
-                              '${storeController.storesData.value?.countFollowers.toString()} Followers',
+                              '${storeController.storesData.value?.countFollowers.toString() ?? ksNA} Followers',
                               style: semiBold14TextStyle(cSmallBodyTextColor),
                             ),
                           ),
@@ -389,7 +386,7 @@ class StoreProfile extends StatelessWidget {
                                     color: cPrimaryColor,
                                   ),
                                   onPressed: null,
-                                  prefixText: storeController.storeOverviewData.value!.location ?? ksNA.tr,
+                                  prefixText: storeController.storeOverviewData.value?.location ?? ksNA.tr,
                                   suffixText: '',
                                 ),
                                 StoreProfileLinkUpIconTextRow(
@@ -399,7 +396,7 @@ class StoreProfile extends StatelessWidget {
                                     color: cPrimaryColor,
                                   ),
                                   onPressed: null,
-                                  prefixText: storeController.storeOverviewData.value!.email ?? ksNA.tr,
+                                  prefixText: storeController.storeOverviewData.value?.email ?? ksNA.tr,
                                   suffixText: '',
                                 ),
                                 StoreProfileLinkUpIconTextRow(
@@ -409,7 +406,7 @@ class StoreProfile extends StatelessWidget {
                                     color: cPrimaryColor,
                                   ),
                                   onPressed: null,
-                                  prefixText: storeController.storeOverviewData.value!.phone ?? ksNA.tr,
+                                  prefixText: storeController.storeOverviewData.value?.phone ?? ksNA.tr,
                                   suffixText: '',
                                 ),
                                 StoreProfileLinkUpIconTextRow(
@@ -417,7 +414,7 @@ class StoreProfile extends StatelessWidget {
                                     kiWorldSvgImage,
                                   ),
                                   onPressed: null,
-                                  prefixText: storeController.storesData.value!.country ?? ksNA,
+                                  prefixText: storeController.storesData.value?.country ?? ksNA,
                                   suffixText: '',
                                 ),
                                 StoreProfileLinkUpIconTextRow(
@@ -430,7 +427,7 @@ class StoreProfile extends StatelessWidget {
                                   },
                                   prefixText: ksRating.tr,
                                   suffixText:
-                                      "${storeController.storesData.value!.countPageRating.toString()} (${storeController.storesData.value!.countPageReviews.toString()})",
+                                      "${storeController.storesData.value?.countPageRating.toString() ?? ksNA.tr} (${storeController.storesData.value?.countPageReviews.toString() ?? ksNA.tr})",
                                 ),
                                 kH20sizedBox,
                                 Text(

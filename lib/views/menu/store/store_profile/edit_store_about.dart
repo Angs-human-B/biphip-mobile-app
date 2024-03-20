@@ -79,7 +79,7 @@ class StoreCategoryContent extends StatelessWidget {
                   subtitlePrefixText: storeController.storeCategory.value ?? ksCategory.tr,
                   subTitlePrefixTextStyle: regular16TextStyle(cBlackColor),
                   isAddButton: false,
-                  suffixOnPressed: () async{
+                  suffixOnPressed: () async {
                     storeController.storeCategoryTextEditingController.text = storeController.storeCategory.value ?? '';
                     Get.toNamed(krEditStoreCategory);
                     await storeController.getAllBusinessCategory();
@@ -492,8 +492,7 @@ class StorePageTransperencyContent extends StatelessWidget {
             ),
             kH16sizedBox,
             Text(
-              // kidsController.kidOverviewData.value?.kids?.pageId ?? ksNA,//!From api data
-              '12345678',
+              storeController.storesData.value!.pageId.toString(),
               style: regular16TextStyle(cBlackColor),
             ),
             kH4sizedBox,
@@ -503,8 +502,7 @@ class StorePageTransperencyContent extends StatelessWidget {
             ),
             kH16sizedBox,
             Text(
-              // DateFormat('dd MMM, yyyy').format(kidsController.kidOverviewData.value?.kids!.createdAt ?? DateTime.now()),//! data from Api
-              DateFormat('dd MMM, yyyy').format(DateTime.now()),
+              DateFormat('dd MMM, yyyy').format(storeController.storesData.value?.createdAt ?? DateTime.now()),
               style: regular16TextStyle(cBlackColor),
             ),
             kH4sizedBox,

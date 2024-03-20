@@ -177,6 +177,8 @@ class Stores {
   String? coverPhoto;
   int? profileImageId;
   int? coverImageId;
+    DateTime? createdAt;
+  DateTime? updatedAt;
   String? qrCode;
   List<String> legalPapers;
   dynamic introVideoFile;
@@ -219,6 +221,8 @@ class Stores {
     required this.coverPhoto,
     required this.profileImageId,
     required this.coverImageId,
+       required this.createdAt,
+    required this.updatedAt,
     required this.qrCode,
     required this.legalPapers,
     required this.introVideoFile,
@@ -262,6 +266,8 @@ class Stores {
         coverPhoto: json["cover_photo"],
         profileImageId: json["profile_image_id"],
         coverImageId: json["cover_image_id"],
+           createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
         qrCode: json["qr_code"],
         legalPapers: List<String>.from(json["legal_papers"].map((x) => x)),
         introVideoFile: json["intro_video_file"],
