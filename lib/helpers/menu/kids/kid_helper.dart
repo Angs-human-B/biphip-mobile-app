@@ -723,12 +723,7 @@ class KidHelper {
     } else {
       kidsController.isCurrentlyStudyingHere.value = false;
     }
-    // //*For locally handle school list
-    // for (int i = 0; i < kidsController.schoolList.length; i++) {
-    //   kidsController.kidEducationInstituteTextEditingController.text = kidsController.schoolList[i];
-    // }
     getMethod(1);
-    // kidsController.getSchoolList();
   }
 
   void clearAddLanguagePage() {
