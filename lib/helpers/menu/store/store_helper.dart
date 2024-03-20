@@ -73,7 +73,7 @@ class StoreHelper{
       storeController.isStoreProfilePhoto.value = true;
       storeController.storeViewOptionEnabled.value = true;
       storeController.storePreviewPhoto.value = storeController.storeProfilePicture.value;
-      Get.toNamed(krViewPhoto);
+      Get.toNamed(krStorePhotoView);
     }
   }
 
@@ -82,7 +82,7 @@ class StoreHelper{
       storeController.storeViewOptionEnabled.value = true;
       storeController.isStoreProfilePhoto.value = false;
       storeController.storePreviewPhoto.value = storeController.storeCoverPhoto.value;
-      Get.toNamed(krViewPhoto);
+      Get.toNamed(krStorePhotoView);
     }
   }
 

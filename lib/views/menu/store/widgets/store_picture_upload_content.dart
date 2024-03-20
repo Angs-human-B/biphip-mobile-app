@@ -26,7 +26,7 @@ class StorePictureUploadContent extends StatelessWidget {
               suffixIconColor: cIconColor,
               onPressed: () {
                 Get.back();
-                Get.toNamed(krViewPhoto);
+                Get.toNamed(krStorePhotoView);
               },
               buttonHeight: h32,
               buttonWidth: width - 40,

@@ -63,6 +63,7 @@ import 'package:bip_hip/views/menu/store/store_profile/store_add_legal_document.
 import 'package:bip_hip/views/menu/store/store_profile/store_profile.dart';
 import 'package:bip_hip/views/menu/store/store_profile/store_review.dart';
 import 'package:bip_hip/views/menu/store/widgets/store_photo_preview.dart';
+import 'package:bip_hip/views/menu/store/widgets/store_photo_view.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/create_post.dart';
 import 'package:bip_hip/views/post/upload_media_list.dart';
@@ -211,6 +212,7 @@ const String krStoreAddLegalDocument = '/store-add-legal-document';
 const String krStoreEditBio = '/store-edit-bio';
 const String krStoreReview = '/store-review';
 const String krStorePhotoPreview = '/store-photo-preview';
+const String krStorePhotoView = '/store-photo-view';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -331,4 +333,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krStoreEditBio, page: () => StoreEditBio(), transition: Transition.noTransition),
   GetPage(name: krStoreReview, page: () => StoreReview(), transition: Transition.noTransition),
   GetPage(name: krStorePhotoPreview, page: () => StorePhotoPreview(), transition: Transition.noTransition),
+  GetPage(name: krStorePhotoView, page: () => StorePhotoView(), transition: Transition.noTransition),
 ];
