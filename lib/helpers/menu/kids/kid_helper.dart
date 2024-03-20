@@ -710,16 +710,15 @@ class KidHelper {
     resetTextEditor();
     kidsController.enableKidSaveButton.value = true;
     ll(index);
-    ll(kidsController.schoolDataList[index]);
-    if (kidsController.schoolDataList[index].started != null) {
-      kidsController.temporaryKidSchoolStartDate.value = DateFormat("yyyy-MM-dd").format(kidsController.schoolDataList[index].started!);
+    if (kidsController.kidSchoolList[index].started != null) {
+      kidsController.temporaryKidSchoolStartDate.value = DateFormat("yyyy-MM-dd").format(kidsController.kidSchoolList[index].started!);
     }
-    if (kidsController.schoolDataList[index].ended != null) {
-      kidsController.temporaryKidSchoolEndDate.value = DateFormat("yyyy-MM-dd").format(kidsController.schoolDataList[index].ended!);
+    if (kidsController.kidSchoolList[index].ended != null) {
+      kidsController.temporaryKidSchoolEndDate.value = DateFormat("yyyy-MM-dd").format(kidsController.kidSchoolList[index].ended!);
     }
-    kidsController.schoolID.value = kidsController.schoolDataList[index].id!;
-    kidsController.kidEducationInstituteTextEditingController.text = kidsController.schoolDataList[index].school!;
-    if (kidsController.schoolDataList[index].graduated == 0) {
+    kidsController.schoolID.value = kidsController.kidSchoolList[index].id!;
+    kidsController.kidEducationInstituteTextEditingController.text = kidsController.kidSchoolList[index].school!;
+    if (kidsController.kidSchoolList[index].graduated == 0) {
       kidsController.isCurrentlyStudyingHere.value = true;
     } else {
       kidsController.isCurrentlyStudyingHere.value = false;
@@ -728,8 +727,8 @@ class KidHelper {
     // for (int i = 0; i < kidsController.schoolList.length; i++) {
     //   kidsController.kidEducationInstituteTextEditingController.text = kidsController.schoolList[i];
     // }
-    // getMethod(1);
-    // kidsController.getSchoolList(); //!Api call
+    getMethod(1);
+    // kidsController.getSchoolList();
   }
 
   void clearAddLanguagePage() {

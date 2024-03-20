@@ -1138,7 +1138,7 @@ class KidsController extends GetxController {
   }
 
   //* store school API Implementation
-  RxList<KidSchool> schoolDataList = RxList<KidSchool>([]);
+  // RxList<KidSchool> schoolDataList = RxList<KidSchool>([]);
   final RxBool isKidSchoolLoading = RxBool(false);
   Future<void> storeSchool() async {
     try {
@@ -1159,9 +1159,9 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        schoolDataList.add(KidSchool.fromJson(response.data));
-        Get.back();
+        await getKidAllSchoolList();
         isKidSchoolLoading.value = false;
+        Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isKidSchoolLoading.value = false;
@@ -1198,12 +1198,9 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        for (int i = 0; i < schoolDataList.length; i++) {
-          if (schoolDataList[i].id == id) {
-            schoolDataList[i] = KidSchool.fromJson(response.data);
-          }
-        }
+       await getKidAllSchoolList();
         isKidSchoolLoading.value = false;
+        Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isKidSchoolLoading.value = false;
@@ -1232,12 +1229,9 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        for (int i = 0; i < schoolDataList.length; i++) {
-          if (schoolDataList[i].id == id) {
-            schoolDataList.removeAt(i);
-          }
-        }
+       await getKidAllSchoolList();
         isKidSchoolLoading.value = false;
+        Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isKidSchoolLoading.value = false;
@@ -1279,7 +1273,6 @@ class KidsController extends GetxController {
         postListScrolled.value = false;
         postListData.value = GetKidPostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
-        //!Future should be changed
         // for (int i = 0; i < postListData.value!.posts!.data.length; i++) {
         //   Get.find<PostReactionController>().reactions.add({
         //     'reaction': ''.obs,
