@@ -620,6 +620,28 @@ class Contact {
     );
 }
 
+class ContactModel {
+    String pageId;
+    String type;
+    String value;
+    int id;
+
+    ContactModel({
+        required this.pageId,
+        required this.type,
+        required this.value,
+        required this.id,
+    });
+
+    factory ContactModel.fromJson(Map<String, dynamic> json) => ContactModel(
+        pageId: json["page_id"],
+        type: json["type"],
+        value: json["value"],
+        id: json["id"],
+    );
+}
+
+
 
 class KidSchool {
     String? pageId;
