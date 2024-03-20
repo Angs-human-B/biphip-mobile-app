@@ -184,6 +184,7 @@ const String kuKidStoreSchool = '/mobile/user/store-kid-school';
 const String kuKidUpdateSchool = '/mobile/user/update-kid-school';
 const String kuKidDeleteSchool = '/mobile/user/delete-kid-school';
 const String kuGetKidPosts = '/mobile/user/get-kid-posts';
+const String kuGetAllKidContacts = '/mobile/user/get-kid-contacts';
 
 /*
 |--------------------------------------------------------------------------

@@ -169,6 +169,7 @@ class EditKidProfile extends StatelessWidget {
                                 suffix: ksEdit.tr,
                                 onEditPressed: () async{
                                   await kidsController.getKidAllSchoolList();
+                                  await kidsController.getKidContacts();
                                   // editProfileHelper.resetEditAboutPage();//!function write
                                   // profileController.showAllEditOption.value = false;//!Change
                                   Get.toNamed(krKidEditAboutInfo);
@@ -186,6 +187,7 @@ class EditKidProfile extends StatelessWidget {
                                 textStyle: semiBold14TextStyle(cWhiteColor),
                                 onPressed: () async {
                                   await kidsController.getKidAllSchoolList();
+                                   await kidsController.getKidContacts();
                                   // profileController.showAllEditOption.value = true;//!variable define
                                   // editProfileHelper.resetEditAboutPage();//!Function write
                                   Get.toNamed(krKidEditAboutInfo);

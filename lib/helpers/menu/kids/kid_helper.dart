@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/models/menu/kids/kid_profile/kid_overview_model.dart';
 import 'package:bip_hip/shimmers/profile/gender_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_picture_upload_content.dart';
@@ -314,17 +315,17 @@ class KidHelper {
     //   kidsController.kidCommonEditTextEditingController.clear();
     // }
     else if (functionFlag == 'ADD PHONE') {
-      // await profileController.storeContact('phone');//!Api
       await kidsController.storeContact('phone');
+      // await kidsController.storeContact('phone');
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT PHONE') {
-      await kidsController.updateContact(kidsController.phoneID.value, 'phone'); //!Api
+      // await kidsController.updateContact(kidsController.phoneID.value, 'phone'); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'ADD EMAIL') {
       await kidsController.storeContact('email');
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT EMAIL') {
-      await kidsController.updateContact(kidsController.emailID.value, 'email'); //!Api
+      // await kidsController.updateContact(kidsController.emailID.value, 'email'); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT SCHOOL DELETE') {
       await kidsController.deleteSchool(kidsController.schoolID.value);
@@ -335,10 +336,10 @@ class KidHelper {
       kidsController.kidEducationInstituteTextEditingController.clear();
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT PHONE DELETE') {
-      await kidsController.deleteContact(kidsController.phoneID.value, "phone"); //!Api
+      // await kidsController.deleteContact(kidsController.phoneID.value, "phone"); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT EMAIL DELETE') {
-      await kidsController.deleteContact(kidsController.emailID.value, "email"); //!Api
+      // await kidsController.deleteContact(kidsController.emailID.value, "email"); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     }
   }
@@ -651,45 +652,49 @@ class KidHelper {
     resetTextEditor();
     // checkSaveButtonActive();
     kidsController.enableKidSaveButton.value = true;
-    getMethod(3);
+    getMethod(2);
   }
 
-  void editKidPhone() {
-    resetTextEditor();
-    kidsController.enableKidSaveButton.value = true;
-    kidsController.phoneID.value = kidsController.kidcontactData.value!.id!;
-    kidsController.kidPhoneNumberTextEditingController.text = kidsController.phoneData.value ?? '';
-    getMethod(4);
-  }
-  // void editKidPhone(index) {
+  // void editKidPhone() {
   //   resetTextEditor();
   //   kidsController.enableKidSaveButton.value = true;
-  //   // profileController.phoneID.value = profileController.contactDataList[index].id!;
-  //   kidsController.kidPhoneNumberTextEditingController.text = kidsController.phoneData.value.toString();
+  //   kidsController.phoneID.value = kidsController.kidcontactData.value!.id!;
+  //   kidsController.kidPhoneNumberTextEditingController.text = kidsController.phoneData.value ?? '';
   //   getMethod(4);
   // }
+  void editKidPhone(Contact contactData) {
+    resetTextEditor();
+    kidsController.enableKidSaveButton.value = true;
+    kidsController.phoneID.value = contactData.id!;
+    kidsController.kidPhoneNumberTextEditingController.text = contactData.value!;
+    ll(kidsController.phoneID.value);
+    ll(kidsController.kidPhoneNumberTextEditingController.text);
+    getMethod(3);
+  }
 
   void kidAddEmail() {
     resetTextEditor();
     // checkSaveButtonActive();
     kidsController.enableKidSaveButton.value = true;
-    getMethod(5);
+    getMethod(4);
   }
 
-  void editKidEmail() {
-    resetTextEditor();
-    kidsController.enableKidSaveButton.value = true;
-    kidsController.emailID.value = kidsController.kidcontactData.value!.id!;
-    kidsController.kidEmailTextEditingController.text = kidsController.emailData.value ?? '';
-    getMethod(6);
-  }
-  // void editKidEmail(index) {
+  // void editKidEmail() {
   //   resetTextEditor();
   //   kidsController.enableKidSaveButton.value = true;
-  //   // profileController.emailID.value = profileController.contactDataList[index].id!;
-  //   kidsController.kidEmailTextEditingController.text = kidsController.emailData.value.toString();
+  //   kidsController.emailID.value = kidsController.contactList[index].id;
+  //   kidsController.kidEmailTextEditingController.text = kidsController.emailData.value ?? '';
   //   getMethod(6);
   // }
+  void editKidEmail(Contact contactData) {
+    resetTextEditor();
+    kidsController.enableKidSaveButton.value = true;
+    kidsController.emailID.value = contactData.id!;
+    kidsController.kidEmailTextEditingController.text = contactData.value!;
+    ll(kidsController.emailID.value);
+    ll(kidsController.kidEmailTextEditingController.text);
+    getMethod(5);
+  }
 
   void addKidEducationBackground() {
     resetTextEditor();

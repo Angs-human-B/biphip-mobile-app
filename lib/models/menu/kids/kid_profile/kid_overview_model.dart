@@ -587,26 +587,39 @@ class Parent {
 //     }
 // }
 
-class KidContact {
-  // String ? pageId;
-  String? type;
-  String? value;
-  int? id;
+class KidContactModel {
+    List<Contact> contacts;
 
-  KidContact({
-    // required this.pageId,
-    required this.type,
-    required this.value,
-    required this.id,
-  });
+    KidContactModel({
+        required this.contacts,
+    });
 
-  factory KidContact.fromJson(Map<String, dynamic> json) => KidContact(
-        // pageId: json["page_id"],
+    factory KidContactModel.fromJson(Map<String, dynamic> json) => KidContactModel(
+        contacts: List<Contact>.from(json["contacts"].map((x) => Contact.fromJson(x))),
+    );
+}
+
+class Contact {
+    int ?id;
+    int ?pageId;
+    String? type;
+    String ?value;
+
+    Contact({
+        required this.id,
+        required this.pageId,
+        required this.type,
+        required this.value,
+    });
+
+    factory Contact.fromJson(Map<String, dynamic> json) => Contact(
+        id: json["id"],
+        pageId: json["page_id"],
         type: json["type"],
         value: json["value"],
-        id: json["id"],
-      );
+    );
 }
+
 
 class KidSchool {
     String? pageId;

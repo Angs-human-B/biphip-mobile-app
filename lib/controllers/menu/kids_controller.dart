@@ -496,8 +496,8 @@ class KidsController extends GetxController {
         // }
         // phoneDataList.add(kidsData.value!.phone);
         // emailDataList.add(kidsData.value!.email);
-        phoneData.value = kidsData.value?.phone;
-        emailData.value = kidsData.value?.email;
+        // phoneData.value = kidsData.value?.phone;
+        // emailData.value = kidsData.value?.email;
         isKidOverviewLoading.value = false;
         // ll(phoneDataList);
         // ll(emailDataList);
@@ -749,8 +749,8 @@ class KidsController extends GetxController {
     // schoolDataList.clear();
     // collegeDataList.clear();
     // contactDataList.clear();
-    emailData.value = null;
-    phoneData.value = null;
+    // emailData.value = null;
+    // phoneData.value = null;
     userLanguages.clear();
     selectedHobbies.clear();
     hobbiesIndex.clear();
@@ -912,172 +912,7 @@ class KidsController extends GetxController {
     }
   }
 
-  // //* store contact API Implementation
-  Rx<KidContact?> kidcontactData = Rx<KidContact?>(null);
-  Rx<String?> emailData = Rx<String?>(null);
-  Rx<String?> phoneData = Rx<String?>(null);
-  // RxList<KidContact> emailDataList = RxList<KidContact>([]);
-  // RxList<KidContact> phoneDataList = RxList<KidContact>([]);
-  final RxBool isKidContactLoading = RxBool(false);
-  Future<void> storeContact(type) async {
-    try {
-      isKidContactLoading.value = true;
-      String? token = await spController.getBearerToken();
-      Map<String, dynamic> body = {
-        'kid_id': selectedKidId.value.toString(),
-        'type': type,
-        'value': type == 'phone' ? kidPhoneNumberTextEditingController.text.trim() : kidEmailTextEditingController.text.trim(),
-      };
-      var response = await apiController.commonApiCall(
-        requestMethod: kPost,
-        url: kuKidStoreContact,
-        body: body,
-        token: token,
-      ) as CommonDM;
-
-      if (response.success == true) {
-        // emailDataList.clear();
-        // phoneDataList.clear();
-        // contactDataList.add(KidContact.fromJson(response.data));
-        // for (int i = 0; i < contactDataList.length; i++) {
-        //   if (contactDataList[i].type == 'email') {
-        //     emailDataList.add(contactDataList[i]);
-        //   } else {
-        //     phoneDataList.add(contactDataList[i]);
-        //   }
-        // }
-        // phoneData.value = contactDataList.add(KidContact.fromJson(response.data).value);
-        // kidBioUpdateData.value = KidBioUpdateModel.fromJson(response.data);
-        // kidsData.value = kidBioUpdateData.value!.kids;
-        // contactDataList.value = KidContact.fromJson(response.data);
-        kidcontactData.value = KidContact.fromJson(response.data);
-        if (type == 'phone') {
-          phoneData.value = kidcontactData.value?.value;
-        } else {
-          emailData.value = kidcontactData.value?.value;
-        }
-        isKidContactLoading.value = false;
-        Get.back();
-        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-      } else {
-        isKidContactLoading.value = false;
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        if (errorModel.errors.isEmpty) {
-          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-        } else {
-          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-        }
-      }
-    } catch (e) {
-      isKidContactLoading.value = false;
-      ll('storeContact error: $e');
-    }
-  }
-
-  final RxInt phoneID = RxInt(-1);
-  final RxInt emailID = RxInt(-1);
-  final RxInt schoolID = RxInt(-1);
-  final RxBool isCurrentlyStudyingHere = RxBool(false);
-  // //* update contact API Implementation
-  Future<void> updateContact(id, type) async {
-    try {
-      isKidContactLoading.value = true;
-      String? token = await spController.getBearerToken();
-      Map<String, dynamic> body = {
-        'id': id.toString(),
-        'type': type,
-        'value': type == 'phone' ? kidPhoneNumberTextEditingController.text.trim() : kidEmailTextEditingController.text.trim(),
-      };
-      var response = await apiController.commonApiCall(
-        requestMethod: kPost,
-        url: kuKidUpdateContact,
-        body: body,
-        token: token,
-      ) as CommonDM;
-
-      if (response.success == true) {
-        // for (int i = 0; i < contactDataList.length; i++) {
-        //   if (contactDataList[i].id == id) {
-        //     contactDataList[i] = Contact.fromJson(response.data);
-        //   }
-        // }
-        kidcontactData.value = KidContact.fromJson(response.data);
-        if (type == 'phone') {
-          phoneData.value = kidcontactData.value?.value;
-        } else {
-          emailData.value = kidcontactData.value?.value;
-        }
-        isKidContactLoading.value = false;
-        Get.back();
-        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-      } else {
-        isKidContactLoading.value = false;
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        if (errorModel.errors.isEmpty) {
-          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-        } else {
-          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-        }
-      }
-    } catch (e) {
-      isKidContactLoading.value = false;
-      ll('updateContact error: $e');
-    }
-  }
-
-  // //* delete contact API Implementation
-  Future<void> deleteContact(id, type) async {
-    try {
-      isKidContactLoading.value = true;
-      Get.back();
-      String? token = await spController.getBearerToken();
-      var response = await apiController.commonApiCall(
-        requestMethod: kDelete,
-        url: '$kuKidDeleteContact/${id.toString()}',
-        token: token,
-      ) as CommonDM;
-
-      if (response.success == true) {
-        // emailDataList.clear();
-        // phoneDataList.clear();
-        // for (int i = 0; i < contactDataList.length; i++) {
-        //   if (contactDataList[i].id == id) {
-        //     contactDataList.removeAt(i);
-        //   }
-        // }
-        // for (int i = 0; i < contactDataList.length; i++) {
-        //   if (contactDataList[i].type == 'email') {
-        //     emailDataList.add(contactDataList[i]);
-        //   } else {
-        //     phoneDataList.add(contactDataList[i]);
-        //   }
-        // }
-        kidcontactData.value = KidContact.fromJson(response.data);
-        if (type == 'phone') {
-          phoneData.value = null;
-        } else {
-          emailData.value = null;
-        }
-        // phoneData.value = null;
-        // emailData.value = null;
-        isKidContactLoading.value = false;
-        Get.back();
-        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-      } else {
-        isKidContactLoading.value = false;
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        if (errorModel.errors.isEmpty) {
-          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-        } else {
-          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-        }
-      }
-    } catch (e) {
-      isKidContactLoading.value = false;
-      ll('deleteContact error: $e');
-    }
-  }
-
+  
   //* Get school list api implementation
   final List<String> schoolList = [];
   //* Get school list api implementation
@@ -1138,7 +973,7 @@ class KidsController extends GetxController {
   }
 
   //* store school API Implementation
-  // RxList<KidSchool> schoolDataList = RxList<KidSchool>([]);
+  RxList<KidSchool> schoolDataList = RxList<KidSchool>([]);
   final RxBool isKidSchoolLoading = RxBool(false);
   Future<void> storeSchool() async {
     try {
@@ -1159,9 +994,9 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        await getKidAllSchoolList();
-        isKidSchoolLoading.value = false;
+        schoolDataList.add(KidSchool.fromJson(response.data));
         Get.back();
+        isKidSchoolLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isKidSchoolLoading.value = false;
@@ -1198,9 +1033,12 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-       await getKidAllSchoolList();
+        for (int i = 0; i < schoolDataList.length; i++) {
+          if (schoolDataList[i].id == id) {
+            schoolDataList[i] = KidSchool.fromJson(response.data);
+          }
+        }
         isKidSchoolLoading.value = false;
-        Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isKidSchoolLoading.value = false;
@@ -1229,9 +1067,12 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-       await getKidAllSchoolList();
+        for (int i = 0; i < schoolDataList.length; i++) {
+          if (schoolDataList[i].id == id) {
+            schoolDataList.removeAt(i);
+          }
+        }
         isKidSchoolLoading.value = false;
-        Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isKidSchoolLoading.value = false;
@@ -1247,6 +1088,348 @@ class KidsController extends GetxController {
       ll('deleteSchool error: $e');
     }
   }
+
+  final RxList phoneNumberList = RxList([]);
+  final RxList emailList = RxList([]);
+    final RxInt phoneID = RxInt(-1);
+  final RxInt emailID = RxInt(-1);
+  final RxInt schoolID = RxInt(-1);
+  final RxBool isCurrentlyStudyingHere = RxBool(false);
+  final Rx<KidContactModel?> allContactData = Rx<KidContactModel?>(null);
+  final RxList<Contact> contactList = RxList<Contact>([]);
+   final RxBool isKidContactLoading = RxBool(false);
+  Future<void> getKidContacts() async {
+    try {
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuGetAllKidContacts/${selectedKidId.value.toString()}",
+      ) as CommonDM;
+      if (response.success == true) {
+        contactList.clear();
+        // phoneNumberList.clear();
+        // emailList.clear();
+        allContactData.value = KidContactModel.fromJson(response.data);
+        contactList.addAll(allContactData.value!.contacts);
+        for(int i=0;i<contactList.length;i++){
+          if(contactList[i].type=="phone"){
+            phoneNumberList.add(contactList[i].value);
+          }
+          else{
+            emailList.add(contactList[i].value);
+          }
+        }
+        // if (allContactData.value.contacts.ty) {
+        //   phoneNumberList.add(allContactData.value!.value!);
+        //   ll(phoneNumberList);
+        // } else {
+        //   emailList.add(allContactData.value!.value!);
+        //   ll(emailList);
+        // }
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getKidContacts error: $e');
+    }
+  }
+
+
+  // // //* store contact API Implementation
+  // // Rx<KidContact?> kidcontactData = Rx<KidContact?>(null);
+  // Rx<String?> emailData = Rx<String?>(null);
+  // Rx<String?> phoneData = Rx<String?>(null);
+  // // RxList<KidContact> emailDataList = RxList<KidContact>([]);
+  // // RxList<KidContact> phoneDataList = RxList<KidContact>([]);
+  Future<void> storeContact(type) async {
+    try {
+      isKidContactLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'kid_id': selectedKidId.value.toString(),
+        'type': type,
+        'value': type == 'phone' ? kidPhoneNumberTextEditingController.text.trim() : kidEmailTextEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuKidStoreContact,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        // emailDataList.clear();
+        // phoneDataList.clear();
+        // contactDataList.add(KidContact.fromJson(response.data));
+        // for (int i = 0; i < contactDataList.length; i++) {
+        //   if (contactDataList[i].type == 'email') {
+        //     emailDataList.add(contactDataList[i]);
+        //   } else {
+        //     phoneDataList.add(contactDataList[i]);
+        //   }
+        // }
+        // phoneData.value = contactDataList.add(KidContact.fromJson(response.data).value);
+        // kidBioUpdateData.value = KidBioUpdateModel.fromJson(response.data);
+        // kidsData.value = kidBioUpdateData.value!.kids;
+        // contactDataList.value = KidContact.fromJson(response.data);
+        // kidcontactData.value = KidContact.fromJson(response.data);
+        // if (type == 'phone') {
+        //   phoneData.value = kidcontactData.value?.value;
+        // } else {
+        //   emailData.value = kidcontactData.value?.value;
+        // }
+         contactList.clear();
+        allContactData.value = KidContactModel.fromJson(response.data);
+        contactList.addAll(allContactData.value!.contacts);
+        for(int i=0;i<contactList.length;i++){
+          if(contactList[i].type=="phone"){
+            phoneNumberList.add(contactList[i].value);
+          }
+          else{
+            emailList.add(contactList[i].value);
+          }
+        }
+        isKidContactLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isKidContactLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidContactLoading.value = false;
+      ll('storeContact error: $e');
+    }
+  }
+
+  // final RxInt phoneID = RxInt(-1);
+  // final RxInt emailID = RxInt(-1);
+  // final RxInt schoolID = RxInt(-1);
+  // final RxBool isCurrentlyStudyingHere = RxBool(false);
+  // // //* update contact API Implementation
+  // Future<void> updateContact(id, type) async {
+  //   try {
+  //     isKidContactLoading.value = true;
+  //     String? token = await spController.getBearerToken();
+  //     Map<String, dynamic> body = {
+  //       'id': id.toString(),
+  //       'type': type,
+  //       'value': type == 'phone' ? kidPhoneNumberTextEditingController.text.trim() : kidEmailTextEditingController.text.trim(),
+  //     };
+  //     var response = await apiController.commonApiCall(
+  //       requestMethod: kPost,
+  //       url: kuKidUpdateContact,
+  //       body: body,
+  //       token: token,
+  //     ) as CommonDM;
+
+  //     if (response.success == true) {
+  //       // for (int i = 0; i < contactDataList.length; i++) {
+  //       //   if (contactDataList[i].id == id) {
+  //       //     contactDataList[i] = Contact.fromJson(response.data);
+  //       //   }
+  //       // }
+  //       // kidcontactData.value = KidContact.fromJson(response.data);
+  //       // if (type == 'phone') {
+  //       //   phoneData.value = kidcontactData.value?.value;
+  //       // } else {
+  //       //   emailData.value = kidcontactData.value?.value;
+  //       // }
+  //       isKidContactLoading.value = false;
+  //       Get.back();
+  //       globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+  //     } else {
+  //       isKidContactLoading.value = false;
+  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+  //       if (errorModel.errors.isEmpty) {
+  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+  //       } else {
+  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isKidContactLoading.value = false;
+  //     ll('updateContact error: $e');
+  //   }
+  // }
+
+  // // //* delete contact API Implementation
+  // Future<void> deleteContact(id, type) async {
+  //   try {
+  //     isKidContactLoading.value = true;
+  //     Get.back();
+  //     String? token = await spController.getBearerToken();
+  //     var response = await apiController.commonApiCall(
+  //       requestMethod: kDelete,
+  //       url: '$kuKidDeleteContact/${id.toString()}',
+  //       token: token,
+  //     ) as CommonDM;
+
+  //     if (response.success == true) {
+  //       // emailDataList.clear();
+  //       // phoneDataList.clear();
+  //       // for (int i = 0; i < contactDataList.length; i++) {
+  //       //   if (contactDataList[i].id == id) {
+  //       //     contactDataList.removeAt(i);
+  //       //   }
+  //       // }
+  //       // for (int i = 0; i < contactDataList.length; i++) {
+  //       //   if (contactDataList[i].type == 'email') {
+  //       //     emailDataList.add(contactDataList[i]);
+  //       //   } else {
+  //       //     phoneDataList.add(contactDataList[i]);
+  //       //   }
+  //       // }
+  //       // kidcontactData.value = KidContact.fromJson(response.data);
+  //       if (type == 'phone') {
+  //         phoneData.value = null;
+  //       } else {
+  //         emailData.value = null;
+  //       }
+  //       // phoneData.value = null;
+  //       // emailData.value = null;
+  //       isKidContactLoading.value = false;
+  //       Get.back();
+  //       globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+  //     } else {
+  //       isKidContactLoading.value = false;
+  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+  //       if (errorModel.errors.isEmpty) {
+  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+  //       } else {
+  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isKidContactLoading.value = false;
+  //     ll('deleteContact error: $e');
+  //   }
+  // }
+
+  
+
+//   //*store Store Location Api implement
+//   RxBool isStoreLocationLoading = RxBool(false);
+//   Future<void> storeStoreLocation() async {
+//     try {
+//       isStoreLocationLoading.value = true;
+//       String? token = await spController.getBearerToken();
+//       Map<String, dynamic> body = {
+//         'store_id': selectedStoreId.value.toString(),
+//         'location': storeLocationTextEditingController.text.trim(),
+//       };
+//       var response = await apiController.commonApiCall(
+//         requestMethod: kPost,
+//         url: kuStoreStoreLocation,
+//         body: body,
+//         token: token,
+//       ) as CommonDM;
+
+//       if (response.success == true) {
+//         // storeLocationList.clear();
+//         // allLocationData.value = AllLocationModel.fromJson(response.data);
+//         // storeLocationList.addAll(allLocationData.value!.locations);
+//         await getStoreLocations();
+//         isStoreLocationLoading.value = false;
+//         Get.back();
+//         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+//       } else {
+//         ErrorModel errorModel = ErrorModel.fromJson(response.data);
+//         isStoreLocationLoading.value = false;
+//         if (errorModel.errors.isEmpty) {
+//           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+//         } else {
+//           globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+//         }
+//       }
+//     } catch (e) {
+//       isStoreLocationLoading.value = false;
+//       ll('storeStoreLocation error: $e');
+//     }
+//   }
+
+//   final RxInt selectedStoreLocationId = RxInt(-1);
+//   //*store Store Location Api implement
+//   Future<void> updateStoreLocation() async {
+//     try {
+//       isStoreLocationLoading.value = true;
+//       String? token = await spController.getBearerToken();
+//       Map<String, dynamic> body = {
+//         'id': selectedStoreLocationId.value.toString(),
+//         'location': storeLocationTextEditingController.text.trim(),
+//       };
+//       var response = await apiController.commonApiCall(
+//         requestMethod: kPost,
+//         url: kuUpdateStoreLocation,
+//         body: body,
+//         token: token,
+//       ) as CommonDM;
+
+//       if (response.success == true) {
+//         // storeLocationList.clear();
+//         // allLocationData.value = AllLocationModel.fromJson(response.data);
+//         // storeLocationList.addAll(allLocationData.value!.locations);
+//         await getStoreLocations();
+//         isStoreLocationLoading.value = false;
+//         Get.back();
+//         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+//       } else {
+//         ErrorModel errorModel = ErrorModel.fromJson(response.data);
+//         isStoreLocationLoading.value = false;
+//         if (errorModel.errors.isEmpty) {
+//           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+//         } else {
+//           globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+//         }
+//       }
+//     } catch (e) {
+//       isStoreLocationLoading.value = false;
+//       ll('updateStoreLocation error: $e');
+//     }
+//   }
+
+// //*Delete Store Location Api Call
+//   Future<void> deleteStoreLocation() async {
+//     try {
+//       isStoreLocationLoading.value = true;
+//       String? token = await spController.getBearerToken();
+//       Map<String, dynamic> body = {};
+//       var response = await apiController.commonApiCall(
+//         requestMethod: kDelete,
+//         url: '$kuDeleteStoreLocation/${selectedStoreLocationId.value.toString()}',
+//         body: body,
+//         token: token,
+//       ) as CommonDM;
+//       if (response.success == true) {
+//         await getStoreLocations();
+//         isStoreLocationLoading.value = false;
+//         Get.back();
+//         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+//       } else {
+//         isStoreLocationLoading.value = false;
+//         ErrorModel errorModel = ErrorModel.fromJson(response.data);
+//         if (errorModel.errors.isEmpty) {
+//           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+//         } else {
+//           globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+//         }
+//       }
+//     } catch (e) {
+//       isStoreLocationLoading.value = false;
+//       ll('deleteStoreLocation error: $e');
+//     }
+//   }
 
   //*Kid all post data get Api implement
   final ScrollController postListScrollController = ScrollController();
@@ -1273,6 +1456,7 @@ class KidsController extends GetxController {
         postListScrolled.value = false;
         postListData.value = GetKidPostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
+        //!Future should be changed
         // for (int i = 0; i < postListData.value!.posts!.data.length; i++) {
         //   Get.find<PostReactionController>().reactions.add({
         //     'reaction': ''.obs,
@@ -1396,3 +1580,4 @@ class KidsController extends GetxController {
     }
   }
 }
+
