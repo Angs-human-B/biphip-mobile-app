@@ -882,8 +882,6 @@ class StoreController extends GetxController {
       ll('getStoreLocations error: $e');
     }
   }
-
-// storeLocationList
   //*store Store Location Api implement
   RxBool isStoreLocationLoading = RxBool(false);
   Future<void> storeStoreLocation() async {
@@ -923,4 +921,44 @@ class StoreController extends GetxController {
       ll('storeStoreLocation error: $e');
     }
   }
+   final RxInt selectedStoreLocationId = RxInt(-1);
+  //*store Store Location Api implement
+  Future<void> updateStoreLocation() async {
+    try {
+      isStoreLocationLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'id': selectedStoreLocationId.value.toString(),
+        'location': storeLocationTextEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateStoreLocation,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        // storeLocationList.clear();
+        // allLocationData.value = AllLocationModel.fromJson(response.data);
+        // storeLocationList.addAll(allLocationData.value!.locations);
+        await getStoreLocations();
+        isStoreLocationLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isStoreLocationLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreLocationLoading.value = false;
+      ll('updateStoreLocation error: $e');
+    }
+  }
+
 }

@@ -128,10 +128,10 @@ class StoreLocationContent extends StatelessWidget {
                       isAddButton: false,
                       suffixOnPressed: () async {
                         storeController.isEditOrAdd.value = true;
-                        storeController.storeLocationTextEditingController.text = storeController.storeLocationList[i];
+                        storeController.storeLocationTextEditingController.text = storeController.storeLocationList[i].location;
                         storeController.isStoreLocationSuffixIconVisible.value = false;
+                        storeController.selectedStoreLocationId.value = storeController.storeLocationList[i].id;
                         Get.toNamed(krEditStoreLocation);
-                        await storeController.getCityList();
                       },
                     ),
                   ),

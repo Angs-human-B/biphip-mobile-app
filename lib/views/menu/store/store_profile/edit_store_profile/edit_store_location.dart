@@ -139,7 +139,12 @@ class EditStoreLocation extends StatelessWidget {
                           buttonHeight: h42,
                           buttonWidth: width - 40,
                           onPressed: () async {
+                            if(storeController.isEditOrAdd.value){
+                            await storeController.updateStoreLocation();
+                            }
+                            else{
                             await storeController.storeStoreLocation();
+                            }
                           }),
                       kH20sizedBox,
                     ],
