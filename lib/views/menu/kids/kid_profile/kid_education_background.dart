@@ -28,20 +28,18 @@ class KidEducationBackground extends StatelessWidget {
                 },
               ),
               kH12sizedBox,
-              for (int i = 0; i < kidsController.kidSchoolList.length; i++) //! using api
+              for (int i = 0; i < kidsController.kidSchoolList.length; i++)
                 Padding(
                   padding: const EdgeInsets.only(bottom: k12Padding),
                   child: InfoContainer(
                     suffixText: checkNullOrStringNull(kidsController.kidSchoolList[i].school),
-                    // suffixText: kidsController.schoolList[i], //! Using api
                     prefixText: kidsController.kidSchoolList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
-                    // subtitlePrefixText: kidHelper.schoolSubtitleText(
-                    // kidsController.kidSchoolList[i].started ?? DateTime.now(), kidsController.kidSchoolList[i].ended ?? DateTime.now()),
+                    subtitlePrefixText:
+                        kidHelper.schoolSubtitleText(kidsController.kidSchoolList[i].started ?? DateTime.now(), kidsController.kidSchoolList[i].ended),
                     // subtitlePrefixText: 'Started at and End at',
                     isAddButton: false,
                     suffixOnPressed: () async {
                       kidHelper.editKidSchool(i);
-                      // editProfileHelper.editSchool(i);//! write this function
                     },
                   ),
                 ),
