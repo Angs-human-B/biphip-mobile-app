@@ -586,28 +586,57 @@ class Parent {
 //         return reverseMap;
 //     }
 // }
+class KidContactModel {
+    List<Contact> contacts;
 
-class KidContact {
-  // String ? pageId;
-  String? type;
-  String? value;
-  int? id;
+    KidContactModel({
+        required this.contacts,
+    });
 
-  KidContact({
-    // required this.pageId,
-    required this.type,
-    required this.value,
-    required this.id,
-  });
+    factory KidContactModel.fromJson(Map<String, dynamic> json) => KidContactModel(
+        contacts: List<Contact>.from(json["contacts"].map((x) => Contact.fromJson(x))),
+    );
 
-  factory KidContact.fromJson(Map<String, dynamic> json) => KidContact(
-        // pageId: json["page_id"],
-        type: json["type"],
-        value: json["value"],
-        id: json["id"],
-      );
+    Map<String, dynamic> toJson() => {
+        "contacts": List<dynamic>.from(contacts.map((x) => x.toJson())),
+    };
 }
 
+class Contact {
+    int id;
+    int pageId;
+    String type;
+    String value;
+    DateTime createdAt;
+    DateTime updatedAt;
+
+    Contact({
+        required this.id,
+        required this.pageId,
+        required this.type,
+        required this.value,
+        required this.createdAt,
+        required this.updatedAt,
+    });
+
+    factory Contact.fromJson(Map<String, dynamic> json) => Contact(
+        id: json["id"],
+        pageId: json["page_id"],
+        type: json["type"],
+        value: json["value"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "page_id": pageId,
+        "type": type,
+        "value": value,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+    };
+}
 class KidSchool {
     String? pageId;
     String? school;

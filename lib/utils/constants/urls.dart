@@ -200,6 +200,7 @@ const String kuStoreStoreLocation = '/mobile/user/store-store-location';
 const String kuGetStoreLocations = '/mobile/user/get-store-locations';
 const String kuUpdateStoreLocation = '/mobile/user/update-store-location';
 const String kuDeleteStoreLocation = '/mobile/user/delete-store-location';
+const String kuGetAllKidContacts = '/mobile/user/get-kid-contacts';
 
 /*
 |--------------------------------------------------------------------------
