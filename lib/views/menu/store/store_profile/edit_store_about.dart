@@ -99,45 +99,47 @@ class StoreLocationContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: cWhiteColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-        child: Column(
-          children: [
-            kH16sizedBox,
-            InfoContainer(
-              suffixText: ksStoreLocation.tr,
-              suffixTextStyle: semiBold18TextStyle(cBlackColor),
-              isAddButton: true,
-              suffixOnPressed: () {
-                storeController.isEditOrAdd.value = false;
-                storeController.storeLocationTextEditingController.text = '';
-                storeController.isStoreLocationSuffixIconVisible.value = false;
-                Get.toNamed(krEditStoreLocation);
-              },
-            ),
-            kH12sizedBox,
-            for (int i = 0; i < storeController.storeLocationList.length; i++) //! using api
-              Padding(
-                padding: const EdgeInsets.only(bottom: k12Padding),
-                child: InfoContainer(
-                  suffixText: '',
-                  prefixText: checkNullOrStringNull(storeController.storeLocationList[i]), //*Use here api
-                  isAddButton: false,
-                  suffixOnPressed: () {
-                    storeController.isEditOrAdd.value = true;
-                    storeController.storeLocationTextEditingController.text = storeController.storeLocationList[i];
+    return Obx(() => Container(
+          color: cWhiteColor,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: Column(
+              children: [
+                kH16sizedBox,
+                InfoContainer(
+                  suffixText: ksStoreLocation.tr,
+                  suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                  isAddButton: true,
+                  suffixOnPressed: () async {
+                    storeController.isEditOrAdd.value = false;
+                    storeController.storeLocationTextEditingController.text = '';
                     storeController.isStoreLocationSuffixIconVisible.value = false;
                     Get.toNamed(krEditStoreLocation);
+                    await storeController.getCityList();
                   },
                 ),
-              ),
-            kH16sizedBox,
-          ],
-        ),
-      ),
-    );
+                kH12sizedBox,
+                for (int i = 0; i < storeController.storeLocationList.length; i++)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: k12Padding),
+                    child: InfoContainer(
+                      suffixText: '',
+                      prefixText: checkNullOrStringNull(storeController.storeLocationList[i].location), //*Use here api
+                      isAddButton: false,
+                      suffixOnPressed: () async {
+                        storeController.isEditOrAdd.value = true;
+                        storeController.storeLocationTextEditingController.text = storeController.storeLocationList[i];
+                        storeController.isStoreLocationSuffixIconVisible.value = false;
+                        Get.toNamed(krEditStoreLocation);
+                        await storeController.getCityList();
+                      },
+                    ),
+                  ),
+                kH16sizedBox,
+              ],
+            ),
+          ),
+        ));
   }
 }
 

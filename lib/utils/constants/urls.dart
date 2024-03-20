@@ -196,6 +196,8 @@ const String kuUpdateStoreCategories = '/mobile/user/update-store-categories';
 const String kuUpdateStoreLegalFiles = '/mobile/user/update-store-legal-files';
 const String kuUpdateStoreProfilePicture = '/mobile/user/set-store-profile-picture';
 const String kuUpdateStoreCoverPhoto = '/mobile/user/set-store-cover-picture';
+const String kuStoreStoreLocation = '/mobile/user/store-store-location';
+const String kuGetStoreLocations = '/mobile/user/get-store-locations';
 
 /*
 |--------------------------------------------------------------------------

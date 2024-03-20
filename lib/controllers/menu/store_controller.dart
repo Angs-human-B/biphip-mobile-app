@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bip_hip/models/menu/store/all_business_category_model.dart';
+import 'package:bip_hip/models/menu/store/all_location_model.dart';
 import 'package:bip_hip/models/menu/store/profile_cover_picture_update_model.dart';
 import 'package:bip_hip/models/menu/store/store_common_update_model.dart';
 import 'package:bip_hip/models/menu/store/store_overview_model.dart';
@@ -332,8 +333,8 @@ class StoreController extends GetxController {
   final RxInt storeProfileTabIndex = RxInt(0);
   final RxInt selectedStoreId = RxInt(-1);
   final Rx<String?> storeBio = Rx<String?>(null);
-  final Rx<String?> storeCategory = Rx<String?>('Electronics');
-  final RxList storeLocationList = RxList(["Shewrapara, Mirpur, Dhaka, Bangladesh"]);
+  final Rx<String?> storeCategory = Rx<String?>('');
+  final RxList storeLocationList = RxList([]);
   final RxList storeNumberList = RxList([
     {"id": 1, "phone": '0175634536785'},
     {"id": 2, "phone": '0175634536786'}
@@ -393,14 +394,7 @@ class StoreController extends GetxController {
   final RxBool isSharedToNewFeed = RxBool(false);
   final RxList storePaymentMethodList = RxList(["Bkash", "Nagad", "Rocket", "Paypal", "Visacard", "Mastercard"]);
   final RxBool storePaymentMethodBottomSheetRightButtonState = RxBool(false);
-  final RxList<String> allLocationList = RxList<String>([
-    "Shewrapar, Dhaka",
-    "Kazipara, Dhaka",
-    "Mirpur10, Dhaka",
-    "Mirpur11, Dhaka",
-    "Mirpur12, Dhaka",
-    "Agargaon, Dhaka",
-  ]);
+  final RxList<String> allLocationList = RxList<String>([]);
   final RxBool isEditOrAdd = RxBool(false);
   final RxList storeLegalPapersList = RxList([]);
   // final legalPapersList = [
@@ -832,6 +826,101 @@ class StoreController extends GetxController {
         isImageUploadPageLoading.value = false;
       }
       ll('uploadProfileAndCover error: $e');
+    }
+  }
+
+  //* Get city list api implementation
+  Rx<CityListModel?> cityListData = Rx<CityListModel?>(null);
+  Future<void> getCityList() async {
+    try {
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllCities,
+      ) as CommonDM;
+      if (response.success == true) {
+        allLocationList.clear();
+        cityListData.value = CityListModel.fromJson(response.data);
+        allLocationList.addAll(cityListData.value!.cities);
+        // isLinkListLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getCityList error: $e');
+    }
+  }
+
+  final Rx<AllLocationModel?> allLocationData = Rx<AllLocationModel?>(null);
+  Future<void> getStoreLocations() async {
+    try {
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuGetStoreLocations/$selectedStoreId",
+      ) as CommonDM;
+      if (response.success == true) {
+        storeLocationList.clear();
+        allLocationData.value = AllLocationModel.fromJson(response.data);
+        storeLocationList.addAll(allLocationData.value!.locations);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getStoreLocations error: $e');
+    }
+  }
+
+// storeLocationList
+  //*store Store Location Api implement
+  RxBool isStoreLocationLoading = RxBool(false);
+  Future<void> storeStoreLocation() async {
+    try {
+      isStoreLocationLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'store_id': selectedStoreId.value.toString(),
+        'location': storeLocationTextEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuStoreStoreLocation,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        // storeLocationList.clear();
+        // allLocationData.value = AllLocationModel.fromJson(response.data);
+        // storeLocationList.addAll(allLocationData.value!.locations);
+        await getStoreLocations();
+        isStoreLocationLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isStoreLocationLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreLocationLoading.value = false;
+      ll('storeStoreLocation error: $e');
     }
   }
 }
