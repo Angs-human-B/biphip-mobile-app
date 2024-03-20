@@ -40,14 +40,11 @@ class EditStoreLocation extends StatelessWidget {
                                       context: context,
                                       content: DeletePopupContent(
                                           text: ksDeleteConfirmation.tr,
-                                          deleteOnPressed: () {
-                                            // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
+                                          deleteOnPressed: () async{
                                             Get.back();
-                                            Get.back();
+                                            await storeController.deleteStoreLocation();
                                           }),
                                       title: ksConfirmation.tr);
-                                  // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
-                                  // Get.back();
                                 },
                                 text: ksDelete,
                                 textStyle: semiBold14TextStyle(cRedColor)),
