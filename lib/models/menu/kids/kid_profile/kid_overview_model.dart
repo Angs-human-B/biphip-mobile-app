@@ -674,4 +674,5 @@ class KidSchool {
         isCurrent: json["is_current"],
         id: json["id"],
     );
+    
 }

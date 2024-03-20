@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/models/menu/kids/kid_profile/kid_overview_model.dart';
+import 'package:bip_hip/shimmers/menu/family/relation_content_shimmer.dart';
 import 'package:bip_hip/shimmers/profile/gender_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_picture_upload_content.dart';
+import 'package:bip_hip/views/menu/kids/widgets/kids_all_relation_content.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
@@ -324,14 +326,13 @@ class KidHelper {
       await kidsController.storeContact('email');
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT EMAIL') {
-      await kidsController.updateContact(kidsController.emailID.value, 'email'); 
+      await kidsController.updateContact(kidsController.emailID.value, 'email');
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT SCHOOL DELETE') {
       await kidsController.deleteSchool(kidsController.schoolID.value);
       kidsController.kidEducationInstituteTextEditingController.clear();
       kidsController.kidCommonEditTextEditingController.clear();
-    }
-    else if (functionFlag == 'EDIT PHONE DELETE') {
+    } else if (functionFlag == 'EDIT PHONE DELETE') {
       await kidsController.deleteContact(kidsController.phoneID.value, "phone"); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT EMAIL DELETE') {
@@ -448,12 +449,11 @@ class KidHelper {
   }
 
   void resetKidRelationEditPage() {
-    kidsController.temporaryKidRelationData.value = "";
-    kidsController.kidRelationData.value = "";
-    kidsController.temporaryKidRelationId.value = "";
-    kidsController.kidRelationId.value = "";
+    kidsController.temporaryRelation.value = "";
+    kidsController.kidRelation.value = "";
+    kidsController.kidRelationId.value = -1;
     kidsController.isKidRelationSaveButtonActive.value = false;
-    kidsController.kidRelationDataBottomSheetState.value = false;
+    kidsController.relationBottomSheetRightButtonState.value = false;
   }
 
   void viewKidProfilePic() {
@@ -477,70 +477,36 @@ class KidHelper {
   }
 
   void kidRelationButtonOnPressed(context) {
-    kidsController.temporaryKidRelationData.value = kidsController.kidRelation.value!;
-    kidsController.temporaryKidRelationId.value = kidsController.kidRelationId.value;
+    kidsController.temporaryRelation.value = kidsController.kidRelation.value!;
     if (kidsController.kidRelation.value != '') {
-      kidsController.temporaryKidRelationData.value = kidsController.kidRelation.value!;
-      kidsController.kidRelationDataBottomSheetState.value = true;
+      kidsController.temporaryRelation.value = kidsController.kidRelation.value!;
+      kidsController.relationBottomSheetRightButtonState.value = true;
     } else {
-      kidsController.temporaryKidRelationData.value = "";
-      kidsController.kidRelationDataBottomSheetState.value = false;
+      kidsController.temporaryRelation.value = "";
+      kidsController.relationBottomSheetRightButtonState.value = false;
     }
     globalController.commonBottomSheet(
-      isBottomSheetRightButtonActive: kidsController.kidRelationDataBottomSheetState,
+      isBottomSheetRightButtonActive: kidsController.relationBottomSheetRightButtonState,
       context: context,
+      bottomSheetHeight: height * 0.9,
       onPressCloseButton: () {
         Get.back();
       },
       onPressRightButton: () {
         Get.back();
-        kidsController.kidRelationData.value = kidsController.temporaryKidRelationData.value;
-        kidsController.kidRelationId.value = kidsController.temporaryKidRelationId.value;
+        kidsController.kidRelation.value = kidsController.temporaryRelation.value;
+        for (int index = 0; index < kidsController.relationList.length; index++) {
+          if (kidsController.temporaryRelation.value == kidsController.relationList[index].name) {
+            kidsController.kidRelationId.value = kidsController.relationList[index].id;
+          }
+        }
         checkCanKidSaveRelation();
       },
       rightText: ksDone.tr,
       rightTextStyle: semiBold14TextStyle(cPrimaryColor),
       title: ksSelectRelation.tr,
       isRightButtonShow: true,
-      content: ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: kidsController.kidRelationMap.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: k10Padding),
-            child: Obx(
-              () => CustomListTile(
-                itemColor:
-                    kidsController.temporaryKidRelationId.value == kidsController.kidRelationMap[index]['relation_id'] ? cPrimaryTint3Color : cWhiteColor,
-                onPressed: () {
-                  kidsController.temporaryKidRelationData.value = kidsController.kidRelationMap[index]['relation']!;
-                  kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
-                  if (kidsController.temporaryKidRelationData.value == '') {
-                    kidsController.kidRelationDataBottomSheetState.value = false;
-                  } else {
-                    kidsController.kidRelationDataBottomSheetState.value = true;
-                  }
-                },
-                title: kidsController.kidRelationMap[index]['relation'],
-                borderColor: kidsController.temporaryKidRelationId.value == kidsController.kidRelationMap[index]['relation_id'] ? cPrimaryColor : cLineColor,
-                trailing: CustomRadioButton(
-                  onChanged: () {
-                    kidsController.temporaryKidRelationData.value = kidsController.kidRelationMap[index]['relation']!;
-                    kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
-                    if (kidsController.temporaryKidRelationData.value == '') {
-                      kidsController.kidRelationDataBottomSheetState.value = false;
-                    } else {
-                      kidsController.kidRelationDataBottomSheetState.value = true;
-                    }
-                  },
-                  isSelected: kidsController.temporaryKidRelationId.value == kidsController.kidRelationMap[index]['relation_id'],
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+      content: Obx(() => kidsController.isRelationListLoading.value ? const RelationContentShimmer() : KidsAllRelationContent()),
     );
   }
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:bip_hip/models/menu/family/family_relation_model.dart';
 import 'package:bip_hip/models/menu/kids/all_hobbies_model.dart';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
 import 'package:bip_hip/models/menu/kids/kid_profile/get_kid_post_model.dart';
@@ -418,12 +419,11 @@ class KidsController extends GetxController {
   final RxBool isKidGenderSelected = RxBool(false);
   final Rx<DateTime?> kidDob = Rx<DateTime?>(DateTime.now());
   final Rx<String?> kidRelation = Rx<String?>(null);
-  final RxString temporaryKidRelationData = RxString('');
-  final RxString kidRelationData = RxString('');
-  final RxString temporaryKidRelationId = RxString('');
-  final RxString kidRelationId = RxString('');
+  // final RxString temporaryKidRelationData = RxString('');
+  // final RxString kidRelationData = RxString('');
+  final RxInt kidRelationId = RxInt(-1);
   final RxBool isKidRelationSaveButtonActive = RxBool(false);
-  final RxBool kidRelationDataBottomSheetState = RxBool(false);
+  // final RxBool kidRelationDataBottomSheetState = RxBool(false);
   final RxString temporaryKidGender = RxString('');
   final RxBool kidGenderBottomSheetState = RxBool(false);
   final RxInt kidInterestCatagoriesIndex = RxInt(-1);
@@ -486,6 +486,7 @@ class KidsController extends GetxController {
         kidGender.value = kidsData.value?.gender;
         userLanguages.addAll(kidsData.value!.languages);
         selectedHobbies.addAll(kidsData.value!.hobbies);
+        kidRelation.value = kidsData.value?.relation;
         //  contactDataList.addAll(kidsData.value!.email);
         // for (int i = 0; i < contactDataList.length; i++) {
         //   if (contactDataList[i].type == 'email') {
@@ -654,7 +655,7 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        kidRelation.value = kidsData.value?.relation;
+        await getKidOverview();
         ll(kidRelation.value);
         isKidRelationLoading.value = false;
         Get.back();
@@ -1167,7 +1168,7 @@ class KidsController extends GetxController {
         // phoneDataList.clear();
         // contactDataList.add(KidContact.fromJson(response.data));
         // for (int i = 0; i < contactDataList.length; i++) {
-        //   if (contactDataList[i].type == 'email') { 
+        //   if (contactDataList[i].type == 'email') {
         //     emailDataList.add(contactDataList[i]);
         //   } else {
         //     phoneDataList.add(contactDataList[i]);
@@ -1406,6 +1407,41 @@ class KidsController extends GetxController {
 //       ll('deleteStoreLocation error: $e');
 //     }
 //   }
+
+  //*Get Relation Status
+  final RxBool relationBottomSheetRightButtonState = RxBool(false);
+  final RxString temporaryRelation = RxString("");
+  final Rx<FamilyRelationModel?> relationListData = Rx<FamilyRelationModel?>(null);
+  final RxList<Relation> relationList = RxList<Relation>([]);
+  RxBool isRelationListLoading = RxBool(false);
+  Future<void> getKidRelationList() async {
+    try {
+      isRelationListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllFamilyRelations,
+      ) as CommonDM;
+      if (response.success == true) {
+        relationList.clear();
+        relationListData.value = FamilyRelationModel.fromJson(response.data);
+        relationList.addAll(relationListData.value!.relations);
+        isRelationListLoading.value = false;
+      } else {
+        isRelationListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isRelationListLoading.value = true;
+      ll('getFamilyRelationList error: $e');
+    }
+  }
 
   //*Kid all post data get Api implement
   final ScrollController postListScrollController = ScrollController();
