@@ -1,5 +1,7 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/common_feature_post_widget.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_post_widget.dart';
@@ -64,9 +66,15 @@ class KidProfilePostSection extends StatelessWidget {
           child: CustomPostButton(
             name: kidsController.kidOverviewData.value?.kids?.name ?? ksNA,
             profilePic: kidsController.kidOverviewData.value?.kids?.profilePicture ?? '',
-            onPressed: () {
+            onPressed: () async {
               // Get.find<CreatePostController>().isPostedFromProfile.value = true;
               // CreatePostHelper().resetCreatePostData();
+              CreatePostHelper().resetCreatePostData();
+              Get.find<CreatePostController>().category.value = "Kids";
+              kidsController.isRouteFromKid.value = true;
+              Get.find<CreatePostController>().kidID.value = kidsController.selectedKidId.value;
+              Get.find<CreatePostController>().postSecondaryCircleAvatar.value = kidsController.kidOverviewData.value?.kids?.profilePicture ?? "";
+              await Get.find<CreatePostController>().getCreatePost();
               Get.toNamed(krCreatePost);
             },
           ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/models/menu/family/family_relation_model.dart';
 import 'package:bip_hip/models/menu/kids/all_hobbies_model.dart';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
@@ -454,6 +455,9 @@ class KidsController extends GetxController {
   // final RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
   final RxInt kidProfileTabIndex = RxInt(0);
   final RxBool seeMore = RxBool(false);
+  final RxBool isPostButtonActive = RxBool(false);
+  final RxBool isRouteFromKid = RxBool(false);
+
   //* kid data reset
   void resetKidProfileData() {
     kidInterestCatagoriesIndex.value = -1;
@@ -1553,6 +1557,62 @@ class KidsController extends GetxController {
     } catch (e) {
       isHomePagePaginationLoading.value = true;
       ll('getMorePostList error: $e');
+    }
+  }
+
+  List imageDescriptionTextEditingController = [];
+  List imageLocationsList = [];
+  List imageTimesList = [];
+  List imageTagIdList = [];
+
+  Future<void> kidCreatePost() async {
+    List tags = [];
+    for (int i = 0; i < Get.find<CreatePostController>().taggedFriends.length; i++) {
+      tags.add(Get.find<CreatePostController>().taggedFriends[i].id);
+    }
+    try {
+      Get.find<CreatePostController>().isCreatePostLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'content': Get.find<CreatePostController>().createPostController.text.trim(),
+        'post_category_id': "7",
+        'is_public': '1',
+        'post_tag_friend_id': tags.join(','),
+        for (int i = 0; i < imageDescriptionTextEditingController.length; i++)
+          'image_description[$i]': imageDescriptionTextEditingController[i].text.toString(),
+        for (int i = 0; i < imageLocationsList.length; i++) 'image_locations[$i]': imageLocationsList[i].toString(),
+        for (int i = 0; i < imageTimesList.length; i++) 'image_times[$i]': imageTimesList[i].toString(),
+        for (int i = 0; i < imageTagIdList.length; i++) 'image_tag_friend_ids[$i]': imageTagIdList[i].toString(),
+        'kid_id': Get.find<CreatePostController>().kidID.value.toString(),
+        // if ( Get.find<CreatePostController>().category.value == 'Kids')
+      };
+      ll(body);
+      var response = await apiController.multiMediaUpload(
+        url: kuKidCreatePost,
+        body: body,
+        token: token,
+        key: 'images[]',
+        values: Get.find<CreatePostController>().allMediaList,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        await getPostList();
+        Get.find<CreatePostController>().isCreatePostLoading.value = false;
+        Get.offAllNamed(krKidProfile);
+        Get.find<CreatePostController>().resetCreatePost();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        Get.find<CreatePostController>().isCreatePostLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      Get.find<CreatePostController>().isCreatePostLoading.value = false;
+      ll('createPost error: $e');
     }
   }
 
