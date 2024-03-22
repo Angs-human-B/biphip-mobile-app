@@ -294,16 +294,16 @@ class KidEditPage extends StatelessWidget {
                                       ),
                                     ),
                                   if (kidsController.isCommonEditCheckBoxShown.value)
-                                    SizedBox(
-                                      width: width / 2,
-                                      child: CustomCheckBox(
-                                          value: kidsController.isCommonEditCheckBoxSelected.value,
-                                          label: kidsController.commonEditCheckBoxText.value,
-                                          onChanged: (v) {
-                                            // kidHelper.kidCommonCheckBoxOnChanged();//!create this function
-                                          },
-                                          textStyle: regular14TextStyle(cBlackColor)),
-                                    )
+                                    Obx(() => SizedBox(
+                                          width: width / 2,
+                                          child: CustomCheckBox(
+                                              value: kidsController.isCommonEditCheckBoxSelected.value,
+                                              label: kidsController.commonEditCheckBoxText.value,
+                                              onChanged: (v) {
+                                                kidHelper.commonCheckBoxOnChanged();
+                                              },
+                                              textStyle: regular14TextStyle(cBlackColor)),
+                                        )),
                                 ],
                               ),
                           ],

@@ -848,4 +848,17 @@ class KidHelper {
       return null;
     }
   }
+
+  void commonCheckBoxOnChanged() {
+    kidsController.isCommonEditCheckBoxSelected.value = !kidsController.isCommonEditCheckBoxSelected.value;
+    if (!kidsController.kidFunctionFlag.contains('PRESENT')) {
+      if (kidsController.isCommonEditCheckBoxSelected.value) {
+        kidsController.isSingleDatePicker.value = true;
+        kidsController.commonEndDate.value = '';
+      } else {
+        kidsController.isSingleDatePicker.value = false;
+      }
+    }
+    checkSaveButtonActive();
+  }
 }
