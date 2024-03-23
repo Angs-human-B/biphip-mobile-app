@@ -231,44 +231,46 @@ class StoreWebsiteSocialLinkContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: cWhiteColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-        child: Column(
-          children: [
-            kH16sizedBox,
-            InfoContainer(
-              suffixText: ksWebsiteAndSocialLinks.tr,
-              suffixTextStyle: semiBold18TextStyle(cBlackColor),
-              isAddButton: true,
-              suffixOnPressed: () {
-                storeController.isEditOrAdd.value = false;
-                storeController.storeSocialLinkTextEditingController.text = "";
-                storeController.selectedStoreSocialLinkSource.value = "";
-                Get.toNamed(krEditStoreSocialLink);
-              },
-            ),
-            kH12sizedBox,
-            for (int i = 0; i < storeController.websiteAndSocialLinkList.length; i++) //! using api
-              Padding(
-                padding: const EdgeInsets.only(bottom: k12Padding),
-                child: InfoContainer(
-                  suffixText: '',
-                  prefixText: checkNullOrStringNull(storeController.websiteAndSocialLinkList[i]), //*Use here api
-                  isAddButton: false,
+    return Obx(() => Container(
+          color: cWhiteColor,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: Column(
+              children: [
+                kH16sizedBox,
+                InfoContainer(
+                  suffixText: ksWebsiteAndSocialLinks.tr,
+                  suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                  isAddButton: true,
                   suffixOnPressed: () {
-                    storeController.isEditOrAdd.value = true;
-                    storeController.storeSocialLinkTextEditingController.text = storeController.websiteAndSocialLinkList[i];
-                    storeController.selectedStoreSocialLinkSource.value = "Facebook";
+                    storeController.isEditOrAdd.value = false;
+                    storeController.storeSocialLinkTextEditingController.text = "";
+                    storeController.selectedStoreSocialLinkSource.value = "";
+                    storeController.storeLinkId.value = -1;
                     Get.toNamed(krEditStoreSocialLink);
                   },
                 ),
-              ),
-          ],
-        ),
-      ),
-    );
+                kH12sizedBox,
+                for (int i = 0; i < storeController.allLinkList.length; i++)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: k12Padding),
+                    child: InfoContainer(
+                      suffixText: '',
+                      prefixText: checkNullOrStringNull(storeController.allLinkList[i].link),
+                      isAddButton: false,
+                      suffixOnPressed: () {
+                        storeController.isEditOrAdd.value = true;
+                        storeController.storeSocialLinkTextEditingController.text = storeController.allLinkList[i].link ?? "";
+                        storeController.selectedStoreSocialLinkSource.value = storeController.allLinkList[i].type!;
+                         storeController.storeLinkId.value = storeController.allLinkList[i].id!;
+                        Get.toNamed(krEditStoreSocialLink);
+                      },
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ));
   }
 }
 

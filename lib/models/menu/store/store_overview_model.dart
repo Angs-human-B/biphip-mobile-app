@@ -177,7 +177,7 @@ class Stores {
   String? coverPhoto;
   int? profileImageId;
   int? coverImageId;
-    DateTime? createdAt;
+  DateTime? createdAt;
   DateTime? updatedAt;
   String? qrCode;
   List<String> legalPapers;
@@ -221,7 +221,7 @@ class Stores {
     required this.coverPhoto,
     required this.profileImageId,
     required this.coverImageId,
-       required this.createdAt,
+    required this.createdAt,
     required this.updatedAt,
     required this.qrCode,
     required this.legalPapers,
@@ -266,7 +266,7 @@ class Stores {
         coverPhoto: json["cover_photo"],
         profileImageId: json["profile_image_id"],
         coverImageId: json["cover_image_id"],
-           createdAt: DateTime.parse(json["created_at"]),
+        createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         qrCode: json["qr_code"],
         legalPapers: List<String>.from(json["legal_papers"].map((x) => x)),
@@ -370,3 +370,35 @@ class Image {
       );
 }
 
+class StoreAllLinksModel {
+  List<Link> links;
+
+  StoreAllLinksModel({
+    required this.links,
+  });
+
+  factory StoreAllLinksModel.fromJson(Map<String, dynamic> json) => StoreAllLinksModel(
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+      );
+}
+
+class Link {
+  int? id;
+  int? pageId;
+  String? type;
+  String? link;
+
+  Link({
+    required this.id,
+    required this.pageId,
+    required this.type,
+    required this.link,
+  });
+
+  factory Link.fromJson(Map<String, dynamic> json) => Link(
+        id: json["id"],
+        pageId: json["page_id"],
+        type: json["type"],
+        link: json["link"],
+      );
+}

@@ -163,6 +163,7 @@ class EditStoreProfile extends StatelessWidget {
                                 onEditPressed: () async {
                                   await storeController.getStoreLocations();
                                   await storeController.getStoreContacts();
+                                  await storeController.getStoreLinks();
                                   Get.toNamed(krStoreEditAbout);
                                 },
                               ),
@@ -178,6 +179,7 @@ class EditStoreProfile extends StatelessWidget {
                                 onPressed: () async {
                                   await storeController.getStoreLocations();
                                   await storeController.getStoreContacts();
+                                   await storeController.getStoreLinks();
                                   Get.toNamed(krStoreEditAbout);
                                 },
                               ),

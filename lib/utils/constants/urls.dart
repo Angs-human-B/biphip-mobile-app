@@ -205,6 +205,10 @@ const String kuGetAllStoreContacts = '/mobile/user/get-store-contacts';
 const String kuStoreStoreContacts = '/mobile/user/store-store-contact';
 const String kuUpdateStoreContacts = '/mobile/user/update-store-contact';
 const String kuDeleteStoreContact = '/mobile/user/delete-store-contact';
+const String kuGetAllLinks = '/mobile/user/get-store-links';
+const String kuStoreStoreLink = '/mobile/user/store-store-link';
+const String kuUpdateStoreLink = '/mobile/user/update-store-link';
+const String kuDeleteStoreLink = '/mobile/user/delete-store-link';
 
 /*
 |--------------------------------------------------------------------------

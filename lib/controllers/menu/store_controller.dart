@@ -336,19 +336,11 @@ class StoreController extends GetxController {
   final Rx<String?> storeBio = Rx<String?>(null);
   final Rx<String?> storeCategory = Rx<String?>('');
   final RxList storeLocationList = RxList([]);
-  // final RxList storeNumberList = RxList([
-  //   {"id": 1, "phone": '0175634536785'},
-  //   {"id": 2, "phone": '0175634536786'}
-  // ]);
-  // final RxList storeEmailList = RxList([
-  //   {"id": 1, "email": 'Genieelec@gmail.com'},
-  //   {"id": 2, "email": 'Genieelec1@gmail.com'}
-  // ]);
   final RxList legalPaperAllInfoList = RxList([
     {"fileName": "Image.png", "fileSize": "250KB"},
     {"fileName": "Image1.png", "fileSize": "251KB"}
   ]);
-  final RxList websiteAndSocialLinkList = RxList(["Facebook.1", "Facebook.2", "Facebook.3", "Facebook.4", "Facebook.5"]);
+  // final RxList websiteAndSocialLinkList = RxList(["Facebook.1", "Facebook.2", "Facebook.3", "Facebook.4", "Facebook.5"]);
   final Rx<String?> storePrivacyLink = Rx<String?>('');
   final RxList paymentMethodList = RxList([
     {"paymentMethod": "Nagad", "payment": "01789368774638"},
@@ -370,7 +362,7 @@ class StoreController extends GetxController {
   final RxList<String> storeCategoryList = RxList([]);
   final RxString selectedStoreSocialLinkSource = RxString("");
   final RxString temporarySelectedStoreSocialLinkSource = RxString("");
-  final RxList storeSocialLinkSourceList = RxList(["Facebook", "Twitter", "Youtube", "Instagram", "Website"]);
+  // final RxList storeSocialLinkSourceList = RxList(["Facebook", "Twitter", "Youtube", "Instagram", "Website"]);
   final RxBool storeSocialLinkBottomSheetRightButtonState = RxBool(false);
   final TextEditingController storePaymentTextEditingController = TextEditingController();
   final TextEditingController storeBioTextEditingController = TextEditingController();
@@ -398,14 +390,6 @@ class StoreController extends GetxController {
   final RxList<String> allLocationList = RxList<String>([]);
   final RxBool isEditOrAdd = RxBool(false);
   final RxList storeLegalPapersList = RxList([]);
-  // final legalPapersList = [
-  //   //!Remove it
-  //   "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
-  //   "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
-  //   "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
-  //   "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
-  //   "https://images.examples.com/wp-content/uploads/2018/06/Affidavit-Of-Identity-Example.jpg",
-  // ];
 
   final storeReviewList = [
     {
@@ -994,9 +978,10 @@ class StoreController extends GetxController {
       isStoreLocationLoading.value = false;
       ll('deleteStoreLocation error: $e');
     }
-  }  //*Store All Contacts
+  } //*Store All Contacts
+
   final RxInt storeContactId = RxInt(-1);
-   final Rx<StoreContactModel?> allContactData = Rx<StoreContactModel?>(null);
+  final Rx<StoreContactModel?> allContactData = Rx<StoreContactModel?>(null);
   final RxList<Contact> contactList = RxList<Contact>([]);
   final RxBool isStoreContactLoading = RxBool(false);
   Future<void> getStoreContacts() async {
@@ -1024,7 +1009,6 @@ class StoreController extends GetxController {
     }
   }
 
-  
   // final Rx<StoreContactModel?> contactUpdateData = Rx<StoreContactModel?>(null);
   Future<void> storStoreContact(type) async {
     try {
@@ -1133,6 +1117,174 @@ class StoreController extends GetxController {
     } catch (e) {
       isStoreContactLoading.value = false;
       ll('deleteContact error: $e');
+    }
+  }
+
+  //* Get link api implementation
+  Rx<LinkListModel?> linkListData = Rx<LinkListModel?>(null);
+  final RxList linkSourceList = RxList([]);
+  RxBool isLinkListLoading = RxBool(false);
+  Future<void> getLinkList() async {
+    try {
+      isLinkListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllLinkTypes,
+      ) as CommonDM;
+      if (response.success == true) {
+        linkSourceList.clear();
+        linkListData.value = LinkListModel.fromJson(response.data);
+        linkSourceList.addAll(linkListData.value!.linkTypes);
+        isLinkListLoading.value = false;
+      } else {
+        isLinkListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isLinkListLoading.value = true;
+      ll('getLinkList error: $e');
+    }
+  }
+
+  //*Store all links
+  final RxInt storeLinkId = RxInt(-1);
+  final Rx<StoreAllLinksModel?> allLinksData = Rx<StoreAllLinksModel?>(null);
+  final RxList<Link> allLinkList = RxList<Link>([]);
+  final RxBool isStoreLinkLoading = RxBool(false);
+  Future<void> getStoreLinks() async {
+    try {
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuGetAllLinks/${selectedStoreId.value.toString()}",
+      ) as CommonDM;
+      if (response.success == true) {
+        allLinkList.clear();
+        allLinksData.value = StoreAllLinksModel.fromJson(response.data);
+        allLinkList.addAll(allLinksData.value!.links);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getStoreLinks error: $e');
+    }
+  }
+
+  Future<void> storStoreLink() async {
+    try {
+      isStoreLinkLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'store_id': selectedStoreId.value.toString(),
+        'type': selectedStoreSocialLinkSource.value,
+        'link': storeSocialLinkTextEditingController.text.toString().trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuStoreStoreLink,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        await getStoreLinks();
+        isStoreLinkLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isStoreLinkLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreLinkLoading.value = false;
+      ll('storStoreLink error: $e');
+    }
+  }
+
+  // //* update Store link API Implementation
+  Future<void> updateStoreLink() async {
+    try {
+      isStoreLinkLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'id': storeLinkId.value.toString(),
+        'type': selectedStoreSocialLinkSource.value.toString(),
+        'link': storeSocialLinkTextEditingController.text.toString().trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateStoreLink,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        await getStoreLinks();
+        isStoreLinkLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isStoreLinkLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreLinkLoading.value = false;
+      ll('updateContact error: $e');
+    }
+  }
+
+  // //* delete contact API Implementation
+  Future<void> deleteStoreLink() async {
+    try {
+      isStoreLinkLoading.value = true;
+      Get.back();
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteStoreLink/${storeLinkId.value.toString()}',
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        await getStoreLinks();
+        isStoreLinkLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isStoreLinkLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreLinkLoading.value = false;
+      ll('deleteStoreLink error: $e');
     }
   }
 }
