@@ -26,12 +26,12 @@ class StoreListView extends StatelessWidget {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return InkWell(
-                              onTap: ()async{
+                              onTap: () async {
                                 storeController.selectedStoreId.value = storeController.storeList[index].id!;
                                 ll(storeController.selectedStoreId.value);
+                                Get.toNamed(krStoreProfile);
                                 await storeController.getStoreOverview();
                                 //  await Get.find<HomeController>().getTimelinePostList();//!Remove this api call
-                                Get.toNamed(krStoreProfile);
                               },
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(k8BorderRadius),
