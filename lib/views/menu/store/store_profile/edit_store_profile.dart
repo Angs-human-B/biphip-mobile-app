@@ -160,13 +160,13 @@ class EditStoreProfile extends StatelessWidget {
                               RowTextEdit(
                                 prefix: ksIntro.tr,
                                 suffix: ksEdit.tr,
-                                onEditPressed: () async{
+                                onEditPressed: () async {
                                   await storeController.getStoreLocations();
+                                  await storeController.getStoreContacts();
                                   Get.toNamed(krStoreEditAbout);
                                 },
                               ),
                               kH16sizedBox,
-                              // IntroContents(),
                               StoreIntroContent(),
                               kH16sizedBox,
                               CustomElevatedButton(
@@ -177,6 +177,7 @@ class EditStoreProfile extends StatelessWidget {
                                 textStyle: semiBold14TextStyle(cWhiteColor),
                                 onPressed: () async {
                                   await storeController.getStoreLocations();
+                                  await storeController.getStoreContacts();
                                   Get.toNamed(krStoreEditAbout);
                                 },
                               ),

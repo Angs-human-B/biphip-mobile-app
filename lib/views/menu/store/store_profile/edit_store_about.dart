@@ -149,53 +149,79 @@ class StoreContactInfoContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: cWhiteColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-        child: Column(
-          children: [
-            kH16sizedBox,
-            InfoContainer(
-              suffixText: ksContactInfo.tr,
-              suffixTextStyle: semiBold18TextStyle(cBlackColor),
-              isAddButton: true,
-              suffixOnPressed: () {
-                // kidHelper.addKidEducationBackground();
-              },
-            ),
-            kH12sizedBox,
-            for (int i = 0; i < storeController.storeNumberList.length; i++) //! using api
-              Padding(
-                padding: const EdgeInsets.only(bottom: k12Padding),
-                child: InfoContainer(
-                  suffixText: '',
-                  prefixText: checkNullOrStringNull(storeController.storeNumberList[i]['phone']), //*Use here api
-                  isAddButton: false,
-                  suffixOnPressed: () async {
-                    storeController.storePhoneNumberTextEditingController.text = storeController.storeNumberList[i]['phone'];
+    return Obx(() => Container(
+          color: cWhiteColor,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: Column(
+              children: [
+                kH16sizedBox,
+                InfoContainer(
+                  suffixText: ksContactInfo.tr,
+                  suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                  isAddButton: null,
+                  suffixOnPressed: () {},
+                ),
+                InfoContainer(
+                  suffixText: ksPhone.tr,
+                  suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                  isAddButton: true,
+                  suffixOnPressed: () {
+                    storeController.isEditOrAdd.value = false;
+                    storeController.storePhoneNumberTextEditingController.text = "";
+                    storeController.storeContactId.value = -1;
                     Get.toNamed(krEditStorePhoneNumber);
                   },
                 ),
-              ),
-            kH12sizedBox,
-            for (int i = 0; i < storeController.storeEmailList.length; i++) //! using api
-              Padding(
-                padding: const EdgeInsets.only(bottom: k12Padding),
-                child: InfoContainer(
-                  suffixText: '',
-                  prefixText: checkNullOrStringNull(storeController.storeEmailList[i]['email']), //*Use here api
-                  isAddButton: false,
-                  suffixOnPressed: () async {
-                    storeController.storeEmailTextEditingController.text = storeController.storeEmailList[i]['email'];
+                kH12sizedBox,
+                for (int i = 0; i < storeController.contactList.length; i++)
+                  if (storeController.contactList[i].type == "phone")
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: k12Padding),
+                      child: InfoContainer(
+                        suffixText: '',
+                        prefixText: checkNullOrStringNull(storeController.contactList[i].value),
+                        isAddButton: false,
+                        suffixOnPressed: () async {
+                          storeController.isEditOrAdd.value = true;
+                          storeController.storeContactId.value = storeController.contactList[i].id;
+                          storeController.storePhoneNumberTextEditingController.text = storeController.contactList[i].value;
+                          Get.toNamed(krEditStorePhoneNumber);
+                        },
+                      ),
+                    ),
+                InfoContainer(
+                  suffixText: ksEmail.tr,
+                  suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                  isAddButton: true,
+                  suffixOnPressed: () {
+                    storeController.isEditOrAdd.value = false;
+                    storeController.storeContactId.value = -1;
+                    storeController.storeEmailTextEditingController.text = "";
                     Get.toNamed(krEditStoreEmail);
                   },
                 ),
-              ),
-          ],
-        ),
-      ),
-    );
+                kH12sizedBox,
+                for (int i = 0; i < storeController.contactList.length; i++)
+                  if (storeController.contactList[i].type == "email")
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: k12Padding),
+                      child: InfoContainer(
+                        suffixText: '',
+                        prefixText: checkNullOrStringNull(storeController.contactList[i].value),
+                        isAddButton: false,
+                        suffixOnPressed: () async {
+                          storeController.isEditOrAdd.value = true;
+                          storeController.storeContactId.value = storeController.contactList[i].id;
+                          storeController.storeEmailTextEditingController.text = storeController.contactList[i].value;
+                          Get.toNamed(krEditStoreEmail);
+                        },
+                      ),
+                    ),
+              ],
+            ),
+          ),
+        ));
   }
 }
 

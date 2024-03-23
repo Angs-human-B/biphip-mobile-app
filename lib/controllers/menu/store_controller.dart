@@ -6,6 +6,7 @@ import 'package:bip_hip/models/menu/store/all_business_category_model.dart';
 import 'package:bip_hip/models/menu/store/all_location_model.dart';
 import 'package:bip_hip/models/menu/store/profile_cover_picture_update_model.dart';
 import 'package:bip_hip/models/menu/store/store_common_update_model.dart';
+import 'package:bip_hip/models/menu/store/store_contact_model.dart';
 import 'package:bip_hip/models/menu/store/store_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
@@ -335,14 +336,14 @@ class StoreController extends GetxController {
   final Rx<String?> storeBio = Rx<String?>(null);
   final Rx<String?> storeCategory = Rx<String?>('');
   final RxList storeLocationList = RxList([]);
-  final RxList storeNumberList = RxList([
-    {"id": 1, "phone": '0175634536785'},
-    {"id": 2, "phone": '0175634536786'}
-  ]);
-  final RxList storeEmailList = RxList([
-    {"id": 1, "email": 'Genieelec@gmail.com'},
-    {"id": 2, "email": 'Genieelec1@gmail.com'}
-  ]);
+  // final RxList storeNumberList = RxList([
+  //   {"id": 1, "phone": '0175634536785'},
+  //   {"id": 2, "phone": '0175634536786'}
+  // ]);
+  // final RxList storeEmailList = RxList([
+  //   {"id": 1, "email": 'Genieelec@gmail.com'},
+  //   {"id": 2, "email": 'Genieelec1@gmail.com'}
+  // ]);
   final RxList legalPaperAllInfoList = RxList([
     {"fileName": "Image.png", "fileSize": "250KB"},
     {"fileName": "Image1.png", "fileSize": "251KB"}
@@ -992,6 +993,146 @@ class StoreController extends GetxController {
     } catch (e) {
       isStoreLocationLoading.value = false;
       ll('deleteStoreLocation error: $e');
+    }
+  }  //*Store All Contacts
+  final RxInt storeContactId = RxInt(-1);
+   final Rx<StoreContactModel?> allContactData = Rx<StoreContactModel?>(null);
+  final RxList<Contact> contactList = RxList<Contact>([]);
+  final RxBool isStoreContactLoading = RxBool(false);
+  Future<void> getStoreContacts() async {
+    try {
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuGetAllStoreContacts/${selectedStoreId.value.toString()}",
+      ) as CommonDM;
+      if (response.success == true) {
+        contactList.clear();
+        allContactData.value = StoreContactModel.fromJson(response.data);
+        contactList.addAll(allContactData.value!.contacts);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getStoreContacts error: $e');
+    }
+  }
+
+  
+  // final Rx<StoreContactModel?> contactUpdateData = Rx<StoreContactModel?>(null);
+  Future<void> storStoreContact(type) async {
+    try {
+      isStoreContactLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'store_id': selectedStoreId.value.toString(),
+        'type': type,
+        'value': type == 'phone' ? storePhoneNumberTextEditingController.text.trim() : storeEmailTextEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuStoreStoreContacts,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        await getStoreContacts();
+        isStoreContactLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isStoreContactLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreContactLoading.value = false;
+      ll('storStoreContact error: $e');
+    }
+  }
+
+  // //* update contact API Implementation
+  Future<void> updateContact(id, type) async {
+    try {
+      isStoreContactLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'id': id.toString(),
+        'type': type,
+        'value': type == 'phone' ? storePhoneNumberTextEditingController.text.trim() : storeEmailTextEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuUpdateStoreContacts,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        // for (int i = 0; i < contactDataList.length; i++) {
+        //   if (contactDataList[i].id == id) {
+        //     contactDataList[i] = Contact.fromJson(response.data);
+        //   }
+        // }
+        await getStoreContacts();
+        isStoreContactLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isStoreContactLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreContactLoading.value = false;
+      ll('updateContact error: $e');
+    }
+  }
+
+  // //* delete contact API Implementation
+  Future<void> deleteContact(id, type) async {
+    try {
+      isStoreContactLoading.value = true;
+      Get.back();
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteStoreContact/${id.toString()}',
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        await getStoreContacts();
+        isStoreContactLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isStoreContactLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreContactLoading.value = false;
+      ll('deleteContact error: $e');
     }
   }
 }

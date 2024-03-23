@@ -9,76 +9,98 @@ class EditStoreEmail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: cWhiteColor,
-      child: SafeArea(
-        top: false,
-        child: Scaffold(
-          backgroundColor: cWhiteColor,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(kAppBarSize),
-            //* info:: appBar
-            child: CustomAppBar(
-              appBarColor: cWhiteColor,
-              // title: '${profileController.commonEditPageTitle}'.tr,
-              title: ksEditEmail.tr,
-              hasBackButton: true,
-              isCenterTitle: true,
-              onBack: () {
-                Get.back();
-              },
-              action: [
-                // if (profileController.functionFlag.contains('EDIT'))
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CustomTextButton(
-                      onPressed: () {
-                        deleteAlertDialog(
-                            context: context,
-                            content: DeletePopupContent(
-                                text: ksDeleteConfirmation.tr,
-                                deleteOnPressed: () {
-                                  // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
-                                  Get.back();
-                                  Get.back();
-                                }),
-                            title: ksConfirmation.tr);
-                        // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
-                        // Get.back();
+      child: Obx(
+        () => Stack(
+          children: [
+            SafeArea(
+              top: false,
+              child: Scaffold(
+                backgroundColor: cWhiteColor,
+                appBar: PreferredSize(
+                  preferredSize: const Size.fromHeight(kAppBarSize),
+                  //* info:: appBar
+                  child: Obx(
+                    () => CustomAppBar(
+                      appBarColor: cWhiteColor,
+                      title: storeController.isEditOrAdd.value ? ksEditEmail.tr : ksAddEmail.tr,
+                      hasBackButton: true,
+                      isCenterTitle: true,
+                      onBack: () {
+                        Get.back();
                       },
-                      text: ksDelete,
-                      textStyle: semiBold14TextStyle(cRedColor)),
-                )
-              ],
-            ),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: Column(
-              children: [
-                kH16sizedBox,
-                kH8sizedBox,
-                CustomModifiedTextField(
-                  controller: storeController.storeEmailTextEditingController,
-                  prefixIcon: BipHip.mail,
-                  hint: ksStoreEmail.tr,
-                  onChanged: (text) {},
-                  onSubmit: (text) {},
-                  inputAction: TextInputAction.next,
-                  inputType: TextInputType.text,
-                  maxLength: 50,
+                      action: [
+                        if (storeController.isEditOrAdd.value)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: CustomTextButton(
+                                onPressed: () {
+                                  deleteAlertDialog(
+                                      context: context,
+                                      content: DeletePopupContent(
+                                          text: ksDeleteConfirmation.tr,
+                                          deleteOnPressed: () {
+                                            // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
+                                            Get.back();
+                                            Get.back();
+                                          }),
+                                      title: ksConfirmation.tr);
+                                  // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
+                                  // Get.back();
+                                },
+                                text: ksDelete,
+                                textStyle: semiBold14TextStyle(cRedColor)),
+                          )
+                      ],
+                    ),
+                  ),
                 ),
-                const Spacer(),
-                CustomElevatedButton(
-                    label: ksSave,
-                    textStyle: semiBold14TextStyle(cWhiteColor),
-                    buttonHeight: h42,
-                    buttonWidth: width - 40,
-                    onPressed: () {
-                      Get.back();
-                    }),
-                kH20sizedBox,
-              ],
+                body: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                  child: Column(
+                    children: [
+                      kH16sizedBox,
+                      kH8sizedBox,
+                      CustomModifiedTextField(
+                        controller: storeController.storeEmailTextEditingController,
+                        prefixIcon: BipHip.mail,
+                        hint: ksStoreEmail.tr,
+                        onChanged: (text) {},
+                        onSubmit: (text) {},
+                        inputAction: TextInputAction.next,
+                        inputType: TextInputType.text,
+                        maxLength: 50,
+                      ),
+                      const Spacer(),
+                      CustomElevatedButton(
+                          label: ksSave,
+                          textStyle: semiBold14TextStyle(cWhiteColor),
+                          buttonHeight: h42,
+                          buttonWidth: width - 40,
+                          onPressed: () {
+                            if (storeController.isEditOrAdd.value) {
+                              storeController.updateContact(storeController.storeContactId.value.toString(), "email");
+                            } else {
+                              storeController.storStoreContact("email");
+                            }
+                          }),
+                      kH20sizedBox,
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
+            if (storeController.isStoreContactLoading.value == true)
+              Positioned(
+                child: CommonLoadingAnimation(
+                  onWillPop: () async {
+                    if (storeController.isStoreContactLoading.value) {
+                      return false;
+                    }
+                    return true;
+                  },
+                ),
+              ),
+          ],
         ),
       ),
     );
