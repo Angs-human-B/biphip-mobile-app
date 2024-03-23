@@ -238,7 +238,7 @@ class KidProfilePostSection extends StatelessWidget {
                     mediaList: item.images ?? [],
                     isSelfPost: true,
                     isInStock: true,
-                    isCommentShown: true, commentCount: 2, shareCount: 2, giftCount: 2,
+                    isCommentShown: true, commentCount: item.countComment ?? 0, shareCount: item.countShare ?? 0, giftCount: item.countStar ?? 0,
                     postID: item.id!,
                     userImage: item.user!.profilePicture ?? '',
                     taggedFriends: const [],
