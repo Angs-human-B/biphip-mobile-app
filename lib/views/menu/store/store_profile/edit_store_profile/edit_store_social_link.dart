@@ -42,7 +42,7 @@ class EditStoreSocialLink extends StatelessWidget {
                                       context: context,
                                       content: DeletePopupContent(
                                           text: ksDeleteConfirmation.tr,
-                                          deleteOnPressed: () async{
+                                          deleteOnPressed: () async {
                                             await storeController.deleteStoreLink();
                                           }),
                                       title: ksConfirmation.tr);
@@ -97,7 +97,13 @@ class EditStoreSocialLink extends StatelessWidget {
                         CustomModifiedTextField(
                           controller: storeController.storeSocialLinkTextEditingController,
                           hint: ksAddSocialLink.tr,
-                          onChanged: (text) {},
+                          onChanged: (text) {
+                            if (storeController.selectedStoreSocialLinkSource.value != "" && storeController.storeSocialLinkTextEditingController.text != "") {
+                              storeController.isStoreSocialLinkSaveEnabled.value = true;
+                            } else {
+                              storeController.isStoreSocialLinkSaveEnabled.value = false;
+                            }
+                          },
                           onSubmit: (text) {},
                           inputAction: TextInputAction.next,
                           inputType: TextInputType.text,
@@ -109,13 +115,27 @@ class EditStoreSocialLink extends StatelessWidget {
                             textStyle: semiBold14TextStyle(cWhiteColor),
                             buttonHeight: h42,
                             buttonWidth: width - 40,
-                            onPressed: () async {
-                              if (storeController.isEditOrAdd.value) {
-                                await storeController.updateStoreLink();
-                              } else {
-                                await storeController.storStoreLink();
-                              }
-                            }),
+                            onPressed: storeController.isStoreSocialLinkSaveEnabled.value
+                                ? () async {
+                                    if (storeController.selectedStoreSocialLinkSource.value == 'Website' &&
+                                        storeController.storeSocialLinkTextEditingController.text.toLowerCase().isValidUrl) {
+                                      if (storeController.isEditOrAdd.value) {
+                                        await storeController.updateStoreLink();
+                                      } else {
+                                        await storeController.storStoreLink();
+                                      }
+                                    } else if (commonValidUrlCheck(storeController.selectedStoreSocialLinkSource.value.toLowerCase(),
+                                        storeController.storeSocialLinkTextEditingController.text.toLowerCase())) {
+                                      if (storeController.isEditOrAdd.value) {
+                                        await storeController.updateStoreLink();
+                                      } else {
+                                        await storeController.storStoreLink();
+                                      }
+                                    } else {
+                                      Get.find<GlobalController>().showSnackBar(title: 'Warning', message: 'Please Enter a valid url', color: cAmberColor);
+                                    }
+                                  }
+                                : null),
                         kH20sizedBox,
                       ],
                     ),

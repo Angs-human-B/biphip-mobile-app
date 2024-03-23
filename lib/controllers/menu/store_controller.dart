@@ -1153,6 +1153,7 @@ class StoreController extends GetxController {
     }
   }
 
+  final RxBool isStoreSocialLinkSaveEnabled = RxBool(false);
   //*Store all links
   final RxInt storeLinkId = RxInt(-1);
   final Rx<StoreAllLinksModel?> allLinksData = Rx<StoreAllLinksModel?>(null);

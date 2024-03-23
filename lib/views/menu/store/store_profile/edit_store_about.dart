@@ -247,6 +247,7 @@ class StoreWebsiteSocialLinkContent extends StatelessWidget {
                     storeController.storeSocialLinkTextEditingController.text = "";
                     storeController.selectedStoreSocialLinkSource.value = "";
                     storeController.storeLinkId.value = -1;
+                    storeController.isStoreSocialLinkSaveEnabled.value = false;
                     Get.toNamed(krEditStoreSocialLink);
                   },
                 ),
@@ -262,7 +263,7 @@ class StoreWebsiteSocialLinkContent extends StatelessWidget {
                         storeController.isEditOrAdd.value = true;
                         storeController.storeSocialLinkTextEditingController.text = storeController.allLinkList[i].link ?? "";
                         storeController.selectedStoreSocialLinkSource.value = storeController.allLinkList[i].type!;
-                         storeController.storeLinkId.value = storeController.allLinkList[i].id!;
+                        storeController.storeLinkId.value = storeController.allLinkList[i].id!;
                         Get.toNamed(krEditStoreSocialLink);
                       },
                     ),
