@@ -37,9 +37,8 @@ class EditStorePhoneNumber extends StatelessWidget {
                                     context: context,
                                     content: DeletePopupContent(
                                         text: ksDeleteConfirmation.tr,
-                                        deleteOnPressed: () {
-                                          Get.back();
-                                          Get.back();
+                                        deleteOnPressed: () async{
+                                          await storeController.deleteContact(storeController.storeContactId.value.toString(), "phone");
                                         }),
                                     title: ksConfirmation.tr);
                               },

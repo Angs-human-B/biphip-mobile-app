@@ -38,14 +38,10 @@ class EditStoreEmail extends StatelessWidget {
                                       context: context,
                                       content: DeletePopupContent(
                                           text: ksDeleteConfirmation.tr,
-                                          deleteOnPressed: () {
-                                            // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
-                                            Get.back();
-                                            Get.back();
+                                          deleteOnPressed: () async{
+                                            await storeController.deleteContact(storeController.storeContactId.value.toString(), "email");
                                           }),
                                       title: ksConfirmation.tr);
-                                  // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
-                                  // Get.back();
                                 },
                                 text: ksDelete,
                                 textStyle: semiBold14TextStyle(cRedColor)),
