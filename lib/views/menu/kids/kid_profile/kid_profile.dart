@@ -14,7 +14,7 @@ class KidProfile extends StatelessWidget {
     return Container(
       color: cWhiteColor,
       child: Obx(
-        () => kidsController.isKidOverviewLoading.value
+        () => kidsController.isKidOverviewLoading.value || kidsController.isHomePageLoading.value
             ? const ProfilePageShimmer2()
             : SafeArea(
                 top: false,

@@ -1231,7 +1231,6 @@ class KidsController extends GetxController {
     }
   }
 
-
   //*Get Relation Status
   final RxBool relationBottomSheetRightButtonState = RxBool(false);
   final RxString temporaryRelation = RxString("");
@@ -1417,7 +1416,7 @@ class KidsController extends GetxController {
       if (response.success == true) {
         await getPostList();
         Get.find<CreatePostController>().isCreatePostLoading.value = false;
-        Get.offAllNamed(krKidProfile);
+        Get.offNamedUntil(krKidProfile, ModalRoute.withName(krKidsPage));
         Get.find<CreatePostController>().resetCreatePost();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
