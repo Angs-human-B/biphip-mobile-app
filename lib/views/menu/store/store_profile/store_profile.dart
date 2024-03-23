@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/helpers/menu/store/store_helper.dart';
+import 'package:bip_hip/shimmers/profile/profile_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
@@ -17,29 +18,28 @@ class StoreProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: cWhiteColor,
-      child: SafeArea(
-        top: false,
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          backgroundColor: cBackgroundColor,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(kAppBarSize),
-            //* info:: appBar
-            child: CustomAppBar(
-              appBarColor: cWhiteColor,
-              // title: kidsController.kidOverviewData.value?.kids?.name ?? ksNA,
-              title: storeController.storeName.value,
-              hasBackButton: true,
-              isCenterTitle: true,
-              onBack: () {
-                Get.back();
-              },
-            ),
-          ),
-          body: Obx(
-            () => SizedBox(
-              height: height,
-              width: width,
+      child: Obx(() => storeController.isStoreOverviewLoading.value ? const ProfilePageShimmer2(): SafeArea(
+              top: false,
+              child: Scaffold(
+                resizeToAvoidBottomInset: true,
+                backgroundColor: cBackgroundColor,
+                appBar: PreferredSize(
+                  preferredSize: const Size.fromHeight(kAppBarSize),
+                  //* info:: appBar
+                  child: CustomAppBar(
+                    appBarColor: cWhiteColor,
+                    title: storeController.storeName.value,
+                    hasBackButton: true,
+                    isCenterTitle: true,
+                    onBack: () {
+                      Get.back();
+                    },
+                  ),
+                ),
+                body: Obx(
+                  () => SizedBox(
+                    height: height,
+                    width: width,
               // child: NotificationListener<ScrollNotification>(
               //   onNotification: (scrollNotification) {
               //     // if (homeController.timelinePostListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
@@ -146,19 +146,6 @@ class StoreProfile extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              // Positioned(
-                              //   right: 6,
-                              //   top: 10,
-                              //   child: Container(
-                              //       height: h28,
-                              //       width: h28,
-                              //       decoration: BoxDecoration(
-                              //         color: cGreyBoxColor,
-                              //         borderRadius: BorderRadius.circular(26),
-                              //         border: Border.all(color: cPrimaryColor, width: 1),
-                              //       ),
-                              //       child: SvgPicture.asset(kiBadge1SvgImageUrl)),
-                              // ),
                             ],
                           ),
                         ),
@@ -199,45 +186,15 @@ class StoreProfile extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                             child: Text(
-                              // kidsController.kidOverviewData.value?.kids?.name ?? ksNA,//!correct(data from api)
                               storeController.storeName.value,
                               style: medium24TextStyle(cBlackColor),
                             ),
                           ),
-                          // kH10sizedBox,
-                          // Padding(
-                          //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                          //   child: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.start,
-                          //     children: [
-                          //       const Icon(
-                          //         Icons.attach_money_sharp,
-                          //         color: cSecondaryColor,
-                          //         size: kIconSize14,
-                          //       ),
-                          //       Text(
-                          //         '2.57',
-                          //         style: medium14TextStyle(cSmallBodyTextColor),
-                          //       ),
-                          //       kW4sizedBox,
-                          //       const Icon(
-                          //         BipHip.giftNew,
-                          //         color: cSecondaryColor,
-                          //         size: kIconSize14,
-                          //       ),
-                          //       kW4sizedBox,
-                          //       Text(
-                          //         '457',
-                          //         style: medium14TextStyle(cSmallBodyTextColor),
-                          //       )
-                          //     ],
-                          //   ),
-                          // ),
+                       
                           kH4sizedBox,
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                             child: Text(
-                              // "${kidsController.kidOverviewData.value?.kids?.countFollowers.toString() ?? ksNA} Followers",//!Correct(Data from api)
                               '${storeController.storesData.value?.countFollowers.toString() ?? ksNA} Followers',
                               style: semiBold14TextStyle(cSmallBodyTextColor),
                             ),
@@ -261,10 +218,6 @@ class StoreProfile extends StatelessWidget {
                                 CustomElevatedButton(
                                   label: ksEditProfile.tr,
                                   onPressed: () {
-                                    // Get.to(() => EditStoreProfile(
-                                    //       profilePicture: profilePicture,
-                                    //       coverPhoto: coverPhoto,
-                                    //     ));
                                     Get.toNamed(krEditStoreProfile);
                                   },
                                   prefixIcon: BipHip.edit,
@@ -283,68 +236,6 @@ class StoreProfile extends StatelessWidget {
                       ),
                     ),
                     kH8sizedBox,
-                    // DefaultTabController(
-                    //   length: 3,
-                    //   // initialIndex: profileController.postSectionVisible.value ? 0 : 1,//!con
-                    //   initialIndex: 0,
-                    //   child: Column(
-                    //     children: [
-                    //       Container(
-                    //         color: cWhiteColor,
-                    //         height: 40,
-                    //         child: Padding(
-                    //           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                    //           child: DecoratedBox(
-                    //             decoration: const BoxDecoration(
-                    //               border: Border(
-                    //                 bottom: BorderSide(color: cLineColor, width: 1),
-                    //               ),
-                    //             ),
-                    //             child: TabBar(
-                    //               onTap: (value) {
-                    //                 storeController.storeProfileTabIndex.value = value;
-                    //                 // profileHelper.showProfileTabSection(value);
-                    //               },
-                    //               indicatorColor: cPrimaryColor,
-                    //               indicatorWeight: 1,
-                    //               unselectedLabelColor: cSmallBodyTextColor,
-                    //               unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
-                    //               labelStyle: medium14TextStyle(cPrimaryColor),
-                    //               labelColor: cPrimaryColor,
-                    //               tabs: [
-                    //                 Padding(
-                    //                   padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                    //                   child: Text(
-                    //                     ksPosts.tr,
-                    //                   ),
-                    //                 ),
-                    //                 Padding(
-                    //                   padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                    //                   child: Text(
-                    //                     ksPhotos.tr,
-                    //                   ),
-                    //                 ),
-                    //                 Padding(
-                    //                   padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                    //                   child: Text(
-                    //                     ksVideos.tr,
-                    //                   ),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-
-                    // if (storeController.storeProfileTabIndex.value == 0)
-                    //   KidProfilePostSection(
-                    //     seeAllAboutOnPressed: () {
-                    //       // Get.toNamed(krEditKidProfile);//!Edit page route
-                    //     },
-                    //   ),
                     Column(
                       children: [
                         Container(
@@ -703,6 +594,7 @@ class StoreProfile extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }
