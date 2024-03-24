@@ -101,9 +101,9 @@ class MenuHelper {
     Get.find<GlobalController>().searchController.clear();
     Get.to(
       () => Search(
-        searchController: Get.find<GlobalController>().searchController,
-        recentSearchList: Get.find<GlobalController>().recentSearch,
-        onSubmit: () {},
+        // searchTextEditingController: Get.find<GlobalController>().searchController,
+        // recentSearchList: Get.find<GlobalController>().recentSearch,
+        // onSubmit: () {},
       ),
       transition: Transition.rightToLeft,
     );

@@ -1,20 +1,23 @@
+import 'package:bip_hip/controllers/home/search_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 
 class Search extends StatelessWidget {
-  const Search({
+  Search({
     Key? key,
-    required this.searchController,
-    required this.recentSearchList,
-    required this.onSubmit,
-    this.isShopSearch = false,
-    this.isHomeSearch = false,
-    this.isFavoriteSearch = false,
+    // required this.searchTextEditingController,
+    // required this.recentSearchList,
+    // required this.onSubmit,
+    // this.isShopSearch = false,
+    // this.isHomeSearch = false,
+    // this.isFavoriteSearch = false,
   }) : super(key: key);
 
-  final TextEditingController searchController;
-  final RxList recentSearchList;
-  final dynamic onSubmit;
-  final bool isShopSearch, isHomeSearch, isFavoriteSearch;
+  // final TextEditingController searchTextEditingController;
+  // final RxList recentSearchList;
+  // final dynamic onSubmit;
+  // final bool isShopSearch, isHomeSearch, isFavoriteSearch;
+  final AllSearchController allSearchController = Get.find<AllSearchController>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +51,10 @@ class Search extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 16),
                           child: CustomModifiedTextField(
-                            hint: "Search here...",
+                            hint: ksSearch.tr,
                             borderRadius: 30,
                             contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: h12),
-                            controller: searchController,
+                            controller: allSearchController.searchTextEditingController,
                             fillColor: cInputFieldColor,
                             inputType: TextInputType.text,
                             inputAction: TextInputAction.done,
@@ -59,7 +62,7 @@ class Search extends StatelessWidget {
                             suffixIcon: isSuffix.value ? BipHip.circleCrossNew : null,
                             onSuffixPress: isSuffix.value
                                 ? () {
-                                    searchController.clear();
+                                    allSearchController.searchTextEditingController.clear();
                                     isSuffix.value = false;
                                   }
                                 : null,
@@ -71,73 +74,135 @@ class Search extends StatelessWidget {
                               }
                             },
                             onSubmit: (v) async {
-                              unfocus(context);
-                              if (v.isNotEmpty) {
-                                var item = v.toLowerCase();
-                                for (int i = 0; i < recentSearchList.length; i++) {
-                                  if (recentSearchList[i] == item) {
-                                    recentSearchList.remove(item);
-                                  }
-                                }
-                                recentSearchList.add(item);
-                              } else {
-                                recentSearchList.add('...');
-                              }
-                              if (recentSearchList.length > 6) recentSearchList.removeAt(0);
-                              final spController = SpController();
-                              await spController.saveRecentSearchList(recentSearchList);
-                              onSubmit();
-                              searchController.clear();
+                              // unfocus(context);
+                              // if (v.isNotEmpty) {
+                              //   var item = v.toLowerCase();
+                              //   for (int i = 0; i < recentSearchList.length; i++) {
+                              //     if (recentSearchList[i] == item) {
+                              //       recentSearchList.remove(item);
+                              //     }
+                              //   }
+                              //   recentSearchList.add(item);
+                              // } else {
+                              //   recentSearchList.add('...');
+                              // }
+                              // if (recentSearchList.length > 6) recentSearchList.removeAt(0);
+                              // final spController = SpController();
+                              // await spController.saveRecentSearchList(recentSearchList);
+                              // onSubmit();
+                              // searchTextEditingController.clear();
                             },
                           ),
                         ),
                       ),
                     ],
                   ),
-                  if (recentSearchList.isNotEmpty)
-                    Column(
+                  // if (recentSearchList.isNotEmpty)
+                  //   Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Padding(
+                  //         padding: const EdgeInsets.symmetric(horizontal: h16),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //           children: [
+                  //             Text(
+                  //               "Recent Search",
+                  //               style: semiBold16TextStyle(cBlackColor),
+                  //             ),
+                  //             CustomTextButton(
+                  //               onPressed: () async {
+                  //                 recentSearchList.value = [];
+                  //                 final spController = SpController();
+                  //                 await spController.saveRecentSearchList(recentSearchList);
+                  //               },
+                  //               text: "Clear",
+                  //               textStyle: regular14TextStyle(cRedColor),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //       Padding(
+                  //         padding: const EdgeInsets.symmetric(horizontal: 8),
+                  //         child: Wrap(
+                  //           children: [
+                  //             for (int i = recentSearchList.length - 1; i >= 0; i--)
+                  //               ChipsWrapContainer(
+                  //                 text: recentSearchList[i],
+                  //                 onPress: () {
+                  //                   searchController.text = recentSearchList[i];
+                  //                   searchController.selection = TextSelection.fromPosition(TextPosition(offset: searchController.text.length));
+                  //                   isSuffix.value = true;
+                  //                 },
+                  //               ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //       kH20sizedBox,
+                  //     ],
+                  //   ),
+
+                  // Wrap(
+                  //   alignment: WrapAlignment.start,
+                  //   direction: Axis.horizontal,
+                  //   spacing: 8.0,
+                  //   children: [
+                  //     for (int i = 0; i < allSearchController.filterTypeList.length; i++)
+                  //       Padding(
+                  //         padding: const EdgeInsets.only(bottom: k8Padding),
+                  //         child: Container(
+                  //           decoration: BoxDecoration(
+                  //               color: cWhiteColor,
+                  //               border: Border.all(
+                  //                 color: cLineColor,
+                  //               ),
+                  //               borderRadius: k100CircularBorderRadius),
+                  //           child: Padding(
+                  //             padding: const EdgeInsets.all(k8Padding),
+                  //             child: Text(
+                  //               // profileController.userData.value!.interest[i],
+                  //               // kidsController.kidsData.value?.hobbies[i],
+                  //               // kidsController.kidsData.value!.hobbies[i],
+                  //               allSearchController.filterTypeList[i],
+                  //               style: regular14TextStyle(cBlackColor),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       )
+                  //   ],
+                  // ),
+
+                  Container(
+                    color: cWhiteColor,
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: h16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Recent Search",
-                                style: semiBold16TextStyle(cBlackColor),
-                              ),
-                              CustomTextButton(
-                                onPressed: () async {
-                                  recentSearchList.value = [];
-                                  final spController = SpController();
-                                  await spController.saveRecentSearchList(recentSearchList);
-                                },
-                                text: "Clear",
-                                textStyle: regular14TextStyle(cRedColor),
-                              ),
-                            ],
+                        SizedBox(
+                          width: width,
+                          height: 50,
+                          child: ListView.builder(
+                            itemCount: allSearchController.filterTypeList.length,
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.symmetric(horizontal: k10Padding),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, i) {
+                              return Obx(() => Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                                    child: CustomChoiceChips(
+                                      label: allSearchController.filterTypeList[i],
+                                      isSelected: (allSearchController.selectedFilterIndex.value == i && allSearchController.isFilterSelected.value),
+                                      onSelected: (value) {
+                                        allSearchController.selectedFilterIndex.value = i;
+                                        allSearchController.isFilterSelected.value = value;
+                                      },
+                                    ),
+                                  ));
+                            },
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Wrap(
-                            children: [
-                              for (int i = recentSearchList.length - 1; i >= 0; i--)
-                                ChipsWrapContainer(
-                                  text: recentSearchList[i],
-                                  onPress: () {
-                                    searchController.text = recentSearchList[i];
-                                    searchController.selection = TextSelection.fromPosition(TextPosition(offset: searchController.text.length));
-                                    isSuffix.value = true;
-                                  },
-                                ),
-                            ],
-                          ),
-                        ),
-                        kH20sizedBox,
                       ],
                     ),
+                  ),
                 ],
               ),
             ),
