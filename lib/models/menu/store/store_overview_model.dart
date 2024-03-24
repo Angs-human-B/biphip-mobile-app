@@ -1,6 +1,9 @@
+
+import 'package:bip_hip/models/menu/kids/kid_profile/kid_overview_model.dart';
+
 class StoreOverviewModel {
   Stores? stores;
-  // List<dynamic> featurePost;
+  List<FeaturePost> featurePost;
   Admin? admin;
   dynamic location;
   dynamic email;
@@ -8,7 +11,7 @@ class StoreOverviewModel {
 
   StoreOverviewModel({
     required this.stores,
-    // required this.featurePost,
+    required this.featurePost,
     required this.admin,
     required this.location,
     required this.email,
@@ -17,11 +20,194 @@ class StoreOverviewModel {
 
   factory StoreOverviewModel.fromJson(Map<String, dynamic> json) => StoreOverviewModel(
         stores: json["store"] == null ? null : Stores.fromJson(json["store"]),
-        // featurePost: List<dynamic>.from(json["feature_post"].map((x) => x)),
+         featurePost: List<FeaturePost>.from(json["feature_post"].map((x) => FeaturePost.fromJson(x))),
         admin: json["admin"] == null ? null : Admin.fromJson(json["admin"]),
         location: json["location"],
         email: json["email"],
         phone: json["phone"],
+      );
+}
+
+class FeaturePost {
+  int? id;
+  int? userId;
+  int? isSharePost;
+  dynamic sharePostId;
+  dynamic content;
+  dynamic location;
+  dynamic sellPostType;
+  dynamic sellPostCategoryId;
+  dynamic sellPostConditionId;
+  dynamic price;
+  dynamic discount;
+  dynamic description;
+  dynamic sellPostAvailabilty;
+  dynamic productTags;
+  dynamic sku;
+  dynamic isHideFnf;
+  dynamic platform;
+  dynamic action;
+  int? isBidding;
+  dynamic biddingPostType;
+  dynamic desireAmount;
+  dynamic minBiddingAmount;
+  dynamic biddingDuration;
+  dynamic title;
+  DateTime? dateTime;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? postCategoryId;
+  int? isPublic;
+  int? countView;
+  int? countShare;
+  int? countComment;
+  int? countStar;
+  // dynamic countReactions;
+  dynamic postSubCategoryId;
+  dynamic timelineId;
+  dynamic type;
+  int? kidId;
+  dynamic storeId;
+  dynamic reviewRating;
+  dynamic imageAlbumId;
+  List<dynamic> taggedFriends;
+  int? countBids;
+  dynamic myReaction;
+  List<dynamic> reactionUsers;
+  List<dynamic> viewers;
+  bool? hasReport;
+  bool? myReport;
+  bool? isNotifaction;
+  bool? isVisibleToMe;
+  Parent? user;
+  Kids? kid;
+  PostCategory? postCategory;
+  dynamic postSubCategory;
+  List<dynamic> postTags;
+  List<Image> images;
+  List<dynamic> comments;
+  dynamic sharePosts;
+
+  FeaturePost({
+    required this.id,
+    required this.userId,
+    required this.isSharePost,
+    required this.sharePostId,
+    required this.content,
+    required this.location,
+    required this.sellPostType,
+    required this.sellPostCategoryId,
+    required this.sellPostConditionId,
+    required this.price,
+    required this.discount,
+    required this.description,
+    required this.sellPostAvailabilty,
+    required this.productTags,
+    required this.sku,
+    required this.isHideFnf,
+    required this.platform,
+    required this.action,
+    required this.isBidding,
+    required this.biddingPostType,
+    required this.desireAmount,
+    required this.minBiddingAmount,
+    required this.biddingDuration,
+    required this.title,
+    required this.dateTime,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.postCategoryId,
+    required this.isPublic,
+    required this.countView,
+    required this.countShare,
+    required this.countComment,
+    required this.countStar,
+    // required this.countReactions,
+    required this.postSubCategoryId,
+    required this.timelineId,
+    required this.type,
+    required this.kidId,
+    required this.storeId,
+    required this.reviewRating,
+    required this.imageAlbumId,
+    required this.taggedFriends,
+    required this.countBids,
+    required this.myReaction,
+    required this.reactionUsers,
+    required this.viewers,
+    required this.hasReport,
+    required this.myReport,
+    required this.isNotifaction,
+    required this.isVisibleToMe,
+    required this.user,
+    required this.kid,
+    required this.postCategory,
+    required this.postSubCategory,
+    required this.postTags,
+    required this.images,
+    required this.comments,
+    required this.sharePosts,
+  });
+
+  factory FeaturePost.fromJson(Map<String, dynamic> json) => FeaturePost(
+        id: json["id"],
+        userId: json["user_id"],
+        isSharePost: json["is_share_post"],
+        sharePostId: json["share_post_id"],
+        content: json["content"],
+        location: json["location"],
+        sellPostType: json["sell_post_type"],
+        sellPostCategoryId: json["sell_post_category_id"],
+        sellPostConditionId: json["sell_post_condition_id"],
+        price: json["price"],
+        discount: json["discount"],
+        description: json["description"],
+        sellPostAvailabilty: json["sell_post_availabilty"],
+        productTags: json["product_tags"],
+        sku: json["sku"],
+        isHideFnf: json["is_hide_fnf"],
+        platform: json["platform"],
+        action: json["action"],
+        isBidding: json["is_bidding"],
+        biddingPostType: json["bidding_post_type"],
+        desireAmount: json["desire_amount"],
+        minBiddingAmount: json["min_bidding_amount"],
+        biddingDuration: json["bidding_duration"],
+        title: json["title"],
+        dateTime: DateTime.parse(json["date_time"]),
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        postCategoryId: json["post_category_id"],
+        isPublic: json["is_public"],
+        countView: json["count_view"],
+        countShare: json["count_share"],
+        countComment: json["count_comment"],
+        countStar: json["count_star"],
+        // countReactions: json["count_reactions"],
+        postSubCategoryId: json["post_sub_category_id"],
+        timelineId: json["timeline_id"],
+        type: json["type"],
+        kidId: json["kid_id"],
+        storeId: json["store_id"],
+        reviewRating: json["review_rating"],
+        imageAlbumId: json["image_album_id"],
+        taggedFriends: List<dynamic>.from(json["tagged_friends"].map((x) => x)),
+        countBids: json["count_bids"],
+        myReaction: json["my_reaction"],
+        reactionUsers: List<dynamic>.from(json["reaction_users"].map((x) => x)),
+        viewers: List<dynamic>.from(json["viewers"].map((x) => x)),
+        hasReport: json["has_report"],
+        myReport: json["my_report"],
+        isNotifaction: json["is_notifaction"],
+        isVisibleToMe: json["is_visible_to_me"],
+        user: json["user"] == null ? null : Parent.fromJson(json["user"]),
+        kid: json["kid"] == null ? null : Kids.fromJson(json["kid"]),
+        postCategory: json["post_category"] == null ? null : PostCategory.fromJson(json["post_category"]),
+        postSubCategory: json["post_sub_category"],
+        postTags: List<dynamic>.from(json["post_tags"].map((x) => x)),
+        images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+        comments: List<dynamic>.from(json["comments"].map((x) => x)),
+        sharePosts: json["share_posts"],
       );
 }
 

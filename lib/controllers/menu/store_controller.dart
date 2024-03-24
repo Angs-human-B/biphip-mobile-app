@@ -433,7 +433,7 @@ class StoreController extends GetxController {
 
   //*store Overview Api call
   final Rx<StoreOverviewModel?> storeOverviewData = Rx<StoreOverviewModel?>(null);
-  // final RxList<FeaturePost> featuredPostList = RxList<FeaturePost>([]);
+  final RxList<FeaturePost> featuredPostList = RxList<FeaturePost>([]);
   final Rx<Stores?> storesData = Rx<Stores?>(null);
   final RxBool isStoreOverviewLoading = RxBool(false);
   Future<void> getStoreOverview() async {
@@ -447,7 +447,7 @@ class StoreController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         clearStoreData();
-        // featuredPostList.clear();
+        featuredPostList.clear();
         storeOverviewData.value = StoreOverviewModel.fromJson(response.data);
         storesData.value = storeOverviewData.value!.stores;
         // featuredPostList.addAll(kidOverviewData.value!.featurePost);
