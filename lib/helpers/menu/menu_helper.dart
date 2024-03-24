@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/auth/social_login_controller.dart';
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
@@ -97,10 +98,11 @@ class MenuHelper {
   }
 
   void menuSearch() async {
-    Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
+    // Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
+    await Get.find<HomeController>().getPostList();
     Get.find<GlobalController>().searchController.clear();
     Get.to(
-      () => Search(
+      () => SearchPage(
         // searchTextEditingController: Get.find<GlobalController>().searchController,
         // recentSearchList: Get.find<GlobalController>().recentSearch,
         // onSubmit: () {},

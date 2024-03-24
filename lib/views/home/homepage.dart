@@ -50,11 +50,12 @@ class HomePage extends StatelessWidget {
                       child: TextButton(
                         style: kTextButtonStyle,
                         onPressed: () async {
-                          final spController = SpController();
-                          Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
+                          // final spController = SpController();
+                          // Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
+                           await Get.find<HomeController>().getPostList();
                           Get.find<GlobalController>().searchController.clear();
                           Get.to(
-                            () => Search(
+                            () => SearchPage(
                               // searchTextEditingController: Get.find<GlobalController>().searchController,
                               // recentSearchList: Get.find<GlobalController>().recentSearch,
                               // onSubmit: () {},
