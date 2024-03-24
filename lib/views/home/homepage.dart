@@ -52,14 +52,14 @@ class HomePage extends StatelessWidget {
                         onPressed: () async {
                           // final spController = SpController();
                           // Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
-                           await Get.find<HomeController>().getPostList();
+                          //  await Get.find<HomeController>().getPostList();
                           Get.find<GlobalController>().searchController.clear();
                           Get.to(
                             () => SearchPage(
-                              // searchTextEditingController: Get.find<GlobalController>().searchController,
-                              // recentSearchList: Get.find<GlobalController>().recentSearch,
-                              // onSubmit: () {},
-                            ),
+                                // searchTextEditingController: Get.find<GlobalController>().searchController,
+                                // recentSearchList: Get.find<GlobalController>().recentSearch,
+                                // onSubmit: () {},
+                                ),
                             transition: Transition.noTransition,
                           );
                         },
@@ -400,7 +400,7 @@ class HomePage extends StatelessWidget {
                                         ),
                                       );
                                     }),
-                            
+
                               if (homeController.allPostList.isNotEmpty &&
                                   homeController.postListScrolled.value &&
                                   homeController.postListSubLink.value != null)

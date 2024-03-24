@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
+import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 
 class SearchPage extends StatelessWidget {
   SearchPage({
@@ -20,6 +21,7 @@ class SearchPage extends StatelessWidget {
   // final dynamic onSubmit;
   // final bool isShopSearch, isHomeSearch, isFavoriteSearch;
   final AllSearchController allSearchController = Get.find<AllSearchController>();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +99,27 @@ class SearchPage extends StatelessWidget {
                           ),
                         ),
                       ),
+                      if (allSearchController.selectedFilterIndex.value != 0)
+                        CustomIconButton(
+                          onPress: () {
+                            globalController.commonBottomSheet(
+                                context: context,
+                                isBottomSheetRightButtonActive: allSearchController.isFilterRightButtonActive,
+                                content: PostsFilterContent(),
+                                bottomSheetHeight: height * 0.4,
+                                onPressCloseButton: () {
+                                  Get.back();
+                                },
+                                onPressRightButton: () {},
+                                rightText: ksReset.tr,
+                                rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                                title: ksPosts.tr,
+                                isRightButtonShow: true);
+                          },
+                          icon: BipHip.filter,
+                          size: kIconSize16,
+                          iconColor: cBlackColor,
+                        ),
                     ],
                   ),
                   // if (recentSearchList.isNotEmpty)
@@ -380,6 +403,61 @@ class SearchPage extends StatelessWidget {
                               ),
                             );
                           }),
+                  if (allSearchController.selectedFilterIndex.value == 2)
+                    if (allSearchController.userList.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: k16Padding, left: k20Padding, right: k20Padding),
+                        child: Column(
+                          children: [
+                            ListView.separated(
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.all(k0Padding),
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: allSearchController.userList.length,
+                                separatorBuilder: (context, index) => kH8sizedBox,
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    children: [
+                                      ClipOval(
+                                        child: Container(
+                                          width: h40,
+                                          height: h40,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: cWhiteColor,
+                                          ),
+                                          child: Image.network(
+                                            allSearchController.userList[index]['image'],
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      kW12sizedBox,
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            allSearchController.userList[index]['name'],
+                                            style: semiBold16TextStyle(cBlackColor),
+                                          ),
+                                          if (allSearchController.userList[index]['mutualFriend'] != null)
+                                            Text(
+                                              allSearchController.userList[index]['mutualFriend'],
+                                              style: regular10TextStyle(cSmallBodyTextColor),
+                                            ),
+                                        ],
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        allSearchController.userList[index]['isFriend'] == "0" ? ksAddFriend.tr : ksMessage.tr,
+                                        style: regular12TextStyle(cPrimaryColor),
+                                      ),
+                                    ],
+                                  );
+                                }),
+                          ],
+                        ),
+                      ),
                 ],
               ),
             ),
@@ -419,6 +497,143 @@ class ChipsWrapContainer extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class PostsFilterContent extends StatelessWidget {
+  PostsFilterContent({super.key});
+  final AllSearchController allSearchController = Get.find<AllSearchController>();
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // OutLinedButton(
+        //   buttonText: ksRecentPost.tr,
+        //   borderColor: cNeutralColor,
+        //   suffixWidget: Obx(() => SizedBox(
+        //         width: (width - 330) / 2,
+        //         child: CustomCheckBox(
+        //             value: allSearchController.isRecentPostCheckBoxSelected.value,
+        //             label: "",
+        //             onChanged: (v) {
+        //               allSearchController.isRecentPostCheckBoxSelected.value = !allSearchController.isRecentPostCheckBoxSelected.value;
+        //             },
+        //             textStyle: regular14TextStyle(cBlackColor)),
+        //       )),
+        // ),
+        Row(
+          children: [
+            Container(
+              width: h24,
+              height: h24,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: cNeutralColor,
+              ),
+              child: const Icon(
+                Icons.timer,
+                size: kIconSize12,
+                color: cIconColor,
+              ),
+            ),
+            kW8sizedBox,
+            Text(
+              ksRecentPost.tr,
+              style: semiBold14TextStyle(cBlackColor),
+            ),
+            const Spacer(),
+            Obx(() => SizedBox(
+                  width: (width - 330) / 2,
+                  child: CustomCheckBox(
+                      value: allSearchController.isRecentPostCheckBoxSelected.value,
+                      label: "",
+                      onChanged: (v) {
+                        allSearchController.isRecentPostCheckBoxSelected.value = !allSearchController.isRecentPostCheckBoxSelected.value;
+                      },
+                      textStyle: regular14TextStyle(cBlackColor)),
+                )),
+          ],
+        ),
+
+        kH16sizedBox,
+        OutLinedButton(
+          buttonText: ksPostedBy.tr,
+          borderColor: cWhiteColor,
+          onPress: () {},
+          buttonTextStyle: semiBold14TextStyle(cBlackColor),
+          suffixWidget: Container(
+            width: h24,
+            height: h24,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: cNeutralColor,
+            ),
+            child: const Icon(
+              BipHip.world,
+              size: kIconSize12,
+              color: cIconColor,
+            ),
+          ),
+          subTitleText: "Anyone",
+          buttonHeight: h40,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ),
+        kH16sizedBox,
+        OutLinedButton(
+          buttonText: ksDatePosted.tr,
+          borderColor: cWhiteColor,
+          onPress: () {},
+          buttonTextStyle: semiBold14TextStyle(cBlackColor),
+          suffixWidget: Container(
+            width: h24,
+            height: h24,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: cNeutralColor,
+            ),
+            child: const Icon(
+              Icons.date_range_outlined, //!Icon Must change
+              size: kIconSize12,
+              color: cIconColor,
+            ),
+          ),
+          subTitleText: "AnyDate",
+          buttonHeight: h40,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ),
+        OutLinedButton(
+          buttonText: ksCategory.tr,
+          borderColor: cWhiteColor,
+          onPress: () {},
+          buttonTextStyle: semiBold14TextStyle(cBlackColor),
+          suffixWidget: Container(
+            width: h24,
+            height: h24,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: cNeutralColor,
+            ),
+            child: const Icon(
+              BipHip.menuFill,
+              size: kIconSize12,
+              color: cIconColor,
+            ),
+          ),
+          subTitleText: "Any Category",
+          buttonHeight: h40,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ),
+        kH24sizedBox,
+        CustomElevatedButton(
+          label: ksShowResult.tr,
+          buttonWidth: width - 40,
+          buttonHeight: h32,
+          onPressed: () {},
+          buttonColor: cPrimaryColor,
+          textStyle: semiBold14TextStyle(cWhiteColor),
+        ),
+      ],
     );
   }
 }

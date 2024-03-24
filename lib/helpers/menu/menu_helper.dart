@@ -103,10 +103,10 @@ class MenuHelper {
     Get.find<GlobalController>().searchController.clear();
     Get.to(
       () => SearchPage(
-        // searchTextEditingController: Get.find<GlobalController>().searchController,
-        // recentSearchList: Get.find<GlobalController>().recentSearch,
-        // onSubmit: () {},
-      ),
+          // searchTextEditingController: Get.find<GlobalController>().searchController,
+          // recentSearchList: Get.find<GlobalController>().recentSearch,
+          // onSubmit: () {},
+          ),
       transition: Transition.rightToLeft,
     );
   }

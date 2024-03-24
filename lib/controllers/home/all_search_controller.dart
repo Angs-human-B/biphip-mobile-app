@@ -5,6 +5,9 @@ class AllSearchController extends GetxController {
   final List filterTypeList = ["All", "Posts", "People", "Photos", "Videos", "Sell Posts", "Kids", "News"];
   final RxInt selectedFilterIndex = RxInt(0);
   final RxBool isFilterSelected = RxBool(false);
+  final RxBool isFilterRightButtonActive = RxBool(false);
+  final RxBool isRecentPostCheckBoxSelected = RxBool(false);
+  final RxBool isPostedBySelected = RxBool(false);
   final RxList userList = RxList([
     {
       "image":
@@ -58,5 +61,4 @@ class AllSearchController extends GetxController {
       "mutualFriend": "1 mutual friend",
     },
   ]);
-
 }
