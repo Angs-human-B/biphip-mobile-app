@@ -600,3 +600,4 @@ const String ksEditLanguage = "Edit Language";
 const String ksFeatured = "Featured";
 const String ksPageId = "Page ID";
 const String ksCreatingDate = "Creating Date";
+const String ksPeople = "People";

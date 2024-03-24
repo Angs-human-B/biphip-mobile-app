@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/auth/social_login_controller.dart';
-import 'package:bip_hip/controllers/home/search_controller.dart';
+import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
