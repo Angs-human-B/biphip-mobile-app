@@ -22,6 +22,7 @@ class AllSearchController extends GetxController {
   final RxString temporarySelectedCategory = RxString("");
   final RxString selectedCategory = RxString("");
   final RxBool isCategoryBottomSheetState = RxBool(false);
+  final RxBool isPhotoVideoBottomSheetState = RxBool(false);
   final RxList datePostedList = RxList([
     {"date": "AnyDate"},
     {"date": "2024"},
@@ -98,15 +99,153 @@ class AllSearchController extends GetxController {
       "mutualFriend": "1 mutual friend",
     },
   ]);
-  void resetBottomSheetData(){
-   temporarySelectedPostedBy.value = ""; 
-   selectedPostedBy.value = ""; 
-   isPostedByBottomSheetState.value = false; 
-   temporarySelectedDatePosted.value = ""; 
-   selectedDatePosted.value = ""; 
-   isDatePostedBottomSheetState.value = false; 
-   temporarySelectedCategory.value = ""; 
-   selectedCategory.value = ""; 
-   isCategoryBottomSheetState.value = false; 
+  final List imageList = [
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+  ];
+  final List videosList = [
+    {
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "title": "Behavior in a wild fox a wild fox",
+      "name": "Wahid Murad",
+      "date": "8 Feb, 2023",
+      "totalView": "40.06k views",
+      "time": "00:12",
+    },
+    {
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=257x4&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "title": "Behavior in a wild fox a wild fox",
+      "name": "Wahid Murad",
+      "date": "8 Feb, 2023",
+      "totalView": "40.06k views",
+      "time": "00:12",
+    },
+    {
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "title": "Behavior in a wild fox a wild fox",
+      "name": "Wahid Murad",
+      "date": "8 Feb, 2023",
+      "totalView": "40.06k views",
+      "time": "00:12",
+    },
+    {
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "title": "Behavior in a wild fox a wild fox",
+      "name": "Wahid Murad",
+      "date": "8 Feb, 2023",
+      "totalView": "40.06k views",
+      "time": "00:12",
+    },
+    {
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "title": "Behavior in a wild fox a wild fox",
+      "name": "Wahid Murad",
+      "date": "8 Feb, 2023",
+      "totalView": "40.06k views",
+      "time": "00:12",
+    },
+    {
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "title": "Behavior in a wild fox a wild fox",
+      "name": "Wahid Murad",
+      "date": "8 Feb, 2023",
+      "totalView": "40.06k views",
+      "time": "00:12",
+    },
+  ];
+  void resetBottomSheetData() {
+    temporarySelectedPostedBy.value = "";
+    selectedPostedBy.value = "";
+    isPostedByBottomSheetState.value = false;
+    temporarySelectedDatePosted.value = "";
+    selectedDatePosted.value = "";
+    isDatePostedBottomSheetState.value = false;
+    temporarySelectedCategory.value = "";
+    selectedCategory.value = "";
+    isCategoryBottomSheetState.value = false;
   }
 }

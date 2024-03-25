@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class SearchPage extends StatelessWidget {
   SearchPage({
@@ -133,6 +134,21 @@ class SearchPage extends StatelessWidget {
                                   title: ksPostedBy.tr,
                                   isRightButtonShow: true,
                                   isBottomSheetRightButtonActive: allSearchController.isPostedByBottomSheetState);
+                            }
+                            if (allSearchController.selectedFilterIndex.value == 3 || allSearchController.selectedFilterIndex.value == 4) {
+                              globalController.commonBottomSheet(
+                                  context: context,
+                                  isBottomSheetRightButtonActive: allSearchController.isPhotoVideoBottomSheetState,
+                                  content: PhotosVideosBottomSheetContent(),
+                                  bottomSheetHeight: height * 0.3,
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: () {},
+                                  rightText: ksReset.tr,
+                                  rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                                  title: ksPosts.tr,
+                                  isRightButtonShow: true);
                             }
                           },
                           icon: BipHip.filter,
@@ -478,6 +494,95 @@ class SearchPage extends StatelessWidget {
                           ],
                         ),
                       ),
+                  if (allSearchController.selectedFilterIndex.value == 3)
+                    Padding(
+                      padding: const EdgeInsets.only(top: k16Padding, left: k20Padding, right: k20Padding),
+                      child: GridView.custom(
+                        padding: const EdgeInsets.all(k0Padding),
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate: SliverQuiltedGridDelegate(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 8,
+                          crossAxisSpacing: 8,
+                          repeatPattern: QuiltedGridRepeatPattern.inverted,
+                          pattern: const [
+                            QuiltedGridTile(1, 1),
+                            QuiltedGridTile(1, 1),
+                            QuiltedGridTile(1, 1),
+                            QuiltedGridTile(2, 3),
+                            QuiltedGridTile(1, 1),
+                            QuiltedGridTile(1, 1),
+                            QuiltedGridTile(1, 1),
+                            QuiltedGridTile(2, 2),
+                            QuiltedGridTile(1, 1),
+                            QuiltedGridTile(1, 1),
+                            QuiltedGridTile(1, 1),
+                            QuiltedGridTile(1, 1),
+                            QuiltedGridTile(1, 1),
+                          ],
+                        ),
+                        childrenDelegate: SliverChildBuilderDelegate(
+                          childCount: allSearchController.imageList.length,
+                          (context, index) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: cLineColor),
+                                borderRadius: k8CircularBorderRadius,
+                              ),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: k8CircularBorderRadius,
+                                    child: Image.network(
+                                      allSearchController.imageList[index]["image"],
+                                      fit: BoxFit.cover,
+                                      width: width,
+                                      errorBuilder: (context, error, stackTrace) => const Icon(
+                                        BipHip.imageFile,
+                                        size: kIconSize70,
+                                        color: cIconColor,
+                                      ),
+                                      loadingBuilder: imageLoadingBuilder,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 4,
+                                    bottom: 4,
+                                    child: Text(
+                                      "by ${allSearchController.imageList[index]["name"]}",
+                                      style: regular10TextStyle(cWhiteColor),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+
+                  if (allSearchController.selectedFilterIndex.value == 4)
+                    Padding(
+                      padding: const EdgeInsets.only(top: k16Padding),
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.all(k0Padding),
+                          physics: const NeverScrollableScrollPhysics(),
+                          separatorBuilder: (context, index) => kH8sizedBox,
+                          itemCount: allSearchController.videosList.length,
+                          itemBuilder: (context, index) {
+                            final item = allSearchController.videosList[index];
+                            return VideosContent(
+                              image: item["image"],
+                              title: item["title"],
+                              name: item["name"],
+                              date: item["date"],
+                              totalView: item["totalView"],
+                              time: item["time"],
+                            );
+                          }),
+                    ),
                 ],
               ),
             ),
@@ -528,43 +633,8 @@ class PostsFilterContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Column(
           children: [
-            // OutLinedButton(
-            //   buttonText: ksRecentPost.tr,
-            //   borderColor: cNeutralColor,
-            //   suffixWidget: Obx(() => SizedBox(
-            //         width: (width - 330) / 2,
-            //         child: CustomCheckBox(
-            //             value: allSearchController.isRecentPostCheckBoxSelected.value,
-            //             label: "",
-            //             onChanged: (v) {
-            //               allSearchController.isRecentPostCheckBoxSelected.value = !allSearchController.isRecentPostCheckBoxSelected.value;
-            //             },
-            //             textStyle: regular14TextStyle(cBlackColor)),
-            //       )),
-            // ),
-            // Row(
-            //   children: [
-            //     const IconContainer(icon: Icons.timer),
-            //     kW8sizedBox,
-            //     Text(
-            //       ksRecentPost.tr,
-            //       style: semiBold14TextStyle(cBlackColor),
-            //     ),
-            //     const Spacer(),
-            //     Obx(() => SizedBox(
-            //           width: (width - 330) / 2,
-            //           child: CustomCheckBox(
-            //               value: allSearchController.isRecentPostCheckBoxSelected.value,
-            //               label: "",
-            //               onChanged: (v) {
-            //                 allSearchController.isRecentPostCheckBoxSelected.value = !allSearchController.isRecentPostCheckBoxSelected.value;
-            //               },
-            //               textStyle: regular14TextStyle(cBlackColor)),
-            //         )),
-            //   ],
-            // ),
             CustomListTile(
-              leading: IconContainer(icon: Icons.timer), //!Icon must change
+              leading: const IconContainer(icon: Icons.timer), //!Icon must change
               title: ksRecentPost.tr,
               trailing: Obx(() => SizedBox(
                     width: (width - 330) / 2,
@@ -577,7 +647,6 @@ class PostsFilterContent extends StatelessWidget {
                         textStyle: regular14TextStyle(cBlackColor)),
                   )),
             ),
-
             CustomListTile(
               leading: const IconContainer(icon: BipHip.world),
               title: ksPostedBy.tr,
@@ -616,7 +685,6 @@ class PostsFilterContent extends StatelessWidget {
                     isBottomSheetRightButtonActive: allSearchController.isPostedByBottomSheetState);
               },
             ),
-
             CustomListTile(
               leading: const IconContainer(icon: Icons.date_range), //!Icon must change
               title: ksDatePosted.tr,
@@ -690,6 +758,103 @@ class PostsFilterContent extends StatelessWidget {
                     title: ksCategory.tr,
                     isRightButtonShow: true,
                     isBottomSheetRightButtonActive: allSearchController.isCategoryBottomSheetState);
+              },
+            ),
+            kH24sizedBox,
+            CustomElevatedButton(
+              label: ksShowResult.tr,
+              buttonWidth: width - 40,
+              buttonHeight: h32,
+              onPressed: () {},
+              buttonColor: cPrimaryColor,
+              textStyle: semiBold14TextStyle(cWhiteColor),
+            ),
+          ],
+        ));
+  }
+}
+
+class PhotosVideosBottomSheetContent extends StatelessWidget {
+  PhotosVideosBottomSheetContent({super.key});
+  final AllSearchController allSearchController = Get.find<AllSearchController>();
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Column(
+          children: [
+            CustomListTile(
+              leading: const IconContainer(icon: BipHip.world),
+              title: ksPostedBy.tr,
+              subtitle: allSearchController.selectedPostedBy.value,
+              trailing: allSearchController.selectedPostedBy.value != ""
+                  ? CustomIconButton(
+                      onPress: () {
+                        allSearchController.selectedPostedBy.value = "";
+                      },
+                      icon: BipHip.circleCrossNew,
+                      size: kIconSize20,
+                    )
+                  : null,
+              onPressed: () {
+                allSearchController.temporarySelectedPostedBy.value = allSearchController.selectedPostedBy.value;
+                if (allSearchController.temporarySelectedPostedBy.value != '') {
+                  allSearchController.isPostedByBottomSheetState.value = true;
+                } else {
+                  allSearchController.isPostedByBottomSheetState.value = true;
+                }
+                Get.find<GlobalController>().commonBottomSheet(
+                    context: context,
+                    bottomSheetHeight: height * 0.4,
+                    content: PostedByContent(),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {
+                      allSearchController.selectedPostedBy.value = allSearchController.temporarySelectedPostedBy.value;
+                      Get.back();
+                    },
+                    rightText: ksDone.tr,
+                    rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                    title: ksPostedBy.tr,
+                    isRightButtonShow: true,
+                    isBottomSheetRightButtonActive: allSearchController.isPostedByBottomSheetState);
+              },
+            ),
+            CustomListTile(
+              leading: const IconContainer(icon: Icons.date_range), //!Icon must change
+              title: ksDatePosted.tr,
+              subtitle: allSearchController.selectedDatePosted.value,
+              trailing: allSearchController.selectedDatePosted.value != ""
+                  ? CustomIconButton(
+                      onPress: () {
+                        allSearchController.selectedDatePosted.value = "";
+                      },
+                      icon: BipHip.circleCrossNew,
+                      size: kIconSize20,
+                    )
+                  : null,
+              onPressed: () {
+                allSearchController.temporarySelectedDatePosted.value = allSearchController.selectedDatePosted.value;
+                // kidsController.temporaryKidRelationId.value = kidsController.kidRelationId.value;
+                if (allSearchController.temporarySelectedDatePosted.value != '') {
+                  allSearchController.isDatePostedBottomSheetState.value = true;
+                } else {
+                  allSearchController.isDatePostedBottomSheetState.value = true;
+                }
+                Get.find<GlobalController>().commonBottomSheet(
+                    context: context,
+                    content: DatePostedContent(),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {
+                      allSearchController.selectedDatePosted.value = allSearchController.temporarySelectedDatePosted.value;
+                      Get.back();
+                    },
+                    rightText: ksDone.tr,
+                    rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                    title: ksDatePosted.tr,
+                    isRightButtonShow: true,
+                    isBottomSheetRightButtonActive: allSearchController.isDatePostedBottomSheetState);
               },
             ),
             kH24sizedBox,
@@ -882,6 +1047,103 @@ class IconContainer extends StatelessWidget {
         icon,
         size: kIconSize12,
         color: cIconColor,
+      ),
+    );
+  }
+}
+
+class VideosContent extends StatelessWidget {
+  const VideosContent({
+    super.key,
+    this.image,
+    required this.title,
+    this.name,
+    this.onPressed,
+    this.date,
+    this.totalView,
+    this.time,
+  });
+  final String? image;
+  final String title;
+  final String? name;
+  final String? date;
+  final String? totalView;
+  final String? time;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (image != null)
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                  child: SizedBox(
+                    width: 120,
+                    height: 90,
+                    child: Image.network(
+                      image ?? '',
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => const Icon(
+                        BipHip.imageFile,
+                        size: kIconSize70,
+                        color: cIconColor,
+                      ),
+                      loadingBuilder: imageLoadingBuilder,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: h10,
+                  bottom: h10,
+                  child: Text(
+                    time ?? "",
+                    style: semiBold12TextStyle(cWhiteColor),
+                  ),
+                ),
+              ],
+            ),
+          kW12sizedBox,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // kH8sizedBox,
+                Text(
+                  title,
+                  style: semiBold18TextStyle(cBlackColor),
+                  overflow: TextOverflow.clip,
+                ),
+                kH8sizedBox,
+                Text(
+                  name ?? "",
+                  style: regular16TextStyle(cSmallBodyTextColor),
+                  textAlign: TextAlign.left,
+                ),
+                kH8sizedBox,
+                Row(
+                  children: [
+                    Text(
+                      date ?? "",
+                      style: regular12TextStyle(cSmallBodyTextColor),
+                    ),
+                    kW4sizedBox,
+                    Text(
+                      totalView ?? "",
+                      style: regular12TextStyle(cSmallBodyTextColor),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
