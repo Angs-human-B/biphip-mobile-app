@@ -1004,38 +1004,38 @@ class PostSellingSection extends StatelessWidget {
             CustomListTile(
               leading: const IconContainer(icon: BipHip.menuFill),
               title: ksCategory.tr,
-              subtitle: allSearchController.selectedCategory.value,
-              trailing: allSearchController.selectedCategory.value != ""
+              subtitle: allSearchController.selectedSellPostProductCategory.value,
+              trailing: allSearchController.selectedSellPostProductCategory.value != ""
                   ? CustomIconButton(
                       onPress: () {
-                        allSearchController.selectedCategory.value = "";
+                        allSearchController.selectedSellPostProductCategory.value = "";
                       },
                       icon: BipHip.circleCrossNew,
                       size: kIconSize20,
                     )
                   : null,
               onPressed: () {
-                allSearchController.temporarySelectedCategory.value = allSearchController.selectedCategory.value;
-                if (allSearchController.temporarySelectedCategory.value != '') {
-                  allSearchController.isCategoryBottomSheetState.value = true;
+                allSearchController.temporarySelectedSellPostProductCategory.value = allSearchController.selectedSellPostProductCategory.value;
+                if (allSearchController.temporarySelectedSellPostProductCategory.value != '') {
+                  allSearchController.isSellPostProductConditionBottomSheetState.value = true;
                 } else {
-                  allSearchController.isCategoryBottomSheetState.value = true;
+                  allSearchController.isSellPostProductConditionBottomSheetState.value = true;
                 }
                 Get.find<GlobalController>().commonBottomSheet(
                     context: context,
-                    content: CategoryContent(),
+                    content: SellPostProductCategoryContent(),
                     onPressCloseButton: () {
                       Get.back();
                     },
                     onPressRightButton: () {
-                      allSearchController.selectedCategory.value = allSearchController.temporarySelectedCategory.value;
+                      allSearchController.selectedSellPostProductCategory.value = allSearchController.temporarySelectedSellPostProductCategory.value;
                       Get.back();
                     },
                     rightText: ksDone.tr,
                     rightTextStyle: semiBold14TextStyle(cPrimaryColor),
                     title: ksCategory.tr,
                     isRightButtonShow: true,
-                    isBottomSheetRightButtonActive: allSearchController.isCategoryBottomSheetState);
+                    isBottomSheetRightButtonActive: allSearchController.isSellPostProductConditionBottomSheetState);
               },
             ),
             kH24sizedBox,
@@ -1245,6 +1245,59 @@ class SellPostConditionContent extends StatelessWidget {
                       }
                     },
                     isSelected: allSearchController.temporarySelectedSellPostCondition.value == allSearchController.conditionList[index],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class SellPostProductCategoryContent extends StatelessWidget {
+  SellPostProductCategoryContent({super.key});
+  final AllSearchController allSearchController = Get.find<AllSearchController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: allSearchController.productCategoryList.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: k10Padding),
+              child: Obx(
+                () => CustomListTile(
+                  itemColor: allSearchController.temporarySelectedSellPostProductCategory.value == allSearchController.productCategoryList[index]
+                      ? cPrimaryTint3Color
+                      : cWhiteColor,
+                  onPressed: () {
+                    allSearchController.temporarySelectedSellPostProductCategory.value = allSearchController.productCategoryList[index];
+                    if (allSearchController.temporarySelectedSellPostProductCategory.value == '') {
+                      allSearchController.isSellPostProductConditionBottomSheetState.value = false;
+                    } else {
+                      allSearchController.isSellPostProductConditionBottomSheetState.value = true;
+                    }
+                  },
+                  title: allSearchController.productCategoryList[index],
+                  borderColor: allSearchController.temporarySelectedSellPostProductCategory.value == allSearchController.productCategoryList[index]
+                      ? cPrimaryColor
+                      : cLineColor,
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      allSearchController.temporarySelectedSellPostProductCategory.value = allSearchController.productCategoryList[index];
+                      if (allSearchController.temporarySelectedSellPostProductCategory.value == '') {
+                        allSearchController.isSellPostProductConditionBottomSheetState.value = false;
+                      } else {
+                        allSearchController.isSellPostProductConditionBottomSheetState.value = true;
+                      }
+                    },
+                    isSelected: allSearchController.temporarySelectedSellPostProductCategory.value == allSearchController.productCategoryList[index],
                   ),
                 ),
               ),
@@ -1491,14 +1544,6 @@ class SellPostBottomSheetContent extends StatelessWidget {
         Obx(
           () => OutLinedButton(
             onPress: () {
-              // createPostController.isRegularPost.value = true;
-              // createPostController.isBiddingPost.value = false;
-              // createPostController.temporarySellingPostType.value = ksRegularPost.tr;
-              // if (createPostController.temporarySellingPostType.value == '') {
-              //   createPostController.sellingPostTypeBottomSheetRightButtonState.value = false;
-              // } else {
-              //   createPostController.sellingPostTypeBottomSheetRightButtonState.value = true;
-              // }
               allSearchController.temporarySelectedSellPostType.value = ksRegularPost.tr;
               allSearchController.isSellPostTypeBottomSheetState.value = true;
             },
@@ -1545,14 +1590,6 @@ class SellPostBottomSheetContent extends StatelessWidget {
         Obx(
           () => OutLinedButton(
             onPress: () {
-              // createPostController.isRegularPost.value = false;
-              // createPostController.isBiddingPost.value = true;
-              // createPostController.temporarySellingPostType.value = ksBiddingPost.tr;
-              // if (createPostController.temporarySellingPostType.value == '') {
-              //   createPostController.sellingPostTypeBottomSheetRightButtonState.value = false;
-              // } else {
-              //   createPostController.sellingPostTypeBottomSheetRightButtonState.value = true;
-              // }
               allSearchController.temporarySelectedSellPostType.value = ksBiddingPost.tr;
               allSearchController.isSellPostTypeBottomSheetState.value = true;
             },
