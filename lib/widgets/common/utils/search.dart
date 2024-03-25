@@ -101,19 +101,39 @@ class SearchPage extends StatelessWidget {
                       if (allSearchController.selectedFilterIndex.value != 0)
                         CustomIconButton(
                           onPress: () {
-                            globalController.commonBottomSheet(
-                                context: context,
-                                isBottomSheetRightButtonActive: allSearchController.isFilterRightButtonActive,
-                                content: PostsFilterContent(),
-                                bottomSheetHeight: height * 0.4,
-                                onPressCloseButton: () {
-                                  Get.back();
-                                },
-                                onPressRightButton: () {},
-                                rightText: ksReset.tr,
-                                rightTextStyle: semiBold14TextStyle(cPrimaryColor),
-                                title: ksPosts.tr,
-                                isRightButtonShow: true);
+                            if (allSearchController.selectedFilterIndex.value == 1) {
+                              globalController.commonBottomSheet(
+                                  context: context,
+                                  isBottomSheetRightButtonActive: allSearchController.isFilterRightButtonActive,
+                                  content: PostsFilterContent(),
+                                  bottomSheetHeight: height * 0.4,
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: () {},
+                                  rightText: ksReset.tr,
+                                  rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                                  title: ksPosts.tr,
+                                  isRightButtonShow: true);
+                            }
+                            if (allSearchController.selectedFilterIndex.value == 2) {
+                              Get.find<GlobalController>().commonBottomSheet(
+                                  context: context,
+                                  bottomSheetHeight: height * 0.4,
+                                  content: PostedByContent(),
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: () {
+                                    allSearchController.selectedPostedBy.value = allSearchController.temporarySelectedPostedBy.value;
+                                    Get.back();
+                                  },
+                                  rightText: ksDone.tr,
+                                  rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                                  title: ksPostedBy.tr,
+                                  isRightButtonShow: true,
+                                  isBottomSheetRightButtonActive: allSearchController.isPostedByBottomSheetState);
+                            }
                           },
                           icon: BipHip.filter,
                           size: kIconSize16,
@@ -219,6 +239,7 @@ class SearchPage extends StatelessWidget {
                                         isSelected: (allSearchController.selectedFilterIndex.value == i),
                                         onSelected: (value) {
                                           allSearchController.selectedFilterIndex.value = i;
+                                          allSearchController.resetBottomSheetData();
                                           // allSearchController.isFilterSelected.value = value;
                                         },
                                       ),
@@ -595,6 +616,7 @@ class PostsFilterContent extends StatelessWidget {
                     isBottomSheetRightButtonActive: allSearchController.isPostedByBottomSheetState);
               },
             ),
+
             CustomListTile(
               leading: const IconContainer(icon: Icons.date_range), //!Icon must change
               title: ksDatePosted.tr,

@@ -98,4 +98,15 @@ class AllSearchController extends GetxController {
       "mutualFriend": "1 mutual friend",
     },
   ]);
+  void resetBottomSheetData(){
+   temporarySelectedPostedBy.value = ""; 
+   selectedPostedBy.value = ""; 
+   isPostedByBottomSheetState.value = false; 
+   temporarySelectedDatePosted.value = ""; 
+   selectedDatePosted.value = ""; 
+   isDatePostedBottomSheetState.value = false; 
+   temporarySelectedCategory.value = ""; 
+   selectedCategory.value = ""; 
+   isCategoryBottomSheetState.value = false; 
+  }
 }
