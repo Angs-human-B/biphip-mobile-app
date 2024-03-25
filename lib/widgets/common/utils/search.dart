@@ -166,6 +166,21 @@ class SearchPage extends StatelessWidget {
                                 title: ksPosts.tr,
                                 isRightButtonShow: true);
                           }
+                          if (allSearchController.selectedFilterIndex.value == 6 || allSearchController.selectedFilterIndex.value == 7) {
+                            globalController.commonBottomSheet(
+                                context: context,
+                                isBottomSheetRightButtonActive: allSearchController.isFilterRightButtonActive,
+                                content: KidsNewsContent(),
+                                bottomSheetHeight: height * 0.35,
+                                onPressCloseButton: () {
+                                  Get.back();
+                                },
+                                onPressRightButton: () {},
+                                rightText: ksReset.tr,
+                                rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                                title: ksPosts.tr,
+                                isRightButtonShow: true);
+                          }
                         },
                         icon: BipHip.filter,
                         size: kIconSize16,
@@ -690,6 +705,128 @@ class SearchPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                if (allSearchController.selectedFilterIndex.value == 6)
+                  if (Get.find<HomeController>().allPostList.isNotEmpty)
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ListView.separated(
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.all(k0Padding),
+                                physics: const NeverScrollableScrollPhysics(),
+                                separatorBuilder: (context, index) => kH8sizedBox,
+                                itemCount: Get.find<HomeController>().allPostList.length,
+                                itemBuilder: (context, index) {
+                                  var item = Get.find<HomeController>().allPostList[index];
+                                  return Container(
+                                    color: cWhiteColor,
+                                    width: width - 40,
+                                    child: CommonPostWidget(
+                                      postIndex: index,
+                                      isCommented: index % 2 == 0,
+                                      isLiked: index % 2 != 0,
+                                      isSharedPost: false,
+                                      showBottomSection: true,
+                                      userName: item.user!.fullName!,
+                                      postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
+                                      isCategorized: true,
+                                      category: item.postCategory == null ? null : item.postCategory!.name, //API
+                                      categoryIcon: item.postCategory == null
+                                          ? null
+                                          : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
+                                      categoryIconColor:
+                                          item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
+                                      privacy: BipHip.world,
+                                      brandName: item.store == null ? null : item.store!.name, //API
+                                      kidName: item.kid == null ? null : item.kid!.name, //API
+                                      kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                                      postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
+                                      mediaList: item.images, //API
+                                      isSelfPost: index % 2 != 0,
+                                      isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
+                                      reactCount: item.countReactions,
+                                      postID: item.id!,
+                                      secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
+                                      subCategory: null,
+                                      platformName: 'Jane Clothing',
+                                      platformLink: 'www.facebook.com/Clothing/lorem',
+                                      actionName: null,
+                                      title: item.title, //API
+                                      price: item.price.toString(), //API
+                                      mainPrice: '400',
+                                      discount: item.discount.toString(),
+                                      isInStock: false,
+                                      productCondition: 'New',
+                                      productCategory: 'Phone', userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
+                                    ),
+                                  );
+                                }),
+                          ],
+                        ),
+                      ),
+                    ),
+                if (allSearchController.selectedFilterIndex.value == 7)
+                  if (Get.find<HomeController>().allPostList.isNotEmpty)
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ListView.separated(
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.all(k0Padding),
+                                physics: const NeverScrollableScrollPhysics(),
+                                separatorBuilder: (context, index) => kH8sizedBox,
+                                itemCount: Get.find<HomeController>().allPostList.length,
+                                itemBuilder: (context, index) {
+                                  var item = Get.find<HomeController>().allPostList[index];
+                                  return Container(
+                                    color: cWhiteColor,
+                                    width: width - 40,
+                                    child: CommonPostWidget(
+                                      postIndex: index,
+                                      isCommented: index % 2 == 0,
+                                      isLiked: index % 2 != 0,
+                                      isSharedPost: false,
+                                      showBottomSection: true,
+                                      userName: item.user!.fullName!,
+                                      postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
+                                      isCategorized: true,
+                                      category: item.postCategory == null ? null : item.postCategory!.name, //API
+                                      categoryIcon: item.postCategory == null
+                                          ? null
+                                          : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
+                                      categoryIconColor:
+                                          item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
+                                      privacy: BipHip.world,
+                                      brandName: item.store == null ? null : item.store!.name, //API
+                                      kidName: item.kid == null ? null : item.kid!.name, //API
+                                      kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                                      postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
+                                      mediaList: item.images, //API
+                                      isSelfPost: index % 2 != 0,
+                                      isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
+                                      reactCount: item.countReactions,
+                                      postID: item.id!,
+                                      secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
+                                      subCategory: null,
+                                      platformName: 'Jane Clothing',
+                                      platformLink: 'www.facebook.com/Clothing/lorem',
+                                      actionName: null,
+                                      title: item.title, //API
+                                      price: item.price.toString(), //API
+                                      mainPrice: '400',
+                                      discount: item.discount.toString(),
+                                      isInStock: false,
+                                      productCondition: 'New',
+                                      productCategory: 'Phone', userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
+                                    ),
+                                  );
+                                }),
+                          ],
+                        ),
+                      ),
+                    ),
               ],
             ),
           ),
@@ -1052,6 +1189,140 @@ class PostSellingSection extends StatelessWidget {
   }
 }
 
+class KidsNewsContent extends StatelessWidget {
+  KidsNewsContent({super.key});
+  final AllSearchController allSearchController = Get.find<AllSearchController>();
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Column(
+          children: [
+            CustomListTile(
+              leading: const IconContainer(icon: BipHip.menuFill),
+              title: ksSubCategory.tr,
+              subtitle: allSearchController.selectedSubCategory.value,
+              trailing: allSearchController.selectedSubCategory.value != ""
+                  ? CustomIconButton(
+                      onPress: () {
+                        allSearchController.selectedSubCategory.value = "";
+                      },
+                      icon: BipHip.circleCrossNew,
+                      size: kIconSize20,
+                    )
+                  : null,
+              onPressed: () {
+                allSearchController.temporarySelectedSubCategory.value = allSearchController.selectedSubCategory.value;
+                if (allSearchController.temporarySelectedSubCategory.value != '') {
+                  allSearchController.isSubCategoryBottomSheetState.value = true;
+                } else {
+                  allSearchController.isSubCategoryBottomSheetState.value = true;
+                }
+                Get.find<GlobalController>().commonBottomSheet(
+                    context: context,
+                    content: SubCategoryBottomSheetContent(),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {
+                      allSearchController.selectedSubCategory.value = allSearchController.temporarySelectedSubCategory.value;
+                      Get.back();
+                    },
+                    rightText: ksDone.tr,
+                    rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                    title: ksDatePosted.tr,
+                    isRightButtonShow: true,
+                    isBottomSheetRightButtonActive: allSearchController.isSubCategoryBottomSheetState);
+              },
+            ),
+            CustomListTile(
+              leading: const IconContainer(icon: Icons.date_range), //!Icon must change
+              title: ksDatePosted.tr,
+              subtitle: allSearchController.selectedDatePosted.value,
+              trailing: allSearchController.selectedDatePosted.value != ""
+                  ? CustomIconButton(
+                      onPress: () {
+                        allSearchController.selectedDatePosted.value = "";
+                      },
+                      icon: BipHip.circleCrossNew,
+                      size: kIconSize20,
+                    )
+                  : null,
+              onPressed: () {
+                allSearchController.temporarySelectedDatePosted.value = allSearchController.selectedDatePosted.value;
+                // kidsController.temporaryKidRelationId.value = kidsController.kidRelationId.value;
+                if (allSearchController.temporarySelectedDatePosted.value != '') {
+                  allSearchController.isDatePostedBottomSheetState.value = true;
+                } else {
+                  allSearchController.isDatePostedBottomSheetState.value = true;
+                }
+                Get.find<GlobalController>().commonBottomSheet(
+                    context: context,
+                    content: DatePostedContent(),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {
+                      allSearchController.selectedDatePosted.value = allSearchController.temporarySelectedDatePosted.value;
+                      Get.back();
+                    },
+                    rightText: ksDone.tr,
+                    rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                    title: ksDatePosted.tr,
+                    isRightButtonShow: true,
+                    isBottomSheetRightButtonActive: allSearchController.isDatePostedBottomSheetState);
+              },
+            ),
+            CustomListTile(
+              leading: const IconContainer(icon: BipHip.world),
+              title: ksPostedBy.tr,
+              subtitle: allSearchController.selectedPostedBy.value,
+              trailing: allSearchController.selectedPostedBy.value != ""
+                  ? CustomIconButton(
+                      onPress: () {
+                        allSearchController.selectedPostedBy.value = "";
+                      },
+                      icon: BipHip.circleCrossNew,
+                      size: kIconSize20,
+                    )
+                  : null,
+              onPressed: () {
+                allSearchController.temporarySelectedPostedBy.value = allSearchController.selectedPostedBy.value;
+                if (allSearchController.temporarySelectedPostedBy.value != '') {
+                  allSearchController.isPostedByBottomSheetState.value = true;
+                } else {
+                  allSearchController.isPostedByBottomSheetState.value = true;
+                }
+                Get.find<GlobalController>().commonBottomSheet(
+                    context: context,
+                    bottomSheetHeight: height * 0.4,
+                    content: PostedByContent(),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {
+                      allSearchController.selectedPostedBy.value = allSearchController.temporarySelectedPostedBy.value;
+                      Get.back();
+                    },
+                    rightText: ksDone.tr,
+                    rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                    title: ksPostedBy.tr,
+                    isRightButtonShow: true,
+                    isBottomSheetRightButtonActive: allSearchController.isPostedByBottomSheetState);
+              },
+            ),
+            kH24sizedBox,
+            CustomElevatedButton(
+              label: ksShowResult.tr,
+              buttonWidth: width - 40,
+              buttonHeight: h32,
+              onPressed: () {},
+              buttonColor: cPrimaryColor,
+              textStyle: semiBold14TextStyle(cWhiteColor),
+            ),
+          ],
+        ));
+  }
+}
+
 class PhotosVideosBottomSheetContent extends StatelessWidget {
   PhotosVideosBottomSheetContent({super.key});
   final AllSearchController allSearchController = Get.find<AllSearchController>();
@@ -1192,6 +1463,57 @@ class PostedByContent extends StatelessWidget {
                       }
                     },
                     isSelected: allSearchController.temporarySelectedPostedBy.value == allSearchController.postedByList[index]["type"],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class SubCategoryBottomSheetContent extends StatelessWidget {
+  SubCategoryBottomSheetContent({super.key});
+  final AllSearchController allSearchController = Get.find<AllSearchController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: allSearchController.subCategoryList.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: k10Padding),
+              child: Obx(
+                () => CustomListTile(
+                  itemColor:
+                      allSearchController.temporarySelectedSubCategory.value == allSearchController.subCategoryList[index] ? cPrimaryTint3Color : cWhiteColor,
+                  onPressed: () {
+                    allSearchController.temporarySelectedSubCategory.value = allSearchController.subCategoryList[index];
+                    if (allSearchController.temporarySelectedSubCategory.value == '') {
+                      allSearchController.isSubCategoryBottomSheetState.value = false;
+                    } else {
+                      allSearchController.isSubCategoryBottomSheetState.value = true;
+                    }
+                  },
+                  title: allSearchController.subCategoryList[index],
+                  borderColor:
+                      allSearchController.temporarySelectedSubCategory.value == allSearchController.subCategoryList[index] ? cPrimaryColor : cLineColor,
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      allSearchController.temporarySelectedSubCategory.value = allSearchController.subCategoryList[index];
+                      if (allSearchController.temporarySelectedSubCategory.value == '') {
+                        allSearchController.isSubCategoryBottomSheetState.value = false;
+                      } else {
+                        allSearchController.isSubCategoryBottomSheetState.value = true;
+                      }
+                    },
+                    isSelected: allSearchController.temporarySelectedSubCategory.value == allSearchController.subCategoryList[index],
                   ),
                 ),
               ),

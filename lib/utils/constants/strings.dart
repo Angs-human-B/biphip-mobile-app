@@ -607,3 +607,4 @@ const String ksRecentPost = "Recent Post";
 const String ksPostedBy = "Posted By";
 const String ksDatePosted = "Date Posted";
 const String ksShowResult = "Show Result";
+const String ksSubCategory = "Sub Category";

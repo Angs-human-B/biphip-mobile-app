@@ -32,6 +32,10 @@ class AllSearchController extends GetxController {
   final RxString temporarySelectedSellPostProductCategory = RxString("");
   final RxString selectedSellPostProductCategory = RxString("");
   final RxBool isSellPostProductConditionBottomSheetState = RxBool(false);
+  final RxString temporarySelectedSubCategory = RxString("");
+  final RxString selectedSubCategory = RxString("");
+  final RxBool isSubCategoryBottomSheetState = RxBool(false);
+  final List subCategoryList = ["Kids subcategory","News subcategory","International News","Sports News"];
   final List productCategoryList = ["Any","Gadgets","Fashion","Electronics","Phone","Laptop"];
   final List conditionList = ["Any","New","used","Used Like New","Used Like Poor","Like New"];
   final RxList datePostedList = RxList([
@@ -258,5 +262,18 @@ class AllSearchController extends GetxController {
     temporarySelectedCategory.value = "";
     selectedCategory.value = "";
     isCategoryBottomSheetState.value = false;
+    temporarySelectedSubCategory.value = "";
+    selectedSubCategory.value = "";
+    isSubCategoryBottomSheetState.value = false;
+    isPhotoVideoBottomSheetState.value = false;
+   temporarySelectedSellPostType.value = "";
+  selectedSellPostType.value = "";
+  isSellPostTypeBottomSheetState.value = false;
+   temporarySelectedSellPostCondition.value = "";
+   selectedSellPostCondition.value = "";
+  isSellPostConditionBottomSheetState.value = false;
+   temporarySelectedSellPostProductCategory.value = "";
+  selectedSellPostProductCategory.value = "";
+  isSellPostProductConditionBottomSheetState.value = false;
   }
 }
