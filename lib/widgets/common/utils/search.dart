@@ -3,7 +3,6 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
-import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 
 class SearchPage extends StatelessWidget {
   SearchPage({
@@ -522,35 +521,57 @@ class PostsFilterContent extends StatelessWidget {
             //             textStyle: regular14TextStyle(cBlackColor)),
             //       )),
             // ),
-            Row(
-              children: [
-                const IconContainer(icon: Icons.timer),
-                kW8sizedBox,
-                Text(
-                  ksRecentPost.tr,
-                  style: semiBold14TextStyle(cBlackColor),
-                ),
-                const Spacer(),
-                Obx(() => SizedBox(
-                      width: (width - 330) / 2,
-                      child: CustomCheckBox(
-                          value: allSearchController.isRecentPostCheckBoxSelected.value,
-                          label: "",
-                          onChanged: (v) {
-                            allSearchController.isRecentPostCheckBoxSelected.value = !allSearchController.isRecentPostCheckBoxSelected.value;
-                          },
-                          textStyle: regular14TextStyle(cBlackColor)),
-                    )),
-              ],
+            // Row(
+            //   children: [
+            //     const IconContainer(icon: Icons.timer),
+            //     kW8sizedBox,
+            //     Text(
+            //       ksRecentPost.tr,
+            //       style: semiBold14TextStyle(cBlackColor),
+            //     ),
+            //     const Spacer(),
+            //     Obx(() => SizedBox(
+            //           width: (width - 330) / 2,
+            //           child: CustomCheckBox(
+            //               value: allSearchController.isRecentPostCheckBoxSelected.value,
+            //               label: "",
+            //               onChanged: (v) {
+            //                 allSearchController.isRecentPostCheckBoxSelected.value = !allSearchController.isRecentPostCheckBoxSelected.value;
+            //               },
+            //               textStyle: regular14TextStyle(cBlackColor)),
+            //         )),
+            //   ],
+            // ),
+            CustomListTile(
+              leading: IconContainer(icon: Icons.timer), //!Icon must change
+              title: ksRecentPost.tr,
+              trailing: Obx(() => SizedBox(
+                    width: (width - 330) / 2,
+                    child: CustomCheckBox(
+                        value: allSearchController.isRecentPostCheckBoxSelected.value,
+                        label: "",
+                        onChanged: (v) {
+                          allSearchController.isRecentPostCheckBoxSelected.value = !allSearchController.isRecentPostCheckBoxSelected.value;
+                        },
+                        textStyle: regular14TextStyle(cBlackColor)),
+                  )),
             ),
 
-            kH16sizedBox,
-            OutLinedButton(
-              buttonText: ksPostedBy.tr,
-              borderColor: cWhiteColor,
-              onPress: () {
+            CustomListTile(
+              leading: const IconContainer(icon: BipHip.world),
+              title: ksPostedBy.tr,
+              subtitle: allSearchController.selectedPostedBy.value,
+              trailing: allSearchController.selectedPostedBy.value != ""
+                  ? CustomIconButton(
+                      onPress: () {
+                        allSearchController.selectedPostedBy.value = "";
+                      },
+                      icon: BipHip.circleCrossNew,
+                      size: kIconSize20,
+                    )
+                  : null,
+              onPressed: () {
                 allSearchController.temporarySelectedPostedBy.value = allSearchController.selectedPostedBy.value;
-                // kidsController.temporaryKidRelationId.value = kidsController.kidRelationId.value;
                 if (allSearchController.temporarySelectedPostedBy.value != '') {
                   allSearchController.isPostedByBottomSheetState.value = true;
                 } else {
@@ -558,6 +579,7 @@ class PostsFilterContent extends StatelessWidget {
                 }
                 Get.find<GlobalController>().commonBottomSheet(
                     context: context,
+                    bottomSheetHeight: height * 0.4,
                     content: PostedByContent(),
                     onPressCloseButton: () {
                       Get.back();
@@ -572,17 +594,21 @@ class PostsFilterContent extends StatelessWidget {
                     isRightButtonShow: true,
                     isBottomSheetRightButtonActive: allSearchController.isPostedByBottomSheetState);
               },
-              buttonTextStyle: semiBold14TextStyle(cBlackColor),
-              suffixWidget: const IconContainer(icon: BipHip.world),
-              subTitleText: allSearchController.selectedPostedBy.value,
-              buttonHeight: h40,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
-            kH16sizedBox,
-            OutLinedButton(
-              buttonText: ksDatePosted.tr,
-              borderColor: cWhiteColor,
-              onPress: () {
+            CustomListTile(
+              leading: const IconContainer(icon: Icons.date_range), //!Icon must change
+              title: ksDatePosted.tr,
+              subtitle: allSearchController.selectedDatePosted.value,
+              trailing: allSearchController.selectedDatePosted.value != ""
+                  ? CustomIconButton(
+                      onPress: () {
+                        allSearchController.selectedDatePosted.value = "";
+                      },
+                      icon: BipHip.circleCrossNew,
+                      size: kIconSize20,
+                    )
+                  : null,
+              onPressed: () {
                 allSearchController.temporarySelectedDatePosted.value = allSearchController.selectedDatePosted.value;
                 // kidsController.temporaryKidRelationId.value = kidsController.kidRelationId.value;
                 if (allSearchController.temporarySelectedDatePosted.value != '') {
@@ -606,18 +632,22 @@ class PostsFilterContent extends StatelessWidget {
                     isRightButtonShow: true,
                     isBottomSheetRightButtonActive: allSearchController.isDatePostedBottomSheetState);
               },
-              buttonTextStyle: semiBold14TextStyle(cBlackColor),
-              suffixWidget: const IconContainer(icon: Icons.date_range_outlined),
-              subTitleText: allSearchController.selectedDatePosted.value,
-              buttonHeight: h40,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
-            OutLinedButton(
-              buttonText: ksCategory.tr,
-              borderColor: cWhiteColor,
-              onPress: () {
-                 allSearchController.temporarySelectedCategory.value = allSearchController.selectedCategory.value;
-                // kidsController.temporaryKidRelationId.value = kidsController.kidRelationId.value;
+            CustomListTile(
+              leading: const IconContainer(icon: BipHip.menuFill),
+              title: ksCategory.tr,
+              subtitle: allSearchController.selectedCategory.value,
+              trailing: allSearchController.selectedCategory.value != ""
+                  ? CustomIconButton(
+                      onPress: () {
+                        allSearchController.selectedCategory.value = "";
+                      },
+                      icon: BipHip.circleCrossNew,
+                      size: kIconSize20,
+                    )
+                  : null,
+              onPressed: () {
+                allSearchController.temporarySelectedCategory.value = allSearchController.selectedCategory.value;
                 if (allSearchController.temporarySelectedCategory.value != '') {
                   allSearchController.isCategoryBottomSheetState.value = true;
                 } else {
@@ -639,11 +669,6 @@ class PostsFilterContent extends StatelessWidget {
                     isRightButtonShow: true,
                     isBottomSheetRightButtonActive: allSearchController.isCategoryBottomSheetState);
               },
-              buttonTextStyle: semiBold14TextStyle(cBlackColor),
-              suffixWidget: const IconContainer(icon: BipHip.menuFill),
-              subTitleText: allSearchController.selectedCategory.value,
-              buttonHeight: h40,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
             ),
             kH24sizedBox,
             CustomElevatedButton(
@@ -784,9 +809,7 @@ class CategoryContent extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: k10Padding),
               child: Obx(
                 () => CustomListTile(
-                  itemColor: allSearchController.temporarySelectedCategory.value == allSearchController.categoryList[index]
-                      ? cPrimaryTint3Color
-                      : cWhiteColor,
+                  itemColor: allSearchController.temporarySelectedCategory.value == allSearchController.categoryList[index] ? cPrimaryTint3Color : cWhiteColor,
                   onPressed: () {
                     allSearchController.temporarySelectedCategory.value = allSearchController.categoryList[index];
                     // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
@@ -797,8 +820,7 @@ class CategoryContent extends StatelessWidget {
                     }
                   },
                   title: allSearchController.categoryList[index],
-                  borderColor:
-                      allSearchController.temporarySelectedCategory.value == allSearchController.categoryList[index] ? cPrimaryColor : cLineColor,
+                  borderColor: allSearchController.temporarySelectedCategory.value == allSearchController.categoryList[index] ? cPrimaryColor : cLineColor,
                   trailing: CustomRadioButton(
                     onChanged: () {
                       allSearchController.temporarySelectedCategory.value = allSearchController.categoryList[index];
