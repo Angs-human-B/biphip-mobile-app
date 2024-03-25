@@ -506,134 +506,339 @@ class PostsFilterContent extends StatelessWidget {
   final AllSearchController allSearchController = Get.find<AllSearchController>();
   @override
   Widget build(BuildContext context) {
+    return Obx(() => Column(
+          children: [
+            // OutLinedButton(
+            //   buttonText: ksRecentPost.tr,
+            //   borderColor: cNeutralColor,
+            //   suffixWidget: Obx(() => SizedBox(
+            //         width: (width - 330) / 2,
+            //         child: CustomCheckBox(
+            //             value: allSearchController.isRecentPostCheckBoxSelected.value,
+            //             label: "",
+            //             onChanged: (v) {
+            //               allSearchController.isRecentPostCheckBoxSelected.value = !allSearchController.isRecentPostCheckBoxSelected.value;
+            //             },
+            //             textStyle: regular14TextStyle(cBlackColor)),
+            //       )),
+            // ),
+            Row(
+              children: [
+                const IconContainer(icon: Icons.timer),
+                kW8sizedBox,
+                Text(
+                  ksRecentPost.tr,
+                  style: semiBold14TextStyle(cBlackColor),
+                ),
+                const Spacer(),
+                Obx(() => SizedBox(
+                      width: (width - 330) / 2,
+                      child: CustomCheckBox(
+                          value: allSearchController.isRecentPostCheckBoxSelected.value,
+                          label: "",
+                          onChanged: (v) {
+                            allSearchController.isRecentPostCheckBoxSelected.value = !allSearchController.isRecentPostCheckBoxSelected.value;
+                          },
+                          textStyle: regular14TextStyle(cBlackColor)),
+                    )),
+              ],
+            ),
+
+            kH16sizedBox,
+            OutLinedButton(
+              buttonText: ksPostedBy.tr,
+              borderColor: cWhiteColor,
+              onPress: () {
+                allSearchController.temporarySelectedPostedBy.value = allSearchController.selectedPostedBy.value;
+                // kidsController.temporaryKidRelationId.value = kidsController.kidRelationId.value;
+                if (allSearchController.temporarySelectedPostedBy.value != '') {
+                  allSearchController.isPostedByBottomSheetState.value = true;
+                } else {
+                  allSearchController.isPostedByBottomSheetState.value = true;
+                }
+                Get.find<GlobalController>().commonBottomSheet(
+                    context: context,
+                    content: PostedByContent(),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {
+                      allSearchController.selectedPostedBy.value = allSearchController.temporarySelectedPostedBy.value;
+                      Get.back();
+                    },
+                    rightText: ksDone.tr,
+                    rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                    title: ksPostedBy.tr,
+                    isRightButtonShow: true,
+                    isBottomSheetRightButtonActive: allSearchController.isPostedByBottomSheetState);
+              },
+              buttonTextStyle: semiBold14TextStyle(cBlackColor),
+              suffixWidget: const IconContainer(icon: BipHip.world),
+              subTitleText: allSearchController.selectedPostedBy.value,
+              buttonHeight: h40,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            kH16sizedBox,
+            OutLinedButton(
+              buttonText: ksDatePosted.tr,
+              borderColor: cWhiteColor,
+              onPress: () {
+                allSearchController.temporarySelectedDatePosted.value = allSearchController.selectedDatePosted.value;
+                // kidsController.temporaryKidRelationId.value = kidsController.kidRelationId.value;
+                if (allSearchController.temporarySelectedDatePosted.value != '') {
+                  allSearchController.isDatePostedBottomSheetState.value = true;
+                } else {
+                  allSearchController.isDatePostedBottomSheetState.value = true;
+                }
+                Get.find<GlobalController>().commonBottomSheet(
+                    context: context,
+                    content: DatePostedContent(),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {
+                      allSearchController.selectedDatePosted.value = allSearchController.temporarySelectedDatePosted.value;
+                      Get.back();
+                    },
+                    rightText: ksDone.tr,
+                    rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                    title: ksDatePosted.tr,
+                    isRightButtonShow: true,
+                    isBottomSheetRightButtonActive: allSearchController.isDatePostedBottomSheetState);
+              },
+              buttonTextStyle: semiBold14TextStyle(cBlackColor),
+              suffixWidget: const IconContainer(icon: Icons.date_range_outlined),
+              subTitleText: allSearchController.selectedDatePosted.value,
+              buttonHeight: h40,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            OutLinedButton(
+              buttonText: ksCategory.tr,
+              borderColor: cWhiteColor,
+              onPress: () {
+                 allSearchController.temporarySelectedCategory.value = allSearchController.selectedCategory.value;
+                // kidsController.temporaryKidRelationId.value = kidsController.kidRelationId.value;
+                if (allSearchController.temporarySelectedCategory.value != '') {
+                  allSearchController.isCategoryBottomSheetState.value = true;
+                } else {
+                  allSearchController.isCategoryBottomSheetState.value = true;
+                }
+                Get.find<GlobalController>().commonBottomSheet(
+                    context: context,
+                    content: CategoryContent(),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {
+                      allSearchController.selectedCategory.value = allSearchController.temporarySelectedCategory.value;
+                      Get.back();
+                    },
+                    rightText: ksDone.tr,
+                    rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                    title: ksCategory.tr,
+                    isRightButtonShow: true,
+                    isBottomSheetRightButtonActive: allSearchController.isCategoryBottomSheetState);
+              },
+              buttonTextStyle: semiBold14TextStyle(cBlackColor),
+              suffixWidget: const IconContainer(icon: BipHip.menuFill),
+              subTitleText: allSearchController.selectedCategory.value,
+              buttonHeight: h40,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            kH24sizedBox,
+            CustomElevatedButton(
+              label: ksShowResult.tr,
+              buttonWidth: width - 40,
+              buttonHeight: h32,
+              onPressed: () {},
+              buttonColor: cPrimaryColor,
+              textStyle: semiBold14TextStyle(cWhiteColor),
+            ),
+          ],
+        ));
+  }
+}
+
+class PostedByContent extends StatelessWidget {
+  PostedByContent({super.key});
+  final AllSearchController allSearchController = Get.find<AllSearchController>();
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
-        // OutLinedButton(
-        //   buttonText: ksRecentPost.tr,
-        //   borderColor: cNeutralColor,
-        //   suffixWidget: Obx(() => SizedBox(
-        //         width: (width - 330) / 2,
-        //         child: CustomCheckBox(
-        //             value: allSearchController.isRecentPostCheckBoxSelected.value,
-        //             label: "",
-        //             onChanged: (v) {
-        //               allSearchController.isRecentPostCheckBoxSelected.value = !allSearchController.isRecentPostCheckBoxSelected.value;
-        //             },
-        //             textStyle: regular14TextStyle(cBlackColor)),
-        //       )),
-        // ),
-        Row(
-          children: [
-            Container(
-              width: h24,
-              height: h24,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: cNeutralColor,
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: allSearchController.postedByList.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: k10Padding),
+              child: Obx(
+                () => CustomListTile(
+                  leading: IconContainer(icon: allSearchController.postedByList[index]["icon"]),
+                  itemColor:
+                      allSearchController.temporarySelectedPostedBy.value == allSearchController.postedByList[index]["type"] ? cPrimaryTint3Color : cWhiteColor,
+                  onPressed: () {
+                    allSearchController.temporarySelectedPostedBy.value = allSearchController.postedByList[index]["type"];
+                    // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
+                    if (allSearchController.temporarySelectedPostedBy.value == '') {
+                      allSearchController.isPostedByBottomSheetState.value = false;
+                    } else {
+                      allSearchController.isPostedByBottomSheetState.value = true;
+                    }
+                  },
+                  title: allSearchController.postedByList[index]["type"],
+                  borderColor:
+                      allSearchController.temporarySelectedPostedBy.value == allSearchController.postedByList[index]["type"] ? cPrimaryColor : cLineColor,
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      allSearchController.temporarySelectedPostedBy.value = allSearchController.postedByList[index]["type"];
+                      // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
+                      if (allSearchController.temporarySelectedPostedBy.value == '') {
+                        allSearchController.isPostedByBottomSheetState.value = false;
+                      } else {
+                        allSearchController.isPostedByBottomSheetState.value = true;
+                      }
+                    },
+                    isSelected: allSearchController.temporarySelectedPostedBy.value == allSearchController.postedByList[index]["type"],
+                  ),
+                ),
               ),
-              child: const Icon(
-                Icons.timer,
-                size: kIconSize12,
-                color: cIconColor,
-              ),
-            ),
-            kW8sizedBox,
-            Text(
-              ksRecentPost.tr,
-              style: semiBold14TextStyle(cBlackColor),
-            ),
-            const Spacer(),
-            Obx(() => SizedBox(
-                  width: (width - 330) / 2,
-                  child: CustomCheckBox(
-                      value: allSearchController.isRecentPostCheckBoxSelected.value,
-                      label: "",
-                      onChanged: (v) {
-                        allSearchController.isRecentPostCheckBoxSelected.value = !allSearchController.isRecentPostCheckBoxSelected.value;
-                      },
-                      textStyle: regular14TextStyle(cBlackColor)),
-                )),
-          ],
-        ),
-
-        kH16sizedBox,
-        OutLinedButton(
-          buttonText: ksPostedBy.tr,
-          borderColor: cWhiteColor,
-          onPress: () {},
-          buttonTextStyle: semiBold14TextStyle(cBlackColor),
-          suffixWidget: Container(
-            width: h24,
-            height: h24,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: cNeutralColor,
-            ),
-            child: const Icon(
-              BipHip.world,
-              size: kIconSize12,
-              color: cIconColor,
-            ),
-          ),
-          subTitleText: "Anyone",
-          buttonHeight: h40,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        ),
-        kH16sizedBox,
-        OutLinedButton(
-          buttonText: ksDatePosted.tr,
-          borderColor: cWhiteColor,
-          onPress: () {},
-          buttonTextStyle: semiBold14TextStyle(cBlackColor),
-          suffixWidget: Container(
-            width: h24,
-            height: h24,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: cNeutralColor,
-            ),
-            child: const Icon(
-              Icons.date_range_outlined, //!Icon Must change
-              size: kIconSize12,
-              color: cIconColor,
-            ),
-          ),
-          subTitleText: "AnyDate",
-          buttonHeight: h40,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        ),
-        OutLinedButton(
-          buttonText: ksCategory.tr,
-          borderColor: cWhiteColor,
-          onPress: () {},
-          buttonTextStyle: semiBold14TextStyle(cBlackColor),
-          suffixWidget: Container(
-            width: h24,
-            height: h24,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: cNeutralColor,
-            ),
-            child: const Icon(
-              BipHip.menuFill,
-              size: kIconSize12,
-              color: cIconColor,
-            ),
-          ),
-          subTitleText: "Any Category",
-          buttonHeight: h40,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        ),
-        kH24sizedBox,
-        CustomElevatedButton(
-          label: ksShowResult.tr,
-          buttonWidth: width - 40,
-          buttonHeight: h32,
-          onPressed: () {},
-          buttonColor: cPrimaryColor,
-          textStyle: semiBold14TextStyle(cWhiteColor),
+            );
+          },
         ),
       ],
+    );
+  }
+}
+
+class DatePostedContent extends StatelessWidget {
+  DatePostedContent({super.key});
+  final AllSearchController allSearchController = Get.find<AllSearchController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: allSearchController.datePostedList.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: k10Padding),
+              child: Obx(
+                () => CustomListTile(
+                  itemColor: allSearchController.temporarySelectedDatePosted.value == allSearchController.datePostedList[index]["date"]
+                      ? cPrimaryTint3Color
+                      : cWhiteColor,
+                  onPressed: () {
+                    allSearchController.temporarySelectedDatePosted.value = allSearchController.datePostedList[index]["date"];
+                    // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
+                    if (allSearchController.temporarySelectedDatePosted.value == '') {
+                      allSearchController.isDatePostedBottomSheetState.value = false;
+                    } else {
+                      allSearchController.isDatePostedBottomSheetState.value = true;
+                    }
+                  },
+                  title: allSearchController.datePostedList[index]["date"],
+                  borderColor:
+                      allSearchController.temporarySelectedDatePosted.value == allSearchController.datePostedList[index]["date"] ? cPrimaryColor : cLineColor,
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      allSearchController.temporarySelectedDatePosted.value = allSearchController.datePostedList[index]["date"];
+                      // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
+                      if (allSearchController.temporarySelectedDatePosted.value == '') {
+                        allSearchController.isDatePostedBottomSheetState.value = false;
+                      } else {
+                        allSearchController.isDatePostedBottomSheetState.value = true;
+                      }
+                    },
+                    isSelected: allSearchController.temporarySelectedDatePosted.value == allSearchController.datePostedList[index]["date"],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class CategoryContent extends StatelessWidget {
+  CategoryContent({super.key});
+  final AllSearchController allSearchController = Get.find<AllSearchController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: allSearchController.categoryList.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: k10Padding),
+              child: Obx(
+                () => CustomListTile(
+                  itemColor: allSearchController.temporarySelectedCategory.value == allSearchController.categoryList[index]
+                      ? cPrimaryTint3Color
+                      : cWhiteColor,
+                  onPressed: () {
+                    allSearchController.temporarySelectedCategory.value = allSearchController.categoryList[index];
+                    // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
+                    if (allSearchController.temporarySelectedCategory.value == '') {
+                      allSearchController.isCategoryBottomSheetState.value = false;
+                    } else {
+                      allSearchController.isCategoryBottomSheetState.value = true;
+                    }
+                  },
+                  title: allSearchController.categoryList[index],
+                  borderColor:
+                      allSearchController.temporarySelectedCategory.value == allSearchController.categoryList[index] ? cPrimaryColor : cLineColor,
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      allSearchController.temporarySelectedCategory.value = allSearchController.categoryList[index];
+                      // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
+                      if (allSearchController.temporarySelectedCategory.value == '') {
+                        allSearchController.isCategoryBottomSheetState.value = false;
+                      } else {
+                        allSearchController.isCategoryBottomSheetState.value = true;
+                      }
+                    },
+                    isSelected: allSearchController.temporarySelectedCategory.value == allSearchController.categoryList[index],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class IconContainer extends StatelessWidget {
+  const IconContainer({super.key, required this.icon});
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: h24,
+      height: h24,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        color: cNeutralColor,
+      ),
+      child: Icon(
+        icon,
+        size: kIconSize12,
+        color: cIconColor,
+      ),
     );
   }
 }
