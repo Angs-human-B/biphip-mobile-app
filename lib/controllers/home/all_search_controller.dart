@@ -23,6 +23,13 @@ class AllSearchController extends GetxController {
   final RxString selectedCategory = RxString("");
   final RxBool isCategoryBottomSheetState = RxBool(false);
   final RxBool isPhotoVideoBottomSheetState = RxBool(false);
+  final RxString temporarySelectedSellPostType = RxString("");
+  final RxString selectedSellPostType = RxString("");
+  final RxBool isSellPostTypeBottomSheetState = RxBool(false);
+  final RxString temporarySelectedSellPostCondition = RxString("");
+  final RxString selectedSellPostCondition = RxString("");
+  final RxBool isSellPostConditionBottomSheetState = RxBool(false);
+  final List conditionList = ["Any","New","used","Used Like New","Used Like Poor","Like New"];
   final RxList datePostedList = RxList([
     {"date": "AnyDate"},
     {"date": "2024"},
