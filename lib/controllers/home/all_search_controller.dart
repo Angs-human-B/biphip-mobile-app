@@ -9,7 +9,6 @@ class AllSearchController extends GetxController {
   final List filterTypeList = ["All", "Posts", "People", "Photos", "Videos", "Sell Posts", "Kids", "News"];
   final RxInt selectedFilterIndex = RxInt(-1);
   final RxBool isFilterSelected = RxBool(false);
-  // final RxBool isFilterRightButtonActive = RxBool(false);
   final RxBool isRecentPostCheckBoxSelected = RxBool(false);
   final RxList postedByList = RxList([
     {"icon": BipHip.world, "type": "Anyone"},
@@ -26,7 +25,6 @@ class AllSearchController extends GetxController {
   final RxString temporarySelectedCategory = RxString("");
   final RxString selectedCategory = RxString("");
   final RxBool isCategoryBottomSheetState = RxBool(false);
-  final RxBool isPhotoVideoBottomSheetState = RxBool(false);
   final RxString temporarySelectedSellPostType = RxString("");
   final RxString selectedSellPostType = RxString("");
   final RxBool isSellPostTypeBottomSheetState = RxBool(false);
@@ -39,15 +37,32 @@ class AllSearchController extends GetxController {
   final RxString temporarySelectedSubCategory = RxString("");
   final RxString selectedSubCategory = RxString("");
   final RxBool isSubCategoryBottomSheetState = RxBool(false);
-  final RxBool isPostsBottomSheetResetOrShowResultActive = RxBool(false);
-  void postsBottomSheetState(){
-  if(isRecentPostCheckBoxSelected.value || selectedPostedBy.value != "" || selectedDatePosted.value !=""|| selectedCategory.value!= ""){
-    isPostsBottomSheetResetOrShowResultActive.value = true;
+  final RxBool isPostsBottomSheetResetOrShowResult = RxBool(false);
+  final RxBool isPhotosVideosBottomSheetResetOrShowResult = RxBool(false);
+  final RxBool isKidsNewsBottomSheetResetOrShowResult = RxBool(false);
+  void kidsNewsBottomSheetState(){
+     if (selectedSubCategory.value != "" || selectedDatePosted.value != "" || selectedPostedBy.value != ""){
+      isKidsNewsBottomSheetResetOrShowResult.value = true;
+     }
+     else{
+      isKidsNewsBottomSheetResetOrShowResult.value = false;
+     }
   }
-    else{
-      isPostsBottomSheetResetOrShowResultActive.value = false;
+  void photosVideosBottomSheetState(){
+     if (selectedPostedBy.value != "" || selectedDatePosted.value != "") {
+      isPhotosVideosBottomSheetResetOrShowResult.value = true;
+    } else {
+      isPhotosVideosBottomSheetResetOrShowResult.value = false;
     }
-  } 
+  }
+  void postsBottomSheetState() {
+    if (isRecentPostCheckBoxSelected.value || selectedPostedBy.value != "" || selectedDatePosted.value != "" || selectedCategory.value != "") {
+      isPostsBottomSheetResetOrShowResult.value = true;
+    } else {
+      isPostsBottomSheetResetOrShowResult.value = false;
+    }
+  }
+
   final List subCategoryList = ["Kids subcategory", "News subcategory", "International News", "Sports News"];
   final List productCategoryList = ["Any", "Gadgets", "Fashion", "Electronics", "Phone", "Laptop"];
   final List conditionList = ["Any", "New", "used", "Used Like New", "Used Like Poor", "Like New"];
@@ -317,7 +332,7 @@ class AllSearchController extends GetxController {
     temporarySelectedSubCategory.value = "";
     selectedSubCategory.value = "";
     isSubCategoryBottomSheetState.value = false;
-    isPhotoVideoBottomSheetState.value = false;
+    isPhotosVideosBottomSheetResetOrShowResult.value = false;
     temporarySelectedSellPostType.value = "";
     selectedSellPostType.value = "";
     isSellPostTypeBottomSheetState.value = false;

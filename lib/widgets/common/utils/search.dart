@@ -12,18 +12,7 @@ import 'package:flutter_svg/svg.dart';
 class SearchPage extends StatelessWidget {
   SearchPage({
     Key? key,
-    // required this.searchTextEditingController,
-    // required this.recentSearchList,
-    // required this.onSubmit,
-    // this.isShopSearch = false,
-    // this.isHomeSearch = false,
-    // this.isFavoriteSearch = false,
   }) : super(key: key);
-
-  // final TextEditingController searchTextEditingController;
-  // final RxList recentSearchList;
-  // final dynamic onSubmit;
-  // final bool isShopSearch, isHomeSearch, isFavoriteSearch;
   final AllSearchController allSearchController = Get.find<AllSearchController>();
   final FriendController friendController = Get.find<FriendController>();
   final GlobalController globalController = Get.find<GlobalController>();
@@ -31,7 +20,6 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // RxBool isSuffix = RxBool(false);
     return Container(
       color: cWhiteColor,
       child: SafeArea(
@@ -157,6 +145,7 @@ class SearchPage extends StatelessWidget {
                                   allSearchController.searchTextEditingController.clear();
                                   allSearchController.isSearchSuffixIconVisible.value = false;
                                   allSearchController.isSearched.value = false;
+                                  allSearchController.selectedFilterIndex.value = -1;
                                 },
                                 onSubmit: (value) {
                                   unFocus(context);
@@ -187,13 +176,13 @@ class SearchPage extends StatelessWidget {
                           if (allSearchController.selectedFilterIndex.value == 1) {
                             globalController.commonBottomSheet(
                                 context: context,
-                                isBottomSheetRightButtonActive: allSearchController.isPostsBottomSheetResetOrShowResultActive,
+                                isBottomSheetRightButtonActive: allSearchController.isPostsBottomSheetResetOrShowResult,
                                 content: PostsFilterContent(),
                                 bottomSheetHeight: height * 0.4,
                                 onPressCloseButton: () {
                                   Get.back();
                                 },
-                                onPressRightButton: allSearchController.isPostsBottomSheetResetOrShowResultActive.value ? () {} : null,
+                                onPressRightButton: allSearchController.isPostsBottomSheetResetOrShowResult.value ? () {} : null,
                                 rightText: ksReset.tr,
                                 rightTextStyle: semiBold14TextStyle(cPrimaryColor),
                                 title: ksPosts.tr,
@@ -220,13 +209,13 @@ class SearchPage extends StatelessWidget {
                           if (allSearchController.selectedFilterIndex.value == 3 || allSearchController.selectedFilterIndex.value == 4) {
                             globalController.commonBottomSheet(
                                 context: context,
-                                isBottomSheetRightButtonActive: allSearchController.isPhotoVideoBottomSheetState,
+                                isBottomSheetRightButtonActive: allSearchController.isPhotosVideosBottomSheetResetOrShowResult,
                                 content: PhotosVideosBottomSheetContent(),
                                 bottomSheetHeight: height * 0.3,
                                 onPressCloseButton: () {
                                   Get.back();
                                 },
-                                onPressRightButton: () {},
+                                onPressRightButton: allSearchController.isPhotosVideosBottomSheetResetOrShowResult.value ? () {} : null,
                                 rightText: ksReset.tr,
                                 rightTextStyle: semiBold14TextStyle(cPrimaryColor),
                                 title: ksPosts.tr,
@@ -235,7 +224,7 @@ class SearchPage extends StatelessWidget {
                           if (allSearchController.selectedFilterIndex.value == 5) {
                             globalController.commonBottomSheet(
                                 context: context,
-                                isBottomSheetRightButtonActive: allSearchController.isPostsBottomSheetResetOrShowResultActive, //!Change it
+                                isBottomSheetRightButtonActive: allSearchController.isPostsBottomSheetResetOrShowResult, //!Change it
                                 content: PostSellingSection(),
                                 bottomSheetHeight: height * 0.4,
                                 onPressCloseButton: () {
@@ -250,7 +239,7 @@ class SearchPage extends StatelessWidget {
                           if (allSearchController.selectedFilterIndex.value == 6 || allSearchController.selectedFilterIndex.value == 7) {
                             globalController.commonBottomSheet(
                                 context: context,
-                                isBottomSheetRightButtonActive: allSearchController.isPostsBottomSheetResetOrShowResultActive, //!Change it
+                                isBottomSheetRightButtonActive: allSearchController.isKidsNewsBottomSheetResetOrShowResult,
                                 content: KidsNewsContent(),
                                 bottomSheetHeight: height * 0.35,
                                 onPressCloseButton: () {
@@ -313,36 +302,6 @@ class SearchPage extends StatelessWidget {
                 //       kH20sizedBox,
                 //     ],
                 //   ),
-
-                // Wrap(
-                //   alignment: WrapAlignment.start,
-                //   direction: Axis.horizontal,
-                //   spacing: 8.0,
-                //   children: [
-                //     for (int i = 0; i < allSearchController.filterTypeList.length; i++)
-                //       Padding(
-                //         padding: const EdgeInsets.only(bottom: k8Padding),
-                //         child: Container(
-                //           decoration: BoxDecoration(
-                //               color: cWhiteColor,
-                //               border: Border.all(
-                //                 color: cLineColor,
-                //               ),
-                //               borderRadius: k100CircularBorderRadius),
-                //           child: Padding(
-                //             padding: const EdgeInsets.all(k8Padding),
-                //             child: Text(
-                //               // profileController.userData.value!.interest[i],
-                //               // kidsController.kidsData.value?.hobbies[i],
-                //               // kidsController.kidsData.value!.hobbies[i],
-                //               allSearchController.filterTypeList[i],
-                //               style: regular14TextStyle(cBlackColor),
-                //             ),
-                //           ),
-                //         ),
-                //       )
-                //   ],
-                // ),
                 if (allSearchController.isSearched.value)
                   Padding(
                     padding: const EdgeInsets.only(left: k16Padding),
@@ -1096,7 +1055,7 @@ class PostsFilterContent extends StatelessWidget {
               label: ksShowResult.tr,
               buttonWidth: width - 40,
               buttonHeight: h32,
-              onPressed: allSearchController.isPostsBottomSheetResetOrShowResultActive.value ? () {} : null,
+              onPressed: allSearchController.isPostsBottomSheetResetOrShowResult.value ? () {} : null,
               buttonColor: cPrimaryColor,
               textStyle: semiBold14TextStyle(cWhiteColor),
             ),
@@ -1293,6 +1252,7 @@ class KidsNewsContent extends StatelessWidget {
                   : CustomIconButton(
                       onPress: () {
                         allSearchController.selectedSubCategory.value = "";
+                        allSearchController.kidsNewsBottomSheetState();
                       },
                       icon: BipHip.circleCrossNew,
                       size: kIconSize20,
@@ -1312,6 +1272,7 @@ class KidsNewsContent extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedSubCategory.value = allSearchController.temporarySelectedSubCategory.value;
+                      allSearchController.kidsNewsBottomSheetState();
                       Get.back();
                     },
                     rightText: ksDone.tr,
@@ -1330,6 +1291,7 @@ class KidsNewsContent extends StatelessWidget {
                   : CustomIconButton(
                       onPress: () {
                         allSearchController.selectedDatePosted.value = "";
+                        allSearchController.kidsNewsBottomSheetState();
                       },
                       icon: BipHip.circleCrossNew,
                       size: kIconSize20,
@@ -1349,6 +1311,7 @@ class KidsNewsContent extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedDatePosted.value = allSearchController.temporarySelectedDatePosted.value;
+                      allSearchController.kidsNewsBottomSheetState();
                       Get.back();
                     },
                     rightText: ksDone.tr,
@@ -1367,6 +1330,7 @@ class KidsNewsContent extends StatelessWidget {
                   : CustomIconButton(
                       onPress: () {
                         allSearchController.selectedPostedBy.value = "";
+                        allSearchController.kidsNewsBottomSheetState();
                       },
                       icon: BipHip.circleCrossNew,
                       size: kIconSize20,
@@ -1387,6 +1351,7 @@ class KidsNewsContent extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedPostedBy.value = allSearchController.temporarySelectedPostedBy.value;
+                      allSearchController.kidsNewsBottomSheetState();
                       Get.back();
                     },
                     rightText: ksDone.tr,
@@ -1401,7 +1366,7 @@ class KidsNewsContent extends StatelessWidget {
               label: ksShowResult.tr,
               buttonWidth: width - 40,
               buttonHeight: h32,
-              onPressed: () {},
+              onPressed: allSearchController.isKidsNewsBottomSheetResetOrShowResult.value ? () {} : null,
               buttonColor: cPrimaryColor,
               textStyle: semiBold14TextStyle(cWhiteColor),
             ),
@@ -1426,6 +1391,7 @@ class PhotosVideosBottomSheetContent extends StatelessWidget {
                   : CustomIconButton(
                       onPress: () {
                         allSearchController.selectedPostedBy.value = "";
+                        allSearchController.photosVideosBottomSheetState();
                       },
                       icon: BipHip.circleCrossNew,
                       size: kIconSize20,
@@ -1446,6 +1412,7 @@ class PhotosVideosBottomSheetContent extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedPostedBy.value = allSearchController.temporarySelectedPostedBy.value;
+                      allSearchController.photosVideosBottomSheetState();
                       Get.back();
                     },
                     rightText: ksDone.tr,
@@ -1464,6 +1431,7 @@ class PhotosVideosBottomSheetContent extends StatelessWidget {
                   : CustomIconButton(
                       onPress: () {
                         allSearchController.selectedDatePosted.value = "";
+                        allSearchController.photosVideosBottomSheetState();
                       },
                       icon: BipHip.circleCrossNew,
                       size: kIconSize20,
@@ -1484,6 +1452,7 @@ class PhotosVideosBottomSheetContent extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedDatePosted.value = allSearchController.temporarySelectedDatePosted.value;
+                      allSearchController.photosVideosBottomSheetState();
                       Get.back();
                     },
                     rightText: ksDone.tr,
@@ -1498,7 +1467,7 @@ class PhotosVideosBottomSheetContent extends StatelessWidget {
               label: ksShowResult.tr,
               buttonWidth: width - 40,
               buttonHeight: h32,
-              onPressed: () {},
+              onPressed: allSearchController.isPhotosVideosBottomSheetResetOrShowResult.value ? () {} : null,
               buttonColor: cPrimaryColor,
               textStyle: semiBold14TextStyle(cWhiteColor),
             ),
