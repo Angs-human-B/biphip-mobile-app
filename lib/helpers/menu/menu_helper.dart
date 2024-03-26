@@ -100,7 +100,7 @@ class MenuHelper {
   void menuSearch() async {
     // Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
     await Get.find<HomeController>().getPostList();
-    Get.find<GlobalController>().searchController.clear();
+    // Get.find<GlobalController>().searchController.clear();
     Get.to(
       () => SearchPage(
           // searchTextEditingController: Get.find<GlobalController>().searchController,
@@ -109,6 +109,7 @@ class MenuHelper {
           ),
       transition: Transition.rightToLeft,
     );
+    Get.find<FriendController>().getFriendListForAddFamily();
   }
 
   void logout() async {

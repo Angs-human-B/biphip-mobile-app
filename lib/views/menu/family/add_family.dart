@@ -212,6 +212,7 @@ class AddFamily extends StatelessWidget {
                                 );
                               },
                             ),
+                       
                           if (familyController.selectedAddFamilyFullName.value != '' && name == null)
                             Padding(
                               padding: const EdgeInsets.only(bottom: 6),

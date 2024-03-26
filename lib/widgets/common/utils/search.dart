@@ -1,5 +1,7 @@
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
@@ -23,11 +25,13 @@ class SearchPage extends StatelessWidget {
   // final dynamic onSubmit;
   // final bool isShopSearch, isHomeSearch, isFavoriteSearch;
   final AllSearchController allSearchController = Get.find<AllSearchController>();
+  final FriendController friendController = Get.find<FriendController>();
   final GlobalController globalController = Get.find<GlobalController>();
+  final FocusNode searchFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
-    RxBool isSuffix = RxBool(false);
+    // RxBool isSuffix = RxBool(false);
     return Container(
       color: cWhiteColor,
       child: SafeArea(
@@ -55,52 +59,129 @@ class SearchPage extends StatelessWidget {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(right: 16),
-                        child: CustomModifiedTextField(
-                          hint: ksSearch.tr,
-                          borderRadius: 30,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: h12),
-                          controller: allSearchController.searchTextEditingController,
-                          fillColor: cInputFieldColor,
-                          inputType: TextInputType.text,
-                          inputAction: TextInputAction.done,
-                          prefixIcon: BipHip.search,
-                          suffixIcon: isSuffix.value ? BipHip.circleCrossNew : null,
-                          onSuffixPress: isSuffix.value
-                              ? () {
-                                  allSearchController.searchTextEditingController.clear();
-                                  isSuffix.value = false;
-                                }
-                              : null,
-                          onChanged: (v) {
-                            if (v.isEmpty) {
-                              isSuffix.value = false;
-                            } else {
-                              isSuffix.value = true;
+                        child: RawAutocomplete<FriendFamilyUserData>(
+                          textEditingController: allSearchController.searchTextEditingController,
+                          focusNode: searchFocusNode,
+                          optionsBuilder: (TextEditingValue textEditingValue) {
+                            if (textEditingValue.text == '') {
+                              return friendController.temporaryFriendList;
                             }
+                            return friendController.temporaryFriendList.where((FriendFamilyUserData option) {
+                              return option.fullName!.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                            });
                           },
-                          onSubmit: (v) async {
-                            // unfocus(context);
-                            // if (v.isNotEmpty) {
-                            //   var item = v.toLowerCase();
-                            //   for (int i = 0; i < recentSearchList.length; i++) {
-                            //     if (recentSearchList[i] == item) {
-                            //       recentSearchList.remove(item);
-                            //     }
-                            //   }
-                            //   recentSearchList.add(item);
-                            // } else {
-                            //   recentSearchList.add('...');
-                            // }
-                            // if (recentSearchList.length > 6) recentSearchList.removeAt(0);
-                            // final spController = SpController();
-                            // await spController.saveRecentSearchList(recentSearchList);
-                            // onSubmit();
-                            // searchTextEditingController.clear();
+                          onSelected: (option) {
+                            unFocus(context);
+                            allSearchController.isSearchSuffixIconVisible.value = false;
+                            allSearchController.searchTextEditingController.text = option.fullName!;
+                            // familyController.userId.value = option.id!;
+                            allSearchController.searchedValue.value = option.fullName.toString();
+                            allSearchController.searchPeopleProfilePicture.value = option.profilePicture.toString();
+                            allSearchController.isSearched.value = true;
+                            allSearchController.selectedFilterIndex.value = 0;
+                          },
+                          optionsViewBuilder: (context, AutocompleteOnSelected<FriendFamilyUserData> onSelected, Iterable<FriendFamilyUserData> options) {
+                            return Align(
+                              alignment: Alignment.topLeft,
+                              child: SizedBox(
+                                width: width - 40,
+                                child: Material(
+                                  elevation: 4,
+                                  child: ListView.separated(
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      final option = options.elementAt(index);
+                                      return CustomListTile(
+                                        leading: ClipOval(
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Image.network(
+                                              option.profilePicture.toString(),
+                                              width: 30,
+                                              height: 30,
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (context, error, stackTrace) {
+                                                return Image.asset(kiProfileDefaultImageUrl);
+                                              },
+                                              loadingBuilder: imageLoadingBuilder,
+                                            ),
+                                          ),
+                                        ),
+                                        title: Text(
+                                          option.fullName.toString(),
+                                          style: medium16TextStyle(cBlackColor),
+                                        ),
+                                        trailing: CustomIconButton(
+                                          onPress: () {
+                                            // allSearchController.recentSearchList.removeAt(index); //!Remove from list after api call
+                                          },
+                                          icon: BipHip.circleCrossNew,
+                                          size: kIconSize16,
+                                        ),
+                                        onPressed: () {
+                                          onSelected(option);
+                                          unfocus(context);
+                                          allSearchController.searchTextEditingController.text = option.fullName.toString();
+                                          allSearchController.isSearchSuffixIconVisible.value = true;
+                                          // familyController.userId.value = option.id!;
+                                        },
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) => Container(
+                                      height: 1,
+                                      color: cLineColor,
+                                    ),
+                                    itemCount: options.length,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                            return Obx(
+                              () => CustomModifiedTextField(
+                                borderRadius: h8,
+                                controller: allSearchController.searchTextEditingController,
+                                focusNode: focusNode,
+                                prefixIcon: BipHip.search,
+                                suffixIcon: allSearchController.isSearchSuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                                hint: ksSearch.tr,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: k12Padding,
+                                ),
+                                textInputStyle: regular16TextStyle(cBlackColor),
+                                onSuffixPress: () {
+                                  allSearchController.searchTextEditingController.clear();
+                                  allSearchController.isSearchSuffixIconVisible.value = false;
+                                  allSearchController.isSearched.value = false;
+                                },
+                                onSubmit: (value) {
+                                  unFocus(context);
+                                  if (allSearchController.searchTextEditingController.text.toString().trim() == "") {
+                                    allSearchController.isSearchSuffixIconVisible.value = false;
+                                  } else {
+                                    allSearchController.isSearchSuffixIconVisible.value = true;
+                                    allSearchController.isSearched.value = true;
+                                    allSearchController.selectedFilterIndex.value = 0;
+                                  }
+                                },
+                                onChanged: (value) {
+                                  if (allSearchController.searchTextEditingController.text.toString().trim() == "") {
+                                    allSearchController.isSearchSuffixIconVisible.value = false;
+                                  } else {
+                                    allSearchController.isSearchSuffixIconVisible.value = true;
+                                  }
+                                },
+                              ),
+                            );
                           },
                         ),
                       ),
                     ),
-                    if (allSearchController.selectedFilterIndex.value != 0)
+                    if (allSearchController.selectedFilterIndex.value != 0 && allSearchController.isSearched.value)
                       CustomIconButton(
                         onPress: () {
                           if (allSearchController.selectedFilterIndex.value == 1) {
@@ -262,7 +343,7 @@ class SearchPage extends StatelessWidget {
                 //       )
                 //   ],
                 // ),
-
+                if (allSearchController.isSearched.value)
                 Padding(
                   padding: const EdgeInsets.only(left: k16Padding),
                   child: Container(
@@ -285,8 +366,8 @@ class SearchPage extends StatelessWidget {
                                       label: allSearchController.filterTypeList[i],
                                       isSelected: (allSearchController.selectedFilterIndex.value == i),
                                       onSelected: (value) {
-                                        allSearchController.selectedFilterIndex.value = i;
-                                        allSearchController.resetBottomSheetData();
+                                          allSearchController.resetBottomSheetData();
+                                          allSearchController.selectedFilterIndex.value = i;
                                         // allSearchController.isFilterSelected.value = value;
                                       },
                                     ),
@@ -298,7 +379,7 @@ class SearchPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (allSearchController.selectedFilterIndex.value == 0)
+                if (allSearchController.selectedFilterIndex.value == 0 && allSearchController.isSearched.value)
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(

@@ -2,8 +2,12 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class AllSearchController extends GetxController {
   final TextEditingController searchTextEditingController = TextEditingController();
+  final RxBool isSearchSuffixIconVisible = RxBool(false);
+  final RxString searchedValue = RxString("");
+  final RxString searchPeopleProfilePicture = RxString("");
+  final RxBool isSearched = RxBool(false);
   final List filterTypeList = ["All", "Posts", "People", "Photos", "Videos", "Sell Posts", "Kids", "News"];
-  final RxInt selectedFilterIndex = RxInt(0);
+  final RxInt selectedFilterIndex = RxInt(-1);
   final RxBool isFilterSelected = RxBool(false);
   final RxBool isFilterRightButtonActive = RxBool(false);
   final RxBool isRecentPostCheckBoxSelected = RxBool(false);
@@ -35,9 +39,41 @@ class AllSearchController extends GetxController {
   final RxString temporarySelectedSubCategory = RxString("");
   final RxString selectedSubCategory = RxString("");
   final RxBool isSubCategoryBottomSheetState = RxBool(false);
-  final List subCategoryList = ["Kids subcategory","News subcategory","International News","Sports News"];
-  final List productCategoryList = ["Any","Gadgets","Fashion","Electronics","Phone","Laptop"];
-  final List conditionList = ["Any","New","used","Used Like New","Used Like Poor","Like New"];
+  final List subCategoryList = ["Kids subcategory", "News subcategory", "International News", "Sports News"];
+  final List productCategoryList = ["Any", "Gadgets", "Fashion", "Electronics", "Phone", "Laptop"];
+  final List conditionList = ["Any", "New", "used", "Used Like New", "Used Like Poor", "Like New"];
+  final RxList recentSearchList = RxList([
+    {
+      "name": "Wahid Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Wahid",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Murad",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "User",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "New User",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "name": "Test User",
+      "image":
+          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+  ]);
   final RxList datePostedList = RxList([
     {"date": "AnyDate"},
     {"date": "2024"},
@@ -252,6 +288,13 @@ class AllSearchController extends GetxController {
       "time": "00:12",
     },
   ];
+  void resetSearchData() {
+    searchTextEditingController.clear();
+    isSearchSuffixIconVisible.value = false;
+    isSearched.value = false;
+    selectedFilterIndex.value = -1;
+  }
+
   void resetBottomSheetData() {
     temporarySelectedPostedBy.value = "";
     selectedPostedBy.value = "";
@@ -266,14 +309,14 @@ class AllSearchController extends GetxController {
     selectedSubCategory.value = "";
     isSubCategoryBottomSheetState.value = false;
     isPhotoVideoBottomSheetState.value = false;
-   temporarySelectedSellPostType.value = "";
-  selectedSellPostType.value = "";
-  isSellPostTypeBottomSheetState.value = false;
-   temporarySelectedSellPostCondition.value = "";
-   selectedSellPostCondition.value = "";
-  isSellPostConditionBottomSheetState.value = false;
-   temporarySelectedSellPostProductCategory.value = "";
-  selectedSellPostProductCategory.value = "";
-  isSellPostProductConditionBottomSheetState.value = false;
+    temporarySelectedSellPostType.value = "";
+    selectedSellPostType.value = "";
+    isSellPostTypeBottomSheetState.value = false;
+    temporarySelectedSellPostCondition.value = "";
+    selectedSellPostCondition.value = "";
+    isSellPostConditionBottomSheetState.value = false;
+    temporarySelectedSellPostProductCategory.value = "";
+    selectedSellPostProductCategory.value = "";
+    isSellPostProductConditionBottomSheetState.value = false;
   }
 }

@@ -1,4 +1,6 @@
+import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
@@ -53,7 +55,9 @@ class HomePage extends StatelessWidget {
                           // final spController = SpController();
                           // Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
                           //  await Get.find<HomeController>().getPostList();
-                          Get.find<GlobalController>().searchController.clear();
+                          Get.find<AllSearchController>().resetSearchData();
+                          Get.find<FriendController>().getFriendListForAddFamily();
+                          //!Remove it in future
                           Get.to(
                             () => SearchPage(
                                 // searchTextEditingController: Get.find<GlobalController>().searchController,
