@@ -9,7 +9,7 @@ class AllSearchController extends GetxController {
   final List filterTypeList = ["All", "Posts", "People", "Photos", "Videos", "Sell Posts", "Kids", "News"];
   final RxInt selectedFilterIndex = RxInt(-1);
   final RxBool isFilterSelected = RxBool(false);
-  final RxBool isFilterRightButtonActive = RxBool(false);
+  // final RxBool isFilterRightButtonActive = RxBool(false);
   final RxBool isRecentPostCheckBoxSelected = RxBool(false);
   final RxList postedByList = RxList([
     {"icon": BipHip.world, "type": "Anyone"},
@@ -39,6 +39,15 @@ class AllSearchController extends GetxController {
   final RxString temporarySelectedSubCategory = RxString("");
   final RxString selectedSubCategory = RxString("");
   final RxBool isSubCategoryBottomSheetState = RxBool(false);
+  final RxBool isPostsBottomSheetResetOrShowResultActive = RxBool(false);
+  void postsBottomSheetState(){
+  if(isRecentPostCheckBoxSelected.value || selectedPostedBy.value != "" || selectedDatePosted.value !=""|| selectedCategory.value!= ""){
+    isPostsBottomSheetResetOrShowResultActive.value = true;
+  }
+    else{
+      isPostsBottomSheetResetOrShowResultActive.value = false;
+    }
+  } 
   final List subCategoryList = ["Kids subcategory", "News subcategory", "International News", "Sports News"];
   final List productCategoryList = ["Any", "Gadgets", "Fashion", "Electronics", "Phone", "Laptop"];
   final List conditionList = ["Any", "New", "used", "Used Like New", "Used Like Poor", "Like New"];
