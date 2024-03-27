@@ -4,9 +4,15 @@ import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
-import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
+import 'package:bip_hip/widgets/common/utils/search_widgets/date_posted_content.dart';
+import 'package:bip_hip/widgets/common/utils/search_widgets/kids_news_subcategory_content.dart';
+import 'package:bip_hip/widgets/common/utils/search_widgets/posts_category_content.dart';
+import 'package:bip_hip/widgets/common/utils/search_widgets/search_posted_by_content.dart';
+import 'package:bip_hip/widgets/common/utils/search_widgets/search_video_content.dart';
+import 'package:bip_hip/widgets/common/utils/search_widgets/sell_post_post_type_content.dart';
+import 'package:bip_hip/widgets/common/utils/search_widgets/sell_post_product_condition.dart';
+import 'package:bip_hip/widgets/common/utils/search_widgets/sell_post_product_condition_content.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_svg/svg.dart';
 
 class SearchPage extends StatelessWidget {
   SearchPage({
@@ -47,129 +53,6 @@ class SearchPage extends StatelessWidget {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(right: 16),
-                        // child: RawAutocomplete<FriendFamilyUserData>(
-                        //   textEditingController: allSearchController.searchTextEditingController,
-                        //   focusNode: searchFocusNode,
-                        //   optionsBuilder: (TextEditingValue textEditingValue) {
-                        //     if (textEditingValue.text == '') {
-                        //       return friendController.temporaryFriendList;
-                        //     }
-                        //     return friendController.temporaryFriendList.where((FriendFamilyUserData option) {
-                        //       return option.fullName!.toLowerCase().contains(textEditingValue.text.toLowerCase());
-                        //     });
-                        //   },
-                        //   onSelected: (option) {
-                        //     unFocus(context);
-                        //     allSearchController.isSearchSuffixIconVisible.value = false;
-                        //     allSearchController.searchTextEditingController.text = option.fullName!;
-                        //     // familyController.userId.value = option.id!;
-                        //     allSearchController.searchedValue.value = option.fullName.toString();
-                        //     allSearchController.searchPeopleProfilePicture.value = option.profilePicture.toString();
-                        //     allSearchController.isSearched.value = true;
-                        //     allSearchController.selectedFilterIndex.value = 0;
-                        //   },
-                        //   optionsViewBuilder: (context, AutocompleteOnSelected<FriendFamilyUserData> onSelected, Iterable<FriendFamilyUserData> options) {
-                        //     return Align(
-                        //       alignment: Alignment.topLeft,
-                        //       child: SizedBox(
-                        //         width: width - 40,
-                        //         child: Material(
-                        //           elevation: 4,
-                        //           child: ListView.separated(
-                        //             padding: EdgeInsets.zero,
-                        //             shrinkWrap: true,
-                        //             itemBuilder: (context, index) {
-                        //               final option = options.elementAt(index);
-                        //               return CustomListTile(
-                        //                 leading: ClipOval(
-                        //                   child: Container(
-                        //                     decoration: const BoxDecoration(
-                        //                       shape: BoxShape.circle,
-                        //                     ),
-                        //                     child: Image.network(
-                        //                       option.profilePicture.toString(),
-                        //                       width: 30,
-                        //                       height: 30,
-                        //                       fit: BoxFit.cover,
-                        //                       errorBuilder: (context, error, stackTrace) {
-                        //                         return Image.asset(kiProfileDefaultImageUrl);
-                        //                       },
-                        //                       loadingBuilder: imageLoadingBuilder,
-                        //                     ),
-                        //                   ),
-                        //                 ),
-                        //                 title: Text(
-                        //                   option.fullName.toString(),
-                        //                   style: medium16TextStyle(cBlackColor),
-                        //                 ),
-                        //                 trailing: CustomIconButton(
-                        //                   onPress: () {
-                        //                     // allSearchController.recentSearchList.removeAt(index); //!Remove from list after api call
-                        //                   },
-                        //                   icon: BipHip.circleCrossNew,
-                        //                   size: kIconSize16,
-                        //                 ),
-                        //                 onPressed: () {
-                        //                   onSelected(option);
-                        //                   unfocus(context);
-                        //                   allSearchController.searchTextEditingController.text = option.fullName.toString();
-                        //                   allSearchController.isSearchSuffixIconVisible.value = true;
-                        //                   // familyController.userId.value = option.id!;
-                        //                 },
-                        //               );
-                        //             },
-                        //             separatorBuilder: (context, index) => Container(
-                        //               height: 1,
-                        //               color: cLineColor,
-                        //             ),
-                        //             itemCount: options.length,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     );
-                        //   },
-                        //   fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
-                        //     return Obx(
-                        //       () => CustomModifiedTextField(
-                        //         borderRadius: h8,
-                        //         controller: allSearchController.searchTextEditingController,
-                        //         focusNode: focusNode,
-                        //         prefixIcon: BipHip.search,
-                        //         suffixIcon: allSearchController.isSearchSuffixIconVisible.value ? BipHip.circleCrossNew : null,
-                        //         hint: ksSearch.tr,
-                        //         contentPadding: const EdgeInsets.symmetric(
-                        //           vertical: k12Padding,
-                        //         ),
-                        //         textInputStyle: regular16TextStyle(cBlackColor),
-                        //         onSuffixPress: () {
-                        //           allSearchController.searchTextEditingController.clear();
-                        //           allSearchController.isSearchSuffixIconVisible.value = false;
-                        //           allSearchController.isSearched.value = false;
-                        //           allSearchController.selectedFilterIndex.value = -1;
-                        //         },
-                        //         onSubmit: (value) {
-                        //           unFocus(context);
-                        //           if (allSearchController.searchTextEditingController.text.toString().trim() == "") {
-                        //             allSearchController.isSearchSuffixIconVisible.value = false;
-                        //           } else {
-                        //             allSearchController.isSearchSuffixIconVisible.value = true;
-                        //             allSearchController.isSearched.value = true;
-                        //             allSearchController.selectedFilterIndex.value = 0;
-                        //           }
-                        //         },
-                        //         onChanged: (value) {
-                        //           if (allSearchController.searchTextEditingController.text.toString().trim() == "") {
-                        //             allSearchController.isSearchSuffixIconVisible.value = false;
-                        //           } else {
-                        //             allSearchController.isSearchSuffixIconVisible.value = true;
-                        //           }
-                        //         },
-                        //       ),
-
-                        //     );
-                        //   },
-                        // ),
-
                         child: CustomModifiedTextField(
                           borderRadius: h8,
                           controller: allSearchController.searchTextEditingController,
@@ -232,7 +115,7 @@ class SearchPage extends StatelessWidget {
                             Get.find<GlobalController>().commonBottomSheet(
                                 context: context,
                                 bottomSheetHeight: height * 0.4,
-                                content: PostedByContent(),
+                                content: SearchPostedByContent(),
                                 onPressCloseButton: () {
                                   Get.back();
                                 },
@@ -305,50 +188,6 @@ class SearchPage extends StatelessWidget {
                       ),
                   ],
                 ),
-                // if (recentSearchList.isNotEmpty)
-                //   Column(
-                //     crossAxisAlignment: CrossAxisAlignment.start,
-                //     children: [
-                //       Padding(
-                //         padding: const EdgeInsets.symmetric(horizontal: h16),
-                //         child: Row(
-                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //           children: [
-                //             Text(
-                //               "Recent Search",
-                //               style: semiBold16TextStyle(cBlackColor),
-                //             ),
-                //             CustomTextButton(
-                //               onPressed: () async {
-                //                 recentSearchList.value = [];
-                //                 final spController = SpController();
-                //                 await spController.saveRecentSearchList(recentSearchList);
-                //               },
-                //               text: "Clear",
-                //               textStyle: regular14TextStyle(cRedColor),
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //       Padding(
-                //         padding: const EdgeInsets.symmetric(horizontal: 8),
-                //         child: Wrap(
-                //           children: [
-                //             for (int i = recentSearchList.length - 1; i >= 0; i--)
-                //               ChipsWrapContainer(
-                //                 text: recentSearchList[i],
-                //                 onPress: () {
-                //                   searchController.text = recentSearchList[i];
-                //                   searchController.selection = TextSelection.fromPosition(TextPosition(offset: searchController.text.length));
-                //                   isSuffix.value = true;
-                //                 },
-                //               ),
-                //           ],
-                //         ),
-                //       ),
-                //       kH20sizedBox,
-                //     ],
-                //   ),
                 if (allSearchController.isSearched.value == false && allSearchController.userList.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(left: k20Padding, right: k20Padding, top: k16Padding),
@@ -428,7 +267,6 @@ class SearchPage extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 if (allSearchController.isSearched.value)
                   Padding(
                     padding: const EdgeInsets.only(left: k16Padding),
@@ -781,7 +619,6 @@ class SearchPage extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 if (allSearchController.selectedFilterIndex.value == 4)
                   Expanded(
                     child: SingleChildScrollView(
@@ -801,7 +638,7 @@ class SearchPage extends StatelessWidget {
                                     onTap: () {
                                       Get.toNamed(krVideoDetails);
                                     },
-                                    child: VideosContent(
+                                    child: SearchVideosContent(
                                       image: item["image"],
                                       title: item["title"],
                                       name: item["name"],
@@ -1087,7 +924,7 @@ class PostsFilterContent extends StatelessWidget {
                 Get.find<GlobalController>().commonBottomSheet(
                     context: context,
                     bottomSheetHeight: height * 0.4,
-                    content: PostedByContent(),
+                    content: SearchPostedByContent(),
                     onPressCloseButton: () {
                       Get.back();
                     },
@@ -1166,7 +1003,7 @@ class PostsFilterContent extends StatelessWidget {
                 }
                 Get.find<GlobalController>().commonBottomSheet(
                     context: context,
-                    content: CategoryContent(),
+                    content: PostsCategoryContent(),
                     onPressCloseButton: () {
                       Get.back();
                     },
@@ -1227,7 +1064,7 @@ class PostSellingSection extends StatelessWidget {
                 Get.find<GlobalController>().commonBottomSheet(
                     context: context,
                     bottomSheetHeight: height * 0.25,
-                    content: SellPostBottomSheetContent(),
+                    content: SellPostPostTypeContent(),
                     onPressCloseButton: () {
                       Get.back();
                     },
@@ -1266,7 +1103,7 @@ class PostSellingSection extends StatelessWidget {
                 }
                 Get.find<GlobalController>().commonBottomSheet(
                     context: context,
-                    content: SellPostConditionContent(),
+                    content: SellPostProductConditionContent(),
                     onPressCloseButton: () {
                       Get.back();
                     },
@@ -1306,7 +1143,7 @@ class PostSellingSection extends StatelessWidget {
                 Get.find<GlobalController>().commonBottomSheet(
                     context: context,
                     bottomSheetHeight: height * 0.4,
-                    content: PostedByContent(),
+                    content: SearchPostedByContent(),
                     onPressCloseButton: () {
                       Get.back();
                     },
@@ -1405,7 +1242,7 @@ class KidsNewsContent extends StatelessWidget {
                 }
                 Get.find<GlobalController>().commonBottomSheet(
                     context: context,
-                    content: SubCategoryBottomSheetContent(),
+                    content: KidsNewsSubCategoryContent(),
                     onPressCloseButton: () {
                       Get.back();
                     },
@@ -1484,7 +1321,7 @@ class KidsNewsContent extends StatelessWidget {
                 Get.find<GlobalController>().commonBottomSheet(
                     context: context,
                     bottomSheetHeight: height * 0.4,
-                    content: PostedByContent(),
+                    content: SearchPostedByContent(),
                     onPressCloseButton: () {
                       Get.back();
                     },
@@ -1545,7 +1382,7 @@ class PhotosVideosBottomSheetContent extends StatelessWidget {
                 Get.find<GlobalController>().commonBottomSheet(
                     context: context,
                     bottomSheetHeight: height * 0.4,
-                    content: PostedByContent(),
+                    content: SearchPostedByContent(),
                     onPressCloseButton: () {
                       Get.back();
                     },
@@ -1615,321 +1452,6 @@ class PhotosVideosBottomSheetContent extends StatelessWidget {
   }
 }
 
-class PostedByContent extends StatelessWidget {
-  PostedByContent({super.key});
-  final AllSearchController allSearchController = Get.find<AllSearchController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: allSearchController.postedByList.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: k10Padding),
-              child: Obx(
-                () => CustomListTile(
-                  leading: IconContainer(icon: allSearchController.postedByList[index]["icon"]),
-                  itemColor:
-                      allSearchController.temporarySelectedPostedBy.value == allSearchController.postedByList[index]["type"] ? cPrimaryTint3Color : cWhiteColor,
-                  onPressed: () {
-                    allSearchController.temporarySelectedPostedBy.value = allSearchController.postedByList[index]["type"];
-                    // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
-                    if (allSearchController.temporarySelectedPostedBy.value == '') {
-                      allSearchController.isPostedByBottomSheetState.value = false;
-                    } else {
-                      allSearchController.isPostedByBottomSheetState.value = true;
-                    }
-                  },
-                  title: allSearchController.postedByList[index]["type"],
-                  borderColor:
-                      allSearchController.temporarySelectedPostedBy.value == allSearchController.postedByList[index]["type"] ? cPrimaryColor : cLineColor,
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      allSearchController.temporarySelectedPostedBy.value = allSearchController.postedByList[index]["type"];
-                      // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
-                      if (allSearchController.temporarySelectedPostedBy.value == '') {
-                        allSearchController.isPostedByBottomSheetState.value = false;
-                      } else {
-                        allSearchController.isPostedByBottomSheetState.value = true;
-                      }
-                    },
-                    isSelected: allSearchController.temporarySelectedPostedBy.value == allSearchController.postedByList[index]["type"],
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class SubCategoryBottomSheetContent extends StatelessWidget {
-  SubCategoryBottomSheetContent({super.key});
-  final AllSearchController allSearchController = Get.find<AllSearchController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: allSearchController.subCategoryList.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: k10Padding),
-              child: Obx(
-                () => CustomListTile(
-                  itemColor:
-                      allSearchController.temporarySelectedSubCategory.value == allSearchController.subCategoryList[index] ? cPrimaryTint3Color : cWhiteColor,
-                  onPressed: () {
-                    allSearchController.temporarySelectedSubCategory.value = allSearchController.subCategoryList[index];
-                    if (allSearchController.temporarySelectedSubCategory.value == '') {
-                      allSearchController.isSubCategoryBottomSheetState.value = false;
-                    } else {
-                      allSearchController.isSubCategoryBottomSheetState.value = true;
-                    }
-                  },
-                  title: allSearchController.subCategoryList[index],
-                  borderColor:
-                      allSearchController.temporarySelectedSubCategory.value == allSearchController.subCategoryList[index] ? cPrimaryColor : cLineColor,
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      allSearchController.temporarySelectedSubCategory.value = allSearchController.subCategoryList[index];
-                      if (allSearchController.temporarySelectedSubCategory.value == '') {
-                        allSearchController.isSubCategoryBottomSheetState.value = false;
-                      } else {
-                        allSearchController.isSubCategoryBottomSheetState.value = true;
-                      }
-                    },
-                    isSelected: allSearchController.temporarySelectedSubCategory.value == allSearchController.subCategoryList[index],
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class SellPostConditionContent extends StatelessWidget {
-  SellPostConditionContent({super.key});
-  final AllSearchController allSearchController = Get.find<AllSearchController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: allSearchController.conditionList.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: k10Padding),
-              child: Obx(
-                () => CustomListTile(
-                  itemColor: allSearchController.temporarySelectedSellPostCondition.value == allSearchController.conditionList[index]
-                      ? cPrimaryTint3Color
-                      : cWhiteColor,
-                  onPressed: () {
-                    allSearchController.temporarySelectedSellPostCondition.value = allSearchController.conditionList[index];
-                    // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
-                    if (allSearchController.temporarySelectedSellPostCondition.value == '') {
-                      allSearchController.isSellPostConditionBottomSheetState.value = false;
-                    } else {
-                      allSearchController.isSellPostConditionBottomSheetState.value = true;
-                    }
-                  },
-                  title: allSearchController.conditionList[index],
-                  borderColor:
-                      allSearchController.temporarySelectedSellPostCondition.value == allSearchController.conditionList[index] ? cPrimaryColor : cLineColor,
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      allSearchController.temporarySelectedSellPostCondition.value = allSearchController.conditionList[index];
-                      if (allSearchController.temporarySelectedSellPostCondition.value == '') {
-                        allSearchController.isSellPostConditionBottomSheetState.value = false;
-                      } else {
-                        allSearchController.isSellPostConditionBottomSheetState.value = true;
-                      }
-                    },
-                    isSelected: allSearchController.temporarySelectedSellPostCondition.value == allSearchController.conditionList[index],
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class SellPostProductCategoryContent extends StatelessWidget {
-  SellPostProductCategoryContent({super.key});
-  final AllSearchController allSearchController = Get.find<AllSearchController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: allSearchController.productCategoryList.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: k10Padding),
-              child: Obx(
-                () => CustomListTile(
-                  itemColor: allSearchController.temporarySelectedSellPostProductCategory.value == allSearchController.productCategoryList[index]
-                      ? cPrimaryTint3Color
-                      : cWhiteColor,
-                  onPressed: () {
-                    allSearchController.temporarySelectedSellPostProductCategory.value = allSearchController.productCategoryList[index];
-                    if (allSearchController.temporarySelectedSellPostProductCategory.value == '') {
-                      allSearchController.isSellPostProductConditionBottomSheetState.value = false;
-                    } else {
-                      allSearchController.isSellPostProductConditionBottomSheetState.value = true;
-                    }
-                  },
-                  title: allSearchController.productCategoryList[index],
-                  borderColor: allSearchController.temporarySelectedSellPostProductCategory.value == allSearchController.productCategoryList[index]
-                      ? cPrimaryColor
-                      : cLineColor,
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      allSearchController.temporarySelectedSellPostProductCategory.value = allSearchController.productCategoryList[index];
-                      if (allSearchController.temporarySelectedSellPostProductCategory.value == '') {
-                        allSearchController.isSellPostProductConditionBottomSheetState.value = false;
-                      } else {
-                        allSearchController.isSellPostProductConditionBottomSheetState.value = true;
-                      }
-                    },
-                    isSelected: allSearchController.temporarySelectedSellPostProductCategory.value == allSearchController.productCategoryList[index],
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class DatePostedContent extends StatelessWidget {
-  DatePostedContent({super.key});
-  final AllSearchController allSearchController = Get.find<AllSearchController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: allSearchController.datePostedList.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: k10Padding),
-              child: Obx(
-                () => CustomListTile(
-                  itemColor: allSearchController.temporarySelectedDatePosted.value == allSearchController.datePostedList[index]["date"]
-                      ? cPrimaryTint3Color
-                      : cWhiteColor,
-                  onPressed: () {
-                    allSearchController.temporarySelectedDatePosted.value = allSearchController.datePostedList[index]["date"];
-                    // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
-                    if (allSearchController.temporarySelectedDatePosted.value == '') {
-                      allSearchController.isDatePostedBottomSheetState.value = false;
-                    } else {
-                      allSearchController.isDatePostedBottomSheetState.value = true;
-                    }
-                  },
-                  title: allSearchController.datePostedList[index]["date"],
-                  borderColor:
-                      allSearchController.temporarySelectedDatePosted.value == allSearchController.datePostedList[index]["date"] ? cPrimaryColor : cLineColor,
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      allSearchController.temporarySelectedDatePosted.value = allSearchController.datePostedList[index]["date"];
-                      // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
-                      if (allSearchController.temporarySelectedDatePosted.value == '') {
-                        allSearchController.isDatePostedBottomSheetState.value = false;
-                      } else {
-                        allSearchController.isDatePostedBottomSheetState.value = true;
-                      }
-                    },
-                    isSelected: allSearchController.temporarySelectedDatePosted.value == allSearchController.datePostedList[index]["date"],
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class CategoryContent extends StatelessWidget {
-  CategoryContent({super.key});
-  final AllSearchController allSearchController = Get.find<AllSearchController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: allSearchController.categoryList.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: k10Padding),
-              child: Obx(
-                () => CustomListTile(
-                  itemColor: allSearchController.temporarySelectedCategory.value == allSearchController.categoryList[index] ? cPrimaryTint3Color : cWhiteColor,
-                  onPressed: () {
-                    allSearchController.temporarySelectedCategory.value = allSearchController.categoryList[index];
-                    // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
-                    if (allSearchController.temporarySelectedCategory.value == '') {
-                      allSearchController.isCategoryBottomSheetState.value = false;
-                    } else {
-                      allSearchController.isCategoryBottomSheetState.value = true;
-                    }
-                  },
-                  title: allSearchController.categoryList[index],
-                  borderColor: allSearchController.temporarySelectedCategory.value == allSearchController.categoryList[index] ? cPrimaryColor : cLineColor,
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      allSearchController.temporarySelectedCategory.value = allSearchController.categoryList[index];
-                      // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
-                      if (allSearchController.temporarySelectedCategory.value == '') {
-                        allSearchController.isCategoryBottomSheetState.value = false;
-                      } else {
-                        allSearchController.isCategoryBottomSheetState.value = true;
-                      }
-                    },
-                    isSelected: allSearchController.temporarySelectedCategory.value == allSearchController.categoryList[index],
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
 
 class IconContainer extends StatelessWidget {
   const IconContainer({super.key, required this.icon});
@@ -1949,207 +1471,6 @@ class IconContainer extends StatelessWidget {
         size: kIconSize12,
         color: cIconColor,
       ),
-    );
-  }
-}
-
-class VideosContent extends StatelessWidget {
-  const VideosContent({
-    super.key,
-    this.image,
-    required this.title,
-    this.name,
-    this.onPressed,
-    this.date,
-    this.totalView,
-    this.time,
-  });
-  final String? image;
-  final String title;
-  final String? name;
-  final String? date;
-  final String? totalView;
-  final String? time;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (image != null)
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(k8BorderRadius),
-                  child: SizedBox(
-                    width: 120,
-                    height: 90,
-                    child: Image.network(
-                      image ?? '',
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => const Icon(
-                        BipHip.imageFile,
-                        size: kIconSize70,
-                        color: cIconColor,
-                      ),
-                      loadingBuilder: imageLoadingBuilder,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: h10,
-                  bottom: h10,
-                  child: Text(
-                    time ?? "",
-                    style: semiBold12TextStyle(cWhiteColor),
-                  ),
-                ),
-              ],
-            ),
-          kW12sizedBox,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // kH8sizedBox,
-                Text(
-                  title,
-                  style: semiBold18TextStyle(cBlackColor),
-                  overflow: TextOverflow.clip,
-                ),
-                kH8sizedBox,
-                Text(
-                  name ?? "",
-                  style: regular16TextStyle(cSmallBodyTextColor),
-                  textAlign: TextAlign.left,
-                ),
-                kH8sizedBox,
-                Row(
-                  children: [
-                    Text(
-                      date ?? "",
-                      style: regular12TextStyle(cSmallBodyTextColor),
-                    ),
-                    kW4sizedBox,
-                    Text(
-                      totalView ?? "",
-                      style: regular12TextStyle(cSmallBodyTextColor),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class SellPostBottomSheetContent extends StatelessWidget {
-  SellPostBottomSheetContent({super.key});
-  final AllSearchController allSearchController = Get.find<AllSearchController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Obx(
-          () => OutLinedButton(
-            onPress: () {
-              allSearchController.temporarySelectedSellPostType.value = ksRegularPost.tr;
-              allSearchController.isSellPostTypeBottomSheetState.value = true;
-            },
-            suffixWidget: Padding(
-              padding: const EdgeInsets.only(right: k8Padding),
-              child: Stack(
-                children: [
-                  Container(
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      borderRadius: k100CircularBorderRadius,
-                      gradient: const LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          cBlueLinearColor1,
-                          cBlueLinearColor2,
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    top: 7,
-                    bottom: 7,
-                    child: SvgPicture.asset(
-                      kiRegularPostSvgUrl,
-                      width: 16,
-                      height: 16,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            buttonText: ksRegularPost.tr,
-            buttonTextStyle: medium16TextStyle(cBlackColor),
-            borderColor: allSearchController.temporarySelectedSellPostType.value == ksRegularPost.tr ? cPrimaryColor : cLineColor,
-            buttonColor: allSearchController.temporarySelectedSellPostType.value == ksRegularPost.tr ? cPrimaryTint2Color : cWhiteColor,
-          ),
-        ),
-        kH16sizedBox,
-        Obx(
-          () => OutLinedButton(
-            onPress: () {
-              allSearchController.temporarySelectedSellPostType.value = ksBiddingPost.tr;
-              allSearchController.isSellPostTypeBottomSheetState.value = true;
-            },
-            suffixWidget: Padding(
-              padding: const EdgeInsets.only(right: k8Padding),
-              child: Stack(
-                children: [
-                  Container(
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      borderRadius: k100CircularBorderRadius,
-                      gradient: const LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [
-                          cYellowLinearColor1,
-                          cYellowLinearColor2,
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    top: 7,
-                    bottom: 7,
-                    child: SvgPicture.asset(
-                      kiBiddingPostSvgUrl,
-                      width: 16,
-                      height: 16,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            buttonText: ksBiddingPost.tr,
-            buttonTextStyle: medium16TextStyle(cBlackColor),
-            borderColor: allSearchController.temporarySelectedSellPostType.value == ksBiddingPost.tr ? cPrimaryColor : cLineColor,
-            buttonColor: allSearchController.temporarySelectedSellPostType.value == ksBiddingPost ? cPrimaryTint2Color : cWhiteColor,
-          ),
-        ),
-      ],
     );
   }
 }
