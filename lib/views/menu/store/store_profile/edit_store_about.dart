@@ -79,9 +79,10 @@ class StoreCategoryContent extends StatelessWidget {
                   subtitlePrefixText: storeController.storeCategory.value ?? ksCategory.tr,
                   subTitlePrefixTextStyle: regular16TextStyle(cBlackColor),
                   isAddButton: false,
-                  suffixOnPressed: () {
+                  suffixOnPressed: () async {
                     storeController.storeCategoryTextEditingController.text = storeController.storeCategory.value ?? '';
                     Get.toNamed(krEditStoreCategory);
+                    await storeController.getAllBusinessCategory();
                   },
                 )),
             kH16sizedBox,
@@ -98,45 +99,47 @@ class StoreLocationContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: cWhiteColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-        child: Column(
-          children: [
-            kH16sizedBox,
-            InfoContainer(
-              suffixText: ksStoreLocation.tr,
-              suffixTextStyle: semiBold18TextStyle(cBlackColor),
-              isAddButton: true,
-              suffixOnPressed: () {
-                storeController.isEditOrAdd.value = false;
-                storeController.storeLocationTextEditingController.text = '';
-                storeController.isStoreLocationSuffixIconVisible.value = false;
-                Get.toNamed(krEditStoreLocation);
-              },
-            ),
-            kH12sizedBox,
-            for (int i = 0; i < storeController.storeLocationList.length; i++) //! using api
-              Padding(
-                padding: const EdgeInsets.only(bottom: k12Padding),
-                child: InfoContainer(
-                  suffixText: '',
-                  prefixText: checkNullOrStringNull(storeController.storeLocationList[i]), //*Use here api
-                  isAddButton: false,
-                  suffixOnPressed: () {
-                    storeController.isEditOrAdd.value = true;
-                    storeController.storeLocationTextEditingController.text = storeController.storeLocationList[i];
+    return Obx(() => Container(
+          color: cWhiteColor,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: Column(
+              children: [
+                kH16sizedBox,
+                InfoContainer(
+                  suffixText: ksStoreLocation.tr,
+                  suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                  isAddButton: true,
+                  suffixOnPressed: () async {
+                    storeController.isEditOrAdd.value = false;
+                    storeController.storeLocationTextEditingController.text = '';
                     storeController.isStoreLocationSuffixIconVisible.value = false;
                     Get.toNamed(krEditStoreLocation);
+                    await storeController.getCityList();
                   },
                 ),
-              ),
-            kH16sizedBox,
-          ],
-        ),
-      ),
-    );
+                kH12sizedBox,
+                for (int i = 0; i < storeController.storeLocationList.length; i++)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: k12Padding),
+                    child: InfoContainer(
+                      suffixText: '',
+                      prefixText: checkNullOrStringNull(storeController.storeLocationList[i].location), //*Use here api
+                      isAddButton: false,
+                      suffixOnPressed: () async {
+                        storeController.isEditOrAdd.value = true;
+                        storeController.storeLocationTextEditingController.text = storeController.storeLocationList[i].location;
+                        storeController.isStoreLocationSuffixIconVisible.value = false;
+                        storeController.selectedStoreLocationId.value = storeController.storeLocationList[i].id;
+                        Get.toNamed(krEditStoreLocation);
+                      },
+                    ),
+                  ),
+                kH16sizedBox,
+              ],
+            ),
+          ),
+        ));
   }
 }
 
@@ -146,53 +149,79 @@ class StoreContactInfoContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: cWhiteColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-        child: Column(
-          children: [
-            kH16sizedBox,
-            InfoContainer(
-              suffixText: ksContactInfo.tr,
-              suffixTextStyle: semiBold18TextStyle(cBlackColor),
-              isAddButton: true,
-              suffixOnPressed: () {
-                // kidHelper.addKidEducationBackground();
-              },
-            ),
-            kH12sizedBox,
-            for (int i = 0; i < storeController.storeNumberList.length; i++) //! using api
-              Padding(
-                padding: const EdgeInsets.only(bottom: k12Padding),
-                child: InfoContainer(
-                  suffixText: '',
-                  prefixText: checkNullOrStringNull(storeController.storeNumberList[i]['phone']), //*Use here api
-                  isAddButton: false,
-                  suffixOnPressed: () async {
-                    storeController.storePhoneNumberTextEditingController.text = storeController.storeNumberList[i]['phone'];
+    return Obx(() => Container(
+          color: cWhiteColor,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: Column(
+              children: [
+                kH16sizedBox,
+                InfoContainer(
+                  suffixText: ksContactInfo.tr,
+                  suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                  isAddButton: null,
+                  suffixOnPressed: () {},
+                ),
+                InfoContainer(
+                  suffixText: ksPhone.tr,
+                  suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                  isAddButton: true,
+                  suffixOnPressed: () {
+                    storeController.isEditOrAdd.value = false;
+                    storeController.storePhoneNumberTextEditingController.text = "";
+                    storeController.storeContactId.value = -1;
                     Get.toNamed(krEditStorePhoneNumber);
                   },
                 ),
-              ),
-            kH12sizedBox,
-            for (int i = 0; i < storeController.storeEmailList.length; i++) //! using api
-              Padding(
-                padding: const EdgeInsets.only(bottom: k12Padding),
-                child: InfoContainer(
-                  suffixText: '',
-                  prefixText: checkNullOrStringNull(storeController.storeEmailList[i]['email']), //*Use here api
-                  isAddButton: false,
-                  suffixOnPressed: () async {
-                    storeController.storeEmailTextEditingController.text = storeController.storeEmailList[i]['email'];
+                kH12sizedBox,
+                for (int i = 0; i < storeController.contactList.length; i++)
+                  if (storeController.contactList[i].type == "phone")
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: k12Padding),
+                      child: InfoContainer(
+                        suffixText: '',
+                        prefixText: checkNullOrStringNull(storeController.contactList[i].value),
+                        isAddButton: false,
+                        suffixOnPressed: () async {
+                          storeController.isEditOrAdd.value = true;
+                          storeController.storeContactId.value = storeController.contactList[i].id;
+                          storeController.storePhoneNumberTextEditingController.text = storeController.contactList[i].value;
+                          Get.toNamed(krEditStorePhoneNumber);
+                        },
+                      ),
+                    ),
+                InfoContainer(
+                  suffixText: ksEmail.tr,
+                  suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                  isAddButton: true,
+                  suffixOnPressed: () {
+                    storeController.isEditOrAdd.value = false;
+                    storeController.storeContactId.value = -1;
+                    storeController.storeEmailTextEditingController.text = "";
                     Get.toNamed(krEditStoreEmail);
                   },
                 ),
-              ),
-          ],
-        ),
-      ),
-    );
+                kH12sizedBox,
+                for (int i = 0; i < storeController.contactList.length; i++)
+                  if (storeController.contactList[i].type == "email")
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: k12Padding),
+                      child: InfoContainer(
+                        suffixText: '',
+                        prefixText: checkNullOrStringNull(storeController.contactList[i].value),
+                        isAddButton: false,
+                        suffixOnPressed: () async {
+                          storeController.isEditOrAdd.value = true;
+                          storeController.storeContactId.value = storeController.contactList[i].id;
+                          storeController.storeEmailTextEditingController.text = storeController.contactList[i].value;
+                          Get.toNamed(krEditStoreEmail);
+                        },
+                      ),
+                    ),
+              ],
+            ),
+          ),
+        ));
   }
 }
 
@@ -202,44 +231,47 @@ class StoreWebsiteSocialLinkContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: cWhiteColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-        child: Column(
-          children: [
-            kH16sizedBox,
-            InfoContainer(
-              suffixText: ksWebsiteAndSocialLinks.tr,
-              suffixTextStyle: semiBold18TextStyle(cBlackColor),
-              isAddButton: true,
-              suffixOnPressed: () {
-                storeController.isEditOrAdd.value = false;
-                storeController.storeSocialLinkTextEditingController.text = "";
-                storeController.selectedStoreSocialLinkSource.value = "";
-                Get.toNamed(krEditStoreSocialLink);
-              },
-            ),
-            kH12sizedBox,
-            for (int i = 0; i < storeController.websiteAndSocialLinkList.length; i++) //! using api
-              Padding(
-                padding: const EdgeInsets.only(bottom: k12Padding),
-                child: InfoContainer(
-                  suffixText: '',
-                  prefixText: checkNullOrStringNull(storeController.websiteAndSocialLinkList[i]), //*Use here api
-                  isAddButton: false,
+    return Obx(() => Container(
+          color: cWhiteColor,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: Column(
+              children: [
+                kH16sizedBox,
+                InfoContainer(
+                  suffixText: ksWebsiteAndSocialLinks.tr,
+                  suffixTextStyle: semiBold18TextStyle(cBlackColor),
+                  isAddButton: true,
                   suffixOnPressed: () {
-                    storeController.isEditOrAdd.value = true;
-                    storeController.storeSocialLinkTextEditingController.text = storeController.websiteAndSocialLinkList[i];
-                    storeController.selectedStoreSocialLinkSource.value = "Facebook";
+                    storeController.isEditOrAdd.value = false;
+                    storeController.storeSocialLinkTextEditingController.text = "";
+                    storeController.selectedStoreSocialLinkSource.value = "";
+                    storeController.storeLinkId.value = -1;
+                    storeController.isStoreSocialLinkSaveEnabled.value = false;
                     Get.toNamed(krEditStoreSocialLink);
                   },
                 ),
-              ),
-          ],
-        ),
-      ),
-    );
+                kH12sizedBox,
+                for (int i = 0; i < storeController.allLinkList.length; i++)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: k12Padding),
+                    child: InfoContainer(
+                      suffixText: '',
+                      prefixText: checkNullOrStringNull(storeController.allLinkList[i].link),
+                      isAddButton: false,
+                      suffixOnPressed: () {
+                        storeController.isEditOrAdd.value = true;
+                        storeController.storeSocialLinkTextEditingController.text = storeController.allLinkList[i].link ?? "";
+                        storeController.selectedStoreSocialLinkSource.value = storeController.allLinkList[i].type!;
+                        storeController.storeLinkId.value = storeController.allLinkList[i].id!;
+                        Get.toNamed(krEditStoreSocialLink);
+                      },
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ));
   }
 }
 
@@ -349,7 +381,7 @@ class StoreBINContent extends StatelessWidget {
                     if (storeController.storeBIN.value == "") {
                       storeController.storeBINTextEditingController.text = "";
                     } else {
-                      storeController.storeBINTextEditingController.text = storeController.storeBIN.value;
+                      storeController.storeBINTextEditingController.text = storeController.storeBIN.value??"";
                     }
                     Get.toNamed(krEditStoreBIN);
                   },
@@ -384,7 +416,7 @@ class StoreQrCodeContent extends StatelessWidget {
                     if (storeController.qrCode.value == "") {
                       storeController.storeQrCodeTextEditingController.text = "";
                     } else {
-                      storeController.storeQrCodeTextEditingController.text = storeController.qrCode.value;
+                      storeController.storeQrCodeTextEditingController.text = storeController.qrCode.value??"";
                     }
                     Get.toNamed(krEditStoreQrCode);
                   },
@@ -491,8 +523,7 @@ class StorePageTransperencyContent extends StatelessWidget {
             ),
             kH16sizedBox,
             Text(
-              // kidsController.kidOverviewData.value?.kids?.pageId ?? ksNA,//!From api data
-              '12345678',
+              storeController.storesData.value!.pageId.toString(),
               style: regular16TextStyle(cBlackColor),
             ),
             kH4sizedBox,
@@ -502,8 +533,7 @@ class StorePageTransperencyContent extends StatelessWidget {
             ),
             kH16sizedBox,
             Text(
-              // DateFormat('dd MMM, yyyy').format(kidsController.kidOverviewData.value?.kids!.createdAt ?? DateTime.now()),//! data from Api
-              DateFormat('dd MMM, yyyy').format(DateTime.now()),
+              DateFormat('dd MMM, yyyy').format(storeController.storesData.value?.createdAt ?? DateTime.now()),
               style: regular16TextStyle(cBlackColor),
             ),
             kH4sizedBox,

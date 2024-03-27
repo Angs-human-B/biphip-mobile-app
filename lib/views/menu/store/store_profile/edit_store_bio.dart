@@ -35,7 +35,7 @@ class StoreEditBio extends StatelessWidget {
                               onPressed: storeController.storeBioTextEditingController.text != storeController.storeBio.value
                                   ? () async {
                                       unfocus(context);
-                                      // kidHelper.saveEditBio();
+                                     await storeController.updateStoreBio();
                                     }
                                   : null,
                               text: ksSave.tr,
@@ -83,17 +83,17 @@ class StoreEditBio extends StatelessWidget {
                     ],
                   )),
             ),
-            // if (kidsController.isKidBioLoading.value == true)//!Condition for loading
-            //   Positioned(
-            //     child: CommonLoadingAnimation(
-            //       onWillPop: () async {
-            //         if (kidsController.isKidBioLoading.value) {
-            //           return false;
-            //         }
-            //         return true;
-            //       },
-            //     ),
-            //   ),
+            if (storeController.isStoreBioLoading.value == true)
+              Positioned(
+                child: CommonLoadingAnimation(
+                  onWillPop: () async {
+                    if (storeController.isStoreBioLoading.value) {
+                      return false;
+                    }
+                    return true;
+                  },
+                ),
+              ),
           ],
         ),
       ),

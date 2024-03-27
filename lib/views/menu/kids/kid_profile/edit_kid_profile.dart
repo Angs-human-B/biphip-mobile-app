@@ -169,6 +169,7 @@ class EditKidProfile extends StatelessWidget {
                                 suffix: ksEdit.tr,
                                 onEditPressed: () async{
                                   await kidsController.getKidAllSchoolList();
+                                  await kidsController.getKidContacts();
                                   // editProfileHelper.resetEditAboutPage();//!function write
                                   // profileController.showAllEditOption.value = false;//!Change
                                   Get.toNamed(krKidEditAboutInfo);

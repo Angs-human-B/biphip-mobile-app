@@ -8,9 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class EditStoreProfile extends StatelessWidget {
-  EditStoreProfile({super.key, this.profilePicture, this.coverPhoto});
-  final String? profilePicture;
-  final String? coverPhoto;
+  EditStoreProfile({super.key});
   final StoreController storeController = Get.find<StoreController>();
   final StoreHelper storeHelper = StoreHelper();
   @override
@@ -55,7 +53,7 @@ class EditStoreProfile extends StatelessWidget {
                                 prefix: ksProfilePicture.tr,
                                 suffix: ksEdit.tr,
                                 onEditPressed: () {
-                                  // kidHelper.kidProfilePicUploadBottomSheet(context); //!Change this function
+                                  storeHelper.storeProfilePicUploadBottomSheet(context);
                                 },
                               ),
                               kH12sizedBox,
@@ -64,7 +62,7 @@ class EditStoreProfile extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      // profileHelper.viewProfilePic();//!Change it
+                                      storeHelper.viewProfilePic();
                                     },
                                     child: Container(
                                       height: isDeviceScreenLarge() ? kProfileImageSize : (kProfileImageSize - h10),
@@ -75,8 +73,7 @@ class EditStoreProfile extends StatelessWidget {
                                       ),
                                       child: ClipOval(
                                         child: Image.network(
-                                          profilePicture ?? '', //!write this function
-                                          // profileController.userData.value!.profilePicture.toString(),
+                                          storeController.storeProfilePicture.value,
                                           fit: BoxFit.cover,
                                           errorBuilder: (context, error, stackTrace) => const Icon(
                                             BipHip.user,
@@ -99,13 +96,13 @@ class EditStoreProfile extends StatelessWidget {
                                 prefix: ksCoverPhoto.tr,
                                 suffix: ksEdit.tr,
                                 onEditPressed: () {
-                                  // kidHelper.kidCoverPhotoUploadBottomSheet(context); //!write this function
+                                  storeHelper.storeCoverPhotoUploadBottomSheet(context);
                                 },
                               ),
                               kH12sizedBox,
                               InkWell(
                                 onTap: () {
-                                  // profileHelper.viewCoverPhoto();//!Change it
+                                  storeHelper.viewCoverPhoto();
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -116,15 +113,18 @@ class EditStoreProfile extends StatelessWidget {
                                   child: ClipRRect(
                                     borderRadius: k8CircularBorderRadius,
                                     child: Image.network(
-                                      coverPhoto ?? '', //!Change throught api
-                                      // profileController.userData.value!.coverPhoto.toString(),
+                                      storeController.storeCoverPhoto.value,
                                       height: 150,
                                       width: width,
                                       fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) => const Icon(
-                                        BipHip.imageFile,
-                                        size: kIconSize120,
-                                        color: cIconColor,
+                                      errorBuilder: (context, error, stackTrace) => SizedBox(
+                                        width: width,
+                                        height: 150,
+                                        child: const Icon(
+                                          BipHip.imageFile,
+                                          size: kIconSize120,
+                                          color: cIconColor,
+                                        ),
                                       ),
                                       loadingBuilder: imageLoadingBuilderCover,
                                     ),
@@ -143,18 +143,16 @@ class EditStoreProfile extends StatelessWidget {
                                   if (storeController.storeBio.value == null) {
                                     storeController.storeBioTextEditingController.text = "";
                                   } else {
-                                    storeController.storeBioTextEditingController.text = storeController.storeBio.value!;
+                                    storeController.storeBioTextEditingController.text = storeController.storeBio.value ?? "";
                                   }
                                   Get.toNamed(krStoreEditBio);
                                 },
                               ),
-                              // if (profileController.userData.value!.bio != null)//!change the condition
                               if (storeController.storeBio.value != null)
                                 Padding(
                                   padding: const EdgeInsets.only(top: k16Padding),
                                   child: Text(
-                                    // profileController.userData.value!.bio ?? '',//!Change it using api
-                                    storeController.storeBio.value ?? '', //!change
+                                    storeController.storeBio.value ?? '',
                                     style: regular14TextStyle(cIconColor),
                                   ),
                                 ),
@@ -166,14 +164,14 @@ class EditStoreProfile extends StatelessWidget {
                               RowTextEdit(
                                 prefix: ksIntro.tr,
                                 suffix: ksEdit.tr,
-                                onEditPressed: () {
-                                  // editProfileHelper.resetEditAboutPage();//!function write
-                                  // profileController.showAllEditOption.value = false;//!Change
+                                onEditPressed: () async {
+                                  await storeController.getStoreLocations();
+                                  await storeController.getStoreContacts();
+                                  await storeController.getStoreLinks();
                                   Get.toNamed(krStoreEditAbout);
                                 },
                               ),
                               kH16sizedBox,
-                              // IntroContents(),
                               StoreIntroContent(),
                               kH16sizedBox,
                               CustomElevatedButton(
@@ -183,10 +181,10 @@ class EditStoreProfile extends StatelessWidget {
                                 buttonColor: cPrimaryColor,
                                 textStyle: semiBold14TextStyle(cWhiteColor),
                                 onPressed: () async {
-                                  // profileController.showAllEditOption.value = true;//!variable define
-                                  // editProfileHelper.resetEditAboutPage();//!Function write
+                                  await storeController.getStoreLocations();
+                                  await storeController.getStoreContacts();
+                                  await storeController.getStoreLinks();
                                   Get.toNamed(krStoreEditAbout);
-                                  // await profileController.getPositionList();//!Write this function
                                 },
                               ),
                               kH20sizedBox
@@ -205,17 +203,6 @@ class EditStoreProfile extends StatelessWidget {
                 ),
               ),
             ),
-            // if (profileController.isBioLoading.value == true)//!Condition required
-            // Positioned(
-            //   child: CommonLoadingAnimation(
-            //     onWillPop: () async {
-            //       if (profileController.isBioLoading.value) {
-            //         return false;
-            //       }
-            //       return true;
-            //     },
-            //   ),
-            // ),
           ),
         ],
       ),
@@ -229,149 +216,150 @@ class StoreIntroContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        KidStoreProfileLinkUpIconTextRow(
-          iconOrSvg: const Icon(
-            BipHip.info,
-            size: kIconSize20,
-            color: cPrimaryColor,
-          ),
-          onPressed: null,
-          prefixText: '${ksPage.tr} ',
-          suffixText: 'electronics',
-        ),
-        const KidStoreProfileLinkUpIconTextRow(
-          iconOrSvg: Icon(
-            BipHip.info,
-            size: kIconSize20,
-            color: cPrimaryColor,
-          ),
-          onPressed: null,
-          prefixText: 'BIN',
-          suffixText: '129874675766',
-        ),
-        const StoreProfileLinkUpIconTextRow(
-          iconOrSvg: Icon(
-            BipHip.location,
-            size: kIconSize20,
-            color: cPrimaryColor,
-          ),
-          onPressed: null,
-          prefixText: 'Shop 231, Motalib Plaza, Hatipul.',
-          suffixText: '',
-        ),
-        const StoreProfileLinkUpIconTextRow(
-          iconOrSvg: Icon(
-            BipHip.mail,
-            size: kIconSize20,
-            color: cPrimaryColor,
-          ),
-          onPressed: null,
-          prefixText: 'genieelec@gmail.com',
-          suffixText: '',
-        ),
-        const StoreProfileLinkUpIconTextRow(
-          iconOrSvg: Icon(
-            BipHip.phoneFill,
-            size: kIconSize20,
-            color: cPrimaryColor,
-          ),
-          onPressed: null,
-          prefixText: '01858268951',
-          suffixText: '',
-        ),
-        StoreProfileLinkUpIconTextRow(
-          iconOrSvg: SvgPicture.asset(
-            kiWorldSvgImage,
-          ),
-          onPressed: null,
-          prefixText: 'Bangladesh',
-          suffixText: '',
-        ),
-        StoreProfileLinkUpIconTextRow(
-          iconOrSvg: SvgPicture.asset(
-            kiStarSvgImage,
-            color: cAmberColor,
-          ),
-          onPressed: null,
-          prefixText: ksRating.tr,
-          suffixText: '4.5 (2.800 reviews)',
-        ),
-        kH20sizedBox,
-        Text(
-          ksPayment.tr,
-          style: semiBold16TextStyle(cBlackColor),
-        ),
-        kH12sizedBox,
-        StoreProfileLinkUpIconTextRow(
-          iconOrSvg: SvgPicture.asset(
-            kiNagadSvgImage,
-          ),
-          onPressed: null,
-          prefixText: '01858268951',
-          suffixText: '',
-        ),
-        StoreProfileLinkUpIconTextRow(
-          iconOrSvg: SvgPicture.asset(
-            kiPaypalSvgImage,
-          ),
-          onPressed: null,
-          prefixText: 'Shohagjalal@gmail.com',
-          suffixText: '',
-        ),
-        kH16sizedBox,
-        Text(
-          ksLegalPapers.tr,
-          style: semiBold16TextStyle(cBlackColor),
-        ),
-        kH8sizedBox,
-        SizedBox(
-          child: GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: storeController.legalPapersList.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
-              crossAxisCount: 4,
-              crossAxisSpacing: k16Padding,
-              mainAxisSpacing: k16Padding,
+    return Obx(() => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            KidStoreProfileLinkUpIconTextRow(
+              iconOrSvg: const Icon(
+                BipHip.info,
+                size: kIconSize20,
+                color: cPrimaryColor,
+              ),
+              onPressed: null,
+              prefixText: '${ksPage.tr} ',
+              suffixText: storeController.storesData.value?.pageType ?? ksNA.tr,
             ),
-            itemBuilder: (BuildContext context, int index) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(k8BorderRadius),
-                child: SizedBox(
-                  width: 75,
-                  height: 75,
-                  child: Image.network(
-                    storeController.legalPapersList[index],
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Image.asset(
-                      kiDummyImage1ImageUrl,
-                    ),
-                  ),
+            KidStoreProfileLinkUpIconTextRow(
+              iconOrSvg: const Icon(
+                BipHip.info,
+                size: kIconSize20,
+                color: cPrimaryColor,
+              ),
+              onPressed: null,
+              prefixText: ksBIN.tr,
+              suffixText: storeController.storeBIN.value ?? "",
+            ),
+            StoreProfileLinkUpIconTextRow(
+              iconOrSvg: const Icon(
+                BipHip.location,
+                size: kIconSize20,
+                color: cPrimaryColor,
+              ),
+              onPressed: null,
+              prefixText: storeController.storeOverviewData.value?.location ?? ksNA.tr,
+              suffixText: '',
+            ),
+            StoreProfileLinkUpIconTextRow(
+              iconOrSvg: const Icon(
+                BipHip.mail,
+                size: kIconSize20,
+                color: cPrimaryColor,
+              ),
+              onPressed: null,
+              prefixText: storeController.storeOverviewData.value?.email ?? ksNA.tr,
+              suffixText: '',
+            ),
+            StoreProfileLinkUpIconTextRow(
+              iconOrSvg: const Icon(
+                BipHip.phoneFill,
+                size: kIconSize20,
+                color: cPrimaryColor,
+              ),
+              onPressed: null,
+              prefixText: storeController.storeOverviewData.value?.phone ?? ksNA.tr,
+              suffixText: '',
+            ),
+            StoreProfileLinkUpIconTextRow(
+              iconOrSvg: SvgPicture.asset(
+                kiWorldSvgImage,
+              ),
+              onPressed: null,
+              prefixText: storeController.storesData.value?.country ?? ksNA,
+              suffixText: '',
+            ),
+            StoreProfileLinkUpIconTextRow(
+              iconOrSvg: SvgPicture.asset(
+                kiStarSvgImage,
+                color: cAmberColor,
+              ),
+              onPressed: () {
+                Get.toNamed(krStoreReview);
+              },
+              prefixText: ksRating.tr,
+              suffixText:
+                  "${storeController.storesData.value?.countPageRating.toString() ?? ksNA.tr} (${storeController.storesData.value?.countPageReviews.toString() ?? ksNA.tr})",
+            ),
+            kH20sizedBox,
+            Text(
+              ksPayment.tr,
+              style: semiBold16TextStyle(cBlackColor),
+            ),
+            kH12sizedBox,
+            StoreProfileLinkUpIconTextRow(
+              iconOrSvg: SvgPicture.asset(
+                kiNagadSvgImage,
+              ),
+              onPressed: null,
+              prefixText: '01858268951',
+              suffixText: '',
+            ),
+            StoreProfileLinkUpIconTextRow(
+              iconOrSvg: SvgPicture.asset(
+                kiPaypalSvgImage,
+              ),
+              onPressed: null,
+              prefixText: 'Shohagjalal@gmail.com',
+              suffixText: '',
+            ),
+            kH16sizedBox,
+            Text(
+              ksLegalPapers.tr,
+              style: semiBold16TextStyle(cBlackColor),
+            ),
+            kH8sizedBox,
+            SizedBox(
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: storeController.storeLegalPapersList.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
+                  crossAxisCount: 4,
+                  crossAxisSpacing: k16Padding,
+                  mainAxisSpacing: k16Padding,
                 ),
-              );
-            },
-          ),
-        ),
-        kH16sizedBox,
-        Text(
-          ksQR.tr,
-          style: semiBold16TextStyle(cBlackColor),
-        ),
-        QrImageView(
-          data: storeController.qrCode.value,
-          version: QrVersions.auto,
-          size: 120,
-        ),
-        //  QrImage(
-        //     data: storeController.qrCode.value,
-        //     version: QrVersions.auto,
-        //     size: 200.0,
-        //   ),
-      ],
-    );
+                itemBuilder: (BuildContext context, int index) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(k8BorderRadius),
+                    child: SizedBox(
+                      width: 75,
+                      height: 75,
+                      child: Image.network(
+                        storeController.storeLegalPapersList[index],
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => const Icon(
+                          BipHip.imageFile,
+                          size: kIconSize70,
+                          color: cIconColor,
+                        ),
+                        loadingBuilder: imageLoadingBuilder,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            kH16sizedBox,
+            Text(
+              ksQR.tr,
+              style: semiBold16TextStyle(cBlackColor),
+            ),
+            QrImageView(
+              data: storeController.qrCode.value ?? "",
+              version: QrVersions.auto,
+              size: 120,
+            ),
+          ],
+        ));
   }
 }
