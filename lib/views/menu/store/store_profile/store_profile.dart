@@ -272,7 +272,7 @@ class StoreProfile extends StatelessWidget {
                                           ),
                                           onPressed: null,
                                           prefixText: ksBIN.tr,
-                                          suffixText: storeController.storeBIN.value,
+                                          suffixText: storeController.storeBIN.value ?? "",
                                         ),
                                         StoreProfileLinkUpIconTextRow(
                                           iconOrSvg: const Icon(
@@ -432,7 +432,7 @@ class StoreProfile extends StatelessWidget {
                                                       postTime: Get.find<HomeController>().postTimeDifference(item.createdAt!),
                                                       isCategorized: true,
                                                       subCategory: null, //API
-                                                      category: item.postCategory == null ? null : item.postCategory!.name, //API
+                                                      category: item.postCategory == null ? null : item.postCategory?.name ?? "", //API
                                                       categoryIcon: item.postCategory == null
                                                           ? null
                                                           : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API

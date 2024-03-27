@@ -381,7 +381,7 @@ class StoreBINContent extends StatelessWidget {
                     if (storeController.storeBIN.value == "") {
                       storeController.storeBINTextEditingController.text = "";
                     } else {
-                      storeController.storeBINTextEditingController.text = storeController.storeBIN.value;
+                      storeController.storeBINTextEditingController.text = storeController.storeBIN.value??"";
                     }
                     Get.toNamed(krEditStoreBIN);
                   },
@@ -416,7 +416,7 @@ class StoreQrCodeContent extends StatelessWidget {
                     if (storeController.qrCode.value == "") {
                       storeController.storeQrCodeTextEditingController.text = "";
                     } else {
-                      storeController.storeQrCodeTextEditingController.text = storeController.qrCode.value;
+                      storeController.storeQrCodeTextEditingController.text = storeController.qrCode.value??"";
                     }
                     Get.toNamed(krEditStoreQrCode);
                   },

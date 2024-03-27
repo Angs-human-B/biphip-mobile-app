@@ -233,7 +233,7 @@ class StoreIntroContent extends StatelessWidget {
               ),
               onPressed: null,
               prefixText: ksBIN.tr,
-              suffixText: storeController.storeBIN.value,
+              suffixText: storeController.storeBIN.value??"",
             ),
             StoreProfileLinkUpIconTextRow(
               iconOrSvg: const Icon(
@@ -351,7 +351,7 @@ class StoreIntroContent extends StatelessWidget {
               style: semiBold16TextStyle(cBlackColor),
             ),
             QrImageView(
-              data: storeController.qrCode.value,
+              data: storeController.qrCode.value??"",
               version: QrVersions.auto,
               size: 120,
             ),

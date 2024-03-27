@@ -1,10 +1,9 @@
-
 import 'package:bip_hip/models/menu/kids/kid_profile/kid_overview_model.dart';
 
 class StoreOverviewModel {
   Stores? stores;
   List<FeaturePost> featurePost;
-  Admin? admin;
+  // Admin? admin;
   dynamic location;
   dynamic email;
   dynamic phone;
@@ -12,7 +11,7 @@ class StoreOverviewModel {
   StoreOverviewModel({
     required this.stores,
     required this.featurePost,
-    required this.admin,
+    // required this.admin,
     required this.location,
     required this.email,
     required this.phone,
@@ -20,8 +19,8 @@ class StoreOverviewModel {
 
   factory StoreOverviewModel.fromJson(Map<String, dynamic> json) => StoreOverviewModel(
         stores: json["store"] == null ? null : Stores.fromJson(json["store"]),
-         featurePost: List<FeaturePost>.from(json["feature_post"].map((x) => FeaturePost.fromJson(x))),
-        admin: json["admin"] == null ? null : Admin.fromJson(json["admin"]),
+        featurePost: List<FeaturePost>.from(json["feature_post"].map((x) => FeaturePost.fromJson(x))),
+        // admin: json["admin"] == null ? null : Admin.fromJson(json["admin"]),
         location: json["location"],
         email: json["email"],
         phone: json["phone"],
@@ -248,7 +247,7 @@ class Admin {
   dynamic familyRelationStatus;
   int? mutualFriend;
   int? yearsOld;
-  dynamic pendent;
+  // dynamic pendent;
 
   Admin({
     required this.id,
@@ -289,7 +288,7 @@ class Admin {
     required this.familyRelationStatus,
     required this.mutualFriend,
     required this.yearsOld,
-    required this.pendent,
+    // required this.pendent,
   });
 
   factory Admin.fromJson(Map<String, dynamic> json) => Admin(
@@ -329,7 +328,7 @@ class Admin {
         familyRelationStatus: json["family_relation_status"],
         mutualFriend: json["mutual_friend"],
         yearsOld: json["years_old"],
-        pendent: json["pendent"],
+        // pendent: json["pendent"],
       );
 }
 
@@ -461,8 +460,8 @@ class Stores {
         countPageRating: json["count_page_rating"],
         countPageReviews: json["count_page_reviews"],
         relation: json["relation"],
-        proImage: Image.fromJson(json["pro_image"]),
-        coverImage: Image.fromJson(json["cover_image"]),
+        proImage: json["pro_image"] == null ? null : Image.fromJson(json["pro_image"]),
+        coverImage: json["cover_image"] == null ? null : Image.fromJson(json["cover_image"]),
       );
 }
 
@@ -493,7 +492,7 @@ class Image {
   List<dynamic> taggedFriends;
   List<String> reactingPersons;
   int? totalViewCount;
-  dynamic myReaction;
+  // dynamic myReaction;
 
   Image({
     required this.id,
@@ -522,7 +521,7 @@ class Image {
     required this.taggedFriends,
     required this.reactingPersons,
     required this.totalViewCount,
-    required this.myReaction,
+    // required this.myReaction,
   });
 
   factory Image.fromJson(Map<String, dynamic> json) => Image(
@@ -552,7 +551,7 @@ class Image {
         taggedFriends: List<dynamic>.from(json["tagged_friends"].map((x) => x)),
         reactingPersons: List<String>.from(json["reacting_persons"].map((x) => x)),
         totalViewCount: json["total_view_count"],
-        myReaction: json["my_reaction"],
+        // myReaction: json["my_reaction"],
       );
 }
 

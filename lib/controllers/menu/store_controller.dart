@@ -346,8 +346,8 @@ class StoreController extends GetxController {
     {"paymentMethod": "Nagad", "payment": "01789368774638"},
     {"paymentMethod": "Paypal", "payment": "Shohagjalal@gmail.com"}
   ]);
-  final RxString qrCode = RxString('');
-  final RxString storeBIN = RxString('');
+  final Rx<String?> qrCode = Rx<String?>(null);
+  final Rx<String?> storeBIN = Rx<String?>(null);
   //!* Edit store profile
   final TextEditingController storePhoneNumberTextEditingController = TextEditingController();
   final TextEditingController storeEmailTextEditingController = TextEditingController();
@@ -448,18 +448,30 @@ class StoreController extends GetxController {
       if (response.success == true) {
         clearStoreData();
         featuredPostList.clear();
+        ll("0");
         storeOverviewData.value = StoreOverviewModel.fromJson(response.data);
-        storesData.value = storeOverviewData.value!.stores;
+        ll("1");
+        storesData.value = storeOverviewData.value?.stores;
         // featuredPostList.addAll(kidOverviewData.value!.featurePost);
-        storeBio.value = storesData.value!.bio;
-        storeName.value = storesData.value!.name ?? "";
-        storeProfilePicture.value = storesData.value!.profilePicture ?? "";
-        storeCoverPhoto.value = storesData.value!.coverPhoto ?? "";
-        storeBIN.value = storesData.value!.bin!;
-        storeLegalPapersList.addAll(storesData.value!.legalPapers);
-        qrCode.value = storesData.value!.qrCode!;
-        storePrivacyLink.value = storesData.value!.privacyLink;
-        storeCategory.value = storesData.value!.categories[0];
+        ll("2");
+        storeBio.value = storesData.value?.bio;
+        ll("3");
+        storeName.value = storesData.value?.name ?? "";
+        ll("4");
+        storeProfilePicture.value = storesData.value?.profilePicture ?? "";
+        ll("5");
+        storeCoverPhoto.value = storesData.value?.coverPhoto ?? "";
+        ll("6");
+        storeBIN.value = storesData.value?.bin;
+        ll("7");
+        storeLegalPapersList.addAll(storesData.value?.legalPapers ?? []);
+        ll("8");
+        qrCode.value = storesData.value?.qrCode;
+        ll("9");
+        storePrivacyLink.value = storesData.value?.privacyLink;
+        ll("10");
+        storeCategory.value = storesData.value?.categories[0];
+        ll("11");
         isStoreOverviewLoading.value = false;
       } else {
         isStoreOverviewLoading.value = true;
@@ -609,7 +621,7 @@ class StoreController extends GetxController {
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'store_id': selectedStoreId.value.toString(),
-        'privacy_link': storePrivacyLinkTextEditingController.text.trim(),
+        'privacy_link': "[{${storePrivacyLinkTextEditingController.text.trim()}}]",
       };
       var response = await apiController.commonApiCall(
         requestMethod: kPost,
