@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
-import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
@@ -15,7 +14,6 @@ import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
 import 'package:bip_hip/widgets/post/stories_widget.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
-import 'package:bip_hip/widgets/common/utils/search.dart';
 import 'package:flutter/rendering.dart';
 
 class HomePage extends StatelessWidget {
@@ -52,20 +50,8 @@ class HomePage extends StatelessWidget {
                       child: TextButton(
                         style: kTextButtonStyle,
                         onPressed: () async {
-                          // final spController = SpController();
-                          // Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
-                          //  await Get.find<HomeController>().getPostList();
                           Get.find<AllSearchController>().resetSearchData();
-                          Get.find<FriendController>().getFriendListForAddFamily();
-                          //!Remove it in future
-                          Get.to(
-                            () => SearchPage(
-                                // searchTextEditingController: Get.find<GlobalController>().searchController,
-                                // recentSearchList: Get.find<GlobalController>().recentSearch,
-                                // onSubmit: () {},
-                                ),
-                            transition: Transition.noTransition,
-                          );
+                          Get.toNamed(krSearchPage);
                         },
                         child: Icon(
                           BipHip.search,
