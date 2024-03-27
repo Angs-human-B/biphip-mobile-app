@@ -671,8 +671,8 @@ class KidsData {
         countPageRating: json["count_page_rating"],
         countPageReviews: json["count_page_reviews"],
         relation: json["relation"],
-        proImage: Image.fromJson(json["pro_image"]),
-        coverImage: Image.fromJson(json["cover_image"]),
+        proImage: json["pro_image"] == null ? null : Image.fromJson(json["pro_image"]),
+        coverImage: json["cover_image"] == null ? null : Image.fromJson(json["cover_image"]),
       );
 }
 

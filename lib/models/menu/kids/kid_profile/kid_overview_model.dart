@@ -345,7 +345,7 @@ class Kids {
   int? countPageReviews;
   dynamic relation;
   Image? proImage;
-  dynamic coverImage;
+  Image? coverImage;
 
   Kids({
     required this.id,
@@ -429,27 +429,24 @@ class Kids {
         countPageRating: json["count_page_rating"],
         countPageReviews: json["count_page_reviews"],
         relation: json["relation"],
-        proImage: Image.fromJson(json["pro_image"]),
-        coverImage: json["cover_image"],
+        proImage: json["pro_image"]==null ? null : Image.fromJson(json["pro_image"]),
+        coverImage: json["cover_image"]== null ? null : Image.fromJson(json["cover_image"]),
       );
 }
 
 class PostCategory {
   int? id;
-  String? slug;
   String? name;
   int? isActive;
 
   PostCategory({
     required this.id,
-    required this.slug,
     required this.name,
     required this.isActive,
   });
 
   factory PostCategory.fromJson(Map<String, dynamic> json) => PostCategory(
         id: json["id"],
-        slug: json["slug"],
         name: json["name"],
         isActive: json["is_active"],
       );
@@ -588,83 +585,81 @@ class Parent {
 // }
 
 class KidContactModel {
-    List<Contact> contacts;
+  List<Contact> contacts;
 
-    KidContactModel({
-        required this.contacts,
-    });
+  KidContactModel({
+    required this.contacts,
+  });
 
-    factory KidContactModel.fromJson(Map<String, dynamic> json) => KidContactModel(
+  factory KidContactModel.fromJson(Map<String, dynamic> json) => KidContactModel(
         contacts: List<Contact>.from(json["contacts"].map((x) => Contact.fromJson(x))),
-    );
+      );
 }
 
 class Contact {
-    int ?id;
-    int ?pageId;
-    String? type;
-    String ?value;
+  int? id;
+  int? pageId;
+  String? type;
+  String? value;
 
-    Contact({
-        required this.id,
-        required this.pageId,
-        required this.type,
-        required this.value,
-    });
+  Contact({
+    required this.id,
+    required this.pageId,
+    required this.type,
+    required this.value,
+  });
 
-    factory Contact.fromJson(Map<String, dynamic> json) => Contact(
+  factory Contact.fromJson(Map<String, dynamic> json) => Contact(
         id: json["id"],
         pageId: json["page_id"],
         type: json["type"],
         value: json["value"],
-    );
+      );
 }
 
 class ContactModel {
-    String pageId;
-    String type;
-    String value;
-    int id;
+  String? pageId;
+  String? type;
+  String? value;
+  int? id;
 
-    ContactModel({
-        required this.pageId,
-        required this.type,
-        required this.value,
-        required this.id,
-    });
+  ContactModel({
+    required this.pageId,
+    required this.type,
+    required this.value,
+    required this.id,
+  });
 
-    factory ContactModel.fromJson(Map<String, dynamic> json) => ContactModel(
+  factory ContactModel.fromJson(Map<String, dynamic> json) => ContactModel(
         pageId: json["page_id"],
         type: json["type"],
         value: json["value"],
         id: json["id"],
-    );
+      );
 }
 
-
-
 class KidSchool {
-    String? pageId;
-    String? school;
-    dynamic description;
-    DateTime? started;
-    DateTime? ended;
-    int? graduated;
-    int? isCurrent;
-    int? id;
+  String? pageId;
+  String? school;
+  dynamic description;
+  DateTime? started;
+  DateTime? ended;
+  int? graduated;
+  int? isCurrent;
+  int? id;
 
-    KidSchool({
-        required this.pageId,
-        required this.school,
-        required this.description,
-        required this.started,
-        required this.ended,
-        required this.graduated,
-        required this.isCurrent,
-        required this.id,
-    });
+  KidSchool({
+    required this.pageId,
+    required this.school,
+    required this.description,
+    required this.started,
+    required this.ended,
+    required this.graduated,
+    required this.isCurrent,
+    required this.id,
+  });
 
-    factory KidSchool.fromJson(Map<String, dynamic> json) => KidSchool(
+  factory KidSchool.fromJson(Map<String, dynamic> json) => KidSchool(
         pageId: json["page_id"],
         school: json["school"],
         description: json["description"],
@@ -673,6 +668,5 @@ class KidSchool {
         graduated: json["graduated"],
         isCurrent: json["is_current"],
         id: json["id"],
-    );
-    
+      );
 }

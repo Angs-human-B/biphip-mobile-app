@@ -512,7 +512,7 @@ class KidHelper {
 
   void selectKidGender(context) async {
     if (kidsController.kidGender.value != '') {
-      kidsController.temporaryKidGender.value = kidsController.kidGender.value;
+      kidsController.temporaryKidGender.value = kidsController.kidGender.value ?? "";
       kidsController.kidGenderBottomSheetState.value = true;
     } else {
       kidsController.temporaryKidGender.value = '';

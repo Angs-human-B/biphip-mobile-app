@@ -400,8 +400,6 @@ class KidsController extends GetxController {
   final RxList<int> hobbiesIndex = RxList<int>([]);
   final RxList selectedHobbies = RxList([]);
   final RxList temporarySelectedHobbies = RxList([]);
-  // final RxList kidPhoneNumberList = RxList(['017236748765478', '019823973893']);
-  // final RxList kidEmailList = RxList(['abcdef@gmail.com', 'hjfdnd@gmail.com']);
   final TextEditingController kidEducationInstituteTextEditingController = TextEditingController();
   final RxBool isKidCurrentlyStudyingHere = RxBool(false);
   final RxString temporaryKidSchoolStartDate = RxString('');
@@ -416,15 +414,12 @@ class KidsController extends GetxController {
   final RxInt deleteIndex = RxInt(-1);
   final RxBool isDropdownShown = RxBool(false);
   final RxBool editCommonSelectionBottomSheetRightButtonState = RxBool(false);
-  final RxString kidGender = RxString('');
+  final Rx<String?> kidGender = Rx<String?>(null);
   final RxBool isKidGenderSelected = RxBool(false);
   final Rx<DateTime?> kidDob = Rx<DateTime?>(DateTime.now());
   final Rx<String?> kidRelation = Rx<String?>(null);
-  // final RxString temporaryKidRelationData = RxString('');
-  // final RxString kidRelationData = RxString('');
   final RxInt kidRelationId = RxInt(-1);
   final RxBool isKidRelationSaveButtonActive = RxBool(false);
-  // final RxBool kidRelationDataBottomSheetState = RxBool(false);
   final RxString temporaryKidGender = RxString('');
   final RxBool kidGenderBottomSheetState = RxBool(false);
   final RxInt kidInterestCatagoriesIndex = RxInt(-1);
@@ -452,7 +447,6 @@ class KidsController extends GetxController {
   final RxString temporaryCommonEndDate = RxString('');
   final RxBool commonEditStartDateBottomSheetRightButtonState = RxBool(false);
   final RxBool commonEditEndDateBottomSheetRightButtonState = RxBool(false);
-  // final RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
   final RxInt kidProfileTabIndex = RxInt(0);
   final RxBool seeMore = RxBool(false);
   final RxBool isPostButtonActive = RxBool(false);
@@ -491,21 +485,7 @@ class KidsController extends GetxController {
         userLanguages.addAll(kidsData.value!.languages);
         selectedHobbies.addAll(kidsData.value!.hobbies);
         kidRelation.value = kidsData.value?.relation;
-        //  contactDataList.addAll(kidsData.value!.email);
-        // for (int i = 0; i < contactDataList.length; i++) {
-        //   if (contactDataList[i].type == 'email') {
-        //     emailDataList.add(contactDataList[i]);
-        //   } else {
-        //     phoneDataList.add(contactDataList[i]);
-        //   }
-        // }
-        // phoneDataList.add(kidsData.value!.phone);
-        // emailDataList.add(kidsData.value!.email);
-        // phoneData.value = kidsData.value?.phone;
-        // emailData.value = kidsData.value?.email;
         isKidOverviewLoading.value = false;
-        // ll(phoneDataList);
-        // ll(emailDataList);
       } else {
         isKidOverviewLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -593,30 +573,6 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        // ll(response.data.toString());
-        // KidBioUpdateModel kidsModelData = KidBioUpdateModel.fromJson(response.data);
-        // kidsData.value = kidsModelData.kids;
-        // var rememberMe = await spController.getRememberMe();
-        // if (rememberMe == true) {
-        //   // await spController.saveUserList({
-        //   //   "email": userData.value!.email.toString(),
-        //   //   "name": userData.value!.fullName.toString(),
-        //   //   "first_name": userData.value!.firstName.toString(),
-        //   //   "last_name": userData.value!.lastName.toString(),
-        //   //   "image_url": userData.value!.profilePicture.toString(),
-        //   //   "token": token.toString(),
-        //   // });
-        // }
-        // await spController.saveUserImage(kidsData.value!.profilePicture.toString());
-        // await globalController.getUserInfo();
-        // if (isFromProfile == true) {
-        //   Get.back();
-        //   isImageUploadPageLoading.value = false;
-        // } else {
-        //   Get.offAllNamed(krHome);
-        // }
-        // kidProfileCoverData.value = KidBioUpdateModel.fromJson(response.data);
-        // kidsData.value = kidBioUpdateData.value!.kids;
         await getKidOverview();
         isImageUploadPageLoading.value = false;
         Get.back();
@@ -640,8 +596,6 @@ class KidsController extends GetxController {
     }
   }
 
-  // final Rx<Kids?> kidsData = Rx<Kids?>(null);
-  // final Rx<Kids?> kidRelationModelData = Rx<Kids?>(null);
   RxBool isKidRelationLoading = RxBool(false);
   Future<void> updateKidRelation() async {
     try {
@@ -729,8 +683,6 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        // kidRelation.value = kidsData.value?.relation;
-        // ll(kidRelation.value);
         isKidGenderLoading.value = false;
         Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -750,12 +702,6 @@ class KidsController extends GetxController {
   }
 
   void clearDataList() {
-    // otherCityList.clear();
-    // schoolDataList.clear();
-    // collegeDataList.clear();
-    // contactDataList.clear();
-    // emailData.value = null;
-    // phoneData.value = null;
     userLanguages.clear();
     selectedHobbies.clear();
     hobbiesIndex.clear();
@@ -897,8 +843,6 @@ class KidsController extends GetxController {
         kidBioUpdateData.value = KidBioUpdateModel.fromJson(response.data);
         kidsData.value = kidBioUpdateData.value!.kids;
         selectedHobbies.addAll(kidsData.value!.hobbies);
-        // commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
-        // userData.value = commonUserLayeredData.value!.user;
         isSetHobbiesLoading.value = false;
         Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
