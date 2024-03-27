@@ -40,26 +40,91 @@ class AllSearchController extends GetxController {
   final RxBool isPostsBottomSheetResetOrShowResult = RxBool(false);
   final RxBool isPhotosVideosBottomSheetResetOrShowResult = RxBool(false);
   final RxBool isKidsNewsBottomSheetResetOrShowResult = RxBool(false);
-  void kidsNewsBottomSheetState(){
-     if (selectedSubCategory.value != "" || selectedDatePosted.value != "" || selectedPostedBy.value != ""){
-      isKidsNewsBottomSheetResetOrShowResult.value = true;
-     }
-     else{
-      isKidsNewsBottomSheetResetOrShowResult.value = false;
-     }
+  final RxBool isSellPostBottomSheetResetOrShowResult = RxBool(false);
+  // void resetBottomSheetAllData() {
+  //   //*kids News
+  //   selectedSubCategory.value = "";
+  //   selectedDatePosted.value = "";
+  //   selectedPostedBy.value = "";
+  //   isKidsNewsBottomSheetResetOrShowResult.value = false;
+  //   //*Photos, Videos
+  //   selectedPostedBy.value = "";
+  //   selectedDatePosted.value = "";
+  //   isPhotosVideosBottomSheetResetOrShowResult.value = false;
+  //   //*Posts
+  //   isRecentPostCheckBoxSelected.value = false;
+  //   selectedPostedBy.value = "";
+  //   selectedDatePosted.value = "";
+  //   selectedCategory.value = "";
+  //   isPostsBottomSheetResetOrShowResult.value = false;
+  //   //* Sell Posts
+  //   selectedSellPostType.value = "";
+  //   selectedSellPostCondition.value = "";
+  //   selectedPostedBy.value = "";
+  //   selectedSellPostProductCategory.value = "";
+  //   isSellPostBottomSheetResetOrShowResult.value = false;
+  // }
+  void resetKidsNewsBottomSheetData() {
+    selectedSubCategory.value = "";
+    selectedDatePosted.value = "";
+    selectedPostedBy.value = "";
+    isKidsNewsBottomSheetResetOrShowResult.value = false;
   }
-  void photosVideosBottomSheetState(){
-     if (selectedPostedBy.value != "" || selectedDatePosted.value != "") {
+
+  void resetPhotosVideosBottomSheetData() {
+    selectedPostedBy.value = "";
+    selectedDatePosted.value = "";
+    isPhotosVideosBottomSheetResetOrShowResult.value = false;
+  }
+
+  void resetPostsBottomSheetData() {
+    isRecentPostCheckBoxSelected.value = false;
+    selectedPostedBy.value = "";
+    selectedDatePosted.value = "";
+    selectedCategory.value = "";
+    isPostsBottomSheetResetOrShowResult.value = false;
+  }
+
+  void resetSellPostBottomSheetData() {
+    selectedSellPostType.value = "";
+    selectedSellPostCondition.value = "";
+    selectedPostedBy.value = "";
+    selectedSellPostProductCategory.value = "";
+    isSellPostBottomSheetResetOrShowResult.value = false;
+  }
+
+  void kidsNewsBottomSheetState() {
+    if (selectedSubCategory.value != "" || selectedDatePosted.value != "" || selectedPostedBy.value != "") {
+      isKidsNewsBottomSheetResetOrShowResult.value = true;
+    } else {
+      isKidsNewsBottomSheetResetOrShowResult.value = false;
+    }
+  }
+
+  void photosVideosBottomSheetState() {
+    if (selectedPostedBy.value != "" || selectedDatePosted.value != "") {
       isPhotosVideosBottomSheetResetOrShowResult.value = true;
     } else {
       isPhotosVideosBottomSheetResetOrShowResult.value = false;
     }
   }
+
   void postsBottomSheetState() {
     if (isRecentPostCheckBoxSelected.value || selectedPostedBy.value != "" || selectedDatePosted.value != "" || selectedCategory.value != "") {
       isPostsBottomSheetResetOrShowResult.value = true;
     } else {
       isPostsBottomSheetResetOrShowResult.value = false;
+    }
+  }
+
+  void sellPostBottomSheetState() {
+    if (selectedSellPostType.value != "" ||
+        selectedSellPostCondition.value != "" ||
+        selectedPostedBy.value != "" ||
+        selectedSellPostProductCategory.value != "") {
+      isSellPostBottomSheetResetOrShowResult.value = true;
+    } else {
+      isSellPostBottomSheetResetOrShowResult.value = false;
     }
   }
 
@@ -332,7 +397,6 @@ class AllSearchController extends GetxController {
     temporarySelectedSubCategory.value = "";
     selectedSubCategory.value = "";
     isSubCategoryBottomSheetState.value = false;
-    isPhotosVideosBottomSheetResetOrShowResult.value = false;
     temporarySelectedSellPostType.value = "";
     selectedSellPostType.value = "";
     isSellPostTypeBottomSheetState.value = false;
@@ -342,5 +406,9 @@ class AllSearchController extends GetxController {
     temporarySelectedSellPostProductCategory.value = "";
     selectedSellPostProductCategory.value = "";
     isSellPostProductConditionBottomSheetState.value = false;
+    isPostsBottomSheetResetOrShowResult.value = false;
+    isPhotosVideosBottomSheetResetOrShowResult.value = false;
+    isKidsNewsBottomSheetResetOrShowResult.value = false;
+    isSellPostBottomSheetResetOrShowResult.value = false;
   }
 }

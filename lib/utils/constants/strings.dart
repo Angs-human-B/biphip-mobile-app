@@ -609,3 +609,5 @@ const String ksDatePosted = "Date Posted";
 const String ksShowResult = "Show Result";
 const String ksSubCategory = "Sub Category";
 const String ksSellPost = "Sell Post";
+const String ksRecent = "Recent";
+const String ksClearAll = "Clear all";

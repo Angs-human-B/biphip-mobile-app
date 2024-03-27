@@ -1,7 +1,6 @@
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
@@ -26,6 +25,7 @@ class SearchPage extends StatelessWidget {
         top: false,
         child: Obx(
           () => Scaffold(
+            backgroundColor: cWhiteColor,
             //* info:: body
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,125 +47,162 @@ class SearchPage extends StatelessWidget {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(right: 16),
-                        child: RawAutocomplete<FriendFamilyUserData>(
-                          textEditingController: allSearchController.searchTextEditingController,
+                        // child: RawAutocomplete<FriendFamilyUserData>(
+                        //   textEditingController: allSearchController.searchTextEditingController,
+                        //   focusNode: searchFocusNode,
+                        //   optionsBuilder: (TextEditingValue textEditingValue) {
+                        //     if (textEditingValue.text == '') {
+                        //       return friendController.temporaryFriendList;
+                        //     }
+                        //     return friendController.temporaryFriendList.where((FriendFamilyUserData option) {
+                        //       return option.fullName!.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                        //     });
+                        //   },
+                        //   onSelected: (option) {
+                        //     unFocus(context);
+                        //     allSearchController.isSearchSuffixIconVisible.value = false;
+                        //     allSearchController.searchTextEditingController.text = option.fullName!;
+                        //     // familyController.userId.value = option.id!;
+                        //     allSearchController.searchedValue.value = option.fullName.toString();
+                        //     allSearchController.searchPeopleProfilePicture.value = option.profilePicture.toString();
+                        //     allSearchController.isSearched.value = true;
+                        //     allSearchController.selectedFilterIndex.value = 0;
+                        //   },
+                        //   optionsViewBuilder: (context, AutocompleteOnSelected<FriendFamilyUserData> onSelected, Iterable<FriendFamilyUserData> options) {
+                        //     return Align(
+                        //       alignment: Alignment.topLeft,
+                        //       child: SizedBox(
+                        //         width: width - 40,
+                        //         child: Material(
+                        //           elevation: 4,
+                        //           child: ListView.separated(
+                        //             padding: EdgeInsets.zero,
+                        //             shrinkWrap: true,
+                        //             itemBuilder: (context, index) {
+                        //               final option = options.elementAt(index);
+                        //               return CustomListTile(
+                        //                 leading: ClipOval(
+                        //                   child: Container(
+                        //                     decoration: const BoxDecoration(
+                        //                       shape: BoxShape.circle,
+                        //                     ),
+                        //                     child: Image.network(
+                        //                       option.profilePicture.toString(),
+                        //                       width: 30,
+                        //                       height: 30,
+                        //                       fit: BoxFit.cover,
+                        //                       errorBuilder: (context, error, stackTrace) {
+                        //                         return Image.asset(kiProfileDefaultImageUrl);
+                        //                       },
+                        //                       loadingBuilder: imageLoadingBuilder,
+                        //                     ),
+                        //                   ),
+                        //                 ),
+                        //                 title: Text(
+                        //                   option.fullName.toString(),
+                        //                   style: medium16TextStyle(cBlackColor),
+                        //                 ),
+                        //                 trailing: CustomIconButton(
+                        //                   onPress: () {
+                        //                     // allSearchController.recentSearchList.removeAt(index); //!Remove from list after api call
+                        //                   },
+                        //                   icon: BipHip.circleCrossNew,
+                        //                   size: kIconSize16,
+                        //                 ),
+                        //                 onPressed: () {
+                        //                   onSelected(option);
+                        //                   unfocus(context);
+                        //                   allSearchController.searchTextEditingController.text = option.fullName.toString();
+                        //                   allSearchController.isSearchSuffixIconVisible.value = true;
+                        //                   // familyController.userId.value = option.id!;
+                        //                 },
+                        //               );
+                        //             },
+                        //             separatorBuilder: (context, index) => Container(
+                        //               height: 1,
+                        //               color: cLineColor,
+                        //             ),
+                        //             itemCount: options.length,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     );
+                        //   },
+                        //   fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                        //     return Obx(
+                        //       () => CustomModifiedTextField(
+                        //         borderRadius: h8,
+                        //         controller: allSearchController.searchTextEditingController,
+                        //         focusNode: focusNode,
+                        //         prefixIcon: BipHip.search,
+                        //         suffixIcon: allSearchController.isSearchSuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                        //         hint: ksSearch.tr,
+                        //         contentPadding: const EdgeInsets.symmetric(
+                        //           vertical: k12Padding,
+                        //         ),
+                        //         textInputStyle: regular16TextStyle(cBlackColor),
+                        //         onSuffixPress: () {
+                        //           allSearchController.searchTextEditingController.clear();
+                        //           allSearchController.isSearchSuffixIconVisible.value = false;
+                        //           allSearchController.isSearched.value = false;
+                        //           allSearchController.selectedFilterIndex.value = -1;
+                        //         },
+                        //         onSubmit: (value) {
+                        //           unFocus(context);
+                        //           if (allSearchController.searchTextEditingController.text.toString().trim() == "") {
+                        //             allSearchController.isSearchSuffixIconVisible.value = false;
+                        //           } else {
+                        //             allSearchController.isSearchSuffixIconVisible.value = true;
+                        //             allSearchController.isSearched.value = true;
+                        //             allSearchController.selectedFilterIndex.value = 0;
+                        //           }
+                        //         },
+                        //         onChanged: (value) {
+                        //           if (allSearchController.searchTextEditingController.text.toString().trim() == "") {
+                        //             allSearchController.isSearchSuffixIconVisible.value = false;
+                        //           } else {
+                        //             allSearchController.isSearchSuffixIconVisible.value = true;
+                        //           }
+                        //         },
+                        //       ),
+
+                        //     );
+                        //   },
+                        // ),
+
+                        child: CustomModifiedTextField(
+                          borderRadius: h8,
+                          controller: allSearchController.searchTextEditingController,
                           focusNode: searchFocusNode,
-                          optionsBuilder: (TextEditingValue textEditingValue) {
-                            if (textEditingValue.text == '') {
-                              return friendController.temporaryFriendList;
-                            }
-                            return friendController.temporaryFriendList.where((FriendFamilyUserData option) {
-                              return option.fullName!.toLowerCase().contains(textEditingValue.text.toLowerCase());
-                            });
-                          },
-                          onSelected: (option) {
-                            unFocus(context);
+                          prefixIcon: BipHip.search,
+                          suffixIcon: allSearchController.isSearchSuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                          hint: ksSearch.tr,
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: k12Padding,
+                          ),
+                          textInputStyle: regular16TextStyle(cBlackColor),
+                          onSuffixPress: () {
+                            allSearchController.searchTextEditingController.clear();
                             allSearchController.isSearchSuffixIconVisible.value = false;
-                            allSearchController.searchTextEditingController.text = option.fullName!;
-                            // familyController.userId.value = option.id!;
-                            allSearchController.searchedValue.value = option.fullName.toString();
-                            allSearchController.searchPeopleProfilePicture.value = option.profilePicture.toString();
-                            allSearchController.isSearched.value = true;
-                            allSearchController.selectedFilterIndex.value = 0;
+                            allSearchController.isSearched.value = false;
+                            allSearchController.selectedFilterIndex.value = -1;
                           },
-                          optionsViewBuilder: (context, AutocompleteOnSelected<FriendFamilyUserData> onSelected, Iterable<FriendFamilyUserData> options) {
-                            return Align(
-                              alignment: Alignment.topLeft,
-                              child: SizedBox(
-                                width: width - 40,
-                                child: Material(
-                                  elevation: 4,
-                                  child: ListView.separated(
-                                    padding: EdgeInsets.zero,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      final option = options.elementAt(index);
-                                      return CustomListTile(
-                                        leading: ClipOval(
-                                          child: Container(
-                                            decoration: const BoxDecoration(
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: Image.network(
-                                              option.profilePicture.toString(),
-                                              width: 30,
-                                              height: 30,
-                                              fit: BoxFit.cover,
-                                              errorBuilder: (context, error, stackTrace) {
-                                                return Image.asset(kiProfileDefaultImageUrl);
-                                              },
-                                              loadingBuilder: imageLoadingBuilder,
-                                            ),
-                                          ),
-                                        ),
-                                        title: Text(
-                                          option.fullName.toString(),
-                                          style: medium16TextStyle(cBlackColor),
-                                        ),
-                                        trailing: CustomIconButton(
-                                          onPress: () {
-                                            // allSearchController.recentSearchList.removeAt(index); //!Remove from list after api call
-                                          },
-                                          icon: BipHip.circleCrossNew,
-                                          size: kIconSize16,
-                                        ),
-                                        onPressed: () {
-                                          onSelected(option);
-                                          unfocus(context);
-                                          allSearchController.searchTextEditingController.text = option.fullName.toString();
-                                          allSearchController.isSearchSuffixIconVisible.value = true;
-                                          // familyController.userId.value = option.id!;
-                                        },
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) => Container(
-                                      height: 1,
-                                      color: cLineColor,
-                                    ),
-                                    itemCount: options.length,
-                                  ),
-                                ),
-                              ),
-                            );
+                          onSubmit: (value) {
+                            unFocus(context);
+                            if (allSearchController.searchTextEditingController.text.toString().trim() == "") {
+                              allSearchController.isSearchSuffixIconVisible.value = false;
+                            } else {
+                              allSearchController.isSearchSuffixIconVisible.value = true;
+                              allSearchController.isSearched.value = true;
+                              allSearchController.selectedFilterIndex.value = 0;
+                            }
                           },
-                          fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
-                            return Obx(
-                              () => CustomModifiedTextField(
-                                borderRadius: h8,
-                                controller: allSearchController.searchTextEditingController,
-                                focusNode: focusNode,
-                                prefixIcon: BipHip.search,
-                                suffixIcon: allSearchController.isSearchSuffixIconVisible.value ? BipHip.circleCrossNew : null,
-                                hint: ksSearch.tr,
-                                contentPadding: const EdgeInsets.symmetric(
-                                  vertical: k12Padding,
-                                ),
-                                textInputStyle: regular16TextStyle(cBlackColor),
-                                onSuffixPress: () {
-                                  allSearchController.searchTextEditingController.clear();
-                                  allSearchController.isSearchSuffixIconVisible.value = false;
-                                  allSearchController.isSearched.value = false;
-                                  allSearchController.selectedFilterIndex.value = -1;
-                                },
-                                onSubmit: (value) {
-                                  unFocus(context);
-                                  if (allSearchController.searchTextEditingController.text.toString().trim() == "") {
-                                    allSearchController.isSearchSuffixIconVisible.value = false;
-                                  } else {
-                                    allSearchController.isSearchSuffixIconVisible.value = true;
-                                    allSearchController.isSearched.value = true;
-                                    allSearchController.selectedFilterIndex.value = 0;
-                                  }
-                                },
-                                onChanged: (value) {
-                                  if (allSearchController.searchTextEditingController.text.toString().trim() == "") {
-                                    allSearchController.isSearchSuffixIconVisible.value = false;
-                                  } else {
-                                    allSearchController.isSearchSuffixIconVisible.value = true;
-                                  }
-                                },
-                              ),
-                            );
+                          onChanged: (value) {
+                            if (allSearchController.searchTextEditingController.text.toString().trim() == "") {
+                              allSearchController.isSearchSuffixIconVisible.value = false;
+                            } else {
+                              allSearchController.isSearchSuffixIconVisible.value = true;
+                            }
                           },
                         ),
                       ),
@@ -182,7 +219,10 @@ class SearchPage extends StatelessWidget {
                                 onPressCloseButton: () {
                                   Get.back();
                                 },
-                                onPressRightButton: allSearchController.isPostsBottomSheetResetOrShowResult.value ? () {} : null,
+                                onPressRightButton: () {
+                                  allSearchController.resetPostsBottomSheetData();
+                                  // allSearchController.resetBottomSheetData();
+                                },
                                 rightText: ksReset.tr,
                                 rightTextStyle: semiBold14TextStyle(cPrimaryColor),
                                 title: ksPosts.tr,
@@ -215,7 +255,9 @@ class SearchPage extends StatelessWidget {
                                 onPressCloseButton: () {
                                   Get.back();
                                 },
-                                onPressRightButton: allSearchController.isPhotosVideosBottomSheetResetOrShowResult.value ? () {} : null,
+                                onPressRightButton: () {
+                                  allSearchController.resetPhotosVideosBottomSheetData();
+                                },
                                 rightText: ksReset.tr,
                                 rightTextStyle: semiBold14TextStyle(cPrimaryColor),
                                 title: ksPosts.tr,
@@ -224,13 +266,16 @@ class SearchPage extends StatelessWidget {
                           if (allSearchController.selectedFilterIndex.value == 5) {
                             globalController.commonBottomSheet(
                                 context: context,
-                                isBottomSheetRightButtonActive: allSearchController.isPostsBottomSheetResetOrShowResult, //!Change it
+                                isBottomSheetRightButtonActive: allSearchController.isSellPostBottomSheetResetOrShowResult,
                                 content: PostSellingSection(),
                                 bottomSheetHeight: height * 0.4,
                                 onPressCloseButton: () {
                                   Get.back();
                                 },
-                                onPressRightButton: () {},
+                                onPressRightButton: () {
+                                  allSearchController.resetSellPostBottomSheetData();
+                                  // allSearchController.resetBottomSheetData();
+                                },
                                 rightText: ksReset.tr,
                                 rightTextStyle: semiBold14TextStyle(cPrimaryColor),
                                 title: ksSellPost.tr,
@@ -245,7 +290,9 @@ class SearchPage extends StatelessWidget {
                                 onPressCloseButton: () {
                                   Get.back();
                                 },
-                                onPressRightButton: () {},
+                                onPressRightButton: () {
+                                  allSearchController.resetKidsNewsBottomSheetData();
+                                },
                                 rightText: ksReset.tr,
                                 rightTextStyle: semiBold14TextStyle(cPrimaryColor),
                                 title: ksSellPost.tr,
@@ -302,6 +349,86 @@ class SearchPage extends StatelessWidget {
                 //       kH20sizedBox,
                 //     ],
                 //   ),
+                if (allSearchController.isSearched.value == false && allSearchController.userList.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(left: k20Padding, right: k20Padding, top: k16Padding),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          ksRecent.tr,
+                          style: semiBold18TextStyle(cBlackColor),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            allSearchController.userList.clear();
+                          },
+                          child: Text(
+                            ksClearAll.tr,
+                            style: semiBold16TextStyle(cRedColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                if (allSearchController.isSearched.value == false)
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: k12Padding, top: k16Padding),
+                        child: Column(
+                          children: [
+                            ListView.separated(
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.all(k0Padding),
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: allSearchController.userList.length,
+                                separatorBuilder: (context, index) => kH4sizedBox,
+                                itemBuilder: (context, index) {
+                                  return CustomListTile(
+                                    leading: ClipOval(
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Image.network(
+                                          allSearchController.userList[index]["image"],
+                                          width: h40,
+                                          height: h40,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stackTrace) {
+                                            return Image.asset(kiProfileDefaultImageUrl);
+                                          },
+                                          loadingBuilder: imageLoadingBuilder,
+                                        ),
+                                      ),
+                                    ),
+                                    title: Text(
+                                      allSearchController.userList[index]["name"],
+                                      style: medium16TextStyle(cBlackColor),
+                                    ),
+                                    trailing: CustomIconButton(
+                                      onPress: () {
+                                        allSearchController.userList.removeAt(index);
+                                      },
+                                      icon: BipHip.circleCrossNew,
+                                      size: kIconSize16,
+                                    ),
+                                    onPressed: () {
+                                      // onSelected(option);
+                                      unfocus(context);
+                                      allSearchController.searchTextEditingController.text = allSearchController.userList[index]["name"];
+                                      allSearchController.isSearchSuffixIconVisible.value = true;
+                                      // familyController.userId.value = option.id!;
+                                    },
+                                  );
+                                }),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
                 if (allSearchController.isSearched.value)
                   Padding(
                     padding: const EdgeInsets.only(left: k16Padding),
@@ -670,13 +797,18 @@ class SearchPage extends StatelessWidget {
                                 itemCount: allSearchController.videosList.length,
                                 itemBuilder: (context, index) {
                                   final item = allSearchController.videosList[index];
-                                  return VideosContent(
-                                    image: item["image"],
-                                    title: item["title"],
-                                    name: item["name"],
-                                    date: item["date"],
-                                    totalView: item["totalView"],
-                                    time: item["time"],
+                                  return InkWell(
+                                    onTap: () {
+                                      Get.toNamed(krVideoDetails);
+                                    },
+                                    child: VideosContent(
+                                      image: item["image"],
+                                      title: item["title"],
+                                      name: item["name"],
+                                      date: item["date"],
+                                      totalView: item["totalView"],
+                                      time: item["time"],
+                                    ),
                                   );
                                 }),
                           ),
@@ -1080,6 +1212,7 @@ class PostSellingSection extends StatelessWidget {
                   : CustomIconButton(
                       onPress: () {
                         allSearchController.selectedSellPostType.value = "";
+                        allSearchController.sellPostBottomSheetState();
                       },
                       icon: BipHip.circleCrossNew,
                       size: kIconSize20,
@@ -1100,6 +1233,7 @@ class PostSellingSection extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedSellPostType.value = allSearchController.temporarySelectedSellPostType.value;
+                      allSearchController.sellPostBottomSheetState();
                       Get.back();
                     },
                     rightText: ksDone.tr,
@@ -1118,13 +1252,13 @@ class PostSellingSection extends StatelessWidget {
                   : CustomIconButton(
                       onPress: () {
                         allSearchController.selectedSellPostCondition.value = "";
+                        allSearchController.sellPostBottomSheetState();
                       },
                       icon: BipHip.circleCrossNew,
                       size: kIconSize20,
                     ),
               onPressed: () {
                 allSearchController.temporarySelectedSellPostCondition.value = allSearchController.selectedSellPostCondition.value;
-                // kidsController.temporaryKidRelationId.value = kidsController.kidRelationId.value;
                 if (allSearchController.temporarySelectedSellPostCondition.value == '') {
                   allSearchController.isSellPostConditionBottomSheetState.value = false;
                 } else {
@@ -1138,6 +1272,7 @@ class PostSellingSection extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedSellPostCondition.value = allSearchController.temporarySelectedSellPostCondition.value;
+                      allSearchController.sellPostBottomSheetState();
                       Get.back();
                     },
                     rightText: ksDone.tr,
@@ -1156,6 +1291,7 @@ class PostSellingSection extends StatelessWidget {
                   : CustomIconButton(
                       onPress: () {
                         allSearchController.selectedPostedBy.value = "";
+                        allSearchController.sellPostBottomSheetState();
                       },
                       icon: BipHip.circleCrossNew,
                       size: kIconSize20,
@@ -1176,6 +1312,7 @@ class PostSellingSection extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedPostedBy.value = allSearchController.temporarySelectedPostedBy.value;
+                      allSearchController.sellPostBottomSheetState();
                       Get.back();
                     },
                     rightText: ksDone.tr,
@@ -1194,6 +1331,7 @@ class PostSellingSection extends StatelessWidget {
                   : CustomIconButton(
                       onPress: () {
                         allSearchController.selectedSellPostProductCategory.value = "";
+                        allSearchController.sellPostBottomSheetState();
                       },
                       icon: BipHip.circleCrossNew,
                       size: kIconSize20,
@@ -1213,6 +1351,7 @@ class PostSellingSection extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedSellPostProductCategory.value = allSearchController.temporarySelectedSellPostProductCategory.value;
+                      allSearchController.sellPostBottomSheetState();
                       Get.back();
                     },
                     rightText: ksDone.tr,
@@ -1227,7 +1366,7 @@ class PostSellingSection extends StatelessWidget {
               label: ksShowResult.tr,
               buttonWidth: width - 40,
               buttonHeight: h32,
-              onPressed: () {},
+              onPressed: allSearchController.isSellPostBottomSheetResetOrShowResult.value ? () {} : null,
               buttonColor: cPrimaryColor,
               textStyle: semiBold14TextStyle(cWhiteColor),
             ),
