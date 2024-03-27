@@ -1,6 +1,10 @@
+import 'package:bip_hip/models/search/search_history_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class AllSearchController extends GetxController {
+  final ApiController apiController = ApiController();
+  final SpController spController = SpController();
+  final GlobalController globalController = Get.find<GlobalController>();
   final TextEditingController searchTextEditingController = TextEditingController();
   final RxBool isSearchSuffixIconVisible = RxBool(false);
   final RxString searchedValue = RxString("");
@@ -410,5 +414,39 @@ class AllSearchController extends GetxController {
     isPhotosVideosBottomSheetResetOrShowResult.value = false;
     isKidsNewsBottomSheetResetOrShowResult.value = false;
     isSellPostBottomSheetResetOrShowResult.value = false;
+  }
+
+  //! Search Api implement
+  //   //*Kids List Api Call
+  final Rx<SearchHistoryModel?> searchHistoryData = Rx<SearchHistoryModel?>(null);
+  final RxList<SearchHistoryListData> searchHistoryList = RxList<SearchHistoryListData>([]);
+  final RxBool isSearchHistoryLoading = RxBool(false);
+  Future<void> getSearchHistory() async {
+    try {
+      isSearchHistoryLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuSearchHistory,
+      ) as CommonDM;
+      if (response.success == true) {
+        searchHistoryList.clear();
+        searchHistoryData.value = SearchHistoryModel.fromJson(response.data);
+        searchHistoryList.addAll(searchHistoryData.value!.searchHistories!.data);
+        isSearchHistoryLoading.value = false;
+      } else {
+        isSearchHistoryLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isSearchHistoryLoading.value = true;
+      ll('getKidsList error: $e');
+    }
   }
 }

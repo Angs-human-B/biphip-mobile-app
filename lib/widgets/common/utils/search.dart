@@ -186,7 +186,7 @@ class SearchPage extends StatelessWidget {
                       ),
                   ],
                 ),
-                if (allSearchController.isSearched.value == false && allSearchController.userList.isNotEmpty)
+                if (allSearchController.isSearched.value == false && allSearchController.searchHistoryList.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(left: k20Padding, right: k20Padding, top: k16Padding),
                     child: Row(
@@ -219,7 +219,7 @@ class SearchPage extends StatelessWidget {
                                 shrinkWrap: true,
                                 padding: const EdgeInsets.all(k0Padding),
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: allSearchController.userList.length,
+                                itemCount: allSearchController.searchHistoryList.length,
                                 separatorBuilder: (context, index) => kH4sizedBox,
                                 itemBuilder: (context, index) {
                                   return CustomListTile(
@@ -229,24 +229,27 @@ class SearchPage extends StatelessWidget {
                                           shape: BoxShape.circle,
                                         ),
                                         child: Image.network(
-                                          allSearchController.userList[index]["image"],
+                                          // allSearchController.searchHistoryList[index]??"",//!No image parameter from api
+                                          "",
                                           width: h40,
                                           height: h40,
                                           fit: BoxFit.cover,
-                                          errorBuilder: (context, error, stackTrace) {
-                                            return Image.asset(kiProfileDefaultImageUrl);
-                                          },
+                                          errorBuilder: (context, error, stackTrace) => const Icon(
+                                            BipHip.user,
+                                            size: kIconSize28,
+                                            color: cIconColor,
+                                          ),
                                           loadingBuilder: imageLoadingBuilder,
                                         ),
                                       ),
                                     ),
                                     title: Text(
-                                      allSearchController.userList[index]["name"],
+                                      allSearchController.searchHistoryList[index].keywords ?? "",
                                       style: medium16TextStyle(cBlackColor),
                                     ),
                                     trailing: CustomIconButton(
                                       onPress: () {
-                                        allSearchController.userList.removeAt(index);
+                                        // allSearchController.userList.removeAt(index);//!Api call here(history delete api)
                                       },
                                       icon: BipHip.circleCrossNew,
                                       size: kIconSize16,
@@ -875,6 +878,7 @@ class ChipsWrapContainer extends StatelessWidget {
     );
   }
 }
+
 class IconContainer extends StatelessWidget {
   const IconContainer({super.key, required this.icon});
   final IconData icon;

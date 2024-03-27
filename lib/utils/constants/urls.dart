@@ -185,6 +185,9 @@ const String kuKidUpdateSchool = '/mobile/user/update-kid-school';
 const String kuKidDeleteSchool = '/mobile/user/delete-kid-school';
 const String kuGetKidPosts = '/mobile/user/get-kid-posts';
 
+//* Search
+const String kuSearchHistory = '/mobile/user/search-history';
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls
