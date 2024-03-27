@@ -448,30 +448,23 @@ class StoreController extends GetxController {
       if (response.success == true) {
         clearStoreData();
         featuredPostList.clear();
-        ll("0");
         storeOverviewData.value = StoreOverviewModel.fromJson(response.data);
-        ll("1");
         storesData.value = storeOverviewData.value?.stores;
         // featuredPostList.addAll(kidOverviewData.value!.featurePost);
-        ll("2");
         storeBio.value = storesData.value?.bio;
-        ll("3");
         storeName.value = storesData.value?.name ?? "";
-        ll("4");
         storeProfilePicture.value = storesData.value?.profilePicture ?? "";
-        ll("5");
         storeCoverPhoto.value = storesData.value?.coverPhoto ?? "";
-        ll("6");
-        storeBIN.value = storesData.value?.bin;
-        ll("7");
+        storeBIN.value = storesData.value?.bin ?? "";
         storeLegalPapersList.addAll(storesData.value?.legalPapers ?? []);
-        ll("8");
-        qrCode.value = storesData.value?.qrCode;
-        ll("9");
+        qrCode.value = storesData.value?.qrCode ?? "";
         storePrivacyLink.value = storesData.value?.privacyLink;
-        ll("10");
-        storeCategory.value = storesData.value?.categories[0];
-        ll("11");
+        if (storesData.value!.categories.isNotEmpty) {
+          storeCategory.value = storesData.value?.categories[0];
+        } else {
+          storeCategory.value = null;
+        }
+        // storeCategory.value = storesData.value!.categories.isEmpty ? null : storesData.value?.categories[0];
         isStoreOverviewLoading.value = false;
       } else {
         isStoreOverviewLoading.value = true;

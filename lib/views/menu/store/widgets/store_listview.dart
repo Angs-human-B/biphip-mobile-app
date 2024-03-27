@@ -28,7 +28,6 @@ class StoreListView extends StatelessWidget {
                             return InkWell(
                               onTap: () async {
                                 storeController.selectedStoreId.value = storeController.storeList[index].id!;
-                                ll(storeController.selectedStoreId.value);
                                 Get.toNamed(krStoreProfile);
                                 await storeController.getStoreOverview();
                                 //  await Get.find<HomeController>().getTimelinePostList();//!Remove this api call

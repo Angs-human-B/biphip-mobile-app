@@ -428,21 +428,22 @@ class StoreProfile extends StatelessWidget {
                                                       isLiked: false,
                                                       isSharedPost: false,
                                                       showBottomSection: false,
-                                                      userName: item.user!.fullName!,
-                                                      postTime: Get.find<HomeController>().postTimeDifference(item.createdAt!),
+                                                      // userName: item.user?.fullName??"",
+                                                      userName: "",
+                                                      postTime: Get.find<HomeController>().postTimeDifference(item.createdAt??DateTime.now()),
                                                       isCategorized: true,
                                                       subCategory: null, //API
-                                                      category: item.postCategory == null ? null : item.postCategory?.name ?? "", //API
-                                                      categoryIcon: item.postCategory == null
-                                                          ? null
-                                                          : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
-                                                      categoryIconColor: item.postCategory == null
-                                                          ? null
-                                                          : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
+                                                      // category: item.postCategory == null ? null : item.postCategory?.name ?? "", //API
+                                                      // categoryIcon: item.postCategory == null
+                                                      //     ? null
+                                                      //     : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
+                                                      // categoryIconColor: item.postCategory == null
+                                                      //     ? null
+                                                      //     : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
                                                       privacy: BipHip.world,
                                                       // brandName: item.store == null ? null : item.store!.name, //API
-                                                      kidName: item.kid == null ? null : item.kid!.name, //API
-                                                      kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                                                      // kidName: item.kid == null ? null : item.kid!.name, //API
+                                                      // kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
                                                       title: item.title, //API
                                                       postText: item.content ?? '', //API
                                                       price: null, //API
@@ -468,160 +469,7 @@ class StoreProfile extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-
-                                // Container(
-                                //   color: cWhiteColor,
-                                //   width: width,
-                                //   height: 50,
-                                //   child: ListView.builder(
-                                //     itemCount: interestProfile.length,
-                                //     shrinkWrap: true,
-                                //     padding: const EdgeInsets.symmetric(horizontal: k10Padding),
-                                //     scrollDirection: Axis.horizontal,
-                                //     itemBuilder: (BuildContext context, i) {
-                                //       return Obx(
-                                //         () => Padding(
-                                //           padding: const EdgeInsets.symmetric(horizontal: k4Padding),
-                                //           child: CustomChoiceChips(
-                                //             label: interestProfile[i],
-                                //             isSelected: (kidsController.kidInterestCatagoriesIndex.value == i && kidsController.isKidInterestSelected.value),
-                                //             onSelected: (value) {
-                                //               kidsController.kidInterestCatagoriesIndex.value = i;
-                                //               kidsController.isKidInterestSelected.value = value;
-                                //             },
-                                //           ),
-                                //         ),
-                                //       );
-                                //     },
-                                //   ),
-                                // ),
-                                // kH8sizedBox,
-                                // Container(
-                                //   width: width,
-                                //   color: cWhiteColor,
-                                //   child: Padding(
-                                //     padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                //     child: Column(
-                                //       crossAxisAlignment: CrossAxisAlignment.start,
-                                //       children: [
-                                //         kH16sizedBox,
-                                //         Text(
-                                //           ksFeatured.tr,
-                                //           style: semiBold18TextStyle(cBlackColor),
-                                //         ),
-                                //         kH16sizedBox,
-                                //         SingleChildScrollView(
-                                //           scrollDirection: Axis.horizontal,
-                                //           child: FittedBox(
-                                //             child: SizedBox(
-                                //               width: width - 40,
-                                //               height: 420,
-                                //               child: ListView.separated(
-                                //                 scrollDirection: Axis.horizontal,
-                                //                 shrinkWrap: true,
-                                //                 physics: const AlwaysScrollableScrollPhysics(),
-                                //                 separatorBuilder: (context, index) => kW16sizedBox,
-                                //                 itemCount: Get.find<HomeController>().allTimelinePostList.length,
-                                //                 itemBuilder: (context, index) {
-                                //                   var item = Get.find<HomeController>().allTimelinePostList[index];
-                                //                   return Container(
-                                //                     width: width,
-                                //                     decoration: BoxDecoration(
-                                //                       color: cWhiteColor,
-                                //                       borderRadius: BorderRadius.circular(k8BorderRadius),
-                                //                       border: Border.all(color: cLineColor2, width: 1),
-                                //                     ),
-                                //                     child: CommonFeaturePostWidget(
-                                //                       isCommented: false,
-                                //                       isLiked: false,
-                                //                       isSharedPost: false,
-                                //                       showBottomSection: false,
-                                //                       userName: item.user!.fullName!,
-                                //                       postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
-                                //                       isCategorized: true,
-                                //                       subCategory: null, //API
-                                //                       category: item.postCategory == null ? null : item.postCategory!.name, //API
-                                //                       categoryIcon:
-                                //                           item.postCategory == null ? null : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
-                                //                       categoryIconColor:
-                                //                           item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
-                                //                       privacy: BipHip.world,
-                                //                       brandName: item.store == null ? null : item.store!.name, //API
-                                //                       kidName: item.kid == null ? null : item.kid!.name, //API
-                                //                       kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                //                       title: item.title, //API
-                                //                       postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
-                                //                       price: null, //API
-                                //                       mediaList: item.images,
-                                //                       isSelfPost: true,
-                                //                       isInStock: true,
-                                //                       isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
-                                //                       postID: item.id!,
-                                //                       userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
-                                //                       reactCount: item.countReactions,
-                                //                     ),
-                                //                   );
-                                //                 },
-                                //               ),
-                                //             ),
-                                //           ),
-                                //         ),
-
-                                //         // ListView.separated(
-                                //         //     shrinkWrap: true,
-                                //         //     physics: const NeverScrollableScrollPhysics(),
-                                //         //     separatorBuilder: (context, index) => kW16sizedBox,
-                                //         //     itemCount: Get.find<HomeController>().allTimelinePostList.length,
-                                //         //     itemBuilder: (context, index) {
-                                //         //       var item = Get.find<HomeController>().allTimelinePostList[index];
-                                //         //       return Container(
-                                //         //         width: width - 80,
-                                //         //         decoration: BoxDecoration(
-                                //         //           color: cWhiteColor,
-                                //         //           borderRadius: BorderRadius.circular(k8BorderRadius),
-                                //         //           border: Border.all(color: cLineColor2, width: 1),
-                                //         //         ),
-                                //         //         child: CommonPostWidget(
-                                //         //           isCommented: false,
-                                //         //           isLiked: false,
-                                //         //           isSharedPost: false,
-                                //         //           showBottomSection: false,
-                                //         //           userName: item.user!.fullName!,
-                                //         //           postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
-                                //         //           isCategorized: true,
-                                //         //           subCategory: null, //API
-                                //         //           category: item.postCategory == null ? null : item.postCategory!.name, //API
-                                //         //           categoryIcon: item.postCategory == null ? null : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
-                                //         //           categoryIconColor:
-                                //         //               item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
-                                //         //           privacy: BipHip.world,
-                                //         //           brandName: item.store == null ? null : item.store!.name, //API
-                                //         //           kidName: item.kid == null ? null : item.kid!.name, //API
-                                //         //           kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                //         //           title: item.title, //API
-                                //         //           postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
-                                //         //           price: null, //API
-
-                                //         //           // mediaList: item.imageUrls, //API
-                                //         //           mediaList: item.images,
-                                //         //           isSelfPost: true,
-                                //         //           isInStock: true,
-                                //         //           isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
-                                //         //           postID: item.id!,
-                                //         //           userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
-                                //         //           reactCount: item.countReactions,
-                                //         //         ),
-                                //         //       );
-                                //         //     }),
-                                //         kH12sizedBox,
-                                //       ],
-                                //     ),
-                                //   ),
-                                // ),
-
-                                // if (profileController.postSectionVisible.value) PostTab(),
-                                // if (!profileController.postSectionVisible.value) FriendFamilyTab(),
-                                // kHBottomSizedBox,
+                     
                                 kH8sizedBox,
                                 //! This section Must Chnage When the kid post is available
                                 ListView.separated(

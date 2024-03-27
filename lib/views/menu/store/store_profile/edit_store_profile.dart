@@ -117,10 +117,14 @@ class EditStoreProfile extends StatelessWidget {
                                       height: 150,
                                       width: width,
                                       fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) => const Icon(
-                                        BipHip.imageFile,
-                                        size: kIconSize120,
-                                        color: cIconColor,
+                                      errorBuilder: (context, error, stackTrace) => SizedBox(
+                                        width: width,
+                                        height: 150,
+                                        child: const Icon(
+                                          BipHip.imageFile,
+                                          size: kIconSize120,
+                                          color: cIconColor,
+                                        ),
                                       ),
                                       loadingBuilder: imageLoadingBuilderCover,
                                     ),
@@ -179,7 +183,7 @@ class EditStoreProfile extends StatelessWidget {
                                 onPressed: () async {
                                   await storeController.getStoreLocations();
                                   await storeController.getStoreContacts();
-                                   await storeController.getStoreLinks();
+                                  await storeController.getStoreLinks();
                                   Get.toNamed(krStoreEditAbout);
                                 },
                               ),
@@ -233,7 +237,7 @@ class StoreIntroContent extends StatelessWidget {
               ),
               onPressed: null,
               prefixText: ksBIN.tr,
-              suffixText: storeController.storeBIN.value??"",
+              suffixText: storeController.storeBIN.value ?? "",
             ),
             StoreProfileLinkUpIconTextRow(
               iconOrSvg: const Icon(
@@ -351,7 +355,7 @@ class StoreIntroContent extends StatelessWidget {
               style: semiBold16TextStyle(cBlackColor),
             ),
             QrImageView(
-              data: storeController.qrCode.value??"",
+              data: storeController.qrCode.value ?? "",
               version: QrVersions.auto,
               size: 120,
             ),
