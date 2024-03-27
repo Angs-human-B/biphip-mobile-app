@@ -12,6 +12,7 @@ class AllSearchController extends GetxController {
   final RxBool isSearched = RxBool(false);
   final List filterTypeList = ["All", "Posts", "People", "Photos", "Videos", "Sell Posts", "Kids", "News"];
   final RxInt selectedFilterIndex = RxInt(-1);
+  final RxString selectedFilterValue = RxString("");
   final RxBool isFilterSelected = RxBool(false);
   final RxBool isRecentPostCheckBoxSelected = RxBool(false);
   final RxList postedByList = RxList([
@@ -386,6 +387,7 @@ class AllSearchController extends GetxController {
     isSearchSuffixIconVisible.value = false;
     isSearched.value = false;
     selectedFilterIndex.value = -1;
+    selectedFilterValue.value = "";
   }
 
   void resetBottomSheetData() {

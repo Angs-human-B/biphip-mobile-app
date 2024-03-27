@@ -70,6 +70,7 @@ class SearchPage extends StatelessWidget {
                                   allSearchController.isSearchSuffixIconVisible.value = false;
                                   allSearchController.isSearched.value = false;
                                   allSearchController.selectedFilterIndex.value = -1;
+                                  allSearchController.selectedFilterValue.value = "";
                                 },
                                 onSubmit: (value) {
                                   unFocus(context);
@@ -297,6 +298,7 @@ class SearchPage extends StatelessWidget {
                                               onSelected: (value) {
                                                 allSearchController.resetBottomSheetData();
                                                 allSearchController.selectedFilterIndex.value = i;
+                                                allSearchController.selectedFilterValue.value = allSearchController.filterTypeList[i];
                                                 // allSearchController.isFilterSelected.value = value;
                                               },
                                             ),
