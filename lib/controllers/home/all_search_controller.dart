@@ -417,7 +417,7 @@ class AllSearchController extends GetxController {
   }
 
   //! Search Api implement
-  //   //*Kids List Api Call
+  //   //*Search History List Api Call
   final Rx<SearchHistoryModel?> searchHistoryData = Rx<SearchHistoryModel?>(null);
   final RxList<SearchHistoryListData> searchHistoryList = RxList<SearchHistoryListData>([]);
   final RxBool isSearchHistoryLoading = RxBool(false);
@@ -446,7 +446,75 @@ class AllSearchController extends GetxController {
       }
     } catch (e) {
       isSearchHistoryLoading.value = true;
-      ll('getKidsList error: $e');
+      ll('getSearchHistory error: $e');
+    }
+  }
+
+  //*Delete Search history Api Call
+  final RxBool isDeleteSearchHistory = RxBool(false);
+  Future<void> deleteSearchHistory({required int id}) async {
+    try {
+      isDeleteSearchHistory.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteSearchHistory/${id.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        for(int i=0;i<searchHistoryList.length;i++){
+          if(searchHistoryList[i].id==id){
+            searchHistoryList.removeAt(i);
+          }
+        }
+        isDeleteSearchHistory.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isDeleteSearchHistory.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDeleteSearchHistory.value = false;
+      ll('kidDelete error: $e');
+    }
+  }
+
+  //*Delete All Search history Api Call
+  final RxBool isDeleteAllSearchHistory = RxBool(false);
+  Future<void> deleteAllSearchHistory() async {
+    try {
+      isDeleteAllSearchHistory.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: kuDeleteAllSearchHistory,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        searchHistoryList.clear();
+        isDeleteAllSearchHistory.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isDeleteAllSearchHistory.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDeleteAllSearchHistory.value = false;
+      ll('kidDelete error: $e');
     }
   }
 }
