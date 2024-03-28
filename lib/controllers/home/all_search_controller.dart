@@ -521,37 +521,65 @@ class AllSearchController extends GetxController {
     }
   }
 
-  //   //*Search History List Api Call
-  final Rx<SearchFilterDataModel?> searchFilterData = Rx<SearchFilterDataModel?>(null);
-  final Rx<All?> allData = Rx<All?>(null);
-  // final RxBool isSearchHistoryLoading = RxBool(false);
-  Future<void> getSearchFilterData() async {
-    try {
-      isSearchHistoryLoading.value = true;
-      String? token = await spController.getBearerToken();
-      var response = await apiController.commonApiCall(
-        requestMethod: kGet,
-        token: token,
-        url: kuSearchHistory,
-      ) as CommonDM;
-      if (response.success == true) {
-        searchHistoryList.clear();
-        searchHistoryData.value = SearchHistoryModel.fromJson(response.data);
-        searchHistoryList.addAll(searchHistoryData.value!.searchHistories!.data);
-        isSearchHistoryLoading.value = false;
-      } else {
-        isSearchHistoryLoading.value = true;
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        if (errorModel.errors.isEmpty) {
-          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-        } else {
-          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-        }
-      }
-    } catch (e) {
-      isSearchHistoryLoading.value = true;
-      ll('getSearchHistory error: $e');
-    }
-  }
+  // //   //*Search Filter data Api Call
+  // final Rx<SearchFilterDataModel?> searchFilterData = Rx<SearchFilterDataModel?>(null);
+  // final Rx<All?> allData = Rx<All?>(null);
+  // final Rx<Posts?> postsData = Rx<Posts?>(null);
+  // final Rx<People?> peopleData = Rx<People?>(null);
+  // final Rx<People?> photoData = Rx<People?>(null);
+  // final Rx<People?> videoData = Rx<People?>(null);
+  // final Rx<Kids?> kidsData = Rx<Kids?>(null);
+  // final Rx<Kids?> newsData = Rx<Kids?>(null);
+  // final RxList<RecentPost> recentPostList = RxList<RecentPost>([]);
+  // final RxList<All> postedByList = RxList<All>([]);
+  // final RxList<PostedDate> postedDateList = RxList<PostedDate>([]);
+  // final RxList<SubCategory> categoryList = RxList<SubCategory>([]);
+  // final RxList<SubCategory> postTypeList = RxList<SubCategory>([]);
+  // final RxList<SubCategory> conditionList = RxList<SubCategory>([]);
+  // final RxList<SubCategory> productCategoryList = RxList<SubCategory>([]);
+  // final RxList<SubCategory> subCategoryList = RxList<SubCategory>([]);
+  // final RxBool isSearchFilterDataLoading = RxBool(false);
+  // Future<void> getSearchFilterData() async {
+  //   try {
+  //     isSearchFilterDataLoading.value = true;
+  //     String? token = await spController.getBearerToken();
+  //     var response = await apiController.commonApiCall(
+  //       requestMethod: kGet,
+  //       token: token,
+  //       url: kuSearchHistory,
+  //     ) as CommonDM;
+  //     if (response.success == true) {
+  //       recentPostList.clear();
+  //       postedByList.clear();
+  //       postedDateList.clear();
+  //       categoryList.clear();
+  //       postTypeList.clear();
+  //       conditionList.clear();
+  //       productCategoryList.clear();
+  //       subCategoryList.clear();
+  //       searchFilterData.value = SearchFilterDataModel.fromJson(response.data);
+  //       recentPostList.addAll(searchFilterData.value!.posts!.recentPost);
+  //       postedByList.addAll(searchFilterData.value!.posts!.postedBy);
+  //       postedDateList.addAll(searchFilterData.value!.posts!.postedDate);
+  //       categoryList.addAll(searchFilterData.value!.posts!.postCategory);
+  //       postTypeList.addAll(searchFilterData.value!.sellPost!.postType);
+  //       conditionList.addAll(searchFilterData.value!.sellPost!.condition);
+  //       productCategoryList.addAll(searchFilterData.value!.sellPost!.category);
+  //       subCategoryList.addAll(searchFilterData.value!.kids!.subCategory);
+  //       isSearchFilterDataLoading.value = false;
+  //     } else {
+  //       isSearchFilterDataLoading.value = true;
+  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+  //       if (errorModel.errors.isEmpty) {
+  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+  //       } else {
+  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isSearchFilterDataLoading.value = true;
+  //     ll('getSearchFilterData error: $e');
+  //   }
+  // }
 
 }
