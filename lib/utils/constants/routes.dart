@@ -190,6 +190,7 @@ const String krSelectHobbiesPage = '/select-hobbies-page';
 const String krKidEditPage = '/kid-edit-page';
 const String krKidEditRelation = '/kid-edit-relation';
 const String krKidAddLanguage = '/kid-add-language';
+// const String krKidCreatePost = '/kid-create-post';
 //*Awards
 const String krAwardsPage = '/awards-page';
 const String krAwardDetailsPage = '/award-details-page';
@@ -312,6 +313,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krKidEditPage, page: () => KidEditPage(), transition: Transition.noTransition),
   GetPage(name: krKidEditRelation, page: () => KidEditRelationPage(), transition: Transition.noTransition),
   GetPage(name: krKidAddLanguage, page: () => KidAddLanguagePage(), transition: Transition.noTransition),
+  // GetPage(name: krKidCreatePost, page: () => KidCreatePost(), transition: Transition.noTransition),
    //* Awards
   GetPage(name: krAwardsPage, page: () => AwardsPage(), transition: Transition.noTransition),
   GetPage(name: krAwardDetailsPage, page: () => AwardDetailsPage(), transition: Transition.noTransition),

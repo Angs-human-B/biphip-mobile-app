@@ -187,6 +187,7 @@ class EditKidProfile extends StatelessWidget {
                                 textStyle: semiBold14TextStyle(cWhiteColor),
                                 onPressed: () async {
                                   await kidsController.getKidAllSchoolList();
+                                   await kidsController.getKidContacts();
                                   // profileController.showAllEditOption.value = true;//!variable define
                                   // editProfileHelper.resetEditAboutPage();//!Function write
                                   Get.toNamed(krKidEditAboutInfo);

@@ -184,6 +184,8 @@ const String kuKidStoreSchool = '/mobile/user/store-kid-school';
 const String kuKidUpdateSchool = '/mobile/user/update-kid-school';
 const String kuKidDeleteSchool = '/mobile/user/delete-kid-school';
 const String kuGetKidPosts = '/mobile/user/get-kid-posts';
+const String kuGetAllKidContacts = '/mobile/user/get-kid-contacts';
+const String kuKidCreatePost = '/mobile/user/store-post';
 
 //* Store profile
 const String kuGetBusinessCategories = '/mobile/get-business-categories';
@@ -200,7 +202,6 @@ const String kuStoreStoreLocation = '/mobile/user/store-store-location';
 const String kuGetStoreLocations = '/mobile/user/get-store-locations';
 const String kuUpdateStoreLocation = '/mobile/user/update-store-location';
 const String kuDeleteStoreLocation = '/mobile/user/delete-store-location';
-const String kuGetAllKidContacts = '/mobile/user/get-kid-contacts';
 const String kuGetAllStoreContacts = '/mobile/user/get-store-contacts';
 const String kuStoreStoreContacts = '/mobile/user/store-store-contact';
 const String kuUpdateStoreContacts = '/mobile/user/update-store-contact';

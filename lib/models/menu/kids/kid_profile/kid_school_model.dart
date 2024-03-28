@@ -15,8 +15,8 @@ class School {
   int? pageId;
   String? school;
   dynamic description;
-  dynamic started;
-  dynamic ended;
+  DateTime? started;
+  DateTime? ended;
   int? graduated;
   int? isCurrent;
 
@@ -36,8 +36,8 @@ class School {
         pageId: json["page_id"],
         school: json["school"],
         description: json["description"],
-        started: json["started"],
-        ended: json["ended"],
+        started: json["started"] == null ? null : DateTime.parse(json["started"]),
+        ended: json["ended"] == null ? null : DateTime.parse(json["ended"]),
         graduated: json["graduated"],
         isCurrent: json["is_current"],
       );

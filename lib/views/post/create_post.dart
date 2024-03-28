@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -50,8 +51,12 @@ class CreatePost extends StatelessWidget {
                             onPressed: createPostController.isPostButtonActive.value
                                 ? () async {
                                     unfocus(context);
-                                    await createPostController.createPost();
-                                    boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent());
+                                    if (Get.find<KidsController>().isRouteFromKid.value) {
+                                      await Get.find<KidsController>().kidCreatePost();
+                                    } else {
+                                      await createPostController.createPost();
+                                      boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent());
+                                    }
                                   }
                                 : null,
                             buttonWidth: 60,
@@ -298,7 +303,7 @@ class CreatePost extends StatelessWidget {
                                             createPostController.productCategoryBottomSheetRightButton.value = true;
                                           }
                                           globalController.commonBottomSheet(
-                                            isBottomSheetRightButtonActive: createPostController.productCategoryBottomSheetRightButton,
+                                              isBottomSheetRightButtonActive: createPostController.productCategoryBottomSheetRightButton,
                                               context: context,
                                               bottomSheetHeight: height * 0.9,
                                               isScrollControlled: true,
@@ -335,7 +340,7 @@ class CreatePost extends StatelessWidget {
                                             createPostController.productConditionBottomSheetRightButtonState.value = true;
                                           }
                                           globalController.commonBottomSheet(
-                                            isBottomSheetRightButtonActive: createPostController.productConditionBottomSheetRightButtonState,
+                                              isBottomSheetRightButtonActive: createPostController.productConditionBottomSheetRightButtonState,
                                               context: context,
                                               bottomSheetHeight: isDeviceScreenLarge() ? height * 0.5 : height * 0.6,
                                               content: ProductConditionContent(),
@@ -355,7 +360,7 @@ class CreatePost extends StatelessWidget {
                                               isRightButtonShow: true);
                                         },
                                       ),
-                                     
+
                                       kH12sizedBox,
                                       CustomModifiedTextField(
                                         controller: createPostController.isRegularPost.value
@@ -423,7 +428,7 @@ class CreatePost extends StatelessWidget {
                                                 createPostController.productAvailabilityBottomSheetRightButtonState.value = true;
                                               }
                                               globalController.commonBottomSheet(
-                                                isBottomSheetRightButtonActive: createPostController.productAvailabilityBottomSheetRightButtonState,
+                                                  isBottomSheetRightButtonActive: createPostController.productAvailabilityBottomSheetRightButtonState,
                                                   context: context,
                                                   bottomSheetHeight: isDeviceScreenLarge() ? height * 0.3 : height * 0.4,
                                                   content: ProductAvailabilityContent(),
@@ -646,7 +651,7 @@ class CreatePost extends StatelessWidget {
                                           }
 
                                           globalController.commonBottomSheet(
-                                            isBottomSheetRightButtonActive: createPostController.platformBottomSheetRightButtonState,
+                                              isBottomSheetRightButtonActive: createPostController.platformBottomSheetRightButtonState,
                                               context: context,
                                               bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
                                               content: Column(
@@ -727,7 +732,7 @@ class CreatePost extends StatelessWidget {
                                                                   createPostController.tempSelectedAction.value = createPostController.actionList[i]['name'];
                                                                   if (createPostController.tempSelectedPlatform.value == '' ||
                                                                       createPostController.tempSelectedAction.value == '') {
-                                                                   createPostController.platformBottomSheetRightButtonState.value = false;
+                                                                    createPostController.platformBottomSheetRightButtonState.value = false;
                                                                   } else {
                                                                     createPostController.platformBottomSheetRightButtonState.value = true;
                                                                   }
@@ -771,7 +776,6 @@ class CreatePost extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                
                                 if (createPostController.allMediaList.isNotEmpty) CreatePostMediaSection(),
                                 if (createPostController.category.value == "News") SellingNewsTextfield(),
                                 kH50sizedBox,
