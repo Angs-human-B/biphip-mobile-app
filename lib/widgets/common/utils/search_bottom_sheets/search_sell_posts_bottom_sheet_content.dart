@@ -1,4 +1,3 @@
-
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
@@ -44,6 +43,7 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedSellPostType.value = allSearchController.temporarySelectedSellPostType.value;
+                      allSearchController.selectedSellPostTypeIndex.value = allSearchController.temporarySelectedSellPostTypeIndex.value;
                       allSearchController.sellPostBottomSheetState();
                       Get.back();
                     },
@@ -185,4 +185,3 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
         ));
   }
 }
-

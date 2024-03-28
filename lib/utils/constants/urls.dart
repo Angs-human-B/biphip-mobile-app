@@ -215,6 +215,7 @@ const String kuDeleteStoreLink = '/mobile/user/delete-store-link';
 const String kuSearchHistory = '/mobile/user/search-history';
 const String kuDeleteSearchHistory = '/mobile/user/delete-search-history';
 const String kuDeleteAllSearchHistory = '/mobile/user/delete-all-search-history';
+const String kuSearchFilterData = '/mobile/user/search-filter-data';
 
 /*
 |--------------------------------------------------------------------------

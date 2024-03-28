@@ -11,17 +11,16 @@ class AllSearchController extends GetxController {
   final RxString searchedValue = RxString("");
   final RxString searchPeopleProfilePicture = RxString("");
   final RxBool isSearched = RxBool(false);
-  final List filterTypeList = ["All", "Posts", "People", "Photos", "Videos", "Sell Posts", "Kids", "News"];
   final RxInt selectedFilterIndex = RxInt(-1);
   final RxString selectedFilterValue = RxString("");
   final RxBool isFilterSelected = RxBool(false);
   final RxBool isRecentPostCheckBoxSelected = RxBool(false);
-  final RxList postedByList = RxList([
-    {"icon": BipHip.world, "type": "Anyone"},
-    {"icon": BipHip.friends, "type": "Friend"},
-    {"icon": BipHip.addFamily, "type": "Family"},
-    {"icon": BipHip.friends, "type": "Friends & Family"},
-  ]);
+  // final RxList postedByList = RxList([
+  //   {"icon": BipHip.world, "type": "Anyone"},
+  //   {"icon": BipHip.friends, "type": "Friend"},
+  //   {"icon": BipHip.addFamily, "type": "Family"},
+  //   {"icon": BipHip.friends, "type": "Friends & Family"},
+  // ]);
   final RxString temporarySelectedPostedBy = RxString("");
   final RxString selectedPostedBy = RxString("");
   final RxBool isPostedByBottomSheetState = RxBool(false);
@@ -33,6 +32,8 @@ class AllSearchController extends GetxController {
   final RxBool isCategoryBottomSheetState = RxBool(false);
   final RxString temporarySelectedSellPostType = RxString("");
   final RxString selectedSellPostType = RxString("");
+  final RxInt temporarySelectedSellPostTypeIndex = RxInt(-1);
+  final RxInt selectedSellPostTypeIndex = RxInt(-1);
   final RxBool isSellPostTypeBottomSheetState = RxBool(false);
   final RxString temporarySelectedSellPostCondition = RxString("");
   final RxString selectedSellPostCondition = RxString("");
@@ -134,64 +135,65 @@ class AllSearchController extends GetxController {
     }
   }
 
-  final List subCategoryList = ["Kids subcategory", "News subcategory", "International News", "Sports News"];
-  final List productCategoryList = ["Any", "Gadgets", "Fashion", "Electronics", "Phone", "Laptop"];
-  final List conditionList = ["Any", "New", "used", "Used Like New", "Used Like Poor", "Like New"];
-  final RxList recentSearchList = RxList([
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "User",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "New User",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Test User",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-  ]);
-  final RxList datePostedList = RxList([
-    {"date": "AnyDate"},
-    {"date": "2024"},
-    {"date": "2023"},
-    {"date": "2022"},
-    {"date": "2021"},
-    {"date": "2020"},
-    {"date": "2019"},
-    {"date": "2018"},
-    {"date": "2017"},
-    {"date": "2016"},
-    {"date": "2015"},
-    {"date": "2014"},
-  ]);
-  final RxList categoryList = RxList([
-    "Any Category",
-    "Poetry",
-    "Painting",
-    "Kids",
-    "Storytelling",
-    "Photography",
-    "News",
-  ]);
+  // final List subCategoryList = ["Kids subcategory", "News subcategory", "International News", "Sports News"];
+  // final List productCategoryList = ["Any", "Gadgets", "Fashion", "Electronics", "Phone", "Laptop"];
+  // final List conditionList = ["Any", "New", "used", "Used Like New", "Used Like Poor", "Like New"];
+  // final RxList recentSearchList = RxList([
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "User",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "New User",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Test User",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  // ]);
+  // final RxList datePostedList = RxList([
+  //   {"date": "AnyDate"},
+  //   {"date": "2024"},
+  //   {"date": "2023"},
+  //   {"date": "2022"},
+  //   {"date": "2021"},
+  //   {"date": "2020"},
+  //   {"date": "2019"},
+  //   {"date": "2018"},
+  //   {"date": "2017"},
+  //   {"date": "2016"},
+  //   {"date": "2015"},
+  //   {"date": "2014"},
+  // ]);
+
+  // final RxList categoryList = RxList([
+  //   "Any Category",
+  //   "Poetry",
+  //   "Painting",
+  //   "Kids",
+  //   "Storytelling",
+  //   "Photography",
+  //   "News",
+  // ]);
   final RxList userList = RxList([
     {
       "image":
@@ -406,6 +408,8 @@ class AllSearchController extends GetxController {
     isSubCategoryBottomSheetState.value = false;
     temporarySelectedSellPostType.value = "";
     selectedSellPostType.value = "";
+    temporarySelectedSellPostTypeIndex.value = -1;
+    selectedSellPostTypeIndex.value = -1;
     isSellPostTypeBottomSheetState.value = false;
     temporarySelectedSellPostCondition.value = "";
     selectedSellPostCondition.value = "";
@@ -467,8 +471,8 @@ class AllSearchController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        for(int i=0;i<searchHistoryList.length;i++){
-          if(searchHistoryList[i].id==id){
+        for (int i = 0; i < searchHistoryList.length; i++) {
+          if (searchHistoryList[i].id == id) {
             searchHistoryList.removeAt(i);
           }
         }
@@ -521,65 +525,67 @@ class AllSearchController extends GetxController {
     }
   }
 
-  // //   //*Search Filter data Api Call
-  // final Rx<SearchFilterDataModel?> searchFilterData = Rx<SearchFilterDataModel?>(null);
-  // final Rx<All?> allData = Rx<All?>(null);
-  // final Rx<Posts?> postsData = Rx<Posts?>(null);
-  // final Rx<People?> peopleData = Rx<People?>(null);
-  // final Rx<People?> photoData = Rx<People?>(null);
-  // final Rx<People?> videoData = Rx<People?>(null);
-  // final Rx<Kids?> kidsData = Rx<Kids?>(null);
-  // final Rx<Kids?> newsData = Rx<Kids?>(null);
-  // final RxList<RecentPost> recentPostList = RxList<RecentPost>([]);
-  // final RxList<All> postedByList = RxList<All>([]);
-  // final RxList<PostedDate> postedDateList = RxList<PostedDate>([]);
-  // final RxList<SubCategory> categoryList = RxList<SubCategory>([]);
-  // final RxList<SubCategory> postTypeList = RxList<SubCategory>([]);
-  // final RxList<SubCategory> conditionList = RxList<SubCategory>([]);
-  // final RxList<SubCategory> productCategoryList = RxList<SubCategory>([]);
-  // final RxList<SubCategory> subCategoryList = RxList<SubCategory>([]);
-  // final RxBool isSearchFilterDataLoading = RxBool(false);
-  // Future<void> getSearchFilterData() async {
-  //   try {
-  //     isSearchFilterDataLoading.value = true;
-  //     String? token = await spController.getBearerToken();
-  //     var response = await apiController.commonApiCall(
-  //       requestMethod: kGet,
-  //       token: token,
-  //       url: kuSearchHistory,
-  //     ) as CommonDM;
-  //     if (response.success == true) {
-  //       recentPostList.clear();
-  //       postedByList.clear();
-  //       postedDateList.clear();
-  //       categoryList.clear();
-  //       postTypeList.clear();
-  //       conditionList.clear();
-  //       productCategoryList.clear();
-  //       subCategoryList.clear();
-  //       searchFilterData.value = SearchFilterDataModel.fromJson(response.data);
-  //       recentPostList.addAll(searchFilterData.value!.posts!.recentPost);
-  //       postedByList.addAll(searchFilterData.value!.posts!.postedBy);
-  //       postedDateList.addAll(searchFilterData.value!.posts!.postedDate);
-  //       categoryList.addAll(searchFilterData.value!.posts!.postCategory);
-  //       postTypeList.addAll(searchFilterData.value!.sellPost!.postType);
-  //       conditionList.addAll(searchFilterData.value!.sellPost!.condition);
-  //       productCategoryList.addAll(searchFilterData.value!.sellPost!.category);
-  //       subCategoryList.addAll(searchFilterData.value!.kids!.subCategory);
-  //       isSearchFilterDataLoading.value = false;
-  //     } else {
-  //       isSearchFilterDataLoading.value = true;
-  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
-  //       if (errorModel.errors.isEmpty) {
-  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-  //       } else {
-  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     isSearchFilterDataLoading.value = true;
-  //     ll('getSearchFilterData error: $e');
-  //   }
-  // }
-
+  //   //*Search Filter data Api Call
+  final RxList filterTypeList = RxList([]);
+  final Rx<SearchFilterDataModel?> searchFilterData = Rx<SearchFilterDataModel?>(null);
+  final Rx<All?> allData = Rx<All?>(null);
+  final Rx<Posts?> postsData = Rx<Posts?>(null);
+  final Rx<People?> peopleData = Rx<People?>(null);
+  final Rx<People?> photoData = Rx<People?>(null);
+  final Rx<People?> videoData = Rx<People?>(null);
+  final Rx<SellPost?> sellPostData = Rx<SellPost?>(null);
+  final Rx<Kids?> kidsData = Rx<Kids?>(null);
+  final Rx<Kids?> newsData = Rx<Kids?>(null);
+  final RxList<All> postedByList = RxList<All>([]);
+  final RxList<PostedDate> datePostedList = RxList<PostedDate>([]);
+  final RxBool isSearchFilterDataLoading = RxBool(false);
+  Future<void> getSearchFilterData() async {
+    try {
+      isSearchFilterDataLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuSearchFilterData,
+      ) as CommonDM;
+      if (response.success == true) {
+        filterTypeList.clear();
+        postedByList.clear();
+        datePostedList.clear();
+        searchFilterData.value = SearchFilterDataModel.fromJson(response.data);
+        allData.value = searchFilterData.value?.all;
+        postsData.value = searchFilterData.value?.posts;
+        peopleData.value = searchFilterData.value?.people;
+        photoData.value = searchFilterData.value?.photo;
+        videoData.value = searchFilterData.value?.video;
+        sellPostData.value = searchFilterData.value?.sellPost;
+        kidsData.value = searchFilterData.value?.kids;
+        newsData.value = searchFilterData.value?.news;
+        postedByList.addAll(searchFilterData.value!.posts!.postedBy);
+        datePostedList.addAll(searchFilterData.value!.posts!.postedDate);
+        //*filter list
+        filterTypeList.add(searchFilterData.value?.all?.value);
+        filterTypeList.add(searchFilterData.value?.posts?.value);
+        filterTypeList.add(searchFilterData.value?.people?.value);
+        filterTypeList.add(searchFilterData.value?.photo?.value);
+        filterTypeList.add(searchFilterData.value?.video?.value);
+        filterTypeList.add(searchFilterData.value?.sellPost?.value);
+        filterTypeList.add(searchFilterData.value?.kids?.value);
+        filterTypeList.add(searchFilterData.value?.news?.value);
+        // ll();
+        isSearchFilterDataLoading.value = false;
+      } else {
+        isSearchFilterDataLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isSearchFilterDataLoading.value = true;
+      ll('getSearchFilterData error: $e');
+    }
+  }
 }

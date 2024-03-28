@@ -52,6 +52,7 @@ class HomePage extends StatelessWidget {
                         style: kTextButtonStyle,
                         onPressed: () async {
                           Get.find<AllSearchController>().resetSearchData();
+                          await Get.find<AllSearchController>().getSearchFilterData();
                           await Get.find<AllSearchController>().getSearchHistory();
                           Get.toNamed(krSearchPage);
                         },

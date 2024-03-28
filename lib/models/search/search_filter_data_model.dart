@@ -46,35 +46,9 @@ class All {
     );
 }
 
-// enum Key {
-//     ALL,
-//     FAMILY,
-//     FRIEND_N_FAMILY
-// }
-
-// final keyValues = EnumValues({
-//     "all": Key.ALL,
-//     "family": Key.FAMILY,
-//     "Friend_n_family": Key.FRIEND_N_FAMILY
-// });
-
-// enum Value {
-//     ALL,
-//     FAMILY,
-//     FRIEND,
-//     FRIEND_FAMILY
-// }
-
-// final valueValues = EnumValues({
-//     "All": Value.ALL,
-//     "Family": Value.FAMILY,
-//     "Friend": Value.FRIEND,
-//     "Friend & family": Value.FRIEND_FAMILY
-// });
-
 class Kids {
-    String key;
-    String value;
+    String? key;
+    String? value;
     List<SubCategory> subCategory;
     List<PostedDate> postedDate;
     List<All> postedBy;
@@ -97,8 +71,8 @@ class Kids {
 }
 
 class PostedDate {
-    int key;
-    int value;
+    int? key;
+    int? value;
 
     PostedDate({
         required this.key,
@@ -113,8 +87,8 @@ class PostedDate {
 }
 
 class SubCategory {
-    int key;
-    String value;
+    int? key;
+    String? value;
 
     SubCategory({
         required this.key,
@@ -128,8 +102,8 @@ class SubCategory {
 }
 
 class People {
-    String key;
-    String value;
+    String? key;
+    String? value;
     List<All> postedBy;
     List<PostedDate>? postedDate;
 
@@ -149,8 +123,8 @@ class People {
 }
 
 class Posts {
-    String key;
-    String value;
+    String? key;
+    String? value;
     List<RecentPost> recentPost;
     List<All> postedBy;
     List<PostedDate> postedDate;
@@ -176,8 +150,8 @@ class Posts {
 }
 
 class RecentPost {
-    String key;
-    bool value;
+    String? key;
+    bool? value;
 
     RecentPost({
         required this.key,
@@ -191,8 +165,8 @@ class RecentPost {
 }
 
 class SellPost {
-    String key;
-    String value;
+    String? key;
+    String? value;
     List<SubCategory> postType;
     List<SubCategory> condition;
     List<SubCategory> category;

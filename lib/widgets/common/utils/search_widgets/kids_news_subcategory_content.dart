@@ -12,35 +12,59 @@ class KidsNewsSubCategoryContent extends StatelessWidget {
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: allSearchController.subCategoryList.length,
+          itemCount: allSearchController.selectedFilterValue.value == "Kids"
+              ? allSearchController.searchFilterData.value!.kids!.subCategory.length
+              : allSearchController.searchFilterData.value!.news!.subCategory.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: k10Padding),
               child: Obx(
                 () => CustomListTile(
-                  itemColor:
-                      allSearchController.temporarySelectedSubCategory.value == allSearchController.subCategoryList[index] ? cPrimaryTint3Color : cWhiteColor,
+                  itemColor: (allSearchController.selectedFilterValue.value == "Kids"
+                          ? allSearchController.temporarySelectedSubCategory.value == allSearchController.searchFilterData.value!.kids!.subCategory[index].value
+                          : allSearchController.temporarySelectedSubCategory.value ==
+                              allSearchController.searchFilterData.value!.news!.subCategory[index].value)
+                      ? cPrimaryTint3Color
+                      : cWhiteColor,
                   onPressed: () {
-                    allSearchController.temporarySelectedSubCategory.value = allSearchController.subCategoryList[index];
+                    if (allSearchController.selectedFilterValue.value == "Kids") {
+                      allSearchController.temporarySelectedSubCategory.value = allSearchController.searchFilterData.value?.kids?.subCategory[index].value ?? "";
+                    } else {
+                      allSearchController.temporarySelectedSubCategory.value = allSearchController.searchFilterData.value?.news?.subCategory[index].value ?? "";
+                    }
                     if (allSearchController.temporarySelectedSubCategory.value == '') {
                       allSearchController.isSubCategoryBottomSheetState.value = false;
                     } else {
                       allSearchController.isSubCategoryBottomSheetState.value = true;
                     }
                   },
-                  title: allSearchController.subCategoryList[index],
-                  borderColor:
-                      allSearchController.temporarySelectedSubCategory.value == allSearchController.subCategoryList[index] ? cPrimaryColor : cLineColor,
+                  title: allSearchController.selectedFilterValue.value == "Kids"
+                      ? allSearchController.searchFilterData.value!.kids!.subCategory[index].value
+                      : allSearchController.searchFilterData.value!.news!.subCategory[index].value,
+                  borderColor: (allSearchController.selectedFilterValue.value == "Kids"
+                          ? allSearchController.temporarySelectedSubCategory.value == allSearchController.searchFilterData.value!.kids!.subCategory[index].value
+                          : allSearchController.temporarySelectedSubCategory.value ==
+                              allSearchController.searchFilterData.value!.news!.subCategory[index].value)
+                      ? cPrimaryColor
+                      : cLineColor,
                   trailing: CustomRadioButton(
                     onChanged: () {
-                      allSearchController.temporarySelectedSubCategory.value = allSearchController.subCategoryList[index];
+                      if (allSearchController.selectedFilterValue.value == "Kids") {
+                        allSearchController.temporarySelectedSubCategory.value =
+                            allSearchController.searchFilterData.value?.kids?.subCategory[index].value ?? "";
+                      } else {
+                        allSearchController.temporarySelectedSubCategory.value =
+                            allSearchController.searchFilterData.value?.news?.subCategory[index].value ?? "";
+                      }
                       if (allSearchController.temporarySelectedSubCategory.value == '') {
                         allSearchController.isSubCategoryBottomSheetState.value = false;
                       } else {
                         allSearchController.isSubCategoryBottomSheetState.value = true;
                       }
                     },
-                    isSelected: allSearchController.temporarySelectedSubCategory.value == allSearchController.subCategoryList[index],
+                    isSelected: (allSearchController.selectedFilterValue.value == "Kids"
+                        ? allSearchController.temporarySelectedSubCategory.value == allSearchController.searchFilterData.value!.kids!.subCategory[index].value
+                        : allSearchController.temporarySelectedSubCategory.value == allSearchController.searchFilterData.value!.news!.subCategory[index].value),
                   ),
                 ),
               ),
@@ -51,4 +75,3 @@ class KidsNewsSubCategoryContent extends StatelessWidget {
     );
   }
 }
-

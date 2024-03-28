@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/utils/search.dart';
+// import 'package:bip_hip/widgets/common/utils/search.dart';
 
 class SearchPostedByContent extends StatelessWidget {
   SearchPostedByContent({super.key});
@@ -19,11 +19,11 @@ class SearchPostedByContent extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: k10Padding),
               child: Obx(
                 () => CustomListTile(
-                  leading: IconContainer(icon: allSearchController.postedByList[index]["icon"]),
+                  // leading: IconContainer(icon: allSearchController.postedByList[index]["icon"]),
                   itemColor:
-                      allSearchController.temporarySelectedPostedBy.value == allSearchController.postedByList[index]["type"] ? cPrimaryTint3Color : cWhiteColor,
+                      allSearchController.temporarySelectedPostedBy.value == allSearchController.postedByList[index].value ? cPrimaryTint3Color : cWhiteColor,
                   onPressed: () {
-                    allSearchController.temporarySelectedPostedBy.value = allSearchController.postedByList[index]["type"];
+                    allSearchController.temporarySelectedPostedBy.value = allSearchController.postedByList[index].value!;
                     // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
                     if (allSearchController.temporarySelectedPostedBy.value == '') {
                       allSearchController.isPostedByBottomSheetState.value = false;
@@ -31,12 +31,12 @@ class SearchPostedByContent extends StatelessWidget {
                       allSearchController.isPostedByBottomSheetState.value = true;
                     }
                   },
-                  title: allSearchController.postedByList[index]["type"],
+                  title: allSearchController.postedByList[index].value,
                   borderColor:
-                      allSearchController.temporarySelectedPostedBy.value == allSearchController.postedByList[index]["type"] ? cPrimaryColor : cLineColor,
+                      allSearchController.temporarySelectedPostedBy.value == allSearchController.postedByList[index].value ? cPrimaryColor : cLineColor,
                   trailing: CustomRadioButton(
                     onChanged: () {
-                      allSearchController.temporarySelectedPostedBy.value = allSearchController.postedByList[index]["type"];
+                      allSearchController.temporarySelectedPostedBy.value = allSearchController.postedByList[index].value!;
                       // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
                       if (allSearchController.temporarySelectedPostedBy.value == '') {
                         allSearchController.isPostedByBottomSheetState.value = false;
@@ -44,7 +44,7 @@ class SearchPostedByContent extends StatelessWidget {
                         allSearchController.isPostedByBottomSheetState.value = true;
                       }
                     },
-                    isSelected: allSearchController.temporarySelectedPostedBy.value == allSearchController.postedByList[index]["type"],
+                    isSelected: allSearchController.temporarySelectedPostedBy.value == allSearchController.postedByList[index].value,
                   ),
                 ),
               ),

@@ -1,4 +1,3 @@
-
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -13,37 +12,42 @@ class SellPostProductCategoryContent extends StatelessWidget {
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: allSearchController.productCategoryList.length,
+          itemCount: allSearchController.searchFilterData.value!.sellPost?.category.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: k10Padding),
               child: Obx(
                 () => CustomListTile(
-                  itemColor: allSearchController.temporarySelectedSellPostProductCategory.value == allSearchController.productCategoryList[index]
+                  itemColor: allSearchController.temporarySelectedSellPostProductCategory.value ==
+                          allSearchController.searchFilterData.value!.sellPost?.category[index].value
                       ? cPrimaryTint3Color
                       : cWhiteColor,
                   onPressed: () {
-                    allSearchController.temporarySelectedSellPostProductCategory.value = allSearchController.productCategoryList[index];
+                    allSearchController.temporarySelectedSellPostProductCategory.value =
+                        allSearchController.searchFilterData.value!.sellPost?.category[index].value ?? "";
                     if (allSearchController.temporarySelectedSellPostProductCategory.value == '') {
                       allSearchController.isSellPostProductConditionBottomSheetState.value = false;
                     } else {
                       allSearchController.isSellPostProductConditionBottomSheetState.value = true;
                     }
                   },
-                  title: allSearchController.productCategoryList[index],
-                  borderColor: allSearchController.temporarySelectedSellPostProductCategory.value == allSearchController.productCategoryList[index]
+                  title: allSearchController.searchFilterData.value!.sellPost?.category[index].value,
+                  borderColor: allSearchController.temporarySelectedSellPostProductCategory.value ==
+                          allSearchController.searchFilterData.value!.sellPost?.category[index].value
                       ? cPrimaryColor
                       : cLineColor,
                   trailing: CustomRadioButton(
                     onChanged: () {
-                      allSearchController.temporarySelectedSellPostProductCategory.value = allSearchController.productCategoryList[index];
+                      allSearchController.temporarySelectedSellPostProductCategory.value =
+                          allSearchController.searchFilterData.value!.sellPost?.category[index].value ?? "";
                       if (allSearchController.temporarySelectedSellPostProductCategory.value == '') {
                         allSearchController.isSellPostProductConditionBottomSheetState.value = false;
                       } else {
                         allSearchController.isSellPostProductConditionBottomSheetState.value = true;
                       }
                     },
-                    isSelected: allSearchController.temporarySelectedSellPostProductCategory.value == allSearchController.productCategoryList[index],
+                    isSelected: allSearchController.temporarySelectedSellPostProductCategory.value ==
+                        allSearchController.searchFilterData.value!.sellPost?.category[index].value,
                   ),
                 ),
               ),
@@ -54,4 +58,3 @@ class SellPostProductCategoryContent extends StatelessWidget {
     );
   }
 }
-

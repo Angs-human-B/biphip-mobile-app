@@ -1,4 +1,3 @@
-
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -13,37 +12,42 @@ class SellPostProductConditionContent extends StatelessWidget {
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: allSearchController.conditionList.length,
+          itemCount: allSearchController.searchFilterData.value!.sellPost!.condition.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: k10Padding),
               child: Obx(
                 () => CustomListTile(
-                  itemColor: allSearchController.temporarySelectedSellPostCondition.value == allSearchController.conditionList[index]
+                  itemColor: allSearchController.temporarySelectedSellPostCondition.value ==
+                          allSearchController.searchFilterData.value?.sellPost?.condition[index].value
                       ? cPrimaryTint3Color
                       : cWhiteColor,
                   onPressed: () {
-                    allSearchController.temporarySelectedSellPostCondition.value = allSearchController.conditionList[index];
-                    // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
+                    allSearchController.temporarySelectedSellPostCondition.value =
+                        allSearchController.searchFilterData.value!.sellPost!.condition[index].value!;
                     if (allSearchController.temporarySelectedSellPostCondition.value == '') {
                       allSearchController.isSellPostConditionBottomSheetState.value = false;
                     } else {
                       allSearchController.isSellPostConditionBottomSheetState.value = true;
                     }
                   },
-                  title: allSearchController.conditionList[index],
-                  borderColor:
-                      allSearchController.temporarySelectedSellPostCondition.value == allSearchController.conditionList[index] ? cPrimaryColor : cLineColor,
+                  title: allSearchController.searchFilterData.value?.sellPost?.condition[index].value,
+                  borderColor: allSearchController.temporarySelectedSellPostCondition.value ==
+                          allSearchController.searchFilterData.value?.sellPost?.condition[index].value
+                      ? cPrimaryColor
+                      : cLineColor,
                   trailing: CustomRadioButton(
                     onChanged: () {
-                      allSearchController.temporarySelectedSellPostCondition.value = allSearchController.conditionList[index];
+                      allSearchController.temporarySelectedSellPostCondition.value =
+                          allSearchController.searchFilterData.value!.sellPost!.condition[index].value!;
                       if (allSearchController.temporarySelectedSellPostCondition.value == '') {
                         allSearchController.isSellPostConditionBottomSheetState.value = false;
                       } else {
                         allSearchController.isSellPostConditionBottomSheetState.value = true;
                       }
                     },
-                    isSelected: allSearchController.temporarySelectedSellPostCondition.value == allSearchController.conditionList[index],
+                    isSelected: allSearchController.temporarySelectedSellPostCondition.value ==
+                        allSearchController.searchFilterData.value?.sellPost?.condition[index].value,
                   ),
                 ),
               ),
@@ -54,4 +58,3 @@ class SellPostProductConditionContent extends StatelessWidget {
     );
   }
 }
-
