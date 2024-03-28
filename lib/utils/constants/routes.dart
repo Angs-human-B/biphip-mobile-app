@@ -47,6 +47,23 @@ import 'package:bip_hip/views/menu/kids/add_kid_basic_info.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_contact_info.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_social_links.dart';
 import 'package:bip_hip/views/menu/kids/add_kid_upload_image.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_about.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_bio.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_bin.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_category.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_email.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_location.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_payment.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_phone_number.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_privacy_link.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_qr_code.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_profile/edit_store_social_link.dart';
+import 'package:bip_hip/views/menu/store/store_profile/store_add_legal_document.dart';
+import 'package:bip_hip/views/menu/store/store_profile/store_profile.dart';
+import 'package:bip_hip/views/menu/store/store_profile/store_review.dart';
+import 'package:bip_hip/views/menu/store/widgets/store_photo_preview.dart';
+import 'package:bip_hip/views/menu/store/widgets/store_photo_view.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/create_post.dart';
 import 'package:bip_hip/views/post/upload_media_list.dart';
@@ -178,6 +195,27 @@ const String krKidAddLanguage = '/kid-add-language';
 const String krAwardsPage = '/awards-page';
 const String krAwardDetailsPage = '/award-details-page';
 
+
+//*Store profile
+const String krStoreProfile = '/store-profile';
+const String krEditStoreProfile = '/edit-store-profile';
+const String krStoreEditAbout = '/store-edit-about';
+const String krEditStorePhoneNumber = '/edit-store-phone-number';
+const String krEditStoreEmail = '/edit-store-email';
+const String krEditStorePrivacyLink = '/edit-store-privacy-link';
+const String krEditStoreQrCode = '/edit-store-qr-code';
+const String krEditStoreBIN = '/edit-store-bin';
+const String krEditStoreLocation = '/edit-store-location';
+const String krEditStoreCategory = '/edit-store-category';
+const String krEditStoreSocialLink = '/edit-store-social-link';
+const String krEditStorePayment = '/edit-store-payment';
+const String krStoreAddLegalDocument = '/store-add-legal-document';
+const String krStoreEditBio = '/store-edit-bio';
+const String krStoreReview = '/store-review';
+const String krStorePhotoPreview = '/store-photo-preview';
+const String krStorePhotoView = '/store-photo-view';
+
+
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
   GetPage(name: krLogin, page: () => Login(), transition: Transition.noTransition),
@@ -280,5 +318,22 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krAwardsPage, page: () => AwardsPage(), transition: Transition.noTransition),
   GetPage(name: krAwardDetailsPage, page: () => AwardDetailsPage(), transition: Transition.noTransition),
 
-
+ //*Store profile
+  GetPage(name: krStoreProfile, page: () => StoreProfile(), transition: Transition.noTransition),
+  GetPage(name: krEditStoreProfile, page: () => EditStoreProfile(), transition: Transition.noTransition),
+  GetPage(name: krStoreEditAbout, page: () => StoreEditAbout(), transition: Transition.noTransition),
+  GetPage(name: krEditStorePhoneNumber, page: () => EditStorePhoneNumber(), transition: Transition.noTransition),
+  GetPage(name: krEditStoreEmail, page: () => EditStoreEmail(), transition: Transition.noTransition),
+  GetPage(name: krEditStorePrivacyLink, page: () => EditStorePrivacyLink(), transition: Transition.noTransition),
+  GetPage(name: krEditStoreQrCode, page: () => EditStoreQrCode(), transition: Transition.noTransition),
+  GetPage(name: krEditStoreBIN, page: () => EditStoreBIN(), transition: Transition.noTransition),
+  GetPage(name: krEditStoreLocation, page: () => EditStoreLocation(), transition: Transition.noTransition),
+  GetPage(name: krEditStoreCategory, page: () => EditStoreCategory(), transition: Transition.noTransition),
+  GetPage(name: krEditStoreSocialLink, page: () => EditStoreSocialLink(), transition: Transition.noTransition),
+  GetPage(name: krEditStorePayment, page: () => EditStorePayment(), transition: Transition.noTransition),
+  GetPage(name: krStoreAddLegalDocument, page: () => StoreAddLegalDocument(), transition: Transition.noTransition),
+  GetPage(name: krStoreEditBio, page: () => StoreEditBio(), transition: Transition.noTransition),
+  GetPage(name: krStoreReview, page: () => StoreReview(), transition: Transition.noTransition),
+  GetPage(name: krStorePhotoPreview, page: () => StorePhotoPreview(), transition: Transition.noTransition),
+  GetPage(name: krStorePhotoView, page: () => StorePhotoView(), transition: Transition.noTransition),
 ];

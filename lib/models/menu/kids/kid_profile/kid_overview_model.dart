@@ -635,9 +635,9 @@ class ContactModel {
         type: json["type"],
         value: json["value"],
         id: json["id"],
-      );
-}
+    );
 
+}
 class KidSchool {
   String? pageId;
   String? school;

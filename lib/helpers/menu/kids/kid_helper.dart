@@ -321,22 +321,25 @@ class KidHelper {
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT PHONE') {
       await kidsController.updateContact(kidsController.phoneID.value, 'phone');
+      // await profileController.storeContact('phone');//!Api
+      // await kidsController.storeContact('phone');
       kidsController.kidCommonEditTextEditingController.clear();
-    } else if (functionFlag == 'ADD EMAIL') {
-      await kidsController.storeContact('email');
+    }  else if (functionFlag == 'ADD EMAIL') {
+      // await kidsController.storeContact('email');
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT EMAIL') {
       await kidsController.updateContact(kidsController.emailID.value, 'email');
+      // await kidsController.updateContact(kidsController.emailID.value, 'email'); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT SCHOOL DELETE') {
       await kidsController.deleteSchool(kidsController.schoolID.value);
       kidsController.kidEducationInstituteTextEditingController.clear();
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT PHONE DELETE') {
-      await kidsController.deleteContact(kidsController.phoneID.value, "phone"); //!Api
+      // await kidsController.deleteContact(kidsController.phoneID.value, "phone"); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT EMAIL DELETE') {
-      await kidsController.deleteContact(kidsController.emailID.value, "email"); //!Api
+      // await kidsController.deleteContact(kidsController.emailID.value, "email"); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     }
   }

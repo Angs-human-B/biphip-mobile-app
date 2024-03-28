@@ -861,6 +861,7 @@ class KidsController extends GetxController {
     }
   }
 
+  
   //* Get school list api implementation
   final List<String> schoolList = [];
   //* Get school list api implementation
@@ -1069,7 +1070,7 @@ class KidsController extends GetxController {
     }
   }
 
-  final Rx<ContactModel?> contactUpdateData = Rx<ContactModel?>(null);
+  final Rx<KidContactModel?> contactUpdateData = Rx<KidContactModel?>(null);
   Future<void> storeContact(type) async {
     try {
       isKidContactLoading.value = true;
