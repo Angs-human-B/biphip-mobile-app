@@ -12,17 +12,17 @@ class PostsCategoryContent extends StatelessWidget {
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: allSearchController.postsData.value?.postCategory.length,
+          itemCount: allSearchController.postsFilterData.value?.postCategory.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: k10Padding),
               child: Obx(
                 () => CustomListTile(
-                  itemColor: allSearchController.temporarySelectedCategory.value == allSearchController.postsData.value?.postCategory[index].value
+                  itemColor: allSearchController.temporarySelectedCategory.value == allSearchController.postsFilterData.value?.postCategory[index].value
                       ? cPrimaryTint3Color
                       : cWhiteColor,
                   onPressed: () {
-                    allSearchController.temporarySelectedCategory.value = allSearchController.postsData.value!.postCategory[index].value!;
+                    allSearchController.temporarySelectedCategory.value = allSearchController.postsFilterData.value!.postCategory[index].value!;
                     // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
                     if (allSearchController.temporarySelectedCategory.value == '') {
                       allSearchController.isCategoryBottomSheetState.value = false;
@@ -30,20 +30,20 @@ class PostsCategoryContent extends StatelessWidget {
                       allSearchController.isCategoryBottomSheetState.value = true;
                     }
                   },
-                  title: allSearchController.postsData.value!.postCategory[index].value,
-                  borderColor: allSearchController.temporarySelectedCategory.value == allSearchController.postsData.value?.postCategory[index].value
+                  title: allSearchController.postsFilterData.value!.postCategory[index].value,
+                  borderColor: allSearchController.temporarySelectedCategory.value == allSearchController.postsFilterData.value?.postCategory[index].value
                       ? cPrimaryColor
                       : cLineColor,
                   trailing: CustomRadioButton(
                     onChanged: () {
-                      allSearchController.temporarySelectedCategory.value = allSearchController.postsData.value!.postCategory[index].value!;
+                      allSearchController.temporarySelectedCategory.value = allSearchController.postsFilterData.value!.postCategory[index].value!;
                       if (allSearchController.temporarySelectedCategory.value == '') {
                         allSearchController.isCategoryBottomSheetState.value = false;
                       } else {
                         allSearchController.isCategoryBottomSheetState.value = true;
                       }
                     },
-                    isSelected: allSearchController.temporarySelectedCategory.value == allSearchController.postsData.value!.postCategory[index].value,
+                    isSelected: allSearchController.temporarySelectedCategory.value == allSearchController.postsFilterData.value!.postCategory[index].value,
                   ),
                 ),
               ),

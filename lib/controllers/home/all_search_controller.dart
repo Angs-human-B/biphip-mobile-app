@@ -1,5 +1,6 @@
 import 'package:bip_hip/models/search/search_filter_data_model.dart';
 import 'package:bip_hip/models/search/search_history_model.dart';
+import 'package:bip_hip/models/search/search_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class AllSearchController extends GetxController {
@@ -528,14 +529,14 @@ class AllSearchController extends GetxController {
   //   //*Search Filter data Api Call
   final RxList filterTypeList = RxList([]);
   final Rx<SearchFilterDataModel?> searchFilterData = Rx<SearchFilterDataModel?>(null);
-  final Rx<All?> allData = Rx<All?>(null);
-  final Rx<Posts?> postsData = Rx<Posts?>(null);
-  final Rx<People?> peopleData = Rx<People?>(null);
-  final Rx<People?> photoData = Rx<People?>(null);
-  final Rx<People?> videoData = Rx<People?>(null);
-  final Rx<SellPost?> sellPostData = Rx<SellPost?>(null);
-  final Rx<Kids?> kidsData = Rx<Kids?>(null);
-  final Rx<Kids?> newsData = Rx<Kids?>(null);
+  final Rx<All?> allFilterData = Rx<All?>(null);
+  final Rx<AllPosts?> postsFilterData = Rx<AllPosts?>(null);
+  final Rx<People?> peopleFilterData = Rx<People?>(null);
+  final Rx<People?> photoFilterData = Rx<People?>(null);
+  final Rx<People?> videoFilterData = Rx<People?>(null);
+  final Rx<SellPost?> sellPostFilterData = Rx<SellPost?>(null);
+  final Rx<Kids?> kidsFilterData = Rx<Kids?>(null);
+  final Rx<Kids?> newsFilterData = Rx<Kids?>(null);
   final RxList<All> postedByList = RxList<All>([]);
   final RxList<PostedDate> datePostedList = RxList<PostedDate>([]);
   final RxBool isSearchFilterDataLoading = RxBool(false);
@@ -553,26 +554,25 @@ class AllSearchController extends GetxController {
         postedByList.clear();
         datePostedList.clear();
         searchFilterData.value = SearchFilterDataModel.fromJson(response.data);
-        allData.value = searchFilterData.value?.all;
-        postsData.value = searchFilterData.value?.posts;
-        peopleData.value = searchFilterData.value?.people;
-        photoData.value = searchFilterData.value?.photo;
-        videoData.value = searchFilterData.value?.video;
-        sellPostData.value = searchFilterData.value?.sellPost;
-        kidsData.value = searchFilterData.value?.kids;
-        newsData.value = searchFilterData.value?.news;
-        postedByList.addAll(searchFilterData.value!.posts!.postedBy);
-        datePostedList.addAll(searchFilterData.value!.posts!.postedDate);
+        allFilterData.value = searchFilterData.value?.all;
+        postsFilterData.value = searchFilterData.value!.allPosts;
+        peopleFilterData.value = searchFilterData.value?.people;
+        photoFilterData.value = searchFilterData.value?.photo;
+        videoFilterData.value = searchFilterData.value?.video;
+        sellPostFilterData.value = searchFilterData.value?.sellPost;
+        kidsFilterData.value = searchFilterData.value?.kids;
+        newsFilterData.value = searchFilterData.value?.news;
+        postedByList.addAll(searchFilterData.value!.allPosts!.postedBy);
+        datePostedList.addAll(searchFilterData.value!.allPosts!.postedDate);
         //*filter list
         filterTypeList.add(searchFilterData.value?.all?.value);
-        filterTypeList.add(searchFilterData.value?.posts?.value);
+        filterTypeList.add(searchFilterData.value?.allPosts?.value);
         filterTypeList.add(searchFilterData.value?.people?.value);
         filterTypeList.add(searchFilterData.value?.photo?.value);
         filterTypeList.add(searchFilterData.value?.video?.value);
         filterTypeList.add(searchFilterData.value?.sellPost?.value);
         filterTypeList.add(searchFilterData.value?.kids?.value);
         filterTypeList.add(searchFilterData.value?.news?.value);
-        // ll();
         isSearchFilterDataLoading.value = false;
       } else {
         isSearchFilterDataLoading.value = true;
@@ -586,6 +586,49 @@ class AllSearchController extends GetxController {
     } catch (e) {
       isSearchFilterDataLoading.value = true;
       ll('getSearchFilterData error: $e');
+    }
+  }
+
+  //! Search Api implement
+  //   //*Search History List Api Call
+  final Rx<SearchModel?> searchData = Rx<SearchModel?>(null);
+  final Rx<Users?> userData = Rx<Users?>(null);
+  final Rx<Posts?> postData = Rx<Posts?>(null);
+  final Rx<Photos?> photosData = Rx<Photos?>(null);
+  final Rx<Photos?> videosData = Rx<Photos?>(null);
+  final Rx<Posts?> sellPostsData = Rx<Posts?>(null);
+  final Rx<Posts?> kidPostsData = Rx<Posts?>(null);
+  final Rx<Posts?> newsPostsData = Rx<Posts?>(null);
+  final RxBool isSearchLoading = RxBool(false);
+  Future<void> getSearch() async {
+    try {
+      isSearchLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuSearch,
+      ) as CommonDM;
+      if (response.success == true) {
+        searchData.value = SearchModel.fromJson(response.data);
+        userData.value = searchData.value!.users;
+        postData.value = searchData.value!.posts;
+        photosData.value = searchData.value!.photos;
+        videosData.value = searchData.value!.photos;
+        // searchHistoryList.addAll(searchHistoryData.value!.searchHistories!.data);
+        isSearchLoading.value = false;
+      } else {
+        isSearchLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isSearchLoading.value = true;
+      ll('getSearch error: $e');
     }
   }
 }
