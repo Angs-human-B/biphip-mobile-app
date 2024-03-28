@@ -25,8 +25,13 @@ class StoreListView extends StatelessWidget {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: k12Padding),
+                            return InkWell(
+                              onTap: () async {
+                                storeController.selectedStoreId.value = storeController.storeList[index].id!;
+                                Get.toNamed(krStoreProfile);
+                                await storeController.getStoreOverview();
+                                //  await Get.find<HomeController>().getTimelinePostList();//!Remove this api call
+                              },
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(k8BorderRadius),
                                 child: CustomListTile(

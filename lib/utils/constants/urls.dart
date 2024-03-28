@@ -185,6 +185,31 @@ const String kuKidUpdateSchool = '/mobile/user/update-kid-school';
 const String kuKidDeleteSchool = '/mobile/user/delete-kid-school';
 const String kuGetKidPosts = '/mobile/user/get-kid-posts';
 
+//* Store profile
+const String kuGetBusinessCategories = '/mobile/get-business-categories';
+const String kuStoreProfileOverview = '/mobile/user/store-profile-overview';
+const String kuUpdateStoreBio = '/mobile/user/update-store-bio';
+const String kuUpdateStoreBin = '/mobile/user/update-store-bin';
+const String kuUpdateStoreQr = '/mobile/user/update-store-qr';
+const String kuUpdateStorePrivacyLink = '/mobile/user/update-store-privacy-link';
+const String kuUpdateStoreCategories = '/mobile/user/update-store-categories';
+const String kuUpdateStoreLegalFiles = '/mobile/user/update-store-legal-files';
+const String kuUpdateStoreProfilePicture = '/mobile/user/set-store-profile-picture';
+const String kuUpdateStoreCoverPhoto = '/mobile/user/set-store-cover-picture';
+const String kuStoreStoreLocation = '/mobile/user/store-store-location';
+const String kuGetStoreLocations = '/mobile/user/get-store-locations';
+const String kuUpdateStoreLocation = '/mobile/user/update-store-location';
+const String kuDeleteStoreLocation = '/mobile/user/delete-store-location';
+const String kuGetAllKidContacts = '/mobile/user/get-kid-contacts';
+const String kuGetAllStoreContacts = '/mobile/user/get-store-contacts';
+const String kuStoreStoreContacts = '/mobile/user/store-store-contact';
+const String kuUpdateStoreContacts = '/mobile/user/update-store-contact';
+const String kuDeleteStoreContact = '/mobile/user/delete-store-contact';
+const String kuGetAllLinks = '/mobile/user/get-store-links';
+const String kuStoreStoreLink = '/mobile/user/store-store-link';
+const String kuUpdateStoreLink = '/mobile/user/update-store-link';
+const String kuDeleteStoreLink = '/mobile/user/delete-store-link';
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls
@@ -253,3 +278,8 @@ const String kiPositionBadge = 'assets/svg/position_badge.svg';
 const String kiQuizWinner = 'assets/svg/quiz_winner.svg';
 const String kiParentSvgImageUrl = 'assets/svg/parent.svg';
 const String kiAward = 'assets/svg/award.svg';
+const String kiWorldSvgImage = 'assets/svg/world.svg';
+const String kiStarSvgImage = 'assets/svg/star.svg';
+const String kiNagadSvgImage = 'assets/svg/nagad.svg';
+const String kiPaypalSvgImage = 'assets/svg/paypal.svg';
+const String kiReviewSvgImage = 'assets/svg/review.svg';
