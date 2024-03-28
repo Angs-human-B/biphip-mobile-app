@@ -1,3 +1,4 @@
+import 'package:bip_hip/models/search/search_filter_data_model.dart';
 import 'package:bip_hip/models/search/search_history_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -484,7 +485,7 @@ class AllSearchController extends GetxController {
       }
     } catch (e) {
       isDeleteSearchHistory.value = false;
-      ll('kidDelete error: $e');
+      ll('deleteSearchHistory error: $e');
     }
   }
 
@@ -516,7 +517,41 @@ class AllSearchController extends GetxController {
       }
     } catch (e) {
       isDeleteAllSearchHistory.value = false;
-      ll('kidDelete error: $e');
+      ll('deleteAllSearchHistory error: $e');
     }
   }
+
+  //   //*Search History List Api Call
+  final Rx<SearchFilterDataModel?> searchFilterData = Rx<SearchFilterDataModel?>(null);
+  final Rx<All?> allData = Rx<All?>(null);
+  // final RxBool isSearchHistoryLoading = RxBool(false);
+  Future<void> getSearchFilterData() async {
+    try {
+      isSearchHistoryLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuSearchHistory,
+      ) as CommonDM;
+      if (response.success == true) {
+        searchHistoryList.clear();
+        searchHistoryData.value = SearchHistoryModel.fromJson(response.data);
+        searchHistoryList.addAll(searchHistoryData.value!.searchHistories!.data);
+        isSearchHistoryLoading.value = false;
+      } else {
+        isSearchHistoryLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isSearchHistoryLoading.value = true;
+      ll('getSearchHistory error: $e');
+    }
+  }
+
 }
