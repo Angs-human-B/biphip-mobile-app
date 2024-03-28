@@ -195,197 +195,200 @@ class AllSearchController extends GetxController {
   //   "Photography",
   //   "News",
   // ]);
-  final RxList userList = RxList([
-    {
-      "image":
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "name": "Wahid Murad",
-      "isFriend": "1",
-      "mutualFriend": "1 mutual friend",
-    },
-    {
-      "image":
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "name": "Wahid Murad",
-      "isFriend": "1"
-    },
-    {
-      "image":
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "name": "Wahid Murad",
-      "isFriend": "0"
-    },
-    {
-      "image":
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "name": "Wahid Murad",
-      "isFriend": "0"
-    },
-    {
-      "image":
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "name": "Wahid Murad",
-      "isFriend": "0"
-    },
-    {
-      "image":
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "name": "Wahid Murad",
-      "isFriend": "0"
-    },
-    {
-      "image":
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "name": "Wahid Murad",
-      "isFriend": "0",
-      "mutualFriend": "2 mutual friend",
-    },
-    {
-      "image":
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "name": "Wahid Murad",
-      "isFriend": "0",
-      "mutualFriend": "1 mutual friend",
-    },
-  ]);
-  final List imageList = [
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-    {
-      "name": "Wahid Murad",
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    },
-  ];
-  final List videosList = [
-    {
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "title": "Behavior in a wild fox a wild fox",
-      "name": "Wahid Murad",
-      "date": "8 Feb, 2023",
-      "totalView": "40.06k views",
-      "time": "00:12",
-    },
-    {
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=257x4&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "title": "Behavior in a wild fox a wild fox",
-      "name": "Wahid Murad",
-      "date": "8 Feb, 2023",
-      "totalView": "40.06k views",
-      "time": "00:12",
-    },
-    {
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "title": "Behavior in a wild fox a wild fox",
-      "name": "Wahid Murad",
-      "date": "8 Feb, 2023",
-      "totalView": "40.06k views",
-      "time": "00:12",
-    },
-    {
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "title": "Behavior in a wild fox a wild fox",
-      "name": "Wahid Murad",
-      "date": "8 Feb, 2023",
-      "totalView": "40.06k views",
-      "time": "00:12",
-    },
-    {
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "title": "Behavior in a wild fox a wild fox",
-      "name": "Wahid Murad",
-      "date": "8 Feb, 2023",
-      "totalView": "40.06k views",
-      "time": "00:12",
-    },
-    {
-      "image":
-          "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "title": "Behavior in a wild fox a wild fox",
-      "name": "Wahid Murad",
-      "date": "8 Feb, 2023",
-      "totalView": "40.06k views",
-      "time": "00:12",
-    },
-  ];
+  // final RxList userList = RxList([
+  //   {
+  //     "image":
+  //         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     "name": "Wahid Murad",
+  //     "isFriend": "1",
+  //     "mutualFriend": "1 mutual friend",
+  //   },
+  //   {
+  //     "image":
+  //         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     "name": "Wahid Murad",
+  //     "isFriend": "1"
+  //   },
+  //   {
+  //     "image":
+  //         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     "name": "Wahid Murad",
+  //     "isFriend": "0"
+  //   },
+  //   {
+  //     "image":
+  //         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     "name": "Wahid Murad",
+  //     "isFriend": "0"
+  //   },
+  //   {
+  //     "image":
+  //         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     "name": "Wahid Murad",
+  //     "isFriend": "0"
+  //   },
+  //   {
+  //     "image":
+  //         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     "name": "Wahid Murad",
+  //     "isFriend": "0"
+  //   },
+  //   {
+  //     "image":
+  //         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     "name": "Wahid Murad",
+  //     "isFriend": "0",
+  //     "mutualFriend": "2 mutual friend",
+  //   },
+  //   {
+  //     "image":
+  //         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     "name": "Wahid Murad",
+  //     "isFriend": "0",
+  //     "mutualFriend": "1 mutual friend",
+  //   },
+  // ]);
+
+  // final List imageList = [
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  //   {
+  //     "name": "Wahid Murad",
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  //   },
+  // ];
+
+  // final List videosList = [
+  //   {
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     "title": "Behavior in a wild fox a wild fox",
+  //     "name": "Wahid Murad",
+  //     "date": "8 Feb, 2023",
+  //     "totalView": "40.06k views",
+  //     "time": "00:12",
+  //   },
+  //   {
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=257x4&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     "title": "Behavior in a wild fox a wild fox",
+  //     "name": "Wahid Murad",
+  //     "date": "8 Feb, 2023",
+  //     "totalView": "40.06k views",
+  //     "time": "00:12",
+  //   },
+  //   {
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     "title": "Behavior in a wild fox a wild fox",
+  //     "name": "Wahid Murad",
+  //     "date": "8 Feb, 2023",
+  //     "totalView": "40.06k views",
+  //     "time": "00:12",
+  //   },
+  //   {
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     "title": "Behavior in a wild fox a wild fox",
+  //     "name": "Wahid Murad",
+  //     "date": "8 Feb, 2023",
+  //     "totalView": "40.06k views",
+  //     "time": "00:12",
+  //   },
+  //   {
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     "title": "Behavior in a wild fox a wild fox",
+  //     "name": "Wahid Murad",
+  //     "date": "8 Feb, 2023",
+  //     "totalView": "40.06k views",
+  //     "time": "00:12",
+  //   },
+  //   {
+  //     "image":
+  //         "https://images.unsplash.com/photo-1587614382231-d1590f0039e7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     "title": "Behavior in a wild fox a wild fox",
+  //     "name": "Wahid Murad",
+  //     "date": "8 Feb, 2023",
+  //     "totalView": "40.06k views",
+  //     "time": "00:12",
+  //   },
+  // ];
+
   void resetSearchData() {
     searchTextEditingController.clear();
     isSearchSuffixIconVisible.value = false;
@@ -599,6 +602,10 @@ class AllSearchController extends GetxController {
   final Rx<Posts?> sellPostsData = Rx<Posts?>(null);
   final Rx<Posts?> kidPostsData = Rx<Posts?>(null);
   final Rx<Posts?> newsPostsData = Rx<Posts?>(null);
+  final RxList<UserElement> userList = RxList<UserElement>([]);
+  final RxList<PostsData> postsList = RxList<PostsData>([]);
+  final RxList<PhotosData> photosList = RxList<PhotosData>([]);
+  final RxList<PhotosData> videosList = RxList<PhotosData>([]);
   final RxBool isSearchLoading = RxBool(false);
   Future<void> getSearch() async {
     try {
@@ -607,15 +614,21 @@ class AllSearchController extends GetxController {
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: kuSearch,
+        url: "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString().trim()}&take=20",
       ) as CommonDM;
       if (response.success == true) {
         searchData.value = SearchModel.fromJson(response.data);
         userData.value = searchData.value!.users;
         postData.value = searchData.value!.posts;
         photosData.value = searchData.value!.photos;
-        videosData.value = searchData.value!.photos;
-        // searchHistoryList.addAll(searchHistoryData.value!.searchHistories!.data);
+        videosData.value = searchData.value!.videos;
+        sellPostsData.value = searchData.value!.sellposts;
+        kidPostsData.value = searchData.value!.kidposts;
+        newsPostsData.value = searchData.value!.newsposts;
+        userList.addAll(searchData.value!.users!.data);
+        postsList.addAll(searchData.value!.posts!.data);
+        photosList.addAll(searchData.value!.photos!.data);
+        videosList.addAll(searchData.value!.videos!.data);
         isSearchLoading.value = false;
       } else {
         isSearchLoading.value = true;

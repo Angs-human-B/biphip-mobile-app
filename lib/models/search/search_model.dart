@@ -29,9 +29,9 @@ class SearchModel {
 }
 
 class Posts {
-  int ?currentPage;
+  int? currentPage;
   List<PostsData> data;
-  String ?firstPageUrl;
+  String? firstPageUrl;
   int? from;
   int? lastPage;
   String? lastPageUrl;
@@ -103,12 +103,12 @@ class PostsData {
   String? title;
   DateTime? dateTime;
   DateTime? createdAt;
-  int ?postCategoryId;
-  int ?isPublic;
-  int ?countView;
-  int ?countShare;
-  int ?countComment;
-  int ?countStar;
+  int? postCategoryId;
+  int? isPublic;
+  int? countView;
+  int? countShare;
+  int? countComment;
+  int? countStar;
   PurpleCountReactions? countReactions;
   int? postSubCategoryId;
   dynamic timelineId;
@@ -124,9 +124,9 @@ class PostsData {
   List<String> viewers;
   bool? hasReport;
   dynamic myReport;
-  bool ?isNotifaction;
-  bool ?isVisibleToMe;
-  int ?countReaction;
+  bool? isNotifaction;
+  bool? isVisibleToMe;
+  int? countReaction;
   UserElement? user;
 
   PostsData({
@@ -216,7 +216,7 @@ class PostsData {
         countShare: json["count_share"],
         countComment: json["count_comment"],
         countStar: json["count_star"],
-        countReactions: json["count_reactions"]==null ? null : PurpleCountReactions.fromJson(json["count_reactions"]),
+        countReactions: json["count_reactions"] == null ? null : PurpleCountReactions.fromJson(json["count_reactions"]),
         postSubCategoryId: json["post_sub_category_id"],
         timelineId: json["timeline_id"],
         type: json["type"],
@@ -234,17 +234,17 @@ class PostsData {
         isNotifaction: json["is_notifaction"],
         isVisibleToMe: json["is_visible_to_me"],
         countReaction: json["count_reaction"],
-        user: json["user"]==null ? null : UserElement.fromJson(json["user"]),
+        user: json["user"] == null ? null : UserElement.fromJson(json["user"]),
       );
 }
 
 class PurpleCountReactions {
-  int?all;
-  int ?haha;
-  int ?like;
-  int ?love;
-  int ?sad;
-  int ?wow;
+  int? all;
+  int? haha;
+  int? like;
+  int? love;
+  int? sad;
+  int? wow;
 
   PurpleCountReactions({
     required this.all,
@@ -294,7 +294,7 @@ class MyReportClass {
         description: json["description"],
         createdAt: DateTime.parse(json["created_at"]),
         // updatedAt: DateTime.parse(json["updated_at"]),
-        report: json["report"]==null ? null : Report.fromJson(json["report"]),
+        report: json["report"] == null ? null : Report.fromJson(json["report"]),
       );
 }
 
@@ -334,7 +334,7 @@ class UserElement {
   String? lastName;
   String? email;
   String? phone;
-  String ?gender;
+  String? gender;
   DateTime? dob;
   List<String> profession;
   List<String> interest;
@@ -480,7 +480,7 @@ class PendentData {
         endDate: DateTime.parse(json["end_date"]),
         isActive: json["is_active"],
         pendentPurchaseHistory: json["pendent_purchase_history"],
-        pendent: json["pendent"]==null ? null : PendentPendent.fromJson(json["pendent"]),
+        pendent: json["pendent"] == null ? null : PendentPendent.fromJson(json["pendent"]),
       );
 }
 
@@ -681,7 +681,7 @@ class PhotosData {
         reactingPersons: List<String>.from(json["reacting_persons"].map((x) => x)),
         totalViewCount: json["total_view_count"],
         myReaction: json["my_reaction"],
-        user: json["user"]==null ? null : UserElement.fromJson(json["user"]),
+        user: json["user"] == null ? null : UserElement.fromJson(json["user"]),
       );
 }
 
