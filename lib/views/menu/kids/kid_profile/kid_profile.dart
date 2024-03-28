@@ -14,7 +14,7 @@ class KidProfile extends StatelessWidget {
     return Container(
       color: cWhiteColor,
       child: Obx(
-        () => kidsController.isKidOverviewLoading.value
+        () => kidsController.isKidOverviewLoading.value || kidsController.isHomePageLoading.value
             ? const ProfilePageShimmer2()
             : SafeArea(
                 top: false,
@@ -126,7 +126,6 @@ class KidProfile extends StatelessWidget {
                                         child: TextButton(
                                           style: kTextButtonStyle,
                                           onPressed: () {
-                                            // profileHelper.profilePicUploadBottomSheet(context);//!needed
                                             kidHelper.kidProfilePicUploadBottomSheet(context);
                                           },
                                           child: Container(
@@ -147,19 +146,6 @@ class KidProfile extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      // Positioned(
-                                      //   right: 6,
-                                      //   top: 10,
-                                      //   child: Container(
-                                      //       height: h28,
-                                      //       width: h28,
-                                      //       decoration: BoxDecoration(
-                                      //         color: cGreyBoxColor,
-                                      //         borderRadius: BorderRadius.circular(26),
-                                      //         border: Border.all(color: cPrimaryColor, width: 1),
-                                      //       ),
-                                      //       child: SvgPicture.asset(kiBadge1SvgImageUrl)),
-                                      // ),
                                     ],
                                   ),
                                 ),
@@ -169,7 +155,6 @@ class KidProfile extends StatelessWidget {
                                   child: TextButton(
                                     style: kTextButtonStyle,
                                     onPressed: () {
-                                      // profileHelper.coverPhotoUploadBottomSheet(context);//!needed
                                       kidHelper.kidCoverPhotoUploadBottomSheet(context);
                                     },
                                     child: Container(

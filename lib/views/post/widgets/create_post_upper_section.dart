@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -53,7 +54,7 @@ class CreatePostUpperSection extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: ClipOval(
-                      child: createPostController.selectedKid.value != null
+                      child: createPostController.selectedKid.value != null || Get.find<KidsController>().isRouteFromKid.value
                           ? Image.network(
                               createPostController.postSecondaryCircleAvatar.value,
                               fit: BoxFit.cover,
@@ -211,27 +212,29 @@ class CreatePostUpperSection extends StatelessWidget {
                             suffixIconColor: cBlackColor,
                             textStyle: regular12TextStyle(cBlackColor),
                           ),
-                       
+
                         // kW8sizedBox,
-                       
+
                         CustomElevatedButton(
                           label: createPostController.category.value == "" ? "Category" : createPostController.category.value,
                           prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
                           prefixIconColor: createPostController.category.value == "" ? null : createPostController.categoryIconColor.value,
-                          onPressed: () async {
-                            if (createPostController.category.value != '') {
-                              categoryResetAlertDialog(
-                                context: context,
-                                content: const CategoryResetWarningContent(),
-                                title: ksWarning,
-                              );
-                            } else {
-                              createPostHelper.initializeCategory();
-                              createPostController.tempCategory.value = createPostController.category.value;
-                              Get.toNamed(krSelectCategory);
-                              await createPostController.getPostCategoryList();
-                            }
-                          },
+                          onPressed: Get.find<KidsController>().isRouteFromKid.value
+                              ? null
+                              : () async {
+                                  if (createPostController.category.value != '') {
+                                    categoryResetAlertDialog(
+                                      context: context,
+                                      content: const CategoryResetWarningContent(),
+                                      title: ksWarning,
+                                    );
+                                  } else {
+                                    createPostHelper.initializeCategory();
+                                    createPostController.tempCategory.value = createPostController.category.value;
+                                    Get.toNamed(krSelectCategory);
+                                    await createPostController.getPostCategoryList();
+                                  }
+                                },
                           buttonHeight: 22,
                           isCustomButton: true,
                           buttonColor: cGreyBoxColor,

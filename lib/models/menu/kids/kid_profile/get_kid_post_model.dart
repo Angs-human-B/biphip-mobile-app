@@ -193,7 +193,7 @@ class KidPostData {
   PostCategory? postCategory;
   dynamic postSubCategory;
   List<PostTag>? postTags;
-  List<dynamic>? images;
+  List<Image>? images;
   // List<Comment>? comments;
   dynamic sharePosts;
   DateTime? createdAt;
@@ -314,7 +314,7 @@ class KidPostData {
         postCategory: json["post_category"] == null ? null : PostCategory.fromJson(json["post_category"]),
         postSubCategory: json["post_sub_category"],
         postTags: json["post_tags"] == null ? [] : List<PostTag>.from(json["post_tags"]!.map((x) => PostTag.fromJson(x))),
-        images: json["images"] == null ? [] : List<dynamic>.from(json["images"]!.map((x) => x)),
+        images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
         // comments: json["comments"] == null ? [] : List<Comment>.from(json["comments"]!.map((x) => Comment.fromJson(x))),
         sharePosts: json["share_posts"],
         createdAt: DateTime.parse(json["created_at"]),
@@ -671,8 +671,8 @@ class KidsData {
         countPageRating: json["count_page_rating"],
         countPageReviews: json["count_page_reviews"],
         relation: json["relation"],
-        proImage: Image.fromJson(json["pro_image"]),
-        coverImage: Image.fromJson(json["cover_image"]),
+        proImage: json["pro_image"] == null ? null : Image.fromJson(json["pro_image"]),
+        coverImage: json["cover_image"] == null ? null : Image.fromJson(json["cover_image"]),
       );
 }
 

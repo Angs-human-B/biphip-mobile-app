@@ -8,8 +8,6 @@ import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 
 class KidEditPage extends StatelessWidget {
   KidEditPage({super.key});
-  // final ProfileController profileController = Get.find<ProfileController>();
-  // final EditProfileHelper editProfileHelper = EditProfileHelper();
   final KidsController kidsController = Get.find<KidsController>();
   final KidHelper kidHelper = KidHelper();
   final FocusNode commonSecondaryFocusNode = FocusNode();
@@ -296,16 +294,16 @@ class KidEditPage extends StatelessWidget {
                                       ),
                                     ),
                                   if (kidsController.isCommonEditCheckBoxShown.value)
-                                    SizedBox(
-                                      width: width / 2,
-                                      child: CustomCheckBox(
-                                          value: kidsController.isCommonEditCheckBoxSelected.value,
-                                          label: kidsController.commonEditCheckBoxText.value,
-                                          onChanged: (v) {
-                                            // kidHelper.kidCommonCheckBoxOnChanged();//!create this function
-                                          },
-                                          textStyle: regular14TextStyle(cBlackColor)),
-                                    )
+                                    Obx(() => SizedBox(
+                                          width: width / 2,
+                                          child: CustomCheckBox(
+                                              value: kidsController.isCommonEditCheckBoxSelected.value,
+                                              label: kidsController.commonEditCheckBoxText.value,
+                                              onChanged: (v) {
+                                                kidHelper.commonCheckBoxOnChanged();
+                                              },
+                                              textStyle: regular14TextStyle(cBlackColor)),
+                                        )),
                                 ],
                               ),
                           ],
@@ -337,7 +335,7 @@ class KidEditPage extends StatelessWidget {
                 ),
               ),
             ),
-            if (kidsController.isKidContactLoading.value)
+            if (kidsController.isKidContactLoading.value || kidsController.isKidSchoolLoading.value)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
