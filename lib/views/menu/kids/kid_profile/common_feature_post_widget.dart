@@ -459,7 +459,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 125,
-                            width: mediaList.length < 3 ? (width - 38) : (width - 46) / 2,
+                            width: mediaList.length < 3 ? (width - 42) : (width - 46) / 2,
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(

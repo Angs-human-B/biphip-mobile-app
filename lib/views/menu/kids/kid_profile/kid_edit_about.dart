@@ -342,7 +342,6 @@ class KidRelationContent extends StatelessWidget {
                   subTitlePrefixTextStyle: regular16TextStyle(cBlackColor),
                   isAddButton: false,
                   suffixOnPressed: () {
-                    KidHelper().resetKidRelationEditPage();
                     Get.toNamed(krKidEditRelation);
                   },
                 )),
@@ -400,8 +399,9 @@ class KidEditRelationPage extends StatelessWidget {
                                     unFocus(context);
                                     // editProfileHelper.setRelationshipStatus(context);
                                     kidHelper.kidRelationButtonOnPressed(context);
+                                    await kidsController.getKidRelationList();
                                   },
-                                  text: kidsController.kidRelationData.value,
+                                  text: kidsController.kidRelation.value,
                                   hintText: kidsController.kidRelation.value == '' ? ksSelectRelationshipStatus.tr : kidsController.kidRelation.value,
                                 ),
                                 kH16sizedBox,
@@ -420,12 +420,7 @@ class KidEditRelationPage extends StatelessWidget {
                               onPressed: kidsController.isKidRelationSaveButtonActive.value
                                   ? () async {
                                       unFocus(context);
-                                      if (kidsController.kidRelationData.value != '') {
-                                        kidsController.kidRelation.value = kidsController.kidRelationData.value;
-                                      }
-                                      // await profileController.storeUserSetting('relationship', profileController.relationshipStatus.value);//! APi call
                                       await kidsController.updateKidRelation();
-                                      kidHelper.resetKidRelationEditPage();
                                     }
                                   : null),
                         )

@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
@@ -119,6 +120,7 @@ class HomePage extends StatelessWidget {
                                   onPressed: () async {
                                     Get.find<CreatePostController>().isPostedFromProfile.value = false;
                                     CreatePostHelper().resetCreatePostData();
+                                    Get.find<KidsController>().isRouteFromKid.value = false;
                                     Get.toNamed(krCreatePost);
                                     await Get.find<CreatePostController>().getCreatePost();
                                   },
@@ -279,6 +281,7 @@ class HomePage extends StatelessWidget {
                                               ],
                                             ),
                                           ),
+                                         
                                           const Spacer(),
                                           // CustomIconButton(
                                           //   icon: BipHip.system,

@@ -28,7 +28,6 @@ class KidsListView extends StatelessWidget {
                             return InkWell(
                               onTap: () async {
                                 kidsController.selectedKidId.value = kidsController.kidList[index].id!;
-                                // await Get.find<HomeController>().getTimelinePostList();
                                 kidsController.resetKidProfileData();
                                 Get.toNamed(krKidProfile);
                                 await kidsController.getKidOverview();

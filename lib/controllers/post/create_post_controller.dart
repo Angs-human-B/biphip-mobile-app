@@ -512,6 +512,7 @@ class CreatePostController extends GetxController {
     }
   }
 
+  
   final RxString tempSubCategory = RxString('');
   final RxString subCategory = RxString('');
   final RxList subCategoryList = RxList([]);

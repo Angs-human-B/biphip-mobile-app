@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/models/menu/family/family_relation_model.dart';
 import 'package:bip_hip/models/menu/kids/all_hobbies_model.dart';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
 import 'package:bip_hip/models/menu/kids/kid_profile/get_kid_post_model.dart';
@@ -398,8 +400,6 @@ class KidsController extends GetxController {
   final RxList<int> hobbiesIndex = RxList<int>([]);
   final RxList selectedHobbies = RxList([]);
   final RxList temporarySelectedHobbies = RxList([]);
-  // final RxList kidPhoneNumberList = RxList(['017236748765478', '019823973893']);
-  // final RxList kidEmailList = RxList(['abcdef@gmail.com', 'hjfdnd@gmail.com']);
   final TextEditingController kidEducationInstituteTextEditingController = TextEditingController();
   final RxBool isKidCurrentlyStudyingHere = RxBool(false);
   final RxString temporaryKidSchoolStartDate = RxString('');
@@ -414,16 +414,12 @@ class KidsController extends GetxController {
   final RxInt deleteIndex = RxInt(-1);
   final RxBool isDropdownShown = RxBool(false);
   final RxBool editCommonSelectionBottomSheetRightButtonState = RxBool(false);
-  final RxString kidGender = RxString('');
+  final Rx<String?> kidGender = Rx<String?>(null);
   final RxBool isKidGenderSelected = RxBool(false);
   final Rx<DateTime?> kidDob = Rx<DateTime?>(DateTime.now());
   final Rx<String?> kidRelation = Rx<String?>(null);
-  final RxString temporaryKidRelationData = RxString('');
-  final RxString kidRelationData = RxString('');
-  final RxString temporaryKidRelationId = RxString('');
-  final RxString kidRelationId = RxString('');
+  final RxInt kidRelationId = RxInt(-1);
   final RxBool isKidRelationSaveButtonActive = RxBool(false);
-  final RxBool kidRelationDataBottomSheetState = RxBool(false);
   final RxString temporaryKidGender = RxString('');
   final RxBool kidGenderBottomSheetState = RxBool(false);
   final RxInt kidInterestCatagoriesIndex = RxInt(-1);
@@ -451,9 +447,11 @@ class KidsController extends GetxController {
   final RxString temporaryCommonEndDate = RxString('');
   final RxBool commonEditStartDateBottomSheetRightButtonState = RxBool(false);
   final RxBool commonEditEndDateBottomSheetRightButtonState = RxBool(false);
-  // final RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
   final RxInt kidProfileTabIndex = RxInt(0);
   final RxBool seeMore = RxBool(false);
+  final RxBool isPostButtonActive = RxBool(false);
+  final RxBool isRouteFromKid = RxBool(false);
+
   //* kid data reset
   void resetKidProfileData() {
     kidInterestCatagoriesIndex.value = -1;
@@ -486,21 +484,8 @@ class KidsController extends GetxController {
         kidGender.value = kidsData.value?.gender;
         userLanguages.addAll(kidsData.value!.languages);
         selectedHobbies.addAll(kidsData.value!.hobbies);
-        //  contactDataList.addAll(kidsData.value!.email);
-        // for (int i = 0; i < contactDataList.length; i++) {
-        //   if (contactDataList[i].type == 'email') {
-        //     emailDataList.add(contactDataList[i]);
-        //   } else {
-        //     phoneDataList.add(contactDataList[i]);
-        //   }
-        // }
-        // phoneDataList.add(kidsData.value!.phone);
-        // emailDataList.add(kidsData.value!.email);
-        phoneData.value = kidsData.value?.phone;
-        emailData.value = kidsData.value?.email;
+        kidRelation.value = kidsData.value?.relation;
         isKidOverviewLoading.value = false;
-        // ll(phoneDataList);
-        // ll(emailDataList);
       } else {
         isKidOverviewLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -588,30 +573,6 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        // ll(response.data.toString());
-        // KidBioUpdateModel kidsModelData = KidBioUpdateModel.fromJson(response.data);
-        // kidsData.value = kidsModelData.kids;
-        // var rememberMe = await spController.getRememberMe();
-        // if (rememberMe == true) {
-        //   // await spController.saveUserList({
-        //   //   "email": userData.value!.email.toString(),
-        //   //   "name": userData.value!.fullName.toString(),
-        //   //   "first_name": userData.value!.firstName.toString(),
-        //   //   "last_name": userData.value!.lastName.toString(),
-        //   //   "image_url": userData.value!.profilePicture.toString(),
-        //   //   "token": token.toString(),
-        //   // });
-        // }
-        // await spController.saveUserImage(kidsData.value!.profilePicture.toString());
-        // await globalController.getUserInfo();
-        // if (isFromProfile == true) {
-        //   Get.back();
-        //   isImageUploadPageLoading.value = false;
-        // } else {
-        //   Get.offAllNamed(krHome);
-        // }
-        // kidProfileCoverData.value = KidBioUpdateModel.fromJson(response.data);
-        // kidsData.value = kidBioUpdateData.value!.kids;
         await getKidOverview();
         isImageUploadPageLoading.value = false;
         Get.back();
@@ -635,8 +596,6 @@ class KidsController extends GetxController {
     }
   }
 
-  // final Rx<Kids?> kidsData = Rx<Kids?>(null);
-  // final Rx<Kids?> kidRelationModelData = Rx<Kids?>(null);
   RxBool isKidRelationLoading = RxBool(false);
   Future<void> updateKidRelation() async {
     try {
@@ -654,7 +613,7 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        kidRelation.value = kidsData.value?.relation;
+        await getKidOverview();
         ll(kidRelation.value);
         isKidRelationLoading.value = false;
         Get.back();
@@ -724,8 +683,6 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        // kidRelation.value = kidsData.value?.relation;
-        // ll(kidRelation.value);
         isKidGenderLoading.value = false;
         Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -745,12 +702,6 @@ class KidsController extends GetxController {
   }
 
   void clearDataList() {
-    // otherCityList.clear();
-    // schoolDataList.clear();
-    // collegeDataList.clear();
-    // contactDataList.clear();
-    emailData.value = null;
-    phoneData.value = null;
     userLanguages.clear();
     selectedHobbies.clear();
     hobbiesIndex.clear();
@@ -892,8 +843,6 @@ class KidsController extends GetxController {
         kidBioUpdateData.value = KidBioUpdateModel.fromJson(response.data);
         kidsData.value = kidBioUpdateData.value!.kids;
         selectedHobbies.addAll(kidsData.value!.hobbies);
-        // commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
-        // userData.value = commonUserLayeredData.value!.user;
         isSetHobbiesLoading.value = false;
         Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -912,172 +861,7 @@ class KidsController extends GetxController {
     }
   }
 
-  // //* store contact API Implementation
-  Rx<KidContact?> kidcontactData = Rx<KidContact?>(null);
-  Rx<String?> emailData = Rx<String?>(null);
-  Rx<String?> phoneData = Rx<String?>(null);
-  // RxList<KidContact> emailDataList = RxList<KidContact>([]);
-  // RxList<KidContact> phoneDataList = RxList<KidContact>([]);
-  final RxBool isKidContactLoading = RxBool(false);
-  Future<void> storeContact(type) async {
-    try {
-      isKidContactLoading.value = true;
-      String? token = await spController.getBearerToken();
-      Map<String, dynamic> body = {
-        'kid_id': selectedKidId.value.toString(),
-        'type': type,
-        'value': type == 'phone' ? kidPhoneNumberTextEditingController.text.trim() : kidEmailTextEditingController.text.trim(),
-      };
-      var response = await apiController.commonApiCall(
-        requestMethod: kPost,
-        url: kuKidStoreContact,
-        body: body,
-        token: token,
-      ) as CommonDM;
-
-      if (response.success == true) {
-        // emailDataList.clear();
-        // phoneDataList.clear();
-        // contactDataList.add(KidContact.fromJson(response.data));
-        // for (int i = 0; i < contactDataList.length; i++) {
-        //   if (contactDataList[i].type == 'email') {
-        //     emailDataList.add(contactDataList[i]);
-        //   } else {
-        //     phoneDataList.add(contactDataList[i]);
-        //   }
-        // }
-        // phoneData.value = contactDataList.add(KidContact.fromJson(response.data).value);
-        // kidBioUpdateData.value = KidBioUpdateModel.fromJson(response.data);
-        // kidsData.value = kidBioUpdateData.value!.kids;
-        // contactDataList.value = KidContact.fromJson(response.data);
-        kidcontactData.value = KidContact.fromJson(response.data);
-        if (type == 'phone') {
-          phoneData.value = kidcontactData.value?.value;
-        } else {
-          emailData.value = kidcontactData.value?.value;
-        }
-        isKidContactLoading.value = false;
-        Get.back();
-        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-      } else {
-        isKidContactLoading.value = false;
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        if (errorModel.errors.isEmpty) {
-          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-        } else {
-          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-        }
-      }
-    } catch (e) {
-      isKidContactLoading.value = false;
-      ll('storeContact error: $e');
-    }
-  }
-
-  final RxInt phoneID = RxInt(-1);
-  final RxInt emailID = RxInt(-1);
-  final RxInt schoolID = RxInt(-1);
-  final RxBool isCurrentlyStudyingHere = RxBool(false);
-  // //* update contact API Implementation
-  Future<void> updateContact(id, type) async {
-    try {
-      isKidContactLoading.value = true;
-      String? token = await spController.getBearerToken();
-      Map<String, dynamic> body = {
-        'id': id.toString(),
-        'type': type,
-        'value': type == 'phone' ? kidPhoneNumberTextEditingController.text.trim() : kidEmailTextEditingController.text.trim(),
-      };
-      var response = await apiController.commonApiCall(
-        requestMethod: kPost,
-        url: kuKidUpdateContact,
-        body: body,
-        token: token,
-      ) as CommonDM;
-
-      if (response.success == true) {
-        // for (int i = 0; i < contactDataList.length; i++) {
-        //   if (contactDataList[i].id == id) {
-        //     contactDataList[i] = Contact.fromJson(response.data);
-        //   }
-        // }
-        kidcontactData.value = KidContact.fromJson(response.data);
-        if (type == 'phone') {
-          phoneData.value = kidcontactData.value?.value;
-        } else {
-          emailData.value = kidcontactData.value?.value;
-        }
-        isKidContactLoading.value = false;
-        Get.back();
-        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-      } else {
-        isKidContactLoading.value = false;
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        if (errorModel.errors.isEmpty) {
-          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-        } else {
-          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-        }
-      }
-    } catch (e) {
-      isKidContactLoading.value = false;
-      ll('updateContact error: $e');
-    }
-  }
-
-  // //* delete contact API Implementation
-  Future<void> deleteContact(id, type) async {
-    try {
-      isKidContactLoading.value = true;
-      Get.back();
-      String? token = await spController.getBearerToken();
-      var response = await apiController.commonApiCall(
-        requestMethod: kDelete,
-        url: '$kuKidDeleteContact/${id.toString()}',
-        token: token,
-      ) as CommonDM;
-
-      if (response.success == true) {
-        // emailDataList.clear();
-        // phoneDataList.clear();
-        // for (int i = 0; i < contactDataList.length; i++) {
-        //   if (contactDataList[i].id == id) {
-        //     contactDataList.removeAt(i);
-        //   }
-        // }
-        // for (int i = 0; i < contactDataList.length; i++) {
-        //   if (contactDataList[i].type == 'email') {
-        //     emailDataList.add(contactDataList[i]);
-        //   } else {
-        //     phoneDataList.add(contactDataList[i]);
-        //   }
-        // }
-        kidcontactData.value = KidContact.fromJson(response.data);
-        if (type == 'phone') {
-          phoneData.value = null;
-        } else {
-          emailData.value = null;
-        }
-        // phoneData.value = null;
-        // emailData.value = null;
-        isKidContactLoading.value = false;
-        Get.back();
-        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-      } else {
-        isKidContactLoading.value = false;
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        if (errorModel.errors.isEmpty) {
-          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-        } else {
-          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-        }
-      }
-    } catch (e) {
-      isKidContactLoading.value = false;
-      ll('deleteContact error: $e');
-    }
-  }
-
+  
   //* Get school list api implementation
   final List<String> schoolList = [];
   //* Get school list api implementation
@@ -1254,6 +1038,179 @@ class KidsController extends GetxController {
     }
   }
 
+  final RxInt phoneID = RxInt(-1);
+  final RxInt emailID = RxInt(-1);
+  final RxInt schoolID = RxInt(-1);
+  final RxBool isCurrentlyStudyingHere = RxBool(false);
+  final Rx<KidContactModel?> allContactData = Rx<KidContactModel?>(null);
+  final RxList<Contact> contactList = RxList<Contact>([]);
+  final RxBool isKidContactLoading = RxBool(false);
+  Future<void> getKidContacts() async {
+    try {
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuGetAllKidContacts/${selectedKidId.value.toString()}",
+      ) as CommonDM;
+      if (response.success == true) {
+        contactList.clear();
+        allContactData.value = KidContactModel.fromJson(response.data);
+        contactList.addAll(allContactData.value!.contacts);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      ll('getKidContacts error: $e');
+    }
+  }
+
+  final Rx<KidContactModel?> contactUpdateData = Rx<KidContactModel?>(null);
+  Future<void> storeContact(type) async {
+    try {
+      isKidContactLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'kid_id': selectedKidId.value.toString(),
+        'type': type,
+        'value': type == 'phone' ? kidPhoneNumberTextEditingController.text.trim() : kidEmailTextEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuKidStoreContact,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        await getKidContacts();
+        isKidContactLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isKidContactLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidContactLoading.value = false;
+      ll('storeContact error: $e');
+    }
+  }
+
+  // //* update contact API Implementation
+  Future<void> updateContact(id, type) async {
+    try {
+      isKidContactLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'id': id.toString(),
+        'type': type,
+        'value': type == 'phone' ? kidPhoneNumberTextEditingController.text.trim() : kidEmailTextEditingController.text.trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuKidUpdateContact,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        await getKidContacts();
+        isKidContactLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isKidContactLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidContactLoading.value = false;
+      ll('updateContact error: $e');
+    }
+  }
+
+  // //* delete contact API Implementation
+  Future<void> deleteContact(id, type) async {
+    try {
+      isKidContactLoading.value = true;
+      Get.back();
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuKidDeleteContact/${id.toString()}',
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        await getKidContacts();
+        isKidContactLoading.value = false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isKidContactLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidContactLoading.value = false;
+      ll('deleteContact error: $e');
+    }
+  }
+
+  //*Get Relation Status
+  final RxBool relationBottomSheetRightButtonState = RxBool(false);
+  final RxString temporaryRelation = RxString("");
+  final Rx<FamilyRelationModel?> relationListData = Rx<FamilyRelationModel?>(null);
+  final RxList<Relation> relationList = RxList<Relation>([]);
+  RxBool isRelationListLoading = RxBool(false);
+  Future<void> getKidRelationList() async {
+    try {
+      isRelationListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetAllFamilyRelations,
+      ) as CommonDM;
+      if (response.success == true) {
+        relationList.clear();
+        relationListData.value = FamilyRelationModel.fromJson(response.data);
+        relationList.addAll(relationListData.value!.relations);
+        isRelationListLoading.value = false;
+      } else {
+        isRelationListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isRelationListLoading.value = true;
+      ll('getFamilyRelationList error: $e');
+    }
+  }
+
   //*Kid all post data get Api implement
   final ScrollController postListScrollController = ScrollController();
   final ScrollController timelinePostListScrollController = ScrollController();
@@ -1364,6 +1321,61 @@ class KidsController extends GetxController {
     } catch (e) {
       isHomePagePaginationLoading.value = true;
       ll('getMorePostList error: $e');
+    }
+  }
+
+  List imageDescriptionTextEditingController = [];
+  List imageLocationsList = [];
+  List imageTimesList = [];
+  List imageTagIdList = [];
+
+  Future<void> kidCreatePost() async {
+    List tags = [];
+    for (int i = 0; i < Get.find<CreatePostController>().taggedFriends.length; i++) {
+      tags.add(Get.find<CreatePostController>().taggedFriends[i].id);
+    }
+    try {
+      Get.find<CreatePostController>().isCreatePostLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'content': Get.find<CreatePostController>().createPostController.text.trim(),
+        'post_category_id': "7",
+        'is_public': '1',
+        'post_tag_friend_id': tags.join(','),
+        for (int i = 0; i < imageDescriptionTextEditingController.length; i++)
+          'image_description[$i]': imageDescriptionTextEditingController[i].text.toString(),
+        for (int i = 0; i < imageLocationsList.length; i++) 'image_locations[$i]': imageLocationsList[i].toString(),
+        for (int i = 0; i < imageTimesList.length; i++) 'image_times[$i]': imageTimesList[i].toString(),
+        for (int i = 0; i < imageTagIdList.length; i++) 'image_tag_friend_ids[$i]': imageTagIdList[i].toString(),
+        'kid_id': Get.find<CreatePostController>().kidID.value.toString(),
+      };
+      ll(body);
+      var response = await apiController.multiMediaUpload(
+        url: kuKidCreatePost,
+        body: body,
+        token: token,
+        key: 'images[]',
+        values: Get.find<CreatePostController>().allMediaList,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        await getPostList();
+        Get.find<CreatePostController>().isCreatePostLoading.value = false;
+        Get.offNamedUntil(krKidProfile, ModalRoute.withName(krKidsPage));
+        Get.find<CreatePostController>().resetCreatePost();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        Get.find<CreatePostController>().isCreatePostLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      Get.find<CreatePostController>().isCreatePostLoading.value = false;
+      ll('createPost error: $e');
     }
   }
 
