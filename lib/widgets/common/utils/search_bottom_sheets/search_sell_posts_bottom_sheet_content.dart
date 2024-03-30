@@ -63,6 +63,7 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
                   : CustomIconButton(
                       onPress: () {
                         allSearchController.selectedSellPostCondition.value = "";
+                        allSearchController.selectedSellPostConditionId.value = -1;
                         allSearchController.sellPostBottomSheetState();
                       },
                       icon: BipHip.circleCrossNew,
@@ -70,6 +71,7 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
                     ),
               onPressed: () {
                 allSearchController.temporarySelectedSellPostCondition.value = allSearchController.selectedSellPostCondition.value;
+                allSearchController.temporarySelectedSellPostConditionId.value = allSearchController.selectedSellPostConditionId.value;
                 if (allSearchController.temporarySelectedSellPostCondition.value == '') {
                   allSearchController.isSellPostConditionBottomSheetState.value = false;
                 } else {
@@ -83,6 +85,7 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedSellPostCondition.value = allSearchController.temporarySelectedSellPostCondition.value;
+                      allSearchController.selectedSellPostConditionId.value = allSearchController.temporarySelectedSellPostConditionId.value;
                       allSearchController.sellPostBottomSheetState();
                       Get.back();
                     },
@@ -149,6 +152,7 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
                     ),
               onPressed: () {
                 allSearchController.temporarySelectedSellPostProductCategory.value = allSearchController.selectedSellPostProductCategory.value;
+                allSearchController.temporarySelectedSellPostProductCategoryId.value = allSearchController.selectedSellPostProductCategoryId.value;
                 if (allSearchController.temporarySelectedSellPostProductCategory.value == '') {
                   allSearchController.isSellPostProductConditionBottomSheetState.value = false;
                 } else {
@@ -162,6 +166,7 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedSellPostProductCategory.value = allSearchController.temporarySelectedSellPostProductCategory.value;
+                      allSearchController.selectedSellPostProductCategoryId.value = allSearchController.temporarySelectedSellPostProductCategoryId.value;
                       allSearchController.sellPostBottomSheetState();
                       Get.back();
                     },

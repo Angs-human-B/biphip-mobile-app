@@ -123,8 +123,9 @@ class SearchPage extends StatelessWidget {
                                       onPressCloseButton: () {
                                         Get.back();
                                       },
-                                      onPressRightButton: () {
+                                      onPressRightButton: () async {
                                         allSearchController.selectedPostedBy.value = allSearchController.temporarySelectedPostedBy.value;
+                                        await allSearchController.getSearch();
                                         Get.back();
                                       },
                                       rightText: ksDone.tr,
@@ -343,6 +344,7 @@ class SearchPage extends StatelessWidget {
                                               itemCount: allSearchController.userList.length,
                                               separatorBuilder: (context, index) => kH8sizedBox,
                                               itemBuilder: (context, index) {
+                                                final item = allSearchController.userList[index];
                                                 return Row(
                                                   children: [
                                                     ClipOval(
@@ -354,7 +356,7 @@ class SearchPage extends StatelessWidget {
                                                           color: cWhiteColor,
                                                         ),
                                                         child: Image.network(
-                                                          allSearchController.userList[index].profilePicture ?? "",
+                                                          item.profilePicture ?? "",
                                                           fit: BoxFit.cover,
                                                           errorBuilder: (context, error, stackTrace) => const Icon(
                                                             BipHip.user,
@@ -371,13 +373,13 @@ class SearchPage extends StatelessWidget {
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Text(
-                                                            allSearchController.userList[index].fullName ?? "",
+                                                            item.fullName ?? "",
                                                             style: semiBold16TextStyle(cBlackColor),
                                                             overflow: TextOverflow.ellipsis,
                                                           ),
                                                           kH4sizedBox,
                                                           Text(
-                                                            "${allSearchController.userList[index].mutualFriend.toString()} mutual friends",
+                                                            "${item.mutualFriend.toString()} mutual friends",
                                                             style: regular10TextStyle(cSmallBodyTextColor),
                                                           ),
                                                         ],
@@ -385,7 +387,9 @@ class SearchPage extends StatelessWidget {
                                                     ),
                                                     const Spacer(),
                                                     Text(
-                                                      allSearchController.userList[index].friendStatus == 1 ? ksMessage.tr : ksAddFriend.tr,
+                                                      item.friendStatus == 1
+                                                          ? ksMessage.tr
+                                                          : ksAddFriend.tr,
                                                       style: regular12TextStyle(cPrimaryColor),
                                                     ),
                                                   ],
@@ -537,6 +541,7 @@ class SearchPage extends StatelessWidget {
                                         itemCount: allSearchController.userList.length,
                                         separatorBuilder: (context, index) => kH8sizedBox,
                                         itemBuilder: (context, index) {
+                                          var item = allSearchController.userList[index];
                                           return Row(
                                             children: [
                                               ClipOval(
@@ -548,7 +553,7 @@ class SearchPage extends StatelessWidget {
                                                     color: cWhiteColor,
                                                   ),
                                                   child: Image.network(
-                                                    allSearchController.userList[index].profilePicture ?? "",
+                                                    item.profilePicture ?? "",
                                                     fit: BoxFit.cover,
                                                     errorBuilder: (context, error, stackTrace) => const Icon(
                                                       BipHip.user,
@@ -565,13 +570,13 @@ class SearchPage extends StatelessWidget {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      allSearchController.userList[index].fullName ?? ksNA.tr,
+                                                      item.fullName ?? ksNA.tr,
                                                       style: semiBold16TextStyle(cBlackColor),
                                                       overflow: TextOverflow.ellipsis,
                                                     ),
                                                     kH4sizedBox,
                                                     Text(
-                                                      "${allSearchController.userList[index].mutualFriend.toString()} mutual friends",
+                                                      "${item.mutualFriend.toString()} mutual friends",
                                                       style: regular10TextStyle(cSmallBodyTextColor),
                                                     ),
                                                   ],
@@ -579,7 +584,7 @@ class SearchPage extends StatelessWidget {
                                               ),
                                               const Spacer(),
                                               Text(
-                                                allSearchController.userList[index].friendStatus == 1 ? ksMessage.tr : ksAddFriend.tr,
+                                                item.friendStatus == 1 ? ksMessage.tr : ksAddFriend.tr,
                                                 style: regular12TextStyle(cPrimaryColor),
                                               ),
                                             ],
@@ -591,6 +596,7 @@ class SearchPage extends StatelessWidget {
                             ),
                           ),
                       if (allSearchController.selectedFilterIndex.value == 3)
+                      if(allSearchController.photosList.isNotEmpty)
                         Expanded(
                           child: SingleChildScrollView(
                             child: Column(
@@ -672,6 +678,7 @@ class SearchPage extends StatelessWidget {
                           ),
                         ),
                       if (allSearchController.selectedFilterIndex.value == 4)
+                      if(allSearchController.videosList.isNotEmpty)
                         Expanded(
                           child: SingleChildScrollView(
                             child: Column(

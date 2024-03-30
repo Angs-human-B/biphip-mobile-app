@@ -1,4 +1,3 @@
-
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
@@ -97,7 +96,12 @@ class SearchPhotosVideosBottomSheetContent extends StatelessWidget {
               label: ksShowResult.tr,
               buttonWidth: width - 40,
               buttonHeight: h32,
-              onPressed: allSearchController.isPhotosVideosBottomSheetResetOrShowResult.value ? () {} : null,
+              onPressed: allSearchController.isPhotosVideosBottomSheetResetOrShowResult.value
+                  ? () async {
+                    Get.back();
+                      await allSearchController.getSearch();
+                    }
+                  : null,
               buttonColor: cPrimaryColor,
               textStyle: semiBold14TextStyle(cWhiteColor),
             ),
@@ -105,4 +109,3 @@ class SearchPhotosVideosBottomSheetContent extends StatelessWidget {
         ));
   }
 }
-

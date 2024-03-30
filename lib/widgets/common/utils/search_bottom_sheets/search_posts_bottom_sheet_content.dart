@@ -156,6 +156,7 @@ class SearchPostsBottomSheetContent extends StatelessWidget {
               buttonHeight: h32,
               onPressed: allSearchController.isPostsBottomSheetResetOrShowResult.value
                   ? () async {
+                      Get.back();
                       await allSearchController.getSearch();
                     }
                   : null,

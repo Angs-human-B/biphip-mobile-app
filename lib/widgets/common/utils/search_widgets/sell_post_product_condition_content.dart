@@ -24,7 +24,9 @@ class SellPostProductCategoryContent extends StatelessWidget {
                       : cWhiteColor,
                   onPressed: () {
                     allSearchController.temporarySelectedSellPostProductCategory.value =
-                        allSearchController.searchFilterData.value!.sellPost?.category[index].value ?? "";
+                        allSearchController.searchFilterData.value!.sellPost!.category[index].value!;
+                    allSearchController.temporarySelectedSellPostProductCategoryId.value =
+                        allSearchController.searchFilterData.value!.sellPost!.category[index].key!;
                     if (allSearchController.temporarySelectedSellPostProductCategory.value == '') {
                       allSearchController.isSellPostProductConditionBottomSheetState.value = false;
                     } else {
@@ -39,7 +41,9 @@ class SellPostProductCategoryContent extends StatelessWidget {
                   trailing: CustomRadioButton(
                     onChanged: () {
                       allSearchController.temporarySelectedSellPostProductCategory.value =
-                          allSearchController.searchFilterData.value!.sellPost?.category[index].value ?? "";
+                          allSearchController.searchFilterData.value!.sellPost!.category[index].value!;
+                      allSearchController.temporarySelectedSellPostProductCategoryId.value =
+                          allSearchController.searchFilterData.value!.sellPost!.category[index].key!;
                       if (allSearchController.temporarySelectedSellPostProductCategory.value == '') {
                         allSearchController.isSellPostProductConditionBottomSheetState.value = false;
                       } else {

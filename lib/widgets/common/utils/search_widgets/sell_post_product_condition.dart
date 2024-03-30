@@ -25,6 +25,8 @@ class SellPostProductConditionContent extends StatelessWidget {
                   onPressed: () {
                     allSearchController.temporarySelectedSellPostCondition.value =
                         allSearchController.searchFilterData.value!.sellPost!.condition[index].value!;
+                    allSearchController.temporarySelectedSellPostConditionId.value =
+                        allSearchController.searchFilterData.value!.sellPost!.condition[index].key!;
                     if (allSearchController.temporarySelectedSellPostCondition.value == '') {
                       allSearchController.isSellPostConditionBottomSheetState.value = false;
                     } else {
@@ -40,6 +42,8 @@ class SellPostProductConditionContent extends StatelessWidget {
                     onChanged: () {
                       allSearchController.temporarySelectedSellPostCondition.value =
                           allSearchController.searchFilterData.value!.sellPost!.condition[index].value!;
+                      allSearchController.temporarySelectedSellPostConditionId.value =
+                          allSearchController.searchFilterData.value!.sellPost!.condition[index].key!;
                       if (allSearchController.temporarySelectedSellPostCondition.value == '') {
                         allSearchController.isSellPostConditionBottomSheetState.value = false;
                       } else {

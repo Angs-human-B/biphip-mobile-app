@@ -24,7 +24,6 @@ class SearchPostedByContent extends StatelessWidget {
                       allSearchController.temporarySelectedPostedBy.value == allSearchController.postedByList[index].value ? cPrimaryTint3Color : cWhiteColor,
                   onPressed: () {
                     allSearchController.temporarySelectedPostedBy.value = allSearchController.postedByList[index].value!;
-                    // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
                     if (allSearchController.temporarySelectedPostedBy.value == '') {
                       allSearchController.isPostedByBottomSheetState.value = false;
                     } else {
@@ -37,7 +36,6 @@ class SearchPostedByContent extends StatelessWidget {
                   trailing: CustomRadioButton(
                     onChanged: () {
                       allSearchController.temporarySelectedPostedBy.value = allSearchController.postedByList[index].value!;
-                      // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
                       if (allSearchController.temporarySelectedPostedBy.value == '') {
                         allSearchController.isPostedByBottomSheetState.value = false;
                       } else {
@@ -55,4 +53,3 @@ class SearchPostedByContent extends StatelessWidget {
     );
   }
 }
-

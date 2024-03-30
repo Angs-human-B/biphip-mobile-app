@@ -16,12 +16,6 @@ class AllSearchController extends GetxController {
   final RxString selectedFilterValue = RxString("");
   final RxBool isFilterSelected = RxBool(false);
   final RxBool isRecentPostCheckBoxSelected = RxBool(false);
-  // final RxList postedByList = RxList([
-  //   {"icon": BipHip.world, "type": "Anyone"},
-  //   {"icon": BipHip.friends, "type": "Friend"},
-  //   {"icon": BipHip.addFamily, "type": "Family"},
-  //   {"icon": BipHip.friends, "type": "Friends & Family"},
-  // ]);
   final RxString temporarySelectedPostedBy = RxString("");
   final RxString selectedPostedBy = RxString("");
   final RxBool isPostedByBottomSheetState = RxBool(false);
@@ -40,9 +34,13 @@ class AllSearchController extends GetxController {
   final RxBool isSellPostTypeBottomSheetState = RxBool(false);
   final RxString temporarySelectedSellPostCondition = RxString("");
   final RxString selectedSellPostCondition = RxString("");
+  final RxInt temporarySelectedSellPostConditionId = RxInt(-1);
+  final RxInt selectedSellPostConditionId = RxInt(-1);
   final RxBool isSellPostConditionBottomSheetState = RxBool(false);
   final RxString temporarySelectedSellPostProductCategory = RxString("");
   final RxString selectedSellPostProductCategory = RxString("");
+  final RxInt temporarySelectedSellPostProductCategoryId = RxInt(-1);
+  final RxInt selectedSellPostProductCategoryId = RxInt(-1);
   final RxBool isSellPostProductConditionBottomSheetState = RxBool(false);
   final RxString temporarySelectedSubCategory = RxString("");
   final RxString selectedSubCategory = RxString("");
@@ -427,7 +425,13 @@ class AllSearchController extends GetxController {
     isPhotosVideosBottomSheetResetOrShowResult.value = false;
     isKidsNewsBottomSheetResetOrShowResult.value = false;
     isSellPostBottomSheetResetOrShowResult.value = false;
-    isRecentPostCheckBoxSelected.value= false;
+    isRecentPostCheckBoxSelected.value = false;
+    temporarySelectedSellPostProductCategoryId.value = -1;
+    selectedSellPostProductCategoryId.value = -1;
+    temporarySelectedCategoryId.value = -1;
+    selectedCategoryId.value = -1;
+    temporarySelectedSellPostConditionId.value = -1;
+    selectedSellPostConditionId.value = -1;
   }
 
   //! Search Api implement
@@ -624,6 +628,27 @@ class AllSearchController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         searchData.value = SearchModel.fromJson(response.data);
+        if (selectedFilterValue.value.toString() == "People") {
+          userList.clear();
+        } else if (selectedFilterValue.value.toString() == "Post") {
+          postsList.clear();
+        } else if (selectedFilterValue.value.toString() == "Photos") {
+          photosList.clear();
+        } else if (selectedFilterValue.value.toString() == "Videos") {
+          videosList.clear();
+        } else if (selectedFilterValue.value.toString() == "Kids") {
+          kidPostList.clear();
+        } else if (selectedFilterValue.value.toString() == "News") {
+          newsPostList.clear();
+        } else {
+          userList.clear();
+          postsList.clear();
+          photosList.clear();
+          videosList.clear();
+          sellPostList.clear();
+          kidPostList.clear();
+          newsPostList.clear();
+        }
         userData.value = searchData.value?.users;
         postData.value = searchData.value?.posts;
         photosData.value = searchData.value?.photos;
@@ -631,13 +656,31 @@ class AllSearchController extends GetxController {
         sellPostsData.value = searchData.value?.sellposts;
         kidPostsData.value = searchData.value?.kidposts;
         newsPostsData.value = searchData.value?.newsposts;
-        userList.addAll(searchData.value!.users!.data);
-        postsList.addAll(searchData.value!.posts!.data);
-        photosList.addAll(searchData.value!.photos!.data);
-        videosList.addAll(searchData.value!.videos!.data);
-        sellPostList.addAll(searchData.value!.sellposts!.data);
-        kidPostList.addAll(searchData.value!.kidposts!.data);
-        newsPostList.addAll(searchData.value!.newsposts!.data);
+        if (selectedFilterValue.value.toString() == "People") {
+          userList.addAll(searchData.value!.users!.data);
+        } else if (selectedFilterValue.value.toString() == "Post") {
+          postsList.addAll(searchData.value!.posts!.data);
+        } else if (selectedFilterValue.value.toString() == "Photos") {
+          photosList.addAll(searchData.value!.photos!.data);
+        } else if (selectedFilterValue.value.toString() == "Videos") {
+          videosList.addAll(searchData.value!.videos!.data);
+        } else if (selectedFilterValue.value.toString() == "Kids") {
+          kidPostList.addAll(searchData.value!.kidposts!.data);
+        } else if (selectedFilterValue.value.toString() == "News") {
+          newsPostList.addAll(searchData.value!.newsposts!.data);
+        }
+        else if (selectedFilterValue.value.toString().toLowerCase() == "Sell Posts".toLowerCase()) {
+          sellPostList.addAll(searchData.value!.sellposts!.data);
+        }
+         else {
+          userList.addAll(searchData.value!.users!.data);
+          postsList.addAll(searchData.value!.posts!.data);
+          photosList.addAll(searchData.value!.photos!.data);
+          videosList.addAll(searchData.value!.videos!.data);
+          sellPostList.addAll(searchData.value!.sellposts!.data);
+          kidPostList.addAll(searchData.value!.kidposts!.data);
+          newsPostList.addAll(searchData.value!.newsposts!.data);
+        }
         await getSearchHistory();
         isSearchLoading.value = false;
       } else {
@@ -654,33 +697,68 @@ class AllSearchController extends GetxController {
       ll('getSearch error: $e');
     }
   }
-  String getUrlLink(){
+
+  String getUrlLink() {
     //  "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString().trim()}&recent_post=${isRecentPostCheckBoxSelected.value.toString()}&posted_by=${selectedPostedBy.value.toString()}&posted_date=${selectedDatePosted.value.toString()}&sell_post_type=${selectedSellPostTypeIndex.value.toString()}&take=20",
-      String finalLink = "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString()}&take=20";
-    if(selectedFilterValue.value.toString()=="All"){
+    String finalLink = "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString()}&take=20";
+    if (selectedFilterValue.value.toString() == "All") {
       finalLink = "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString()}&take=20";
       return finalLink;
-    }
-    else if(selectedFilterValue.value.toString()=="Post"){
-      finalLink = "$kuSearch?type=posts&keywords=${searchTextEditingController.text.toString()}&recent_post=${isRecentPostCheckBoxSelected.value.toString()}&take=20";
-   if(selectedPostedBy.value.toString()!=""){
-    finalLink+= "&posted_by=${selectedPostedBy.value.toString()}";
-   } if(selectedDatePosted.value.toString()!=""){
-    finalLink+= "&posted_date=${selectedDatePosted.value.toString()}";
-   }
-   if(selectedCategory.value.toString()!=""){
-     finalLink+= "&category_by=${selectedCategoryId.value.toString()}";
-   }
-   return finalLink;
-    }
-else if(selectedFilterValue.value.toString()=="People"){
-  // finalLink = "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString()}&take=20";
-  if(selectedPostedBy.value.toString()!=""){
-    finalLink += "&people_type=${selectedCategoryId.value.toString()}";
-  }
-  return finalLink;
-}
-    else{
+    } else if (selectedFilterValue.value.toString() == "Post") {
+      finalLink =
+          "$kuSearch?type=posts&keywords=${searchTextEditingController.text.toString()}&recent_post=${isRecentPostCheckBoxSelected.value.toString()}&take=20";
+      if (selectedPostedBy.value.toString() != "") {
+        finalLink += "&posted_by=${selectedPostedBy.value.toString()}";
+      }
+      if (selectedDatePosted.value.toString() != "") {
+        finalLink += "&posted_date=${selectedDatePosted.value.toString()}";
+      }
+      if (selectedCategory.value.toString() != "") {
+        finalLink += "&category_by=${selectedCategoryId.value.toString()}";
+      }
+      return finalLink;
+    } else if (selectedFilterValue.value.toString() == "People") {
+      // finalLink = "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString()}&take=20";
+      if (selectedPostedBy.value.toString() != "") {
+        int peopleTypeValue = -1;
+        if (selectedPostedBy.value.toString().toLowerCase() == "all") {
+          peopleTypeValue = 0;
+        } else if (selectedPostedBy.value.toString().toLowerCase() == "friend") {
+          peopleTypeValue = 1;
+        } else if (selectedPostedBy.value.toString().toLowerCase() == "family") {
+          peopleTypeValue = 2;
+        } else if (selectedPostedBy.value.toString().toLowerCase() == "Friend & family".toLowerCase()) {
+          peopleTypeValue = 3;
+        }
+        finalLink += "&people_type=${peopleTypeValue.toString()}";
+      }
+      return finalLink;
+    } else if (selectedFilterValue.value.toString() == "Photos" || selectedFilterValue.value.toString() == "Videos") {
+      if (selectedPostedBy.value.toString() != "") {
+        finalLink += "&posted_by=${selectedPostedBy.value.toString()}";
+      }
+      if (selectedDatePosted.value.toString() != "") {
+        finalLink += "&posted_date=${selectedDatePosted.value.toString()}";
+      }
+      return finalLink;
+    } else if (selectedFilterValue.value.toString() == "Kids" || selectedFilterValue.value.toString() == "News") {
+      if (selectedPostedBy.value.toString() != "") {
+        finalLink += "&posted_by=${selectedPostedBy.value.toString()}";
+      }
+      if (selectedDatePosted.value.toString() != "") {
+        finalLink += "&posted_date=${selectedDatePosted.value.toString()}";
+      }
+      return finalLink;
+    } else {
+      if (selectedSellPostProductCategory.value.toString() != "") {
+        finalLink += "&sell_post_category=${selectedSellPostProductCategoryId.value.toString()}";
+      }
+      if (selectedSellPostType.value.toString() != "") {
+        finalLink += "&sell_post_type=${selectedSellPostTypeIndex.value.toString()}";
+      }
+      if (selectedSellPostCondition.value.toString() != "") {
+        finalLink += "&sell_post_condition=${selectedSellPostConditionId.value.toString()}";
+      }
       return finalLink;
     }
   }
