@@ -320,7 +320,7 @@ class SearchPage extends StatelessWidget {
                         ),
                       if (allSearchController.selectedFilterIndex.value == 0 && allSearchController.isSearched.value)
                         allSearchController.isSearchLoading.value
-                            ? const UserearchShimmer()
+                            ? const UserSearchShimmer()
                             : Expanded(
                                 child: SingleChildScrollView(
                                   child: Column(
@@ -387,9 +387,7 @@ class SearchPage extends StatelessWidget {
                                                     ),
                                                     const Spacer(),
                                                     Text(
-                                                      item.friendStatus == 1
-                                                          ? ksMessage.tr
-                                                          : ksAddFriend.tr,
+                                                      item.friendStatus == 1 ? ksMessage.tr : ksAddFriend.tr,
                                                       style: regular12TextStyle(cPrimaryColor),
                                                     ),
                                                   ],
@@ -398,6 +396,77 @@ class SearchPage extends StatelessWidget {
                                         ),
                                       kH16sizedBox,
                                       if (allSearchController.postsList.isNotEmpty)
+                                        allSearchController.isSearchLoading.value
+                                            ? const PostCommonShimmer()
+                                            : ListView.separated(
+                                                shrinkWrap: true,
+                                                padding: const EdgeInsets.all(k0Padding),
+                                                physics: const NeverScrollableScrollPhysics(),
+                                                separatorBuilder: (context, index) => kH8sizedBox,
+                                                itemCount: Get.find<HomeController>().allPostList.length,
+                                                itemBuilder: (context, index) {
+                                                  var item = allSearchController.postsList[index];
+                                                  return Container(
+                                                    color: cWhiteColor,
+                                                    width: width - 40,
+                                                    child: CommonPostWidget(
+                                                      postIndex: index,
+                                                      isCommented: index % 2 == 0,
+                                                      isLiked: index % 2 != 0,
+                                                      isSharedPost: false,
+                                                      showBottomSection: true,
+                                                      userName: item.user?.fullName ?? "",
+                                                      postTime: Get.find<HomeController>().postTimeDifference(item.createdAt ?? DateTime.now()),
+                                                      isCategorized: true,
+                                                      mediaList: const [],
+                                                      // category: item.postCategoryId == null ? null : item.postCategory!.name, //API
+                                                      // categoryIcon: item.postCategory == null
+                                                      //     ? null
+                                                      //     : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
+                                                      // categoryIconColor: item.postCategory == null
+                                                      //     ? null
+                                                      //     : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
+                                                      privacy: BipHip.world,
+                                                      // brandName: item.store == null ? null : item.store!.name, //API
+                                                      // kidName: item.kid == null ? null : item.kid!.name, //API
+                                                      // kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                                                      // postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
+                                                      // mediaList: item.images, //API
+                                                      isSelfPost: index % 2 != 0,
+                                                      isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!,
+                                                      giftCount: item.countStar!,
+                                                      // reactCount: item.countReaction,
+                                                      postID: item.id!,
+                                                      // secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
+                                                      subCategory: null,
+                                                      // category: item.postCategoryId==null ? null : item.postCategory.name,
+                                                      platformName: item.platform,
+                                                      platformLink: 'www.facebook.com/Clothing/lorem',
+                                                      actionName: null,
+                                                      title: item.title ?? "", //API
+                                                      postText: item.content ?? "",
+                                                      price: item.price.toString(), //API
+                                                      mainPrice: '400',
+                                                      discount: item.discount.toString(),
+                                                      isInStock: false,
+                                                      productCondition: 'New',
+                                                      productCategory: 'Phone', userImage: item.user?.profilePicture ?? '',
+                                                      taggedFriends: const [],
+                                                    ),
+                                                  );
+                                                }),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                      if (allSearchController.selectedFilterIndex.value == 1)
+                        if (allSearchController.postsList.isNotEmpty)
+                          allSearchController.isSearchLoading.value
+                              ? const PostCommonShimmer()
+                              : Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
                                         ListView.separated(
                                             shrinkWrap: true,
                                             padding: const EdgeInsets.all(k0Padding),
@@ -455,139 +524,192 @@ class SearchPage extends StatelessWidget {
                                                 ),
                                               );
                                             }),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                      if (allSearchController.selectedFilterIndex.value == 1)
-                        if (allSearchController.postsList.isNotEmpty)
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  ListView.separated(
-                                      shrinkWrap: true,
-                                      padding: const EdgeInsets.all(k0Padding),
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      separatorBuilder: (context, index) => kH8sizedBox,
-                                      itemCount: Get.find<HomeController>().allPostList.length,
-                                      itemBuilder: (context, index) {
-                                        var item = allSearchController.postsList[index];
-                                        return Container(
-                                          color: cWhiteColor,
-                                          width: width - 40,
-                                          child: CommonPostWidget(
-                                            postIndex: index,
-                                            isCommented: index % 2 == 0,
-                                            isLiked: index % 2 != 0,
-                                            isSharedPost: false,
-                                            showBottomSection: true,
-                                            userName: item.user?.fullName ?? "",
-                                            postTime: Get.find<HomeController>().postTimeDifference(item.createdAt ?? DateTime.now()),
-                                            isCategorized: true,
-                                            mediaList: const [],
-                                            // category: item.postCategoryId == null ? null : item.postCategory!.name, //API
-                                            // categoryIcon: item.postCategory == null
-                                            //     ? null
-                                            //     : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
-                                            // categoryIconColor: item.postCategory == null
-                                            //     ? null
-                                            //     : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
-                                            privacy: BipHip.world,
-                                            // brandName: item.store == null ? null : item.store!.name, //API
-                                            // kidName: item.kid == null ? null : item.kid!.name, //API
-                                            // kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                            // postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
-                                            // mediaList: item.images, //API
-                                            isSelfPost: index % 2 != 0,
-                                            isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!,
-                                            giftCount: item.countStar!,
-                                            // reactCount: item.countReaction,
-                                            postID: item.id!,
-                                            // secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
-                                            subCategory: null,
-                                            // category: item.postCategoryId==null ? null : item.postCategory.name,
-                                            platformName: item.platform,
-                                            platformLink: 'www.facebook.com/Clothing/lorem',
-                                            actionName: null,
-                                            title: item.title ?? "", //API
-                                            postText: item.content ?? "",
-                                            price: item.price.toString(), //API
-                                            mainPrice: '400',
-                                            discount: item.discount.toString(),
-                                            isInStock: false,
-                                            productCondition: 'New',
-                                            productCategory: 'Phone', userImage: item.user?.profilePicture ?? '',
-                                            taggedFriends: const [],
-                                          ),
-                                        );
-                                      }),
-                                ],
-                              ),
-                            ),
-                          ),
                       if (allSearchController.selectedFilterIndex.value == 2)
                         if (allSearchController.userList.isNotEmpty)
+                          allSearchController.isSearchLoading.value
+                              ? const UserSearchShimmer()
+                              : Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: k16Padding, left: k20Padding, right: k20Padding),
+                                          child: ListView.separated(
+                                              shrinkWrap: true,
+                                              padding: const EdgeInsets.all(k0Padding),
+                                              physics: const NeverScrollableScrollPhysics(),
+                                              itemCount: allSearchController.userList.length,
+                                              separatorBuilder: (context, index) => kH8sizedBox,
+                                              itemBuilder: (context, index) {
+                                                var item = allSearchController.userList[index];
+                                                return Row(
+                                                  children: [
+                                                    ClipOval(
+                                                      child: Container(
+                                                        width: h40,
+                                                        height: h40,
+                                                        decoration: const BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          color: cWhiteColor,
+                                                        ),
+                                                        child: Image.network(
+                                                          item.profilePicture ?? "",
+                                                          fit: BoxFit.cover,
+                                                          errorBuilder: (context, error, stackTrace) => const Icon(
+                                                            BipHip.user,
+                                                            size: kIconSize20,
+                                                            color: cIconColor,
+                                                          ),
+                                                          loadingBuilder: imageLoadingBuilder,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    kW12sizedBox,
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            item.fullName ?? ksNA.tr,
+                                                            style: semiBold16TextStyle(cBlackColor),
+                                                            overflow: TextOverflow.ellipsis,
+                                                          ),
+                                                          kH4sizedBox,
+                                                          Text(
+                                                            "${item.mutualFriend.toString()} mutual friends",
+                                                            style: regular10TextStyle(cSmallBodyTextColor),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    const Spacer(),
+                                                    Text(
+                                                      item.friendStatus == 1 ? ksMessage.tr : ksAddFriend.tr,
+                                                      style: regular12TextStyle(cPrimaryColor),
+                                                    ),
+                                                  ],
+                                                );
+                                              }),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                      if (allSearchController.selectedFilterIndex.value == 3)
+                        if (allSearchController.photosList.isNotEmpty)
                           Expanded(
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(top: k16Padding, left: k20Padding, right: k20Padding),
-                                    child: ListView.separated(
-                                        shrinkWrap: true,
-                                        padding: const EdgeInsets.all(k0Padding),
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        itemCount: allSearchController.userList.length,
-                                        separatorBuilder: (context, index) => kH8sizedBox,
-                                        itemBuilder: (context, index) {
-                                          var item = allSearchController.userList[index];
-                                          return Row(
-                                            children: [
-                                              ClipOval(
-                                                child: Container(
-                                                  width: h40,
-                                                  height: h40,
-                                                  decoration: const BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: cWhiteColor,
-                                                  ),
+                                    child: GridView.custom(
+                                      padding: const EdgeInsets.all(k0Padding),
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      gridDelegate: SliverQuiltedGridDelegate(
+                                        crossAxisCount: 3,
+                                        mainAxisSpacing: 8,
+                                        crossAxisSpacing: 8,
+                                        repeatPattern: QuiltedGridRepeatPattern.inverted,
+                                        pattern: const [
+                                          QuiltedGridTile(1, 1),
+                                          QuiltedGridTile(1, 1),
+                                          QuiltedGridTile(1, 1),
+                                          QuiltedGridTile(2, 3),
+                                          QuiltedGridTile(1, 1),
+                                          QuiltedGridTile(1, 1),
+                                          QuiltedGridTile(1, 1),
+                                          QuiltedGridTile(2, 2),
+                                          QuiltedGridTile(1, 1),
+                                          QuiltedGridTile(1, 1),
+                                          QuiltedGridTile(1, 1),
+                                          QuiltedGridTile(1, 1),
+                                          QuiltedGridTile(1, 1),
+                                        ],
+                                      ),
+                                      childrenDelegate: SliverChildBuilderDelegate(
+                                        childCount: allSearchController.photosList.length,
+                                        (context, index) {
+                                          return Container(
+                                            decoration: BoxDecoration(
+                                              border: Border.all(color: cLineColor),
+                                              borderRadius: k8CircularBorderRadius,
+                                            ),
+                                            child: Stack(
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius: k8CircularBorderRadius,
                                                   child: Image.network(
-                                                    item.profilePicture ?? "",
+                                                    allSearchController.photosList[index].fullPath ?? "",
                                                     fit: BoxFit.cover,
-                                                    errorBuilder: (context, error, stackTrace) => const Icon(
-                                                      BipHip.user,
-                                                      size: kIconSize20,
-                                                      color: cIconColor,
+                                                    width: width,
+                                                    height: 600,
+                                                    errorBuilder: (context, error, stackTrace) => SizedBox(
+                                                      width: width,
+                                                      child: Image.asset(
+                                                        kiDummyImage3ImageUrl, //!Change this dummy image
+                                                        width: width,
+                                                        height: 600,
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                     ),
                                                     loadingBuilder: imageLoadingBuilder,
                                                   ),
                                                 ),
-                                              ),
-                                              kW12sizedBox,
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      item.fullName ?? ksNA.tr,
-                                                      style: semiBold16TextStyle(cBlackColor),
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                    kH4sizedBox,
-                                                    Text(
-                                                      "${item.mutualFriend.toString()} mutual friends",
-                                                      style: regular10TextStyle(cSmallBodyTextColor),
-                                                    ),
-                                                  ],
+                                                Positioned(
+                                                  left: 4,
+                                                  bottom: 4,
+                                                  child: Text(
+                                                    "by ${allSearchController.photosList[index].user?.fullName ?? ""}",
+                                                    style: regular10TextStyle(cWhiteColor),
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
                                                 ),
-                                              ),
-                                              const Spacer(),
-                                              Text(
-                                                item.friendStatus == 1 ? ksMessage.tr : ksAddFriend.tr,
-                                                style: regular12TextStyle(cPrimaryColor),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                      if (allSearchController.selectedFilterIndex.value == 4)
+                        if (allSearchController.videosList.isNotEmpty)
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: k16Padding),
+                                    child: ListView.separated(
+                                        shrinkWrap: true,
+                                        padding: const EdgeInsets.all(k0Padding),
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        separatorBuilder: (context, index) => kH8sizedBox,
+                                        itemCount: allSearchController.videosList.length,
+                                        itemBuilder: (context, index) {
+                                          final item = allSearchController.videosList[index];
+                                          return InkWell(
+                                            onTap: () {
+                                              // Get.toNamed(krVideoDetails);
+                                            },
+                                            child: SearchVideosContent(
+                                              image: item.fullPath.toString(),
+                                              title: item.title ?? ksNA.tr,
+                                              name: item.user?.fullName ?? ksNA.tr,
+                                              // date: item.imageTakenTime.toString(),
+                                              totalView: item.totalViewCount.toString(),
+                                              // time: item.imageTakenTime.toString(),
+                                              time: item.imageTakenTime.toString(),
+                                            ),
                                           );
                                         }),
                                   ),
@@ -595,191 +717,75 @@ class SearchPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                      if (allSearchController.selectedFilterIndex.value == 3)
-                      if(allSearchController.photosList.isNotEmpty)
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: k16Padding, left: k20Padding, right: k20Padding),
-                                  child: GridView.custom(
-                                    padding: const EdgeInsets.all(k0Padding),
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    gridDelegate: SliverQuiltedGridDelegate(
-                                      crossAxisCount: 3,
-                                      mainAxisSpacing: 8,
-                                      crossAxisSpacing: 8,
-                                      repeatPattern: QuiltedGridRepeatPattern.inverted,
-                                      pattern: const [
-                                        QuiltedGridTile(1, 1),
-                                        QuiltedGridTile(1, 1),
-                                        QuiltedGridTile(1, 1),
-                                        QuiltedGridTile(2, 3),
-                                        QuiltedGridTile(1, 1),
-                                        QuiltedGridTile(1, 1),
-                                        QuiltedGridTile(1, 1),
-                                        QuiltedGridTile(2, 2),
-                                        QuiltedGridTile(1, 1),
-                                        QuiltedGridTile(1, 1),
-                                        QuiltedGridTile(1, 1),
-                                        QuiltedGridTile(1, 1),
-                                        QuiltedGridTile(1, 1),
+                      if (allSearchController.selectedFilterIndex.value == 5)
+                        if (allSearchController.sellPostList.isNotEmpty)
+                          allSearchController.isSearchLoading.value
+                              ? const PostCommonShimmer()
+                              : Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        ListView.separated(
+                                            shrinkWrap: true,
+                                            padding: const EdgeInsets.all(k0Padding),
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            separatorBuilder: (context, index) => kH8sizedBox,
+                                            itemCount: allSearchController.sellPostList.length,
+                                            itemBuilder: (context, index) {
+                                              var item = allSearchController.sellPostList[index];
+                                              return Container(
+                                                color: cWhiteColor,
+                                                width: width - 40,
+                                                child: CommonPostWidget(
+                                                  postIndex: 1, //! should be changed
+                                                  isCommented: index % 2 == 0,
+                                                  isLiked: index % 2 != 0,
+                                                  isSharedPost: false,
+                                                  showBottomSection: true,
+                                                  userName: item.user?.fullName ?? "",
+                                                  postTime: Get.find<HomeController>().postTimeDifference(item.createdAt ?? DateTime.now()),
+                                                  isCategorized: true,
+                                                  postText: item.content ?? "",
+                                                  // category: item.postCategory == null ? null : item.postCategory!.name, //API
+                                                  // categoryIcon: item.postCategory == null
+                                                  //     ? null
+                                                  //     : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
+                                                  // categoryIconColor: item.postCategory == null
+                                                  //     ? null
+                                                  //     : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
+                                                  privacy: BipHip.world,
+                                                  // brandName: item.store == null ? null : item.store!.name, //API
+                                                  // kidName: item.kid == null ? null : item.kid!.name, //API
+                                                  // kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                                                  // postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
+                                                  // mediaList: item.images, //API
+                                                  mediaList: const [],
+                                                  isSelfPost: index % 2 != 0,
+                                                  isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!,
+                                                  giftCount: item.countStar!,
+                                                  // reactCount: item.countReactions,
+                                                  postID: item.id!,
+                                                  // secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
+                                                  subCategory: null,
+                                                  platformName: 'Jane Clothing',
+                                                  platformLink: 'www.facebook.com/Clothing/lorem',
+                                                  actionName: null,
+                                                  title: item.title, //API
+                                                  price: item.price.toString(), //API
+                                                  mainPrice: '400',
+                                                  discount: item.discount.toString(),
+                                                  isInStock: false,
+
+                                                  productCondition: 'New',
+                                                  productCategory: 'Phone', userImage: item.user!.profilePicture ?? '',
+                                                  taggedFriends: const [],
+                                                ),
+                                              );
+                                            }),
                                       ],
-                                    ),
-                                    childrenDelegate: SliverChildBuilderDelegate(
-                                      childCount: allSearchController.photosList.length,
-                                      (context, index) {
-                                        return Container(
-                                          decoration: BoxDecoration(
-                                            border: Border.all(color: cLineColor),
-                                            borderRadius: k8CircularBorderRadius,
-                                          ),
-                                          child: Stack(
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius: k8CircularBorderRadius,
-                                                child: Image.network(
-                                                  allSearchController.photosList[index].fullPath ?? "",
-                                                  fit: BoxFit.cover,
-                                                  width: width,
-                                                  height: 600,
-                                                  errorBuilder: (context, error, stackTrace) => SizedBox(
-                                                    width: width,
-                                                    child: Image.asset(
-                                                      kiDummyImage3ImageUrl, //!Change this dummy image
-                                                      width: width,
-                                                      height: 600,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                  loadingBuilder: imageLoadingBuilder,
-                                                ),
-                                              ),
-                                              Positioned(
-                                                left: 4,
-                                                bottom: 4,
-                                                child: Text(
-                                                  "by ${allSearchController.photosList[index].user?.fullName ?? ""}",
-                                                  style: regular10TextStyle(cWhiteColor),
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      if (allSearchController.selectedFilterIndex.value == 4)
-                      if(allSearchController.videosList.isNotEmpty)
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: k16Padding),
-                                  child: ListView.separated(
-                                      shrinkWrap: true,
-                                      padding: const EdgeInsets.all(k0Padding),
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      separatorBuilder: (context, index) => kH8sizedBox,
-                                      itemCount: allSearchController.videosList.length,
-                                      itemBuilder: (context, index) {
-                                        final item = allSearchController.videosList[index];
-                                        return InkWell(
-                                          onTap: () {
-                                            // Get.toNamed(krVideoDetails);
-                                          },
-                                          child: SearchVideosContent(
-                                            image: item.fullPath.toString(),
-                                            title: item.title ?? ksNA.tr,
-                                            name: item.user?.fullName ?? ksNA.tr,
-                                            // date: item.imageTakenTime.toString(),
-                                            totalView: item.totalViewCount.toString(),
-                                            // time: item.imageTakenTime.toString(),
-                                            time: item.imageTakenTime.toString(),
-                                          ),
-                                        );
-                                      }),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      if (allSearchController.selectedFilterIndex.value == 5)
-                        if (allSearchController.sellPostList.isNotEmpty)
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  ListView.separated(
-                                      shrinkWrap: true,
-                                      padding: const EdgeInsets.all(k0Padding),
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      separatorBuilder: (context, index) => kH8sizedBox,
-                                      itemCount: allSearchController.sellPostList.length,
-                                      itemBuilder: (context, index) {
-                                        var item = allSearchController.sellPostList[index];
-                                        return Container(
-                                          color: cWhiteColor,
-                                          width: width - 40,
-                                          child: CommonPostWidget(
-                                            postIndex: 1, //! should be changed
-                                            isCommented: index % 2 == 0,
-                                            isLiked: index % 2 != 0,
-                                            isSharedPost: false,
-                                            showBottomSection: true,
-                                            userName: item.user?.fullName ?? "",
-                                            postTime: Get.find<HomeController>().postTimeDifference(item.createdAt ?? DateTime.now()),
-                                            isCategorized: true,
-                                            postText: item.content ?? "",
-                                            // category: item.postCategory == null ? null : item.postCategory!.name, //API
-                                            // categoryIcon: item.postCategory == null
-                                            //     ? null
-                                            //     : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
-                                            // categoryIconColor: item.postCategory == null
-                                            //     ? null
-                                            //     : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
-                                            privacy: BipHip.world,
-                                            // brandName: item.store == null ? null : item.store!.name, //API
-                                            // kidName: item.kid == null ? null : item.kid!.name, //API
-                                            // kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                            // postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
-                                            // mediaList: item.images, //API
-                                            mediaList: const [],
-                                            isSelfPost: index % 2 != 0,
-                                            isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!,
-                                            giftCount: item.countStar!,
-                                            // reactCount: item.countReactions,
-                                            postID: item.id!,
-                                            // secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
-                                            subCategory: null,
-                                            platformName: 'Jane Clothing',
-                                            platformLink: 'www.facebook.com/Clothing/lorem',
-                                            actionName: null,
-                                            title: item.title, //API
-                                            price: item.price.toString(), //API
-                                            mainPrice: '400',
-                                            discount: item.discount.toString(),
-                                            isInStock: false,
-
-                                            productCondition: 'New',
-                                            productCategory: 'Phone', userImage: item.user!.profilePicture ?? '',
-                                            taggedFriends: const [],
-                                          ),
-                                        );
-                                      }),
-                                ],
-                              ),
-                            ),
-                          ),
                       if (allSearchController.selectedFilterIndex.value == 6)
                         if (allSearchController.kidPostList.isNotEmpty)
                           Expanded(
@@ -992,8 +998,8 @@ class IconContainer extends StatelessWidget {
   }
 }
 
-class UserearchShimmer extends StatelessWidget {
-  const UserearchShimmer({super.key});
+class UserSearchShimmer extends StatelessWidget {
+  const UserSearchShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -1044,6 +1050,234 @@ class UserearchShimmer extends StatelessWidget {
                 },
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PostCommonShimmer extends StatelessWidget {
+  const PostCommonShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            Container(
+              color: cWhiteColor,
+              width: width,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k12Padding),
+                child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Row(
+                    children: [
+                      ShimmerCommon(
+                        widget: Container(
+                            height: h40,
+                            width: h40,
+                            decoration: const BoxDecoration(
+                              color: cWhiteColor,
+                              shape: BoxShape.circle,
+                            )),
+                      ),
+                      kW8sizedBox,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ShimmerCommon(
+                            widget:
+                                Container(height: h12, width: width * 0.6, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                          ),
+                          kH8sizedBox,
+                          ShimmerCommon(
+                            widget:
+                                Container(height: h12, width: width * 0.3, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  kH8sizedBox,
+                  ShimmerCommon(
+                    widget: Container(height: h10, width: width - 40, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                  ),
+                  kH8sizedBox,
+                  ShimmerCommon(
+                    widget: Container(height: h10, width: width - 40, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                  ),
+                  kH8sizedBox,
+                  ShimmerCommon(
+                    widget: Container(height: h10, width: width * 0.4, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                  ),
+                  kH8sizedBox,
+                  Row(
+                    children: [
+                      ShimmerCommon(
+                        widget: Container(
+                          height: 160,
+                          width: (width - 42) / 2,
+                          decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                        ),
+                      ),
+                      const SizedBox(width: 2),
+                      ShimmerCommon(
+                        widget: Container(
+                          height: 160,
+                          width: (width - 42) / 2,
+                          decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                        ),
+                      ),
+                    ],
+                  ),
+                  kH12sizedBox,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ShimmerCommon(
+                        widget: Container(height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                      ),
+                      ShimmerCommon(
+                        widget: Container(height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                      ),
+                      ShimmerCommon(
+                        widget: Container(height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                      )
+                    ],
+                  )
+                ]),
+              ),
+            ),
+            kH8sizedBox,
+            Container(
+              color: cWhiteColor,
+              width: width,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k12Padding),
+                child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Row(
+                    children: [
+                      ShimmerCommon(
+                        widget: Container(
+                            height: h40,
+                            width: h40,
+                            decoration: const BoxDecoration(
+                              color: cWhiteColor,
+                              shape: BoxShape.circle,
+                            )),
+                      ),
+                      kW8sizedBox,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ShimmerCommon(
+                            widget:
+                                Container(height: h12, width: width * 0.6, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                          ),
+                          kH8sizedBox,
+                          ShimmerCommon(
+                            widget:
+                                Container(height: h12, width: width * 0.3, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  kH8sizedBox,
+                  ShimmerCommon(
+                    widget: Container(height: h10, width: width - 40, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                  ),
+                  kH8sizedBox,
+                  ShimmerCommon(
+                    widget: Container(height: h10, width: width - 40, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                  ),
+                  kH8sizedBox,
+                  ShimmerCommon(
+                    widget: Container(height: h10, width: width * 0.4, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                  ),
+                  kH16sizedBox,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ShimmerCommon(
+                        widget: Container(height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                      ),
+                      ShimmerCommon(
+                        widget: Container(height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                      ),
+                      ShimmerCommon(
+                        widget: Container(height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                      )
+                    ],
+                  )
+                ]),
+              ),
+            ),
+            kH8sizedBox,
+            Container(
+              color: cWhiteColor,
+              width: width,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k12Padding),
+                child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Row(
+                    children: [
+                      ShimmerCommon(
+                        widget: Container(
+                            height: h40,
+                            width: h40,
+                            decoration: const BoxDecoration(
+                              color: cWhiteColor,
+                              shape: BoxShape.circle,
+                            )),
+                      ),
+                      kW8sizedBox,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ShimmerCommon(
+                            widget:
+                                Container(height: h12, width: width * 0.6, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                          ),
+                          kH8sizedBox,
+                          ShimmerCommon(
+                            widget:
+                                Container(height: h12, width: width * 0.3, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  kH8sizedBox,
+                  ShimmerCommon(
+                    widget: Container(
+                      height: 300,
+                      width: width - 40,
+                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                    ),
+                  ),
+                  kH8sizedBox,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ShimmerCommon(
+                        widget: Container(height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                      ),
+                      ShimmerCommon(
+                        widget: Container(height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                      ),
+                      ShimmerCommon(
+                        widget: Container(height: h10, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                      )
+                    ],
+                  )
+                ]),
+              ),
+            ),
+            kH8sizedBox
           ],
         ),
       ),

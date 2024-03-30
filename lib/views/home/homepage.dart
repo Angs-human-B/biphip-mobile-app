@@ -53,8 +53,8 @@ class HomePage extends StatelessWidget {
                         onPressed: () async {
                           Get.find<AllSearchController>().resetSearchData();
                           Get.toNamed(krSearchPage);
-                          await Get.find<AllSearchController>().getSearchFilterData();
-                          await Get.find<AllSearchController>().getSearchHistory();
+                          Get.find<AllSearchController>().getSearchHistory();
+                          Get.find<AllSearchController>().getSearchFilterData();
                         },
                         child: Icon(
                           BipHip.search,

@@ -182,7 +182,12 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
               label: ksShowResult.tr,
               buttonWidth: width - 40,
               buttonHeight: h32,
-              onPressed: allSearchController.isSellPostBottomSheetResetOrShowResult.value ? () {} : null,
+              onPressed: allSearchController.isSellPostBottomSheetResetOrShowResult.value
+                  ? () async {
+                      Get.back();
+                      await allSearchController.getSearch();
+                    }
+                  : null,
               buttonColor: cPrimaryColor,
               textStyle: semiBold14TextStyle(cWhiteColor),
             ),

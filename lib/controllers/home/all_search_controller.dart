@@ -640,7 +640,11 @@ class AllSearchController extends GetxController {
           kidPostList.clear();
         } else if (selectedFilterValue.value.toString() == "News") {
           newsPostList.clear();
-        } else {
+        } 
+      else if (selectedFilterValue.value.toString().toLowerCase() == "Sell Posts".toLowerCase()) {
+          sellPostList.clear();
+        }
+        else {
           userList.clear();
           postsList.clear();
           photosList.clear();
