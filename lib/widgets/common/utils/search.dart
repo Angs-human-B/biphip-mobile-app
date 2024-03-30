@@ -80,8 +80,8 @@ class SearchPage extends StatelessWidget {
                                     allSearchController.isSearchSuffixIconVisible.value = true;
                                     allSearchController.selectedFilterIndex.value = 0;
                                     allSearchController.selectedFilterValue.value = allSearchController.filterTypeList[0];
-                                    await allSearchController.getSearch();
                                     allSearchController.isSearched.value = true;
+                                    await allSearchController.getSearch();
                                   }
                                 },
                                 onChanged: (value) {
@@ -261,12 +261,14 @@ class SearchPage extends StatelessWidget {
                                             icon: BipHip.circleCrossNew,
                                             size: kIconSize16,
                                           ),
-                                          onPressed: () {
-                                            // onSelected(option);
+                                          onPressed: () async {
                                             unfocus(context);
-                                            // allSearchController.searchTextEditingController.text = allSearchController.userList[index]["name"];
+                                            allSearchController.searchTextEditingController.text = allSearchController.searchHistoryList[index].keywords!;
                                             allSearchController.isSearchSuffixIconVisible.value = true;
-                                            // familyController.userId.value = option.id!;
+                                            allSearchController.selectedFilterValue.value = "all";
+                                            allSearchController.selectedFilterIndex.value = 0;
+                                            allSearchController.isSearched.value = true;
+                                            await allSearchController.getSearch();
                                           },
                                         );
                                       }),
@@ -297,10 +299,14 @@ class SearchPage extends StatelessWidget {
                                             child: CustomChoiceChips(
                                               label: allSearchController.filterTypeList[i],
                                               isSelected: (allSearchController.selectedFilterIndex.value == i),
-                                              onSelected: (value) {
+                                              onSelected: (value) async {
                                                 allSearchController.resetBottomSheetData();
                                                 allSearchController.selectedFilterIndex.value = i;
                                                 allSearchController.selectedFilterValue.value = allSearchController.filterTypeList[i];
+                                                // if (allSearchController.selectedFilterValue.value.toLowerCase() == "post") {
+                                                //   allSearchController.selectedFilterValue.value = "Posts";
+                                                // }
+                                                // await allSearchController.getSearch();
                                               },
                                             ),
                                           ));
@@ -312,137 +318,143 @@ class SearchPage extends StatelessWidget {
                           ),
                         ),
                       if (allSearchController.selectedFilterIndex.value == 0 && allSearchController.isSearched.value)
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                kH12sizedBox,
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                  child: Text(
-                                    ksPeople.tr,
-                                    style: semiBold18TextStyle(cBlackColor),
+                        allSearchController.isSearchLoading.value
+                            ? const UserearchShimmer()
+                            : Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      kH12sizedBox,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                        child: Text(
+                                          ksPeople.tr,
+                                          style: semiBold18TextStyle(cBlackColor),
+                                        ),
+                                      ),
+                                      if (allSearchController.userList.isNotEmpty)
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: k16Padding, left: k20Padding, right: k20Padding),
+                                          child: ListView.separated(
+                                              shrinkWrap: true,
+                                              padding: const EdgeInsets.all(k0Padding),
+                                              physics: const NeverScrollableScrollPhysics(),
+                                              itemCount: allSearchController.userList.length,
+                                              separatorBuilder: (context, index) => kH8sizedBox,
+                                              itemBuilder: (context, index) {
+                                                return Row(
+                                                  children: [
+                                                    ClipOval(
+                                                      child: Container(
+                                                        width: h40,
+                                                        height: h40,
+                                                        decoration: const BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          color: cWhiteColor,
+                                                        ),
+                                                        child: Image.network(
+                                                          allSearchController.userList[index].profilePicture ?? "",
+                                                          fit: BoxFit.cover,
+                                                          errorBuilder: (context, error, stackTrace) => const Icon(
+                                                            BipHip.user,
+                                                            size: kIconSize20,
+                                                            color: cIconColor,
+                                                          ),
+                                                          loadingBuilder: imageLoadingBuilder,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    kW12sizedBox,
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            allSearchController.userList[index].fullName ?? "",
+                                                            style: semiBold16TextStyle(cBlackColor),
+                                                            overflow: TextOverflow.ellipsis,
+                                                          ),
+                                                          kH4sizedBox,
+                                                          Text(
+                                                            "${allSearchController.userList[index].mutualFriend.toString()} mutual friends",
+                                                            style: regular10TextStyle(cSmallBodyTextColor),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    const Spacer(),
+                                                    Text(
+                                                      allSearchController.userList[index].friendStatus == 1 ? ksMessage.tr : ksAddFriend.tr,
+                                                      style: regular12TextStyle(cPrimaryColor),
+                                                    ),
+                                                  ],
+                                                );
+                                              }),
+                                        ),
+                                      kH16sizedBox,
+                                      if (allSearchController.postsList.isNotEmpty)
+                                        ListView.separated(
+                                            shrinkWrap: true,
+                                            padding: const EdgeInsets.all(k0Padding),
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            separatorBuilder: (context, index) => kH8sizedBox,
+                                            itemCount: Get.find<HomeController>().allPostList.length,
+                                            itemBuilder: (context, index) {
+                                              var item = allSearchController.postsList[index];
+                                              return Container(
+                                                color: cWhiteColor,
+                                                width: width - 40,
+                                                child: CommonPostWidget(
+                                                  postIndex: index,
+                                                  isCommented: index % 2 == 0,
+                                                  isLiked: index % 2 != 0,
+                                                  isSharedPost: false,
+                                                  showBottomSection: true,
+                                                  userName: item.user?.fullName ?? "",
+                                                  postTime: Get.find<HomeController>().postTimeDifference(item.createdAt ?? DateTime.now()),
+                                                  isCategorized: true,
+                                                  mediaList: const [],
+                                                  // category: item.postCategoryId == null ? null : item.postCategory!.name, //API
+                                                  // categoryIcon: item.postCategory == null
+                                                  //     ? null
+                                                  //     : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
+                                                  // categoryIconColor: item.postCategory == null
+                                                  //     ? null
+                                                  //     : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
+                                                  privacy: BipHip.world,
+                                                  // brandName: item.store == null ? null : item.store!.name, //API
+                                                  // kidName: item.kid == null ? null : item.kid!.name, //API
+                                                  // kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                                                  // postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
+                                                  // mediaList: item.images, //API
+                                                  isSelfPost: index % 2 != 0,
+                                                  isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!,
+                                                  giftCount: item.countStar!,
+                                                  // reactCount: item.countReaction,
+                                                  postID: item.id!,
+                                                  // secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
+                                                  subCategory: null,
+                                                  // category: item.postCategoryId==null ? null : item.postCategory.name,
+                                                  platformName: item.platform,
+                                                  platformLink: 'www.facebook.com/Clothing/lorem',
+                                                  actionName: null,
+                                                  title: item.title ?? "", //API
+                                                  postText: item.content ?? "",
+                                                  price: item.price.toString(), //API
+                                                  mainPrice: '400',
+                                                  discount: item.discount.toString(),
+                                                  isInStock: false,
+                                                  productCondition: 'New',
+                                                  productCategory: 'Phone', userImage: item.user?.profilePicture ?? '',
+                                                  taggedFriends: const [],
+                                                ),
+                                              );
+                                            }),
+                                    ],
                                   ),
                                 ),
-                                if (allSearchController.userList.isNotEmpty)
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: k16Padding, left: k20Padding, right: k20Padding),
-                                    child: ListView.separated(
-                                        shrinkWrap: true,
-                                        padding: const EdgeInsets.all(k0Padding),
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        itemCount: allSearchController.userList.length,
-                                        separatorBuilder: (context, index) => kH8sizedBox,
-                                        itemBuilder: (context, index) {
-                                          return Row(
-                                            children: [
-                                              ClipOval(
-                                                child: Container(
-                                                  width: h40,
-                                                  height: h40,
-                                                  decoration: const BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: cWhiteColor,
-                                                  ),
-                                                  child: Image.network(
-                                                    allSearchController.userList[index].profilePicture ?? "",
-                                                    fit: BoxFit.cover,
-                                                    errorBuilder: (context, error, stackTrace) => const Icon(
-                                                      BipHip.user,
-                                                      size: kIconSize20,
-                                                      color: cIconColor,
-                                                    ),
-                                                    loadingBuilder: imageLoadingBuilder,
-                                                  ),
-                                                ),
-                                              ),
-                                              kW12sizedBox,
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    allSearchController.userList[index].fullName ?? "",
-                                                    style: semiBold16TextStyle(cBlackColor),
-                                                  ),
-                                                  kH4sizedBox,
-                                                  Text(
-                                                    "${allSearchController.userList[index].mutualFriend.toString()} mutual friends",
-                                                    style: regular10TextStyle(cSmallBodyTextColor),
-                                                  ),
-                                                ],
-                                              ),
-                                              const Spacer(),
-                                              Text(
-                                                allSearchController.userList[index].friendStatus == 1 ? ksMessage.tr : ksAddFriend.tr,
-                                                style: regular12TextStyle(cPrimaryColor),
-                                              ),
-                                            ],
-                                          );
-                                        }),
-                                  ),
-                                kH16sizedBox,
-                                if (allSearchController.postsList.isNotEmpty)
-                                  ListView.separated(
-                                      shrinkWrap: true,
-                                      padding: const EdgeInsets.all(k0Padding),
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      separatorBuilder: (context, index) => kH8sizedBox,
-                                      itemCount: Get.find<HomeController>().allPostList.length,
-                                      itemBuilder: (context, index) {
-                                        var item = allSearchController.postsList[index];
-                                        return Container(
-                                          color: cWhiteColor,
-                                          width: width - 40,
-                                          child: CommonPostWidget(
-                                            postIndex: index,
-                                            isCommented: index % 2 == 0,
-                                            isLiked: index % 2 != 0,
-                                            isSharedPost: false,
-                                            showBottomSection: true,
-                                            userName: item.user?.fullName ?? "",
-                                            postTime: Get.find<HomeController>().postTimeDifference(item.createdAt ?? DateTime.now()),
-                                            isCategorized: true,
-                                            mediaList: const [],
-                                            // category: item.postCategoryId == null ? null : item.postCategory!.name, //API
-                                            // categoryIcon: item.postCategory == null
-                                            //     ? null
-                                            //     : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
-                                            // categoryIconColor: item.postCategory == null
-                                            //     ? null
-                                            //     : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
-                                            privacy: BipHip.world,
-                                            // brandName: item.store == null ? null : item.store!.name, //API
-                                            // kidName: item.kid == null ? null : item.kid!.name, //API
-                                            // kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                            // postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
-                                            // mediaList: item.images, //API
-                                            isSelfPost: index % 2 != 0,
-                                            isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
-                                            // reactCount: item.countReaction,
-                                            postID: item.id!,
-                                            // secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
-                                            subCategory: null,
-                                            // category: item.postCategoryId==null ? null : item.postCategory.name,
-                                            platformName: item.platform,
-                                            platformLink: 'www.facebook.com/Clothing/lorem',
-                                            actionName: null,
-                                            title: item.title ?? "", //API
-                                            postText: item.content ?? "",
-                                            price: item.price.toString(), //API
-                                            mainPrice: '400',
-                                            discount: item.discount.toString(),
-                                            isInStock: false,
-                                            productCondition: 'New',
-                                            productCategory: 'Phone', userImage: item.user?.profilePicture ?? '',
-                                            taggedFriends: const [],
-                                          ),
-                                        );
-                                      }),
-                              ],
-                            ),
-                          ),
-                        ),
+                              ),
                       if (allSearchController.selectedFilterIndex.value == 1)
                         if (allSearchController.postsList.isNotEmpty)
                           Expanded(
@@ -484,7 +496,8 @@ class SearchPage extends StatelessWidget {
                                             // postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
                                             // mediaList: item.images, //API
                                             isSelfPost: index % 2 != 0,
-                                            isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
+                                            isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!,
+                                            giftCount: item.countStar!,
                                             // reactCount: item.countReaction,
                                             postID: item.id!,
                                             // secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
@@ -547,19 +560,22 @@ class SearchPage extends StatelessWidget {
                                                 ),
                                               ),
                                               kW12sizedBox,
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    allSearchController.userList[index].fullName ?? ksNA.tr,
-                                                    style: semiBold16TextStyle(cBlackColor),
-                                                  ),
-                                                  kH4sizedBox,
-                                                  Text(
-                                                    "${allSearchController.userList[index].mutualFriend.toString()} mutual friends",
-                                                    style: regular10TextStyle(cSmallBodyTextColor),
-                                                  ),
-                                                ],
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      allSearchController.userList[index].fullName ?? ksNA.tr,
+                                                      style: semiBold16TextStyle(cBlackColor),
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                    kH4sizedBox,
+                                                    Text(
+                                                      "${allSearchController.userList[index].mutualFriend.toString()} mutual friends",
+                                                      style: regular10TextStyle(cSmallBodyTextColor),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                               const Spacer(),
                                               Text(
@@ -641,6 +657,7 @@ class SearchPage extends StatelessWidget {
                                                 child: Text(
                                                   "by ${allSearchController.photosList[index].user?.fullName ?? ""}",
                                                   style: regular10TextStyle(cWhiteColor),
+                                                  overflow: TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ],
@@ -671,14 +688,15 @@ class SearchPage extends StatelessWidget {
                                         final item = allSearchController.videosList[index];
                                         return InkWell(
                                           onTap: () {
-                                            Get.toNamed(krVideoDetails);
+                                            // Get.toNamed(krVideoDetails);
                                           },
                                           child: SearchVideosContent(
                                             image: item.fullPath.toString(),
                                             title: item.title ?? ksNA.tr,
                                             name: item.user?.fullName ?? ksNA.tr,
-                                            date: item.imageTakenTime.toString(),
+                                            // date: item.imageTakenTime.toString(),
                                             totalView: item.totalViewCount.toString(),
+                                            // time: item.imageTakenTime.toString(),
                                             time: item.imageTakenTime.toString(),
                                           ),
                                         );
@@ -689,7 +707,7 @@ class SearchPage extends StatelessWidget {
                           ),
                         ),
                       if (allSearchController.selectedFilterIndex.value == 5)
-                        if (Get.find<HomeController>().allPostList.isNotEmpty)
+                        if (allSearchController.sellPostList.isNotEmpty)
                           Expanded(
                             child: SingleChildScrollView(
                               child: Column(
@@ -699,39 +717,42 @@ class SearchPage extends StatelessWidget {
                                       padding: const EdgeInsets.all(k0Padding),
                                       physics: const NeverScrollableScrollPhysics(),
                                       separatorBuilder: (context, index) => kH8sizedBox,
-                                      itemCount: Get.find<HomeController>().allPostList.length,
+                                      itemCount: allSearchController.sellPostList.length,
                                       itemBuilder: (context, index) {
-                                        var item = Get.find<HomeController>().allPostList[index];
+                                        var item = allSearchController.sellPostList[index];
                                         return Container(
                                           color: cWhiteColor,
                                           width: width - 40,
                                           child: CommonPostWidget(
-                                            postIndex: index,
+                                            postIndex: 1, //! should be changed
                                             isCommented: index % 2 == 0,
                                             isLiked: index % 2 != 0,
                                             isSharedPost: false,
                                             showBottomSection: true,
-                                            userName: item.user!.fullName!,
-                                            postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
+                                            userName: item.user?.fullName ?? "",
+                                            postTime: Get.find<HomeController>().postTimeDifference(item.createdAt ?? DateTime.now()),
                                             isCategorized: true,
-                                            category: item.postCategory == null ? null : item.postCategory!.name, //API
-                                            categoryIcon: item.postCategory == null
-                                                ? null
-                                                : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
-                                            categoryIconColor: item.postCategory == null
-                                                ? null
-                                                : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
+                                            postText: item.content ?? "",
+                                            // category: item.postCategory == null ? null : item.postCategory!.name, //API
+                                            // categoryIcon: item.postCategory == null
+                                            //     ? null
+                                            //     : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
+                                            // categoryIconColor: item.postCategory == null
+                                            //     ? null
+                                            //     : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
                                             privacy: BipHip.world,
-                                            brandName: item.store == null ? null : item.store!.name, //API
-                                            kidName: item.kid == null ? null : item.kid!.name, //API
-                                            kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                            postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
-                                            mediaList: item.images, //API
+                                            // brandName: item.store == null ? null : item.store!.name, //API
+                                            // kidName: item.kid == null ? null : item.kid!.name, //API
+                                            // kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                                            // postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
+                                            // mediaList: item.images, //API
+                                            mediaList: const [],
                                             isSelfPost: index % 2 != 0,
-                                            isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
-                                            reactCount: item.countReactions,
+                                            isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!,
+                                            giftCount: item.countStar!,
+                                            // reactCount: item.countReactions,
                                             postID: item.id!,
-                                            secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
+                                            // secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
                                             subCategory: null,
                                             platformName: 'Jane Clothing',
                                             platformLink: 'www.facebook.com/Clothing/lorem',
@@ -741,8 +762,10 @@ class SearchPage extends StatelessWidget {
                                             mainPrice: '400',
                                             discount: item.discount.toString(),
                                             isInStock: false,
+
                                             productCondition: 'New',
-                                            productCategory: 'Phone', userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
+                                            productCategory: 'Phone', userImage: item.user!.profilePicture ?? '',
+                                            taggedFriends: const [],
                                           ),
                                         );
                                       }),
@@ -751,7 +774,7 @@ class SearchPage extends StatelessWidget {
                             ),
                           ),
                       if (allSearchController.selectedFilterIndex.value == 6)
-                        if (Get.find<HomeController>().allPostList.isNotEmpty)
+                        if (allSearchController.kidPostList.isNotEmpty)
                           Expanded(
                             child: SingleChildScrollView(
                               child: Column(
@@ -761,39 +784,42 @@ class SearchPage extends StatelessWidget {
                                       padding: const EdgeInsets.all(k0Padding),
                                       physics: const NeverScrollableScrollPhysics(),
                                       separatorBuilder: (context, index) => kH8sizedBox,
-                                      itemCount: Get.find<HomeController>().allPostList.length,
+                                      itemCount: allSearchController.kidPostList.length,
                                       itemBuilder: (context, index) {
-                                        var item = Get.find<HomeController>().allPostList[index];
+                                        var item = allSearchController.kidPostList[index];
                                         return Container(
                                           color: cWhiteColor,
                                           width: width - 40,
                                           child: CommonPostWidget(
-                                            postIndex: index,
+                                            postIndex: 1, //! should be changed
                                             isCommented: index % 2 == 0,
                                             isLiked: index % 2 != 0,
                                             isSharedPost: false,
                                             showBottomSection: true,
-                                            userName: item.user!.fullName!,
-                                            postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
+                                            userName: item.user?.fullName ?? "",
+                                            postTime: Get.find<HomeController>().postTimeDifference(item.createdAt ?? DateTime.now()),
                                             isCategorized: true,
-                                            category: item.postCategory == null ? null : item.postCategory!.name, //API
-                                            categoryIcon: item.postCategory == null
-                                                ? null
-                                                : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
-                                            categoryIconColor: item.postCategory == null
-                                                ? null
-                                                : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
+                                            postText: item.content ?? "",
+                                            // category: item.postCategory == null ? null : item.postCategory!.name, //API
+                                            // categoryIcon: item.postCategory == null
+                                            //     ? null
+                                            //     : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
+                                            // categoryIconColor: item.postCategory == null
+                                            //     ? null
+                                            //     : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
                                             privacy: BipHip.world,
-                                            brandName: item.store == null ? null : item.store!.name, //API
-                                            kidName: item.kid == null ? null : item.kid!.name, //API
-                                            kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                            postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
-                                            mediaList: item.images, //API
+                                            // brandName: item.store == null ? null : item.store!.name, //API
+                                            // kidName: item.kid == null ? null : item.kid!.name, //API
+                                            // kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                                            // postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
+                                            // mediaList: item.images, //API
+                                            mediaList: const [],
                                             isSelfPost: index % 2 != 0,
-                                            isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
-                                            reactCount: item.countReactions,
+                                            isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!,
+                                            giftCount: item.countStar!,
+                                            // reactCount: item.countReactions,
                                             postID: item.id!,
-                                            secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
+                                            // secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
                                             subCategory: null,
                                             platformName: 'Jane Clothing',
                                             platformLink: 'www.facebook.com/Clothing/lorem',
@@ -803,8 +829,10 @@ class SearchPage extends StatelessWidget {
                                             mainPrice: '400',
                                             discount: item.discount.toString(),
                                             isInStock: false,
+
                                             productCondition: 'New',
-                                            productCategory: 'Phone', userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
+                                            productCategory: 'Phone', userImage: item.user!.profilePicture ?? '',
+                                            taggedFriends: const [],
                                           ),
                                         );
                                       }),
@@ -813,7 +841,7 @@ class SearchPage extends StatelessWidget {
                             ),
                           ),
                       if (allSearchController.selectedFilterIndex.value == 7)
-                        if (Get.find<HomeController>().allPostList.isNotEmpty)
+                        if (allSearchController.newsPostList.isNotEmpty)
                           Expanded(
                             child: SingleChildScrollView(
                               child: Column(
@@ -823,39 +851,42 @@ class SearchPage extends StatelessWidget {
                                       padding: const EdgeInsets.all(k0Padding),
                                       physics: const NeverScrollableScrollPhysics(),
                                       separatorBuilder: (context, index) => kH8sizedBox,
-                                      itemCount: Get.find<HomeController>().allPostList.length,
+                                      itemCount: allSearchController.newsPostList.length,
                                       itemBuilder: (context, index) {
-                                        var item = Get.find<HomeController>().allPostList[index];
+                                        var item = allSearchController.newsPostList[index];
                                         return Container(
                                           color: cWhiteColor,
                                           width: width - 40,
                                           child: CommonPostWidget(
-                                            postIndex: index,
+                                            postIndex: 1, //! should be changed
                                             isCommented: index % 2 == 0,
                                             isLiked: index % 2 != 0,
                                             isSharedPost: false,
                                             showBottomSection: true,
-                                            userName: item.user!.fullName!,
-                                            postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
+                                            userName: item.user?.fullName ?? "",
+                                            postTime: Get.find<HomeController>().postTimeDifference(item.createdAt ?? DateTime.now()),
                                             isCategorized: true,
-                                            category: item.postCategory == null ? null : item.postCategory!.name, //API
-                                            categoryIcon: item.postCategory == null
-                                                ? null
-                                                : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
-                                            categoryIconColor: item.postCategory == null
-                                                ? null
-                                                : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
+                                            postText: item.content ?? "",
+                                            // category: item.postCategory == null ? null : item.postCategory!.name, //API
+                                            // categoryIcon: item.postCategory == null
+                                            //     ? null
+                                            //     : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
+                                            // categoryIconColor: item.postCategory == null
+                                            //     ? null
+                                            //     : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
                                             privacy: BipHip.world,
-                                            brandName: item.store == null ? null : item.store!.name, //API
-                                            kidName: item.kid == null ? null : item.kid!.name, //API
-                                            kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                            postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
-                                            mediaList: item.images, //API
+                                            // brandName: item.store == null ? null : item.store!.name, //API
+                                            // kidName: item.kid == null ? null : item.kid!.name, //API
+                                            // kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                                            // postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
+                                            // mediaList: item.images, //API
+                                            mediaList: const [],
                                             isSelfPost: index % 2 != 0,
-                                            isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
-                                            reactCount: item.countReactions,
+                                            isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!,
+                                            giftCount: item.countStar!,
+                                            // reactCount: item.countReactions,
                                             postID: item.id!,
-                                            secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
+                                            // secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
                                             subCategory: null,
                                             platformName: 'Jane Clothing',
                                             platformLink: 'www.facebook.com/Clothing/lorem',
@@ -865,8 +896,10 @@ class SearchPage extends StatelessWidget {
                                             mainPrice: '400',
                                             discount: item.discount.toString(),
                                             isInStock: false,
+
                                             productCondition: 'New',
-                                            productCategory: 'Phone', userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
+                                            productCategory: 'Phone', userImage: item.user!.profilePicture ?? '',
+                                            taggedFriends: const [],
                                           ),
                                         );
                                       }),
@@ -947,6 +980,65 @@ class IconContainer extends StatelessWidget {
         icon,
         size: kIconSize12,
         color: cIconColor,
+      ),
+    );
+  }
+}
+
+class UserearchShimmer extends StatelessWidget {
+  const UserearchShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: ListView.separated(
+                itemCount: 20,
+                padding: const EdgeInsets.all(k0Padding),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                separatorBuilder: (context, index) => kH8sizedBox,
+                itemBuilder: (context, index) {
+                  return CustomListTile(
+                    leading: ShimmerCommon(
+                      widget: Container(
+                        decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                        height: h40,
+                        width: h40,
+                      ),
+                    ),
+                    title: ShimmerCommon(
+                      widget: Container(
+                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                        height: 12,
+                        width: 80,
+                      ),
+                    ),
+                    subtitle: ShimmerCommon(
+                      widget: Container(
+                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                        height: 8,
+                        width: 80,
+                      ),
+                    ),
+                    trailing: ShimmerCommon(
+                      widget: Container(
+                        decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                        height: 12,
+                        width: 80,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

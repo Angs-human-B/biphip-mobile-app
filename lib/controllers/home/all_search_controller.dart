@@ -30,6 +30,8 @@ class AllSearchController extends GetxController {
   final RxBool isDatePostedBottomSheetState = RxBool(false);
   final RxString temporarySelectedCategory = RxString("");
   final RxString selectedCategory = RxString("");
+  final RxInt temporarySelectedCategoryId = RxInt(-1);
+  final RxInt selectedCategoryId = RxInt(-1);
   final RxBool isCategoryBottomSheetState = RxBool(false);
   final RxString temporarySelectedSellPostType = RxString("");
   final RxString selectedSellPostType = RxString("");
@@ -425,6 +427,7 @@ class AllSearchController extends GetxController {
     isPhotosVideosBottomSheetResetOrShowResult.value = false;
     isKidsNewsBottomSheetResetOrShowResult.value = false;
     isSellPostBottomSheetResetOrShowResult.value = false;
+    isRecentPostCheckBoxSelected.value= false;
   }
 
   //! Search Api implement
@@ -606,6 +609,9 @@ class AllSearchController extends GetxController {
   final RxList<PostsData> postsList = RxList<PostsData>([]);
   final RxList<PhotosData> photosList = RxList<PhotosData>([]);
   final RxList<PhotosData> videosList = RxList<PhotosData>([]);
+  final RxList<PostsData> sellPostList = RxList<PostsData>([]);
+  final RxList<PostsData> kidPostList = RxList<PostsData>([]);
+  final RxList<PostsData> newsPostList = RxList<PostsData>([]);
   final RxBool isSearchLoading = RxBool(false);
   Future<void> getSearch() async {
     try {
@@ -614,21 +620,25 @@ class AllSearchController extends GetxController {
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString().trim()}&take=20",
+        url: getUrlLink(),
       ) as CommonDM;
       if (response.success == true) {
         searchData.value = SearchModel.fromJson(response.data);
-        userData.value = searchData.value!.users;
-        postData.value = searchData.value!.posts;
-        photosData.value = searchData.value!.photos;
-        videosData.value = searchData.value!.videos;
-        sellPostsData.value = searchData.value!.sellposts;
-        kidPostsData.value = searchData.value!.kidposts;
-        newsPostsData.value = searchData.value!.newsposts;
+        userData.value = searchData.value?.users;
+        postData.value = searchData.value?.posts;
+        photosData.value = searchData.value?.photos;
+        videosData.value = searchData.value?.videos;
+        sellPostsData.value = searchData.value?.sellposts;
+        kidPostsData.value = searchData.value?.kidposts;
+        newsPostsData.value = searchData.value?.newsposts;
         userList.addAll(searchData.value!.users!.data);
         postsList.addAll(searchData.value!.posts!.data);
         photosList.addAll(searchData.value!.photos!.data);
         videosList.addAll(searchData.value!.videos!.data);
+        sellPostList.addAll(searchData.value!.sellposts!.data);
+        kidPostList.addAll(searchData.value!.kidposts!.data);
+        newsPostList.addAll(searchData.value!.newsposts!.data);
+        await getSearchHistory();
         isSearchLoading.value = false;
       } else {
         isSearchLoading.value = true;
@@ -642,6 +652,36 @@ class AllSearchController extends GetxController {
     } catch (e) {
       isSearchLoading.value = true;
       ll('getSearch error: $e');
+    }
+  }
+  String getUrlLink(){
+    //  "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString().trim()}&recent_post=${isRecentPostCheckBoxSelected.value.toString()}&posted_by=${selectedPostedBy.value.toString()}&posted_date=${selectedDatePosted.value.toString()}&sell_post_type=${selectedSellPostTypeIndex.value.toString()}&take=20",
+      String finalLink = "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString()}&take=20";
+    if(selectedFilterValue.value.toString()=="All"){
+      finalLink = "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString()}&take=20";
+      return finalLink;
+    }
+    else if(selectedFilterValue.value.toString()=="Post"){
+      finalLink = "$kuSearch?type=posts&keywords=${searchTextEditingController.text.toString()}&recent_post=${isRecentPostCheckBoxSelected.value.toString()}&take=20";
+   if(selectedPostedBy.value.toString()!=""){
+    finalLink+= "&posted_by=${selectedPostedBy.value.toString()}";
+   } if(selectedDatePosted.value.toString()!=""){
+    finalLink+= "&posted_date=${selectedDatePosted.value.toString()}";
+   }
+   if(selectedCategory.value.toString()!=""){
+     finalLink+= "&category_by=${selectedCategoryId.value.toString()}";
+   }
+   return finalLink;
+    }
+else if(selectedFilterValue.value.toString()=="People"){
+  // finalLink = "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString()}&take=20";
+  if(selectedPostedBy.value.toString()!=""){
+    finalLink += "&people_type=${selectedCategoryId.value.toString()}";
+  }
+  return finalLink;
+}
+    else{
+      return finalLink;
     }
   }
 }

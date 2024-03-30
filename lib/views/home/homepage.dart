@@ -52,9 +52,9 @@ class HomePage extends StatelessWidget {
                         style: kTextButtonStyle,
                         onPressed: () async {
                           Get.find<AllSearchController>().resetSearchData();
+                          Get.toNamed(krSearchPage);
                           await Get.find<AllSearchController>().getSearchFilterData();
                           await Get.find<AllSearchController>().getSearchHistory();
-                          Get.toNamed(krSearchPage);
                         },
                         child: Icon(
                           BipHip.search,
@@ -283,7 +283,7 @@ class HomePage extends StatelessWidget {
                                               ],
                                             ),
                                           ),
-                                         
+
                                           const Spacer(),
                                           // CustomIconButton(
                                           //   icon: BipHip.system,
