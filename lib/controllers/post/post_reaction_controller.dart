@@ -132,13 +132,13 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   }
 
   List<Map<String, dynamic>> reactions = [];
-  final Rx<String?> selectedReactionText = Rx<String?>(null);
+  final Rx<String> selectedReactionText = Rx<String>("");
   final ScrollController scrollController = ScrollController();
   final RxInt postIndex = RxInt(-1);
 
   selectedReaction(postIndex) {
     if (Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == 'Love') {
-      return SvgPicture.asset(
+     return SvgPicture.asset(
         kiLoveSvgImageUrl,
         width: 20,
       );
@@ -169,6 +169,45 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       );
     }
   }
+
+
+  // //* update Store link API Implementation
+  final RxBool isPostReactionLoading = RxBool(false);
+  Future<void> postReaction(int refType) async {
+    try {
+      isPostReactionLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'ref_type': refType.toString(),
+        'ref_id': postIndex.value.toString(),
+        'reaction': selectedReactionText.value.toString().toLowerCase(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuSetReaction,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        isPostReactionLoading.value = false;
+        // globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isPostReactionLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isPostReactionLoading.value = false;
+      ll('postReaction error: $e');
+    }
+  }
+
+
 
   void resetPurchaseCustomStar() {
     isStarAmountConfirmButtonEnabled.value = false;

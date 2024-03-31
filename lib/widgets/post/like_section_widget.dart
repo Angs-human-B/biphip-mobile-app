@@ -4,7 +4,8 @@ import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/svg.dart';
 
 class LikeSectionWidget extends StatelessWidget {
-  const LikeSectionWidget(
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  LikeSectionWidget(
       {super.key,
       this.likeOnLongPressed,
       this.commentOnPressed,
@@ -52,10 +53,20 @@ class LikeSectionWidget extends StatelessWidget {
                         splashFactory: InkRipple.splashFactory,
                         child: ReactionButton<String>(
                           itemSize: const Size.square(48),
-                          onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Love';
-                            Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          onReactionChanged: (Reaction<String>? reaction) async {
+                            postReactionController.postIndex.value = postIndex + 1;
                             Get.back();
+                            if (postReactionController.reactions[postIndex]['reaction'].value == "Love") {
+                              await postReactionController.postReaction(1);
+                              postReactionController.reactions[postIndex]['reaction'].value = "";
+                              postReactionController.reactions[postIndex]['state'].value = false;
+                              postReactionController.selectedReactionText.value = "";
+                            } else {
+                              postReactionController.reactions[postIndex]['reaction'].value = 'Love';
+                              postReactionController.reactions[postIndex]['state'].value = true;
+                              postReactionController.selectedReactionText.value = "Love";
+                              await postReactionController.postReaction(1);
+                            }
                           },
                           reactions: <Reaction<String>>[
                             Reaction<String>(
@@ -85,10 +96,26 @@ class LikeSectionWidget extends StatelessWidget {
                           boxAnimationDuration: const Duration(milliseconds: 500),
                           itemAnimationDuration: const Duration(milliseconds: 500),
                           itemSize: const Size.square(48),
-                          onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Like';
-                            Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          onReactionChanged: (Reaction<String>? reaction) async {
+                            postReactionController.postIndex.value = postIndex + 1;
                             Get.back();
+                            if (postReactionController.reactions[postIndex]['reaction'].value == "Like") {
+                              await postReactionController.postReaction(1);
+                              postReactionController.reactions[postIndex]['reaction'].value = "";
+                              Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                              postReactionController.selectedReactionText.value = "";
+                            } else {
+                              Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Like';
+                              Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                              postReactionController.selectedReactionText.value = "Like";
+                              await postReactionController.postReaction(1);
+                            }
+                            // Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Like';
+                            // Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                            // postReactionController.postIndex.value = postIndex + 1;
+                            // postReactionController.selectedReactionText.value = "Like";
+                            // Get.back();
+                            // await Get.find<PostReactionController>().postReaction(1);
                           },
                           reactions: <Reaction<String>>[
                             Reaction<String>(
@@ -115,10 +142,26 @@ class LikeSectionWidget extends StatelessWidget {
                         splashFactory: InkRipple.splashFactory,
                         child: ReactionButton<String>(
                           itemSize: const Size.square(48),
-                          onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Haha';
-                            Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          onReactionChanged: (Reaction<String>? reaction) async {
+                            postReactionController.postIndex.value = postIndex + 1;
                             Get.back();
+                            if (postReactionController.reactions[postIndex]['reaction'].value == "Haha") {
+                              await postReactionController.postReaction(1);
+                              postReactionController.reactions[postIndex]['reaction'].value = "";
+                              Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                              postReactionController.selectedReactionText.value = "";
+                            } else {
+                              Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Haha';
+                              Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                              postReactionController.selectedReactionText.value = "Haha";
+                              await postReactionController.postReaction(1);
+                            }
+                            // Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Haha';
+                            // Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                            // postReactionController.postIndex.value = postIndex + 1;
+                            // postReactionController.selectedReactionText.value = "Haha";
+                            // Get.back();
+                            // await Get.find<PostReactionController>().postReaction(1);
                           },
                           reactions: <Reaction<String>>[
                             Reaction<String>(
@@ -145,10 +188,27 @@ class LikeSectionWidget extends StatelessWidget {
                         splashFactory: InkRipple.splashFactory,
                         child: ReactionButton<String>(
                           itemSize: const Size.square(48),
-                          onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Wow';
-                            Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          onReactionChanged: (Reaction<String>? reaction) async {
+                            postReactionController.postIndex.value = postIndex + 1;
                             Get.back();
+                            if (postReactionController.reactions[postIndex]['reaction'].value == "Wow") {
+                              await postReactionController.postReaction(1);
+                              postReactionController.reactions[postIndex]['reaction'].value = "";
+                              Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                              postReactionController.selectedReactionText.value = "";
+                              
+                            } else {
+                              Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Wow';
+                              Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                              postReactionController.selectedReactionText.value = "Wow";
+                              await postReactionController.postReaction(1);
+                            }
+                            // Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Wow';
+                            // Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                            // postReactionController.postIndex.value = postIndex + 1;
+                            // postReactionController.selectedReactionText.value = "Wow";
+                            // Get.back();
+                            // await Get.find<PostReactionController>().postReaction(1);
                           },
                           reactions: <Reaction<String>>[
                             Reaction<String>(
@@ -175,10 +235,26 @@ class LikeSectionWidget extends StatelessWidget {
                         splashFactory: InkRipple.splashFactory,
                         child: ReactionButton<String>(
                           itemSize: const Size.square(48),
-                          onReactionChanged: (Reaction<String>? reaction) {
-                            Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Sad';
-                            Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          onReactionChanged: (Reaction<String>? reaction) async {
+                            postReactionController.postIndex.value = postIndex + 1;
                             Get.back();
+                            if (postReactionController.reactions[postIndex]['reaction'].value == "Sad") {
+                            await postReactionController.postReaction(1);
+                              postReactionController.reactions[postIndex]['reaction'].value = "";
+                              Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                              postReactionController.selectedReactionText.value = "";
+                            } else {
+                              Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Sad';
+                              Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                              postReactionController.selectedReactionText.value = "Sad";
+                              await postReactionController.postReaction(1);
+                            }
+                            // Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Sad';
+                            // Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                            // postReactionController.postIndex.value = postIndex + 1;
+                            // postReactionController.selectedReactionText.value = "Sad";
+                            // Get.back();
+                            // await Get.find<PostReactionController>().postReaction(1);
                           },
                           reactions: <Reaction<String>>[
                             Reaction<String>(

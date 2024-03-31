@@ -8,9 +8,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/quiz/quiz_top_widget.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/views/menu/awards/widgets/awards_widget.dart';
-import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
-import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
 import 'package:bip_hip/widgets/post/stories_widget.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
@@ -217,133 +215,134 @@ class HomePage extends StatelessWidget {
                                 ),
                               kH8sizedBox,
                               //!This part must be changed, it for just birthday test post
-                              Container(
-                                color: cWhiteColor,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: kHorizontalPadding, top: k16Padding, right: kHorizontalPadding),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          ClipOval(
-                                            child: Container(
-                                              height: h44,
-                                              width: h44,
-                                              decoration: const BoxDecoration(
-                                                color: cBlackColor,
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: Image.network(
-                                                "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-                                                fit: BoxFit.cover,
-                                                errorBuilder: (context, error, stackTrace) => const Icon(
-                                                  BipHip.user,
-                                                  size: kIconSize24,
-                                                  color: cIconColor,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          kW12sizedBox,
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: k4Padding),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      "Wahid Murad",
-                                                      style: semiBold16TextStyle(cBlackColor),
-                                                    ),
-                                                    kW4sizedBox,
-                                                    const Icon(
-                                                      BipHip.rightArrowOutline,
-                                                      size: kIconSize12,
-                                                      color: cIconColor,
-                                                    ),
-                                                    kW4sizedBox,
-                                                    Text(
-                                                      "Wahid Murad",
-                                                      style: semiBold16TextStyle(cBlackColor),
-                                                    ),
-                                                  ],
-                                                ),
-                                                kH4sizedBox,
-                                                Row(
-                                                  children: [
-                                                    const Icon(
-                                                      BipHip.world,
-                                                      size: kIconSize14,
-                                                      color: cIconColor,
-                                                    ),
-                                                    kW4sizedBox,
-                                                    Text(
-                                                      '1 hour ago',
-                                                      style: regular12TextStyle(cSmallBodyTextColor),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                         
-                                          const Spacer(),
-                                          // CustomIconButton(
-                                          //   icon: BipHip.system,
-                                          //   size: kIconSize14,
-                                          //   iconColor: cIconColor,
-                                          //   onPress: () {},
-                                          // ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: k4Padding),
-                                            child: InkWell(
-                                              onTap: () {
-                                                homeController.birthdaySelectedAction.value = "";
-                                                Get.find<GlobalController>().commonBottomSheet(
-                                                  context: context,
-                                                  isScrollControlled: true,
-                                                  content: BirthdayActionContent(),
-                                                  onPressCloseButton: () {
-                                                    Get.back();
-                                                  },
-                                                  onPressRightButton: null,
-                                                  rightText: "",
-                                                  rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                                  title: ksAction.tr,
-                                                  isRightButtonShow: false,
-                                                  bottomSheetHeight: 200,
-                                                );
-                                              },
-                                              child: const Icon(
-                                                BipHip.system,
-                                                size: kIconSize14,
-                                                color: cIconColor,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      kH8sizedBox,
-                                      Text(
-                                        "Happy Birthday",
-                                        style: regular14TextStyle(cBlackColor),
-                                      ),
-                                      kH8sizedBox,
-                                      LikeSectionWidget(
-                                        isGiftShown: true,
-                                        giftOnPressed: () {},
-                                        commentOnPressed: () {},
-                                      ),
-                                      const CustomDivider(),
-                                      kH8sizedBox,
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              // Container(
+                              //   color: cWhiteColor,
+                              //   child: Padding(
+                              //     padding: const EdgeInsets.only(left: kHorizontalPadding, top: k16Padding, right: kHorizontalPadding),
+                              //     child: Column(
+                              //       mainAxisAlignment: MainAxisAlignment.start,
+                              //       crossAxisAlignment: CrossAxisAlignment.start,
+                              //       children: [
+                              //         Row(
+                              //           crossAxisAlignment: CrossAxisAlignment.start,
+                              //           children: [
+                              //             ClipOval(
+                              //               child: Container(
+                              //                 height: h44,
+                              //                 width: h44,
+                              //                 decoration: const BoxDecoration(
+                              //                   color: cBlackColor,
+                              //                   shape: BoxShape.circle,
+                              //                 ),
+                              //                 child: Image.network(
+                              //                   "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+                              //                   fit: BoxFit.cover,
+                              //                   errorBuilder: (context, error, stackTrace) => const Icon(
+                              //                     BipHip.user,
+                              //                     size: kIconSize24,
+                              //                     color: cIconColor,
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //             kW12sizedBox,
+                              //             Padding(
+                              //               padding: const EdgeInsets.only(top: k4Padding),
+                              //               child: Column(
+                              //                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                 children: [
+                              //                   Row(
+                              //                     children: [
+                              //                       Text(
+                              //                         "Wahid Murad",
+                              //                         style: semiBold16TextStyle(cBlackColor),
+                              //                       ),
+                              //                       kW4sizedBox,
+                              //                       const Icon(
+                              //                         BipHip.rightArrowOutline,
+                              //                         size: kIconSize12,
+                              //                         color: cIconColor,
+                              //                       ),
+                              //                       kW4sizedBox,
+                              //                       Text(
+                              //                         "Wahid Murad",
+                              //                         style: semiBold16TextStyle(cBlackColor),
+                              //                       ),
+                              //                     ],
+                              //                   ),
+                              //                   kH4sizedBox,
+                              //                   Row(
+                              //                     children: [
+                              //                       const Icon(
+                              //                         BipHip.world,
+                              //                         size: kIconSize14,
+                              //                         color: cIconColor,
+                              //                       ),
+                              //                       kW4sizedBox,
+                              //                       Text(
+                              //                         '1 hour ago',
+                              //                         style: regular12TextStyle(cSmallBodyTextColor),
+                              //                       ),
+                              //                     ],
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //             ),
+
+                              //             const Spacer(),
+                              //             // CustomIconButton(
+                              //             //   icon: BipHip.system,
+                              //             //   size: kIconSize14,
+                              //             //   iconColor: cIconColor,
+                              //             //   onPress: () {},
+                              //             // ),
+                              //             Padding(
+                              //               padding: const EdgeInsets.only(top: k4Padding),
+                              //               child: InkWell(
+                              //                 onTap: () {
+                              //                   homeController.birthdaySelectedAction.value = "";
+                              //                   Get.find<GlobalController>().commonBottomSheet(
+                              //                     context: context,
+                              //                     isScrollControlled: true,
+                              //                     content: BirthdayActionContent(),
+                              //                     onPressCloseButton: () {
+                              //                       Get.back();
+                              //                     },
+                              //                     onPressRightButton: null,
+                              //                     rightText: "",
+                              //                     rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                              //                     title: ksAction.tr,
+                              //                     isRightButtonShow: false,
+                              //                     bottomSheetHeight: 200,
+                              //                   );
+                              //                 },
+                              //                 child: const Icon(
+                              //                   BipHip.system,
+                              //                   size: kIconSize14,
+                              //                   color: cIconColor,
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //         kH8sizedBox,
+                              //         Text(
+                              //           "Happy Birthday",
+                              //           style: regular14TextStyle(cBlackColor),
+                              //         ),
+                              //         kH8sizedBox,
+                              //         LikeSectionWidget(
+                              //           isGiftShown: true,
+                              //           giftOnPressed: () {},
+                              //           commentOnPressed: () {},
+                              //         ),
+                              //         const CustomDivider(),
+                              //         kH8sizedBox,
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
+
                               kH8sizedBox,
                               if (homeController.allPostList.isEmpty)
                                 SizedBox(
@@ -384,7 +383,8 @@ class HomePage extends StatelessWidget {
                                           postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
                                           mediaList: item.images, //API
                                           isSelfPost: index % 2 != 0,
-                                          isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
+                                          isCommentShown: true, commentCount: item.countComment ?? 1, shareCount: item.countShare ?? 1,
+                                          giftCount: item.countStar ?? 0,
                                           reactCount: item.countReactions,
                                           postID: item.id!,
                                           secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
