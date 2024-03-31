@@ -279,23 +279,23 @@ class SearchPage extends StatelessWidget {
                           ),
                         ),
                       if (allSearchController.isSearched.value)
-                        Padding(
-                          padding: const EdgeInsets.only(left: k16Padding),
-                          child: Container(
-                            color: cWhiteColor,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: width,
-                                  height: 50,
-                                  child: ListView.builder(
-                                    itemCount: allSearchController.filterTypeList.length,
-                                    shrinkWrap: true,
-                                    padding: const EdgeInsets.all(0),
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (BuildContext context, i) {
-                                      return Obx(() => Padding(
+                        Obx(() => Padding(
+                              padding: const EdgeInsets.only(left: k16Padding),
+                              child: Container(
+                                color: cWhiteColor,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: width,
+                                      height: 50,
+                                      child: ListView.builder(
+                                        itemCount: allSearchController.filterTypeList.length,
+                                        shrinkWrap: true,
+                                        padding: const EdgeInsets.all(0),
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (BuildContext context, i) {
+                                          return Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: k4Padding),
                                             child: CustomChoiceChips(
                                               label: allSearchController.filterTypeList[i],
@@ -310,14 +310,14 @@ class SearchPage extends StatelessWidget {
                                                 // await allSearchController.getSearch();
                                               },
                                             ),
-                                          ));
-                                    },
-                                  ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
+                              ),
+                            )),
                       if (allSearchController.selectedFilterIndex.value == 0 && allSearchController.isSearched.value)
                         allSearchController.isSearchLoading.value
                             ? const UserSearchShimmer()
