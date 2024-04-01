@@ -131,6 +131,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       return 35;
     }
   }
+
   final RxBool test = RxBool(true);
 
   List<Map<String, dynamic>> reactions = [];
@@ -139,41 +140,38 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxInt postIndex = RxInt(-1);
 
   selectedReaction(postIndex) {
-    if (Get.find<HomeController>().allPostList[postIndex].myReaction == 'Love' || selectedReactionText.value == "Love") {
+    if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'love' || selectedReactionText.value == "Love") {
       return SvgPicture.asset(
         kiLoveSvgImageUrl,
         width: 20,
       );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction ==  'Like' || selectedReactionText.value == "Like") {
+    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'like' || selectedReactionText.value == "Like") {
       return SvgPicture.asset(
         kiLikeSvgImageUrl,
         width: 20,
       );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction ==  'Haha' || selectedReactionText.value == "Haha") {
+    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'haha' || selectedReactionText.value == "Haha") {
       return SvgPicture.asset(
         kiHahaSvgImageUrl,
         width: 20,
       );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction ==  'Wow' || selectedReactionText.value == "Wow") {
+    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'wow' || selectedReactionText.value == "Wow") {
       return SvgPicture.asset(
         kiWowSvgImageUrl,
         width: 20,
       );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction ==  'Sad' || selectedReactionText.value == "Sad") {
+    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'sad' || selectedReactionText.value == "Sad") {
       return SvgPicture.asset(
         kiSadSvgImageUrl,
         width: 20,
       );
-    }
-     else if (Get.find<HomeController>().allPostList[postIndex].myReaction ==  'Angry' || selectedReactionText.value == "Angry") {
+    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction == 'angry' || selectedReactionText.value == "Angry") {
       return SvgPicture.asset(
         kiAngrySvgImageUrl,
         width: 20,
       );
     }
   }
-
- 
 
   // selectedReaction(postIndex) {
   //   if (Get.find<HomeController>().allPostList[postIndex].myReaction == 'Love' || selectedReactionText.value == "Love") {
@@ -209,8 +207,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   //   }
   // }
 
- 
- //* post Reaction API Implementation
+  //* post Reaction API Implementation
   final RxBool isPostReactionLoading = RxBool(false);
   Future<void> postReaction(int refType, int refId) async {
     try {

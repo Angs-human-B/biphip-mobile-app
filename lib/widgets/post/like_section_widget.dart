@@ -245,12 +245,13 @@ class LikeSectionWidget extends StatelessWidget {
                               Get.back();
                               if (postReactionController.reactions[postIndex]['reaction'].value == "Sad") {
                                 await postReactionController.postReaction(refType, refId);
+
                                 postReactionController.reactions[postIndex]['reaction'].value = "";
-                                Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                                postReactionController.reactions[postIndex]['state'].value = false;
                                 postReactionController.selectedReactionText.value = "";
                               } else {
-                                Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Sad';
-                                Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                                postReactionController.reactions[postIndex]['reaction'].value = 'Sad';
+                                postReactionController.reactions[postIndex]['state'].value = true;
                                 postReactionController.selectedReactionText.value = "Sad";
                                 await postReactionController.postReaction(refType, refId);
                               }
@@ -345,13 +346,13 @@ class LikeSectionWidget extends StatelessWidget {
                     //         size: kIconSize20,
                     //       )
                     //     : postReactionController.selectedReaction(postIndex),
-                    Get.find<HomeController>().allPostList[postIndex].myReaction == null || postReactionController.selectedReactionText.value == ""
-                        ? const Icon(
+                    Get.find<HomeController>().allPostList[postIndex].myReaction != null || postReactionController.selectedReactionText.value != ""
+                        ? postReactionController.selectedReaction(postIndex)
+                        : const Icon(
                             BipHip.love,
                             color: cIconColor,
                             size: kIconSize20,
-                          )
-                        : postReactionController.selectedReaction(postIndex),
+                          ),
                   ],
                 ),
               ),
