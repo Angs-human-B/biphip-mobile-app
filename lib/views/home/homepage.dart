@@ -364,6 +364,8 @@ class HomePage extends StatelessWidget {
                                         width: width,
                                         child: CommonPostWidget(
                                           postIndex: index,
+                                          refType: 1,
+                                          refId: item.id!,
                                           isCommented: index % 2 == 0,
                                           isLiked: index % 2 != 0,
                                           isSharedPost: false,

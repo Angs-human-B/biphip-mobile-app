@@ -60,6 +60,8 @@ class CommonPostWidget extends StatelessWidget {
     required this.taggedFriends,
     this.reactCount,
     this.postIndex = 0,
+    this.refType = 0,
+    this.refId = 0,
   });
   final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -90,6 +92,8 @@ class CommonPostWidget extends StatelessWidget {
   final CountReactions? reactCount;
   final int commentCount, shareCount, giftCount, postID;
   final int postIndex;
+  final int refType;
+  final int refId;
   final VoidCallback? postUpperContainerOnPressed;
   final HomeController homeController = Get.find<HomeController>();
 
@@ -603,6 +607,8 @@ class CommonPostWidget extends StatelessWidget {
         if (showBottomSection)
           PostBottomSection(
             postIndex: postIndex,
+            refType: refType,
+            refId: refId,
             isSelfPost: isSelfPost,
             isCommentShown: isCommentShown,
             commentCount: commentCount,
@@ -635,7 +641,8 @@ class PostBottomSection extends StatelessWidget {
       this.actionName,
       this.actionOnPressed,
       this.reactCount,
-      this.postIndex = 0});
+      this.postIndex = 0,  this.refType=0,  this.refId=0
+      });
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
@@ -643,6 +650,8 @@ class PostBottomSection extends StatelessWidget {
   final RxBool showComment = RxBool(false);
   final int commentCount, shareCount, giftCount;
   final int postIndex;
+  final int refType;
+  final int refId;
   final CountReactions? reactCount;
   final String? category, platformName, platformLink, actionName;
   final VoidCallback? actionOnPressed;
@@ -785,6 +794,8 @@ class PostBottomSection extends StatelessWidget {
               ),
               child: LikeSectionWidget(
                 postIndex: postIndex,
+                refType: refType,
+                refId: refId,
                 isGiftShown: true,
                 likeOnTap: () {},
                 giftOnPressed: () {

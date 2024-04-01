@@ -460,6 +460,7 @@ class PostData {
   List<dynamic> postTags;
   List<ImageElement> images;
   List<dynamic> comments;
+    String? myReaction;
 
   PostData({
     required this.id,
@@ -510,6 +511,7 @@ class PostData {
     required this.postTags,
     required this.images,
     required this.comments,
+      required this.myReaction,
   });
 
   factory PostData.fromJson(Map<String, dynamic> json) => PostData(
@@ -561,6 +563,7 @@ class PostData {
         postTags: List<dynamic>.from(json["post_tags"].map((x) => x)),
         images: List<ImageElement>.from(json["images"].map((x) => ImageElement.fromJson(x))),
         comments: List<dynamic>.from(json["comments"].map((x) => x)),
+          myReaction: json["my_reaction"],
       );
 }
 
