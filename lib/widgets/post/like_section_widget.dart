@@ -245,7 +245,6 @@ class LikeSectionWidget extends StatelessWidget {
                               Get.back();
                               if (postReactionController.reactions[postIndex]['reaction'].value == "Sad") {
                                 await postReactionController.postReaction(refType, refId);
-
                                 postReactionController.reactions[postIndex]['reaction'].value = "";
                                 postReactionController.reactions[postIndex]['state'].value = false;
                                 postReactionController.selectedReactionText.value = "";
@@ -325,7 +324,7 @@ class LikeSectionWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      Get.find<HomeController>().allPostList[postIndex].myReaction == null && postReactionController.selectedReactionText.value == ""
+                      Get.find<HomeController>().allPostList[postIndex].myReaction == null && postReactionController.reactions[postIndex]['reaction'].value == ""
                           ? ksLove.tr
                           : postReactionController.selectedReactionText.value != ""
                               ? postReactionController.selectedReactionText.value
@@ -346,7 +345,7 @@ class LikeSectionWidget extends StatelessWidget {
                     //         size: kIconSize20,
                     //       )
                     //     : postReactionController.selectedReaction(postIndex),
-                    Get.find<HomeController>().allPostList[postIndex].myReaction != null || postReactionController.selectedReactionText.value != ""
+                    Get.find<HomeController>().allPostList[postIndex].myReaction != null || postReactionController.reactions[postIndex]['reaction'].value != ""
                         ? postReactionController.selectedReaction(postIndex)
                         : const Icon(
                             BipHip.love,

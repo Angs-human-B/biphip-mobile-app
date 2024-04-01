@@ -140,27 +140,27 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxInt postIndex = RxInt(-1);
 
   selectedReaction(postIndex) {
-    if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'love' || selectedReactionText.value == "Love") {
+    if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'love' || reactions[postIndex]['reaction'].value == "Love") {
       return SvgPicture.asset(
         kiLoveSvgImageUrl,
         width: 20,
       );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'like' || selectedReactionText.value == "Like") {
+    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'like' || reactions[postIndex]['reaction'].value == "Like") {
       return SvgPicture.asset(
         kiLikeSvgImageUrl,
         width: 20,
       );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'haha' || selectedReactionText.value == "Haha") {
+    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'haha' || reactions[postIndex]['reaction'].value == "Haha") {
       return SvgPicture.asset(
         kiHahaSvgImageUrl,
         width: 20,
       );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'wow' || selectedReactionText.value == "Wow") {
+    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'wow' || reactions[postIndex]['reaction'].value == "Wow") {
       return SvgPicture.asset(
         kiWowSvgImageUrl,
         width: 20,
       );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'sad' || selectedReactionText.value == "Sad") {
+    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'sad' || reactions[postIndex]['reaction'].value == "Sad") {
       return SvgPicture.asset(
         kiSadSvgImageUrl,
         width: 20,
