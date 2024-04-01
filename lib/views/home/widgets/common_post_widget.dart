@@ -641,8 +641,9 @@ class PostBottomSection extends StatelessWidget {
       this.actionName,
       this.actionOnPressed,
       this.reactCount,
-      this.postIndex = 0,  this.refType=0,  this.refId=0
-      });
+      this.postIndex = 0,
+      this.refType = 0,
+      this.refId = 0});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
@@ -827,27 +828,35 @@ class PostBottomSection extends StatelessWidget {
             ),
             kH12sizedBox,
             if (isCommentShown && showComment.value)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: CommentWidget(
-                  profileImage: kiDummyImage3ImageUrl,
-                  comment:
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
-                  timePassed: '30',
-                  isLikeButtonShown: true,
-                  commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
-                  isReplyButtonShown: true,
-                  isReactButtonShown: true,
-                  isImageComment: true,
-                  image: kiDummyImage3ImageUrl,
-                  isLink: false,
-                  reactCount: 1234,
-                  userName: 'Monjurul Sharker Omi',
-                  isSendMessageShown: false,
-                  isHideButtonShown: true,
-                  replyList: replyComment,
-                ),
-              ),
+              ListView.separated(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: CommentWidget(
+                        profileImage: kiDummyImage3ImageUrl,
+                        comment:
+                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
+                        timePassed: '30',
+                        isLikeButtonShown: true,
+                        commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
+                        isReplyButtonShown: true,
+                        isReactButtonShown: true,
+                        isImageComment: true,
+                        image: kiDummyImage3ImageUrl,
+                        isLink: false,
+                        reactCount: 1234,
+                        userName: 'Monjurul Sharker Omi',
+                        isSendMessageShown: false,
+                        isHideButtonShown: true,
+                        replyList: replyComment,
+                        refType: refType,
+                        refId: refId,
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => kH4sizedBox,
+                  itemCount: 1),
           ],
         ));
   }
@@ -893,6 +902,8 @@ class BiddingInsightsContent extends StatelessWidget {
                     isSendMessageShown: true,
                     isHideButtonShown: false,
                     replyList: const [],
+                    refType: 1,
+                    refId: 1,
                   );
                 }),
             kH8sizedBox,
@@ -1134,6 +1145,8 @@ class UpdateBidding extends StatelessWidget {
           isSendMessageShown: false,
           isHideButtonShown: false,
           replyList: const [],
+          refType: 1,
+          refId: 1,
         ),
         kH4sizedBox,
         Wrap(

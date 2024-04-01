@@ -242,8 +242,87 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       ll('postReaction error: $e');
     }
   }
+  //* post Reaction API Implementation
+  final RxBool isPostCommentLoading = RxBool(false);
+  Future<void> postComment(int refType, int refId) async {
+    try {
+      isPostCommentLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'ref_type': refType.toString(),
+        'ref_id': refId.toString(),
+        'comment': commentTextEditingController.text.toString().trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuSetComment,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      //   var response = await apiController.mediaUpload(
+      //   url: kuSetComment,
+      //   token: token,
+      //   body: body,
+      //   key: "image",
+      //   // value: imageFile.path,
+      // ) as CommonDM;
 
-  void resetPurchaseCustomStar() {
+      if (response.success == true) {
+        isPostCommentLoading.value = false;
+        // globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isPostCommentLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isPostCommentLoading.value = false;
+      ll('postComment error: $e');
+    }
+  }
+
+
+  // //   //*Kids List Api Call
+  // final Rx<?> kidsListData = Rx<AllKidsModel?>(null);
+  // final RxList<Kid> kidList = RxList<Kid>([]);
+  // final RxBool isKidsListLoading = RxBool(false);
+  // final RxInt totalKidsCount = RxInt(0);
+  // Future<void> getKidsList() async {
+  //   try {
+  //     isKidsListLoading.value = true;
+  //     String? token = await spController.getBearerToken();
+  //     var response = await apiController.commonApiCall(
+  //       requestMethod: kGet,
+  //       token: token,
+  //       url: kuGetAllKidList,
+  //     ) as CommonDM;
+  //     if (response.success == true) {
+  //       kidList.clear();
+  //       kidsListData.value = AllKidsModel.fromJson(response.data);
+  //       kidList.addAll(kidsListData.value!.kids);
+  //       totalKidsCount.value = kidList.length;
+  //       isKidsListLoading.value = false;
+  //     } else {
+  //       isKidsListLoading.value = true;
+  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+  //       if (errorModel.errors.isEmpty) {
+  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+  //       } else {
+  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isKidsListLoading.value = true;
+  //     ll('getKidsList error: $e');
+  //   }
+  // }
+
+ 
+    void resetPurchaseCustomStar() {
     isStarAmountConfirmButtonEnabled.value = false;
     starAmountTextEditingController.clear();
     temporarytotalStarBuyAmount.value = 0;

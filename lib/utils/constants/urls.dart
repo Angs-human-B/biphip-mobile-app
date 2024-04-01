@@ -214,6 +214,10 @@ const String kuDeleteStoreLink = '/mobile/user/delete-store-link';
 //* Post Reaction
 const String kuSetReaction = "/mobile/user/set-reaction";
 
+//* Set Comment
+const String kuSetComment = "/mobile/user/set-comment";
+
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls

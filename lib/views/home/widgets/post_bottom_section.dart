@@ -7,12 +7,14 @@ import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 
 class PostBottomSection extends StatelessWidget {
-  PostBottomSection({super.key, required this.isCommentShown});
+  PostBottomSection({super.key, required this.isCommentShown,  this.refType=0,  this.refId=0});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   final bool isCommentShown;
   final RxBool showComment = RxBool(false);
+  final int refType;
+  final int refId;
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +80,8 @@ class PostBottomSection extends StatelessWidget {
                   isSendMessageShown: false,
                   isHideButtonShown: true,
                   replyList: replyComment,
+                  refType: refType,
+                  refId: refId,
                 ),
               ),
           ],

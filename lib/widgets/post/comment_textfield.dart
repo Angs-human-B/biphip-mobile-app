@@ -49,9 +49,9 @@ class CommentTextField extends StatelessWidget {
                 const Spacer(),
                 InkWell(
                   onTap: onPressedSend,
-                  child: const Icon(
+                  child: Icon(
                     Icons.send,
-                    color: cIconColor,
+                    color: postReactionController.commentTextEditingController.text.toString().trim() == "" ? cIconColor : cPrimaryColor,
                   ),
                 ),
               ],
