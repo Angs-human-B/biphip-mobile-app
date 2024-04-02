@@ -816,8 +816,12 @@ class PostBottomSection extends StatelessWidget {
                     isRightButtonShow: false,
                   );
                 },
-                commentOnPressed: () {
+                commentOnPressed: () async {
+                  // ll("12");
                   showComment.value = !showComment.value;
+                  if (showComment.value) {
+                    await postReactionController.getCommentList(refType, refId);
+                  }
                   ll(showComment);
                 },
               ),

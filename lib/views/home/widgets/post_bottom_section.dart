@@ -7,7 +7,7 @@ import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 
 class PostBottomSection extends StatelessWidget {
-  PostBottomSection({super.key, required this.isCommentShown,  this.refType=0,  this.refId=0});
+  PostBottomSection({super.key, required this.isCommentShown, this.refType = 0, this.refId = 0});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
@@ -49,7 +49,7 @@ class PostBottomSection extends StatelessWidget {
                   postReactionController.resetGiftData();
                   globalController.blankBottomSheet(context: context, content: GiftContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
-                commentOnPressed: () {
+                commentOnPressed: () async {
                   showComment.value = !showComment.value;
                   ll(showComment);
                 },

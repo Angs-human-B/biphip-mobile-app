@@ -216,6 +216,7 @@ const String kuSetReaction = "/mobile/user/set-reaction";
 
 //* Set Comment
 const String kuSetComment = "/mobile/user/set-comment";
+const String kuGetComment = "/mobile/user/get-comments";
 
 
 /*

@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/models/post/post_comment_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -145,22 +146,26 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         kiLoveSvgImageUrl,
         width: 20,
       );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'like' || reactions[postIndex]['reaction'].value == "Like") {
+    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'like' ||
+        reactions[postIndex]['reaction'].value == "Like") {
       return SvgPicture.asset(
         kiLikeSvgImageUrl,
         width: 20,
       );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'haha' || reactions[postIndex]['reaction'].value == "Haha") {
+    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'haha' ||
+        reactions[postIndex]['reaction'].value == "Haha") {
       return SvgPicture.asset(
         kiHahaSvgImageUrl,
         width: 20,
       );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'wow' || reactions[postIndex]['reaction'].value == "Wow") {
+    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'wow' ||
+        reactions[postIndex]['reaction'].value == "Wow") {
       return SvgPicture.asset(
         kiWowSvgImageUrl,
         width: 20,
       );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'sad' || reactions[postIndex]['reaction'].value == "Sad") {
+    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'sad' ||
+        reactions[postIndex]['reaction'].value == "Sad") {
       return SvgPicture.asset(
         kiSadSvgImageUrl,
         width: 20,
@@ -242,6 +247,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       ll('postReaction error: $e');
     }
   }
+
   //* post Reaction API Implementation
   final RxBool isPostCommentLoading = RxBool(false);
   Future<void> postComment(int refType, int refId) async {
@@ -285,44 +291,40 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
+  //   //*get Comment Api Call
+  final Rx<PostCommentModel?> commentListData = Rx<PostCommentModel?>(null);
+  final RxList<CommentData> commentList = RxList<CommentData>([]);
+  final RxBool isCommentLoading = RxBool(false);
+  Future<void> getCommentList(int refType, int refId) async {
+    try {
+      isCommentLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuGetComment?ref_type=${refType.toString()}&ref_id=${refId.toString()}",
+      ) as CommonDM;
+      if (response.success == true) {
+        commentList.clear();
+        commentListData.value = PostCommentModel.fromJson(response.data);
+        commentList.addAll(commentListData.value!.data);
+        isCommentLoading.value = false;
+      } else {
+        isCommentLoading.value = true;
+        // ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        // if (errorModel.errors.isEmpty) {
+        //   globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        // } else {
+        //   globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        // }
+      }
+    } catch (e) {
+      isCommentLoading.value = true;
+      ll('getCommentList error: $e');
+    }
+  }
 
-  // //   //*Kids List Api Call
-  // final Rx<?> kidsListData = Rx<AllKidsModel?>(null);
-  // final RxList<Kid> kidList = RxList<Kid>([]);
-  // final RxBool isKidsListLoading = RxBool(false);
-  // final RxInt totalKidsCount = RxInt(0);
-  // Future<void> getKidsList() async {
-  //   try {
-  //     isKidsListLoading.value = true;
-  //     String? token = await spController.getBearerToken();
-  //     var response = await apiController.commonApiCall(
-  //       requestMethod: kGet,
-  //       token: token,
-  //       url: kuGetAllKidList,
-  //     ) as CommonDM;
-  //     if (response.success == true) {
-  //       kidList.clear();
-  //       kidsListData.value = AllKidsModel.fromJson(response.data);
-  //       kidList.addAll(kidsListData.value!.kids);
-  //       totalKidsCount.value = kidList.length;
-  //       isKidsListLoading.value = false;
-  //     } else {
-  //       isKidsListLoading.value = true;
-  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
-  //       if (errorModel.errors.isEmpty) {
-  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-  //       } else {
-  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     isKidsListLoading.value = true;
-  //     ll('getKidsList error: $e');
-  //   }
-  // }
-
- 
-    void resetPurchaseCustomStar() {
+  void resetPurchaseCustomStar() {
     isStarAmountConfirmButtonEnabled.value = false;
     starAmountTextEditingController.clear();
     temporarytotalStarBuyAmount.value = 0;
