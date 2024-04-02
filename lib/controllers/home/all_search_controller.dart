@@ -2,8 +2,10 @@ import 'package:bip_hip/models/search/search_filter_data_model.dart';
 import 'package:bip_hip/models/search/search_history_model.dart';
 import 'package:bip_hip/models/search/search_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:video_player/video_player.dart';
 
 class AllSearchController extends GetxController {
+  
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
@@ -49,6 +51,7 @@ class AllSearchController extends GetxController {
   final RxBool isPhotosVideosBottomSheetResetOrShowResult = RxBool(false);
   final RxBool isKidsNewsBottomSheetResetOrShowResult = RxBool(false);
   final RxBool isSellPostBottomSheetResetOrShowResult = RxBool(false);
+
   void resetKidsNewsBottomSheetData() {
     selectedSubCategory.value = "";
     selectedDatePosted.value = "";
@@ -488,5 +491,21 @@ class AllSearchController extends GetxController {
       }
       return finalLink;
     }
+  }
+
+  late VideoPlayerController videoPlayerController;
+  late Future<void> initializedVideoPlayerFuture;
+    final RxString videoUrl = RxString("");
+    void customOnInit() {
+    videoPlayerController = VideoPlayerController.network(videoUrl.value);
+    initializedVideoPlayerFuture = videoPlayerController.initialize().then((value) {
+      videoPlayerController.play();
+      videoPlayerController.setLooping(false);
+    });
+  }
+  @override
+  void dispose() {
+    videoPlayerController.dispose();
+    super.dispose();
   }
 }

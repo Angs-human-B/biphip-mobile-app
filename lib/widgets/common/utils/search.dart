@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
+import 'package:bip_hip/views/menu/videos/widgets/video_player_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/utils/search_bottom_sheets/search_kids_news_bottom_sheet_content.dart';
 import 'package:bip_hip/widgets/common/utils/search_bottom_sheets/search_photos_videos_bottom_sheet_content.dart';
@@ -700,6 +701,10 @@ class SearchPage extends StatelessWidget {
                                           return InkWell(
                                             onTap: () {
                                               // Get.toNamed(krVideoDetails);
+                                              allSearchController.videoUrl.value = item.fullPath.toString();
+                                              ll(allSearchController.videoUrl.value);
+                                              allSearchController.customOnInit();
+                                              Get.to(() => VideoPlayerWidget());
                                             },
                                             child: SearchVideosContent(
                                               image: item.fullPath.toString(),
