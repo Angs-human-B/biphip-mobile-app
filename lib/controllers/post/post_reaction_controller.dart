@@ -178,6 +178,16 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
+  final RxBool isCommentSendEnable = RxBool(false);
+
+  void commentSendEnabled() {
+    if (commentTextEditingController.text.toString().trim() == "") {
+      isCommentSendEnable.value = false;
+    } else {
+      isCommentSendEnable.value = true;
+    }
+  }
+
   // selectedReaction(postIndex) {
   //   if (Get.find<HomeController>().allPostList[postIndex].myReaction == 'Love' || selectedReactionText.value == "Love") {
   //     return SvgPicture.asset(
@@ -274,6 +284,8 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       // ) as CommonDM;
 
       if (response.success == true) {
+        commentTextEditingController.clear();
+        isCommentSendEnable.value = false;
         isPostCommentLoading.value = false;
         // globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {

@@ -31,12 +31,14 @@ class PostCommentModel {
 
   factory PostCommentModel.fromJson(Map<String, dynamic> json) => PostCommentModel(
         currentPage: json["current_page"],
-        data: List<CommentData>.from(json["data"].map((x) => CommentData.fromJson(x))),
+        // data: List<CommentData>.from(json["data"].map((x) => CommentData.fromJson(x))),
+        data: json["data"] != null ? List<CommentData>.from(json["data"].map((x) => CommentData.fromJson(x))) : [],
         firstPageUrl: json["first_page_url"],
         from: json["from"],
         lastPage: json["last_page"],
         lastPageUrl: json["last_page_url"],
-        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+        // links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+        links: json["links"] != null ? List<Link>.from(json["links"].map((x) => Link.fromJson(x))) : [],
         nextPageUrl: json["next_page_url"],
         path: json["path"],
         perPage: json["per_page"],
@@ -59,7 +61,7 @@ class CommentData {
   int? refType;
   int? refId;
   dynamic deletedAt;
-  List<dynamic> mentionUsers;
+  List<String> mentionUsers;
   RefRelation? refRelation;
   dynamic myReaction;
   int? countReply;
@@ -108,7 +110,7 @@ class CommentData {
         refType: json["ref_type"],
         refId: json["ref_id"],
         deletedAt: json["deleted_at"],
-        mentionUsers: List<dynamic>.from(json["mention_users"].map((x) => x)),
+        mentionUsers: List<String>.from(json["mention_users"].map((x) => x)),
         refRelation: json["ref_relation"] == null ? null : RefRelation.fromJson(json["ref_relation"]),
         myReaction: json["my_reaction"],
         countReply: json["count_reply"],

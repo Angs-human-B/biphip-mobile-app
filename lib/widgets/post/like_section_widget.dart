@@ -60,13 +60,15 @@ class LikeSectionWidget extends StatelessWidget {
                           child: ReactionButton<String>(
                             itemSize: const Size.square(48),
                             onReactionChanged: (Reaction<String>? reaction) async {
-                              postReactionController.postIndex.value = postIndex + 1;
+                              postReactionController.postIndex.value = postIndex;
                               Get.back();
-                              if (postReactionController.reactions[postIndex]['reaction'].value == "Love") {
+                              if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Love".toLowerCase() ||
+                                  postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Love".toLowerCase()) {
+                                postReactionController.selectedReactionText.value = "Love";
                                 await postReactionController.postReaction(refType, refId);
                                 postReactionController.reactions[postIndex]['reaction'].value = "";
                                 postReactionController.reactions[postIndex]['state'].value = false;
-                                postReactionController.selectedReactionText.value = "";
+                                Get.find<HomeController>().allPostList[postIndex].myReaction = null;
                               } else {
                                 postReactionController.reactions[postIndex]['reaction'].value = 'Love';
                                 postReactionController.reactions[postIndex]['state'].value = true;
@@ -103,18 +105,21 @@ class LikeSectionWidget extends StatelessWidget {
                             itemAnimationDuration: const Duration(milliseconds: 500),
                             itemSize: const Size.square(48),
                             onReactionChanged: (Reaction<String>? reaction) async {
-                              postReactionController.postIndex.value = postIndex + 1;
+                              postReactionController.postIndex.value = postIndex;
                               Get.back();
-                              if (postReactionController.reactions[postIndex]['reaction'].value == "Like") {
+                              if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Like".toLowerCase() ||
+                                  postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Like".toLowerCase()) {
+                                postReactionController.selectedReactionText.value = "Like";
                                 await postReactionController.postReaction(refType, refId);
                                 postReactionController.reactions[postIndex]['reaction'].value = "";
                                 Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
-                                postReactionController.selectedReactionText.value = "";
+                                Get.find<HomeController>().allPostList[postIndex].myReaction = null;
                               } else {
                                 Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Like';
                                 Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
                                 postReactionController.selectedReactionText.value = "Like";
                                 await postReactionController.postReaction(refType, refId);
+                                ll("2");
                               }
                               // Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Like';
                               // Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
@@ -149,13 +154,15 @@ class LikeSectionWidget extends StatelessWidget {
                           child: ReactionButton<String>(
                             itemSize: const Size.square(48),
                             onReactionChanged: (Reaction<String>? reaction) async {
-                              postReactionController.postIndex.value = postIndex + 1;
+                              postReactionController.postIndex.value = postIndex;
                               Get.back();
-                              if (postReactionController.reactions[postIndex]['reaction'].value == "Haha") {
+                              if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Haha".toLowerCase() ||
+                                  postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Haha".toLowerCase()) {
+                                postReactionController.selectedReactionText.value = "Haha";
                                 await postReactionController.postReaction(refType, refId);
                                 postReactionController.reactions[postIndex]['reaction'].value = "";
                                 Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
-                                postReactionController.selectedReactionText.value = "";
+                                Get.find<HomeController>().allPostList[postIndex].myReaction = null;
                               } else {
                                 Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Haha';
                                 Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
@@ -195,13 +202,15 @@ class LikeSectionWidget extends StatelessWidget {
                           child: ReactionButton<String>(
                             itemSize: const Size.square(48),
                             onReactionChanged: (Reaction<String>? reaction) async {
-                              postReactionController.postIndex.value = postIndex + 1;
+                              postReactionController.postIndex.value = postIndex;
                               Get.back();
-                              if (postReactionController.reactions[postIndex]['reaction'].value == "Wow") {
+                              if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Wow".toLowerCase() ||
+                                  postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Wow".toLowerCase()) {
+                                postReactionController.selectedReactionText.value = "Wow";
                                 await postReactionController.postReaction(refType, refId);
                                 postReactionController.reactions[postIndex]['reaction'].value = "";
                                 Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
-                                postReactionController.selectedReactionText.value = "";
+                                Get.find<HomeController>().allPostList[postIndex].myReaction = null;
                               } else {
                                 Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Wow';
                                 Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
@@ -241,13 +250,15 @@ class LikeSectionWidget extends StatelessWidget {
                           child: ReactionButton<String>(
                             itemSize: const Size.square(48),
                             onReactionChanged: (Reaction<String>? reaction) async {
-                              postReactionController.postIndex.value = postIndex + 1;
+                              postReactionController.postIndex.value = postIndex;
                               Get.back();
-                              if (postReactionController.reactions[postIndex]['reaction'].value == "Sad") {
+                              if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Sad".toLowerCase() ||
+                                  postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Sad".toLowerCase()) {
+                                postReactionController.selectedReactionText.value = "Sad";
                                 await postReactionController.postReaction(refType, refId);
-                                postReactionController.reactions[postIndex]['reaction'].value = "";
                                 postReactionController.reactions[postIndex]['state'].value = false;
                                 postReactionController.selectedReactionText.value = "";
+                                Get.find<HomeController>().allPostList[postIndex].myReaction = null;
                               } else {
                                 postReactionController.reactions[postIndex]['reaction'].value = 'Sad';
                                 postReactionController.reactions[postIndex]['state'].value = true;
@@ -324,7 +335,8 @@ class LikeSectionWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      Get.find<HomeController>().allPostList[postIndex].myReaction == null && postReactionController.reactions[postIndex]['reaction'].value == ""
+                      Get.find<HomeController>().allPostList[postIndex].myReaction == null &&
+                              postReactionController.reactions[postIndex]['reaction'].value == ""
                           ? ksLove.tr
                           : postReactionController.selectedReactionText.value != ""
                               ? postReactionController.selectedReactionText.value

@@ -816,11 +816,12 @@ class PostBottomSection extends StatelessWidget {
                     isRightButtonShow: false,
                   );
                 },
-                commentOnPressed: () async {
+                commentOnPressed: () {
                   // ll("12");
                   showComment.value = !showComment.value;
                   if (showComment.value) {
-                    await postReactionController.getCommentList(refType, refId);
+                    postReactionController.getCommentList(refType, refId);
+                    ll("Hi");
                   }
                   ll(showComment);
                 },
@@ -831,16 +832,15 @@ class PostBottomSection extends StatelessWidget {
               child: CustomDivider(),
             ),
             kH12sizedBox,
-            if (isCommentShown && showComment.value)
+            if (isCommentShown && showComment.value && postReactionController.commentList.isNotEmpty)
               ListView.separated(
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: CommentWidget(
-                        profileImage: kiDummyImage3ImageUrl,
-                        comment:
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
+                        profileImage: postReactionController.commentList[0].user?.profilePicture ?? "",
+                        comment: postReactionController.commentList[0].comment ?? ksNA,
                         timePassed: '30',
                         isLikeButtonShown: true,
                         commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
@@ -850,17 +850,18 @@ class PostBottomSection extends StatelessWidget {
                         image: kiDummyImage3ImageUrl,
                         isLink: false,
                         reactCount: 1234,
-                        userName: 'Monjurul Sharker Omi',
+                        userName: postReactionController.commentList[0].user?.fullName ?? ksNA,
                         isSendMessageShown: false,
                         isHideButtonShown: true,
                         replyList: replyComment,
                         refType: refType,
                         refId: refId,
                       ),
+                      // ),
                     );
                   },
                   separatorBuilder: (context, index) => kH4sizedBox,
-                  itemCount: 1),
+                  itemCount: postReactionController.commentList.length),
           ],
         ));
   }

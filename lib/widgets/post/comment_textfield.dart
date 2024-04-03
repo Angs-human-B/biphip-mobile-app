@@ -23,6 +23,9 @@ class CommentTextField extends StatelessWidget {
               inputType: TextInputType.multiline,
               minLines: 1,
               maxLines: 4,
+              onChanged: (value) {
+                postReactionController.commentSendEnabled();
+              },
               inputAction: TextInputAction.newline,
               contentPadding: const EdgeInsets.symmetric(vertical: k10Padding, horizontal: k8Padding),
               borderRadius: 8,
@@ -47,13 +50,13 @@ class CommentTextField extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                InkWell(
-                  onTap: onPressedSend,
-                  child: Icon(
-                    Icons.send,
-                    color: postReactionController.commentTextEditingController.text.toString().trim() == "" ? cIconColor : cPrimaryColor,
-                  ),
-                ),
+                Obx(() => InkWell(
+                      onTap: onPressedSend,
+                      child: Icon(
+                        Icons.send,
+                        color: postReactionController.isCommentSendEnable.value ? cPrimaryColor : cIconColor,
+                      ),
+                    )),
               ],
             )
           ],
