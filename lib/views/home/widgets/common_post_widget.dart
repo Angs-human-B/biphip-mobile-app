@@ -816,13 +816,17 @@ class PostBottomSection extends StatelessWidget {
                     isRightButtonShow: false,
                   );
                 },
-                commentOnPressed: () {
+                commentOnPressed: () async {
                   // ll("12");
                   showComment.value = !showComment.value;
-                  if (showComment.value) {
-                    postReactionController.getCommentList(refType, refId);
-                    ll("Hi");
-                  }
+                  // if (showComment.value) {
+                  // }
+                  Get.to(() => HomePostDetails(
+                        postIndex: postIndex,
+                      ));
+                  postReactionController.refId.value = refId;
+                  await Get.find<HomeController>().getPostData(refId);
+                  await postReactionController.getCommentList(1, refId);
                   ll(showComment);
                 },
               ),
@@ -832,36 +836,36 @@ class PostBottomSection extends StatelessWidget {
               child: CustomDivider(),
             ),
             kH12sizedBox,
-            if (isCommentShown && showComment.value && postReactionController.commentList.isNotEmpty)
-              ListView.separated(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                      child: CommentWidget(
-                        profileImage: postReactionController.commentList[0].user?.profilePicture ?? "",
-                        comment: postReactionController.commentList[0].comment ?? ksNA,
-                        timePassed: '30',
-                        isLikeButtonShown: true,
-                        commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
-                        isReplyButtonShown: true,
-                        isReactButtonShown: true,
-                        isImageComment: true,
-                        image: kiDummyImage3ImageUrl,
-                        isLink: false,
-                        reactCount: 1234,
-                        userName: postReactionController.commentList[0].user?.fullName ?? ksNA,
-                        isSendMessageShown: false,
-                        isHideButtonShown: true,
-                        replyList: replyComment,
-                        refType: refType,
-                        refId: refId,
-                      ),
-                      // ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => kH4sizedBox,
-                  itemCount: postReactionController.commentList.length),
+            // if (isCommentShown && showComment.value)
+            // ListView.separated(
+            //     shrinkWrap: true,
+            //     itemBuilder: (context, index) {
+            //       return Padding(
+            //         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            //         child: CommentWidget(
+            //           profileImage: kiDummyImage3ImageUrl,
+            //           comment:ksNA.tr,
+            //           timePassed: '30',
+            //           isLikeButtonShown: true,
+            //           commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
+            //           isReplyButtonShown: true,
+            //           isReactButtonShown: true,
+            //           isImageComment: true,
+            //           image: kiDummyImage3ImageUrl,
+            //           isLink: false,
+            //           reactCount: 1234,
+            //           userName: "Wahid Murad",
+            //           isSendMessageShown: false,
+            //           isHideButtonShown: true,
+            //           replyList: replyComment,
+            //           refType: refType,
+            //           refId: refId,
+            //         ),
+            //         // ),
+            //       );
+            //     },
+            //     separatorBuilder: (context, index) => kH4sizedBox,
+            //     itemCount: postReactionController.commentList.length),
           ],
         ));
   }

@@ -1,7 +1,5 @@
 import 'package:any_link_preview/any_link_preview.dart';
-import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/post/comment_textfield.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 
 class CommentWidget extends StatelessWidget {
@@ -52,9 +50,15 @@ class CommentWidget extends StatelessWidget {
             width: 32,
             decoration: const BoxDecoration(shape: BoxShape.circle),
             child: ClipOval(
-              child: Image.asset(
+              child: Image.network(
                 profileImage,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => const Icon(
+                  BipHip.user,
+                  size: kIconSize16,
+                  color: cIconColor,
+                ),
+                loadingBuilder: imageLoadingBuilder,
               ),
             ),
           ),
@@ -117,15 +121,21 @@ class CommentWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            if (!isLink && isImageComment)
+            if (!isLink && image!=null)
               SizedBox(
                 width: isDeviceScreenLarge() ? 150 : 120,
                 height: isDeviceScreenLarge() ? 150 : 120,
                 child: ClipRRect(
                   borderRadius: k8CircularBorderRadius,
-                  child: Image.asset(
+                  child: Image.network(
                     image!,
                     fit: BoxFit.cover,
+                    // errorBuilder: (context, error, stackTrace) => const Icon(
+                    //   BipHip.user,
+                    //   size: kIconSize16,
+                    //   color: cIconColor,
+                    // ),
+                    // loadingBuilder: imageLoadingBuilder,
                   ),
                 ),
               ),
@@ -208,15 +218,6 @@ class CommentWidget extends StatelessWidget {
             //         }),
             //   ),
 
-            SizedBox(
-                width: width - 80,
-                height: 100,
-                child: CommentTextField(
-                  hintText: "${ksWriteAComment.tr} ...",
-                  onPressedSend: () async {
-                    await Get.find<PostReactionController>().postComment(refType, refId);
-                  },
-                )),
             kH8sizedBox,
           ],
         ),

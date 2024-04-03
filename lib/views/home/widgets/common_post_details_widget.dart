@@ -1,7 +1,7 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/home_post_details.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
-import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 
 class CommonPostDetailsWidget extends StatelessWidget {
   CommonPostDetailsWidget({
@@ -303,10 +303,10 @@ class CommonPostDetailsWidget extends StatelessWidget {
             ),
           ),
 
-        if (showBottomSection)
-          PostBottomSection(
+        // if (showBottomSection)
+          PostDetailsBottomSection(
             postIndex: postIndex,
-            isCommentShown: isCommentShown,
+            isCommentShown: true,
             isSelfPost: true,
             commentCount: 0,
             shareCount: 0,
