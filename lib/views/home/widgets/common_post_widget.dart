@@ -659,78 +659,89 @@ class PostBottomSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Column(
-          children: [
-            if (category == 'Selling' && platformName != null)
-              Padding(
-                padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k4Padding),
-                child: PlatformActionSection(
-                  actionOnPressed: actionOnPressed,
-                  platformName: 'Jane clothing store',
-                  platformLink: 'www.facebook.com/janeclothing/sdasdsads',
-                  actionName: 'Learn more',
-                ),
-              ),
-            if (isSelfPost && category == 'Selling')
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: kHorizontalPadding,
-                  right: kHorizontalPadding,
-                ),
-                child: BiddingWidget(
-                  totalBids: 25,
-                  yourBid: 300,
-                  isPlaceBid: false,
-                  bidingOnPressed: () {
-                    globalController.blankBottomSheet(
-                        context: context,
-                        content: BiddingInsightsContent(
-                          comment: bidingComments,
-                        ),
-                        isScrollControlled: true,
-                        bottomSheetHeight: height * 0.7);
-                  },
-                ),
-              ),
-            if (!isSelfPost && category == 'Selling')
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: kHorizontalPadding,
-                  right: kHorizontalPadding,
-                ),
-                child: BiddingWidget(
-                  totalBids: 25,
-                  yourBid: postReactionController.yourBid.value,
-                  bidingOnPressed: () {
-                    if (postReactionController.yourBid.value == null) {
+    return Column(
+      children: [
+        if (category == 'Selling' && platformName != null)
+          Padding(
+            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k4Padding),
+            child: PlatformActionSection(
+              actionOnPressed: actionOnPressed,
+              platformName: 'Jane clothing store',
+              platformLink: 'www.facebook.com/janeclothing/sdasdsads',
+              actionName: 'Learn more',
+            ),
+          ),
+        if (isSelfPost && category == 'Selling')
+          Padding(
+            padding: const EdgeInsets.only(
+              left: kHorizontalPadding,
+              right: kHorizontalPadding,
+            ),
+            child: BiddingWidget(
+              totalBids: 25,
+              yourBid: 300,
+              isPlaceBid: false,
+              bidingOnPressed: () {
+                globalController.blankBottomSheet(
+                    context: context,
+                    content: BiddingInsightsContent(
+                      comment: bidingComments,
+                    ),
+                    isScrollControlled: true,
+                    bottomSheetHeight: height * 0.7);
+              },
+            ),
+          ),
+        if (!isSelfPost && category == 'Selling')
+          Padding(
+            padding: const EdgeInsets.only(
+              left: kHorizontalPadding,
+              right: kHorizontalPadding,
+            ),
+            child: BiddingWidget(
+              totalBids: 25,
+              yourBid: postReactionController.yourBid.value,
+              bidingOnPressed: () {
+                if (postReactionController.yourBid.value == null) {
+                  globalController.commonBottomSheet(
+                    bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
+                    context: context,
+                    content: PlaceBidContent(
+                      desiredAmount: '100',
+                      minimumBiddingAmount: '50',
+                    ),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {
+                      postReactionController.yourBid.value = int.parse(postReactionController.bidingTextEditingController.text);
+                      Get.back();
+                    },
+                    rightText: ksSubmit.tr,
+                    rightTextStyle: medium14TextStyle(cPrimaryColor),
+                    title: ksPlaceABid.tr,
+                    isRightButtonShow: true,
+                    isScrollControlled: true,
+                  );
+                } else {
+                  globalController.commonBottomSheet(
+                    bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
+                    context: context,
+                    content: BidAmount(
+                      highestAmount: '350',
+                      totalBid: '56',
+                      desireAmount: '400',
+                      yourBid: postReactionController.yourBid.value.toString(),
+                    ),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {
+                      Get.back();
                       globalController.commonBottomSheet(
-                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
+                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.3 : null,
                         context: context,
-                        content: PlaceBidContent(
-                          desiredAmount: '100',
-                          minimumBiddingAmount: '50',
-                        ),
-                        onPressCloseButton: () {
-                          Get.back();
-                        },
-                        onPressRightButton: () {
-                          postReactionController.yourBid.value = int.parse(postReactionController.bidingTextEditingController.text);
-                          Get.back();
-                        },
-                        rightText: ksSubmit.tr,
-                        rightTextStyle: medium14TextStyle(cPrimaryColor),
-                        title: ksPlaceABid.tr,
-                        isRightButtonShow: true,
-                        isScrollControlled: true,
-                      );
-                    } else {
-                      globalController.commonBottomSheet(
-                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
-                        context: context,
-                        content: BidAmount(
-                          highestAmount: '350',
-                          totalBid: '56',
-                          desireAmount: '400',
+                        content: UpdateBidding(
                           yourBid: postReactionController.yourBid.value.toString(),
                         ),
                         onPressCloseButton: () {
@@ -738,136 +749,122 @@ class PostBottomSection extends StatelessWidget {
                         },
                         onPressRightButton: () {
                           Get.back();
-                          globalController.commonBottomSheet(
-                            bottomSheetHeight: isDeviceScreenLarge() ? height * 0.3 : null,
-                            context: context,
-                            content: UpdateBidding(
-                              yourBid: postReactionController.yourBid.value.toString(),
-                            ),
-                            onPressCloseButton: () {
-                              Get.back();
-                            },
-                            onPressRightButton: () {
-                              Get.back();
-                            },
-                            rightText: ksUpdate.tr,
-                            rightTextStyle: medium14TextStyle(cPrimaryColor),
-                            title: ksUpdateBiddingAmount.tr,
-                            isRightButtonShow: true,
-                            isScrollControlled: true,
-                          );
                         },
-                        rightText: ksEdit.tr,
+                        rightText: ksUpdate.tr,
                         rightTextStyle: medium14TextStyle(cPrimaryColor),
-                        title: ksYourBidAmount.tr,
+                        title: ksUpdateBiddingAmount.tr,
                         isRightButtonShow: true,
                         isScrollControlled: true,
                       );
-                    }
-                  },
-                  isPlaceBid: true,
-                ),
-              ),
-            if (reactCount != null || commentCount != 0 || shareCount != 0 || giftCount != 0)
-              Padding(
-                padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
-                child: PostActivityStatusWidget(
-                  reactCount: reactCount,
-                  reactionOnPressed: () {
-                    postReactionController.giftFilter(0);
-                    globalController.blankBottomSheet(
-                        context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                  },
-                  giftCount: giftCount,
-                  commentCount: commentCount,
-                  shareCount: shareCount,
-                  isGiftShown: true,
-                  giftOnPressed: () {
-                    postReactionController.giftFilter(0);
-                    globalController.blankBottomSheet(
-                        context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                  },
-                ),
-              ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: kHorizontalPadding,
-              ),
-              child: LikeSectionWidget(
-                postIndex: postIndex,
-                refType: refType,
-                refId: refId,
-                isGiftShown: true,
-                likeOnTap: () {},
-                giftOnPressed: () {
-                  postReactionController.resetGiftData();
-                  globalController.commonBottomSheet(
-                    context: context,
-                    content: GiftContent(),
-                    isScrollControlled: true,
-                    bottomSheetHeight: height * .9,
-                    onPressCloseButton: () {
-                      Get.back();
                     },
-                    onPressRightButton: null,
-                    rightText: '',
-                    rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                    title: ksSendGift.tr,
-                    isRightButtonShow: false,
+                    rightText: ksEdit.tr,
+                    rightTextStyle: medium14TextStyle(cPrimaryColor),
+                    title: ksYourBidAmount.tr,
+                    isRightButtonShow: true,
+                    isScrollControlled: true,
                   );
-                },
-                commentOnPressed: () async {
-                  // ll("12");
-                  showComment.value = !showComment.value;
-                  // if (showComment.value) {
-                  // }
-                  Get.to(() => HomePostDetails(
-                        postIndex: postIndex,
-                      ));
-                  postReactionController.refId.value = refId;
-                  await Get.find<HomeController>().getPostData(refId);
-                  await postReactionController.getCommentList(1, refId);
-                  ll(showComment);
-                },
-              ),
+                }
+              },
+              isPlaceBid: true,
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: CustomDivider(),
+          ),
+        if (reactCount != null || commentCount != 0 || shareCount != 0 || giftCount != 0)
+          Padding(
+            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
+            child: PostActivityStatusWidget(
+              reactCount: reactCount,
+              reactionOnPressed: () {
+                postReactionController.giftFilter(0);
+                globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+              },
+              giftCount: giftCount,
+              commentCount: commentCount,
+              shareCount: shareCount,
+              isGiftShown: true,
+              giftOnPressed: () {
+                postReactionController.giftFilter(0);
+                globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+              },
             ),
-            kH12sizedBox,
-            // if (isCommentShown && showComment.value)
-            // ListView.separated(
-            //     shrinkWrap: true,
-            //     itemBuilder: (context, index) {
-            //       return Padding(
-            //         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            //         child: CommentWidget(
-            //           profileImage: kiDummyImage3ImageUrl,
-            //           comment:ksNA.tr,
-            //           timePassed: '30',
-            //           isLikeButtonShown: true,
-            //           commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
-            //           isReplyButtonShown: true,
-            //           isReactButtonShown: true,
-            //           isImageComment: true,
-            //           image: kiDummyImage3ImageUrl,
-            //           isLink: false,
-            //           reactCount: 1234,
-            //           userName: "Wahid Murad",
-            //           isSendMessageShown: false,
-            //           isHideButtonShown: true,
-            //           replyList: replyComment,
-            //           refType: refType,
-            //           refId: refId,
-            //         ),
-            //         // ),
-            //       );
-            //     },
-            //     separatorBuilder: (context, index) => kH4sizedBox,
-            //     itemCount: postReactionController.commentList.length),
-          ],
-        ));
+          ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: kHorizontalPadding,
+          ),
+          child: LikeSectionWidget(
+            postIndex: postIndex,
+            refType: refType,
+            refId: refId,
+            isGiftShown: true,
+            likeOnTap: () {},
+            giftOnPressed: () {
+              postReactionController.resetGiftData();
+              globalController.commonBottomSheet(
+                context: context,
+                content: GiftContent(),
+                isScrollControlled: true,
+                bottomSheetHeight: height * .9,
+                onPressCloseButton: () {
+                  Get.back();
+                },
+                onPressRightButton: null,
+                rightText: '',
+                rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                title: ksSendGift.tr,
+                isRightButtonShow: false,
+              );
+            },
+            commentOnPressed: () async {
+              showComment.value = !showComment.value;
+              // if (showComment.value) {
+              // }
+              Get.to(() => HomePostDetails(
+                    postIndex: postIndex,
+                  ));
+              postReactionController.refId.value = refId;
+              await Get.find<HomeController>().getPostData(refId);
+              await postReactionController.getCommentList(1, refId);
+              ll(showComment);
+            },
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: CustomDivider(),
+        ),
+        kH12sizedBox,
+        // if (isCommentShown && showComment.value)
+        // ListView.separated(
+        //     shrinkWrap: true,
+        //     itemBuilder: (context, index) {
+        //       return Padding(
+        //         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+        //         child: CommentWidget(
+        //           profileImage: kiDummyImage3ImageUrl,
+        //           comment:ksNA.tr,
+        //           timePassed: '30',
+        //           isLikeButtonShown: true,
+        //           commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
+        //           isReplyButtonShown: true,
+        //           isReactButtonShown: true,
+        //           isImageComment: true,
+        //           image: kiDummyImage3ImageUrl,
+        //           isLink: false,
+        //           reactCount: 1234,
+        //           userName: "Wahid Murad",
+        //           isSendMessageShown: false,
+        //           isHideButtonShown: true,
+        //           replyList: replyComment,
+        //           refType: refType,
+        //           refId: refId,
+        //         ),
+        //         // ),
+        //       );
+        //     },
+        //     separatorBuilder: (context, index) => kH4sizedBox,
+        //     itemCount: postReactionController.commentList.length),
+      ],
+    );
   }
 }
 

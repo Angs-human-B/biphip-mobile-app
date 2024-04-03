@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/models/post/post_comment_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -181,10 +183,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxBool isCommentSendEnable = RxBool(false);
 
   void commentSendEnabled() {
-    if (commentTextEditingController.text.toString().trim() == "") {
-      isCommentSendEnable.value = false;
-    } else {
+    if (commentTextEditingController.text.toString().trim() != "" || isCommentImageChanged.value) {
       isCommentSendEnable.value = true;
+    } else {
+      isCommentSendEnable.value = false;
     }
   }
 
@@ -221,6 +223,9 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   //     );
   //   }
   // }
+  final RxString commentImageLink = RxString('');
+  final Rx<File> commentImageFile = File('').obs;
+  final RxBool isCommentImageChanged = RxBool(false);
 
   //* post Reaction API Implementation
   final RxBool isPostReactionLoading = RxBool(false);
@@ -269,24 +274,34 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         'ref_id': refId.toString(),
         'comment': commentTextEditingController.text.toString().trim(),
       };
-      var response = await apiController.commonApiCall(
-        requestMethod: kPost,
-        url: kuSetComment,
-        body: body,
-        token: token,
-      ) as CommonDM;
-      //   var response = await apiController.mediaUpload(
+      // var response = await apiController.commonApiCall(
+      //   requestMethod: kPost,
+      //   url: kuSetComment,
+      //   body: body,
+      //   token: token,
+      // ) as CommonDM;
+      // var response = await apiController.mediaUpload(
       //   url: kuSetComment,
       //   token: token,
       //   body: body,
       //   key: "image",
-      //   // value: imageFile.path,
+      //   value: commentImageFile.path,
       // ) as CommonDM;
+      var response = await apiController.mediaUpload(
+        url: kuSetComment,
+        token: token,
+        body: body,
+        key: 'image',
+        value: commentImageFile.value.path,
+      ) as CommonDM;
 
       if (response.success == true) {
         commentTextEditingController.clear();
+        isCommentImageChanged.value = false;
+        commentImageLink.value = "";
+        commentImageFile.value = File("");
         isCommentSendEnable.value = false;
-        await getCommentList(1,refId);
+        await getCommentList(1, refId);
         isPostCommentLoading.value = false;
         // globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -303,7 +318,8 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       ll('postComment error: $e');
     }
   }
-   final RxInt refId = RxInt(-1);
+
+  final RxInt refId = RxInt(-1);
   //   //*get Comment Api Call
   final Rx<PostCommentModel?> commentListData = Rx<PostCommentModel?>(null);
   final RxList<CommentData> commentList = RxList<CommentData>([]);
@@ -360,4 +376,49 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     resetPurchaseCustomStar();
     giftAgreeCheckBox.value = false;
   }
+   final RxList commentActionList = RxList([
+    {'icon': BipHip.edit, 'action': 'Update Comment',},
+    {'icon': BipHip.circleCrossNew, 'action': 'Hide Comment',},
+    {'icon': BipHip.deleteNew, 'action': 'Delete',},
+  ]);
+  final RxInt commentId = RxInt(-1);
+
+  //*Delete Comment Api Call
+  final RxBool isCommentDeleteLoading = RxBool(false);
+  Future<void> deleteComment() async {
+    try {
+      isCommentDeleteLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteComment/${commentId.value.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        // for (int index = 0; index <= commentList.length; index++) {
+        //   if (commentId.value == commentList[index].id) {
+        //     commentList.removeAt(index);
+        //   }
+        // }
+        await getCommentList(1, refId.value);
+        isCommentDeleteLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isCommentDeleteLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isCommentDeleteLoading.value = false;
+      ll('deleteComment error: $e');
+    }
+  }
+
+
 }

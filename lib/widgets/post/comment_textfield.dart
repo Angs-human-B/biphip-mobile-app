@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -34,13 +36,41 @@ class CommentTextField extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 kW4sizedBox,
-                InkWell(
-                  onTap: onPressedCamera,
-                  child: const Icon(
-                    BipHip.cameraOutline,
-                    color: cIconColor,
-                  ),
-                ),
+                Obx(() => InkWell(
+                      onTap: onPressedCamera,
+                      child: postReactionController.isCommentImageChanged.value != false
+                          ? Stack(
+                              children: [
+                                Image.file(
+                                  postReactionController.commentImageFile.value,
+                                  width: h40,
+                                  height: h40,
+                                ),
+                                Positioned(
+                                  left: 10,
+                                  bottom: 14,
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: CustomIconButton(
+                                      onPress: () {
+                                        postReactionController.isCommentImageChanged.value = false;
+                                        postReactionController.commentImageLink.value = "";
+                                        postReactionController.commentImageFile.value = File("");
+                                        postReactionController.commentSendEnabled();
+                                      },
+                                      icon: BipHip.circleCrossNew,
+                                      size: kIconSize12,
+                                      iconColor: cIconColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : const Icon(
+                              BipHip.cameraOutline,
+                              color: cIconColor,
+                            ),
+                    )),
                 kW16sizedBox,
                 InkWell(
                   onTap: onPressEmoji,
