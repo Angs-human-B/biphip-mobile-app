@@ -78,7 +78,8 @@ class CommentData {
     bool? hasReport;
     bool? myReport;
     int? countStar;
-    List<dynamic> commentReplies;
+    // List<dynamic> commentReplies;
+     List<CommentReply> commentReplies;
     User? user;
     dynamic postStar;
 
@@ -127,11 +128,58 @@ class CommentData {
         hasReport: json["has_report"],
         myReport: json["my_report"],
         countStar: json["count_star"],
-        commentReplies: List<dynamic>.from(json["comment_replies"].map((x) => x)),
+        // commentReplies: List<dynamic>.from(json["comment_replies"].map((x) => x)),
+        commentReplies: List<CommentReply>.from(json["comment_replies"].map((x) => CommentReply.fromJson(x))),
         user: json["user"]==null ? null : User.fromJson(json["user"]),
         postStar: json["post_star"],
     );
 }
+
+class CommentReply {
+    int? id;
+    int? commentId;
+    int? userId;
+    dynamic countReactions;
+    String? reply;
+    dynamic mentionUserIds;
+    int? isEdit;
+    dynamic image;
+    dynamic deletedAt;
+    List<dynamic> mentionUsers;
+    dynamic myReaction;
+    User? user;
+
+    CommentReply({
+        required this.id,
+        required this.commentId,
+        required this.userId,
+        required this.countReactions,
+        required this.reply,
+        required this.mentionUserIds,
+        required this.isEdit,
+        required this.image,
+        required this.deletedAt,
+        required this.mentionUsers,
+        required this.myReaction,
+        required this.user,
+    });
+
+    factory CommentReply.fromJson(Map<String, dynamic> json) => CommentReply(
+        id: json["id"],
+        commentId: json["comment_id"],
+        userId: json["user_id"],
+        countReactions: json["count_reactions"],
+        reply: json["reply"],
+        mentionUserIds: json["mention_user_ids"],
+        isEdit: json["is_edit"],
+        image: json["image"],
+        deletedAt: json["deleted_at"],
+        mentionUsers: List<dynamic>.from(json["mention_users"].map((x) => x)),
+        myReaction: json["my_reaction"],
+        user: json["user"]==null ? null : User.fromJson(json["user"]),
+    );
+}
+
 
 class RefRelation {
     Post? post;

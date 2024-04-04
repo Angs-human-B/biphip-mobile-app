@@ -1,4 +1,5 @@
 import 'package:any_link_preview/any_link_preview.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 
@@ -121,7 +122,7 @@ class CommentWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            if (!isLink && image!=null)
+            if (!isLink && image != null)
               SizedBox(
                 width: isDeviceScreenLarge() ? 150 : 120,
                 height: isDeviceScreenLarge() ? 150 : 120,
@@ -193,31 +194,30 @@ class CommentWidget extends StatelessWidget {
                 ),
               ),
             kH4sizedBox,
-            // if (replyList == []) Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor)),
-            // if (replyList != [])
-            //   SizedBox(
-            //     width: width - 80,
-            //     child: ListView.builder(
-            //         shrinkWrap: true,
-            //         itemCount: replyList.length,
-            //         itemBuilder: (context, index) {
-            //           var item = replyList[index];
-            //           return ReplyCommentWidget(
-            //             profileImage: item['profileImage'],
-            //             timePassed: item['timePassed'],
-            //             isLikeButtonShown: item['isLikeButtonShown'],
-            //             isReplyButtonShown: item['isReplyButtonShown'],
-            //             isReactButtonShown: item['isReactButtonShown'],
-            //             isLink: item['isLink'],
-            //             reactCount: item['reactCount'],
-            //             userName: item['userName'],
-            //             isImageComment: item['isImageComment'],
-            //             comment: item['comment'],
-            //             commentLink: item['commentLink'],
-            //           );
-            //         }),
-            //   ),
-
+            if (replyList == []) Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor)),
+            if (replyList != [])
+              SizedBox(
+                width: width - 80,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: replyList.length,
+                    itemBuilder: (context, index) {
+                      var item = Get.find<PostReactionController>().commentList[index].commentReplies;
+                      return ReplyCommentWidget(
+                        profileImage: item[index].user?.profilePicture ?? "",
+                        timePassed: "30 m",
+                        isLikeButtonShown: true,
+                        isReplyButtonShown: true,
+                        isReactButtonShown: true,
+                        isLink: false,
+                        reactCount: 2,
+                        userName: item[index].user?.fullName ?? ksNA.tr,
+                        isImageComment: Get.find<PostReactionController>().commentList[index].image == null ? false : true,
+                        comment: Get.find<PostReactionController>().commentList[index].commentReplies[index].reply,
+                        commentLink: "",
+                      );
+                    }),
+              ),
             kH8sizedBox,
           ],
         ),
@@ -264,9 +264,15 @@ class ReplyCommentWidget extends StatelessWidget {
             width: 32,
             decoration: const BoxDecoration(shape: BoxShape.circle),
             child: ClipOval(
-              child: Image.asset(
+              child: Image.network(
                 profileImage,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => const Icon(
+                  BipHip.user,
+                  size: kIconSize30,
+                  color: cIconColor,
+                ),
+                loadingBuilder: imageLoadingBuilder,
               ),
             ),
           ),
@@ -329,15 +335,22 @@ class ReplyCommentWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            if (!isLink && isImageComment)
+            // if (!isLink && isImageComment)
+            if (!isLink && image != null)
               SizedBox(
                 width: isDeviceScreenLarge() ? 150 : 120,
                 height: isDeviceScreenLarge() ? 150 : 120,
                 child: ClipRRect(
                   borderRadius: k8CircularBorderRadius,
-                  child: Image.asset(
-                    image!,
+                  child: Image.network(
+                    image ?? "",
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => const Icon(
+                      BipHip.imageFile,
+                      size: kIconSize120,
+                      color: cIconColor,
+                    ),
+                    loadingBuilder: imageLoadingBuilder,
                   ),
                 ),
               ),

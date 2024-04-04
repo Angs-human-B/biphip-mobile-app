@@ -387,6 +387,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       'icon': BipHip.deleteNew,
       'action': 'Delete',
     },
+    {
+      'icon': BipHip.menuFill,
+      'action': 'Reply',
+    },
   ]);
   final RxInt commentId = RxInt(-1);
   final RxInt selectedCommentIndex = RxInt(-1);
